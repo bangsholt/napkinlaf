@@ -284,11 +284,7 @@ public class NapkinTheme {
             try {
                 String fontRes = "napkin/resources/" + fontName;
                 InputStream fontDef;
-                ClassLoader cl = NapkinLookAndFeel.class.getClassLoader();
-                if (cl != null)
-                    fontDef = cl.getResourceAsStream(fontRes);
-                else
-                    fontDef = ClassLoader.getSystemResourceAsStream(fontRes);
+                fontDef = NapkinLookAndFeel.class.getResourceAsStream(fontRes);
                 if (fontDef == null)
                     System.err.println("Could not find font " + fontName);
                 else
