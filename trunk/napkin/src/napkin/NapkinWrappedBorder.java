@@ -3,9 +3,13 @@
 package napkin;
 
 import java.awt.*;
+import java.util.Map;
+import java.util.WeakHashMap;
 import javax.swing.border.*;
 
 public class NapkinWrappedBorder extends NapkinBorder {
+    private static Map borders = new WeakHashMap(3);
+
     public NapkinWrappedBorder(Border formalBorder) {
         super(formalBorder);
     }
@@ -29,5 +33,32 @@ public class NapkinWrappedBorder extends NapkinBorder {
 
     protected Border getFormalBorder() {
         return formalBorder;
+    }
+
+    public static NapkinWrappedBorder wrap(Border formalBorder) {
+        NapkinWrappedBorder w = (NapkinWrappedBorder) borders.get(formalBorder);
+        if (w != null)
+            return w;
+
+        Border toWrap = formalBorder;
+        if (formalBorder instanceof EtchedBorder) {
+            EtchedBorder eb = (EtchedBorder) formalBorder;
+            if (eb.getHighlightColor() == null || eb.getShadowColor() == null) {
+                toWrap = new NapkinEtchedBorder(eb);
+                borders.put(formalBorder, toWrap);
+            }
+        }
+        if (formalBorder instanceof BevelBorder) {
+            BevelBorder bb = (BevelBorder) formalBorder;
+            if (bb.getHighlightInnerColor() == null ||
+                    bb.getHighlightOuterColor() == null ||
+                    bb.getShadowInnerColor() == null ||
+                    bb.getShadowOuterColor() == null) {
+
+                toWrap = new NapkinBevelBorder(bb);
+                borders.put(formalBorder, toWrap);
+            }
+        }
+        return new NapkinWrappedBorder(toWrap);
     }
 }

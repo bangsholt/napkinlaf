@@ -13,17 +13,17 @@ public class NapkinBoxBorder extends NapkinBorder implements NapkinConstants {
     static final Insets DEFAULT_INSETS =
             new InsetsUIResource(BORDER, BORDER, BORDER, BORDER);
 
-    public NapkinBoxBorder() {
-        super(new LineBorder(
-                NapkinTheme.Manager.getCurrentTheme().getPenColor()));
-    }
-
-    private static final NapkinUtil.PropertyFactory BOX_FACTORY =
+    public static final NapkinUtil.PropertyFactory BOX_FACTORY =
             new NapkinUtil.PropertyFactory() {
                 public Object createPropertyValue() {
                     return new DrawnBoxHolder();
                 }
             };
+
+    public NapkinBoxBorder() {
+        super(new LineBorder(
+                NapkinTheme.Manager.getCurrentTheme().getPenColor()));
+    }
 
     public void doPaintBorder(Component c, Graphics g1, int x, int y,
             int width, int height) {
