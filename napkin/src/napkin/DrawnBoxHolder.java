@@ -44,13 +44,11 @@ public class DrawnBoxHolder extends DrawnShapeHolder
 
         Insets in = NapkinBoxBorder.DEFAULT_INSETS;
 
-        double innerWidth = sz.getWidth() - (in.left + in.right);
-        double innerHeight = sz.getHeight() - (in.top + in.bottom);
-        double borderWidth = innerWidth + in.right - 1;
-        double borderHeight = innerHeight + in.bottom - 1;
+        double borderWidth = sz.getWidth() - (in.left + in.right);
+        double borderHeight = sz.getHeight() - (in.top + in.bottom);
 
-        int cornerX = in.top / 2 + 1;
-        int cornerY = in.left / 2 + 1;
+        int cornerX = in.top;
+        int cornerY = in.left;
 
         DrawnBoxGenerator gen = (DrawnBoxGenerator) this.gen;
         gen.getSizeX().setMid(borderWidth);

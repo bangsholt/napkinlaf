@@ -34,12 +34,6 @@ public class NapkinBoxBorder extends NapkinBorder implements NapkinConstants {
         Rectangle passed = new Rectangle(x, y, width, height);
         box.shapeUpToDate(passed);
 
-        //!! This will scribble on top of any overlaying component, such as an
-        //!! overlapping internal frame, which causes garbage.  Gotta get this
-        //!! right.  -arnold
-        Rectangle clip = g1.getClipBounds();
-        g1.setClip(clip.x - BORDER, clip.y - BORDER, clip.width + 2 * BORDER,
-                clip.height + 2 * BORDER);
         Graphics2D g = (Graphics2D) g1;
         g.translate(x, y);
         box.draw(g);

@@ -332,11 +332,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             }
         };
 
-        Object iconifyIcon = new UIDefaults.ActiveValue() {
-            public Object createValue(UIDefaults table) {
-                return NapkinIconFactory.createUnderlineIcon(10);
-            }
-        };
         Object closeIcon = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createXIcon(10);
@@ -558,22 +553,29 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                         res instanceof LineBorder ||
                         res instanceof CompoundBorder))
                 ) {
-                    // we override manually below
+                    // we override manually later
                     if (!(res instanceof CompoundBorder))
                         entry.setValue(drawnBorder);
                     else
                         entry.setValue(compoundBorder);
                 }
-            } else if (key.endsWith(".foreground") ||
-                    key.endsWith("BorderColor") ||
-                    key.endsWith(".textForeground")) {
-                entry.setValue(theme.getPenColor());
-            } else if (key.endsWith(".background") ||
-                    key.endsWith(".selectionBackground") ||
-                    key.endsWith(".textBackground")) {
-                entry.setValue(clear);
-            } else if (key.endsWith(".selectionForeground")) {
-                entry.setValue(theme.getSelectionColor());
+            } else {
+                // We set things up right for these ones manually
+                if (key.indexOf("Text") >= 0 || key.startsWith("Password") ||
+                        key.startsWith("Editor"))
+                    continue;
+
+                if (key.endsWith(".foreground") ||
+                        key.endsWith("BorderColor") ||
+                        key.endsWith(".textForeground")) {
+                    entry.setValue(theme.getPenColor());
+                } else if (key.endsWith(".background") ||
+                        key.endsWith(".selectionBackground") ||
+                        key.endsWith(".textBackground")) {
+                    entry.setValue(clear);
+                } else if (key.endsWith(".selectionForeground")) {
+                    entry.setValue(theme.getSelectionColor());
+                }
             }
         }
     }

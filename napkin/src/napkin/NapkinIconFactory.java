@@ -129,7 +129,7 @@ public class NapkinIconFactory implements NapkinConstants {
          * @param pointTowards One of NORTH, EAST, WEST, or SOUTH.
          */
         public ArrowIcon(int pointTowards, int size) {
-            super(NapkinTheme.PEN_COLOR, NapkinUtil.scaleMat(size));
+            super(NapkinTheme.CHECK_COLOR, NapkinUtil.scaleMat(size));
             genNum = pointTowards / 2;
             this.size = size;
             init();
@@ -149,6 +149,14 @@ public class NapkinIconFactory implements NapkinConstants {
 
         protected int calcWidth() {
             return size;
+        }
+
+        protected boolean shouldUseMark(Component c) {
+            if (super.shouldUseMark(c))
+                return true;
+            if (c.isFocusOwner())
+                return true;
+            return false;
         }
     }
 
