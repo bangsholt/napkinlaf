@@ -1,3 +1,5 @@
+// $Id$
+
 package napkin;
 
 import java.beans.PropertyChangeEvent;

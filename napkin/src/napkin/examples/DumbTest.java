@@ -1,3 +1,5 @@
+// $Id$
+
 package napkin.examples;
 
 import java.awt.*;
