@@ -355,6 +355,9 @@ public class SwingSet2 extends JPanel {
 
             mi = createLafMenuItem(lafMenu, "LafMenu.napkin_label", "LafMenu.napkin_mnemonic",
                     "LafMenu.napkin_accessible_description", napkin);
+            mi.setSelected(true); // this is the default l&f
+            // set mac look and feel as default
+            currentLookAndFeel = napkin;
 
             // ***** create themes menu
             themesMenu =
