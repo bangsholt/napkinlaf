@@ -36,9 +36,11 @@ public class NapkinWrappedBorder extends NapkinBorder {
     }
 
     public static NapkinWrappedBorder wrap(Border formalBorder) {
-        NapkinWrappedBorder w = (NapkinWrappedBorder) borders.get(formalBorder);
-        if (w != null)
-            return w;
+    	Object brd = borders.get(formalBorder);
+    	// Not all passed borders are wrapped yet...
+    	if( brd instanceof NapkinWrappedBorder ) {
+        	return (NapkinWrappedBorder) brd;
+    	}
 
         Border toWrap = formalBorder;
         if (formalBorder instanceof EtchedBorder) {
