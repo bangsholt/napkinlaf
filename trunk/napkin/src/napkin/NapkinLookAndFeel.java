@@ -91,6 +91,51 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     private static final boolean JUST_NAPKIN = true;
 
     private static final Logger LOG = LogManager.getLogManager().getLogger(NapkinLookAndFeel.class.getName());
+    private static final String[] UI_TYPES = {
+        "ButtonUI",
+        "CheckBoxMenuItemUI",
+        "CheckBoxUI",
+        "ColorChooserUI",
+        "ComboBoxUI",
+        "DesktopIconUI",
+        "DesktopPaneUI",
+        "EditorPaneUI",
+        "FileChooserUI",
+        "FormattedTextFieldUI",
+        "InternalFrameUI",
+        "LabelUI",
+        "ListUI",
+        "MenuBarUI",
+        "MenuItemUI",
+        "MenuUI",
+        "OptionPaneUI",
+        "PanelUI",
+        "PasswordFieldUI",
+        "PopupMenuSeparatorUI",
+        "PopupMenuUI",
+        "ProgressBarUI",
+        "RadioButtonMenuItemUI",
+        "RadioButtonUI",
+        "RootPaneUI",
+        "ScrollBarUI",
+        "ScrollPaneUI",
+        "SeparatorUI",
+        "SliderUI",
+        "SpinnerUI",
+        "SplitPaneUI",
+        "TabbedPaneUI",
+        "TableHeaderUI",
+        "TableUI",
+        "TextAreaUI",
+        "TextFieldUI",
+        "TextPaneUI",
+        "ToggleButtonUI",
+        "ToolBarSeparatorUI",
+        "ToolBarUI",
+        "ToolTipUI",
+        "TreeUI",
+        "ViewportUI",
+    };
 
     class DumpVisitor implements Visitor {
         private final PrintStream out;
@@ -246,13 +291,13 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         super.initClassDefaults(table);
         final String basicPackageName =
                 NapkinLookAndFeel.class.getPackage().getName() + ".Napkin";
-        for (int i = 0; i < NapkinGenerated.UI_TYPES.length; i++) {
-            String uiType = NapkinGenerated.UI_TYPES[i];
+        for (int i = 0; i < UI_TYPES.length; i++) {
+            String uiType = UI_TYPES[i];
             String uiClass = basicPackageName + uiType;
             table.put(uiType, uiClass);
         }
         Set keys = new HashSet(table.keySet());
-        keys.removeAll(Arrays.asList(NapkinGenerated.UI_TYPES));
+        keys.removeAll(Arrays.asList(UI_TYPES));
         if (keys.size() != 0)
             System.out.println("keys we didn't overwrite: " + keys);
     }
