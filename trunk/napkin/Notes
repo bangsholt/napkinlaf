@@ -86,6 +86,23 @@ idea, and his might be better when I try it out -- I'll have to
 play both ways.  Thanks!
 
 ........................................................................
+
+Internal Frame (and maybe other things):
+
+    Do custom dragging code that will drag what's inside the drawn border.
+
+    Make the actual frame rectangluar.  Make it look like a separate sheet of
+    paper
+
+	Torn along the edge.  The edge would look rough, but end up being
+	straight (like torn along a ruler or the like).
+
+	Dropped shadow to emphasize the differentness of a separate sheet.
+
+	Get visibly different paper (use a postit?)
+
+........................................................................
+
 From:		twall@oculustech.com
 Subject:	cool napkin LAF!
 Date:		April 6, 2004 10:10:50 AM EDT
