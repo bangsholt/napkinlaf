@@ -41,12 +41,12 @@ public class NapkinLineBorder extends NapkinBorder {
         Rectangle passed = new Rectangle(x, y, width, height);
         box.shapeUpToDate(c, passed);
 
-        Rectangle rect = c.getBounds();
-        rect.x = rect.y = 0;
         Rectangle clip = g.getClipBounds();
         g.setClip(clip.x - BORDER, clip.y - BORDER, clip.width + 2 * BORDER,
                 clip.height + 2 * BORDER);
+        g.translate(x, y);
         box.draw(g);
+        g.translate(-x, -y);
     }
 
     public Insets doGetBorderInsets(Component c) {
