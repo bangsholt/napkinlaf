@@ -310,6 +310,11 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 return new NapkinBoxBorder();
             }
         };
+        Object selectBorder = new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
+                return new NapkinSelectedBorder();
+            }
+        };
 
         for (Iterator it = table.entrySet().iterator(); it.hasNext();) {
             Entry entry = (Entry) it.next();
@@ -491,6 +496,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "ToolTip.border", null,
             "InternalFrame.border", null,
             "DesktopIcon.border", null,
+            "ToggleButton.border", selectBorder,
 
             "SplitPaneDivider.border", null,
             "SplitPane.dividerSize", new Integer(NapkinSplitPaneDivider.SIZE),
