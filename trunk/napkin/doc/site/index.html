@@ -48,21 +48,21 @@
 
 <h4><i>Latest Release: 
 <a href="http://sourceforge.net/project/showfiles.php?group_id=104116&package_id=111904">
-beta-004, 29 August, 2004</i></h4></a>
+beta-005, 16 September, 2004</i></h4></a>
 
 <ul>
-<li>Can switch to other L&Fs without problems. [bug 997786]
-<li>Several theme-related color fixes.
-<li>"Selection color" added to theme.
-<li>Make internal frames resizable. [bug 1007542]
-<li>Use selection color for toggle button borders [bug 1007554]
-<li>SwingSet file selection dialog shows error if run from applet (the applet
-    can't read files so it can't create a file selection dialog). [bug 1007321]
-<li>New fixed-width font ("1942") with more characters. [bug 1007573]
-<li>Handle all component padding. [bug 1007543]
-<li>CVS <tt>Id</tt> tags in all source files.
-<li>Added acknowledgements to README (I can't <em>believe</em> it took me this
-    long to think to do this).
+<li>Sliders drag without leaving droplets behind.
+<li>Dragging internal frames and scroll bars no longer leave junk around edges
+    [bug 1007324 and bug 1007327]
+<li>Icons for internal frames now work well enough.
+<li>A completely new, stupider, and hence more reliable model for paper, so
+    the right color scheme should always be used.
+<li>Tweaking with glass panes to get the opacity settings right (very bizarre).
+<li>Make progress bar stop clearing its own background.
+<li>JTree now does something napkin-ish. [fr 1019700]
+<li>Scrolling repaints entire background to keep it correct. [bug 1019688]
+<li>Automatically tag the CVS version.
+<li>Use selection color for selections in JList.
 </ul>
 
 <hr>
@@ -177,9 +177,9 @@ screen snapshots (as thumbnails; click for full-sized images):
 	</td>
 
 	<td align="center">
-	<a href="NapkinTable.jpg">
-	<img class="snap" src="NapkinTableThumb.jpg"/><br>
-	A table
+	<a href="NapkinTree.jpg">
+	<img class="snap" src="NapkinTreeThumb.jpg"/><br>
+	A tree
 	</a>
 	</td>
     </tr>
