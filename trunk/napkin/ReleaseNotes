@@ -5,7 +5,7 @@ alpha-002
 (*) fonts loaded from jar
 (*) new font: Felt Tip Roman (has bold + full char set)
 	I want to add a few choices of fonts; this release I'm just
-	switching but next release I want to have them choosable
-	because both are good.
+	switching to the new one but next release I want to have
+	them choosable because both are good.
 (*) build the relase automatically
 (*) bugs, bugs, bugs
