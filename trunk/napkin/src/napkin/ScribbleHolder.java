@@ -51,7 +51,7 @@ class ScribbleHolder extends ShapeHolder implements NapkinConstants {
         AffineTransform matrix = new AffineTransform();
         matrix.translate(cornerY, cornerX);
         if (backwards) {
-            matrix.translate(size.getWidth(), size.getHeight());
+            matrix.translate(innerWidth, innerHeight);
             matrix.scale(-1, -1);
         }
 

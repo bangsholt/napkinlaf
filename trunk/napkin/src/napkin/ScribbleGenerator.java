@@ -14,9 +14,9 @@ public class ScribbleGenerator extends ShapeGenerator {
     private GeneralPath shape;
     private int orientation;
     private boolean done;
-
-    private static final float PER_STROKE = 4;
     private double max;
+
+    private static final float PER_STROKE = 1.5f;
 
     ScribbleGenerator(float minShow) {
         this.minShow = minShow;
@@ -24,14 +24,18 @@ public class ScribbleGenerator extends ShapeGenerator {
         side = new Value(0, 0.4);
         point = new float[2];
     }
+
     public Shape generate(AffineTransform matrix) {
-        if (shape == null) {
+        boolean first = (shape == null);
+        if (first) {
             shape = new GeneralPath();
             done = false;
-            position.setMid(0);
             side.setMid(0);
+            position.setMid(0);
             convert(matrix, 0, 0);
             shape.moveTo(convertedX(), convertedY());
+            side.setMid(range);
+            line(matrix);
         } else {
             if (side.getMid() > 0)
                 side.setMid(range); // in case it has changed
@@ -40,9 +44,11 @@ public class ScribbleGenerator extends ShapeGenerator {
         if (shown < minShow || done)
             return shape;
 
-        for (double pos = position.getMid(); pos <= shown; pos += PER_STROKE) {
-            position.setMid(pos);
+        double pos = position.get();
+        while (pos <= shown) {
+            position.setMid(pos + PER_STROKE);
             line(matrix);
+            pos = position.get();
         }
 
         if (position.getMid() + PER_STROKE >= max) {
@@ -89,14 +95,23 @@ public class ScribbleGenerator extends ShapeGenerator {
     }
 
     public void setRange(double range) {
+        if (this.range == range)
+            return;
         this.range = range;
+        shape = null;
     }
 
     public void setOrientation(int orientation) {
+        if (this.orientation == orientation)
+            return;
         this.orientation = orientation;
+        shape = null;
     }
 
     public void setMax(double max) {
+        if (this.max == max)
+            return;
         this.max = max;
+        shape = null;
     }
 }

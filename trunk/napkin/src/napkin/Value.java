@@ -18,15 +18,11 @@ public class Value implements ValueSource {
     }
 
     public void randomize() {
-        adjust = adjustment();
-    }
-
-    private double adjustment() {
         double factor = getRange();
         if (factor == 0)
-            return 0;
+            adjust = 0;
         else
-            return NapkinUtil.random.nextGaussian() * factor;
+            adjust = NapkinUtil.random.nextGaussian() * factor;
     }
 
     public double get() {
@@ -34,7 +30,8 @@ public class Value implements ValueSource {
     }
 
     public double generate() {
-        return getMid() + adjustment();
+        randomize();
+        return get();
     }
 
     public double getMid() {
