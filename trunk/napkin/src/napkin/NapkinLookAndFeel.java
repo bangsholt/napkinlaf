@@ -4,9 +4,16 @@ package napkin;
 
 import napkin.ComponentWalker.Visitor;
 
+import javax.swing.*;
+import javax.swing.UIDefaults.*;
+import javax.swing.border.*;
+import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -14,16 +21,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.WeakHashMap;
-import javax.swing.*;
-import javax.swing.UIDefaults.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public class NapkinLookAndFeel extends BasicLookAndFeel
         implements NapkinConstants {
 
-    private LookAndFeel formal;
+    private LookAndFeel formalLAF;
     private final Map flags = new WeakHashMap();
 
     private static boolean gotFonts;
@@ -40,8 +45,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     private final Visitor clearKidsVisitor = new Visitor() {
         public boolean visit(Component c, int depth) {
             FormalityFlags ff = flags(c);
-            System.out.println(
-                    "clearKidsVisitor " + NapkinUtil.descFor(c) + ": " + ff);
+            System.out.println("clearKidsVisitor " + NapkinUtil.descFor(c) + ": " + ff);
 
             if (depth == 0) {
                 System.out.println("    depth == 0, return true");
@@ -84,6 +88,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     };
 
     private static final boolean JUST_NAPKIN = true;
+
+    private static final Logger LOG = LogManager.getLogManager().getLogger(NapkinLookAndFeel.class.getName());
 
     class DumpVisitor implements Visitor {
         private final PrintStream out;
@@ -146,7 +152,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     }
 
     private NapkinLookAndFeel(LookAndFeel formal) {
-        setFormal(formal);
+        setFormalLAF(formal);
     }
 
     public NapkinLookAndFeel() {
@@ -155,15 +161,15 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
     public String getDescription() {
         String desc = "The Napkin Look and Feel";
-        if (formal != null)
-            desc += " [backed by " + formal.getDescription() + "]";
+        if (formalLAF != null)
+            desc += " [backed by " + formalLAF.getDescription() + "]";
         return desc;
     }
 
     public String getID() {
         String desc = "Napkin";
-        if (formal != null)
-            desc += "[" + formal.getID() + "]";
+        if (formalLAF != null)
+            desc += "[" + formalLAF.getID() + "]";
         return desc;
     }
 
@@ -179,33 +185,33 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         return true;
     }
 
-    public LookAndFeel getFormal() {
-        return formal;
+    public LookAndFeel getFormalLAF() {
+        return formalLAF;
     }
 
-    private void setFormal(LookAndFeel formal) {
-        if (formal == null)
+    private void setFormalLAF(LookAndFeel formalLAF) {
+        if (formalLAF == null)
             throw new NullPointerException("formal");
         if (!JUST_NAPKIN)
-            this.formal = formal;
+            this.formalLAF = formalLAF;
     }
 
     public void provideErrorFeedback(Component component) {
         // nothing special needed here -- not a formal/informal thing
-        if (formal != null)
-            formal.provideErrorFeedback(component);
+        if (formalLAF != null)
+            formalLAF.provideErrorFeedback(component);
         else
             super.provideErrorFeedback(component);
     }
 
     public void initialize() {
-        if (formal != null)
-            formal.initialize();
+        if (formalLAF != null)
+            formalLAF.initialize();
     }
 
     public void uninitialize() {
-        if (formal != null)
-            formal.uninitialize();
+        if (formalLAF != null)
+            formalLAF.uninitialize();
     }
 
     public boolean isFormal(Component c) {
@@ -223,8 +229,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     }
 
     private FormalityFlags inhieritedFormal(Container container) {
-        System.out.println(
-                "inheritedFormal(" + NapkinUtil.descFor(container) + ")");
+        System.out.println("inheritedFormal(" + NapkinUtil.descFor(container) + ")");
         if (container == null)
             return null;
         FormalityFlags ff = flags(container);
@@ -280,7 +285,10 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         Object sansSerifPlain = fontValue(scrawl, SCRAWL_NAME, plain, size);
         Object monospacedPlain = fontValue(fixed, FIXED_NAME, plain, size);
 
-        Object drawnBorder = new ProxyLazyValue(NapkinBorders.class.getName(),
+        String borderFactory = NapkinBorders.class.getName();
+        String iconFactory = NapkinIconFactory.class.getName();
+
+        Object drawnBorder = new ProxyLazyValue(borderFactory,
                 "getDrawnBorder");
 
         for (Iterator it = table.entrySet().iterator(); it.hasNext();) {
@@ -303,8 +311,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                     } else if (name.equals("MonoSpaced.plain")) {
                         entry.setValue(monospacedPlain);
                     } else {
-                        System.err.println(
-                                "unknown font; " + name + " for " + key);
+                        System.err.println("unknown font; " + name + " for " + key);
                     }
                 }
             } else if ((res = propVal(key, "border", val, table)) != null) {
@@ -320,14 +327,11 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         }
 
         Integer zero = new Integer(0);
-        Object radioButtonIcon =
-                new UIDefaults.ProxyLazyValue(
-                        NapkinIconFactory.class.getName(),
-                        "createRadioButtonIcon");
-        Object checkBoxButtonIcon =
-                new UIDefaults.ProxyLazyValue(
-                        NapkinIconFactory.class.getName(),
-                        "createCheckBoxIcon");
+        Object radioButtonIcon = new UIDefaults.ProxyLazyValue(iconFactory, "createRadioButtonIcon");
+        Object checkBoxButtonIcon = new UIDefaults.ProxyLazyValue(iconFactory, "createCheckBoxIcon");
+
+        Object underlineBorder =
+                new ProxyLazyValue(borderFactory, "getUnderlineBorder");
 
         Object[] napkinDefaults = {
             "RadioButton.textIconGap", zero,
@@ -338,9 +342,14 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "CheckBox.icon", checkBoxButtonIcon,
             "CheckBoxMenuItem.checkIcon", checkBoxButtonIcon,
 
+            "MenuItem.disabledForeground", new ColorUIResource(Color.gray),
+
             "OptionPane.messageAreaBorder", null,
 
             "TabbedPane.contentBorderInsets", DrawnBorder.DEFAULT_INSETS,
+
+            "TextField.border", underlineBorder,
+            "PasswordField.border", underlineBorder,
 
             "Menu.border", null,
             "ToolTip.border", null,
@@ -390,7 +399,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         gotFonts = true;
     }
 
-    private static Font tryToLoadFont(final String fontName) {
+    private static Font tryToLoadFont(String fontName) {
         try {
             ClassLoader cl = NapkinLookAndFeel.class.getClassLoader();
             String fontRes = "napkin/resources/" + fontName;
@@ -400,9 +409,9 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             else
                 return Font.createFont(Font.TRUETYPE_FONT, fontDef);
         } catch (FontFormatException e) {
-            e.printStackTrace();
+            LOG.log(Level.WARNING, "getting font " + fontName, e);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.log(Level.WARNING, "getting font " + fontName, e);
         }
         return null;
     }
@@ -411,8 +420,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             fontValue(Font font, String name, Integer style, Number size) {
 
         if (font != null) {
-            return new FontUIResource(
-                    font.deriveFont(style.intValue(), size.floatValue()));
+            return new FontUIResource(font.deriveFont(style.intValue(), size.floatValue()));
         }
         String resName = FontUIResource.class.getName();
         Object[] args = new Object[]{name, style, size};

@@ -2,18 +2,18 @@
 
 package napkin;
 
-import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
+import java.awt.*;
 
 public class NapkinComboBoxUI extends BasicComboBoxUI
         implements NapkinConstants {
 
-    public static class UIResource extends BasicComboBoxRenderer
-            implements javax.swing.plaf.UIResource {
+    public static class RenderResource extends BasicComboBoxRenderer
+            implements UIResource {
 
-        UIResource() {
+        RenderResource() {
             setOpaque(false);
         }
     }
@@ -25,8 +25,7 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
-        listBox.setSelectionForeground(
-                NapkinIconFactory.CheckBoxIcon.MARK_COLOR);
+        listBox.setSelectionForeground(NapkinIconFactory.CheckBoxIcon.MARK_COLOR);
     }
 
     public void uninstallUI(JComponent c) {
@@ -39,7 +38,7 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
     }
 
     protected ListCellRenderer createRenderer() {
-        return new UIResource();
+        return new RenderResource();
     }
 
     public void paint(Graphics g, JComponent c) {
@@ -48,7 +47,7 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
     }
 
     public void paintCurrentValueBackground(Graphics g, Rectangle bounds,
-            boolean hasFocus) {
+                                            boolean hasFocus) {
 
         return; // we don't want any background
     }

@@ -1,9 +1,8 @@
-
 package napkin;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
-import javax.swing.*;
 
 class ScribbleHolder extends ShapeHolder implements NapkinConstants {
     private Rectangle size;
@@ -18,8 +17,8 @@ class ScribbleHolder extends ShapeHolder implements NapkinConstants {
         super(new ScribbleGenerator(LINE_WIDTH), LINE_WIDTH);
     }
 
-    void shapeUpToDate(Component c, Rectangle sz, int orient, int shn,
-            boolean bwrds) {
+    boolean shapeUpToDate(Component c, Rectangle sz, int orient, int shn,
+                          boolean bwrds) {
         Insets in = (c instanceof JComponent ?
                 ((JComponent) c).getInsets() : DrawnBorder.DEFAULT_INSETS);
 
@@ -27,7 +26,7 @@ class ScribbleHolder extends ShapeHolder implements NapkinConstants {
                 orientation == orient && shown == shn &&
                 size.width == sz.width && size.height == sz.height) {
 
-            return;
+            return false;
         }
 
         size = (Rectangle) sz.clone();
@@ -46,7 +45,7 @@ class ScribbleHolder extends ShapeHolder implements NapkinConstants {
         gen.setShown(shown);
         gen.setOrientation(orientation);
         gen.setRange(orientation == HORIZONTAL ? innerHeight : innerWidth);
-        gen.setMax(orientation == HORIZONTAL ?  innerWidth: innerHeight);
+        gen.setMax(orientation == HORIZONTAL ? innerWidth : innerHeight);
 
         AffineTransform matrix = new AffineTransform();
         matrix.translate(cornerY, cornerX);
@@ -56,5 +55,6 @@ class ScribbleHolder extends ShapeHolder implements NapkinConstants {
         }
 
         shape = gen.generate(matrix);
+        return true;
     }
 }

@@ -2,10 +2,10 @@
 
 package napkin;
 
-import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
+import java.awt.*;
 
 public class NapkinSeparatorUI extends BasicSeparatorUI {
     private final Separator separator = new Separator();
@@ -14,13 +14,15 @@ public class NapkinSeparatorUI extends BasicSeparatorUI {
         private LineHolder line;
 
         public void paint(Graphics g, JComponent c) {
-            NapkinUtil.defaultGraphics(g, c);
-
             JSeparator sep = (JSeparator) c;
-            boolean vertical = sep.getOrientation() == JSeparator.VERTICAL;
-            if (line == null) {
+            boolean isVertical = sep.getOrientation() == JSeparator.VERTICAL;
+            doPaint(g, sep, isVertical);
+        }
+
+        private void doPaint(Graphics g, JSeparator sep, boolean vertical) {
+            NapkinUtil.defaultGraphics(g, sep);
+            if (line == null)
                 line = new LineHolder(CubicGenerator.INSTANCE, vertical);
-            }
 
             Rectangle bounds = sep.getBounds();
             bounds.x = bounds.y = 0;

@@ -2,10 +2,10 @@
 
 package napkin;
 
-import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
+import java.awt.*;
 
 public class NapkinPanelUI extends BasicPanelUI {
 

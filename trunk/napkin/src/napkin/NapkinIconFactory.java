@@ -1,15 +1,14 @@
-
 package napkin;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
-import javax.swing.*;
 
 public class NapkinIconFactory implements NapkinConstants {
     static class CheckBoxIcon extends NapkinIcon {
 
-        protected final static int SIZE = 13;
-        protected final static int MID_INSET = 3;
+        protected static final int SIZE = 13;
+        protected static final int MID_INSET = 3;
         public static final Color MARK_COLOR = Color.green.darker();
         private static CheckGenerator checkGen;
 
@@ -45,7 +44,7 @@ public class NapkinIconFactory implements NapkinConstants {
         }
 
         void doPaint(Graphics2D placeG, Graphics2D markG,
-                int x, int y) {
+                     int x, int y) {
 
             FontMetrics fm = placeG.getFontMetrics();
             int ypos = y + fm.getAscent();
@@ -62,15 +61,16 @@ public class NapkinIconFactory implements NapkinConstants {
     }
 
     static class RadioButtonIcon extends NapkinIcon {
-        private final static int SIZE = 13;
-        private final static double SCALE =
+        private static final int SIZE = 13;
+        private static final double SCALE =
                 (double) SIZE / NapkinConstants.LENGTH;
-        private final static AffineTransform SCALE_MAT =
+        private static final AffineTransform SCALE_MAT =
                 NapkinUtil.scaleMat(SCALE);
         private static CircleGenerator placeGen;
+        public static final Color MARK_COLOR = Color.red;
 
         RadioButtonIcon() {
-            super(Color.red, SCALE_MAT);
+            super(MARK_COLOR, SCALE_MAT);
             init();
         }
 
@@ -105,7 +105,7 @@ public class NapkinIconFactory implements NapkinConstants {
         }
 
         void doPaint(Graphics2D placeG, Graphics2D markG, int x,
-                int y) {
+                     int y) {
             if (markG != null) {
                 markG.translate(x, y);
                 markG.fill(mark);
@@ -133,7 +133,7 @@ public class NapkinIconFactory implements NapkinConstants {
          */
         ArrowIcon(int pointTowards, int size) {
             super(Color.black, NapkinUtil.scaleMat(size));
-            this.genNum = pointTowards / 2;
+            genNum = pointTowards / 2;
             this.size = size;
             init();
         }
@@ -155,7 +155,7 @@ public class NapkinIconFactory implements NapkinConstants {
         }
 
         void doPaint(Graphics2D placeG, Graphics2D markG, int x,
-                int y) {
+                     int y) {
             if (markG != null) {
                 markG.translate(x, y);
                 markG.fill(mark);

@@ -5,6 +5,18 @@
 
 <body>
 
+<h4>alpha-006, 30 May, 2004</h4>
+<ul>
+<li>Do progress bar scribbling on image so it's cheaper to redraw.
+<li>Reduced bias for "too high" when drawing longer lines.
+<li>Disabled line height adjusted, and put behind the text (black shows
+    through).  (Maybe should do color blending?)
+<li>Use a simple underline for text and password fields, not a box.
+<li>Use red line for disabled; green for "default button".
+<li>All the buttons are drawn the same when they are disabled (and they now
+    look disabled too, instead of looking bold).
+</ul>
+
 <h4>alpha-005, 30 May, 2004</h4>
 
 <ul>

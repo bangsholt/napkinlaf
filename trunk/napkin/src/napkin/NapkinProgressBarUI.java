@@ -2,16 +2,17 @@
 
 package napkin;
 
-import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
+import java.awt.*;
 
 public class NapkinProgressBarUI extends BasicProgressBarUI {
     private final ScribbleHolder scribble = new ScribbleHolder();
     private final Rectangle sz = new Rectangle(0, 0, 0, 0);
     private Rectangle boxRect;
     private BoxHolder box;
+    private Image curImage;
 
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinProgressBarUI());
@@ -78,12 +79,15 @@ public class NapkinProgressBarUI extends BasicProgressBarUI {
         c.getBounds(sz);
         int orientation = progressBar.getOrientation();
         boolean backwards = !NapkinUtil.isLeftToRight(c);
-        scribble.shapeUpToDate(c, sz, orientation, amountFull, backwards);
+        if (scribble.shapeUpToDate(c, sz, orientation, amountFull, backwards)) {
+            curImage = c.createImage(sz.x + sz.width, sz.y + sz.height);
+            Graphics imgG = curImage.getGraphics();
+            imgG.setColor(NapkinIconFactory.CheckBoxIcon.MARK_COLOR);
+            scribble.draw(imgG);
+        }
 
-        g.setColor(NapkinIconFactory.CheckBoxIcon.MARK_COLOR);
-        scribble.draw(g);
+        g.drawImage(curImage, 0, 0, c);
 
-        // Deal with possible text painting
         if (progressBar.isStringPainted()) {
             paintString(g, b.left, b.top, barRectWidth, barRectHeight,
                     amountFull, b);

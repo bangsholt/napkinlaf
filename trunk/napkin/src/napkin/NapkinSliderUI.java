@@ -2,12 +2,12 @@
 
 package napkin;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
     private Icon thumb;
@@ -19,8 +19,6 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
     private final List minor;
     private int minorPos;
     private final Rectangle tickBounds;
-    private static final float MINOR_WIDTH = 0.5f;
-    private static final float MAJOR_WIDTH = 2.0f;
 
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinSliderUI((JSlider) c));
@@ -82,27 +80,27 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
     }
 
     protected void paintMinorTickForHorizSlider(Graphics g,
-            Rectangle tickBounds, int x) {
+                                                Rectangle tickBounds, int x) {
         paintTick(minor, minorPos++, g, x, 0, x, tickBounds.height / 2 - 1);
     }
 
     protected void paintMajorTickForHorizSlider(Graphics g,
-            Rectangle tickBounds, int x) {
+                                                Rectangle tickBounds, int x) {
         paintTick(major, majorPos++, g, x, 0, x, tickBounds.height - 2);
     }
 
     protected void paintMinorTickForVertSlider(Graphics g,
-            Rectangle tickBounds, int y) {
+                                               Rectangle tickBounds, int y) {
         paintTick(minor, minorPos++, g, 0, y, tickBounds.width / 2 - 1, y);
     }
 
     protected void paintMajorTickForVertSlider(Graphics g,
-            Rectangle tickBounds, int y) {
+                                               Rectangle tickBounds, int y) {
         paintTick(major, majorPos++, g, 0, y, tickBounds.width - 2, y);
     }
 
     private void paintTick(List ticks, int pos, Graphics g, int x, int y,
-            int width, int height) {
+                           int width, int height) {
 
         boolean vertTicks = !vertical;
         tickBounds.x = x;

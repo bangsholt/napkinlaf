@@ -2,6 +2,7 @@
 
 package napkin;
 
+import javax.swing.plaf.basic.*;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.lang.reflect.Method;
@@ -14,7 +15,6 @@ import java.util.StringTokenizer;
 import java.util.TreeSet;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import javax.swing.plaf.basic.*;
 
 public class Fold {
 
@@ -51,9 +51,9 @@ public class Fold {
             } else if (elem.getName().endsWith(".jar")) {
                 JarFile jar = new JarFile(elem);
                 classes = new TreeSet();
-                Enumeration enum = jar.entries();
-                while (enum.hasMoreElements()) {
-                    JarEntry entry = (JarEntry) enum.nextElement();
+                Enumeration entries = jar.entries();
+                while (entries.hasMoreElements()) {
+                    JarEntry entry = (JarEntry) entries.nextElement();
                     String name = entry.getName();
                     if (name.startsWith(pkgJarPath)) {
                         classes.add(name);

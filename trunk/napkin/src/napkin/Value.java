@@ -8,12 +8,12 @@ public class Value implements ValueSource {
     private double mid;
     private double range;
 
-    public Value(double val) {
-        this(val, 0);
+    public Value(double mid) {
+        this(mid, 0);
     }
 
-    public Value(double val, double range) {
-        this.mid = val;
+    public Value(double mid, double range) {
+        this.mid = mid;
         this.range = range;
     }
 

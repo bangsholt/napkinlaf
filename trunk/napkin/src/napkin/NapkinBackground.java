@@ -1,8 +1,7 @@
-
 package napkin;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 
 public class NapkinBackground {
     private final Icon icon;
@@ -26,7 +25,7 @@ public class NapkinBackground {
     }
 
     public NapkinBackground(String name, int top, int left, int bottom,
-            int right) {
+                            int right) {
         this(name, new Insets(top, left, bottom, right));
     }
 
@@ -76,7 +75,7 @@ public class NapkinBackground {
     }
 
     private void paintSliceAcross(Component c, Graphics g1, int y, int w,
-            int h, int xOff, int yOff, Icon left, Icon mid, Icon right) {
+                                  int h, int xOff, int yOff, Icon left, Icon mid, Icon right) {
 
         if (yOff + h <= y)
             return;
@@ -91,8 +90,8 @@ public class NapkinBackground {
         paintArea(c, g1, right, rX, y, right.getIconWidth(), h, xOff, yOff);
     }
 
-    private void paintArea(Component c, Graphics g1, Icon icon, int atX,
-            int atY, int w, int h, int xOff, int yOff) {
+    private static void paintArea(Component c, Graphics g1, Icon icon, int atX,
+                                  int atY, int w, int h, int xOff, int yOff) {
 
         if (w == 0 || h == 0)
             return;
