@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.WeakHashMap;
 import javax.swing.*;
 import javax.swing.UIDefaults.*;
+import javax.swing.border.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
@@ -307,8 +308,17 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                     }
                 }
             } else if ((res = propVal(key, "border", val, table)) != null) {
-                if (res instanceof BorderUIResource)
+                if (res instanceof BorderUIResource ||
+                        res instanceof BasicBorders.ButtonBorder ||
+                        res instanceof BasicBorders.FieldBorder ||
+                        res instanceof BasicBorders.MenuBarBorder ||
+                        res instanceof BevelBorder ||
+                        res instanceof EtchedBorder ||
+                        res instanceof LineBorder ||
+                        res instanceof CompoundBorder
+                ) {
                     entry.setValue(drawnBorder); // we null some out later
+                }
             }
         }
 
@@ -323,8 +333,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                         "createCheckBoxIcon");
 
         Object[] napkinDefaults = {
-            "RadioButton.textIconGap", zero,
-
             "RadioButton.textIconGap", zero,
             "RadioButton.icon", radioButtonIcon,
             "RadioButtonMenuItem.checkIcon", radioButtonIcon,
@@ -382,6 +390,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         scrawl = tryToLoadFont("FeltTipRoman.ttf");
         scrawlBold = tryToLoadFont("FeltTipRoman-Bold.ttf");
         fixed = tryToLoadFont("Mcgf____.ttf");
+        gotFonts = true;
     }
 
     private static Font tryToLoadFont(final String fontName) {
