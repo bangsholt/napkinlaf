@@ -14,8 +14,6 @@ public class DrawnCheckGenerator extends DrawnShapeGenerator {
     private final RandomXY leftScale;
     private final RandomXY rightScale;
 
-    public static final DrawnCheckGenerator INSTANCE = new DrawnCheckGenerator();
-
     public DrawnCheckGenerator() {
         this(10);
     }

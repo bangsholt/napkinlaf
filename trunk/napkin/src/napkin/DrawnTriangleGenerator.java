@@ -12,12 +12,6 @@ public class DrawnTriangleGenerator extends DrawnShapeGenerator {
     private final RandomValue startAdjust;
     private final double rotate;
 
-    public static final DrawnTriangleGenerator INSTANCE = new DrawnTriangleGenerator();
-
-    public DrawnTriangleGenerator() {
-        this(0);
-    }
-
     public DrawnTriangleGenerator(double rotate) {
         this.rotate = rotate;
 

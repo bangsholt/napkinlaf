@@ -8,7 +8,8 @@ import java.awt.geom.*;
 public class DrawnQuadLineGenerator extends DrawnShapeGenerator {
     private final RandomXY ctl;
 
-    public static final DrawnQuadLineGenerator INSTANCE = new DrawnQuadLineGenerator();
+    public static final DrawnQuadLineGenerator INSTANCE =
+            new DrawnQuadLineGenerator();
 
     public DrawnQuadLineGenerator() {
         ctl = new RandomXY(60, 3, 0, 0.5);

@@ -7,15 +7,14 @@ import java.awt.geom.*;
 
 public class DrawnCircleGenerator extends DrawnShapeGenerator
         implements NapkinConstants {
+
     private final RandomXY start;
     private final RandomXY end;
     private final RandomXY tl;
     private final RandomXY tr;
     private final RandomXY br;
     private final RandomXY bl;
-    private boolean forFill;
-
-    public static final DrawnCubicLineGenerator INSTANCE = new DrawnCubicLineGenerator();
+    private final boolean forFill;
 
     public DrawnCircleGenerator() {
         this(false);

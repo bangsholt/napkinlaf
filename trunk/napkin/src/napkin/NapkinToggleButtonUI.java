@@ -10,11 +10,10 @@ import javax.swing.plaf.basic.*;
 public class NapkinToggleButtonUI extends BasicToggleButtonUI
         implements NapkinPainter {
 
-    private static final NapkinToggleButtonUI napkinToggleButtonUI = new NapkinToggleButtonUI();
+    private static final NapkinToggleButtonUI napkinToggleButtonUI =
+            new NapkinToggleButtonUI();
 
-    /**
-     * @noinspection MethodOverridesStaticMethod
-     */
+    /** @noinspection MethodOverridesStaticMethod */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, napkinToggleButtonUI);
     }

@@ -123,9 +123,7 @@ public class NapkinIconFactory implements NapkinConstants {
             new DrawnTriangleGenerator(-Math.PI / 2),
         };
 
-        /**
-         * @param pointTowards One of NORTH, EAST, WEST, or SOUTH.
-         */
+        /** @param pointTowards One of NORTH, EAST, WEST, or SOUTH. */
         public ArrowIcon(int pointTowards, int size) {
             super(NapkinTheme.CHECK_COLOR, NapkinUtil.scaleMat(size));
             genNum = pointTowards / 2;
@@ -161,8 +159,6 @@ public class NapkinIconFactory implements NapkinConstants {
     public static class XIcon implements Icon {
         private final int size;
         private final DrawnBoxHolder mark;
-
-        protected static final int MID_INSET = 3;
 
         public XIcon(int size) {
             DrawnBoxGenerator box = new DrawnBoxGenerator();

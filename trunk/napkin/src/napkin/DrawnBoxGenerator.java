@@ -30,8 +30,6 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
         null, "top", "left", "bottom", "right"
     };
 
-    public static final DrawnBoxGenerator INSTANCE = new DrawnBoxGenerator();
-
     private class SideSize extends RandomValue {
         private final int s1;
         private final int s2;
