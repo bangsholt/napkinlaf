@@ -7,14 +7,7 @@ import java.awt.geom.*;
 import java.awt.image.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.*;
-import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
@@ -29,21 +22,14 @@ import javax.swing.plaf.*;
 import javax.swing.text.*;
 
 public class NapkinUtil implements NapkinConstants {
-    private static final Set printed = new HashSet();
 
     public static final Random random = new Random();
 
     private static final Map strokes = new WeakHashMap();
-    private static final Map fieldsForType = new WeakHashMap();
-
-    private static final Stack themeStack = new Stack();
-    private static final Stack paperStack = new Stack();
 
     private static boolean drawingDisabled;
 
     private static final BufferedImage textureImage;
-
-    private static final Set skip;
 
     private static final float FOCUS_MARK_WIDTH = 1.5f;
 
@@ -65,15 +51,11 @@ public class NapkinUtil implements NapkinConstants {
 
     private static final AlphaComposite ERASURE_COMPOSITE =
             AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.8f);
-
-    public interface Logs {
-        Logger ui = Logger.getLogger("napkin.util");
-        Logger paper = Logger.getLogger("napkin.paper");
-    }
+    private static final Set printed = new HashSet();
+    private static final Stack themeStack = new Stack();
+    private static final Stack paperStack = new Stack();
 
     static {
-        skip = new HashSet();
-
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
         ImageIcon icon = theme.getErasureMask().getIcon();
         int w = icon.getIconWidth();
@@ -90,21 +72,13 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static class DisabledMark {
-        /**
-         * @noinspection PublicField
-         */
+        /** @noinspection PublicField */
         public final BufferedImage image;
-        /**
-         * @noinspection PublicField
-         */
+        /** @noinspection PublicField */
         public final int offX;
-        /**
-         * @noinspection PublicField
-         */
+        /** @noinspection PublicField */
         public final int offY;
-        /**
-         * @noinspection PublicField
-         */
+        /** @noinspection PublicField */
         public final Graphics2D graphics;
 
         public DisabledMark(Graphics2D graphics, BufferedImage image, int offX,
@@ -114,6 +88,11 @@ public class NapkinUtil implements NapkinConstants {
             this.offX = offX;
             this.offY = offY;
         }
+    }
+
+    public interface Logs {
+        Logger ui = Logger.getLogger("napkin.util");
+        Logger paper = Logger.getLogger("napkin.paper");
     }
 
     public static Object property(ComponentUI ui, String prop) {
@@ -145,66 +124,14 @@ public class NapkinUtil implements NapkinConstants {
             ui = nlaf.getFormalLAF().getDefaults().getUI(c);
         else
             ui = napkinUI;
-        if (Logs.ui.isLoggable(Level.FINER) && !printed.contains(c.getClass())) {
+        if (Logs.ui.isLoggable(Level.FINER) &&
+                !printed.contains(c.getClass())) {
+
             Logs.ui.finer(c.getUIClassID() + "\n  " + napkinUI.getClass() +
                     "\n  " + c.getClass());
             printed.add(c.getClass());
         }
         return ui;
-    }
-
-    static String descFor(Object obj) {
-        if (obj instanceof Component)
-            return descFor((Component) obj);
-        else
-            return obj.getClass().getName();
-    }
-
-    static String descFor(Component c) {
-        if (c == null)
-            return "[null]";
-        //noinspection StringReplaceableByStringBuffer
-        String desc;
-        String idStr = "[" + System.identityHashCode(c) + "]";
-        if ((desc = c.getName()) != null)
-            return desc.trim() + idStr + "/" + c.getClass().getName();
-        desc = c.getClass().getName();
-        int dot = desc.lastIndexOf('.');
-        if (dot > 0)
-            desc = desc.substring(dot + 1);
-        desc += idStr;
-
-        if (c instanceof JLabel)
-            desc += ": " + ((JLabel) c).getText();
-        else if (c instanceof AbstractButton)
-            desc += ": " + ((AbstractButton) c).getText();
-        else if (c instanceof JTextComponent)
-            desc += ": " + ((JTextComponent) c).getText();
-        else if (c instanceof JPopupMenu)
-            desc += ": " + ((JPopupMenu) c).getLabel();
-        else if (c instanceof Label)
-            desc += ": " + ((Label) c).getText();
-        else if (c instanceof Button)
-            desc += ": " + ((Button) c).getLabel();
-        else if (c instanceof Checkbox)
-            desc += ": " + ((Checkbox) c).getLabel();
-        else if (c instanceof Dialog)
-            desc += ": " + ((Dialog) c).getTitle();
-        else if (c instanceof Frame)
-            desc += ": " + ((Frame) c).getTitle();
-        else if (c instanceof JInternalFrame)
-            desc += ": " + ((JInternalFrame) c).getTitle();
-        desc = desc.trim();
-
-        if (c instanceof JComponent) {
-            JComponent jc = (JComponent) c;
-            Border border = jc.getBorder();
-            if (border instanceof TitledBorder)
-                desc += ": " + ((TitledBorder) border).getTitle();
-        }
-        desc = desc.trim();
-
-        return desc;
     }
 
     public static void installUI(JComponent c) {
@@ -360,8 +287,6 @@ public class NapkinUtil implements NapkinConstants {
         }
     }
 
-    static int count = 0;
-
     public static NapkinTheme currentTheme(Component c) {
         if (themeStack.isEmpty())
             return (NapkinTheme) themeTopFor(c).getClientProperty(THEME_KEY);
@@ -372,23 +297,6 @@ public class NapkinUtil implements NapkinConstants {
         if (paperStack.isEmpty())
             return themeTopFor(c);
         return (Component) paperStack.peek();
-    }
-
-    private static void dumpStacks() {
-        if (!Logs.paper.isLoggable(Level.FINER))
-            return;
-
-        if (themeStack.size() != paperStack.size())
-            System.out.println("!!!");
-        StringBuffer dump = new StringBuffer(count).append(":\t");
-        count++;
-        for (int i = 0; i < paperStack.size(); i++)
-            dump.append(". ");
-        if (!themeStack.isEmpty()) {
-            dump.append(themeStack.peek()).append(" / ").append(
-                    descFor(paperStack.peek()));
-        }
-        Logs.paper.log(Level.FINER, dump.toString());
     }
 
     public static void finishGraphics(Graphics g1, Component c) {
@@ -488,43 +396,6 @@ public class NapkinUtil implements NapkinConstants {
         return holder;
     }
 
-    static void dumpTo(String file, JComponent c) {
-        PrintWriter out = null;
-        try {
-            out = new PrintWriter(new BufferedWriter(new FileWriter(file)));
-            Set dumped = new HashSet();
-            dumpTo(out, c, c.getClass(), 0, dumped);
-            out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (out != null)
-                out.close();
-        }
-    }
-
-    private static void dumpTo(PrintWriter out, Object obj, Class cl, int level,
-            Set dumped)
-            throws IllegalAccessException {
-        if (cl == null)
-            return;
-        dumpTo(out, obj, cl.getSuperclass(), level, dumped);
-        Field[] fields = cl.getDeclaredFields();
-        for (int i = 0; i < fields.length; i++) {
-            Field field = fields[i];
-            field.setAccessible(true);
-            Object val = field.get(obj);
-            for (int l = 0; l < level; l++)
-                out.print("    ");
-            out.println(field.getName() + ": " + val);
-            if (val != null && !dumped.contains(obj) &&
-                    !field.getType().isPrimitive()) {
-                dumpTo(out, val, val.getClass(), level + 1, dumped);
-                dumped.add(obj);
-            }
-        }
-    }
-
     public static Object[] reallocate(Object[] orig, int size) {
         if (size == orig.length)
             return orig;
@@ -605,9 +476,7 @@ public class NapkinUtil implements NapkinConstants {
         return in;
     }
 
-    /**
-     * @noinspection TailRecursion
-     */
+    /** @noinspection TailRecursion */
     public static JComponent themeTopFor(Component c) {
         if (c == null)
             return null;
@@ -650,129 +519,6 @@ public class NapkinUtil implements NapkinConstants {
         if (c instanceof JComponent)
             return (((JComponent) c).getClientProperty(THEME_KEY) != null);
         return false;
-    }
-
-    public static void dumpObject(Object obj, String fileName) {
-        PrintStream out = null;
-        try {
-            out =
-                    new PrintStream(new BufferedOutputStream(
-                            new FileOutputStream(fileName)));
-            dumpObject(obj, out);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            if (out != null)
-                out.close();
-        }
-    }
-
-    public static void dumpObject(Object obj, PrintStream out) {
-        Map known = new HashMap();
-        dumpObject(obj, out, 0, known);
-    }
-
-    private static void
-            dumpObject(Object obj, PrintStream out, int depth, Map known) {
-
-        Object id = known.get(obj);
-        if (id != null) {
-            out.println("<known: " + id + ">");
-            return;
-        }
-        id = new Integer(known.size());
-        known.put(obj, id);
-
-        out.println(descFor(obj) + " <" + id + ">");
-
-        try {
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i <= depth; i++)
-                sb.append(i % 2 == 0 ? '.' : '|').append(' ');
-            String indent = sb.toString();
-
-            Field[] fields = getFields(obj);
-            for (int i = 0; i < fields.length; i++) {
-                Field field = fields[i];
-                if (skip.contains(field.getName()))
-                    continue;
-                Class type = field.getType();
-                out.print(indent);
-                out.print(field.getName() + " [" + field.getType().getName() +
-                        "]: ");
-                Object val = field.get(obj);
-                dumpValue(type, out, val, depth, known);
-            }
-
-            if (obj.getClass().isArray()) {
-                Class type = obj.getClass().getComponentType();
-                int length = Array.getLength(obj);
-                for (int i = 0; i < length; i++) {
-                    Object val = Array.get(obj, i);
-                    if (val == null)
-                        continue;
-                    out.print(indent);
-                    out.print(i + ": ");
-                    dumpValue(type, out, val, depth, known);
-                }
-            }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void dumpValue(Class type, PrintStream out, Object val,
-            int depth, Map known) {
-        if (type.isPrimitive())
-            out.println(val);
-        else if (val == null || type == String.class)
-            out.println(val);
-        else {
-            if (type.isArray()) {
-                Class aType = type.getComponentType();
-                out.println(" " + aType.getName() + "[" +
-                        Array.getLength(val) + "]");
-            }
-            dumpObject(val, out, depth + 1, known);
-        }
-    }
-
-    private static Field[] getFields(Object obj) {
-        Class type = obj.getClass();
-        Field[] fields = (Field[]) fieldsForType.get(type);
-        if (fields != null)
-            return fields;
-
-        Set fSet = new HashSet();
-        int skip = Modifier.STATIC | Modifier.FINAL | Modifier.TRANSIENT;
-        while (type != Object.class) {
-            Field[] declaredFields = type.getDeclaredFields();
-            for (int i = 0; i < declaredFields.length; i++) {
-                Field field = declaredFields[i];
-                int mods = field.getModifiers();
-                if (!field.getDeclaringClass().isAssignableFrom(obj.getClass()))
-                    fSet.size();
-                if ((mods & skip) == 0)
-                    fSet.add(field);
-            }
-            type = type.getSuperclass();
-        }
-        fields = (Field[]) fSet.toArray(new Field[fSet.size()]);
-        Arrays.sort(fields, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                Field f1 = (Field) o1;
-                Field f2 = (Field) o2;
-                int d = f1.getName().compareTo(f2.getName());
-                if (d != 0)
-                    return d;
-                Class c1 = f1.getDeclaringClass();
-                Class c2 = f2.getDeclaringClass();
-                return c1.getName().compareTo(c2.getName());
-            }
-        });
-        AccessibleObject.setAccessible(fields, true);
-        fieldsForType.put(obj.getClass(), fields);
-        return fields;
     }
 
     /**
@@ -842,11 +588,6 @@ public class NapkinUtil implements NapkinConstants {
         return value;
     }
 
-    public static String toString(Color c) {
-        return "#" + Integer.toHexString(c.getRGB()) + "/" +
-                Integer.toHexString(c.getAlpha());
-    }
-
     public static boolean replace(Object current, Object candidate) {
         if (current == null)
             return true;
@@ -881,5 +622,22 @@ public class NapkinUtil implements NapkinConstants {
         NapkinTheme theme = background(g, c);
         painter.superPaint(g, c, theme);
         finishGraphics(g, c);
+    }
+
+    private static void dumpStacks() {
+        if (!Logs.paper.isLoggable(Level.FINER))
+            return;
+
+        if (themeStack.size() != paperStack.size())
+            System.out.println("!!!");
+        StringBuffer dump = new StringBuffer(NapkinDebug.count).append(":\t");
+        NapkinDebug.count++;
+        for (int i = 0; i < paperStack.size(); i++)
+            dump.append(". ");
+        if (!themeStack.isEmpty()) {
+            dump.append(themeStack.peek()).append(" / ").append(
+                    NapkinDebug.descFor(paperStack.peek()));
+        }
+        Logs.paper.log(Level.FINER, dump.toString());
     }
 }

@@ -30,7 +30,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         public boolean visit(Component c, int depth) {
             FormalityFlags ff = flags(c);
             System.out.println(
-                    "clearKidsVisitor " + NapkinUtil.descFor(c) + ": " + ff);
+                    "clearKidsVisitor " + NapkinDebug.descFor(c) + ": " + ff);
 
             if (depth == 0) {
                 System.out.println("    depth == 0, return true");
@@ -45,7 +45,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
     private final Visitor updateUIVisitor = new Visitor() {
         public boolean visit(Component c, int depth) {
-            System.out.println("updateUIVisitor " + NapkinUtil.descFor(c));
+            System.out.println("updateUIVisitor " + NapkinDebug.descFor(c));
             FormalityFlags ff = flags(c, false);
             if (depth > 0 && !ff.inherited)
                 return false;
@@ -59,13 +59,13 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
     private final Visitor addListenerVisitor = new Visitor() {
         public boolean visit(Component c, int depth) {
-            System.out.println("addListenerVisitor " + NapkinUtil.descFor(c));
+            System.out.println("addListenerVisitor " + NapkinDebug.descFor(c));
             if (!(c instanceof Container) || flags.containsKey(c))
                 return false;
 
             FormalityFlags ff = flags(c, false);
             ((Container) c).addContainerListener(ff);
-            System.out.println("adding listener for " + NapkinUtil.descFor(c) +
+            System.out.println("adding listener for " + NapkinDebug.descFor(c) +
                     ", " +
                     System.identityHashCode(c));
             return true;
@@ -133,7 +133,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 out.print(i % 2 == 0 ? '|' : '.');
                 out.print(' ');
             }
-            String desc = NapkinUtil.descFor(c);
+            String desc = NapkinDebug.descFor(c);
             out.print(desc);
             out.print(": ");
             out.print(ff);
@@ -150,14 +150,14 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
         public void componentAdded(ContainerEvent e) {
             Component child = e.getChild();
-            System.out.println("Added: " + NapkinUtil.descFor(child) + " to " +
+            System.out.println("Added: " + NapkinDebug.descFor(child) + " to " +
                     e.getComponent());
             clear(child);
         }
 
         public void componentRemoved(ContainerEvent e) {
             Component child = e.getChild();
-            System.out.println("Removed: " + NapkinUtil.descFor(child) +
+            System.out.println("Removed: " + NapkinDebug.descFor(child) +
                     " to " +
                     e.getComponent());
             clear(child);
@@ -248,7 +248,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             return false;
 
         FormalityFlags ff = flags(c);
-        System.out.println("isFormal(" + NapkinUtil.descFor(c) + "): " + ff);
+        System.out.println("isFormal(" + NapkinDebug.descFor(c) + "): " + ff);
         if (ff.known)
             return ff.formal;
 
@@ -259,7 +259,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
     private FormalityFlags inheritedFormal(Container container) {
         System.out.println(
-                "inheritedFormal(" + NapkinUtil.descFor(container) + ")");
+                "inheritedFormal(" + NapkinDebug.descFor(container) + ")");
         if (container == null)
             return null;
         FormalityFlags ff = flags(container);
@@ -602,8 +602,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         if (!match)
             return null;
 
-        if (val instanceof ProxyLazyValue) {
-            val = ((ProxyLazyValue) val).createValue(table);
+        if (val instanceof LazyValue) {
+            val = ((LazyValue) val).createValue(table);
         } else if (val instanceof ActiveValue) {
             val = ((ActiveValue) val).createValue(table);
         }
@@ -621,7 +621,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     }
 
     private void clear(Component c) {
-        System.out.println("clear(" + NapkinUtil.descFor(c) + ")");
+        System.out.println("clear(" + NapkinDebug.descFor(c) + ")");
         clearKids(c);
         FormalityFlags ff = flags(c);
         ff.known = !ff.inherited;
@@ -641,7 +641,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             return null;
         FormalityFlags ff = (FormalityFlags) flags.get(c);
         if (ff == null) {
-            System.out.println("adding flags: " + NapkinUtil.descFor(c));
+            System.out.println("adding flags: " + NapkinDebug.descFor(c));
             if (recurse && c instanceof Container) {
                 new ComponentWalker(addListenerVisitor).walk(c);
                 ff = (FormalityFlags) flags.get(c);

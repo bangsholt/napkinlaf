@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 public class DrawnLineHolder extends DrawnShapeHolder
         implements NapkinConstants {
+
     private Rectangle rect;
     private FontMetrics metrics;
     private final Endpoints endpoints;
@@ -21,12 +22,6 @@ public class DrawnLineHolder extends DrawnShapeHolder
     static final Endpoints VERTICAL_LINE = new Endpoints() {
         public Rectangle getEndpoints(Rectangle bounds) {
             return new Rectangle(bounds.x, bounds.y, 0, bounds.height);
-        }
-    };
-    static final Endpoints SLASH_UP = new Endpoints() {
-        public Rectangle getEndpoints(Rectangle bounds) {
-            return new Rectangle(bounds.x, bounds.y + bounds.height,
-                    bounds.width, -bounds.height);
         }
     };
 
@@ -52,10 +47,6 @@ public class DrawnLineHolder extends DrawnShapeHolder
 
     public DrawnLineHolder(double len, boolean vertical) {
         this(generatorFor(len), vertical);
-    }
-
-    public DrawnLineHolder(double len, Endpoints endpoints) {
-        this(generatorFor(len), endpoints);
     }
 
     private static DrawnShapeGenerator generatorFor(double len) {

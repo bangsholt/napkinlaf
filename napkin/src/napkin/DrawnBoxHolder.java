@@ -7,6 +7,7 @@ import java.awt.geom.*;
 
 public class DrawnBoxHolder extends DrawnShapeHolder
         implements NapkinConstants {
+
     private Rectangle size;
     private int breakSide;
     private final Point2D begBreak, endBreak;
