@@ -16,9 +16,6 @@ import javax.swing.border.*;
 import javax.swing.plaf.*;
 
 public class NapkinUtil implements NapkinConstants {
-
-    private static final Color TRANSPARENT = new Color(0, 0, 0, 0);
-
     private static final Set printed = new HashSet();
 
     private static final Integer BOTTOM_LAYER = new Integer(Integer.MIN_VALUE);
@@ -113,7 +110,10 @@ public class NapkinUtil implements NapkinConstants {
 
     public static void installUI(JComponent c) {
         c.setOpaque(false);
-        c.setBackground(TRANSPARENT);
+    }
+
+    public static void uninstallUI(JComponent c) {
+        c.setOpaque(true);
     }
 
     static void setBackground(Component child, NapkinBackground bg) {
@@ -148,8 +148,10 @@ public class NapkinUtil implements NapkinConstants {
 
     static void removeBackground(JLayeredPane lp) {
         Component cur = (Component) lp.getClientProperty(BG_COMPONENT);
-        if (cur != null)
+        if (cur != null) {
+            lp.putClientProperty(BG_COMPONENT, null);
             lp.remove(cur);
+        }
     }
 
     static void uninstallLayeredPane(JLayeredPane lp) {
