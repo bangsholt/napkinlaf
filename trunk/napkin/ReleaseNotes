@@ -8,6 +8,8 @@
 <h4>alpha-004, ???</h4>
 
 <dl>
+<dt> File chooser (borrowed entirely from <tt>MetalFileChooserUI</tt>, as the
+     <tt>BasicFileChooserUI</tt> class seems entirely inadaquate).
 <dt> Text areas are a normal size.
 <dt> Paint background on each individual component, so changes to contents
      don't overlay on each other.
