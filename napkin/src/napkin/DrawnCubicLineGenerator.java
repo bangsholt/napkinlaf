@@ -4,6 +4,8 @@ package napkin;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DrawnCubicLineGenerator extends DrawnShapeGenerator {
 
@@ -12,9 +14,10 @@ public class DrawnCubicLineGenerator extends DrawnShapeGenerator {
     private final RandomValue rightX;
     private final RandomValue rightY;
 
-    private static boolean DEBUG = false;
-
     public static final DrawnCubicLineGenerator INSTANCE = new DrawnCubicLineGenerator();
+
+    private static final Logger logger = Logger.getLogger(
+            DrawnCubicLineGenerator.class.getName());
 
     public DrawnCubicLineGenerator() {
         leftX = new RandomValue(10, 4);
@@ -52,13 +55,20 @@ public class DrawnCubicLineGenerator extends DrawnShapeGenerator {
                 coords[2], coords[3],
                 coords[4], coords[5],
                 coords[6], coords[7]);
-        if (!DEBUG)
+        if (!logger.isLoggable(Level.FINE))
             return line;
         else {
-            GeneralPath shape = new GeneralPath(new Rectangle2D.Double(coords[0] - 2, coords[1] - 2, 4, 4));
+            GeneralPath shape = new GeneralPath(
+                    new Rectangle2D.Double(coords[0] - 2, coords[1] - 2, 4, 4));
             shape.append(line, false);
-            shape.append(new Line2D.Double(coords[6] - 2, coords[7] - 2, coords[6] + 2, coords[7] + 2), false);
-            shape.append(new Line2D.Double(coords[6] + 2, coords[7] - 2, coords[6] - 2, coords[7] + 2), false);
+            shape.append(
+                    new Line2D.Double(coords[6] - 2, coords[7] - 2,
+                            coords[6] + 2, coords[7] + 2),
+                    false);
+            shape.append(
+                    new Line2D.Double(coords[6] + 2, coords[7] - 2,
+                            coords[6] - 2, coords[7] + 2),
+                    false);
             return shape;
         }
     }

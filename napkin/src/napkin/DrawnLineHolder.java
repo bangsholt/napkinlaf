@@ -4,14 +4,14 @@ package napkin;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DrawnLineHolder extends DrawnShapeHolder
         implements NapkinConstants {
     private Rectangle rect;
     private FontMetrics metrics;
     private final Endpoints endpoints;
-
-    private static boolean DEBUG = false;
 
     static final Endpoints HORIZ_LINE = new Endpoints() {
         public Rectangle getEndpoints(Rectangle bounds) {
@@ -29,6 +29,9 @@ public class DrawnLineHolder extends DrawnShapeHolder
                     bounds.width, -bounds.height);
         }
     };
+
+    private static final Logger logger = Logger.getLogger(
+            DrawnLineHolder.class.getName());
 
     public interface Endpoints {
         Rectangle getEndpoints(Rectangle bounds);
@@ -100,15 +103,15 @@ public class DrawnLineHolder extends DrawnShapeHolder
         AffineTransform matrix = new AffineTransform();
         matrix.translate(x1, y1);
         matrix.rotate(angle);
-        if (DEBUG) {
-            System.out.println("");
-            System.out.println("1: (" + x1 + " , " + y1 + ")");
-            System.out.println("2: (" + x2 + " , " + y2 + ")");
-            System.out.println("rot = " + angle);
-            System.out.println("angle = " + angle);
-            System.out.println("xDelta = " + xDelta);
-            System.out.println("yDelta = " + yDelta);
-            System.out.println("len = " + len);
+        if (logger.isLoggable(Level.FINE)) {
+            logger.log(Level.FINE, "");
+            NapkinUtil.printPair(logger, Level.FINE, "1: ", x1, y1);
+            NapkinUtil.printPair(logger, Level.FINE, "2: ", x2, y2);
+            NapkinUtil.printPair(logger, Level.FINE, "delta = ", xDelta,
+                    yDelta);
+            logger.log(Level.FINE, "rot = " + angle);
+            logger.log(Level.FINE, "angle = " + angle);
+            logger.log(Level.FINE, "len = " + len);
         }
         double xScale = len / DrawnShapeGenerator.LENGTH;
         matrix.scale(xScale, 1);

@@ -92,14 +92,14 @@ public class NapkinTheme {
             popupTheme.themes = themes;
     }
 
-    private Color uiResource(Color color) {
+    private static Color uiResource(Color color) {
         if (color instanceof UIResource)
             return color;
         else
             return new AlphaColorUIResource(color);
     }
 
-    private Font uiResource(Font font) {
+    private static Font uiResource(Font font) {
         if (font instanceof UIResource)
             return font;
         else
@@ -282,9 +282,13 @@ public class NapkinTheme {
 
         private static Font tryToLoadFont(String fontName) {
             try {
-                ClassLoader cl = NapkinLookAndFeel.class.getClassLoader();
                 String fontRes = "napkin/resources/" + fontName;
-                InputStream fontDef = cl.getResourceAsStream(fontRes);
+                InputStream fontDef;
+                ClassLoader cl = NapkinLookAndFeel.class.getClassLoader();
+                if (cl != null)
+                    fontDef = cl.getResourceAsStream(fontRes);
+                else
+                    fontDef = ClassLoader.getSystemResourceAsStream(fontRes);
                 if (fontDef == null)
                     System.err.println("Could not find font " + fontName);
                 else

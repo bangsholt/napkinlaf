@@ -18,9 +18,9 @@ class ComponentWalker {
             visit(top, 0);
     }
 
-    private boolean visit(Component c, int depth) {
+    private void visit(Component c, int depth) {
         if (!visitor.visit(c, depth))
-            return false;
+            return;
         final int childDepth = depth + 1;
         if (c instanceof Container) {
             Container container = (Container) c;
@@ -28,8 +28,6 @@ class ComponentWalker {
             for (int i = 0; i < end; i++)
                 visit(container.getComponent(i), childDepth);
         }
-
-        return true;
     }
 }
 

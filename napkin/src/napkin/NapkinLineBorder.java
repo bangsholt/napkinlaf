@@ -3,7 +3,6 @@
 package napkin;
 
 import java.awt.*;
-import javax.swing.border.*;
 
 public class NapkinLineBorder extends NapkinBorder {
     private final boolean vertical;
@@ -14,8 +13,8 @@ public class NapkinLineBorder extends NapkinBorder {
     private static final Insets DEFAULT_HORIZ_INSETS =
             new Insets(0, 0, NapkinBoxBorder.DEFAULT_INSETS.bottom, 0);
 
-    public NapkinLineBorder(Border formalBorder, boolean vertical) {
-        super(formalBorder);
+    public NapkinLineBorder(boolean vertical) {
+        super(null);
         this.vertical = vertical;
     }
 

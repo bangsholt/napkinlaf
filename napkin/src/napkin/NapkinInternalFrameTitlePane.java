@@ -13,7 +13,7 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
     private DrawnLineHolder line;
     private Rectangle bounds;
 
-    private static Dimension NO_SIZE = new Dimension(0, 0);
+    private static final Dimension NO_SIZE = new Dimension(0, 0);
 
     public class NapkinTitlePaneLayout extends TitlePaneLayout {
         public Dimension preferredLayoutSize(Container c) {

@@ -164,12 +164,7 @@ public class NapkinIconFactory implements NapkinConstants {
         private final int size;
         private final DrawnBoxHolder mark;
 
-        protected static final int SIZE = 15;
         protected static final int MID_INSET = 3;
-
-        public XIcon() {
-            this(SIZE);
-        }
 
         public XIcon(int size) {
             DrawnBoxGenerator box = new DrawnBoxGenerator();
@@ -208,10 +203,6 @@ public class NapkinIconFactory implements NapkinConstants {
 
     public static Icon createArrowIcon(int pointTowards, int size) {
         return new ArrowIcon(pointTowards, size);
-    }
-
-    public static Icon createUnderlineIcon(int size) {
-        return new CheckBoxIcon(size);
     }
 
     public static Icon createXIcon(int size) {

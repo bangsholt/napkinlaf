@@ -312,7 +312,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
         Object underlineBorder = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
-                return new NapkinLineBorder(null, false);
+                return new NapkinLineBorder(false);
             }
         };
         Object selectBorder = new UIDefaults.ActiveValue() {
@@ -388,7 +388,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         table.putDefaults(napkinDefaults);
     }
 
-    private void setupActions(UIDefaults table) {
+    private static void setupActions(UIDefaults table) {
         //!! These are copied from Metal LookAndFeel, but we should get them
         //!! From the formal L&F, as well as getting *all* behavior.  -arnold
         Object fieldInputMap = new UIDefaults.LazyInputMap(new Object[]{
@@ -497,7 +497,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         table.putDefaults(actionDefaults);
     }
 
-    private void overrideComponentDefaults(UIDefaults table) {
+    private static void overrideComponentDefaults(UIDefaults table) {
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
 
         Font dialogPlain = theme.getTextFont();
@@ -609,10 +609,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     }
 
     public void setIsFormal(Component c, boolean isFormal) {
-        setIsFormal(c, isFormal, true);
-    }
-
-    public void setIsFormal(Component c, boolean isFormal, boolean impose) {
         if (JUST_NAPKIN)
             return;
         FormalityFlags ff = flags(c);
