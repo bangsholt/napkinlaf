@@ -8,7 +8,7 @@ import javax.swing.border.*;
 import javax.swing.plaf.basic.*;
 
 public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
-        implements NapkinConstants {
+        implements NapkinConstants, NapkinPainter {
 
     private DrawnLineHolder line;
     private Rectangle bounds;
@@ -108,11 +108,12 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
     }
 
     public void paint(Graphics g) {
-        g = NapkinUtil.defaultGraphics(g, this);
+        NapkinUtil.update(g, this, this);
+    }
+
+    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         selectedTextColor = notSelectedTextColor = g.getColor();
-        NapkinUtil.background(g, this);
         super.paint(g);
-        NapkinUtil.finishGraphics(g, this);
     }
 
     protected void paintTitleBackground(Graphics g) {

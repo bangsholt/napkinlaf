@@ -9,7 +9,9 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
-public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
+public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
+        NapkinPainter {
+
     private Icon thumb;
     private DrawnLineHolder track;
     private final Rectangle trackBounds;
@@ -138,10 +140,11 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
     }
 
     public void update(Graphics g, JComponent c) {
-        g = NapkinUtil.defaultGraphics(g, c);
-        NapkinUtil.background(g, c);
+        NapkinUtil.update(g, c, this);
+    }
+
+    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         super.update(g, c);
-        NapkinUtil.finishGraphics(g, c);
     }
 }
 

@@ -7,7 +7,9 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
-public class NapkinSeparatorUI extends BasicSeparatorUI {
+public class NapkinSeparatorUI extends BasicSeparatorUI
+        implements NapkinPainter {
+
     private final Separator separator = new Separator();
 
     public static class Separator {
@@ -21,7 +23,9 @@ public class NapkinSeparatorUI extends BasicSeparatorUI {
 
         private void doPaint(Graphics g, JSeparator sep, boolean vertical) {
             if (line == null)
-                line = new DrawnLineHolder(DrawnCubicLineGenerator.INSTANCE, vertical);
+                line =
+                        new DrawnLineHolder(DrawnCubicLineGenerator.INSTANCE,
+                                vertical);
 
             Rectangle bounds = sep.getBounds();
             bounds.x = bounds.y = 0;
@@ -65,10 +69,11 @@ public class NapkinSeparatorUI extends BasicSeparatorUI {
     }
 
     public void update(Graphics g, JComponent c) {
-        g = NapkinUtil.defaultGraphics(g, c);
-        NapkinUtil.background(g, c);
+        NapkinUtil.update(g, c, this);
+    }
+
+    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         super.update(g, c);
-        NapkinUtil.finishGraphics(g, c);
     }
 }
 

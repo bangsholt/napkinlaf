@@ -7,7 +7,8 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
-public class NapkinMenuItemUI extends BasicMenuItemUI implements NapkinPainter {
+public class NapkinMenuItemUI extends BasicMenuItemUI
+        implements NapkinTextPainter, NapkinPainter {
 
     private DrawnLineHolder line;
 
@@ -39,13 +40,14 @@ public class NapkinMenuItemUI extends BasicMenuItemUI implements NapkinPainter {
     }
 
     public void update(Graphics g, JComponent c) {
-        g = NapkinUtil.defaultGraphics(g, c);
-        NapkinTheme theme = NapkinUtil.background(g, c);
+        NapkinUtil.update(g, c, this);
+    }
+
+    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         Color selColor = theme.getSelectionColor();
         if (NapkinUtil.replace(selectionForeground, selColor))
             selectionForeground = selColor;
         super.update(g, c);
-        NapkinUtil.finishGraphics(g, c);
     }
 }
 

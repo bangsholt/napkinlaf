@@ -10,12 +10,16 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import javax.swing.tree.*;
 
-public class NapkinTreeUI extends BasicTreeUI {
+public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
 
-    public class DefaultNapkinTreeCellRender extends DefaultTreeCellRenderer {
+    public class DefaultNapkinTreeCellRender extends DefaultTreeCellRenderer
+            implements NapkinPainter {
+
         public void paint(Graphics g) {
-            g = NapkinUtil.defaultGraphics(g, this);
-            NapkinTheme theme = NapkinUtil.currentTheme(this);
+            NapkinUtil.update(g, this, this);
+        }
+
+        public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
             setBackgroundNonSelectionColor(NapkinUtil.ifReplace(
                     getBackgroundSelectionColor(),
                     NapkinConstants.CLEAR));
@@ -28,9 +32,7 @@ public class NapkinTreeUI extends BasicTreeUI {
             setTextNonSelectionColor(NapkinUtil.ifReplace(
                     getBackgroundSelectionColor(),
                     theme.getPenColor()));
-            NapkinUtil.background(g, this);
             super.paint(g);
-            NapkinUtil.finishGraphics(g, this);
         }
     }
 
@@ -51,14 +53,12 @@ public class NapkinTreeUI extends BasicTreeUI {
     }
 
     public void update(Graphics g, JComponent c) {
-        g = NapkinUtil.defaultGraphics(g, c);
+        NapkinUtil.update(g, c, this);
+    }
 
-        NapkinTheme theme = NapkinUtil.currentTheme(c);
+    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         setHashColor(NapkinUtil.ifReplace(getHashColor(), theme.getPenColor()));
-
-        NapkinUtil.background(g, c);
-        super.update(g, c);
-        NapkinUtil.finishGraphics(g, c);
+        super.update(g, (JComponent) c);
     }
 
     protected void paintVerticalLine(Graphics g, JComponent c, int x, int top,

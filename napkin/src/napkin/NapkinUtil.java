@@ -803,7 +803,7 @@ public class NapkinUtil implements NapkinConstants {
     public static void
             paintText(Graphics g, JComponent c, Rectangle textRect,
             String text, int textOffset, DrawnLineHolder line,
-            boolean isDefault, NapkinPainter helper) {
+            boolean isDefault, NapkinTextPainter helper) {
 
         Graphics2D ulG;
         if (isDefault) {
@@ -910,5 +910,12 @@ public class NapkinUtil implements NapkinConstants {
         double len = Math.sqrt(xDelta * xDelta + yDelta * yDelta);
         mat.scale(len / LENGTH, 1);
         DrawnShapeGenerator.addLine(path, mat, lineGen);
+    }
+
+    public static void update(Graphics g, JComponent c, NapkinPainter painter) {
+        g = NapkinUtil.defaultGraphics(g, c);
+        NapkinTheme theme = NapkinUtil.background(g, c);
+        painter.superPaint(g, c, theme);
+        NapkinUtil.finishGraphics(g, c);
     }
 }
