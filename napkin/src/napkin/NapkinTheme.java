@@ -23,14 +23,28 @@ public class NapkinTheme {
     private final Font boldTextFont;
     private final Font fixedFont;
     private final NapkinBackground paper;
-    private final NapkinBackground popup;
     private final NapkinBackground erasure;
+    private final NapkinTheme popupTheme;
 
     public NapkinTheme(String name, String description, Color penColor,
             Color checkColor, Color radioColor, Color highlightColor,
             Font textFont, Font boldTextFont, Font fixedFont,
-            NapkinBackground paper, NapkinBackground popup,
-            NapkinBackground erasure) {
+            NapkinBackground paper, NapkinBackground erasure,
+            NapkinBackground popupPaper) {
+
+        this(name, description, penColor, checkColor, radioColor,
+                highlightColor, textFont, boldTextFont, fixedFont, paper,
+                erasure, new NapkinTheme(name + "Popup",
+                        description + " (popup)", penColor, checkColor,
+                        radioColor, highlightColor, textFont, boldTextFont,
+                        fixedFont, popupPaper, erasure, (NapkinTheme) null));
+    }
+
+    public NapkinTheme(String name, String description, Color penColor,
+            Color checkColor, Color radioColor, Color highlightColor,
+            Font textFont, Font boldTextFont, Font fixedFont,
+            NapkinBackground paper, NapkinBackground erasure,
+            NapkinTheme popupTheme) {
 
         this.name = name;
         this.description = description;
@@ -42,8 +56,8 @@ public class NapkinTheme {
         this.boldTextFont = uiResource(boldTextFont);
         this.fixedFont = uiResource(fixedFont);
         this.paper = paper;
-        this.popup = popup;
         this.erasure = erasure;
+        this.popupTheme = popupTheme;
     }
 
     private Color uiResource(Color color) {
@@ -100,12 +114,16 @@ public class NapkinTheme {
         return paper;
     }
 
-    public NapkinBackground getPopup() {
-        return popup;
-    }
-
     public NapkinBackground getErasureMask() {
         return erasure;
+    }
+
+    public NapkinTheme getPopupTheme() {
+        return popupTheme;
+    }
+
+    public String toString() {
+        return name;
     }
 
     public static class Manager {
@@ -137,9 +155,9 @@ public class NapkinTheme {
                     scrawlBold.deriveFont(Font.PLAIN, 15),
                     fixed.deriveFont(Font.PLAIN, 15),
                     new NapkinBackground("resources/napkin.jpg"),
+                    new NapkinBackground("resources/erasure.png"),
                     new NapkinBackground("resources/postit01.jpg",
-                            15, 15, 38, 32),
-                    new NapkinBackground("resources/erasure.png"));
+                            15, 15, 38, 32));
             addTheme(def);
 
             addTheme(new NapkinTheme("debug", "Debug theme", def.getPenColor(),
@@ -148,9 +166,8 @@ public class NapkinTheme {
                     def.getBoldTextFont(), def.getFixedFont(),
                     new NapkinBackground("resources/testPaper.jpg",
                             0, 0, 10, 10),
-                    new NapkinBackground("resources/testPostit.jpg",
-                            0, 0, 10, 10),
-                    def.getErasureMask()));
+                    def.getErasureMask(), new NapkinBackground(
+                            "resources/testPostit.jpg", 0, 0, 10, 10)));
 
             Color blueprintInk = new Color(0xe7edf2);
             Color blueprintHighlight = new Color(0x89b5ed);
@@ -159,7 +176,7 @@ public class NapkinTheme {
                     blueprint.deriveFont(Font.PLAIN, 13),
                     blueprint.deriveFont(Font.BOLD, 13), def.getFixedFont(),
                     new NapkinBackground("resources/blueprint-bg.gif"),
-                    def.getPopup(), def.getErasureMask()));
+                    def.getErasureMask(), def.getPopupTheme()));
 
             String themeName;
             try {

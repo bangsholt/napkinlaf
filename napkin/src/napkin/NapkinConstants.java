@@ -6,15 +6,15 @@ import javax.swing.*;
 public interface NapkinConstants extends SwingConstants {
     int LENGTH = 100;
 
-    String IS_PAPER_KEY = "napkin.isPaper";
-    String PAPER_KEY = "napkin.paper";
-    String PAPER_HOLDER_KEY = "napkin.paperHolder";
+    String IS_THEME_TOP_KEY = "napkin.isThemeTop";
+    String THEME_KEY = "napkin.theme";
+    String THEME_TOP_KEY = "napkin.themeTop";
     String BACKGROUND_KEY = "napkin.background";
     String DISABLED_MARK_KEY = "napkin.disabledMark";
     String BORDER_KEY = "napkin.border";
 
     String[] CLIENT_PROPERTIES = {
-        IS_PAPER_KEY, PAPER_KEY, PAPER_HOLDER_KEY, BACKGROUND_KEY,
+        IS_THEME_TOP_KEY, THEME_KEY, THEME_TOP_KEY, BACKGROUND_KEY,
         DISABLED_MARK_KEY, BORDER_KEY
     };
 
