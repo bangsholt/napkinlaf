@@ -494,7 +494,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "Menu.border", null,
             "PopupMenu.border", null,
             "ToolTip.border", null,
-            "InternalFrame.border", null,
             "DesktopIcon.border", null,
             "ToggleButton.border", selectBorder,
 
