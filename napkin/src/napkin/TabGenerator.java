@@ -1,4 +1,3 @@
-
 package napkin;
 
 import java.awt.*;
@@ -95,7 +94,7 @@ public class TabGenerator extends ShapeGenerator {
             break;
         }
 
-        double points[] = {xUL, yUL, xUR, yUR, xLR, yLR, xLL, yLL};
+        double[] points = {xUL, yUL, xUR, yUR, xLR, yLR, xLL, yLL};
         NapkinUtil.transform(matrix, points);
 
         int start = STARTS[side];

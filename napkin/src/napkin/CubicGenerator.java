@@ -16,9 +16,9 @@ public class CubicGenerator extends ShapeGenerator {
 
     public CubicGenerator() {
         leftX = new Value(10, 4);
-        leftY = new Value(-1.2, 1.5);
+        leftY = new Value(-0.7, 1.5);
         rightX = new Value(20, 8);
-        rightY = new Value(-1.8, 2);
+        rightY = new Value(-1.3, 2);
     }
 
     public Value getLeftX() {

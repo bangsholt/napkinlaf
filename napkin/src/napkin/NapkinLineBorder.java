@@ -1,19 +1,24 @@
-
 package napkin;
 
-import java.awt.*;
-import java.util.Map;
 import javax.swing.border.*;
-import javax.swing.plaf.*;
+import java.awt.*;
 
 public class NapkinLineBorder extends NapkinBorder {
-    private static final int BORDER = 3;
+    private final boolean vertical;
+    private LineHolder line;
 
-    static final Insets DEFAULT_INSETS =
-            new InsetsUIResource(BORDER, BORDER, BORDER, BORDER);
+    private static final Insets DEFAULT_VERT_INSETS =
+            new Insets(0, 0, 0, NapkinBoxBorder.DEFAULT_INSETS.right);
+    private static final Insets DEFAULT_HORIZ_INSETS =
+            new Insets(0, 0, NapkinBoxBorder.DEFAULT_INSETS.bottom, 0);
 
-    public NapkinLineBorder(Color color) {
-        super(new LineBorder(color));
+    public NapkinLineBorder(Border formalBorder, boolean vertical) {
+        super(formalBorder);
+        this.vertical = vertical;
+    }
+
+    protected Insets doGetBorderInsets(Component c) {
+        return (vertical ? DEFAULT_VERT_INSETS : DEFAULT_HORIZ_INSETS);
     }
 
     protected boolean doIsBorderOpaque() {
@@ -21,40 +26,26 @@ public class NapkinLineBorder extends NapkinBorder {
         throw new UnsupportedOperationException();
     }
 
-    //!! We should revisit this decision.  -arnold
-    /**
-     * We use our own hash map instead of using get/putClientProperty because
-     * those methods are only defined for JComponent, not component, and we're
-     * sort of suspicious that we ought to do this for non-Swing components.
-     */
-    private static final Map borders = new ShapeHolderMap(new ShapeHolder.Factory() {
-        public ShapeHolder create() {
-            return new BoxHolder();
-        }
-    });
-
     public void doPaintBorder(Component c, Graphics g1, int x, int y,
-            int width, int height) {
+                              int width, int height) {
 
         Graphics2D g = (Graphics2D) g1;
-        BoxHolder box = (BoxHolder) borders.get(c);
         Rectangle passed = new Rectangle(x, y, width, height);
-        box.shapeUpToDate(c, passed);
+        if (line == null)
+            line = new LineHolder(CubicGenerator.INSTANCE, vertical);
+        line.shapeUpToDate(passed, null);
 
         Rectangle clip = g.getClipBounds();
-        g.setClip(clip.x - BORDER, clip.y - BORDER, clip.width + 2 * BORDER,
-                clip.height + 2 * BORDER);
+        Insets insets = doGetBorderInsets(c);
+        g.setClip(clip.x - insets.left, clip.y - insets.top,
+                clip.width + insets.left + insets.right,
+                clip.height + insets.top + insets.bottom);
+        if (insets.bottom != 0)
+            y += c.getHeight() - insets.bottom;
+        else
+            x += c.getWidth() - insets.right;
         g.translate(x, y);
-        box.draw(g);
+        line.draw(g);
         g.translate(-x, -y);
-    }
-
-    public Insets doGetBorderInsets(Component c) {
-        return DEFAULT_INSETS;
-    }
-
-    public Insets getBorderInsets(Component c, Insets insets) {
-        insets.top = insets.left = insets.bottom = insets.right = BORDER;
-        return insets;
     }
 }

@@ -1,10 +1,9 @@
-
 package napkin;
 
-import java.awt.*;
 import javax.swing.border.*;
+import java.awt.*;
 
-class NapkinWrappedBorder extends NapkinBorder {
+public class NapkinWrappedBorder extends NapkinBorder {
     private final Border formal;
 
     public NapkinWrappedBorder(Border formal) {
@@ -21,7 +20,7 @@ class NapkinWrappedBorder extends NapkinBorder {
     }
 
     protected void doPaintBorder(Component c, Graphics g, int x, int y,
-            int width, int height) {
+                                 int width, int height) {
 
         NapkinUtil.defaultGraphics(g, c);
         formal.paintBorder(c, g, x, y, width, height);

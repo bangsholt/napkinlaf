@@ -2,13 +2,15 @@
 
 package napkin;
 
-import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
+import java.awt.*;
 
 public class NapkinRadioButtonUI extends BasicRadioButtonUI
-        implements NapkinConstants {
+        implements NapkinPainter, NapkinConstants {
+
+    private LineHolder line;
 
     private NapkinRadioButtonUI() {
     }
@@ -26,6 +28,18 @@ public class NapkinRadioButtonUI extends BasicRadioButtonUI
         NapkinUtil.uninstallUI(c);
         icon = null;
         super.uninstallUI(c);
+    }
+
+    protected void paintText(Graphics g, JComponent c, Rectangle textRect,
+                             String text) {
+
+        if (line == null)
+            line = new LineHolder(new CubicGenerator());
+        NapkinUtil.paintText(g, c, textRect, text, getTextShiftOffset(), line, false, this);
+    }
+
+    public void superPaintText(Graphics g, JComponent c, Rectangle textRect, String text) {
+        super.paintText(g, c, textRect, text);
     }
 
     public void paint(Graphics g, JComponent c) {

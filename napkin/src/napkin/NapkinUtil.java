@@ -2,10 +2,19 @@
 
 package napkin;
 
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.plaf.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -20,9 +29,6 @@ import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
 
 public class NapkinUtil implements NapkinConstants {
     private static final Set printed = new HashSet();
@@ -57,8 +63,7 @@ public class NapkinUtil implements NapkinConstants {
             ActionListener taskPerformer = new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
                     NapkinLookAndFeel laf = (NapkinLookAndFeel) UIManager.getLookAndFeel();
-                    laf.dumpFormality(
-                            ((JComponent) ev.getSource()).getTopLevelAncestor(),
+                    laf.dumpFormality(((JComponent) ev.getSource()).getTopLevelAncestor(),
                             System.out);
                 }
             };
@@ -90,7 +95,7 @@ public class NapkinUtil implements NapkinConstants {
         NapkinLookAndFeel nlaf = (NapkinLookAndFeel) UIManager.getLookAndFeel();
         ComponentUI ui;
         if (nlaf.isFormal(c))
-            ui = nlaf.getFormal().getDefaults().getUI(c);
+            ui = nlaf.getFormalLAF().getDefaults().getUI(c);
         else
             ui = napkinUI;
         if (logger.isLoggable(Level.FINER) && !printed.contains(c.getClass())) {
@@ -303,8 +308,7 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     static JButton createArrowButton(int pointTowards, int size) {
-        JButton button = new JButton(
-                NapkinIconFactory.createArrowIcon(pointTowards, size));
+        JButton button = new JButton(NapkinIconFactory.createArrowIcon(pointTowards, size));
         button.setBorderPainted(false);
         return button;
     }
@@ -322,11 +326,11 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static LineHolder paintLine(Graphics g, boolean vertical,
-            LineHolder holder, Rectangle bounds) {
+                                       LineHolder holder, Rectangle bounds) {
         if (holder == null)
             holder = new LineHolder(CubicGenerator.INSTANCE, vertical);
         holder.shapeUpToDate(bounds, null);
-        Graphics2D lineG = NapkinUtil.copy(g);
+        Graphics2D lineG = copy(g);
         lineG.setColor(Color.black);
         if (vertical)
             lineG.translate(bounds.x + bounds.width / 2, 0);
@@ -338,8 +342,7 @@ public class NapkinUtil implements NapkinConstants {
 
     static void dumpTo(String file, JComponent c) {
         try {
-            PrintWriter out = new PrintWriter(
-                    new BufferedWriter(new FileWriter(file)));
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file)));
             Set dumped = new HashSet();
             dumpTo(out, c, c.getClass(), 0, dumped);
             out.close();
@@ -350,7 +353,7 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     private static void dumpTo(PrintWriter out, Object obj, Class cl, int level,
-            Set dumped)
+                               Set dumped)
             throws IllegalAccessException {
         if (cl == null)
             return;
@@ -397,16 +400,18 @@ public class NapkinUtil implements NapkinConstants {
         NapkinBackground bg = lab.getNapkinBackground();
         boolean print = c.getClass() == JLabel.class;
         print = false;
-        Point start = getStart(c, print);
-        bg.paint(c, g, -start.x, -start.y, lp.getWidth(), lp.getHeight());
+        Insets insets = ((JComponent) c).getInsets();
+        Point start = getStart(c, insets, print);
+        int w = lp.getWidth() + insets.left + insets.right;
+        int h = lp.getHeight() + insets.top + insets.bottom;
+        bg.paint(c, g, -start.x, -start.y, w, h);
     }
 
-    private static Point getStart(Component c, boolean print) {
-        Point start = new Point(0, 0);
+    private static Point getStart(Component c, Insets insets, boolean print) {
+        Point start = new Point(-insets.left, -insets.top);
         while (c != null && !(c instanceof JRootPane)) {
             if (print)
-                System.out.println(
-                        "(" + c.getX() + ", " + c.getY() + "): " + descFor(c));
+                System.out.println("(" + c.getX() + ", " + c.getY() + "): " + descFor(c));
             start.x += c.getX();
             start.y += c.getY();
             if (print)
@@ -420,8 +425,7 @@ public class NapkinUtil implements NapkinConstants {
         PrintStream out = null;
         try {
             out =
-                    new PrintStream(new BufferedOutputStream(
-                            new FileOutputStream(fileName)));
+                    new PrintStream(new BufferedOutputStream(new FileOutputStream(fileName)));
             dumpObject(obj, out);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -469,8 +473,7 @@ public class NapkinUtil implements NapkinConstants {
                     continue;
                 Class type = field.getType();
                 out.print(sb);
-                out.print(
-                        field.getName() + " [" +
+                out.print(field.getName() + " [" +
                         field.getDeclaringClass().getName() +
                         "]: ");
                 Object val = field.get(obj);
@@ -529,5 +532,53 @@ public class NapkinUtil implements NapkinConstants {
         AccessibleObject.setAccessible(fields, true);
         fieldsForType.put(obj.getClass(), fields);
         return fields;
+    }
+
+    /**
+     * This is pretty ugly -- to make this a utility method, I need to be able
+     * to have some way to invoke the paint method of the button's superclass.
+     * To do that, I have to invent a method that will do that.
+     * <p/>
+     * In principle this code could be shared by inheritence, overriding
+     * paintText in BasicButtonUI, but there is no way I could change the actual
+     * behavior of that method so that (say) NapkinCheckBoxUI, which must
+     * inherit from BasicCheckBoxUI (and thus from BasicButtonUI) would change
+     * behavior.  So I need a utility method they share, and thus the hack.
+     * Sigh.
+     */
+    public static void
+            paintText(Graphics g, JComponent c, Rectangle textRect,
+                      String text, int textOffset, LineHolder line,
+                      boolean isDefault, NapkinPainter helper) {
+
+        boolean enabled = c.isEnabled();
+        Graphics2D ulG;
+        if (isDefault || !enabled) {
+            if (line == null)
+                line = new LineHolder(new CubicGenerator());
+            ulG = copy(g);
+            FontMetrics fm = ulG.getFontMetrics();
+            line.shapeUpToDate(textRect, fm);
+            int x = textOffset;
+            int y = textOffset;
+            ulG.translate(x, y);
+            if (enabled) {
+                ulG.setColor(NapkinIconFactory.CheckBoxIcon.MARK_COLOR);
+            } else {
+                ulG.setColor(NapkinIconFactory.RadioButtonIcon.MARK_COLOR);
+                ulG.translate(0, -fm.getAscent() * 0.34);
+            }
+            line.draw(ulG);
+        }
+
+        try {
+            // disabled buttons are drawn just like enabled ones but crossed out
+            if (!enabled)
+                c.setEnabled(true);
+            helper.superPaintText(g, c, textRect, text);
+        } finally {
+            if (!enabled)
+                c.setEnabled(false);
+        }
     }
 }

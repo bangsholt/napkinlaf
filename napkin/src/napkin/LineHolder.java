@@ -1,4 +1,3 @@
-
 package napkin;
 
 import java.awt.*;
@@ -13,29 +12,29 @@ class LineHolder extends ShapeHolder implements NapkinConstants {
         this(gen, false);
     }
 
-    public LineHolder(ShapeGenerator gen, boolean vertical) {
+    LineHolder(ShapeGenerator gen, boolean vertical) {
         super(gen);
         this.vertical = vertical;
     }
 
-    boolean shapeUpToDate(Rectangle rect, FontMetrics fm) {
+    boolean shapeUpToDate(Rectangle cRect, FontMetrics cMetrics) {
         boolean sameMetrics = false;
-        if ((metrics == null) == (fm == null))
+        if ((metrics == null) == (cMetrics == null))
             sameMetrics = true;
-        else if (metrics != null && metrics.equals(fm))
+        else if (metrics != null && metrics.equals(cMetrics))
             sameMetrics = true;
-        if (sameMetrics && this.rect != null && this.rect.equals(rect))
+        if (sameMetrics && rect != null && rect.equals(cRect))
             return false;
 
-        this.rect = (Rectangle) rect.clone();
-        metrics = fm;
+        rect = (Rectangle) cRect.clone();
+        metrics = cMetrics;
         if (vertical)
-            rect = new Rectangle(rect.x, rect.y, rect.height, rect.width);
+            cRect = new Rectangle(cRect.x, cRect.y, cRect.height, cRect.width);
 
-        double below = (fm == null ? 0 : Math.max(fm.getDescent() / 10.0, 2));
-        double y = (fm == null ? rect.y : rect.y + fm.getAscent() + below);
-        double begX = rect.getMinX() - below;
-        double endX = rect.getMaxX() + below;
+        double below = (cMetrics == null ? 0 : Math.max(cMetrics.getDescent() / 10.0, 2));
+        double y = (cMetrics == null ? cRect.y : cRect.y + cMetrics.getAscent() + below);
+        double begX = cRect.getMinX() - below;
+        double endX = cRect.getMaxX() + below;
 
         AffineTransform matrix = new AffineTransform();
         matrix.translate(begX, y);

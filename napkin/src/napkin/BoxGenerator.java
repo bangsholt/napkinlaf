@@ -23,7 +23,7 @@ public class BoxGenerator extends ShapeGenerator {
     private final ShapeGenerator[] gens;
     private final Map generators;
 
-    private static boolean DEBUG = false;
+    private static final boolean DEBUG = false;
 
     public static final String[] SIDE_NAMES = {
         null, "top", "left", "bottom", "right"
@@ -35,7 +35,7 @@ public class BoxGenerator extends ShapeGenerator {
         private final int s1;
         private final int s2;
 
-        public SideSize(double val, int s1, int s2) {
+        SideSize(double val, int s1, int s2) {
             super(val);
             this.s1 = s1;
             this.s2 = s2;
@@ -126,7 +126,7 @@ public class BoxGenerator extends ShapeGenerator {
     }
 
     private Shape addSide(GeneralPath shape, AffineTransform smat, int side,
-            double scale) {
+                          double scale) {
         if (side != breakSide)
             return addLine(shape, smat, gens[side]);
 
@@ -143,7 +143,7 @@ public class BoxGenerator extends ShapeGenerator {
     }
 
     private void addWithXBreak(AffineTransform smat, GeneralPath line,
-            double scale) {
+                               double scale) {
         // Need to transalate the absolute positions into positions on the line
         double xOff = smat.getTranslateX();
         double xSize = sizeX.get() - (begX.get() + adjustmentX);
@@ -161,7 +161,7 @@ public class BoxGenerator extends ShapeGenerator {
     // I wish I could figure out a way to share code here -- one of those
     // places where the C macro preprocessor would really help.
     private void addWithYBreak(AffineTransform smat, GeneralPath line,
-            double scale) {
+                               double scale) {
         // Need to transalate the absolute positions into positions on the line
         double yOff = smat.getTranslateY();
         double ySize = sizeY.get() - (endY.get() + adjustmentY);
@@ -192,7 +192,7 @@ public class BoxGenerator extends ShapeGenerator {
     }
 
     private void addSegment(GeneralPath side, AffineTransform smat, double xBeg,
-            double yBeg, double len) {
+                            double yBeg, double len) {
 
         if (DEBUG)
             NapkinUtil.printPair("addSeg (len " + len + ")", xBeg, yBeg);
@@ -239,7 +239,7 @@ public class BoxGenerator extends ShapeGenerator {
     }
 
     public void setBreak(int side, double begX, double begY, double endX,
-            double endY) {
+                         double endY) {
         breakSide = side;
         breakBeg.setLocation(begX, begY);
         breakEnd.setLocation(endX, endY);
