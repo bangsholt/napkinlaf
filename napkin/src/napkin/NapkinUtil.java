@@ -148,7 +148,7 @@ public class NapkinUtil implements NapkinConstants {
                 return;
             }
         }
-        // removing is OK even if nothing is there
+        // removing is OK even if nothing is there, no on exception thrown
     }
 
     static void removePaper(JLayeredPane lp) {
@@ -157,10 +157,6 @@ public class NapkinUtil implements NapkinConstants {
             lp.putClientProperty(PAPER_COMPONENT, null);
             lp.remove(cur);
         }
-    }
-
-    static void uninstallLayeredPane(JLayeredPane lp) {
-        removePaper(lp);
     }
 
     public static double leftRight(double x, boolean left) {

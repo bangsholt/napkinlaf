@@ -19,8 +19,6 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
     private final List minor;
     private int minorPos;
     private final Rectangle tickBounds;
-    private static final float MINOR_WIDTH = 0.5f;
-    private static final float MAJOR_WIDTH = 2.0f;
 
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinSliderUI((JSlider) c));
@@ -117,6 +115,5 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
         holder = NapkinUtil.paintLine(g, vertTicks, holder, tickBounds);
         ticks.set(pos, holder);
     }
-
 }
 
