@@ -8,6 +8,7 @@
 <h4>alpha-007, 19 June, 2004</h4>
 
 <ul>
+<li>Fixed bug that made disabled buttons peg the CPU (bug 964358).
 <li>Thicker button marker lines.
 <li>Can delete, etc. in text fields and areas (bug 968192).
 <li>Make highlight color like yellow highlighter.
