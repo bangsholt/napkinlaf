@@ -4,8 +4,6 @@ package napkin;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -14,9 +12,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.WeakHashMap;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.UIDefaults.*;
 import javax.swing.border.*;
@@ -32,21 +27,11 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     private LookAndFeel formalLAF;
     private final Map flags = new WeakHashMap();
 
-    private static boolean gotFonts;
-    private static Font scrawl;
-    private static Font scrawlBold;
-    private static Font fixed;
-
-    //!! Want to make this selectable
-//    private static final String SCRAWL_NAME = "nigmaScrawl5bBRK";
-    private static final String SCRAWL_NAME = "Felt Tip Roman";
-    private static final String SCRAWL_BOLD_NAME = "Felt Tip Roman-Bold";
-    private static final String FIXED_NAME = "ProFont";
-
     private final Visitor clearKidsVisitor = new Visitor() {
         public boolean visit(Component c, int depth) {
             FormalityFlags ff = flags(c);
-            System.out.println("clearKidsVisitor " + NapkinUtil.descFor(c) + ": " + ff);
+            System.out.println(
+                    "clearKidsVisitor " + NapkinUtil.descFor(c) + ": " + ff);
 
             if (depth == 0) {
                 System.out.println("    depth == 0, return true");
@@ -89,10 +74,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     };
 
     private static boolean JUST_NAPKIN = true;
-
-    private static final Class THIS_CLASS = NapkinLookAndFeel.class;
-    private static final Logger LOG =
-            LogManager.getLogManager().getLogger(THIS_CLASS.getName());
 
     private static final String[] UI_TYPES = {
         "ButtonUI",
@@ -276,7 +257,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     }
 
     private FormalityFlags inhieritedFormal(Container container) {
-        System.out.println("inheritedFormal(" + NapkinUtil.descFor(container) + ")");
+        System.out.println(
+                "inheritedFormal(" + NapkinUtil.descFor(container) + ")");
         if (container == null)
             return null;
         FormalityFlags ff = flags(container);
@@ -309,31 +291,29 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         super.initSystemColorDefaults(table);
         // make a copy so we can modify the table as we read the key set
         Set keys = new HashSet(table.keySet());
+        NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
         for (Iterator it = keys.iterator(); it.hasNext();) {
             String key = (String) it.next();
             if (key.endsWith("Text")) {
-                table.put(key, BLACK);
+                table.put(key, theme.textColor());
                 if (key.indexOf("Caption") < 0)
                     table.put(key.substring(0, key.length() - 4), CLEAR);
             }
         }
 
-        Color highlighter = new Color(0xff, 0xff, 0x00, 0xff / 2);
-        table.put("textHighlight", new ColorUIResource(highlighter));
+        table.put("textHighlight", theme.highlightColor());
     }
 
     protected void initComponentDefaults(UIDefaults table) {
         super.initComponentDefaults(table);
 
-        getFonts();
-        Integer size = new Integer(15);
-        Integer plain = new Integer(Font.PLAIN);
-        Integer bold = new Integer(Font.BOLD);
-        Object dialogPlain = fontValue(scrawl, SCRAWL_NAME, plain, size);
-        Object dialogBold = fontValue(scrawlBold, SCRAWL_BOLD_NAME, bold, size);
-        Object serifPlain = fontValue(scrawl, SCRAWL_NAME, plain, size);
-        Object sansSerifPlain = fontValue(scrawl, SCRAWL_NAME, plain, size);
-        Object monospacedPlain = fontValue(fixed, FIXED_NAME, plain, size);
+        NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
+
+        Object dialogPlain = theme.textFont();
+        Object dialogBold = theme.boldTextFont();
+        Object serifPlain = theme.textFont();
+        Object sansSerifPlain = theme.textFont();
+        Object monospacedPlain = theme.fixedFont();
 
         Object drawnBorder = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
@@ -361,7 +341,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                     } else if (name.equals("MonoSpaced.plain")) {
                         entry.setValue(monospacedPlain);
                     } else {
-                        System.err.println("unknown font; " + name + " for " + key);
+                        System.err.println(
+                                "unknown font; " + name + " for " + key);
                     }
                 }
             } else if ((res = propVal(key, "border", val, table)) != null) {
@@ -554,46 +535,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             val = ((ActiveValue) val).createValue(table);
         }
         return val;
-    }
-
-    private static synchronized void getFonts() {
-        if (gotFonts)
-            return;
-        //!! Make this selectable
-//        scrawl = tryToLoadFont("aescr5b.ttf");
-        scrawl = tryToLoadFont("FeltTipRoman.ttf");
-        scrawlBold = tryToLoadFont("FeltTipRoman-Bold.ttf");
-        fixed = tryToLoadFont("Mcgf____.ttf");
-        gotFonts = true;
-    }
-
-    private static Font tryToLoadFont(String fontName) {
-        try {
-            ClassLoader cl = NapkinLookAndFeel.class.getClassLoader();
-            String fontRes = "napkin/resources/" + fontName;
-            InputStream fontDef = cl.getResourceAsStream(fontRes);
-            if (fontDef == null)
-                System.err.println("Could not find font " + fontName);
-            else
-                return Font.createFont(Font.TRUETYPE_FONT, fontDef);
-        } catch (FontFormatException e) {
-            LOG.log(Level.WARNING, "getting font " + fontName, e);
-        } catch (IOException e) {
-            LOG.log(Level.WARNING, "getting font " + fontName, e);
-        }
-        return null;
-    }
-
-    private static Object
-            fontValue(Font font, String name, Integer style, Number size) {
-
-        if (font != null) {
-            Font derived = font.deriveFont(style.intValue(), size.floatValue());
-            return new FontUIResource(derived);
-        }
-        String resName = FontUIResource.class.getName();
-        Object[] args = new Object[]{name, style, size};
-        return new ProxyLazyValue(resName, null, args);
     }
 
     public void setIsFormal(Component c, boolean isFormal) {

@@ -23,10 +23,9 @@ public class NapkinQuickTest implements SwingConstants {
      */
     public static void main(String[] args) throws Exception {
         LookAndFeel laf;
-        if (args[0].equals("none")) {
-            laf = null;
-        } else if (args.length == 1) {
-            UIManager.setLookAndFeel(args[0]);
+        if (args.length == 1) {
+            if (!args[0].equals("none"))
+                UIManager.setLookAndFeel(args[0]);
             laf = null;
         } else {
             laf = new NapkinLookAndFeel();

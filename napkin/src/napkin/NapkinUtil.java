@@ -57,7 +57,8 @@ public class NapkinUtil implements NapkinConstants {
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
 
     static {
-        ImageIcon icon = NapkinBackground.ERASURE.getIcon();
+        NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
+        ImageIcon icon = theme.erasureMask().getIcon();
         int w = icon.getIconWidth();
         int h = icon.getIconHeight();
         textureImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
@@ -77,7 +78,8 @@ public class NapkinUtil implements NapkinConstants {
         public final int offY;
         public final Graphics2D graphics;
 
-        public DisabledMark(Graphics2D graphics, BufferedImage image, int offX, int offY) {
+        public DisabledMark(Graphics2D graphics, BufferedImage image, int offX,
+                int offY) {
             this.graphics = copy(graphics);
             this.image = image;
             this.offX = offX;
@@ -95,7 +97,8 @@ public class NapkinUtil implements NapkinConstants {
             ActionListener taskPerformer = new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
                     NapkinLookAndFeel laf = (NapkinLookAndFeel) UIManager.getLookAndFeel();
-                    laf.dumpFormality(((JComponent) ev.getSource()).getTopLevelAncestor(),
+                    laf.dumpFormality(
+                            ((JComponent) ev.getSource()).getTopLevelAncestor(),
                             System.out);
                 }
             };
@@ -309,7 +312,8 @@ public class NapkinUtil implements NapkinConstants {
             return;
 
         JComponent jc = (JComponent) c;
-        DisabledMark mark = (DisabledMark) jc.getClientProperty(DISABLED_MARK_KEY);
+        DisabledMark mark = (DisabledMark) jc.getClientProperty(
+                DISABLED_MARK_KEY);
         if (mark == null) {
             disabled.remove(c);
             return;
@@ -382,10 +386,12 @@ public class NapkinUtil implements NapkinConstants {
     public static DrawnLineHolder paintLine(Graphics g, boolean vertical,
             DrawnLineHolder holder, Rectangle bounds) {
         if (holder == null)
-            holder = new DrawnLineHolder(DrawnCubicLineGenerator.INSTANCE, vertical);
+            holder =
+                    new DrawnLineHolder(DrawnCubicLineGenerator.INSTANCE,
+                            vertical);
         holder.shapeUpToDate(bounds, null);
         Graphics2D lineG = copy(g);
-        lineG.setColor(Color.black);
+        lineG.setColor(NapkinTheme.Manager.getCurrentTheme().drawColor());
         if (vertical)
             lineG.translate(bounds.x + bounds.width / 2, 0);
         else
@@ -396,7 +402,8 @@ public class NapkinUtil implements NapkinConstants {
 
     static void dumpTo(String file, JComponent c) {
         try {
-            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+            PrintWriter out = new PrintWriter(
+                    new BufferedWriter(new FileWriter(file)));
             Set dumped = new HashSet();
             dumpTo(out, c, c.getClass(), 0, dumped);
             out.close();
@@ -508,7 +515,7 @@ public class NapkinUtil implements NapkinConstants {
             // and have no UI classes.  So this is what you get for any regular
             // top-level window we haven't overridden.  I wonder why JFrame and
             // friends are like this.
-            setupPaper(jc, NapkinBackground.NAPKIN_BG);
+            setupPaper(jc, NapkinTheme.Manager.getCurrentTheme().paper());
             return jc;
         }
         jc.putClientProperty(PAPER_KEY, paper);
@@ -521,7 +528,8 @@ public class NapkinUtil implements NapkinConstants {
             start.setLocation(-insets.left, -insets.top);
         while (c != null && !isPaper(c)) {
             if (print)
-                System.out.println("(" + c.getX() + ", " + c.getY() + "): " + descFor(c));
+                System.out.println(
+                        "(" + c.getX() + ", " + c.getY() + "): " + descFor(c));
             start.x += c.getX();
             start.y += c.getY();
             if (print)
@@ -541,7 +549,9 @@ public class NapkinUtil implements NapkinConstants {
         PrintStream out = null;
         try {
             out =
-                    new PrintStream(new BufferedOutputStream(new FileOutputStream(fileName)));
+                    new PrintStream(
+                            new BufferedOutputStream(
+                                    new FileOutputStream(fileName)));
             dumpObject(obj, out);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

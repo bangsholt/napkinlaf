@@ -9,7 +9,8 @@ public class NapkinIconFactory implements NapkinConstants {
 
         protected static final int SIZE = 13;
         protected static final int MID_INSET = 3;
-        public static final Color MARK_COLOR = Color.green.darker();
+        public static final Color MARK_COLOR =
+                NapkinTheme.Manager.getCurrentTheme().checkColor();
         private static DrawnCheckGenerator checkGen;
 
         CheckBoxIcon() {
@@ -67,7 +68,8 @@ public class NapkinIconFactory implements NapkinConstants {
         private static final AffineTransform SCALE_MAT =
                 NapkinUtil.scaleMat(SCALE);
         private static DrawnCircleGenerator placeGen;
-        public static final Color MARK_COLOR = new Color(0xF50000);
+        public static final Color MARK_COLOR =
+                NapkinTheme.Manager.getCurrentTheme().radioColor();
 
         RadioButtonIcon() {
             super(MARK_COLOR, SCALE_MAT);
@@ -132,7 +134,8 @@ public class NapkinIconFactory implements NapkinConstants {
          * @param pointTowards One of NORTH, EAST, WEST, or SOUTH.
          */
         ArrowIcon(int pointTowards, int size) {
-            super(Color.black, NapkinUtil.scaleMat(size));
+            super(NapkinTheme.Manager.getCurrentTheme().drawColor(),
+                    NapkinUtil.scaleMat(size));
             genNum = pointTowards / 2;
             this.size = size;
             init();

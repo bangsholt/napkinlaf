@@ -2,8 +2,6 @@ package napkin;
 
 import java.awt.*;
 import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import javax.swing.*;
 
 public class NapkinBackground {
@@ -16,40 +14,6 @@ public class NapkinBackground {
     private final Icon blCorner, bSide, brCorner;
 
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
-
-    private static final boolean DEBUG;
-
-    static {
-        Boolean dbg;
-        try {
-            dbg = (Boolean)
-                    AccessController.doPrivileged(new PrivilegedAction() {
-                        public Object run() {
-                            String prop = "napkin.NapkinBackground.debug";
-                            return Boolean.valueOf(Boolean.getBoolean(prop));
-                        }
-                    });
-        } catch (SecurityException e) {
-            dbg = Boolean.FALSE;
-        }
-
-        DEBUG = dbg.booleanValue();
-    }
-
-    public static final NapkinBackground NAPKIN_BG = (DEBUG ?
-            new NapkinBackground("resources/testPaper.jpg", 0, 0, 10, 10) :
-            new NapkinBackground("resources/napkin.jpg"));
-
-    public static final NapkinBackground ERASURE =
-            new NapkinBackground("resources/erasure.png");
-
-    public static final NapkinBackground[] POSTITS = {
-        new NapkinBackground("resources/postit01.jpg", 15, 15, 38, 32),
-        new NapkinBackground("resources/postit00.jpg", 38, 20, 100, 83),
-    };
-    public static final NapkinBackground POSTIT_BG = (DEBUG ?
-            new NapkinBackground("resources/testPostit.jpg", 0, 0, 10, 10) :
-            POSTITS[0]);
 
     public NapkinBackground(String name) {
         this(name, null);
@@ -97,7 +61,8 @@ public class NapkinBackground {
         return "NapkinBackground(\"" + name + "\")";
     }
 
-    public void paint(Component c, Graphics g, Rectangle paper, Rectangle comp, Insets cInsets) {
+    public void paint(Component c, Graphics g, Rectangle paper, Rectangle comp,
+            Insets cInsets) {
         int topH = tlCorner.getIconHeight();
         int topY = 0;
 
@@ -107,9 +72,12 @@ public class NapkinBackground {
         int midH = paper.height - (topH + botH);
         int midY = topH;
 
-        paintSliceAcross(c, g, paper, comp, cInsets, topY, topH, tlCorner, tSide, trCorner);
-        paintSliceAcross(c, g, paper, comp, cInsets, midY, midH, lSide, middle, rSide);
-        paintSliceAcross(c, g, paper, comp, cInsets, botY, botH, blCorner, bSide, brCorner);
+        paintSliceAcross(c, g, paper, comp, cInsets, topY, topH, tlCorner,
+                tSide, trCorner);
+        paintSliceAcross(c, g, paper, comp, cInsets, midY, midH, lSide, middle,
+                rSide);
+        paintSliceAcross(c, g, paper, comp, cInsets, botY, botH, blCorner,
+                bSide, brCorner);
     }
 
     private static void paintSliceAcross(Component c, Graphics g,
@@ -151,7 +119,8 @@ public class NapkinBackground {
         // translated to the origin of the component, with insets outside
         atX -= comp.x + cInsets.left;
         atY -= comp.y + cInsets.top;
-        Rectangle cZeroed = new Rectangle(-cInsets.left, -cInsets.top, comp.width, comp.height);
+        Rectangle cZeroed = new Rectangle(-cInsets.left, -cInsets.top,
+                comp.width, comp.height);
 
         int endX = atX + w;
         int endY = atY + h;

@@ -29,7 +29,7 @@ public class NapkinProgressBarUI extends BasicProgressBarUI {
     }
 
     public void paint(Graphics g, JComponent c) {
-        c.setForeground(Color.black);
+        c.setForeground(NapkinTheme.Manager.getCurrentTheme().drawColor());
         super.paint(g, c);
     }
 
