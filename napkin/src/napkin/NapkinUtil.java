@@ -5,6 +5,8 @@ package napkin;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.io.*;
+import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
@@ -279,6 +281,41 @@ public class NapkinUtil implements NapkinConstants {
             lineG.translate(0, bounds.y + bounds.height / 2);
         holder.draw(lineG);
         return holder;
+    }
+
+    static void dumpTo(String file, JComponent c) {
+        try {
+            PrintWriter out = new PrintWriter(
+                    new BufferedWriter(new FileWriter(file)));
+            Set dumped = new HashSet();
+            dumpTo(out, c, c.getClass(), 0, dumped);
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+    }
+
+    private static void dumpTo(PrintWriter out, Object obj, Class cl, int level,
+            Set dumped)
+            throws IllegalAccessException {
+        if (cl == null)
+            return;
+        dumpTo(out, obj, cl.getSuperclass(), level, dumped);
+        Field[] fields = cl.getDeclaredFields();
+        for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
+            field.setAccessible(true);
+            Object val = field.get(obj);
+            for (int l = 0; l < level; l++)
+                out.print("    ");
+            out.println(field.getName() + ": " + val);
+            if (val != null && !dumped.contains(obj) &&
+                    !field.getType().isPrimitive()) {
+                dumpTo(out, val, val.getClass(), level + 1, dumped);
+                dumped.add(obj);
+            }
+        }
     }
 }
 
