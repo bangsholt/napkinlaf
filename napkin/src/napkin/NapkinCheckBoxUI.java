@@ -22,6 +22,7 @@ public class NapkinCheckBoxUI extends BasicCheckBoxUI
 
     public void uninstallUI(JComponent c) {
         super.uninstallUI(c);
+        NapkinUtil.uninstallUI(c);
     }
 
     public void paint(Graphics g, JComponent c) {

@@ -72,8 +72,12 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static boolean isFormal(Component c) {
-        NapkinLookAndFeel nlaf = (NapkinLookAndFeel) UIManager.getLookAndFeel();
-        return nlaf.isFormal(c);
+        LookAndFeel laf = UIManager.getLookAndFeel();
+        if (laf instanceof NapkinLookAndFeel) {
+            NapkinLookAndFeel nlaf = (NapkinLookAndFeel) laf;
+            return nlaf.isFormal(c);
+        }
+        return true;
     }
 
     static ComponentUI uiFor(JComponent c, ComponentUI napkinUI) {
@@ -145,6 +149,10 @@ public class NapkinUtil implements NapkinConstants {
     public static void installUI(JComponent c) {
         c.setOpaque(false);
         c.setBackground(CLEAR);
+    }
+
+    public static void uninstallUI(JComponent c) {
+        unsetupBorder(c);
     }
 
     static void setBackground(Component child, NapkinBackground bg) {
@@ -237,7 +245,15 @@ public class NapkinUtil implements NapkinConstants {
             JComponent jc = (JComponent) c;
             Border b = jc.getBorder();
             if (b != null && !(b instanceof NapkinBorder))
-                jc.setBorder(NapkinBorderFactory.wrappedBorder(b));
+                jc.setBorder(new NapkinWrappedBorder(b));
+        }
+    }
+
+    private static void unsetupBorder(JComponent c) {
+        Border b = c.getBorder();
+        if (b instanceof NapkinWrappedBorder) {
+            NapkinWrappedBorder nb = (NapkinWrappedBorder) b;
+            c.setBorder(nb.getFormalBorder());
         }
     }
 

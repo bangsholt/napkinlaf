@@ -35,6 +35,11 @@ public class NapkinFileChooserUI extends MetalFileChooserUI {
         super.installUI(c);
     }
 
+    public void uninstallUI(JComponent c) {
+        super.uninstallUI(c);
+        NapkinUtil.uninstallUI(c);
+    }
+
     public void installComponents(JFileChooser fc) {
         super.installComponents(fc);
         Component[] comps = fc.getComponents();

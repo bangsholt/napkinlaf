@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.WeakHashMap;
 import javax.swing.*;
 import javax.swing.UIDefaults.*;
+import javax.swing.border.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
@@ -278,52 +279,91 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         Object sansSerifPlain = fontValue(scrawl, SCRAWL_NAME, plain, size);
         Object monospacedPlain = fontValue(fixed, FIXED_NAME, plain, size);
 
+        Object drawnBorder =
+                new ProxyLazyValue("napkin.NapkinBorders", "getDrawnBorder");
+
         for (Iterator it = table.entrySet().iterator(); it.hasNext();) {
             Entry entry = (Entry) it.next();
             String key = (String) entry.getKey();
-            if (!key.endsWith(".font") && !key.endsWith("Font"))
-                continue;
             Object val = entry.getValue();
-            if (val instanceof ProxyLazyValue) {
-                ProxyLazyValue lazyValue = (ProxyLazyValue) val;
-                val = lazyValue.createValue(table);
-            }
-            if (val instanceof FontUIResource) {
-                FontUIResource resource = (FontUIResource) val;
-                String name = resource.getFontName();
-                if (name.equals("Dialog.plain")) {
-                    entry.setValue(dialogPlain);
-                } else if (name.equals("Dialog.bold")) {
-                    entry.setValue(dialogBold);
-                } else if (name.equals("Serif.plain")) {
-                    entry.setValue(serifPlain);
-                } else if (name.equals("SansSerif.plain")) {
-                    entry.setValue(sansSerifPlain);
-                } else if (name.equals("MonoSpaced.plain")) {
-                    entry.setValue(monospacedPlain);
-                } else {
-                    System.err.println("unknown font; " + name + " for " + key);
+            Object res;
+            if ((res = propVal(key, "font", val, table)) != null) {
+                if (res instanceof FontUIResource) {
+                    FontUIResource resource = (FontUIResource) res;
+                    String name = resource.getFontName();
+                    if (name.equals("Dialog.plain")) {
+                        entry.setValue(dialogPlain);
+                    } else if (name.equals("Dialog.bold")) {
+                        entry.setValue(dialogBold);
+                    } else if (name.equals("Serif.plain")) {
+                        entry.setValue(serifPlain);
+                    } else if (name.equals("SansSerif.plain")) {
+                        entry.setValue(sansSerifPlain);
+                    } else if (name.equals("MonoSpaced.plain")) {
+                        entry.setValue(monospacedPlain);
+                    } else {
+                        System.err.println(
+                                "unknown font; " + name + " for " + key);
+                    }
+                }
+            } else if ((res = propVal(key, "border", val, table)) != null) {
+                if (res instanceof BorderUIResource || res instanceof Border) {
+                    System.out.println("replacing " + key);
+                    entry.setValue(drawnBorder);
+// we null some out later
                 }
             }
         }
 
-        Object buttonBorder =
-                new ProxyLazyValue("napkin.NapkinBorders", "getButtonBorder");
-
         Integer zero = new Integer(0);
 
         Object[] napkinDefaults = {
-            "Button.border", buttonBorder,
-            "RadioButton.border", buttonBorder,
             "RadioButton.textIconGap", zero,
-            "CheckBox.border", buttonBorder,
+
             "CheckBox.textIconGap", zero,
+
+            //"RadioButtonMenuItem.checkIcon", radioButtonMenuItemIcon,
+            //"RadioButtonMenuItem.arrowIcon", menuItemArrowIcon,
+
+            //"CheckBoxMenuItem.checkIcon", checkBoxMenuItemIcon,
+            //"CheckBoxMenuItem.arrowIcon", menuItemArrowIcon,
+
+            "OptionPane.messageAreaBorder", null,
+
             "TabbedPane.contentBorderInsets", DrawnBorder.DEFAULT_INSETS,
-            "ProgressBar.border", buttonBorder,
+
+            "SplitPaneDivider.border", null,
             "SplitPane.dividerSize", new Integer(NapkinSplitPaneDivider.SIZE),
         };
 
         table.putDefaults(napkinDefaults);
+    }
+
+    private Object
+            propVal(String key, String prop, Object val, UIDefaults table) {
+
+        int keyLen = key.length();
+        int propLen = prop.length();
+        int prePos = keyLen - propLen - 1;
+        if (prePos <= 0)
+            return null;
+
+        boolean match = false;
+        if (key.endsWith(prop) && key.charAt(prePos) == '.')
+            match = true;
+        else if (key.endsWith(prop.substring(1)) &&
+                key.charAt(prePos + 1) ==
+                Character.toUpperCase(prop.charAt(0)))
+            match = true;
+
+        if (!match)
+            return null;
+
+        if (val instanceof ProxyLazyValue) {
+            ProxyLazyValue lazyValue = (ProxyLazyValue) val;
+            val = lazyValue.createValue(table);
+        }
+        return val;
     }
 
     private static synchronized void getFonts() {

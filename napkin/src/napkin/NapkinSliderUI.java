@@ -41,6 +41,11 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
         super.installUI(c);
     }
 
+    public void uninstallUI(JComponent c) {
+        super.uninstallUI(c);
+        NapkinUtil.uninstallUI(c);
+    }
+
     public void paint(Graphics g, JComponent c) {
         NapkinUtil.defaultGraphics(g, c);
         majorPos = minorPos = 0;

@@ -26,6 +26,7 @@ public class NapkinRadioButtonUI extends BasicRadioButtonUI
     public void uninstallUI(JComponent c) {
         icon = null;
         super.uninstallUI(c);
+        NapkinUtil.uninstallUI(c);
     }
 
     public void paint(Graphics g, JComponent c) {
