@@ -6,9 +6,18 @@ import napkin.ComponentWalker.Visitor;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.*;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.WeakHashMap;
 import javax.swing.*;
 import javax.swing.UIDefaults.*;
 import javax.swing.plaf.*;
@@ -66,6 +75,9 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
     };
 
     private static final boolean JUST_NAPKIN = true;
+
+    private static final String BASE_FONT = "aescr5b.ttf";
+    private static final String FIXED_FONT = "Mcgf____.ttf";
 
     class DumpVisitor implements Visitor {
         private final PrintStream out;
@@ -237,14 +249,18 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
     protected void initComponentDefaults(UIDefaults table) {
         super.initComponentDefaults(table);
 
-        Integer twelve = new Integer(12);
-        Integer plain = new Integer(Font.PLAIN);
-        Integer bold = new Integer(Font.BOLD);
-        Object dialogPlain = fontValue("nigmaScrawl5bBRK", plain, twelve);
-        Object dialogBold = fontValue("nigmaScrawl5bBRK", bold, twelve);
-        Object serifPlain = fontValue("nigmaScrawl5bBRK", plain, twelve);
-        Object sansSerifPlain = fontValue("nigmaScrawl5bBRK", plain, twelve);
-        Object monospacedPlain = fontValue("ProFont", plain, twelve);
+        Font writtenBase = createFont(BASE_FONT);
+        Font writtenPlain = writtenBase.deriveFont(Font.PLAIN, 12);
+        Font writtenBold = writtenBase.deriveFont(Font.BOLD, 12);
+
+        Font fixedBase = createFont(FIXED_FONT);
+        Font fixedPlain = fixedBase.deriveFont(Font.PLAIN, 13);
+
+        Object dialogPlain = writtenPlain;
+        Object dialogBold = writtenBold;
+        Object serifPlain = writtenPlain;
+        Object sansSerifPlain = writtenPlain;
+        Object monospacedPlain = fixedPlain;
 
         for (Iterator it = table.entrySet().iterator(); it.hasNext();) {
             Entry entry = (Entry) it.next();
@@ -291,12 +307,31 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         table.putDefaults(napkinDefaults);
     }
 
-    private static ProxyLazyValue
-            fontValue(String font, Integer fontPlain, Integer twelve) {
+    private Font createFont(String fontName) {
+        InputStream in = null;
+        try {
+            InputStream fin = getResourceAsStream("resources/" + fontName);
+            in = new BufferedInputStream(fin);
+            return Font.createFont(0, in);
+        } catch (RuntimeException e) {
+            throw e;
+        } catch (Exception e) {
+            RuntimeException re = new IllegalStateException("font problem");
+            throw (RuntimeException) re.initCause(e);
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    ;   // we tried
+                }
+            }
+        }
+    }
 
-        String resName = "javax.swing.plaf.FontUIResource";
-        Object[] args = new Object[]{font, fontPlain, twelve};
-        return new ProxyLazyValue(resName, null, args);
+    private InputStream getResourceAsStream(String path) {
+        String fullPath = getClass().getPackage().getName() + "/" + path;
+        return getClass().getClassLoader().getResourceAsStream(fullPath);
     }
 
     public void setIsFormal(Component c, boolean isFormal) {
