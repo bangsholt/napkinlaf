@@ -175,7 +175,7 @@ public class NapkinTheme {
                     blueprintInk, blueprintInk, blueprintHighlight,
                     blueprint.deriveFont(Font.PLAIN, 13),
                     blueprint.deriveFont(Font.BOLD, 13), def.getFixedFont(),
-                    new NapkinBackground("resources/blueprint-bg.gif"),
+                    new NapkinBackground("resources/blueprint-bg.jpg"),
                     def.getErasureMask(), def.getPopupTheme()));
 
             String themeName;
