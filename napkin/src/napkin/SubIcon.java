@@ -5,14 +5,12 @@ import java.awt.*;
 import javax.swing.*;
 
 public class SubIcon implements Icon {
-    private final Component c;
     private final Icon icon;
     private final int x, y;
     private final int width, height;
     private Icon subIcon;
 
-    public SubIcon(Component c, Icon icon, int x, int y, int width, int height) {
-        this.c = c;
+    public SubIcon(Icon icon, int x, int y, int width, int height) {
         this.icon = icon;
         this.x = x;
         this.y = y;

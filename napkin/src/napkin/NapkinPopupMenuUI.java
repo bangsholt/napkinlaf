@@ -18,6 +18,8 @@ public class NapkinPopupMenuUI extends BasicPopupMenuUI
         super.installUI(c);
         NapkinUtil.installUI(c);
         c.putClientProperty(PENDING_BG_COMPONENT, NapkinBackground.POSTIT_BG);
+        JPopupMenu m = (JPopupMenu) c;
+        m.addFocusListener(new NapkinUtil.DumpListener());
     }
 
     public void uninstallUI(JComponent c) {
