@@ -16,7 +16,6 @@ import java.util.Set;
 import java.util.WeakHashMap;
 import javax.swing.*;
 import javax.swing.UIDefaults.*;
-import javax.swing.border.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
@@ -249,7 +248,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         }
         Set keys = new HashSet(table.keySet());
         keys.removeAll(Arrays.asList(NapkinGenerated.UI_TYPES));
-        System.out.println("keys we didn't overwrite: " + keys);
+        if (keys.size() != 0)
+            System.out.println("keys we didn't overwrite: " + keys);
     }
 
     protected void initSystemColorDefaults(UIDefaults table) {
@@ -307,10 +307,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                     }
                 }
             } else if ((res = propVal(key, "border", val, table)) != null) {
-                if (res instanceof BorderUIResource || res instanceof Border) {
-                    System.out.println("replacing " + key);
+                if (res instanceof BorderUIResource)
                     entry.setValue(drawnBorder); // we null some out later
-                }
             }
         }
 
@@ -338,6 +336,9 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "OptionPane.messageAreaBorder", null,
 
             "TabbedPane.contentBorderInsets", DrawnBorder.DEFAULT_INSETS,
+
+            "Menu.border", null,
+            "ToolTip.border", null,
 
             "SplitPaneDivider.border", null,
             "SplitPane.dividerSize", new Integer(NapkinSplitPaneDivider.SIZE),
