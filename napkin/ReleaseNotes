@@ -8,6 +8,7 @@
 <h4>alpha-004, ???</h4>
 
 <dl>
+<dt> Progress bar gets scribbled in.
 <dt> File chooser (borrowed entirely from <tt>MetalFileChooserUI</tt>, as the
      <tt>BasicFileChooserUI</tt> class seems entirely inadaquate).
 <dt> Text areas are a normal size.

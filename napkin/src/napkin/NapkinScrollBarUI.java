@@ -53,19 +53,6 @@ public class NapkinScrollBarUI extends BasicScrollBarUI {
         thumb.draw(lineG);
     }
 
-    protected TrackListener createTrackListener() {
-        return new TrackListener() {
-            /**
-             * Invoked when the mouse has been clicked on a component.
-             */
-            public void mouseClicked(MouseEvent e) {
-                System.out.println(
-                        "clicked: " + System.identityHashCode(scrollbar));
-                super.mouseClicked(e);
-            }
-        };
-    }
-
     public void update(Graphics g, JComponent c) {
         NapkinUtil.background(g, c);
         super.update(g, c);
