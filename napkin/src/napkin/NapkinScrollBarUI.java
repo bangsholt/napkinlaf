@@ -50,7 +50,7 @@ public class NapkinScrollBarUI extends BasicScrollBarUI {
     protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
         if (thumb == null)
             thumb = new BoxHolder();
-        thumb.shapeUpToDate(null, thumbBounds);
+        thumb.shapeUpToDate(thumbBounds);
         Graphics2D lineG = NapkinUtil.copy(g);
         lineG.setColor(Color.black);
         lineG.translate(thumbBounds.x, thumbBounds.y);

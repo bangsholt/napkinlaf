@@ -11,12 +11,12 @@ public class CheckGenerator extends ShapeGenerator {
     private final QuadGenerator leftLineGen;
     private final QuadGenerator rightLineGen;
 
-    private Value midXScale;
-    private Value midYScale;
-    private Value leftXScale;
-    private Value leftYScale;
-    private Value rightXScale;
-    private Value rightYScale;
+    private final Value midXScale;
+    private final Value midYScale;
+    private final Value leftXScale;
+    private final Value leftYScale;
+    private final Value rightXScale;
+    private final Value rightYScale;
 
     public static final CheckGenerator INSTANCE = new CheckGenerator();
 
@@ -73,7 +73,7 @@ public class CheckGenerator extends ShapeGenerator {
         return check;
     }
 
-    private void drawStroke(GeneralPath check, AffineTransform matrix,
+    private static void drawStroke(GeneralPath check, AffineTransform matrix,
             double mx, double my, double ex, double ey,
             double rot, ShapeGenerator lineGen) {
 

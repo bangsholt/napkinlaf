@@ -2,10 +2,10 @@
 
 package napkin;
 
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
-import java.awt.*;
 
 public class NapkinProgressBarUI extends BasicProgressBarUI {
     private final ScribbleHolder scribble = new ScribbleHolder();
@@ -50,7 +50,7 @@ public class NapkinProgressBarUI extends BasicProgressBarUI {
             box = new BoxHolder();
             box.width = 2;
         }
-        box.shapeUpToDate(null, boxRect);
+        box.shapeUpToDate(boxRect);
         Graphics2D lineG = NapkinUtil.copy(g);
         lineG.setColor(NapkinIconFactory.CheckBoxIcon.MARK_COLOR);
         lineG.translate(boxRect.x, boxRect.y);

@@ -38,7 +38,7 @@ public class NapkinBoxBorder extends NapkinBorder {
         Graphics2D g = (Graphics2D) g1;
         BoxHolder box = (BoxHolder) borders.get(c);
         Rectangle passed = new Rectangle(x, y, width, height);
-        box.shapeUpToDate(c, passed);
+        box.shapeUpToDate(passed);
 
         Rectangle clip = g.getClipBounds();
         g.setClip(clip.x - BORDER, clip.y - BORDER, clip.width + 2 * BORDER,

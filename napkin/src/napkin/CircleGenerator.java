@@ -1,16 +1,21 @@
-
 package napkin;
 
 import java.awt.*;
 import java.awt.geom.*;
 
 public class CircleGenerator extends ShapeGenerator implements NapkinConstants {
-    private Value startX, startY;
-    private Value endX, endY;
-    private Value tlX, tlY;
-    private Value trX, trY;
-    private Value brX, brY;
-    private Value blX, blY;
+    private final Value startX;
+    private final Value startY;
+    private final Value endX;
+    private final Value endY;
+    private final Value tlX;
+    private final Value tlY;
+    private final Value trX;
+    private final Value trY;
+    private final Value brX;
+    private final Value brY;
+    private final Value blX;
+    private final Value blY;
     private boolean forFill;
 
     public static final CubicGenerator INSTANCE = new CubicGenerator();
