@@ -41,9 +41,9 @@ public class NapkinMenuItemUI extends BasicMenuItemUI implements NapkinPainter {
     public void update(Graphics g, JComponent c) {
         g = NapkinUtil.defaultGraphics(g, c);
         NapkinTheme theme = NapkinUtil.background(g, c);
-        Color penColor = theme.getPenColor();
-        if (NapkinUtil.replace(selectionForeground, penColor))
-            selectionForeground = penColor;
+        Color selColor = theme.getSelectionColor();
+        if (NapkinUtil.replace(selectionForeground, selColor))
+            selectionForeground = selColor;
         super.update(g, c);
         NapkinUtil.finishGraphics(g, c);
     }

@@ -342,7 +342,13 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                         res instanceof LineBorder ||
                         res instanceof CompoundBorder))
                 ) {
-                    entry.setValue(drawnBorder); // we override manually below
+                    if (!(res instanceof CompoundBorder))
+                        entry.setValue(drawnBorder); // we override manually below
+                    else {
+                        entry.setValue(new BorderUIResource.CompoundBorderUIResource(
+                                new NapkinBoxBorder(),
+                                new BasicBorders.MarginBorder()));
+                    }
                 }
             } else if (key.endsWith(".foreground")) {
                 entry.setValue(theme.getPenColor());

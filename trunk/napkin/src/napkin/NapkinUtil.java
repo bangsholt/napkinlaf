@@ -737,14 +737,14 @@ public class NapkinUtil implements NapkinConstants {
             line.draw(ulG);
         }
 
-        Color penColor = c.getForeground();
+        Color textColor = c.getForeground();
         if (c instanceof AbstractButton) {
             AbstractButton button = (AbstractButton) c;
             ButtonModel model = button.getModel();
             if (model.isArmed() || (c instanceof JMenu && model.isSelected()))
-                penColor = themeFor(c).getCheckColor();
+                textColor = themeFor(c).getSelectionColor();
         }
-        g.setColor(penColor);
+        g.setColor(textColor);
         c = wrapIfNeeded(c);
         helper.superPaintText(g, c, textRect, text);
     }
