@@ -29,6 +29,8 @@ public class NapkinBackground {
     public NapkinBackground(String name, Insets insets) {
         this.name = name;
         URL resource = getClass().getResource(name);
+        if( resource == null )
+        	throw new NullPointerException("no resource found for: "+name );
         image = Toolkit.getDefaultToolkit().getImage(resource);
         icon = new ImageIcon(image);
         iconW = icon.getIconWidth();
