@@ -217,13 +217,17 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static void installUI(JComponent c) {
-        c.setOpaque(false);
+        if (c.isOpaque()) {
+            c.putClientProperty(OPAQUE_KEY, Boolean.TRUE);
+            c.setOpaque(false);
+        }
         c.setBackground(CLEAR);
         c.addHierarchyListener(CLEAR_BACKGROUND_LISTENER);
     }
 
     public static void uninstallUI(JComponent c) {
-        c.setOpaque(true);
+        if (c.getClientProperty(OPAQUE_KEY) == Boolean.TRUE)
+            c.setOpaque(true);
         c.removeHierarchyListener(CLEAR_BACKGROUND_LISTENER);
         for (int i = 0; i < CLIENT_PROPERTIES.length; i++)
             c.putClientProperty(CLIENT_PROPERTIES[i], null);
@@ -522,7 +526,7 @@ public class NapkinUtil implements NapkinConstants {
         return in;
     }
 
-    private static JComponent themeTopFor(Component c) {
+    public static JComponent themeTopFor(Component c) {
         if (c == null)
             return null;
 
