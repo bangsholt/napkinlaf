@@ -21,6 +21,8 @@ public class NapkinDesktopPaneUI extends BasicDesktopPaneUI {
 
     public void uninstallUI(JComponent c) {
         super.uninstallUI(c);
+        NapkinUtil.uninstallUI(c);
+        NapkinUtil.removeBackground((JDesktopPane) c);
     }
 
     public void paint(Graphics g, JComponent c) {
