@@ -282,7 +282,7 @@ public class NapkinTheme {
 
         private static Font tryToLoadFont(String fontName) {
             try {
-                String fontRes = "napkin/resources/" + fontName;
+                String fontRes = "resources/" + fontName;
                 InputStream fontDef;
                 fontDef = NapkinLookAndFeel.class.getResourceAsStream(fontRes);
                 if (fontDef == null)
