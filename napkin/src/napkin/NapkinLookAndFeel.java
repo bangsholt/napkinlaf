@@ -348,6 +348,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             }
         };
 
+        //!! These are copied from Metal LookAndFeel, but we should get them
+        //!! From the formal L&F, as well as getting *all* behavior.  -arnold
         Object fieldInputMap = new UIDefaults.LazyInputMap(new Object[]{
             "ctrl C", DefaultEditorKit.copyAction,
             "ctrl V", DefaultEditorKit.pasteAction,
@@ -462,7 +464,10 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "PasswordField.border", underlineBorder,
 
             "Menu.border", null,
+            "PopupMenu.border", null,
             "ToolTip.border", null,
+            "InternalFrame.border", null,
+            "DesktopIcon.border", null,
 
             "SplitPaneDivider.border", null,
             "SplitPane.dividerSize", new Integer(NapkinSplitPaneDivider.SIZE),

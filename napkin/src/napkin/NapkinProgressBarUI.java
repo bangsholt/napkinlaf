@@ -29,7 +29,6 @@ public class NapkinProgressBarUI extends BasicProgressBarUI {
     }
 
     public void paint(Graphics g, JComponent c) {
-        NapkinUtil.defaultGraphics(g, c);
         c.setForeground(Color.black);
         super.paint(g, c);
     }
@@ -95,8 +94,10 @@ public class NapkinProgressBarUI extends BasicProgressBarUI {
     }
 
     public void update(Graphics g, JComponent c) {
+        g = NapkinUtil.defaultGraphics(g, c);
         NapkinUtil.background(g, c);
         super.update(g, c);
+        NapkinUtil.finishGraphics(g, c);
     }
 }
 

@@ -1,4 +1,3 @@
-
 package napkin;
 
 import java.awt.geom.*;
@@ -77,7 +76,4 @@ class TabHolder extends ShapeHolder implements NapkinConstants {
         return breakEnd;
     }
 
-    public int getBreakSide() {
-        return tabPlacement;
-    }
 }

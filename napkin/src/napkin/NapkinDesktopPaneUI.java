@@ -14,9 +14,8 @@ public class NapkinDesktopPaneUI extends BasicDesktopPaneUI {
     }
 
     public void installUI(JComponent c) {
-        NapkinUtil.installUI(c);
         super.installUI(c);
-        NapkinUtil.setBackground((JDesktopPane) c, NapkinBackground.NAPKIN_BG);
+        NapkinUtil.installUI(c);
     }
 
     public void uninstallUI(JComponent c) {
@@ -24,14 +23,11 @@ public class NapkinDesktopPaneUI extends BasicDesktopPaneUI {
         super.uninstallUI(c);
     }
 
-    public void paint(Graphics g, JComponent c) {
-        NapkinUtil.defaultGraphics(g, c);
-        super.paint(g, c);
-    }
-
     public void update(Graphics g, JComponent c) {
+        g = NapkinUtil.defaultGraphics(g, c);
         NapkinUtil.background(g, c);
         super.update(g, c);
+        NapkinUtil.finishGraphics(g, c);
     }
 }
 

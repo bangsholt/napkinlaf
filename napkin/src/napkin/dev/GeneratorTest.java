@@ -2,14 +2,6 @@
 
 package napkin.dev;
 
-import napkin.CubicGenerator;
-import napkin.NapkinConstants;
-import napkin.NapkinUtil;
-import napkin.QuadGenerator;
-import napkin.ShapeGenerator;
-import napkin.Value;
-import napkin.ValueSource;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -17,6 +9,14 @@ import java.text.DecimalFormat;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
+
+import napkin.CubicGenerator;
+import napkin.NapkinConstants;
+import napkin.NapkinUtil;
+import napkin.QuadGenerator;
+import napkin.ShapeGenerator;
+import napkin.Value;
+import napkin.ValueSource;
 
 public class GeneratorTest extends NapkinUtil implements NapkinConstants {
 
@@ -98,7 +98,7 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
      *
      * @throws Exception Exception we don't recover from.
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         final JTabbedPane tabs = new JTabbedPane();
         for (int i = 0; i < drawers.length; i++) {
             Drawer drawer = drawers[i];

@@ -1,10 +1,13 @@
 package napkin;
 
 import java.awt.*;
+import java.net.URL;
 import javax.swing.*;
 
 public class NapkinBackground {
-    private final Icon icon;
+    private final String name;
+    private final ImageIcon icon;
+    private final Image image;
     private final int iconW, iconH;
     private final Icon tlCorner, tSide, trCorner;
     private final Icon rSide, middle, lSide;
@@ -12,13 +15,23 @@ public class NapkinBackground {
 
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
 
-    public static final NapkinBackground NAPKIN_BG =
-            new NapkinBackground("resources/napkin.jpg");
+    private static final boolean DEBUG =
+            Boolean.getBoolean("napkin.NapkinBackground.debug");
+
+    public static final NapkinBackground NAPKIN_BG = (DEBUG ?
+            new NapkinBackground("resources/testPaper.jpg", 0, 0, 10, 10) :
+            new NapkinBackground("resources/napkin.jpg"));
+
+    public static final NapkinBackground ERASURE =
+            new NapkinBackground("resources/erasure.png");
+
     public static final NapkinBackground[] POSTITS = {
         new NapkinBackground("resources/postit01.jpg", 15, 15, 38, 32),
         new NapkinBackground("resources/postit00.jpg", 38, 20, 100, 83),
     };
-    public static final NapkinBackground POSTIT_BG = POSTITS[0];
+    public static final NapkinBackground POSTIT_BG = (DEBUG ?
+            new NapkinBackground("resources/testPostit.jpg", 0, 0, 10, 10) :
+            POSTITS[0]);
 
     public NapkinBackground(String name) {
         this(name, null);
@@ -30,7 +43,10 @@ public class NapkinBackground {
     }
 
     public NapkinBackground(String name, Insets insets) {
-        icon = new ImageIcon(getClass().getResource(name));
+        this.name = name;
+        URL resource = getClass().getResource(name);
+        image = Toolkit.getDefaultToolkit().getImage(resource);
+        icon = new ImageIcon(image);
         iconW = icon.getIconWidth();
         iconH = icon.getIconHeight();
 
@@ -55,64 +71,82 @@ public class NapkinBackground {
         brCorner = new SubIcon(icon, rX, bY, insets.right, insets.bottom);
     }
 
-    public void paint(Component c, Graphics g, int w, int h) {
-        paint(c, g, 0, 0, w, h);
+    public ImageIcon getIcon() {
+        return icon;
     }
 
-    public void
-            paint(Component c, Graphics g, int xOff, int yOff, int w, int h) {
+    public String toString() {
+        return "NapkinBackground(\"" + name + "\")";
+    }
 
+    public void paint(Component c, Graphics g, Rectangle paper, Rectangle comp, Insets cInsets) {
         int topH = tlCorner.getIconHeight();
-        paintSliceAcross(c, g, 0, w, topH, xOff, yOff, tlCorner, tSide,
-                trCorner);
-
-        int midH = h - (tSide.getIconHeight() + bSide.getIconHeight());
-        paintSliceAcross(c, g, topH, w, midH, xOff, yOff, lSide, middle, rSide);
+        int topY = 0;
 
         int botH = blCorner.getIconHeight();
-        paintSliceAcross(c, g, h - botH, w, botH, xOff, yOff, blCorner, bSide,
-                brCorner);
+        int botY = paper.height - botH;
+
+        int midH = paper.height - (topH + botH);
+        int midY = topH;
+
+        paintSliceAcross(c, g, paper, comp, cInsets, topY, topH, tlCorner, tSide, trCorner);
+        paintSliceAcross(c, g, paper, comp, cInsets, midY, midH, lSide, middle, rSide);
+        paintSliceAcross(c, g, paper, comp, cInsets, botY, botH, blCorner, bSide, brCorner);
     }
 
-    private static void paintSliceAcross(Component c, Graphics g1, int y, int w,
-            int h, int xOff, int yOff, Icon left, Icon mid, Icon right) {
+    private static void paintSliceAcross(Component c, Graphics g,
+            Rectangle paper, Rectangle comp, Insets cInsets, int bandY, int bandH,
+            Icon lftIcon, Icon midIcon, Icon rgtIcon) {
 
-        if (yOff + h <= y)
+        if (bandH == 0)
+            return;
+        if (comp.y + comp.height < bandY)
+            return;
+        if (comp.y >= bandY + bandH)
             return;
 
-        int lw = left.getIconWidth();
-        paintArea(c, g1, left, 0, y, lw, h, xOff, yOff);
+        int lftW = lftIcon.getIconWidth();
+        int lftX = 0;
 
-        int midW = w - (lw + right.getIconWidth());
-        paintArea(c, g1, mid, lw, y, midW, h, xOff, yOff);
+        int midW = paper.width - (lftW + rgtIcon.getIconWidth());
+        int midX = lftW;
 
-        int rX = w - right.getIconWidth();
-        paintArea(c, g1, right, rX, y, right.getIconWidth(), h, xOff, yOff);
+        int rgtW = rgtIcon.getIconWidth();
+        int rgtX = paper.width - rgtW;
+
+        paintArea(c, g, comp, lftX, bandY, lftW, bandH, lftIcon, cInsets);
+        paintArea(c, g, comp, midX, bandY, midW, bandH, midIcon, cInsets);
+        paintArea(c, g, comp, rgtX, bandY, rgtW, bandH, rgtIcon, cInsets);
     }
 
-    private static void paintArea(Component c, Graphics g1, Icon icon, int atX,
-            int atY, int w, int h, int xOff, int yOff) {
+    private static void paintArea(Component c, Graphics g, Rectangle comp,
+            int atX, int atY, int w, int h, Icon icon, Insets cInsets) {
 
         if (w == 0 || h == 0)
             return;
+        if (comp.x + comp.width < atX)
+            return;
+        if (comp.x >= atX + w)
+            return;
+
+        // at this point we deal with the fact that the Graphics object is
+        // translated to the origin of the component, with insets outside
+        atX -= comp.x + cInsets.left;
+        atY -= comp.y + cInsets.top;
+        Rectangle cZeroed = new Rectangle(-cInsets.left, -cInsets.top, comp.width, comp.height);
 
         int endX = atX + w;
         int endY = atY + h;
 
-        atX += xOff;
-        atY += yOff;
-
         int iw = icon.getIconWidth();
         int ih = icon.getIconHeight();
-        for (int x = atX; x < endX; x += iw) {
-            if (x + iw < 0)
+        Rectangle area = new Rectangle(atX, atY, w, h);
+        for (area.x = atX; area.x < endX; area.x += iw) {
+            if (area.x + iw < 0)
                 continue;
-            for (int y = atY; y < endY; y += ih) {
-                if (y + ih >= 0) {
-//                    if (c.getClass() == JLabel.class)
-//                        System.out.println("(" + x + ", " + y + ") " + iw + " x " + ih);
-                    icon.paintIcon(c, g1, x, y);
-                }
+            for (area.y = atY; area.y < endY; area.y += ih) {
+                if (area.intersects(cZeroed))
+                    icon.paintIcon(c, g, area.x, area.y);
             }
         }
     }

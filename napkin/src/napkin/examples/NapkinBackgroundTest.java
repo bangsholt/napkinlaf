@@ -10,7 +10,7 @@ public class NapkinBackgroundTest {
             Exception {
 
         UIManager.setLookAndFeel("napkin.NapkinLookAndFeel");
-        JFrame f = new JFrame("Napkin Test");
+        JFrame frame = new JFrame("Napkin Test");
 
         JMenuBar mb = new JMenuBar();
         JMenu m = new JMenu("Test");
@@ -18,13 +18,21 @@ public class NapkinBackgroundTest {
         m.add(mi);
 
         mb.add(m);
-        f.setJMenuBar(mb);
+//        frame.setJMenuBar(mb);
 
-        f.getContentPane().add(BorderLayout.CENTER, new
-                JLabel("Hello"));
+        JPanel stuff = new JPanel();
+        stuff.setLayout(new BorderLayout());
+        stuff.add(BorderLayout.CENTER, new JLabel("Hello"));
 
-        f.setSize(200, 100);
-        f.setLocationRelativeTo(null);
-        f.show();
+        JTabbedPane tabbed = new JTabbedPane();
+        tabbed.addTab("Stuff", stuff);
+        for (int i = 0; i < 6; i++)
+            tabbed.add("Tab " + i, new JLabel("Tab " + i));
+
+        frame.getContentPane().add(BorderLayout.CENTER, tabbed);
+
+        frame.setSize(200, 100);
+        frame.setLocationRelativeTo(null);
+        frame.show();
     }
 }

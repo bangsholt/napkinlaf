@@ -2,10 +2,10 @@
 
 package napkin;
 
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicRadioButtonUI;
 import java.awt.*;
+import javax.swing.*;
+import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
 
 public class NapkinRadioButtonUI extends BasicRadioButtonUI
         implements NapkinPainter, NapkinConstants {
@@ -40,7 +40,7 @@ public class NapkinRadioButtonUI extends BasicRadioButtonUI
     }
 
     protected void paintText(Graphics g, JComponent c, Rectangle textRect,
-                             String text) {
+            String text) {
 
         if (line == null)
             line = new LineHolder(new CubicGenerator());
@@ -51,14 +51,11 @@ public class NapkinRadioButtonUI extends BasicRadioButtonUI
         super.paintText(g, c, textRect, text);
     }
 
-    public void paint(Graphics g, JComponent c) {
-        NapkinUtil.defaultGraphics(g, c);
-        super.paint(g, c);
-    }
-
     public void update(Graphics g, JComponent c) {
+        g = NapkinUtil.defaultGraphics(g, c);
         NapkinUtil.background(g, c);
         super.update(g, c);
+        NapkinUtil.finishGraphics(g, c);
     }
 }
 

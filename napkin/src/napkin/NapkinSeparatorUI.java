@@ -2,10 +2,10 @@
 
 package napkin;
 
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
-import java.awt.*;
 
 public class NapkinSeparatorUI extends BasicSeparatorUI {
     private final Separator separator = new Separator();
@@ -20,7 +20,6 @@ public class NapkinSeparatorUI extends BasicSeparatorUI {
         }
 
         private void doPaint(Graphics g, JSeparator sep, boolean vertical) {
-            NapkinUtil.defaultGraphics(g, sep);
             if (line == null)
                 line = new LineHolder(CubicGenerator.INSTANCE, vertical);
 
@@ -66,8 +65,10 @@ public class NapkinSeparatorUI extends BasicSeparatorUI {
     }
 
     public void update(Graphics g, JComponent c) {
+        g = NapkinUtil.defaultGraphics(g, c);
         NapkinUtil.background(g, c);
         super.update(g, c);
+        NapkinUtil.finishGraphics(g, c);
     }
 }
 

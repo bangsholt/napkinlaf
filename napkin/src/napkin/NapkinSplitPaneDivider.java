@@ -1,4 +1,3 @@
-
 package napkin;
 
 import java.awt.*;
@@ -21,14 +20,11 @@ public class NapkinSplitPaneDivider extends BasicSplitPaneDivider
         super(ui);
     }
 
-    public void paint(Graphics g) {
-        NapkinUtil.defaultGraphics(g, this);
-        super.paint(g);
-    }
-
     public void update(Graphics g) {
-        NapkinUtil.background(g, this);
+        g = NapkinUtil.defaultGraphics(g, splitPane);
+        NapkinUtil.background(g, splitPane);
         super.update(g);
+        NapkinUtil.finishGraphics(g, splitPane);
     }
 
     // largely copied from superclass
@@ -43,7 +39,7 @@ public class NapkinSplitPaneDivider extends BasicSplitPaneDivider
     }
 
     protected JButton createOneTouchButton(int dir) {
-        JButton b = NapkinUtil.createArrowButton(dir, ARROW_SIZE);
+        JButton b = NapkinUtil.createArrowButton(dir, ARROW_SIZE, splitPane);
         b.setFocusable(false);
         b.setMinimumSize(new Dimension(SIZE, SIZE));
         b.setCursor(DEFAULT_CURSOR);

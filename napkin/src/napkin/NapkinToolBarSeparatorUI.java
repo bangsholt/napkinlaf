@@ -33,8 +33,10 @@ public class NapkinToolBarSeparatorUI extends BasicToolBarSeparatorUI {
     }
 
     public void update(Graphics g, JComponent c) {
+        g = NapkinUtil.defaultGraphics(g, c);
         NapkinUtil.background(g, c);
         super.update(g, c);
+        NapkinUtil.finishGraphics(g, c);
     }
 }
 

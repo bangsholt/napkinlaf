@@ -30,17 +30,12 @@ public class NapkinScrollBarUI extends BasicScrollBarUI {
         super.uninstallUI(c);
     }
 
-    public void paint(Graphics g, JComponent c) {
-        NapkinUtil.defaultGraphics(g, c);
-        super.paint(g, c);
-    }
-
     protected JButton createDecreaseButton(int orientation) {
-        return NapkinUtil.createArrowButton(orientation);
+        return NapkinUtil.createArrowButton(orientation, scrollbar);
     }
 
     protected JButton createIncreaseButton(int orientation) {
-        return NapkinUtil.createArrowButton(orientation);
+        return NapkinUtil.createArrowButton(orientation, scrollbar);
     }
 
     protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
@@ -58,7 +53,9 @@ public class NapkinScrollBarUI extends BasicScrollBarUI {
     }
 
     public void update(Graphics g, JComponent c) {
+        g = NapkinUtil.defaultGraphics(g, c);
         NapkinUtil.background(g, c);
         super.update(g, c);
+        NapkinUtil.finishGraphics(g, c);
     }
 }

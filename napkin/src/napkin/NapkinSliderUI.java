@@ -45,10 +45,8 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
     }
 
     public void paint(Graphics g, JComponent c) {
-        NapkinUtil.defaultGraphics(g, c);
         majorPos = minorPos = 0;
         super.paint(g, c);
-//        NapkinUtil.markDisabled(g, c);
     }
 
     protected Dimension getThumbSize() {
@@ -117,8 +115,10 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
     }
 
     public void update(Graphics g, JComponent c) {
+        g = NapkinUtil.defaultGraphics(g, c);
         NapkinUtil.background(g, c);
         super.update(g, c);
+        NapkinUtil.finishGraphics(g, c);
     }
 }
 

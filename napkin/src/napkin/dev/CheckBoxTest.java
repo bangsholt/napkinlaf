@@ -3,7 +3,6 @@
 package napkin.dev;
 
 import java.awt.*;
-import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
@@ -124,17 +123,6 @@ class CheckBoxTest extends GeneratorTest
 
     public ShapeGenerator getGenerator() {
         return null;
-    }
-
-    public Shape generate(AffineTransform matrix) {
-        Shape box = boxGen.generate(matrix);
-        if (!isSelected.isSelected())
-            return box;
-
-        GeneralPath path = new GeneralPath();
-        path.append(box, false);
-        path.append(checkGen.generate(matrix), false);
-        return path;
     }
 
     public ValueSource[] getSpinners() {

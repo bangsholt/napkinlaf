@@ -8,6 +8,9 @@
 <h4>alpha-008, 2 July, 2004</h4>
 
 <ul>
+<li>New background model; backgrounds should now work properly.
+<li>All components will be marked disabled by psuedo-erasure.  Again, thanks
+    to grahpics help from Miro Juri&#353;i&#263.
 <li>Thanks to debugging and modeling help from Miro Juri&#353;i&#263; we can
     now render "hand-drawn" lines at an angle.
 </ul>

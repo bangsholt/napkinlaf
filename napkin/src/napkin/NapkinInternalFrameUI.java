@@ -2,10 +2,10 @@
 
 package napkin;
 
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
-import java.awt.*;
 
 public class NapkinInternalFrameUI extends BasicInternalFrameUI {
 
@@ -21,7 +21,7 @@ public class NapkinInternalFrameUI extends BasicInternalFrameUI {
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
-        c.setOpaque(true);
+        NapkinUtil.setupPaper(c, NapkinBackground.POSTIT_BG);
     }
 
     public void uninstallUI(JComponent c) {
@@ -29,14 +29,11 @@ public class NapkinInternalFrameUI extends BasicInternalFrameUI {
         super.uninstallUI(c);
     }
 
-    public void paint(Graphics g, JComponent c) {
-        NapkinUtil.defaultGraphics(g, c);
-        super.paint(g, c);
-    }
-
     public void update(Graphics g, JComponent c) {
+        g = NapkinUtil.defaultGraphics(g, c);
         NapkinUtil.background(g, c);
         super.update(g, c);
+        NapkinUtil.finishGraphics(g, c);
     }
 
     protected JComponent createNorthPane(JInternalFrame w) {
