@@ -10,13 +10,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DrawnBoxGenerator extends DrawnShapeGenerator {
-    private final RandomValue begX;
-    private final RandomValue endY;
+    private final RandomXY corner;
     private double adjustmentX;
     private double adjustmentY;
     private final RandomValue startAdjust;
-    private final RandomValue sizeX;
-    private final RandomValue sizeY;
+    private final RandomXY size;
     private int breakSide;
     private final Point2D breakBeg;
     private final Point2D breakEnd;
@@ -73,11 +71,10 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
         for (int i = 1; i < 5; i++)
             setGenerator(i, DrawnCubicLineGenerator.class);
 
-        begX = new RandomValue(-1, 3);
-        endY = new RandomValue(0, 2.5);
+        corner = new RandomXY(-1, 3, 0, 2.5);
         startAdjust = new RandomValue(5);
-        sizeX = new SideSize(LENGTH, LEFT, RIGHT);
-        sizeY = new SideSize(LENGTH * 0.618, TOP, BOTTOM);
+        size = new RandomXY(new SideSize(LENGTH, LEFT, RIGHT),
+                new SideSize(LENGTH * 0.618, TOP, BOTTOM));
         breakSide = NO_SIDE;
         breakBeg = new Point2D.Double(0, 0);
         breakEnd = new Point2D.Double(0, 0);
@@ -86,20 +83,20 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
     public Shape generate(AffineTransform matrix) {
         GeneralPath shape = new GeneralPath();
 
-        double xSize = sizeX.generate();
-        double ySize = sizeY.generate();
+        double xSize = size.getX().generate();
+        double ySize = size.getY().generate();
         double xScale = xSize / LENGTH;
         double yScale = ySize / LENGTH;
 
-        double xBeg = adjustStartOffset(begX, xScale);
-        double yEnd = adjustStartOffset(endY, yScale);
-        adjustmentX = xBeg - begX.get();
-        adjustmentY = yEnd - endY.get();
+        double xCorner = adjustStartOffset(corner.getX(), xScale);
+        double yCorner = adjustStartOffset(corner.getY(), yScale);
+        adjustmentX = xCorner - corner.getX().get();
+        adjustmentY = yCorner - corner.getY().get();
 
         if (asX) {
-            NapkinUtil.drawStroke(shape, matrix, xBeg, 0, xSize, ySize,
+            NapkinUtil.drawStroke(shape, matrix, xCorner, 0, xSize, ySize,
                     Math.PI, gens[0]);
-            NapkinUtil.drawStroke(shape, matrix, 0, ySize, xSize, yEnd, 0,
+            NapkinUtil.drawStroke(shape, matrix, 0, ySize, xSize, yCorner, 0,
                     gens[0]);
             return shape;
         }
@@ -107,9 +104,9 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
         AffineTransform smat;
         double scale;
 
-        scale = (xSize - xBeg) / LENGTH;
+        scale = (xSize - xCorner) / LENGTH;
         smat = NapkinUtil.copy(matrix);
-        smat.translate(xBeg, 0);
+        smat.translate(xCorner, 0);
         smat.scale(scale, 1);
         sides[TOP] = addSide(shape, smat, TOP, scale);
 
@@ -127,7 +124,7 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
         smat.scale(scale, 1);
         sides[RIGHT] = addSide(shape, smat, RIGHT, scale);
 
-        scale = (ySize - yEnd) / LENGTH;
+        scale = (ySize - yCorner) / LENGTH;
         smat = NapkinUtil.copy(matrix);
         smat.translate(0, ySize);
         smat.rotate(-Math.PI / 2);
@@ -158,7 +155,8 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
             double scale) {
         // Need to transalate the absolute positions into positions on the line
         double xOff = smat.getTranslateX();
-        double xSize = sizeX.get() - (begX.get() + adjustmentX);
+        double xSize = size.getX().get() -
+                (corner.getX().get() + adjustmentX);
         if (scale < 0)
             xSize = -xSize;
         double xBeg = breakBeg.getX() - xOff;
@@ -176,7 +174,8 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
             double scale) {
         // Need to transalate the absolute positions into positions on the line
         double yOff = smat.getTranslateY();
-        double ySize = sizeY.get() - (endY.get() + adjustmentY);
+        double ySize = size.getY().get() -
+                (corner.getY().get() + adjustmentY);
         if (scale < 0)
             ySize = -ySize;
         double yBeg = breakBeg.getY() - yOff;
@@ -199,12 +198,12 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
                     breakBeg.getX(), breakBeg.getY());
             NapkinUtil.printPair(logger, Level.FINE, "breakEnd",
                     breakEnd.getX(), breakEnd.getY());
-            NapkinUtil.printPair(logger, Level.FINE, "size", sizeX.get(),
-                    sizeY.get());
+            NapkinUtil.printPair(logger, Level.FINE, "size", size.getX().get(),
+                    size.getY().get());
             NapkinUtil.printPair(logger, Level.FINE, "adjustment", adjustmentX,
                     adjustmentY);
-            NapkinUtil.printPair(logger, Level.FINE, "beg/end", begX.get(),
-                    endY.get());
+            NapkinUtil.printPair(logger, Level.FINE, "beg/end",
+                    corner.getX().get(), corner.getY().get());
             NapkinUtil.printPair(logger, Level.FINE, "break beg/end", beg, end);
         }
     }
@@ -232,22 +231,6 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
         double adjusted = Math.pow(delta, exp);
         double startScale = 1 - adjusted;
         return off.generate() * startScale;
-    }
-
-    public RandomValue getBegX() {
-        return begX;
-    }
-
-    public RandomValue getEndY() {
-        return endY;
-    }
-
-    public RandomValue getSizeX() {
-        return sizeX;
-    }
-
-    public RandomValue getSizeY() {
-        return sizeY;
     }
 
     public RandomValue getStartAdjust() {
@@ -308,5 +291,13 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
 
     public boolean isAsX() {
         return asX;
+    }
+
+    public RandomXY getSize() {
+        return size;
+    }
+
+    public RandomXY getCorner() {
+        return corner;
     }
 }

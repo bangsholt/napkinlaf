@@ -2,15 +2,15 @@
 
 package napkin.dev;
 
-import java.awt.*;
-import java.awt.geom.*;
-import javax.swing.*;
-import javax.swing.border.*;
-
 import napkin.DrawnCubicLineGenerator;
 import napkin.DrawnShapeGenerator;
 import napkin.RandomValue;
 import napkin.RandomValueSource;
+
+import java.awt.*;
+import java.awt.geom.*;
+import javax.swing.*;
+import javax.swing.border.*;
 
 class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
 
@@ -61,11 +61,18 @@ class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
     CubicTest() {
         gen = new DrawnCubicLineGenerator();
 
-        leftXSpin = new RandomValueSpinner("x", gen.getLeftX(), 0, LENGTH / 2, 100);
-        leftYSpin = new RandomValueSpinner("y", gen.getLeftY(), -20, +20, 100);
+        leftXSpin =
+                new RandomValueSpinner("x", gen.getLeft().getX(), 0,
+                        LENGTH / 2.0, 100);
+        leftYSpin =
+                new RandomValueSpinner("y", gen.getLeft().getY(), -20, +20,
+                        100);
         rightXSpin =
-                new RandomValueSpinner("x", gen.getRightX(), 0, LENGTH / 2, 100);
-        rightYSpin = new RandomValueSpinner("y", gen.getRightY(), -20, +20, 100);
+                new RandomValueSpinner("x", gen.getRight().getX(), 0,
+                        LENGTH / 2.0, 100);
+        rightYSpin =
+                new RandomValueSpinner("y", gen.getRight().getY(), -20, +20,
+                        100);
         width = new RandomValue(1, 0);
         widthSpin = new RandomValueSpinner("w", width, 0, 3, 20);
         spinners = new RandomValueSpinner[]{

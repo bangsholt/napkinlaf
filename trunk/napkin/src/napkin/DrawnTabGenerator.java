@@ -6,10 +6,10 @@ import java.awt.*;
 import java.awt.geom.*;
 
 public class DrawnTabGenerator extends DrawnShapeGenerator {
-    private final RandomValue ulX, ulY;
-    private final RandomValue urX, urY;
-    private final RandomValue lrX, lrY;
-    private final RandomValue llX, llY;
+    private final RandomXY ul;
+    private final RandomXY ur;
+    private final RandomXY lr;
+    private final RandomXY ll;
     private final RandomValue squeeze;
     private final int side;
 
@@ -49,21 +49,17 @@ public class DrawnTabGenerator extends DrawnShapeGenerator {
     private DrawnTabGenerator(int side) {
         this.side = side;
         float shimmy = 0.03f;
-        ulX = new RandomValue(0, shimmy);
-        ulY = new RandomValue(0, shimmy);
-        urX = new RandomValue(1, shimmy);
-        urY = new RandomValue(0, shimmy);
-        lrX = new RandomValue(1, shimmy);
-        lrY = new RandomValue(1, shimmy);
-        llX = new RandomValue(0, shimmy);
-        llY = new RandomValue(1, shimmy);
+        ul = new RandomXY(0, shimmy, 0, shimmy);
+        ur = new RandomXY(1, shimmy, 0, shimmy);
+        lr = new RandomXY(1, shimmy, 1, shimmy);
+        ll = new RandomXY(0, shimmy, 1, shimmy);
         if (side == LEFT || side == RIGHT) {
             // when this gets exagerated to stretch out the line it's too much
-            double horizAdj = 10;
-            ulX.setRange(shimmy / horizAdj);
-            urX.setRange(shimmy / horizAdj);
-            llX.setRange(shimmy / horizAdj);
-            lrX.setRange(shimmy / horizAdj);
+            double simmyAdj = shimmy / 10;
+            ul.getX().setRange(simmyAdj);
+            ur.getX().setRange(simmyAdj);
+            ll.getX().setRange(simmyAdj);
+            lr.getX().setRange(simmyAdj);
         }
         squeeze = new RandomValue(0.09, 0.001);
     }
@@ -71,14 +67,18 @@ public class DrawnTabGenerator extends DrawnShapeGenerator {
     public Shape generate(AffineTransform matrix) {
         GeneralPath tab = new GeneralPath();
 
-        double xUL = ulX.generate();
-        double yUL = ulY.generate();
-        double xUR = urX.generate();
-        double yUR = urY.generate();
-        double xLR = lrX.generate();
-        double yLR = lrY.generate();
-        double xLL = llX.generate();
-        double yLL = llY.generate();
+        Point2D ulAt = ul.generate();
+        Point2D urAt = ur.generate();
+        Point2D llAt = ll.generate();
+        Point2D lrAt = lr.generate();
+        double xUL = ulAt.getX();
+        double yUL = ulAt.getY();
+        double xUR = urAt.getX();
+        double yUR = urAt.getY();
+        double xLR = lrAt.getX();
+        double yLR = lrAt.getY();
+        double xLL = llAt.getX();
+        double yLL = llAt.getY();
 
         switch (side) {
         case LEFT:
@@ -117,35 +117,19 @@ public class DrawnTabGenerator extends DrawnShapeGenerator {
         return tab;
     }
 
-    public RandomValue getLLX() {
-        return llX;
+    public RandomXY getUL() {
+        return ul;
     }
 
-    public RandomValue getLLY() {
-        return llY;
+    public RandomXY getUR() {
+        return ur;
     }
 
-    public RandomValue getLRX() {
-        return lrX;
+    public RandomXY getLL() {
+        return ll;
     }
 
-    public RandomValue getLRY() {
-        return lrY;
-    }
-
-    public RandomValue getULX() {
-        return ulX;
-    }
-
-    public RandomValue getULY() {
-        return ulY;
-    }
-
-    public RandomValue getURX() {
-        return urX;
-    }
-
-    public RandomValue getURY() {
-        return urY;
+    public RandomXY getLR() {
+        return lr;
     }
 }

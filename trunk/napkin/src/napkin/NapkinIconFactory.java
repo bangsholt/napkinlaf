@@ -29,7 +29,7 @@ public class NapkinIconFactory implements NapkinConstants {
 
         protected DrawnShapeGenerator createPlaceGenerator() {
             DrawnQuadLineGenerator gen = new DrawnQuadLineGenerator();
-            gen.getCtlY().setMid(1);
+            gen.getCtl().getY().setMid(1);
             return gen;
         }
 
@@ -38,17 +38,17 @@ public class NapkinIconFactory implements NapkinConstants {
         }
 
         protected int calcWidth() {
-            RandomValue lx = checkGen.getLeftXScale();
-            RandomValue mx = checkGen.getMidXScale();
-            RandomValue rx = checkGen.getRightXScale();
+            RandomValue lx = checkGen.getLeftScale().getX();
+            RandomValue mx = checkGen.getMidScale().getX();
+            RandomValue rx = checkGen.getRightScale().getX();
             double l = mx.min() - lx.min();
             double r = mx.max() + rx.max();
             return (int) Math.round(size * (r - l));
         }
 
         protected int calcHeight() {
-            RandomValue my = checkGen.getMidYScale();
-            RandomValue ry = checkGen.getRightYScale();
+            RandomValue my = checkGen.getMidScale().getY();
+            RandomValue ry = checkGen.getRightScale().getY();
             // the "2" is for the underline if it loops down a bit
             return (int) Math.round(size * (my.max() + ry.max()) + 2);
         }
@@ -88,26 +88,24 @@ public class NapkinIconFactory implements NapkinConstants {
         protected DrawnShapeGenerator createMarkGenerator() {
             DrawnCircleGenerator gen = new DrawnCircleGenerator(true);
             double skew = LENGTH / 3.0;
-            RandomValue tlX = gen.getTlX();
-            RandomValue blX = gen.getBlX();
-            RandomValue trX = gen.getTrX();
-            RandomValue brX = gen.getBrX();
-            tlX.setMid(tlX.getMid() + skew);
-            trX.setMid(trX.getMid() + skew);
-            blX.setMid(blX.getMid() - skew);
-            brX.setMid(brX.getMid() - skew);
+            RandomXY tl = gen.getTL();
+            RandomXY br = gen.getBR();
+            Point2D tlMid = tl.getMid();
+            Point2D brMid = br.getMid();
+            tl.setMid(tlMid.getX() + skew, tlMid.getY() + skew);
+            br.setMid(brMid.getX() + skew, brMid.getY() + skew);
             return gen;
         }
 
-        public int calcHeight() {
-            double max = circleGen.getBrX().max();
-            double min = circleGen.getBlX().min();
+        public int calcWidth() {
+            double max = circleGen.getBR().max().getX();
+            double min = circleGen.getBL().min().getX();
             return (int) Math.ceil(SCALE * (max - min));
         }
 
-        public int calcWidth() {
-            double max = circleGen.getBrY().max();
-            double min = circleGen.getTrY().min();
+        public int calcHeight() {
+            double max = circleGen.getBR().max().getY();
+            double min = circleGen.getTR().min().getY();
             return (int) Math.ceil(SCALE * (max - min));
         }
     }

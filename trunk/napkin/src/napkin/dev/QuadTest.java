@@ -2,15 +2,15 @@
 
 package napkin.dev;
 
-import java.awt.*;
-import java.awt.geom.*;
-import javax.swing.*;
-import javax.swing.border.*;
-
 import napkin.DrawnQuadLineGenerator;
 import napkin.DrawnShapeGenerator;
 import napkin.RandomValue;
 import napkin.RandomValueSource;
+
+import java.awt.*;
+import java.awt.geom.*;
+import javax.swing.*;
+import javax.swing.border.*;
 
 class QuadTest extends GeneratorTest implements GeneratorTest.Drawer {
 
@@ -58,8 +58,10 @@ class QuadTest extends GeneratorTest implements GeneratorTest.Drawer {
 
     QuadTest() {
         gen = new DrawnQuadLineGenerator();
-        ctlXSpin = new RandomValueSpinner("x", gen.getCtlX(), 0, LENGTH, 100);
-        ctlYSpin = new RandomValueSpinner("y", gen.getCtlY(), -20, +20, 100);
+        ctlXSpin = new RandomValueSpinner("x", gen.getCtl().getX(), 0, LENGTH,
+                100);
+        ctlYSpin = new RandomValueSpinner("y", gen.getCtl().getY(), -20, +20,
+                100);
         width = new RandomValue(1, 0);
         widthSpin = new RandomValueSpinner("w", width, 0, 3, 20);
         spinners = new RandomValueSpinner[]{ctlXSpin, ctlYSpin, widthSpin};

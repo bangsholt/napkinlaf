@@ -2,14 +2,14 @@
 
 package napkin.dev;
 
+import napkin.DrawnBoxGenerator;
+import napkin.DrawnCheckGenerator;
+import napkin.RandomValueSource;
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
-
-import napkin.DrawnBoxGenerator;
-import napkin.DrawnCheckGenerator;
-import napkin.RandomValueSource;
 
 class CheckBoxTest extends GeneratorTest
         implements GeneratorTest.Drawer {
@@ -35,19 +35,18 @@ class CheckBoxTest extends GeneratorTest
     private static final DrawnBoxGenerator DEFAULT_BOX = new DrawnBoxGenerator();
 
     static {
-        DEFAULT_BOX.getSizeX().setMid(10);
-        DEFAULT_BOX.getSizeY().setMid(10);
+        DEFAULT_BOX.getSize().setMid(10, 10);
     }
 
     private class Drawing extends JLabel {
         Drawing() {
-            final int space = SPACE;
+            int space = SPACE;
             setBorder(new EmptyBorder(space, space, space, space));
         }
 
         protected void paintComponent(Graphics g1) {
             Graphics2D g = (Graphics2D) g1;
-            double mid = getHeight() / 2 - getWidth() / 2;
+            double mid = getHeight() / 2.0 - getWidth() / 2.0;
             g.translate(SPACE, mid);
 
             Graphics2D boxG = lineGraphics(g, 1);
@@ -76,13 +75,13 @@ class CheckBoxTest extends GeneratorTest
             return new Dimension(LENGTH + 2 * SPACE,
                     MIN_HEIGHT * 2 + 2 * SPACE);
         }
-    };
+    }
 
-    public CheckBoxTest() {
+    CheckBoxTest() {
         this(DEFAULT_BOX);
     }
 
-    public CheckBoxTest(DrawnBoxGenerator boxGen) {
+    CheckBoxTest(DrawnBoxGenerator boxGen) {
         this.boxGen = boxGen;
         checkGen = new DrawnCheckGenerator();
 
@@ -96,24 +95,18 @@ class CheckBoxTest extends GeneratorTest
         });
         useBox.addChangeListener(REPAINT);
 
-        midXScaleSpin =
-                new RandomValueSpinner("mid x", checkGen.getMidXScale(), 0, 2,
-                        100);
-        midYScaleSpin =
-                new RandomValueSpinner("mid y", checkGen.getMidYScale(), 0, 2,
-                        100);
-        leftXScaleSpin =
-                new RandomValueSpinner("left x", checkGen.getLeftXScale(), 0,
-                        2, 100);
-        leftYScaleSpin =
-                new RandomValueSpinner("left y", checkGen.getLeftYScale(), 0,
-                        2, 100);
-        rightXScaleSpin =
-                new RandomValueSpinner("right x", checkGen.getRightXScale(), 0, 2,
-                        100);
-        rightYScaleSpin =
-                new RandomValueSpinner("right y", checkGen.getRightYScale(), 0, 2,
-                        100);
+        midXScaleSpin = new RandomValueSpinner("mid x",
+                checkGen.getMidScale().getX(), 0, 2, 100);
+        midYScaleSpin = new RandomValueSpinner("mid y",
+                checkGen.getMidScale().getY(), 0, 2, 100);
+        leftXScaleSpin = new RandomValueSpinner("left x",
+                checkGen.getLeftScale().getX(), 0, 2, 100);
+        leftYScaleSpin = new RandomValueSpinner("left y",
+                checkGen.getLeftScale().getY(), 0, 2, 100);
+        rightXScaleSpin = new RandomValueSpinner("right x",
+                checkGen.getRightScale().getX(), 0, 2, 100);
+        rightYScaleSpin = new RandomValueSpinner("right y",
+                checkGen.getRightScale().getY(), 0, 2, 100);
         spinners = new RandomValueSource[]{
             midXScaleSpin, midYScaleSpin,
             leftXScaleSpin, leftYScaleSpin,

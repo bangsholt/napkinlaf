@@ -6,17 +6,13 @@ import java.awt.*;
 import java.awt.geom.*;
 
 public class DrawnCheckGenerator extends DrawnShapeGenerator {
-    private final RandomValueSource widthVal;
-    private final RandomValueSource heightVal;
+    private final RandomXY dim;
     private final DrawnQuadLineGenerator leftLineGen;
     private final DrawnQuadLineGenerator rightLineGen;
 
-    private final RandomValue midXScale;
-    private final RandomValue midYScale;
-    private final RandomValue leftXScale;
-    private final RandomValue leftYScale;
-    private final RandomValue rightXScale;
-    private final RandomValue rightYScale;
+    private final RandomXY midScale;
+    private final RandomXY leftScale;
+    private final RandomXY rightScale;
 
     public static final DrawnCheckGenerator INSTANCE = new DrawnCheckGenerator();
 
@@ -28,45 +24,38 @@ public class DrawnCheckGenerator extends DrawnShapeGenerator {
         this(new RandomValue(size), new RandomValue(size));
     }
 
-    public DrawnCheckGenerator(RandomValueSource widthVal,
-            RandomValueSource heightVal) {
-        this.widthVal = widthVal;
-        this.heightVal = heightVal;
+    public DrawnCheckGenerator(RandomValue widthVal, RandomValue heightVal) {
+        dim = new RandomXY(widthVal, heightVal);
 
         leftLineGen = new DrawnQuadLineGenerator();
-        leftLineGen.getCtlY().setMid(+2);
-        leftLineGen.getCtlY().setRange(0.3);
+        leftLineGen.getCtl().getY().setMid(+2);
+        leftLineGen.getCtl().getY().setRange(0.3);
 
         rightLineGen = new DrawnQuadLineGenerator();
-        rightLineGen.getCtlY().setMid(-2);
-        rightLineGen.getCtlY().setRange(0.3);
+        rightLineGen.getCtl().getY().setMid(-2);
+        rightLineGen.getCtl().getY().setRange(0.3);
 
-        leftXScale = new RandomValue(0.5, 0.075);
-        leftYScale = new RandomValue(0.5, 0.075);
-        midXScale = new RandomValue(0.5, 0.1);
-        midYScale = new RandomValue(0.1, 0.05);
-        rightXScale = new RandomValue(1.1, 0.1);
-        rightYScale = new RandomValue(0.9, 0.1);
+        leftScale = new RandomXY(0.5, 0.075, 0.5, 0.075);
+        midScale = new RandomXY(0.5, 0.1, 0.1, 0.05);
+        rightScale = new RandomXY(1.1, 0.1, 0.9, 0.1);
     }
 
     public Shape generate(AffineTransform matrix) {
         GeneralPath check = new GeneralPath();
 
-        double lxScale = leftXScale.generate();
-        double lyScale = leftYScale.generate();
-        double mxScale = midXScale.generate();
-        double myScale = midYScale.generate();
-        double rxScale = rightXScale.generate();
-        double ryScale = rightYScale.generate();
-        double boxWidth = widthVal.getMid();
-        double boxHeight = heightVal.getMid();
+        Point2D lScale = leftScale.generate();
+        Point2D mScale = midScale.generate();
+        Point2D rScale = rightScale.generate();
+        Point2D size = dim.getMid();
+        double boxWidth = size.getX();
+        double boxHeight = size.getY();
 
-        double mx = mxScale * boxWidth;
-        double my = boxHeight - myScale * boxHeight;
-        double lx = mx - lxScale * boxWidth;
-        double ly = my - lyScale * boxHeight;
-        double rx = mx + rxScale * boxWidth;
-        double ry = my - ryScale * boxHeight;
+        double mx = mScale.getX() * boxWidth;
+        double my = boxHeight - mScale.getY() * boxHeight;
+        double lx = mx - lScale.getX() * boxWidth;
+        double ly = my - lScale.getY() * boxHeight;
+        double rx = mx + rScale.getX() * boxWidth;
+        double ry = my - rScale.getY() * boxHeight;
 
         NapkinUtil.drawStroke(check, matrix, mx, my, lx, ly, -Math.PI,
                 leftLineGen);
@@ -75,28 +64,16 @@ public class DrawnCheckGenerator extends DrawnShapeGenerator {
         return check;
     }
 
-    public RandomValue getLeftXScale() {
-        return leftXScale;
+    public RandomXY getLeftScale() {
+        return leftScale;
     }
 
-    public RandomValue getLeftYScale() {
-        return leftYScale;
+    public RandomXY getRightScale() {
+        return rightScale;
     }
 
-    public RandomValue getMidXScale() {
-        return midXScale;
-    }
-
-    public RandomValue getMidYScale() {
-        return midYScale;
-    }
-
-    public RandomValue getRightXScale() {
-        return rightXScale;
-    }
-
-    public RandomValue getRightYScale() {
-        return rightYScale;
+    public RandomXY getMidScale() {
+        return midScale;
     }
 }
 
