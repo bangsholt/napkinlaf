@@ -43,7 +43,7 @@
         </copy>
     </target>
 
-    <target name="jars" description="build jar files">
+    <target name="jars" depends="compile" description="build jar files">
         <mkdir dir="jars"/>
         <jar destfile="jars/napkinlaf.jar" basedir="classes" index="true">
             <include name="napkin/**/*"/>
