@@ -48,7 +48,7 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
         }
 
         private void setSideType(double mid) {
-            Class type = defaultLineGenerator(mid);
+            Class type = defaultLineType(mid);
             setGenerator(s1, type);
             setGenerator(s2, type);
         }
@@ -58,7 +58,8 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
         this(DrawnCubicLineGenerator.INSTANCE, DrawnQuadLineGenerator.INSTANCE);
     }
 
-    public DrawnBoxGenerator(DrawnCubicLineGenerator cubic, DrawnQuadLineGenerator quad) {
+    public DrawnBoxGenerator(DrawnCubicLineGenerator cubic,
+            DrawnQuadLineGenerator quad) {
         generators = new HashMap(3);
         generators.put(DrawnCubicLineGenerator.class, cubic);
         generators.put(DrawnQuadLineGenerator.class, quad);
@@ -200,7 +201,7 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
             AffineTransform mat = NapkinUtil.copy(smat);
             mat.translate(xBeg, yBeg);
             mat.scale(len / LENGTH, 1);
-            addLine(side, mat, toGenerator(defaultLineGenerator(len)));
+            addLine(side, mat, toGenerator(defaultLineType(len)));
         }
     }
 
@@ -273,10 +274,12 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
     }
 
     public DrawnQuadLineGenerator getQuadGenerator() {
-        return (DrawnQuadLineGenerator) generators.get(DrawnQuadLineGenerator.class);
+        return (DrawnQuadLineGenerator) generators.get(
+                DrawnQuadLineGenerator.class);
     }
 
     public DrawnCubicLineGenerator getCubicGenerator() {
-        return (DrawnCubicLineGenerator) generators.get(DrawnCubicLineGenerator.class);
+        return (DrawnCubicLineGenerator) generators.get(
+                DrawnCubicLineGenerator.class);
     }
 }

@@ -353,7 +353,7 @@ public class NapkinUtil implements NapkinConstants {
         jc.putClientProperty(DISABLED_MARK_KEY, null);
         Graphics2D tg = (Graphics2D) g1;
         tg.setComposite(ERASURE_COMPOSITE);
-        Point start = getStart(jc, null, false);
+        Point start = getStart(jc, tg, null, false);
         int w = textureImage.getWidth();
         int h = textureImage.getHeight();
         Rectangle anchor = new Rectangle(w - start.x, h - start.y, w, h);
@@ -497,21 +497,33 @@ public class NapkinUtil implements NapkinConstants {
         NapkinTheme theme = (NapkinTheme) themeTop.getClientProperty(THEME_KEY);
         NapkinBackground bg = theme.getPaper();
 
-        Rectangle pRect = bounds(themeTop);
-        Rectangle cRect = bounds(c);
+        Rectangle pRect = bounds(themeTop, g);
+        Rectangle cRect = bounds(c, g);
 
         bg.paint(c, g, pRect, cRect, insets(c));
         return theme;
     }
 
-    private static Rectangle bounds(Component c) {
+    private static Rectangle bounds(Component c, Graphics2D g) {
         Insets in = insets(c);
-        Point start = getStart(c, in, false);
+        Point start = getStart(c, g, in, within(c, JViewport.class));
         int x = start.x;
         int y = start.y;
         int width = c.getWidth() + in.left + in.right;
         int height = c.getHeight() + in.top + in.bottom;
         return new Rectangle(x, y, width, height);
+    }
+
+    private static boolean within(Component c, Class type) {
+        if (c == null)
+            return false;
+        if (c instanceof JTree)
+            return false;   // just a workaround
+        if (type.isAssignableFrom(c.getClass())) {
+            System.out.println("--");
+            return true;
+        }
+        return within(c.getParent(), type);
     }
 
     private static Insets insets(Component c) {
@@ -551,7 +563,8 @@ public class NapkinUtil implements NapkinConstants {
         return themeTop;
     }
 
-    private static Point getStart(Component c, Insets insets, boolean print) {
+    private static Point getStart(Component c, Graphics2D g, Insets insets,
+            boolean print) {
         Point start = new Point();
         if (insets != null)
             start.setLocation(-insets.left, -insets.top);
@@ -559,6 +572,16 @@ public class NapkinUtil implements NapkinConstants {
             if (print)
                 System.out.println(
                         "(" + c.getX() + ", " + c.getY() + "): " + descFor(c));
+
+            if (c instanceof JViewport) {
+                JViewport vp = (JViewport) c;
+                Point viewPos = vp.getViewPosition();
+                start.x += 1 * viewPos.x;
+                start.y += 1 * viewPos.y;
+                if (print)
+                    System.out.println("    viewPos = " + viewPos);
+            }
+
             start.x += c.getX();
             start.y += c.getY();
             if (print)
