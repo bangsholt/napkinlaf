@@ -23,7 +23,6 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane {
         bounds.x = bounds.y = 0;
         line.shapeUpToDate(bounds, null);
         ulG.translate(0, bounds.height - 2);
-//        ulG.setColor(Color.MAGENTA);
         line.draw(ulG);
     }
 
