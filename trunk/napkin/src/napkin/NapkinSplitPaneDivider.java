@@ -41,7 +41,7 @@ public class NapkinSplitPaneDivider extends BasicSplitPaneDivider
     }
 
     protected JButton createOneTouchButton(int dir) {
-        JButton b = NapkinUtil.createArrowButton(dir, ARROW_SIZE, splitPane);
+        JButton b = NapkinUtil.createArrowButton(dir, ARROW_SIZE);
         b.setFocusable(false);
         b.setMinimumSize(new Dimension(SIZE, SIZE));
         b.setCursor(DEFAULT_CURSOR);

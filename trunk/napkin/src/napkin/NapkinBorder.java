@@ -34,7 +34,7 @@ public abstract class NapkinBorder extends AbstractBorder {
         if (isFormal(c))
             formalBorder.paintBorder(c, g, x, y, width, height);
         else {
-            NapkinTheme theme = NapkinUtil.themeFor(c);
+            NapkinTheme theme = NapkinUtil.currentTheme(c);
             Color penColor = theme.getPenColor();
             if (NapkinUtil.replace(g.getColor(), penColor))
                 g.setColor(penColor);

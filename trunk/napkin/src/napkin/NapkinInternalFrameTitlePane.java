@@ -14,11 +14,10 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
 
     public NapkinInternalFrameTitlePane(JInternalFrame f) {
         super(f);
-        putClientProperty(THEME_TOP_KEY, f);
     }
 
     public void paint(Graphics g) {
-        g = NapkinUtil.defaultGraphics(g, this, frame);
+        g = NapkinUtil.defaultGraphics(g, this);
         selectedTextColor = notSelectedTextColor = g.getColor();
         NapkinUtil.background(g, this);
         super.paint(g);
