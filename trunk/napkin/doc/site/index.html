@@ -53,43 +53,19 @@
 I have declared "Beta".  Things seem to basically work, but there are certainly
 some issues still.  Nonetheless, it seems to meet the web standard of "beta".
 
-<h4>New "Disabled" Model</h4>
-
-Now all disabled controls are marked in the same way.  The idea is to make it
-look as if someone had erased the underlying image.  In the image below, the
-"Themes" menu in the menu bar has been disabled, as have the buttons in the
-display region.
-
-<center>
-<p><img class="snap" align="center" src="NapkinDisabled.jpg"/>
-</center>
-
-<h4>JavaOne 2004</h4>
-
-I had about a dozen folks accost me at JavaOne 2004 to talk about the LAF.
-It's nice to see that folks are out there looking.  (I can't help but remind
-folks using it that this is a volunteer project, and if you are using it,
-spending a few cycles to help out would be most welcome.)
-
 <h4><i>Latest Release: 
 <a href="http://sourceforge.net/project/showfiles.php?group_id=104116&package_id=111904">
-beta-002</a>, 23 July, 2004</i></h4>
+beta-003, 10 August, 2004</i></h4></a>
 
 <ul>
-<li>Check for debug property in security context to avoid security exception.
-    <i>(This caused impenetrable failures in web start and anywhere else
-    security was in place, so it gets a release of its own.)</i>
-</ul>
-
-<i>from beta-001</i>
-<ul>
-<li>No drawn border on postit paper.
-<li>Internal frames done on postit paper.
-<li>New background model; backgrounds should now work properly.
-<li>All components will be marked disabled by pseudo-erasure.  Again, thanks
-    to graphics help from Miro Juri&#353;i&#263.
-<li>Thanks to debugging and modeling help from Miro Juri&#353;i&#263; we can
-    now render "hand-drawn" lines at an angle.
+<li>Fixed bug 1003040, which had dragging anywhere in a window drag the whole
+    window around.  This turned out to be a Mac Java problem.
+<li>Added "blueprint" theme.  Thanks to Brian Hawthorne for creating the
+    background!
+<li>Make SwingSet2 use Napkin themes in menu when its the L&F (that was hard).
+<li>Use more properties instead of hard-wired values for colors, etc.
+<li>Added a basic "themes" notion: <tt>NapkinTheme</tt> and its
+    contained classes.
 </ul>
 
 <hr>
@@ -167,6 +143,13 @@ screen snapshots (as thumbnails; click for full-sized images):
 <table>
     <tr>
 	<td align="center">
+	<a href="NapkinButtons.jpg">
+	<img class="snap" src="NapkinButtonsThumb.jpg"/><br>
+	Various buttons
+	</a>
+	</td>
+
+	<td align="center">
 	<a href="NapkinDisabled.jpg"/>
 	<img class="snap" align="center" src="NapkinDisabledThumb.jpg"/><br>
 	Disabled things
@@ -177,13 +160,6 @@ screen snapshots (as thumbnails; click for full-sized images):
 	<a href="NapkinProgress.jpg">
 	<img class="snap" src="NapkinProgressThumb.jpg"/><br>
 	A progress bar<br>(scribbled in at the bottom)
-	</a>
-	</td>
-
-	<td align="center">
-	<a href="NapkinButtons.jpg">
-	<img class="snap" src="NapkinButtonsThumb.jpg"/><br>
-	Various buttons
 	</a>
 	</td>
     </tr>
@@ -207,6 +183,31 @@ screen snapshots (as thumbnails; click for full-sized images):
 	<a href="NapkinTable.jpg">
 	<img class="snap" src="NapkinTableThumb.jpg"/><br>
 	A table
+	</a>
+	</td>
+    </tr>
+    <tr>
+	<td align="center">
+	<a href="BlueprintFrames.jpg"/>
+	<img class="snap" src="BlueprintFramesThumb.jpg"/><br>
+	Internal frames<br>
+	(blueprint theme)
+	</a>
+	</td>
+
+	<td align="center">
+	<a href="BlueprintFileChooser.jpg">
+	<img class="snap" src="BlueprintFileChooserThumb.jpg"/><br>
+	File chooser<br>
+	(blueprint theme)
+	</a>
+	</td>
+
+	<td align="center">
+	<a href="BlueprintTables.jpg">
+	<img class="snap" src="BlueprintTablesThumb.jpg"/><br>
+	A table<br>
+	(blueprint theme)
 	</a>
 	</td>
     </tr>
