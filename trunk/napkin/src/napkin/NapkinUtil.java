@@ -823,4 +823,8 @@ public class NapkinUtil implements NapkinConstants {
     public static Object ifReplace(Object current, Object candidate) {
         return (replace(current, candidate) ? candidate : current);
     }
+
+    public static Color ifReplace(Color current, Color candidate) {
+        return (replace(current, candidate) ? candidate : current);
+    }
 }

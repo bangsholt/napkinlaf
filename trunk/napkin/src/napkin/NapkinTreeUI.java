@@ -11,6 +11,20 @@ import javax.swing.plaf.basic.*;
 import javax.swing.tree.*;
 
 public class NapkinTreeUI extends BasicTreeUI {
+
+    public class DefaultNapkinTreeCellRender extends DefaultTreeCellRenderer {
+        public void paint(Graphics g) {
+            g = NapkinUtil.defaultGraphics(g, tree);
+            NapkinTheme theme = NapkinUtil.themeFor(tree);
+            setBackgroundSelectionColor(NapkinUtil.ifReplace(
+                    getBackgroundSelectionColor(),
+                    theme.getHighlightColor()));
+            NapkinUtil.background(g, tree);
+            super.paint(g);
+            NapkinUtil.finishGraphics(g, tree);
+        }
+    }
+
     private Map linesFor = new HashMap();
 
     public static ComponentUI createUI(JComponent c) {
@@ -29,6 +43,10 @@ public class NapkinTreeUI extends BasicTreeUI {
 
     public void update(Graphics g, JComponent c) {
         g = NapkinUtil.defaultGraphics(g, c);
+
+        NapkinTheme theme = NapkinUtil.themeFor(tree);
+        setHashColor(NapkinUtil.ifReplace(getHashColor(), theme.getPenColor()));
+
         NapkinUtil.background(g, c);
         super.update(g, c);
         NapkinUtil.finishGraphics(g, c);
@@ -52,7 +70,12 @@ public class NapkinTreeUI extends BasicTreeUI {
         if (holder == null) {
             holder = new DrawnLineHolder(Math.max(w, h), w == 0);
             linesFor.put(rect, holder);
-            System.out.println("adding holder for " + rect);
+            // Unfortunately we can't know when a line is not needed anymore.
+            // So we'll hold onto it forever.  We just hope this isn't *too*
+            // bad a thing to do -- that things will not grow without bound.
+            // Considering that a tree only has a limited range of possible
+            // change in a real case this probably OK, but I'd like to do
+            // something else if I could only think of it.
         }
         DrawnLineHolder line = holder;
         line.shapeUpToDate(rect, null);
@@ -77,8 +100,17 @@ public class NapkinTreeUI extends BasicTreeUI {
             boolean isExpanded, boolean hasBeenExpanded, boolean isLeaf) {
 
         // see comment for paintVerticalPartOfLeg()
-        super.paintHorizontalPartOfLeg(g, clipBounds, insets, tree.getBounds(),
+        super.paintHorizontalPartOfLeg(g, tree.getBounds(), insets, bounds,
                 path, row, isExpanded, hasBeenExpanded, isLeaf);
+    }
+
+    protected Color getHashColor() {
+        NapkinTheme theme = NapkinUtil.themeFor(tree);
+        return theme.getPenColor();
+    }
+
+    protected TreeCellRenderer createDefaultCellRenderer() {
+        return new DefaultNapkinTreeCellRender();
     }
 }
 

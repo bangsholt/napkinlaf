@@ -351,6 +351,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "Tree.openIcon", treeOpenIcon,
             "Tree.closedIcon", treeClosedIcon,
             "Tree.leafIcon", null,
+            "Tree.selectionBorderColor", null,
 
             "TextField.border", underlineBorder,
             "PasswordField.border", underlineBorder,
@@ -541,11 +542,16 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                     else
                         entry.setValue(compoundBorder);
                 }
-            } else if (key.endsWith(".foreground")) {
+            } else if (key.endsWith(".foreground") ||
+                    key.endsWith("BorderColor") ||
+                    key.endsWith(".textForeground")) {
                 entry.setValue(theme.getPenColor());
             } else if (key.endsWith(".background") ||
-                    key.endsWith(".selectionBackground")) {
+                    key.endsWith(".selectionBackground") ||
+                    key.endsWith(".textBackground")) {
                 entry.setValue(clear);
+            } else if (key.endsWith(".selectionForeground")) {
+                entry.setValue(theme.getSelectionColor());
             }
         }
     }
