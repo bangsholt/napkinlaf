@@ -264,7 +264,8 @@ public class NapkinUtil implements NapkinConstants {
             Rectangle r = g.getClipBounds();
             int w = r.width;
             int h = r.height;
-            BufferedImage tmp = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage tmp =
+                    new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
             Graphics2D tg = tmp.createGraphics();
             Composite origComp = tg.getComposite();
             tg.setComposite(AlphaComposite.Clear);
@@ -285,7 +286,8 @@ public class NapkinUtil implements NapkinConstants {
             tg.setStroke(g.getStroke());
 
             JComponent jc = (JComponent) c;
-            jc.putClientProperty(DISABLED_MARK, new DisabledMark(g, tmp, offX, offY));
+            DisabledMark mark = new DisabledMark(g, tmp, offX, offY);
+            jc.putClientProperty(DISABLED_MARK, mark);
             g = tg;
         }
 
@@ -358,8 +360,11 @@ public class NapkinUtil implements NapkinConstants {
         return createArrowButton(pointTowards, size, holder);
     }
 
-    static JButton createArrowButton(int pointTowards, int size, JComponent holder) {
-        JButton button = new JButton(NapkinIconFactory.createArrowIcon(pointTowards, size));
+    static JButton
+            createArrowButton(int pointTowards, int size, JComponent holder) {
+
+        Icon arrow = NapkinIconFactory.createArrowIcon(pointTowards, size);
+        JButton button = new JButton(arrow);
         button.setBorderPainted(false);
         button.putClientProperty(PAPER_HOLDER, holder);
         return button;
