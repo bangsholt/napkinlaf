@@ -17,8 +17,7 @@ public class NapkinPopupMenuUI extends BasicPopupMenuUI
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
-        NapkinUtil.setupThemeTop(c,
-                NapkinUtil.themeFor(c).getPopupTheme());
+        NapkinUtil.setupThemeTop(c, NapkinUtil.themeFor(c).getPopupTheme());
     }
 
     public void uninstallUI(JComponent c) {
