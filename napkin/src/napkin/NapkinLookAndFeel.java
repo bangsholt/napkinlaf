@@ -191,8 +191,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     }
 
     private void setFormalLAF(LookAndFeel formalLAF) {
-        if (formalLAF == null)
-            throw new NullPointerException("formal");
         if (!JUST_NAPKIN)
             this.formalLAF = formalLAF;
     }
