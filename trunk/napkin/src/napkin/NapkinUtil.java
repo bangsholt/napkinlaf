@@ -49,8 +49,8 @@ public class NapkinUtil implements NapkinConstants {
                     Component c = e.getComponent();
                     if (c instanceof JComponent) {
                         JComponent jc = (JComponent) c;
-                        if (jc.getClientProperty(IS_PAPER) == null)
-                            jc.putClientProperty(BACKGROUND, null);
+                        if (jc.getClientProperty(IS_PAPER_KEY) == null)
+                            jc.putClientProperty(BACKGROUND_KEY, null);
                     }
                 }
             };
@@ -67,6 +67,10 @@ public class NapkinUtil implements NapkinConstants {
         gi.drawImage(icon.getImage(), 0, 0, icon.getImageObserver());
     }
 
+    public interface PropertyFactory {
+        Object createPropertyValue();
+    }
+
     public static class DisabledMark {
         public final BufferedImage image;
         public final int offX;
@@ -79,13 +83,6 @@ public class NapkinUtil implements NapkinConstants {
             this.offX = offX;
             this.offY = offY;
         }
-    }
-
-    public static Object property(ComponentUI ui, String prop) {
-        String uiName = ui.getClass().getName();
-        String base = ".Napkin";
-        String pref = uiName.substring(uiName.lastIndexOf(base) + base.length(), uiName.length() - 2);
-        return pref + "." + prop;
     }
 
     public static class DumpListener implements FocusListener {
@@ -111,6 +108,14 @@ public class NapkinUtil implements NapkinConstants {
             if (timer != null)
                 timer.stop();
         }
+    }
+
+    public static Object property(ComponentUI ui, String prop) {
+        String name = ui.getClass().getName();
+        String base = ".Napkin";
+        int pos = name.lastIndexOf(base) + base.length();
+        String pref = name.substring(pos, name.length() - 2);
+        return pref + "." + prop;
     }
 
     static boolean isFormal(JComponent l) {
@@ -287,7 +292,7 @@ public class NapkinUtil implements NapkinConstants {
 
             JComponent jc = (JComponent) c;
             DisabledMark mark = new DisabledMark(g, tmp, offX, offY);
-            jc.putClientProperty(DISABLED_MARK, mark);
+            jc.putClientProperty(DISABLED_MARK_KEY, mark);
             g = tg;
         }
 
@@ -304,13 +309,13 @@ public class NapkinUtil implements NapkinConstants {
             return;
 
         JComponent jc = (JComponent) c;
-        DisabledMark mark = (DisabledMark) jc.getClientProperty(DISABLED_MARK);
+        DisabledMark mark = (DisabledMark) jc.getClientProperty(DISABLED_MARK_KEY);
         if (mark == null) {
             disabled.remove(c);
             return;
         }
 
-        jc.putClientProperty(DISABLED_MARK, null);
+        jc.putClientProperty(DISABLED_MARK_KEY, null);
         Graphics2D tg = (Graphics2D) g1;
         tg.setComposite(ERASURE_COMPOSITE);
         Point start = getStart(jc, null, false);
@@ -366,7 +371,7 @@ public class NapkinUtil implements NapkinConstants {
         Icon arrow = NapkinIconFactory.createArrowIcon(pointTowards, size);
         JButton button = new JButton(arrow);
         button.setBorderPainted(false);
-        button.putClientProperty(PAPER_HOLDER, holder);
+        button.putClientProperty(PAPER_HOLDER_KEY, holder);
         return button;
     }
 
@@ -438,9 +443,9 @@ public class NapkinUtil implements NapkinConstants {
 
     public static void setupPaper(JComponent c, NapkinBackground bg) {
         c.setOpaque(true);
-        c.putClientProperty(IS_PAPER, Boolean.TRUE);
-        c.putClientProperty(PAPER, c);
-        c.putClientProperty(BACKGROUND, bg);
+        c.putClientProperty(IS_PAPER_KEY, Boolean.TRUE);
+        c.putClientProperty(PAPER_KEY, c);
+        c.putClientProperty(BACKGROUND_KEY, bg);
     }
 
     public static void background(Graphics g1, Component c) {
@@ -452,7 +457,7 @@ public class NapkinUtil implements NapkinConstants {
 
         Graphics2D g = (Graphics2D) g1;
         NapkinBackground bg =
-                (NapkinBackground) paper.getClientProperty(BACKGROUND);
+                (NapkinBackground) paper.getClientProperty(BACKGROUND_KEY);
 
         Rectangle pRect = bounds(paper);
         Rectangle cRect = bounds(c);
@@ -487,11 +492,11 @@ public class NapkinUtil implements NapkinConstants {
             return paperFor(c.getParent());
 
         JComponent jc = (JComponent) c;
-        JComponent paper = (JComponent) jc.getClientProperty(PAPER);
+        JComponent paper = (JComponent) jc.getClientProperty(PAPER_KEY);
         if (paper != null)
             return paper;
 
-        JComponent holder = (JComponent) jc.getClientProperty(PAPER_HOLDER);
+        JComponent holder = (JComponent) jc.getClientProperty(PAPER_HOLDER_KEY);
         if (holder != null)
             paper = paperFor(holder);
         else
@@ -506,7 +511,7 @@ public class NapkinUtil implements NapkinConstants {
             setupPaper(jc, NapkinBackground.NAPKIN_BG);
             return jc;
         }
-        jc.putClientProperty(PAPER, paper);
+        jc.putClientProperty(PAPER_KEY, paper);
         return paper;
     }
 
@@ -528,7 +533,7 @@ public class NapkinUtil implements NapkinConstants {
 
     private static boolean isPaper(Component c) {
         if (c instanceof JComponent)
-            return (((JComponent) c).getClientProperty(IS_PAPER) != null);
+            return (((JComponent) c).getClientProperty(IS_PAPER_KEY) != null);
         return false;
     }
 
@@ -692,5 +697,15 @@ public class NapkinUtil implements NapkinConstants {
             return new FakeEnabledMenuItem(c);
         else
             return new FakeEnabledButton(c);
+    }
+
+    public static Object
+            getProperty(JComponent c, String key, PropertyFactory factory) {
+        Object value = c.getClientProperty(key);
+        if (value == null) {
+            value = factory.createPropertyValue();
+            c.putClientProperty(key, value);
+        }
+        return value;
     }
 }
