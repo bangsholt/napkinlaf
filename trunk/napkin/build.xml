@@ -19,15 +19,22 @@
         <javac srcdir="src" destdir="classes"
             classpathref="classpath"
             debug="${debug}" deprecation="yes"/>
+        <javac srcdir="swingset/src" destdir="classes"
+            classpathref="classpath"
+            debug="${debug}" deprecation="yes"/>
         <copy todir="classes">
             <fileset dir="src">
                 <include name="**/resources/**/*"/>
                 <include name="**/icons/**/*"/>
             </fileset>
+            <fileset dir="swingset/src">
+                <include name="**/resources/**/*"/>
+                <include name="**/icons/**/*"/>
+            </fileset>
         </copy>
         <copy todir="classes/src">
-            <fileset dir="src">
-		<include name="*.java"/>
+            <fileset dir="swingset/src">
+                <include name="**/*.java"/>
             </fileset>
         </copy>
     </target>
