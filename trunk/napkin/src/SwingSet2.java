@@ -367,7 +367,6 @@ public class SwingSet2 extends JPanel {
             initLaf = null;
             String[] lafs = makeList(getString("LafMenu.laf_list"));
             String defaultLaf = getString("LafMenu.laf_default").trim();
-            boolean useNative = defaultLaf.equalsIgnoreCase("native");
             currentLookAndFeel = null;
             for (int i = 0; i < lafs.length; i++) {
                 String laf = lafs[i].intern();
@@ -376,11 +375,9 @@ public class SwingSet2 extends JPanel {
                 mi = createLafMenuItem(lafMenu, pref + "label",
                         pref + "mnemonic", pref + "accessible_description",
                         lafClass);
-                System.out.println("laf = " + laf);
                 if (laf.equals(defaultLaf)) {
                     mi.setSelected(true);
                     initLaf = lafClass;
-                    System.out.println("initLaf = " + initLaf);
                 }
             }
 
