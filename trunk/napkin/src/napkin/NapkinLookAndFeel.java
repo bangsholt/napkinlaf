@@ -6,7 +6,7 @@ import napkin.ComponentWalker.Visitor;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -24,6 +24,13 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
     private LookAndFeel formal;
     private final Map flags = new WeakHashMap();
+
+    private static boolean gotFonts;
+    private static Font scrawl;
+    private static Font fixed;
+
+    private static final String SCRAWL_NAME = "nigmaScrawl5bBRK";
+    private static final String FIXED_NAME = "ProFont";
 
     private final Visitor clearKidsVisitor = new Visitor() {
         public boolean visit(Component c, int depth) {
@@ -257,14 +264,15 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     protected void initComponentDefaults(UIDefaults table) {
         super.initComponentDefaults(table);
 
+        getFonts();
         Integer twelve = new Integer(12);
         Integer plain = new Integer(Font.PLAIN);
         Integer bold = new Integer(Font.BOLD);
-        Object dialogPlain = fontValue("nigmaScrawl5bBRK", plain, twelve);
-        Object dialogBold = fontValue("nigmaScrawl5bBRK", bold, twelve);
-        Object serifPlain = fontValue("nigmaScrawl5bBRK", plain, twelve);
-        Object sansSerifPlain = fontValue("nigmaScrawl5bBRK", plain, twelve);
-        Object monospacedPlain = fontValue("ProFont", plain, twelve);
+        Object dialogPlain = fontValue(scrawl, SCRAWL_NAME, plain, twelve);
+        Object dialogBold = fontValue(scrawl, SCRAWL_NAME, bold, twelve);
+        Object serifPlain = fontValue(scrawl, SCRAWL_NAME, plain, twelve);
+        Object sansSerifPlain = fontValue(scrawl, SCRAWL_NAME, plain, twelve);
+        Object monospacedPlain = fontValue(fixed, FIXED_NAME, plain, twelve);
 
         for (Iterator it = table.entrySet().iterator(); it.hasNext();) {
             Entry entry = (Entry) it.next();
@@ -311,11 +319,39 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         table.putDefaults(napkinDefaults);
     }
 
-    private static ProxyLazyValue
-            fontValue(String font, Integer fontPlain, Integer twelve) {
+    private static synchronized void getFonts() {
+        if (gotFonts)
+            return;
+        scrawl = tryToLoadFont("aescr5b.ttf");
+        fixed = tryToLoadFont("Mcgf____.ttf");
+    }
 
+    private static Font tryToLoadFont(final String fontName) {
+        try {
+            ClassLoader cl = NapkinLookAndFeel.class.getClassLoader();
+            String fontRes = "napkin/resources/" + fontName;
+            InputStream fontDef = cl.getResourceAsStream(fontRes);
+            if (fontDef == null)
+                System.err.println("Could not find font " + fontName);
+            else
+                return Font.createFont(Font.TRUETYPE_FONT, fontDef);
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static Object
+            fontValue(Font font, String name, Integer style, Number size) {
+
+        if (font != null) {
+            return new FontUIResource(
+                    font.deriveFont(style.intValue(), size.floatValue()));
+        }
         String resName = "javax.swing.plaf.FontUIResource";
-        Object[] args = new Object[]{font, fontPlain, twelve};
+        Object[] args = new Object[]{name, style, size};
         return new ProxyLazyValue(resName, null, args);
     }
 
