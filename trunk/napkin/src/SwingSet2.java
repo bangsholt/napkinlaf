@@ -95,17 +95,7 @@ public class SwingSet2 extends JPanel {
 	}
     }
 
-    // Possible Look & Feels
-    private static final String mac      =
-            "com.sun.java.swing.plaf.mac.MacLookAndFeel";
-    private static final String metal    =
-            "javax.swing.plaf.metal.MetalLookAndFeel";
-    private static final String motif    =
-            "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
-    private static final String windows  =
-            "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
-    private static final String gtk  =
-            "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
+    private static String metal = "javax.swing.plaf.metal.MetalLookAndFeel";
 
     // The current Look & Feel
     private static String currentLookAndFeel = metal;
@@ -365,12 +355,12 @@ public class SwingSet2 extends JPanel {
 	    getString("LafMenu.laf_accessible_description"));
 
             initLaf = null;
-            String[] lafs = makeList(getString("LafMenu.laf_list"));
+            String[] lafs = split(getString("LafMenu.laf_list"));
             String defaultLaf = getString("LafMenu.laf_default").trim();
             currentLookAndFeel = null;
             for (int i = 0; i < lafs.length; i++) {
-                String laf = lafs[i].intern();
-                String lafClass = getLafClass(laf).intern();
+                String laf = lafs[i];
+                String lafClass = getLafClass(laf);
                 String pref = "LafMenu." + laf + "_";
                 mi = createLafMenuItem(lafMenu, pref + "label",
                         pref + "mnemonic", pref + "accessible_description",
@@ -379,6 +369,8 @@ public class SwingSet2 extends JPanel {
                     mi.setSelected(true);
                     initLaf = lafClass;
                 }
+                if (laf.equals("metal"))
+                    metal = lafClass;
             }
 
 	// ***** create themes menu
@@ -477,7 +469,7 @@ public class SwingSet2 extends JPanel {
     private String getLafClass(String laf) {
         String osName = System.getProperty("os.name");
         if (laf.equals("mac") && osName.indexOf("Mac") >= 0)
-            return UIManager.getSystemLookAndFeelClassName();
+            return UIManager.getSystemLookAndFeelClassName().intern();
 
         /**
          * The return below works for all systems I know of *except* the Mac,
@@ -486,14 +478,14 @@ public class SwingSet2 extends JPanel {
          * the SwingSet does to work around this.  Looks pretty weird, and if I
          * knew a more general way to do this, I'd do that instead.
          */
-        return getString("LafMenu." + laf + "_class");
+        return getString("LafMenu." + laf + "_class").intern();
     }
 
-    private String[] makeList(String string) {
+    private String[] split(String string) {
         StringTokenizer toks = new StringTokenizer(string, "\t\n\r ,");
         String[] strs = new String[toks.countTokens()];
         for (int i = 0; toks.hasMoreTokens(); i++)
-            strs[i] = toks.nextToken();
+            strs[i] = toks.nextToken().intern();
         return strs;
     }
 
@@ -602,20 +594,13 @@ public class SwingSet2 extends JPanel {
     public JPopupMenu createPopupMenu() {
  	JPopupMenu popup = new JPopupMenu("JPopupMenu demo");
 
- 	createPopupMenuItem(popup, "LafMenu.java_label", "LafMenu.java_mnemonic",
-			    "LafMenu.java_accessible_description", metal);
-
- 	createPopupMenuItem(popup, "LafMenu.mac_label", "LafMenu.mac_mnemonic",
-			    "LafMenu.mac_accessible_description", mac);
-
- 	createPopupMenuItem(popup, "LafMenu.motif_label", "LafMenu.motif_mnemonic",
-			    "LafMenu.motif_accessible_description", motif);
-
- 	createPopupMenuItem(popup, "LafMenu.windows_label", "LafMenu.windows_mnemonic",
-			    "LafMenu.windows_accessible_description", windows);
-
-	createPopupMenuItem(popup, "LafMenu.gtk_label", "LafMenu.gtk_mnemonic",
-			    "LafMenu.gtk_accessible_description", gtk);
+        String[] lafs = split(getString("LafMenu.laf_list"));
+        for (int i = 0; i < lafs.length; i++) {
+            String laf = lafs[i];
+            String prefix = "LafMenu." + laf + "_";
+            createPopupMenuItem(popup, prefix + "label", prefix + "mnemonic",
+                    prefix + "accessible_description", getLafClass(laf));
+        }
 
  	// register key binding to activate popup menu
  	InputMap map = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
