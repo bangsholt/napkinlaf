@@ -21,7 +21,9 @@ public class NapkinUtil implements NapkinConstants {
     private static final Integer BOTTOM_LAYER = new Integer(Integer.MIN_VALUE);
 
     private static final Logger logger = Logger.getLogger("NapkinUtil");
+
     public static final Random random = new Random();
+
     public static final Icon EMPTY_ICON = new Icon() {
         public void paintIcon(Component c, Graphics g, int x, int y) {
         }
@@ -34,6 +36,7 @@ public class NapkinUtil implements NapkinConstants {
             return 0;
         }
     };
+    private static final Color TRANSPARENT = new Color(0, 0, 0, 0);
 
     private static Map strokes = new WeakHashMap();
 
@@ -110,10 +113,12 @@ public class NapkinUtil implements NapkinConstants {
 
     public static void installUI(JComponent c) {
         c.setOpaque(false);
+        c.setBackground(TRANSPARENT);
     }
 
     public static void uninstallUI(JComponent c) {
         c.setOpaque(true);
+        // the next UI installed will set the colors, but they assume opacity
     }
 
     static void setBackground(Component child, NapkinBackground bg) {
