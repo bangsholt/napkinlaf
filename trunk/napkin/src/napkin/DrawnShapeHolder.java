@@ -2,20 +2,20 @@ package napkin;
 
 import java.awt.*;
 
-abstract class ShapeHolder {
-    ShapeGenerator gen;
+public abstract class DrawnShapeHolder {
+    DrawnShapeGenerator gen;
     Shape shape;
     float width;
 
     interface Factory {
-        ShapeHolder create();
+        DrawnShapeHolder create();
     }
 
-    ShapeHolder(ShapeGenerator gen) {
+    public DrawnShapeHolder(DrawnShapeGenerator gen) {
         this(gen, 1);
     }
 
-    ShapeHolder(ShapeGenerator gen, float width) {
+    public DrawnShapeHolder(DrawnShapeGenerator gen, float width) {
         this.gen = gen;
         this.width = width;
     }

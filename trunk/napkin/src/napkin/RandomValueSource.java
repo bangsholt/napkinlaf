@@ -2,7 +2,7 @@
 
 package napkin;
 
-public interface ValueSource {
+public interface RandomValueSource {
 
     void randomize();
 

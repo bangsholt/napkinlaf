@@ -1,11 +1,11 @@
 package napkin;
 
-import javax.swing.border.*;
 import java.awt.*;
+import javax.swing.border.*;
 
 public class NapkinLineBorder extends NapkinBorder {
     private final boolean vertical;
-    private LineHolder line;
+    private DrawnLineHolder line;
 
     private static final Insets DEFAULT_VERT_INSETS =
             new Insets(0, 0, 0, NapkinBoxBorder.DEFAULT_INSETS.right);
@@ -27,12 +27,12 @@ public class NapkinLineBorder extends NapkinBorder {
     }
 
     public void doPaintBorder(Component c, Graphics g1, int x, int y,
-                              int width, int height) {
+            int width, int height) {
 
         Graphics2D g = (Graphics2D) g1;
         Rectangle passed = new Rectangle(x, y, width, height);
         if (line == null)
-            line = new LineHolder(CubicGenerator.INSTANCE, vertical);
+            line = new DrawnLineHolder(DrawnCubicLineGenerator.INSTANCE, vertical);
         line.shapeUpToDate(passed, null);
 
         Rectangle clip = g.getClipBounds();

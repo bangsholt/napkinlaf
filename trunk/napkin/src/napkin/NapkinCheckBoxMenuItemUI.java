@@ -10,7 +10,7 @@ import javax.swing.plaf.basic.*;
 public class NapkinCheckBoxMenuItemUI extends BasicCheckBoxMenuItemUI
         implements NapkinPainter {
 
-    private LineHolder line;
+    private DrawnLineHolder line;
 
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinCheckBoxMenuItemUI());
@@ -30,7 +30,7 @@ public class NapkinCheckBoxMenuItemUI extends BasicCheckBoxMenuItemUI
             String text) {
 
         if (line == null)
-            line = new LineHolder(new CubicGenerator());
+            line = new DrawnLineHolder(new DrawnCubicLineGenerator());
         NapkinUtil.paintText(g, item, textRect, text, 0, line, false, this);
     }
 

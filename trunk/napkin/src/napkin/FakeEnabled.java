@@ -1,4 +1,4 @@
 package napkin;
 
-public interface FakeEnabled {
+interface FakeEnabled {
 }

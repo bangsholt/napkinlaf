@@ -5,7 +5,7 @@ import javax.swing.*;
 import javax.swing.plaf.basic.*;
 
 public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane {
-    private LineHolder line;
+    private DrawnLineHolder line;
     private Rectangle bounds;
 
     public NapkinInternalFrameTitlePane(JInternalFrame f) {
@@ -16,7 +16,7 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane {
         g = NapkinUtil.defaultGraphics(g, frame);
         NapkinUtil.background(g, frame);
         if (line == null)
-            line = new LineHolder(new CubicGenerator());
+            line = new DrawnLineHolder(new DrawnCubicLineGenerator());
         Graphics2D ulG = NapkinUtil.copy(g);
         bounds = getBounds(bounds);
         bounds.x = bounds.y = 0;

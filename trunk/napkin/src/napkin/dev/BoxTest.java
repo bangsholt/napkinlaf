@@ -8,22 +8,22 @@ import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-import napkin.BoxGenerator;
-import napkin.CubicGenerator;
-import napkin.QuadGenerator;
-import napkin.ShapeGenerator;
-import napkin.ValueSource;
+import napkin.DrawnBoxGenerator;
+import napkin.DrawnCubicLineGenerator;
+import napkin.DrawnQuadLineGenerator;
+import napkin.DrawnShapeGenerator;
+import napkin.RandomValueSource;
 
 class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
 
-    private final BoxGenerator gen;
+    private final DrawnBoxGenerator gen;
 
-    private final ValueSpinner begXSpin;
-    private final ValueSpinner endYSpin;
-    private final ValueSpinner startAdjustSpin;
-    private final ValueSpinner sizeXSpin;
-    private final ValueSpinner sizeYSpin;
-    private final ValueSource[] spinners;
+    private final RandomValueSpinner begXSpin;
+    private final RandomValueSpinner endYSpin;
+    private final RandomValueSpinner startAdjustSpin;
+    private final RandomValueSpinner sizeXSpin;
+    private final RandomValueSpinner sizeYSpin;
+    private final RandomValueSource[] spinners;
 
     private final Side[] sides;
 
@@ -31,7 +31,7 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
 
     private static final String[] TYPE_NAMES = {"cubic", "quad", "straight"};
     private static final Class[] TYPES = {
-        CubicGenerator.class, QuadGenerator.class, null
+        DrawnCubicLineGenerator.class, DrawnQuadLineGenerator.class, null
     };
 
     private class Side {
@@ -89,26 +89,26 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
         }
     };
 
-    BoxTest(CubicGenerator cubic, QuadGenerator quad) {
-        gen = new BoxGenerator(cubic, quad);
+    BoxTest(DrawnCubicLineGenerator cubic, DrawnQuadLineGenerator quad) {
+        gen = new DrawnBoxGenerator(cubic, quad);
 
-        begXSpin = new ValueSpinner("x", gen.getBegX(), -5, +5, 100);
-        endYSpin = new ValueSpinner("y", gen.getEndY(), -5, +5, 100);
+        begXSpin = new RandomValueSpinner("x", gen.getBegX(), -5, +5, 100);
+        endYSpin = new RandomValueSpinner("y", gen.getEndY(), -5, +5, 100);
         startAdjustSpin =
-                new ValueSpinner("adj", gen.getStartAdjust(), 0, 10, 100,
+                new RandomValueSpinner("adj", gen.getStartAdjust(), 0, 10, 100,
                         false);
         sizeXSpin =
-                new ValueSpinner("width", gen.getSizeX(), 0, LENGTH, 100,
+                new RandomValueSpinner("width", gen.getSizeX(), 0, LENGTH, 100,
                         false);
         sizeYSpin =
-                new ValueSpinner("height", gen.getSizeY(), 0, LENGTH, 100,
+                new RandomValueSpinner("height", gen.getSizeY(), 0, LENGTH, 100,
                         false);
-        spinners = new ValueSource[]{begXSpin, endYSpin, widthSpin};
+        spinners = new RandomValueSource[]{begXSpin, endYSpin, widthSpin};
 
         sides = new Side[4];
         for (int i = 0; i < sides.length; i++) {
-            sides[i] = new Side(BoxGenerator.SIDE_NAMES[i], i);
-            gen.setGenerator(i, CubicGenerator.class);
+            sides[i] = new Side(DrawnBoxGenerator.SIDE_NAMES[i], i);
+            gen.setGenerator(i, DrawnCubicLineGenerator.class);
         }
 
         rebuild();
@@ -118,7 +118,7 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
         gen.generate(matrix);
     }
 
-    public ShapeGenerator getGenerator() {
+    public DrawnShapeGenerator getGenerator() {
         return gen;
     }
 
@@ -126,7 +126,7 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
         generate(null);
     }
 
-    public ValueSource[] getSpinners() {
+    public RandomValueSource[] getSpinners() {
         return spinners;
     }
 

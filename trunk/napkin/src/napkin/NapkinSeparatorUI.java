@@ -11,7 +11,7 @@ public class NapkinSeparatorUI extends BasicSeparatorUI {
     private final Separator separator = new Separator();
 
     public static class Separator {
-        private LineHolder line;
+        private DrawnLineHolder line;
 
         public void paint(Graphics g, JComponent c) {
             JSeparator sep = (JSeparator) c;
@@ -21,7 +21,7 @@ public class NapkinSeparatorUI extends BasicSeparatorUI {
 
         private void doPaint(Graphics g, JSeparator sep, boolean vertical) {
             if (line == null)
-                line = new LineHolder(CubicGenerator.INSTANCE, vertical);
+                line = new DrawnLineHolder(DrawnCubicLineGenerator.INSTANCE, vertical);
 
             Rectangle bounds = sep.getBounds();
             bounds.x = bounds.y = 0;

@@ -3,21 +3,21 @@ package napkin;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class TabGenerator extends ShapeGenerator {
-    private final Value ulX, ulY;
-    private final Value urX, urY;
-    private final Value lrX, lrY;
-    private final Value llX, llY;
-    private final Value squeeze;
+public class DrawnTabGenerator extends DrawnShapeGenerator {
+    private final RandomValue ulX, ulY;
+    private final RandomValue urX, urY;
+    private final RandomValue lrX, lrY;
+    private final RandomValue llX, llY;
+    private final RandomValue squeeze;
     private final int side;
 
-    public static final TabGenerator LEFT_TAB = new TabGenerator(LEFT);
-    public static final TabGenerator RIGHT_TAB = new TabGenerator(RIGHT);
-    public static final TabGenerator TOP_TAB = new TabGenerator(TOP);
-    public static final TabGenerator BOTTOM_TAB = new TabGenerator(BOTTOM);
+    public static final DrawnTabGenerator LEFT_TAB = new DrawnTabGenerator(LEFT);
+    public static final DrawnTabGenerator RIGHT_TAB = new DrawnTabGenerator(RIGHT);
+    public static final DrawnTabGenerator TOP_TAB = new DrawnTabGenerator(TOP);
+    public static final DrawnTabGenerator BOTTOM_TAB = new DrawnTabGenerator(BOTTOM);
 
     private static final int[] STARTS;
-    private static final TabGenerator[] SIDES;
+    private static final DrawnTabGenerator[] SIDES;
 
     static {
         STARTS = new int[5];
@@ -27,7 +27,7 @@ public class TabGenerator extends ShapeGenerator {
         STARTS[TOP] = 6;
         STARTS[BOTTOM] = 2;
 
-        SIDES = new TabGenerator[5];
+        SIDES = new DrawnTabGenerator[5];
         SIDES[0] = null;     // not used, so we want to force a failure if it is
         SIDES[LEFT] = LEFT_TAB;
         SIDES[RIGHT] = RIGHT_TAB;
@@ -35,23 +35,23 @@ public class TabGenerator extends ShapeGenerator {
         SIDES[BOTTOM] = BOTTOM_TAB;
     }
 
-    public static TabGenerator generatorFor(int side) {
+    public static DrawnTabGenerator generatorFor(int side) {
         if (side <= 0)
             throw new IndexOutOfBoundsException();
         return SIDES[side];
     }
 
-    private TabGenerator(int side) {
+    private DrawnTabGenerator(int side) {
         this.side = side;
         float shimmy = 0.03f;
-        ulX = new Value(0, shimmy);
-        ulY = new Value(0, shimmy);
-        urX = new Value(1, shimmy);
-        urY = new Value(0, shimmy);
-        lrX = new Value(1, shimmy);
-        lrY = new Value(1, shimmy);
-        llX = new Value(0, shimmy);
-        llY = new Value(1, shimmy);
+        ulX = new RandomValue(0, shimmy);
+        ulY = new RandomValue(0, shimmy);
+        urX = new RandomValue(1, shimmy);
+        urY = new RandomValue(0, shimmy);
+        lrX = new RandomValue(1, shimmy);
+        lrY = new RandomValue(1, shimmy);
+        llX = new RandomValue(0, shimmy);
+        llY = new RandomValue(1, shimmy);
         if (side == LEFT || side == RIGHT) {
             // when this gets exagerated to stretch out the line it's too much
             final double horizAdj = 10;
@@ -60,7 +60,7 @@ public class TabGenerator extends ShapeGenerator {
             llX.setRange(shimmy / horizAdj);
             lrX.setRange(shimmy / horizAdj);
         }
-        squeeze = new Value(0.09, 0.001);
+        squeeze = new RandomValue(0.09, 0.001);
     }
 
     public Shape generate(AffineTransform matrix) {
@@ -112,35 +112,35 @@ public class TabGenerator extends ShapeGenerator {
         return tab;
     }
 
-    public Value getLLX() {
+    public RandomValue getLLX() {
         return llX;
     }
 
-    public Value getLLY() {
+    public RandomValue getLLY() {
         return llY;
     }
 
-    public Value getLRX() {
+    public RandomValue getLRX() {
         return lrX;
     }
 
-    public Value getLRY() {
+    public RandomValue getLRY() {
         return lrY;
     }
 
-    public Value getULX() {
+    public RandomValue getULX() {
         return ulX;
     }
 
-    public Value getULY() {
+    public RandomValue getULY() {
         return ulY;
     }
 
-    public Value getURX() {
+    public RandomValue getURX() {
         return urX;
     }
 
-    public Value getURY() {
+    public RandomValue getURY() {
         return urY;
     }
 }

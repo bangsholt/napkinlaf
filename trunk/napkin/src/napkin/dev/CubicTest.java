@@ -2,30 +2,30 @@
 
 package napkin.dev;
 
-import napkin.CubicGenerator;
-import napkin.ShapeGenerator;
-import napkin.Value;
-import napkin.ValueSource;
-
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
+import napkin.DrawnCubicLineGenerator;
+import napkin.DrawnShapeGenerator;
+import napkin.RandomValue;
+import napkin.RandomValueSource;
+
 class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
 
-    private final CubicGenerator gen;
+    private final DrawnCubicLineGenerator gen;
 
-    private final Value width;
+    private final RandomValue width;
 
     private Shape curve;
 
-    private final ValueSpinner leftXSpin;
-    private final ValueSpinner leftYSpin;
-    private final ValueSpinner rightXSpin;
-    private final ValueSpinner rightYSpin;
-    private final ValueSpinner widthSpin;
-    private final ValueSource[] spinners;
+    private final RandomValueSpinner leftXSpin;
+    private final RandomValueSpinner leftYSpin;
+    private final RandomValueSpinner rightXSpin;
+    private final RandomValueSpinner rightYSpin;
+    private final RandomValueSpinner widthSpin;
+    private final RandomValueSource[] spinners;
 
     private JComponent drawing;
 
@@ -59,23 +59,23 @@ class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
     };
 
     CubicTest() {
-        gen = new CubicGenerator();
+        gen = new DrawnCubicLineGenerator();
 
-        leftXSpin = new ValueSpinner("x", gen.getLeftX(), 0, LENGTH / 2, 100);
-        leftYSpin = new ValueSpinner("y", gen.getLeftY(), -20, +20, 100);
+        leftXSpin = new RandomValueSpinner("x", gen.getLeftX(), 0, LENGTH / 2, 100);
+        leftYSpin = new RandomValueSpinner("y", gen.getLeftY(), -20, +20, 100);
         rightXSpin =
-                new ValueSpinner("x", gen.getRightX(), 0, LENGTH / 2, 100);
-        rightYSpin = new ValueSpinner("y", gen.getRightY(), -20, +20, 100);
-        width = new Value(1, 0);
-        widthSpin = new ValueSpinner("w", width, 0, 3, 20);
-        spinners = new ValueSpinner[]{
+                new RandomValueSpinner("x", gen.getRightX(), 0, LENGTH / 2, 100);
+        rightYSpin = new RandomValueSpinner("y", gen.getRightY(), -20, +20, 100);
+        width = new RandomValue(1, 0);
+        widthSpin = new RandomValueSpinner("w", width, 0, 3, 20);
+        spinners = new RandomValueSpinner[]{
             leftXSpin, leftYSpin, rightXSpin, rightYSpin, widthSpin
         };
 
         rebuild();
     }
 
-    public ShapeGenerator getGenerator() {
+    public DrawnShapeGenerator getGenerator() {
         return gen;
     }
 
@@ -87,7 +87,7 @@ class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
         return gen.generate(matrix);
     }
 
-    public ValueSource[] getSpinners() {
+    public RandomValueSource[] getSpinners() {
         return spinners;
     }
 

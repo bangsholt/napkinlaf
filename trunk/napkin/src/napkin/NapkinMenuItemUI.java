@@ -9,7 +9,7 @@ import javax.swing.plaf.basic.*;
 
 public class NapkinMenuItemUI extends BasicMenuItemUI implements NapkinPainter {
 
-    private LineHolder line;
+    private DrawnLineHolder line;
 
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinMenuItemUI());
@@ -29,7 +29,7 @@ public class NapkinMenuItemUI extends BasicMenuItemUI implements NapkinPainter {
             String text) {
 
         if (line == null)
-            line = new LineHolder(new CubicGenerator());
+            line = new DrawnLineHolder(new DrawnCubicLineGenerator());
         NapkinUtil.paintText(g, item, textRect, text, 0, line, false, this);
     }
 

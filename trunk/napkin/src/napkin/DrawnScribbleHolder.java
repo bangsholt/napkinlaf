@@ -1,10 +1,10 @@
 package napkin;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
+import javax.swing.*;
 
-class ScribbleHolder extends ShapeHolder implements NapkinConstants {
+public class DrawnScribbleHolder extends DrawnShapeHolder implements NapkinConstants {
     private Rectangle size;
     private Insets insets;
     private int orientation;
@@ -13,12 +13,12 @@ class ScribbleHolder extends ShapeHolder implements NapkinConstants {
 
     private static final float LINE_WIDTH = 3;
 
-    ScribbleHolder() {
-        super(new ScribbleGenerator(LINE_WIDTH), LINE_WIDTH);
+    public DrawnScribbleHolder() {
+        super(new DrawnScribbleGenerator(LINE_WIDTH), LINE_WIDTH);
     }
 
     boolean shapeUpToDate(Component c, Rectangle sz, int orient, int shn,
-                          boolean bwrds) {
+            boolean bwrds) {
         Insets in = (c instanceof JComponent ?
                 ((JComponent) c).getInsets() : DrawnBorder.DEFAULT_INSETS);
 
@@ -41,7 +41,7 @@ class ScribbleHolder extends ShapeHolder implements NapkinConstants {
         double innerWidth = sz.getWidth() - (in.left + in.right);
         double innerHeight = sz.getHeight() - (in.top + in.bottom);
 
-        ScribbleGenerator gen = (ScribbleGenerator) this.gen;
+        DrawnScribbleGenerator gen = (DrawnScribbleGenerator) this.gen;
         gen.setShown(shown);
         gen.setOrientation(orientation);
         gen.setRange(orientation == HORIZONTAL ? innerHeight : innerWidth);

@@ -11,7 +11,7 @@ import javax.swing.plaf.basic.*;
 
 public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
     private Icon thumb;
-    private LineHolder track;
+    private DrawnLineHolder track;
     private final Rectangle trackBounds;
     private final boolean vertical;
     private final List major;
@@ -109,7 +109,7 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
 
         while (pos >= ticks.size())
             ticks.add(null);
-        LineHolder holder = (LineHolder) ticks.get(pos);
+        DrawnLineHolder holder = (DrawnLineHolder) ticks.get(pos);
         holder = NapkinUtil.paintLine(g, vertTicks, holder, tickBounds);
         ticks.set(pos, holder);
     }

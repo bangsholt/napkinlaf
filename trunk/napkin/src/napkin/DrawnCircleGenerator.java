@@ -3,42 +3,42 @@ package napkin;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class CircleGenerator extends ShapeGenerator implements NapkinConstants {
-    private final Value startX;
-    private final Value startY;
-    private final Value endX;
-    private final Value endY;
-    private final Value tlX;
-    private final Value tlY;
-    private final Value trX;
-    private final Value trY;
-    private final Value brX;
-    private final Value brY;
-    private final Value blX;
-    private final Value blY;
+public class DrawnCircleGenerator extends DrawnShapeGenerator implements NapkinConstants {
+    private final RandomValue startX;
+    private final RandomValue startY;
+    private final RandomValue endX;
+    private final RandomValue endY;
+    private final RandomValue tlX;
+    private final RandomValue tlY;
+    private final RandomValue trX;
+    private final RandomValue trY;
+    private final RandomValue brX;
+    private final RandomValue brY;
+    private final RandomValue blX;
+    private final RandomValue blY;
     private boolean forFill;
 
-    public static final CubicGenerator INSTANCE = new CubicGenerator();
+    public static final DrawnCubicLineGenerator INSTANCE = new DrawnCubicLineGenerator();
 
-    public CircleGenerator() {
+    public DrawnCircleGenerator() {
         this(false);
     }
 
-    public CircleGenerator(boolean forFill) {
+    public DrawnCircleGenerator(boolean forFill) {
         this.forFill = forFill;
 
-        startX = new Value(LENGTH / 2, 2);
-        startY = new Value(0, 20);
-        endX = new Value(LENGTH / 2, 2);
-        endY = new Value(0, 20);
-        tlX = new Value(0);
-        tlY = new Value(0);
-        trX = new Value(LENGTH);
-        trY = new Value(0);
-        brX = new Value(LENGTH);
-        brY = new Value(LENGTH);
-        blX = new Value(0);
-        blY = new Value(LENGTH);
+        startX = new RandomValue(LENGTH / 2, 2);
+        startY = new RandomValue(0, 20);
+        endX = new RandomValue(LENGTH / 2, 2);
+        endY = new RandomValue(0, 20);
+        tlX = new RandomValue(0);
+        tlY = new RandomValue(0);
+        trX = new RandomValue(LENGTH);
+        trY = new RandomValue(0);
+        brX = new RandomValue(LENGTH);
+        brY = new RandomValue(LENGTH);
+        blX = new RandomValue(0);
+        blY = new RandomValue(LENGTH);
     }
 
     public Shape generate(AffineTransform matrix) {
@@ -89,51 +89,51 @@ public class CircleGenerator extends ShapeGenerator implements NapkinConstants {
         this.forFill = forFill;
     }
 
-    public Value getBlX() {
+    public RandomValue getBlX() {
         return blX;
     }
 
-    public Value getBlY() {
+    public RandomValue getBlY() {
         return blY;
     }
 
-    public Value getBrX() {
+    public RandomValue getBrX() {
         return brX;
     }
 
-    public Value getBrY() {
+    public RandomValue getBrY() {
         return brY;
     }
 
-    public Value getStartX() {
+    public RandomValue getStartX() {
         return startX;
     }
 
-    public Value getStartY() {
+    public RandomValue getStartY() {
         return startY;
     }
 
-    public Value getEndX() {
+    public RandomValue getEndX() {
         return endX;
     }
 
-    public Value getEndY() {
+    public RandomValue getEndY() {
         return endY;
     }
 
-    public Value getTlX() {
+    public RandomValue getTlX() {
         return tlX;
     }
 
-    public Value getTlY() {
+    public RandomValue getTlY() {
         return tlY;
     }
 
-    public Value getTrX() {
+    public RandomValue getTrX() {
         return trX;
     }
 
-    public Value getTrY() {
+    public RandomValue getTrY() {
         return trY;
     }
 }

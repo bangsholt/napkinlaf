@@ -7,21 +7,21 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
-import napkin.Value;
-import napkin.ValueSource;
+import napkin.RandomValue;
+import napkin.RandomValueSource;
 
-class ValueSpinner extends JPanel implements ValueSource {
+class RandomValueSpinner extends JPanel implements RandomValueSource {
 
-    private final Value value;
+    private final RandomValue value;
     private final SpinnerNumberModel midModel;
     private SpinnerNumberModel rangeModel;
     private JLabel adjustLabel;
 
-    ValueSpinner(String name, Value value, double min, double max, int steps) {
+    RandomValueSpinner(String name, RandomValue value, double min, double max, int steps) {
         this(name, value, min, max, steps, true);
     }
 
-    ValueSpinner(String name, final Value value, double min, double max,
+    RandomValueSpinner(String name, final RandomValue value, double min, double max,
             int steps, boolean randomized) {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBorder(new TitledBorder(name));

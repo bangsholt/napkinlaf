@@ -26,16 +26,16 @@ public class NapkinBoxBorder extends NapkinBorder {
      * those methods are only defined for JComponent, not component, and we're
      * sort of suspicious that we ought to do this for non-Swing components.
      */
-    private static final Map borders = new ShapeHolderMap(new ShapeHolder.Factory() {
-        public ShapeHolder create() {
-            return new BoxHolder();
+    private static final Map borders = new DrawnShapeHolderMap(new DrawnShapeHolder.Factory() {
+        public DrawnShapeHolder create() {
+            return new DrawnBoxHolder();
         }
     });
 
     public void doPaintBorder(Component c, Graphics g1, int x, int y,
             int width, int height) {
 
-        BoxHolder box = (BoxHolder) borders.get(c);
+        DrawnBoxHolder box = (DrawnBoxHolder) borders.get(c);
         Rectangle passed = new Rectangle(x, y, width, height);
         box.shapeUpToDate(passed);
 

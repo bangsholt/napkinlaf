@@ -2,17 +2,17 @@
 
 package napkin;
 
-public class Value implements ValueSource {
+public class RandomValue implements RandomValueSource {
 
     private double adjust;
     private double mid;
     private double range;
 
-    public Value(double mid) {
+    public RandomValue(double mid) {
         this(mid, 0);
     }
 
-    public Value(double mid, double range) {
+    public RandomValue(double mid, double range) {
         this.mid = mid;
         this.range = range;
     }

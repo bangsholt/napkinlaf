@@ -219,7 +219,7 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static double leftRight(double x, boolean left) {
-        return (left ? x : ShapeGenerator.LENGTH - x);
+        return (left ? x : DrawnShapeGenerator.LENGTH - x);
     }
 
     public static AffineTransform copy(AffineTransform matrix) {
@@ -369,10 +369,10 @@ public class NapkinUtil implements NapkinConstants {
         return c.getComponentOrientation().isLeftToRight();
     }
 
-    public static LineHolder paintLine(Graphics g, boolean vertical,
-            LineHolder holder, Rectangle bounds) {
+    public static DrawnLineHolder paintLine(Graphics g, boolean vertical,
+            DrawnLineHolder holder, Rectangle bounds) {
         if (holder == null)
-            holder = new LineHolder(CubicGenerator.INSTANCE, vertical);
+            holder = new DrawnLineHolder(DrawnCubicLineGenerator.INSTANCE, vertical);
         holder.shapeUpToDate(bounds, null);
         Graphics2D lineG = copy(g);
         lineG.setColor(Color.black);
@@ -654,13 +654,13 @@ public class NapkinUtil implements NapkinConstants {
      */
     public static void
             paintText(Graphics g, JComponent c, Rectangle textRect,
-            String text, int textOffset, LineHolder line,
+            String text, int textOffset, DrawnLineHolder line,
             boolean isDefault, NapkinPainter helper) {
 
         Graphics2D ulG;
         if (isDefault) {
             if (line == null)
-                line = new LineHolder(new CubicGenerator());
+                line = new DrawnLineHolder(new DrawnCubicLineGenerator());
             ulG = copy(g);
             FontMetrics fm = ulG.getFontMetrics();
             line.shapeUpToDate(textRect, fm);
