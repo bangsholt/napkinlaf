@@ -14,14 +14,23 @@ public class NapkinTreeUI extends BasicTreeUI {
 
     public class DefaultNapkinTreeCellRender extends DefaultTreeCellRenderer {
         public void paint(Graphics g) {
-            g = NapkinUtil.defaultGraphics(g, tree);
+            g = NapkinUtil.defaultGraphics(g, this);
             NapkinTheme theme = NapkinUtil.currentTheme(this);
+            setBackgroundNonSelectionColor(NapkinUtil.ifReplace(
+                    getBackgroundSelectionColor(),
+                    NapkinConstants.CLEAR));
             setBackgroundSelectionColor(NapkinUtil.ifReplace(
                     getBackgroundSelectionColor(),
                     theme.getHighlightColor()));
-            NapkinUtil.background(g, tree);
+            setTextSelectionColor(NapkinUtil.ifReplace(
+                    getBackgroundSelectionColor(),
+                    theme.getPenColor()));
+            setTextNonSelectionColor(NapkinUtil.ifReplace(
+                    getBackgroundSelectionColor(),
+                    theme.getPenColor()));
+            NapkinUtil.background(g, this);
             super.paint(g);
-            NapkinUtil.finishGraphics(g, tree);
+            NapkinUtil.finishGraphics(g, this);
         }
     }
 
