@@ -7,7 +7,7 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
-public class NapkinListUI extends BasicListUI {
+public class NapkinListUI extends BasicListUI implements NapkinPainter {
 
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinListUI());
@@ -24,13 +24,14 @@ public class NapkinListUI extends BasicListUI {
     }
 
     public void update(Graphics g, JComponent c) {
-        g = NapkinUtil.defaultGraphics(g, c);
-        NapkinTheme theme = NapkinUtil.background(g, c);
+        NapkinUtil.update(g, c, this);
+    }
+
+    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         Color selColor = theme.getSelectionColor();
         if (NapkinUtil.replace(list.getSelectionForeground(), selColor))
             list.setSelectionForeground(selColor);
         super.update(g, c);
-        NapkinUtil.finishGraphics(g, c);
     }
 }
 

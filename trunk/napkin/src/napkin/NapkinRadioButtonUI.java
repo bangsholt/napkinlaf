@@ -8,7 +8,7 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
 public class NapkinRadioButtonUI extends BasicRadioButtonUI
-        implements NapkinPainter, NapkinConstants {
+        implements NapkinTextPainter, NapkinConstants, NapkinPainter {
 
     private DrawnLineHolder line;
     private boolean defaultsInstalled;
@@ -44,18 +44,21 @@ public class NapkinRadioButtonUI extends BasicRadioButtonUI
 
         if (line == null)
             line = new DrawnLineHolder(new DrawnCubicLineGenerator());
-        NapkinUtil.paintText(g, c, textRect, text, getTextShiftOffset(), line, false, this);
+        NapkinUtil.paintText(g, c, textRect, text, getTextShiftOffset(), line,
+                false, this);
     }
 
-    public void superPaintText(Graphics g, JComponent c, Rectangle textRect, String text) {
+    public void superPaintText(Graphics g, JComponent c, Rectangle textRect,
+            String text) {
         super.paintText(g, c, textRect, text);
     }
 
     public void update(Graphics g, JComponent c) {
-        g = NapkinUtil.defaultGraphics(g, c);
-        NapkinUtil.background(g, c);
+        NapkinUtil.update(g, c, this);
+    }
+
+    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         super.update(g, c);
-        NapkinUtil.finishGraphics(g, c);
     }
 }
 

@@ -7,7 +7,9 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
-public class NapkinProgressBarUI extends BasicProgressBarUI {
+public class NapkinProgressBarUI extends BasicProgressBarUI
+        implements NapkinPainter {
+
     private final DrawnScribbleHolder scribble = new DrawnScribbleHolder();
     private final Rectangle sz = new Rectangle(0, 0, 0, 0);
     private Rectangle boxRect;
@@ -95,8 +97,10 @@ public class NapkinProgressBarUI extends BasicProgressBarUI {
     }
 
     public void update(Graphics g, JComponent c) {
-        g = NapkinUtil.defaultGraphics(g, c);
-        NapkinTheme theme = NapkinUtil.background(g, c);
+        NapkinUtil.update(g, c, this);
+    }
+
+    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         Color radioColor = theme.getRadioColor();
         if (NapkinUtil.replace(selectionForeground, radioColor))
             selectionForeground = radioColor;
@@ -104,7 +108,6 @@ public class NapkinProgressBarUI extends BasicProgressBarUI {
         if (NapkinUtil.replace(selectionBackground, checkColor))
             selectionBackground = theme.getCheckColor();
         super.update(g, c);
-        NapkinUtil.finishGraphics(g, c);
     }
 
     protected Color getSelectionBackground() {

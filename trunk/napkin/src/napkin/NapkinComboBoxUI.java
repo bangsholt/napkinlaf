@@ -8,7 +8,7 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
 public class NapkinComboBoxUI extends BasicComboBoxUI
-        implements NapkinConstants {
+        implements NapkinPainter, NapkinConstants {
 
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinComboBoxUI());
@@ -35,10 +35,11 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
     }
 
     public void update(Graphics g, JComponent c) {
-        g = NapkinUtil.defaultGraphics(g, c);
-        NapkinUtil.background(g, c);
+        NapkinUtil.update(g, c, this);
+    }
+
+    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         super.update(g, c);
-        NapkinUtil.finishGraphics(g, c);
     }
 }
 

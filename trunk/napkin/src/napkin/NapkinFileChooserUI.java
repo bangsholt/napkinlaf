@@ -10,7 +10,9 @@ import javax.swing.plaf.metal.*;
 // It seems as if the BasicFileChooserUI is not yet well formed, so we're just
 // borrowing the metal chooser for now.
 
-public class NapkinFileChooserUI extends MetalFileChooserUI {
+public class NapkinFileChooserUI extends MetalFileChooserUI
+        implements NapkinPainter {
+
     private static final ComponentWalker.Visitor NO_BORDER_VISITOR =
             new ComponentWalker.Visitor() {
                 public boolean visit(Component c, int depth) {
@@ -48,10 +50,11 @@ public class NapkinFileChooserUI extends MetalFileChooserUI {
     }
 
     public void update(Graphics g, JComponent c) {
-        g = NapkinUtil.defaultGraphics(g, c);
-        NapkinUtil.background(g, c);
+        NapkinUtil.update(g, c, this);
+    }
+
+    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         super.update(g, c);
-        NapkinUtil.finishGraphics(g, c);
     }
 }
 

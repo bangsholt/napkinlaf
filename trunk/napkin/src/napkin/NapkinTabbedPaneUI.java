@@ -8,7 +8,9 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
-public class NapkinTabbedPaneUI extends BasicTabbedPaneUI {
+public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
+        implements NapkinPainter {
+
     private DrawnTabHolder[] tabs = new DrawnTabHolder[0];
     private final DrawnBoxHolder contentBorder = new DrawnBoxHolder();
     private Insets origInsets;
@@ -94,10 +96,11 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI {
     }
 
     public void update(Graphics g, JComponent c) {
-        g = NapkinUtil.defaultGraphics(g, c);
-        NapkinUtil.background(g, c);
+        NapkinUtil.update(g, c, this);
+    }
+
+    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         super.update(g, c);
-        NapkinUtil.finishGraphics(g, c);
     }
 }
 

@@ -7,8 +7,7 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
-public class NapkinRootPaneUI extends BasicRootPaneUI {
-
+public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
     private static final NapkinRootPaneUI napkinRootPaneUI = new NapkinRootPaneUI();
 
     public static ComponentUI createUI(JComponent c) {
@@ -26,10 +25,11 @@ public class NapkinRootPaneUI extends BasicRootPaneUI {
     }
 
     public void update(Graphics g, JComponent c) {
-        g = NapkinUtil.defaultGraphics(g, c);
-        NapkinUtil.background(g, c);
+        NapkinUtil.update(g, c, this);
+    }
+
+    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         super.update(g, c);
-        NapkinUtil.finishGraphics(g, c);
     }
 }
 

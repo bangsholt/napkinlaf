@@ -7,7 +7,7 @@ import javax.swing.*;
 import javax.swing.plaf.basic.*;
 
 public class NapkinSplitPaneDivider extends BasicSplitPaneDivider
-        implements NapkinConstants {
+        implements NapkinConstants, NapkinPainter {
 
     private JButton left;
     private JButton right;
@@ -23,10 +23,11 @@ public class NapkinSplitPaneDivider extends BasicSplitPaneDivider
     }
 
     public void update(Graphics g) {
-        g = NapkinUtil.defaultGraphics(g, splitPane);
-        NapkinUtil.background(g, splitPane);
+        NapkinUtil.update(g, splitPane, this);
+    }
+
+    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         super.update(g);
-        NapkinUtil.finishGraphics(g, splitPane);
     }
 
     // largely copied from superclass

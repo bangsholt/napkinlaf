@@ -8,7 +8,7 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
 public class NapkinViewportUI extends BasicViewportUI
-        implements NapkinConstants {
+        implements NapkinConstants, NapkinPainter {
 
     private int revertScrollMode;
 
@@ -40,14 +40,13 @@ public class NapkinViewportUI extends BasicViewportUI
     }
 
     public void update(Graphics g, JComponent c) {
-        g = NapkinUtil.defaultGraphics(g, c);
-        NapkinUtil.background(g, c);
+        NapkinUtil.update(g, c, this);
+    }
 
+    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         if (viewport.getScrollMode() != JViewport.SIMPLE_SCROLL_MODE)
             forceScrollMode();
-
         super.update(g, c);
-        NapkinUtil.finishGraphics(g, c);
     }
 }
 

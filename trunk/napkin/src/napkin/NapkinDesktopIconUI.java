@@ -8,7 +8,9 @@ import javax.swing.border.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
-public class NapkinDesktopIconUI extends BasicDesktopIconUI {
+public class NapkinDesktopIconUI extends BasicDesktopIconUI
+        implements NapkinPainter {
+
     // I cannot override the desktop icon, which is package
     // protected.  This means that I cannot change the BasicDesktopIconUI to
     // use a NapkinInternalFrameTitlePane, which is how I handle this stuff in
@@ -43,10 +45,11 @@ public class NapkinDesktopIconUI extends BasicDesktopIconUI {
     }
 
     public void update(Graphics g, JComponent c) {
-        g = NapkinUtil.defaultGraphics(g, c);
-        NapkinUtil.background(g, c);
+        NapkinUtil.update(g, c, this);
+    }
+
+    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         super.update(g, c);
-        NapkinUtil.finishGraphics(g, c);
     }
 
     public Dimension getMinimumSize(JComponent c) {                 // PASTED

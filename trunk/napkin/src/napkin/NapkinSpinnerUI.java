@@ -7,8 +7,7 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
-public class NapkinSpinnerUI extends BasicSpinnerUI {
-
+public class NapkinSpinnerUI extends BasicSpinnerUI implements NapkinPainter {
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinSpinnerUI());
     }
@@ -24,10 +23,11 @@ public class NapkinSpinnerUI extends BasicSpinnerUI {
     }
 
     public void update(Graphics g, JComponent c) {
-        g = NapkinUtil.defaultGraphics(g, c);
-        NapkinUtil.background(g, c);
+        NapkinUtil.update(g, c, this);
+    }
+
+    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         super.update(g, c);
-        NapkinUtil.finishGraphics(g, c);
     }
 }
 
