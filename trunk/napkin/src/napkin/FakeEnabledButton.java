@@ -20,1523 +20,1539 @@ import javax.swing.event.*;
 import javax.swing.plaf.*;
 
 /**
- * This is required because some parts of the code require a <tt>JMenuItem</tt>
- * instead of an abstract button.
+ * This is pretty ugly.  The idea is that disabled buttons should be drawn just
+ * like enabled ones, and then crossed out.  We want to reuse the code that
+ * draws the enabled buttons rather than copy it into our button painting
+ * method(s).
  * <p/>
- * If I could I would multiply inherit from {@link ForceEnabledButton} and
- * <tt>JMenuItem</tt> to just override the ones that are added, but I can't do
- * that so I must delegate (or make this class a modified copy, but that would
- * be worse).
- *
- * @see ForceEnabledButton
+ * The obvious thing to do (for me, anyway) is when painting a disabled button,
+ * set it to be enabled, paint the button, and then set it back to disabled (and
+ * then draw the line).  There are several problems with this, the primary being
+ * that changing whether a button is enabled has many side effects within its
+ * button group and the overall UI.  Not to mention that it fires a "repaint" of
+ * the button, causing an infinte sequence of repaints for any disabled button.
+ * <p/>
+ * This is the only way I could figure out to reuse that code: I create a
+ * wrapper object that, where possible, forwards all calls to the underlying
+ * button.  Except that it says the button is enabled.  This also requires
+ * returning a <tt>ButtonModel</tt> wrapper because the model can also be asked
+ * for the enabled status.  This works, but although this class looks like a
+ * complete wrapper it is NOT.  I've wrapped all methods because it was easy,
+ * but had to not wrap the methods that were impossible to wrap (final and
+ * protected methods).  Also a few methods are invoked during construction of an
+ * <tt>AbstractButton</tt>, and so were being invoked before the original button
+ * field was set, causing a <tt>NullPointerException</tt>.  These have been
+ * trivally modified because they don't matter right now in the way that we're
+ * using the class, and for future safety, all "set" methods are modified as
+ * well (rather than do only the "set" methods used during construction in this
+ * version and having it break in a future JDK). but if you try to use this in a
+ * sophisticated context this wrapping may well fail.  (Of course, it's almost
+ * certainly wrong to use this in any other context because it is a hack, but
+ * I'm warning you in case you are also forced into a nasty ugliness vs.
+ * goodness tradeoff.)
+ * <p/>
+ * NOTE: To make it EVEN UGLIER, some parts of the code need a
+ * <tt>JMenuItem</tt> rather than an abstract button, so there is a
+ * not-officially-related {@link FakeEnabledMenuItem} class that delegates to
+ * this, but has the same problems during construction.
  */
-class ForceEnabledMenuItem extends JMenuItem {
-    private final ForceEnabledButton forced;
-    private final JMenuItem orig;
+class FakeEnabledButton extends AbstractButton implements FakeEnabled {
+    private final AbstractButton orig;
 
-    ForceEnabledMenuItem(JComponent c) {
+    FakeEnabledButton(JComponent c) {
         if (c == null)
             throw new NullPointerException("c");
-        orig = (JMenuItem) c;
-        forced = new ForceEnabledButton(c);
+        orig = (AbstractButton) c;
     }
 
-    public void addMenuDragMouseListener(MenuDragMouseListener l) {
-        orig.addMenuDragMouseListener(l);
+    public boolean isEnabled() {
+        return true;
     }
 
-    public void addMenuKeyListener(MenuKeyListener l) {
-        orig.addMenuKeyListener(l);
-    }
-
-    public KeyStroke getAccelerator() {
-        return orig.getAccelerator();
-    }
-
-    public Component getComponent() {
-        return orig.getComponent();
-    }
-
-    public MenuDragMouseListener[] getMenuDragMouseListeners() {
-        return orig.getMenuDragMouseListeners();
-    }
-
-    public MenuKeyListener[] getMenuKeyListeners() {
-        return orig.getMenuKeyListeners();
-    }
-
-    public MenuElement[] getSubElements() {
-        return orig.getSubElements();
-    }
-
-    public boolean isArmed() {
-        return orig.isArmed();
-    }
-
-    public void menuSelectionChanged(boolean isIncluded) {
-        orig.menuSelectionChanged(isIncluded);
-    }
-
-    public void processKeyEvent(KeyEvent e, MenuElement path[], MenuSelectionManager manager) {
-        orig.processKeyEvent(e, path, manager);
-    }
-
-    public void processMenuDragMouseEvent(MenuDragMouseEvent e) {
-        orig.processMenuDragMouseEvent(e);
-    }
-
-    public void processMenuKeyEvent(MenuKeyEvent e) {
-        orig.processMenuKeyEvent(e);
-    }
-
-    public void processMouseEvent(MouseEvent e, MenuElement path[], MenuSelectionManager manager) {
-        orig.processMouseEvent(e, path, manager);
-    }
-
-    public void removeMenuDragMouseListener(MenuDragMouseListener l) {
-        orig.removeMenuDragMouseListener(l);
-    }
-
-    public void removeMenuKeyListener(MenuKeyListener l) {
-        orig.removeMenuKeyListener(l);
-    }
-
-    public void setAccelerator(KeyStroke keyStroke) {
-        if (orig != null)
-            orig.setAccelerator(keyStroke);
-    }
-
-    public void setArmed(boolean b) {
-        if (orig != null)
-            orig.setArmed(b);
-    }
-
-    public void setUI(MenuItemUI ui) {
-        if (orig != null)
-            orig.setUI(ui);
+    public ButtonModel getModel() {
+        return new FakeEnabledModel(orig.getModel());
     }
 
     public boolean action(Event evt, Object what) {
-        return forced.action(evt, what);
+        return orig.action(evt, what);
     }
 
     public Component add(Component comp) {
-        return forced.add(comp);
+        return orig.add(comp);
     }
 
     public void add(Component comp, Object constraints) {
-        forced.add(comp, constraints);
+        orig.add(comp, constraints);
     }
 
     public void add(Component comp, Object constraints, int index) {
-        forced.add(comp, constraints, index);
+        orig.add(comp, constraints, index);
     }
 
     public Component add(Component comp, int index) {
-        return forced.add(comp, index);
+        return orig.add(comp, index);
     }
 
     public Component add(String name, Component comp) {
-        return forced.add(name, comp);
+        return orig.add(name, comp);
     }
 
     public void add(PopupMenu popup) {
-        forced.add(popup);
+        orig.add(popup);
     }
 
     public void addActionListener(ActionListener l) {
-        forced.addActionListener(l);
+        orig.addActionListener(l);
     }
 
     public void addAncestorListener(AncestorListener listener) {
-        forced.addAncestorListener(listener);
+        orig.addAncestorListener(listener);
     }
 
     public void addChangeListener(ChangeListener l) {
-        forced.addChangeListener(l);
+        orig.addChangeListener(l);
     }
 
     public void addComponentListener(ComponentListener l) {
-        forced.addComponentListener(l);
+        orig.addComponentListener(l);
     }
 
     public void addContainerListener(ContainerListener l) {
-        forced.addContainerListener(l);
+        orig.addContainerListener(l);
     }
 
     public void addFocusListener(FocusListener l) {
-        if (forced != null)
-            forced.addFocusListener(l);
+        if (orig != null)   // can be null during construction, and we don't care
+            orig.addFocusListener(l);
     }
 
     public void addHierarchyBoundsListener(HierarchyBoundsListener l) {
-        forced.addHierarchyBoundsListener(l);
+        orig.addHierarchyBoundsListener(l);
     }
 
     public void addHierarchyListener(HierarchyListener l) {
-        forced.addHierarchyListener(l);
+        orig.addHierarchyListener(l);
     }
 
     public void addInputMethodListener(InputMethodListener l) {
-        forced.addInputMethodListener(l);
+        orig.addInputMethodListener(l);
     }
 
     public void addItemListener(ItemListener l) {
-        forced.addItemListener(l);
+        orig.addItemListener(l);
     }
 
     public void addKeyListener(KeyListener l) {
-        forced.addKeyListener(l);
+        orig.addKeyListener(l);
     }
 
     public void addMouseListener(MouseListener l) {
-        forced.addMouseListener(l);
+        orig.addMouseListener(l);
     }
 
     public void addMouseMotionListener(MouseMotionListener l) {
-        forced.addMouseMotionListener(l);
+        orig.addMouseMotionListener(l);
     }
 
     public void addMouseWheelListener(MouseWheelListener l) {
-        forced.addMouseWheelListener(l);
+        orig.addMouseWheelListener(l);
     }
 
     public void addNotify() {
-        forced.addNotify();
+        orig.addNotify();
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
-        forced.addPropertyChangeListener(listener);
+        orig.addPropertyChangeListener(listener);
     }
 
     public void addPropertyChangeListener(String propertyName,
             PropertyChangeListener listener) {
-        forced.addPropertyChangeListener(propertyName, listener);
+        orig.addPropertyChangeListener(propertyName, listener);
     }
 
     public void addVetoableChangeListener(VetoableChangeListener listener) {
-        forced.addVetoableChangeListener(listener);
+        orig.addVetoableChangeListener(listener);
     }
 
     public void applyComponentOrientation(ComponentOrientation orientation) {
-        forced.applyComponentOrientation(orientation);
+        orig.applyComponentOrientation(orientation);
     }
 
     public boolean areFocusTraversalKeysSet(int id) {
-        return forced.areFocusTraversalKeysSet(id);
+        return orig.areFocusTraversalKeysSet(id);
     }
 
     public Rectangle bounds() {
-        return forced.bounds();
+        return orig.bounds();
     }
 
     public int checkImage(Image image, ImageObserver observer) {
-        return forced.checkImage(image, observer);
+        return orig.checkImage(image, observer);
     }
 
     public int checkImage(Image image, int width, int height,
             ImageObserver observer) {
-        return forced.checkImage(image, width, height, observer);
+        return orig.checkImage(image, width, height, observer);
     }
 
     public void computeVisibleRect(Rectangle visibleRect) {
-        forced.computeVisibleRect(visibleRect);
+        orig.computeVisibleRect(visibleRect);
     }
 
     public boolean contains(Point p) {
-        return forced.contains(p);
+        return orig.contains(p);
     }
 
     public boolean contains(int x, int y) {
-        return forced.contains(x, y);
+        return orig.contains(x, y);
     }
 
     public int countComponents() {
-        return forced.countComponents();
+        return orig.countComponents();
     }
 
     public Image createImage(ImageProducer producer) {
-        return forced.createImage(producer);
+        return orig.createImage(producer);
     }
 
     public Image createImage(int width, int height) {
-        return forced.createImage(width, height);
+        return orig.createImage(width, height);
     }
 
     public JToolTip createToolTip() {
-        return forced.createToolTip();
+        return orig.createToolTip();
     }
 
     public VolatileImage createVolatileImage(int width, int height) {
-        return forced.createVolatileImage(width, height);
+        return orig.createVolatileImage(width, height);
     }
 
     public VolatileImage createVolatileImage(int width, int height,
             ImageCapabilities caps) throws AWTException {
-        return forced.createVolatileImage(width, height, caps);
+        return orig.createVolatileImage(width, height, caps);
     }
 
     public void deliverEvent(Event e) {
-        forced.deliverEvent(e);
+        orig.deliverEvent(e);
     }
 
     public void disable() {
-        forced.disable();
+        orig.disable();
     }
 
     public void doClick() {
-        forced.doClick();
+        orig.doClick();
     }
 
     public void doClick(int pressTime) {
-        forced.doClick(pressTime);
+        orig.doClick(pressTime);
     }
 
     public void doLayout() {
-        forced.doLayout();
+        orig.doLayout();
     }
 
     public void enable() {
-        forced.enable();
+        orig.enable();
     }
 
     public void enable(boolean b) {
-        forced.enable(b);
+        orig.enable(b);
     }
 
     public void enableInputMethods(boolean enable) {
-        forced.enableInputMethods(enable);
+        orig.enableInputMethods(enable);
     }
 
     public Component findComponentAt(Point p) {
-        return forced.findComponentAt(p);
+        return orig.findComponentAt(p);
     }
 
     public Component findComponentAt(int x, int y) {
-        return forced.findComponentAt(x, y);
+        return orig.findComponentAt(x, y);
     }
 
     public void firePropertyChange(String propertyName,
             boolean oldValue, boolean newValue) {
-        forced.firePropertyChange(propertyName, oldValue, newValue);
+        orig.firePropertyChange(propertyName, oldValue, newValue);
     }
 
     public void firePropertyChange(String propertyName, byte oldValue, byte newValue) {
-        forced.firePropertyChange(propertyName, oldValue, newValue);
+        orig.firePropertyChange(propertyName, oldValue, newValue);
     }
 
     public void firePropertyChange(String propertyName, char oldValue, char newValue) {
-        forced.firePropertyChange(propertyName, oldValue, newValue);
+        orig.firePropertyChange(propertyName, oldValue, newValue);
     }
 
     public void firePropertyChange(String propertyName, double oldValue, double newValue) {
-        forced.firePropertyChange(propertyName, oldValue, newValue);
+        orig.firePropertyChange(propertyName, oldValue, newValue);
     }
 
     public void firePropertyChange(String propertyName, float oldValue, float newValue) {
-        forced.firePropertyChange(propertyName, oldValue, newValue);
+        orig.firePropertyChange(propertyName, oldValue, newValue);
     }
 
     public void firePropertyChange(String propertyName,
             int oldValue, int newValue) {
-        forced.firePropertyChange(propertyName, oldValue, newValue);
+        orig.firePropertyChange(propertyName, oldValue, newValue);
     }
 
     public void firePropertyChange(String propertyName, long oldValue, long newValue) {
-        forced.firePropertyChange(propertyName, oldValue, newValue);
+        orig.firePropertyChange(propertyName, oldValue, newValue);
     }
 
     public void firePropertyChange(String propertyName, short oldValue, short newValue) {
-        forced.firePropertyChange(propertyName, oldValue, newValue);
+        orig.firePropertyChange(propertyName, oldValue, newValue);
     }
 
     public AccessibleContext getAccessibleContext() {
-        return forced.getAccessibleContext();
+        return orig.getAccessibleContext();
     }
 
     public Action getAction() {
-        return forced.getAction();
+        return orig.getAction();
     }
 
     public String getActionCommand() {
-        return forced.getActionCommand();
+        return orig.getActionCommand();
     }
 
     public ActionListener getActionForKeyStroke(KeyStroke aKeyStroke) {
-        return forced.getActionForKeyStroke(aKeyStroke);
+        return orig.getActionForKeyStroke(aKeyStroke);
     }
 
     public ActionListener[] getActionListeners() {
-        return forced.getActionListeners();
+        return orig.getActionListeners();
     }
 
     public float getAlignmentX() {
-        return forced.getAlignmentX();
+        return orig.getAlignmentX();
     }
 
     public float getAlignmentY() {
-        return forced.getAlignmentY();
+        return orig.getAlignmentY();
     }
 
     public AncestorListener[] getAncestorListeners() {
-        return forced.getAncestorListeners();
+        return orig.getAncestorListeners();
     }
 
     public boolean getAutoscrolls() {
-        return forced.getAutoscrolls();
+        return orig.getAutoscrolls();
     }
 
     public Color getBackground() {
-        return forced.getBackground();
+        return orig.getBackground();
     }
 
     public Border getBorder() {
-        return forced.getBorder();
+        return orig.getBorder();
     }
 
     public Rectangle getBounds() {
-        return forced.getBounds();
+        return orig.getBounds();
     }
 
     public Rectangle getBounds(Rectangle rv) {
-        return forced.getBounds(rv);
+        return orig.getBounds(rv);
     }
 
     public ChangeListener[] getChangeListeners() {
-        return forced.getChangeListeners();
+        return orig.getChangeListeners();
     }
 
     public ColorModel getColorModel() {
-        return forced.getColorModel();
+        return orig.getColorModel();
     }
 
     public Component getComponent(int n) {
-        return forced.getComponent(n);
+        return orig.getComponent(n);
     }
 
     public Component getComponentAt(Point p) {
-        return forced.getComponentAt(p);
+        return orig.getComponentAt(p);
     }
 
     public Component getComponentAt(int x, int y) {
-        return forced.getComponentAt(x, y);
+        return orig.getComponentAt(x, y);
     }
 
     public int getComponentCount() {
-        return forced.getComponentCount();
+        return orig.getComponentCount();
     }
 
     public ComponentListener[] getComponentListeners() {
-        return forced.getComponentListeners();
+        return orig.getComponentListeners();
     }
 
     public ComponentOrientation getComponentOrientation() {
-        return forced.getComponentOrientation();
+        return orig.getComponentOrientation();
     }
 
     public Component[] getComponents() {
-        return forced.getComponents();
+        return orig.getComponents();
     }
 
     public int getConditionForKeyStroke(KeyStroke aKeyStroke) {
-        return forced.getConditionForKeyStroke(aKeyStroke);
+        return orig.getConditionForKeyStroke(aKeyStroke);
     }
 
     public ContainerListener[] getContainerListeners() {
-        return forced.getContainerListeners();
+        return orig.getContainerListeners();
     }
 
     public Cursor getCursor() {
-        return forced.getCursor();
+        return orig.getCursor();
     }
 
     public int getDebugGraphicsOptions() {
-        return forced.getDebugGraphicsOptions();
+        return orig.getDebugGraphicsOptions();
     }
 
     public Icon getDisabledIcon() {
-        return forced.getDisabledIcon();
+        return orig.getDisabledIcon();
     }
 
     public Icon getDisabledSelectedIcon() {
-        return forced.getDisabledSelectedIcon();
+        return orig.getDisabledSelectedIcon();
     }
 
     public int getDisplayedMnemonicIndex() {
-        return forced.getDisplayedMnemonicIndex();
+        return orig.getDisplayedMnemonicIndex();
     }
 
     public DropTarget getDropTarget() {
-        return forced.getDropTarget();
+        return orig.getDropTarget();
     }
 
     public Container getFocusCycleRootAncestor() {
-        return forced.getFocusCycleRootAncestor();
+        return orig.getFocusCycleRootAncestor();
     }
 
     public FocusListener[] getFocusListeners() {
-        return forced.getFocusListeners();
+        return orig.getFocusListeners();
     }
 
     public Set getFocusTraversalKeys(int id) {
-        return forced.getFocusTraversalKeys(id);
+        return orig.getFocusTraversalKeys(id);
     }
 
     public boolean getFocusTraversalKeysEnabled() {
-        return forced.getFocusTraversalKeysEnabled();
+        return orig.getFocusTraversalKeysEnabled();
     }
 
     public FocusTraversalPolicy getFocusTraversalPolicy() {
-        return forced.getFocusTraversalPolicy();
+        return orig.getFocusTraversalPolicy();
     }
 
     public Font getFont() {
-        return forced.getFont();
+        return orig.getFont();
     }
 
     public FontMetrics getFontMetrics(Font font) {
-        return forced.getFontMetrics(font);
+        return orig.getFontMetrics(font);
     }
 
     public Color getForeground() {
-        return forced.getForeground();
+        return orig.getForeground();
     }
 
     public Graphics getGraphics() {
-        return forced.getGraphics();
+        return orig.getGraphics();
     }
 
     public GraphicsConfiguration getGraphicsConfiguration() {
-        return forced.getGraphicsConfiguration();
+        return orig.getGraphicsConfiguration();
     }
 
     public int getHeight() {
-        return forced.getHeight();
+        return orig.getHeight();
     }
 
     public HierarchyBoundsListener[] getHierarchyBoundsListeners() {
-        return forced.getHierarchyBoundsListeners();
+        return orig.getHierarchyBoundsListeners();
     }
 
     public HierarchyListener[] getHierarchyListeners() {
-        return forced.getHierarchyListeners();
+        return orig.getHierarchyListeners();
     }
 
     public int getHorizontalAlignment() {
-        return forced.getHorizontalAlignment();
+        return orig.getHorizontalAlignment();
     }
 
     public int getHorizontalTextPosition() {
-        return forced.getHorizontalTextPosition();
+        return orig.getHorizontalTextPosition();
     }
 
     public Icon getIcon() {
-        return forced.getIcon();
+        return orig.getIcon();
     }
 
     public int getIconTextGap() {
-        return forced.getIconTextGap();
+        return orig.getIconTextGap();
     }
 
     public boolean getIgnoreRepaint() {
-        return forced.getIgnoreRepaint();
+        return orig.getIgnoreRepaint();
     }
 
     public InputContext getInputContext() {
-        return forced.getInputContext();
+        return orig.getInputContext();
     }
 
     public InputMethodListener[] getInputMethodListeners() {
-        return forced.getInputMethodListeners();
+        return orig.getInputMethodListeners();
     }
 
     public InputMethodRequests getInputMethodRequests() {
-        return forced.getInputMethodRequests();
+        return orig.getInputMethodRequests();
     }
 
     public InputVerifier getInputVerifier() {
-        return forced.getInputVerifier();
+        return orig.getInputVerifier();
     }
 
     public Insets getInsets() {
-        return forced.getInsets();
+        return orig.getInsets();
     }
 
     public Insets getInsets(Insets insets) {
-        return forced.getInsets(insets);
+        return orig.getInsets(insets);
     }
 
     public ItemListener[] getItemListeners() {
-        return forced.getItemListeners();
+        return orig.getItemListeners();
     }
 
     public KeyListener[] getKeyListeners() {
-        return forced.getKeyListeners();
+        return orig.getKeyListeners();
     }
 
     public String getLabel() {
-        return forced.getLabel();
+        return orig.getLabel();
     }
 
     public LayoutManager getLayout() {
-        return forced.getLayout();
+        return orig.getLayout();
     }
 
     public EventListener[] getListeners(Class listenerType) {
-        return forced.getListeners(listenerType);
+        return orig.getListeners(listenerType);
     }
 
     public Locale getLocale() {
-        return forced.getLocale();
+        return orig.getLocale();
     }
 
     public Point getLocation() {
-        return forced.getLocation();
+        return orig.getLocation();
     }
 
     public Point getLocation(Point rv) {
-        return forced.getLocation(rv);
+        return orig.getLocation(rv);
     }
 
     public Point getLocationOnScreen() {
-        return forced.getLocationOnScreen();
+        return orig.getLocationOnScreen();
     }
 
     public Insets getMargin() {
-        return forced.getMargin();
+        return orig.getMargin();
     }
 
     public Dimension getMaximumSize() {
-        return forced.getMaximumSize();
+        return orig.getMaximumSize();
     }
 
     public Dimension getMinimumSize() {
-        return forced.getMinimumSize();
+        return orig.getMinimumSize();
     }
 
     public int getMnemonic() {
-        return forced.getMnemonic();
-    }
-
-    public ButtonModel getModel() {
-        return forced.getModel();
+        return orig.getMnemonic();
     }
 
     public MouseListener[] getMouseListeners() {
-        return forced.getMouseListeners();
+        return orig.getMouseListeners();
     }
 
     public MouseMotionListener[] getMouseMotionListeners() {
-        return forced.getMouseMotionListeners();
+        return orig.getMouseMotionListeners();
     }
 
     public MouseWheelListener[] getMouseWheelListeners() {
-        return forced.getMouseWheelListeners();
+        return orig.getMouseWheelListeners();
     }
 
     public long getMultiClickThreshhold() {
-        return forced.getMultiClickThreshhold();
+        return orig.getMultiClickThreshhold();
     }
 
     public String getName() {
-        return forced.getName();
+        return orig.getName();
     }
 
     public Component getNextFocusableComponent() {
-        return forced.getNextFocusableComponent();
+        return orig.getNextFocusableComponent();
     }
 
     public Container getParent() {
-        return forced.getParent();
+        return orig.getParent();
     }
 
     public ComponentPeer getPeer() {
-        return forced.getPeer();
+        return orig.getPeer();
     }
 
     public Dimension getPreferredSize() {
-        return forced.getPreferredSize();
+        return orig.getPreferredSize();
     }
 
     public Icon getPressedIcon() {
-        return forced.getPressedIcon();
+        return orig.getPressedIcon();
     }
 
     public PropertyChangeListener[] getPropertyChangeListeners() {
-        return forced.getPropertyChangeListeners();
+        return orig.getPropertyChangeListeners();
     }
 
     public PropertyChangeListener[] getPropertyChangeListeners(String propertyName) {
-        return forced.getPropertyChangeListeners(propertyName);
+        return orig.getPropertyChangeListeners(propertyName);
     }
 
     public KeyStroke[] getRegisteredKeyStrokes() {
-        return forced.getRegisteredKeyStrokes();
+        return orig.getRegisteredKeyStrokes();
     }
 
     public Icon getRolloverIcon() {
-        return forced.getRolloverIcon();
+        return orig.getRolloverIcon();
     }
 
     public Icon getRolloverSelectedIcon() {
-        return forced.getRolloverSelectedIcon();
+        return orig.getRolloverSelectedIcon();
     }
 
     public JRootPane getRootPane() {
-        return forced.getRootPane();
+        return orig.getRootPane();
     }
 
     public Icon getSelectedIcon() {
-        return forced.getSelectedIcon();
+        return orig.getSelectedIcon();
     }
 
     public Object[] getSelectedObjects() {
-        return forced.getSelectedObjects();
+        return orig.getSelectedObjects();
     }
 
     public Dimension getSize() {
-        return forced.getSize();
+        return orig.getSize();
     }
 
     public Dimension getSize(Dimension rv) {
-        return forced.getSize(rv);
+        return orig.getSize(rv);
     }
 
     public String getText() {
-        return forced.getText();
+        return orig.getText();
     }
 
     public Toolkit getToolkit() {
-        return forced.getToolkit();
+        return orig.getToolkit();
     }
 
     public Point getToolTipLocation(MouseEvent event) {
-        return forced.getToolTipLocation(event);
+        return orig.getToolTipLocation(event);
     }
 
     public String getToolTipText() {
-        return forced.getToolTipText();
+        return orig.getToolTipText();
     }
 
     public String getToolTipText(MouseEvent event) {
-        return forced.getToolTipText(event);
+        return orig.getToolTipText(event);
     }
 
     public Container getTopLevelAncestor() {
-        return forced.getTopLevelAncestor();
+        return orig.getTopLevelAncestor();
     }
 
     public TransferHandler getTransferHandler() {
-        return forced.getTransferHandler();
+        return orig.getTransferHandler();
     }
 
     public ButtonUI getUI() {
-        return forced.getUI();
+        return orig.getUI();
     }
 
     public String getUIClassID() {
-        return forced.getUIClassID();
+        return orig.getUIClassID();
     }
 
     public boolean getVerifyInputWhenFocusTarget() {
-        return forced.getVerifyInputWhenFocusTarget();
+        return orig.getVerifyInputWhenFocusTarget();
     }
 
     public int getVerticalAlignment() {
-        return forced.getVerticalAlignment();
+        return orig.getVerticalAlignment();
     }
 
     public int getVerticalTextPosition() {
-        return forced.getVerticalTextPosition();
+        return orig.getVerticalTextPosition();
     }
 
     public VetoableChangeListener[] getVetoableChangeListeners() {
-        return forced.getVetoableChangeListeners();
+        return orig.getVetoableChangeListeners();
     }
 
     public Rectangle getVisibleRect() {
-        return forced.getVisibleRect();
+        return orig.getVisibleRect();
     }
 
     public int getWidth() {
-        return forced.getWidth();
+        return orig.getWidth();
     }
 
     public int getX() {
-        return forced.getX();
+        return orig.getX();
     }
 
     public int getY() {
-        return forced.getY();
+        return orig.getY();
     }
 
     public boolean gotFocus(Event evt, Object what) {
-        return forced.gotFocus(evt, what);
+        return orig.gotFocus(evt, what);
     }
 
     public void grabFocus() {
-        forced.grabFocus();
+        orig.grabFocus();
     }
 
     public boolean handleEvent(Event evt) {
-        return forced.handleEvent(evt);
+        return orig.handleEvent(evt);
     }
 
     public boolean hasFocus() {
-        return forced.hasFocus();
+        return orig.hasFocus();
     }
 
     public void hide() {
-        forced.hide();
+        orig.hide();
     }
 
     public boolean imageUpdate(Image img, int infoflags,
             int x, int y, int width, int height) {
-        return forced.imageUpdate(img, infoflags, x, y, width, height);
+        return orig.imageUpdate(img, infoflags, x, y, width, height);
     }
 
     public Insets insets() {
-        return forced.insets();
+        return orig.insets();
     }
 
     public boolean inside(int x, int y) {
-        return forced.inside(x, y);
+        return orig.inside(x, y);
     }
 
     public void invalidate() {
-        forced.invalidate();
+        orig.invalidate();
     }
 
     public boolean isAncestorOf(Component c) {
-        return forced.isAncestorOf(c);
+        return orig.isAncestorOf(c);
     }
 
     public boolean isBackgroundSet() {
-        return forced.isBackgroundSet();
+        return orig.isBackgroundSet();
     }
 
     public boolean isBorderPainted() {
-        return forced.isBorderPainted();
+        return orig.isBorderPainted();
     }
 
     public boolean isContentAreaFilled() {
-        return forced.isContentAreaFilled();
+        return orig.isContentAreaFilled();
     }
 
     public boolean isCursorSet() {
-        return forced.isCursorSet();
+        return orig.isCursorSet();
     }
 
     public boolean isDisplayable() {
-        return forced.isDisplayable();
+        return orig.isDisplayable();
     }
 
     public boolean isDoubleBuffered() {
-        return forced.isDoubleBuffered();
-    }
-
-    public boolean isEnabled() {
-        return forced.isEnabled();
+        return orig.isDoubleBuffered();
     }
 
     public boolean isFocusable() {
-        return forced.isFocusable();
+        return orig.isFocusable();
     }
 
     public boolean isFocusCycleRoot() {
-        return forced.isFocusCycleRoot();
+        return orig.isFocusCycleRoot();
     }
 
     public boolean isFocusCycleRoot(Container container) {
-        return forced.isFocusCycleRoot(container);
+        return orig.isFocusCycleRoot(container);
     }
 
     public boolean isFocusOwner() {
-        return forced.isFocusOwner();
+        return orig.isFocusOwner();
     }
 
     public boolean isFocusPainted() {
-        return forced.isFocusPainted();
+        return orig.isFocusPainted();
     }
 
     public boolean isFocusTraversable() {
-        return forced.isFocusTraversable();
+        return orig.isFocusTraversable();
     }
 
     public boolean isFocusTraversalPolicySet() {
-        return forced.isFocusTraversalPolicySet();
+        return orig.isFocusTraversalPolicySet();
     }
 
     public boolean isFontSet() {
-        return forced.isFontSet();
+        return orig.isFontSet();
     }
 
     public boolean isForegroundSet() {
-        return forced.isForegroundSet();
+        return orig.isForegroundSet();
     }
 
     public boolean isLightweight() {
-        return forced.isLightweight();
+        return orig.isLightweight();
     }
 
     public boolean isManagingFocus() {
-        if (forced != null)
-            return forced.isManagingFocus();
+        if (orig != null)   // can be null during construction, and we don't care
+            return orig.isManagingFocus();
         else
             return false;
     }
 
     public boolean isMaximumSizeSet() {
-        return forced.isMaximumSizeSet();
+        return orig.isMaximumSizeSet();
     }
 
     public boolean isMinimumSizeSet() {
-        return forced.isMinimumSizeSet();
+        return orig.isMinimumSizeSet();
     }
 
     public boolean isOpaque() {
-        return forced.isOpaque();
+        return orig.isOpaque();
     }
 
     public boolean isOptimizedDrawingEnabled() {
-        return forced.isOptimizedDrawingEnabled();
+        return orig.isOptimizedDrawingEnabled();
     }
 
     public boolean isPaintingTile() {
-        return forced.isPaintingTile();
+        return orig.isPaintingTile();
     }
 
     public boolean isPreferredSizeSet() {
-        return forced.isPreferredSizeSet();
+        return orig.isPreferredSizeSet();
     }
 
     public boolean isRequestFocusEnabled() {
-        return forced.isRequestFocusEnabled();
+        return orig.isRequestFocusEnabled();
     }
 
     public boolean isRolloverEnabled() {
-        return forced.isRolloverEnabled();
+        return orig.isRolloverEnabled();
     }
 
     public boolean isSelected() {
-        return forced.isSelected();
+        return orig.isSelected();
     }
 
     public boolean isShowing() {
-        return forced.isShowing();
+        return orig.isShowing();
     }
 
     public boolean isValid() {
-        return forced.isValid();
+        return orig.isValid();
     }
 
     public boolean isValidateRoot() {
-        return forced.isValidateRoot();
+        return orig.isValidateRoot();
     }
 
     public boolean isVisible() {
-        return forced.isVisible();
+        return orig.isVisible();
     }
 
     public boolean keyDown(Event evt, int key) {
-        return forced.keyDown(evt, key);
+        return orig.keyDown(evt, key);
     }
 
     public boolean keyUp(Event evt, int key) {
-        return forced.keyUp(evt, key);
+        return orig.keyUp(evt, key);
     }
 
     public void layout() {
-        forced.layout();
+        orig.layout();
     }
 
     public void list() {
-        forced.list();
+        orig.list();
     }
 
     public void list(PrintStream out) {
-        forced.list(out);
+        orig.list(out);
     }
 
     public void list(PrintStream out, int indent) {
-        forced.list(out, indent);
+        orig.list(out, indent);
     }
 
     public void list(PrintWriter out) {
-        forced.list(out);
+        orig.list(out);
     }
 
     public void list(PrintWriter out, int indent) {
-        forced.list(out, indent);
+        orig.list(out, indent);
     }
 
     public Component locate(int x, int y) {
-        return forced.locate(x, y);
+        return orig.locate(x, y);
     }
 
     public Point location() {
-        return forced.location();
+        return orig.location();
     }
 
     public boolean lostFocus(Event evt, Object what) {
-        return forced.lostFocus(evt, what);
+        return orig.lostFocus(evt, what);
     }
 
     public Dimension minimumSize() {
-        return forced.minimumSize();
+        return orig.minimumSize();
     }
 
     public boolean mouseDown(Event evt, int x, int y) {
-        return forced.mouseDown(evt, x, y);
+        return orig.mouseDown(evt, x, y);
     }
 
     public boolean mouseDrag(Event evt, int x, int y) {
-        return forced.mouseDrag(evt, x, y);
+        return orig.mouseDrag(evt, x, y);
     }
 
     public boolean mouseEnter(Event evt, int x, int y) {
-        return forced.mouseEnter(evt, x, y);
+        return orig.mouseEnter(evt, x, y);
     }
 
     public boolean mouseExit(Event evt, int x, int y) {
-        return forced.mouseExit(evt, x, y);
+        return orig.mouseExit(evt, x, y);
     }
 
     public boolean mouseMove(Event evt, int x, int y) {
-        return forced.mouseMove(evt, x, y);
+        return orig.mouseMove(evt, x, y);
     }
 
     public boolean mouseUp(Event evt, int x, int y) {
-        return forced.mouseUp(evt, x, y);
+        return orig.mouseUp(evt, x, y);
     }
 
     public void move(int x, int y) {
-        forced.move(x, y);
+        orig.move(x, y);
     }
 
     public void nextFocus() {
-        forced.nextFocus();
+        orig.nextFocus();
     }
 
     public void paint(Graphics g) {
-        forced.paint(g);
+        orig.paint(g);
     }
 
     public void paintAll(Graphics g) {
-        forced.paintAll(g);
+        orig.paintAll(g);
     }
 
     public void paintComponents(Graphics g) {
-        forced.paintComponents(g);
+        orig.paintComponents(g);
     }
 
     public void paintImmediately(Rectangle r) {
-        forced.paintImmediately(r);
+        orig.paintImmediately(r);
     }
 
     public void paintImmediately(int x, int y, int w, int h) {
-        forced.paintImmediately(x, y, w, h);
+        orig.paintImmediately(x, y, w, h);
     }
 
     public boolean postEvent(Event evt) {
-        return forced.postEvent(evt);
+        return orig.postEvent(evt);
     }
 
     public Dimension preferredSize() {
-        return forced.preferredSize();
+        return orig.preferredSize();
     }
 
     public boolean prepareImage(Image image, ImageObserver observer) {
-        return forced.prepareImage(image, observer);
+        return orig.prepareImage(image, observer);
     }
 
     public boolean prepareImage(Image image, int width, int height,
             ImageObserver observer) {
-        return forced.prepareImage(image, width, height, observer);
+        return orig.prepareImage(image, width, height, observer);
     }
 
     public void print(Graphics g) {
-        forced.print(g);
+        orig.print(g);
     }
 
     public void printAll(Graphics g) {
-        forced.printAll(g);
+        orig.printAll(g);
     }
 
     public void registerKeyboardAction(ActionListener anAction, String aCommand, KeyStroke aKeyStroke, int aCondition) {
-        forced.registerKeyboardAction(anAction, aCommand, aKeyStroke, aCondition);
+        orig.registerKeyboardAction(anAction, aCommand, aKeyStroke, aCondition);
     }
 
     public void registerKeyboardAction(ActionListener anAction, KeyStroke aKeyStroke, int aCondition) {
-        forced.registerKeyboardAction(anAction, aKeyStroke, aCondition);
+        orig.registerKeyboardAction(anAction, aKeyStroke, aCondition);
     }
 
     public void remove(Component comp) {
-        forced.remove(comp);
+        orig.remove(comp);
     }
 
     public void remove(int index) {
-        forced.remove(index);
+        orig.remove(index);
     }
 
     public void removeActionListener(ActionListener l) {
-        forced.removeActionListener(l);
+        orig.removeActionListener(l);
     }
 
     public void removeAll() {
-        forced.removeAll();
+        orig.removeAll();
     }
 
     public void removeAncestorListener(AncestorListener listener) {
-        forced.removeAncestorListener(listener);
+        orig.removeAncestorListener(listener);
     }
 
     public void removeChangeListener(ChangeListener l) {
-        forced.removeChangeListener(l);
+        orig.removeChangeListener(l);
     }
 
     public void removeComponentListener(ComponentListener l) {
-        forced.removeComponentListener(l);
+        orig.removeComponentListener(l);
     }
 
     public void removeContainerListener(ContainerListener l) {
-        forced.removeContainerListener(l);
+        orig.removeContainerListener(l);
     }
 
     public void removeFocusListener(FocusListener l) {
-        forced.removeFocusListener(l);
+        orig.removeFocusListener(l);
     }
 
     public void removeHierarchyBoundsListener(HierarchyBoundsListener l) {
-        forced.removeHierarchyBoundsListener(l);
+        orig.removeHierarchyBoundsListener(l);
     }
 
     public void removeHierarchyListener(HierarchyListener l) {
-        forced.removeHierarchyListener(l);
+        orig.removeHierarchyListener(l);
     }
 
     public void removeInputMethodListener(InputMethodListener l) {
-        forced.removeInputMethodListener(l);
+        orig.removeInputMethodListener(l);
     }
 
     public void removeItemListener(ItemListener l) {
-        forced.removeItemListener(l);
+        orig.removeItemListener(l);
     }
 
     public void removeKeyListener(KeyListener l) {
-        forced.removeKeyListener(l);
+        orig.removeKeyListener(l);
     }
 
     public void removeMouseListener(MouseListener l) {
-        forced.removeMouseListener(l);
+        orig.removeMouseListener(l);
     }
 
     public void removeMouseMotionListener(MouseMotionListener l) {
-        forced.removeMouseMotionListener(l);
+        orig.removeMouseMotionListener(l);
     }
 
     public void removeMouseWheelListener(MouseWheelListener l) {
-        forced.removeMouseWheelListener(l);
+        orig.removeMouseWheelListener(l);
     }
 
     public void removeNotify() {
-        forced.removeNotify();
+        orig.removeNotify();
     }
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
-        forced.removePropertyChangeListener(listener);
+        orig.removePropertyChangeListener(listener);
     }
 
     public void removePropertyChangeListener(String propertyName,
             PropertyChangeListener listener) {
-        forced.removePropertyChangeListener(propertyName, listener);
+        orig.removePropertyChangeListener(propertyName, listener);
     }
 
     public void removeVetoableChangeListener(VetoableChangeListener listener) {
-        forced.removeVetoableChangeListener(listener);
+        orig.removeVetoableChangeListener(listener);
     }
 
     public void repaint() {
-        forced.repaint();
+        orig.repaint();
     }
 
     public void repaint(Rectangle r) {
-        forced.repaint(r);
+        orig.repaint(r);
     }
 
     public void repaint(long tm) {
-        forced.repaint(tm);
+        orig.repaint(tm);
     }
 
     public void repaint(long tm, int x, int y, int width, int height) {
-        forced.repaint(tm, x, y, width, height);
+        orig.repaint(tm, x, y, width, height);
     }
 
     public void repaint(int x, int y, int width, int height) {
-        forced.repaint(x, y, width, height);
+        orig.repaint(x, y, width, height);
     }
 
     public boolean requestDefaultFocus() {
-        return forced.requestDefaultFocus();
+        return orig.requestDefaultFocus();
     }
 
     public void requestFocus() {
-        forced.requestFocus();
+        orig.requestFocus();
     }
 
     public boolean requestFocus(boolean temporary) {
-        return forced.requestFocus(temporary);
+        return orig.requestFocus(temporary);
     }
 
     public boolean requestFocusInWindow() {
-        return forced.requestFocusInWindow();
+        return orig.requestFocusInWindow();
     }
 
     public void resetKeyboardActions() {
-        forced.resetKeyboardActions();
+        orig.resetKeyboardActions();
     }
 
     public void reshape(int x, int y, int width, int height) {
-        forced.reshape(x, y, width, height);
+        orig.reshape(x, y, width, height);
     }
 
     public void resize(Dimension d) {
-        forced.resize(d);
+        orig.resize(d);
     }
 
     public void resize(int width, int height) {
-        forced.resize(width, height);
+        orig.resize(width, height);
     }
 
     public void revalidate() {
-        forced.revalidate();
+        orig.revalidate();
     }
 
     public void scrollRectToVisible(Rectangle aRect) {
-        forced.scrollRectToVisible(aRect);
+        orig.scrollRectToVisible(aRect);
     }
 
     public void setAction(Action a) {
-        if (forced != null) forced.setAction(a);
+        if (orig != null)
+            orig.setAction(a);
     }
 
     public void setActionCommand(String actionCommand) {
-        if (forced != null) forced.setActionCommand(actionCommand);
+        if (orig != null)
+            orig.setActionCommand(actionCommand);
     }
 
     public void setAlignmentX(float alignmentX) {
-        if (forced != null) forced.setAlignmentX(alignmentX);
+        if (orig != null)
+            orig.setAlignmentX(alignmentX);
     }
 
     public void setAlignmentY(float alignmentY) {
-        if (forced != null) forced.setAlignmentY(alignmentY);
+        if (orig != null)
+            orig.setAlignmentY(alignmentY);
     }
 
     public void setAutoscrolls(boolean autoscrolls) {
-        if (forced != null) forced.setAutoscrolls(autoscrolls);
+        if (orig != null)
+            orig.setAutoscrolls(autoscrolls);
     }
 
     public void setBackground(Color bg) {
-        if (forced != null) forced.setBackground(bg);
+        if (orig != null)
+            orig.setBackground(bg);
     }
 
     public void setBorder(Border border) {
-        if (forced != null) forced.setBorder(border);
+        if (orig != null)
+            orig.setBorder(border);
     }
 
     public void setBorderPainted(boolean b) {
-        if (forced != null) forced.setBorderPainted(b);
+        if (orig != null)
+            orig.setBorderPainted(b);
     }
 
     public void setBounds(Rectangle r) {
-        if (forced != null) forced.setBounds(r);
+        if (orig != null)
+            orig.setBounds(r);
     }
 
     public void setBounds(int x, int y, int width, int height) {
-        if (forced != null) forced.setBounds(x, y, width, height);
+        if (orig != null)
+            orig.setBounds(x, y, width, height);
     }
 
     public void setComponentOrientation(ComponentOrientation o) {
-        if (forced != null) forced.setComponentOrientation(o);
+        if (orig != null)
+            orig.setComponentOrientation(o);
     }
 
     public void setContentAreaFilled(boolean b) {
-        if (forced != null) forced.setContentAreaFilled(b);
+        if (orig != null)
+            orig.setContentAreaFilled(b);
     }
 
     public void setCursor(Cursor cursor) {
-        if (forced != null) forced.setCursor(cursor);
+        if (orig != null)
+            orig.setCursor(cursor);
     }
 
     public void setDebugGraphicsOptions(int debugOptions) {
-        if (forced != null) forced.setDebugGraphicsOptions(debugOptions);
+        if (orig != null)
+            orig.setDebugGraphicsOptions(debugOptions);
     }
 
     public void setDisabledIcon(Icon disabledIcon) {
-        if (forced != null) forced.setDisabledIcon(disabledIcon);
+        if (orig != null)
+            orig.setDisabledIcon(disabledIcon);
     }
 
     public void setDisabledSelectedIcon(Icon disabledSelectedIcon) {
-        if (forced != null) forced.setDisabledSelectedIcon(disabledSelectedIcon);
+        if (orig != null)
+            orig.setDisabledSelectedIcon(disabledSelectedIcon);
     }
 
     public void setDisplayedMnemonicIndex(int index)
             throws IllegalArgumentException {
-        if (forced != null) forced.setDisplayedMnemonicIndex(index);
+        if (orig != null)
+            orig.setDisplayedMnemonicIndex(index);
     }
 
     public void setDoubleBuffered(boolean aFlag) {
-        if (forced != null) forced.setDoubleBuffered(aFlag);
+        if (orig != null)
+            orig.setDoubleBuffered(aFlag);
     }
 
     public void setDropTarget(DropTarget dt) {
-        if (forced != null) forced.setDropTarget(dt);
+        if (orig != null)
+            orig.setDropTarget(dt);
     }
 
     public void setEnabled(boolean enabled) {
-        if (forced != null) forced.setEnabled(enabled);
+        if (orig != null)
+            orig.setEnabled(enabled);
     }
 
     public void setFocusable(boolean focusable) {
-        if (forced != null) forced.setFocusable(focusable);
+        if (orig != null)
+            orig.setFocusable(focusable);
     }
 
     public void setFocusCycleRoot(boolean focusCycleRoot) {
-        if (forced != null) forced.setFocusCycleRoot(focusCycleRoot);
+        if (orig != null)
+            orig.setFocusCycleRoot(focusCycleRoot);
     }
 
     public void setFocusPainted(boolean b) {
-        if (forced != null) forced.setFocusPainted(b);
+        if (orig != null)
+            orig.setFocusPainted(b);
     }
 
     public void setFocusTraversalKeys(int id, Set keystrokes) {
-        if (forced != null) forced.setFocusTraversalKeys(id, keystrokes);
+        if (orig != null)
+            orig.setFocusTraversalKeys(id, keystrokes);
     }
 
     public void setFocusTraversalKeysEnabled(boolean
             focusTraversalKeysEnabled) {
-        if (forced != null) forced.setFocusTraversalKeysEnabled(focusTraversalKeysEnabled);
+        if (orig != null)
+            orig.setFocusTraversalKeysEnabled(focusTraversalKeysEnabled);
     }
 
     public void setFocusTraversalPolicy(FocusTraversalPolicy policy) {
-        if (forced != null) forced.setFocusTraversalPolicy(policy);
+        if (orig != null)
+            orig.setFocusTraversalPolicy(policy);
     }
 
     public void setFont(Font f) {
-        if (forced != null) forced.setFont(f);
+        if (orig != null)
+            orig.setFont(f);
     }
 
     public void setForeground(Color fg) {
-        if (forced != null) forced.setForeground(fg);
+        if (orig != null)
+            orig.setForeground(fg);
     }
 
     public void setHorizontalAlignment(int alignment) {
-        if (forced != null) forced.setHorizontalAlignment(alignment);
+        if (orig != null)
+            orig.setHorizontalAlignment(alignment);
     }
 
     public void setHorizontalTextPosition(int textPosition) {
-        if (forced != null) forced.setHorizontalTextPosition(textPosition);
+        if (orig != null)
+            orig.setHorizontalTextPosition(textPosition);
     }
 
     public void setIcon(Icon defaultIcon) {
-        if (forced != null) forced.setIcon(defaultIcon);
+        if (orig != null)
+            orig.setIcon(defaultIcon);
     }
 
     public void setIconTextGap(int iconTextGap) {
-        if (forced != null) forced.setIconTextGap(iconTextGap);
+        if (orig != null)
+            orig.setIconTextGap(iconTextGap);
     }
 
     public void setIgnoreRepaint(boolean ignoreRepaint) {
-        if (forced != null) forced.setIgnoreRepaint(ignoreRepaint);
+        if (orig != null)
+            orig.setIgnoreRepaint(ignoreRepaint);
     }
 
     public void setInputVerifier(InputVerifier inputVerifier) {
-        if (forced != null) forced.setInputVerifier(inputVerifier);
+        if (orig != null)
+            orig.setInputVerifier(inputVerifier);
     }
 
     public void setLabel(String label) {
-        if (forced != null) forced.setLabel(label);
+        if (orig != null)
+            orig.setLabel(label);
     }
 
     public void setLayout(LayoutManager mgr) {
-        if (forced != null) forced.setLayout(mgr);
+        if (orig != null)
+            orig.setLayout(mgr);
     }
 
     public void setLocale(Locale l) {
-        if (forced != null) forced.setLocale(l);
+        if (orig != null)
+            orig.setLocale(l);
     }
 
     public void setLocation(Point p) {
-        if (forced != null) forced.setLocation(p);
+        if (orig != null)
+            orig.setLocation(p);
     }
 
     public void setLocation(int x, int y) {
-        if (forced != null) forced.setLocation(x, y);
+        if (orig != null)
+            orig.setLocation(x, y);
     }
 
     public void setMargin(Insets m) {
-        if (forced != null) forced.setMargin(m);
+        if (orig != null)
+            orig.setMargin(m);
     }
 
     public void setMaximumSize(Dimension maximumSize) {
-        if (forced != null) forced.setMaximumSize(maximumSize);
+        if (orig != null)
+            orig.setMaximumSize(maximumSize);
     }
 
     public void setMinimumSize(Dimension minimumSize) {
-        if (forced != null) forced.setMinimumSize(minimumSize);
+        if (orig != null)
+            orig.setMinimumSize(minimumSize);
     }
 
     public void setMnemonic(char mnemonic) {
-        if (forced != null) forced.setMnemonic(mnemonic);
+        if (orig != null)
+            orig.setMnemonic(mnemonic);
     }
 
     public void setMnemonic(int mnemonic) {
-        if (forced != null) forced.setMnemonic(mnemonic);
+        if (orig != null)
+            orig.setMnemonic(mnemonic);
     }
 
     public void setModel(ButtonModel newModel) {
-        if (forced != null) forced.setModel(newModel);
+        if (orig != null)
+            orig.setModel(newModel);
     }
 
     public void setMultiClickThreshhold(long threshhold) {
-        if (forced != null) forced.setMultiClickThreshhold(threshhold);
+        if (orig != null)
+            orig.setMultiClickThreshhold(threshhold);
     }
 
     public void setName(String name) {
-        if (forced != null) forced.setName(name);
+        if (orig != null)
+            orig.setName(name);
     }
 
     public void setNextFocusableComponent(Component aComponent) {
-        if (forced != null) forced.setNextFocusableComponent(aComponent);
+        if (orig != null)
+            orig.setNextFocusableComponent(aComponent);
     }
 
     public void setOpaque(boolean isOpaque) {
-        if (forced != null) forced.setOpaque(isOpaque);
+        if (orig != null)
+            orig.setOpaque(isOpaque);
     }
 
     public void setPreferredSize(Dimension preferredSize) {
-        if (forced != null) forced.setPreferredSize(preferredSize);
+        if (orig != null)
+            orig.setPreferredSize(preferredSize);
     }
 
     public void setPressedIcon(Icon pressedIcon) {
-        if (forced != null) forced.setPressedIcon(pressedIcon);
+        if (orig != null)
+            orig.setPressedIcon(pressedIcon);
     }
 
     public void setRequestFocusEnabled(boolean requestFocusEnabled) {
-        if (forced != null) forced.setRequestFocusEnabled(requestFocusEnabled);
+        if (orig != null)
+            orig.setRequestFocusEnabled(requestFocusEnabled);
     }
 
     public void setRolloverEnabled(boolean b) {
-        if (forced != null) forced.setRolloverEnabled(b);
+        if (orig != null)
+            orig.setRolloverEnabled(b);
     }
 
     public void setRolloverIcon(Icon rolloverIcon) {
-        if (forced != null) forced.setRolloverIcon(rolloverIcon);
+        if (orig != null)
+            orig.setRolloverIcon(rolloverIcon);
     }
 
     public void setRolloverSelectedIcon(Icon rolloverSelectedIcon) {
-        if (forced != null) forced.setRolloverSelectedIcon(rolloverSelectedIcon);
+        if (orig != null)
+            orig.setRolloverSelectedIcon(rolloverSelectedIcon);
     }
 
     public void setSelected(boolean b) {
-        if (forced != null) forced.setSelected(b);
+        if (orig != null)
+            orig.setSelected(b);
     }
 
     public void setSelectedIcon(Icon selectedIcon) {
-        if (forced != null) forced.setSelectedIcon(selectedIcon);
+        if (orig != null)
+            orig.setSelectedIcon(selectedIcon);
     }
 
     public void setSize(Dimension d) {
-        if (forced != null) forced.setSize(d);
+        if (orig != null)
+            orig.setSize(d);
     }
 
     public void setSize(int width, int height) {
-        if (forced != null) forced.setSize(width, height);
+        if (orig != null)
+            orig.setSize(width, height);
     }
 
     public void setText(String text) {
-        if (forced != null) forced.setText(text);
+        if (orig != null)
+            orig.setText(text);
     }
 
     public void setToolTipText(String text) {
-        if (forced != null) forced.setToolTipText(text);
+        if (orig != null)
+            orig.setToolTipText(text);
     }
 
     public void setTransferHandler(TransferHandler newHandler) {
-        if (forced != null) forced.setTransferHandler(newHandler);
+        if (orig != null)
+            orig.setTransferHandler(newHandler);
     }
 
     public void setUI(ComponentUI newUI) {
-        if (forced != null) forced.setUI(newUI);
+        if (orig != null)
+            orig.setUI((ButtonUI) newUI);
     }
 
     public void setUI(ButtonUI ui) {
-        if (forced != null) forced.setUI(ui);
+        if (orig != null)
+            orig.setUI(ui);
     }
 
     public void setVerifyInputWhenFocusTarget(boolean
             verifyInputWhenFocusTarget) {
-        if (forced != null) forced.setVerifyInputWhenFocusTarget(verifyInputWhenFocusTarget);
+        if (orig != null)
+            orig.setVerifyInputWhenFocusTarget(verifyInputWhenFocusTarget);
     }
 
     public void setVerticalAlignment(int alignment) {
-        if (forced != null) forced.setVerticalAlignment(alignment);
+        if (orig != null)
+            orig.setVerticalAlignment(alignment);
     }
 
     public void setVerticalTextPosition(int textPosition) {
-        if (forced != null) forced.setVerticalTextPosition(textPosition);
+        if (orig != null)
+            orig.setVerticalTextPosition(textPosition);
     }
 
     public void setVisible(boolean b) {
-        if (forced != null) forced.setVisible(b);
+        if (orig != null)
+            orig.setVisible(b);
     }
 
     public void show() {
-        forced.show();
+        orig.show();
     }
 
     public void show(boolean b) {
-        forced.show(b);
+        orig.show(b);
     }
 
     public Dimension size() {
-        return forced.size();
+        return orig.size();
     }
 
     public String toString() {
-        return forced.toString();
+        return orig.toString();
     }
 
     public void transferFocus() {
-        forced.transferFocus();
+        orig.transferFocus();
     }
 
     public void transferFocusBackward() {
-        forced.transferFocusBackward();
+        orig.transferFocusBackward();
     }
 
     public void transferFocusDownCycle() {
-        forced.transferFocusDownCycle();
+        orig.transferFocusDownCycle();
     }
 
     public void transferFocusUpCycle() {
-        forced.transferFocusUpCycle();
+        orig.transferFocusUpCycle();
     }
 
     public void unregisterKeyboardAction(KeyStroke aKeyStroke) {
-        forced.unregisterKeyboardAction(aKeyStroke);
+        orig.unregisterKeyboardAction(aKeyStroke);
     }
 
     public void update(Graphics g) {
-        forced.update(g);
+        orig.update(g);
     }
 
     public void updateUI() {
-        if (forced != null)
-            forced.updateUI();
+        orig.updateUI();
     }
 
     public void validate() {
-        forced.validate();
+        orig.validate();
     }
 }

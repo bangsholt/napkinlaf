@@ -56,6 +56,9 @@ public class NapkinUtil implements NapkinConstants {
     private static final float FOCUS_MARK_WIDTH = 1.5f;
     private static final float DISABLE_MARK_WIDTH = 2.2f;
     private static final double DISABLE_LINE_HEIGHT = 0.34;
+    public static float alpha = 1.0f;
+    public static int compositeType = AlphaComposite.SRC_ATOP;
+    public static Image textureImage;
 
     public static Object property(ComponentUI ui, String prop) {
         String uiName = ui.getClass().getName();
@@ -641,8 +644,8 @@ public class NapkinUtil implements NapkinConstants {
             return c;
 
         if (c instanceof JMenuItem)
-            return new ForceEnabledMenuItem(c);
+            return new FakeEnabledMenuItem(c);
         else
-            return new ForceEnabledButton(c);
+            return new FakeEnabledButton(c);
     }
 }

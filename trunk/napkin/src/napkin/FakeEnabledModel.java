@@ -5,12 +5,12 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 /**
- * @see ForceEnabledButton
+ * @see FakeEnabledButton
  */
-class ForceEnabledModel implements ButtonModel {
+class FakeEnabledModel implements ButtonModel, FakeEnabled {
     private final ButtonModel origModel;
 
-    ForceEnabledModel(ButtonModel model) {
+    FakeEnabledModel(ButtonModel model) {
         if (model == null)
             throw new NullPointerException("model");
         origModel = model;
