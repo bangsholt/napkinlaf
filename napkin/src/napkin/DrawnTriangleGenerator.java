@@ -6,9 +6,9 @@ import java.awt.*;
 import java.awt.geom.*;
 
 public class DrawnTriangleGenerator extends DrawnShapeGenerator {
-    private final RandomValue midX, midY;
-    private final RandomValue lX, lY;
-    private final RandomValue rX, rY;
+    private final RandomXY mid;
+    private final RandomXY l;
+    private final RandomXY r;
     private final RandomValue startAdjust;
     private final double rotate;
 
@@ -22,12 +22,9 @@ public class DrawnTriangleGenerator extends DrawnShapeGenerator {
         this.rotate = rotate;
 
         double shimmy = 0.05;
-        midX = new RandomValue(0.5, shimmy);
-        midY = new RandomValue(0, shimmy);
-        lX = new RandomValue(0, shimmy);
-        lY = new RandomValue(1, shimmy);
-        rX = new RandomValue(1, shimmy);
-        rY = new RandomValue(1, shimmy);
+        mid = new RandomXY(0.5, shimmy, 0, shimmy);
+        l = new RandomXY(0, shimmy, 1, shimmy);
+        r = new RandomXY(1, shimmy, 1, shimmy);
 
         startAdjust = new RandomValue(0.07);
     }
@@ -38,12 +35,15 @@ public class DrawnTriangleGenerator extends DrawnShapeGenerator {
         double xScale = (matrix == null ? 1 : matrix.getScaleX());
         double yScale = (matrix == null ? 1 : matrix.getScaleY());
 
-        double xMid = midX.generate();
-        double yMid = midY.generate();
-        double xV1 = lX.generate();
-        double yV1 = lY.generate();
-        double xV2 = rX.generate();
-        double yV2 = rY.generate();
+        Point2D midAt = mid.generate();
+        Point2D leftAt = l.generate();
+        Point2D rightAt = r.generate();
+        double xMid = midAt.getX();
+        double yMid = midAt.getY();
+        double xV1 = leftAt.getX();
+        double yV1 = leftAt.getY();
+        double xV2 = rightAt.getX();
+        double yV2 = rightAt.getY();
 
         if (rotate != 0) {
             matrix = NapkinUtil.copy(matrix);
@@ -89,14 +89,6 @@ public class DrawnTriangleGenerator extends DrawnShapeGenerator {
         double adjusted = Math.pow(delta, exp);
         double startScale = 1 - adjusted;
         return off.generate() * startScale;
-    }
-
-    public RandomValue getMidX() {
-        return midX;
-    }
-
-    public RandomValue getMidY() {
-        return midY;
     }
 
     public RandomValue getStartAdjust() {

@@ -7,18 +7,12 @@ import java.awt.geom.*;
 
 public class DrawnCircleGenerator extends DrawnShapeGenerator
         implements NapkinConstants {
-    private final RandomValue startX;
-    private final RandomValue startY;
-    private final RandomValue endX;
-    private final RandomValue endY;
-    private final RandomValue tlX;
-    private final RandomValue tlY;
-    private final RandomValue trX;
-    private final RandomValue trY;
-    private final RandomValue brX;
-    private final RandomValue brY;
-    private final RandomValue blX;
-    private final RandomValue blY;
+    private final RandomXY start;
+    private final RandomXY end;
+    private final RandomXY tl;
+    private final RandomXY tr;
+    private final RandomXY br;
+    private final RandomXY bl;
     private boolean forFill;
 
     public static final DrawnCubicLineGenerator INSTANCE = new DrawnCubicLineGenerator();
@@ -30,42 +24,38 @@ public class DrawnCircleGenerator extends DrawnShapeGenerator
     public DrawnCircleGenerator(boolean forFill) {
         this.forFill = forFill;
 
-        startX = new RandomValue(LENGTH / 2.0, 2);
-        startY = new RandomValue(0, 20);
-        endX = new RandomValue(LENGTH / 2.0, 2);
-        endY = new RandomValue(0, 20);
-        tlX = new RandomValue(0);
-        tlY = new RandomValue(0);
-        trX = new RandomValue(LENGTH);
-        trY = new RandomValue(0);
-        brX = new RandomValue(LENGTH);
-        brY = new RandomValue(LENGTH);
-        blX = new RandomValue(0);
-        blY = new RandomValue(LENGTH);
+        start = new RandomXY(LENGTH / 2.0, 2, 0, 20);
+        end = new RandomXY(LENGTH / 2.0, 2, 0, 20);
+        tl = new RandomXY(0, 0);
+        tr = new RandomXY(LENGTH, 0);
+        br = new RandomXY(LENGTH, LENGTH);
+        bl = new RandomXY(0, LENGTH);
     }
 
     public Shape generate(AffineTransform matrix) {
         GeneralPath circle = new GeneralPath();
 
-        double xStart = startX.generate();
-        double yStart = startY.generate();
-        double xEnd = (forFill ? xStart : endX.generate());
-        double yEnd = (forFill ? yStart : endY.generate());
-        double xTL = tlX.generate();
-        double yTL = tlY.generate();
-        double xTR = trX.generate();
-        double yTR = trY.generate();
-        double xBR = brX.generate();
-        double yBR = brY.generate();
-        double xBL = blX.generate();
-        double yBL = blY.generate();
+        Point2D startAt = start.generate();
+        Point2D endAt = (forFill ? startAt : end.generate());
+        Point2D tlAt = tl.generate();
+        Point2D trAt = tr.generate();
+        Point2D brAt = br.generate();
+        Point2D blAt = bl.generate();
+
+        double xBL = blAt.getX();
+        double yBL = blAt.getY();
+        double xBR = brAt.getX();
+        double yBR = brAt.getY();
 
         double bottomX = xBL + (xBR - xBL) / 2;
         double bottomY = yBL + (yBR - yBL) / 2;
 
         double[] coords = {
-            xStart, yStart, xTR, yTR, xBR, yBR, bottomX, bottomY,
-            bottomX, bottomY, xBL, yBL, xTL, yTL, xEnd, yEnd,
+            startAt.getX(), startAt.getY(), trAt.getX(), trAt.getY(),
+            xBR, yBR, bottomX, bottomY,
+
+            bottomX, bottomY, xBL, yBL, tlAt.getX(),
+            tlAt.getY(), endAt.getX(), endAt.getY(),
         };
         if (matrix != null)
             matrix.transform(coords, 0, coords, 0, coords.length / 2);
@@ -84,51 +74,19 @@ public class DrawnCircleGenerator extends DrawnShapeGenerator
         return circle;
     }
 
-    public RandomValue getBlX() {
-        return blX;
+    public RandomXY getTL() {
+        return tl;
     }
 
-    public RandomValue getBlY() {
-        return blY;
+    public RandomXY getBR() {
+        return br;
     }
 
-    public RandomValue getBrX() {
-        return brX;
+    public RandomXY getBL() {
+        return bl;
     }
 
-    public RandomValue getBrY() {
-        return brY;
-    }
-
-    public RandomValue getStartX() {
-        return startX;
-    }
-
-    public RandomValue getStartY() {
-        return startY;
-    }
-
-    public RandomValue getEndX() {
-        return endX;
-    }
-
-    public RandomValue getEndY() {
-        return endY;
-    }
-
-    public RandomValue getTlX() {
-        return tlX;
-    }
-
-    public RandomValue getTlY() {
-        return tlY;
-    }
-
-    public RandomValue getTrX() {
-        return trX;
-    }
-
-    public RandomValue getTrY() {
-        return trY;
+    public RandomXY getTR() {
+        return tr;
     }
 }

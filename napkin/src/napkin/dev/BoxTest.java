@@ -2,16 +2,16 @@
 
 package napkin.dev;
 
+import napkin.DrawnBoxGenerator;
+import napkin.DrawnCubicLineGenerator;
+import napkin.DrawnQuadLineGenerator;
+import napkin.RandomValueSource;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.border.*;
-
-import napkin.DrawnBoxGenerator;
-import napkin.DrawnCubicLineGenerator;
-import napkin.DrawnQuadLineGenerator;
-import napkin.RandomValueSource;
 
 class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
 
@@ -52,13 +52,13 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
 
     private class Drawing extends JLabel {
         Drawing() {
-            final int space = SPACE;
+            int space = SPACE;
             setBorder(new EmptyBorder(space, space, space, space));
         }
 
         protected void paintComponent(Graphics g1) {
             Graphics2D g = (Graphics2D) g1;
-            double mid = getHeight() / 2 - sizeYSpin.get() / 2;
+            double mid = getHeight() / 2.0 - sizeYSpin.get() / 2.0;
             g.translate(SPACE, mid);
 
             Graphics2D lineG = lineGraphics(g, (float) widthSpin.get());
@@ -86,22 +86,21 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
             return new Dimension(LENGTH + 2 * SPACE,
                     MIN_HEIGHT * 2 + 2 * SPACE);
         }
-    };
+    }
 
     BoxTest(DrawnCubicLineGenerator cubic, DrawnQuadLineGenerator quad) {
         gen = new DrawnBoxGenerator(cubic, quad);
 
-        begXSpin = new RandomValueSpinner("x", gen.getBegX(), -5, +5, 100);
-        endYSpin = new RandomValueSpinner("y", gen.getEndY(), -5, +5, 100);
-        startAdjustSpin =
-                new RandomValueSpinner("adj", gen.getStartAdjust(), 0, 10, 100,
-                        false);
-        sizeXSpin =
-                new RandomValueSpinner("width", gen.getSizeX(), 0, LENGTH, 100,
-                        false);
-        sizeYSpin =
-                new RandomValueSpinner("height", gen.getSizeY(), 0, LENGTH, 100,
-                        false);
+        begXSpin = new RandomValueSpinner("x", gen.getCorner().getX(), -5, +5,
+                100);
+        endYSpin = new RandomValueSpinner("y", gen.getCorner().getY(), -5, +5,
+                100);
+        startAdjustSpin = new RandomValueSpinner("adj", gen.getStartAdjust(), 0,
+                10, 100, false);
+        sizeXSpin = new RandomValueSpinner("width", gen.getSize().getX(), 0,
+                LENGTH, 100, false);
+        sizeYSpin = new RandomValueSpinner("height", gen.getSize().getY(), 0,
+                LENGTH, 100, false);
         spinners = new RandomValueSource[]{begXSpin, endYSpin, widthSpin};
 
         sides = new Side[4];

@@ -49,28 +49,28 @@ public class DrawnTabHolder extends DrawnShapeHolder
         DrawnTabGenerator tab = ((DrawnTabGenerator) gen);
         switch (tabPlacement) {
         case TOP:
-            breakBeg.setLocation(x + tab.getLLX().get() * w,
-                    y + tab.getLLY().get() * h);
-            breakEnd.setLocation(x + tab.getLRX().get() * w,
-                    y + tab.getLRY().get() * h);
+            breakBeg.setLocation(x + tab.getLL().getX().get() * w,
+                    y + tab.getLL().getY().get() * h);
+            breakEnd.setLocation(x + tab.getLR().getX().get() * w,
+                    y + tab.getLR().getY().get() * h);
             break;
         case RIGHT:
-            breakBeg.setLocation(x + tab.getULX().get() * w,
-                    y + tab.getULY().get() * h);
-            breakEnd.setLocation(x + tab.getLLX().get() * w,
-                    y + tab.getLLY().get() * h);
+            breakBeg.setLocation(x + tab.getUL().getX().get() * w,
+                    y + tab.getUL().getY().get() * h);
+            breakEnd.setLocation(x + tab.getLL().getX().get() * w,
+                    y + tab.getLL().getY().get() * h);
             break;
         case BOTTOM:
-            breakBeg.setLocation(x + tab.getURX().get() * w,
-                    y + tab.getURY().get() * h);
-            breakEnd.setLocation(x + tab.getULX().get() * w,
-                    y + tab.getULY().get() * h);
+            breakBeg.setLocation(x + tab.getUR().getX().get() * w,
+                    y + tab.getUR().getY().get() * h);
+            breakEnd.setLocation(x + tab.getUL().getX().get() * w,
+                    y + tab.getUL().getY().get() * h);
             break;
         case LEFT:
-            breakBeg.setLocation(x + tab.getLRX().get() * w,
-                    y + tab.getLRY().get() * h);
-            breakEnd.setLocation(x + tab.getURX().get() * w,
-                    y + tab.getURY().get() * h);
+            breakBeg.setLocation(x + tab.getLR().getX().get() * w,
+                    y + tab.getLR().getY().get() * h);
+            breakEnd.setLocation(x + tab.getUR().getX().get() * w,
+                    y + tab.getUR().getY().get() * h);
             break;
         }
     }
