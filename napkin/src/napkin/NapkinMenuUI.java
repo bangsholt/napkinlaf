@@ -25,16 +25,6 @@ public class NapkinMenuUI extends BasicMenuUI implements NapkinPainter {
         super.uninstallUI(c);
     }
 
-    public void update(Graphics g, JComponent c) {
-        g = NapkinUtil.defaultGraphics(g, c);
-        NapkinTheme theme = NapkinUtil.background(g, c);
-        Color penColor = theme.getPenColor();
-        if (NapkinUtil.replace(selectionForeground, penColor))
-            selectionForeground = penColor;
-        super.update(g, c);
-        NapkinUtil.finishGraphics(g, c);
-    }
-
     protected void paintText(Graphics g, JMenuItem item, Rectangle textRect,
             String text) {
 
@@ -46,6 +36,16 @@ public class NapkinMenuUI extends BasicMenuUI implements NapkinPainter {
     public void superPaintText(Graphics g, JComponent c, Rectangle textRect,
             String text) {
         super.paintText(g, (JMenuItem) c, textRect, text);
+    }
+
+    public void update(Graphics g, JComponent c) {
+        g = NapkinUtil.defaultGraphics(g, c);
+        NapkinTheme theme = NapkinUtil.background(g, c);
+        Color selColor = theme.getSelectionColor();
+        if (NapkinUtil.replace(selectionForeground, selColor))
+            selectionForeground = selColor;
+        super.update(g, c);
+        NapkinUtil.finishGraphics(g, c);
     }
 }
 

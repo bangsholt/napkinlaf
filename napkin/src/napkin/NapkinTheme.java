@@ -17,7 +17,7 @@ import javax.swing.plaf.*;
 public class NapkinTheme {
     private final String name;
     private final String description;
-    private final Color[] colors = new Color[4];
+    private final Color[] colors = new Color[5];
     private final Font textFont;
     private final Font boldTextFont;
     private final Font fixedFont;
@@ -29,24 +29,45 @@ public class NapkinTheme {
     public static final int CHECK_COLOR = 1;
     public static final int RADIO_COLOR = 2;
     public static final int HIGHLIGHT_COLOR = 3;
+    public static final int SELECTION_COLOR = 4;
 
+    /**
+     * Creates a new theme with a popup theme derived from the specified one,
+     * but with a different background.  If the name of this them is
+     * <tt>"Foo"</tt>, the name of the derived background will be
+     * <tt>"FooPopup"</tt>.
+     *
+     * @param name
+     * @param description
+     * @param penColor
+     * @param checkColor
+     * @param radioColor
+     * @param highlightColor
+     * @param selectionColor
+     * @param textFont
+     * @param boldTextFont
+     * @param fixedFont
+     * @param paper
+     * @param erasure
+     * @param popupPaper
+     */
     public NapkinTheme(String name, String description, Color penColor,
             Color checkColor, Color radioColor, Color highlightColor,
-            Font textFont, Font boldTextFont, Font fixedFont,
+            Color selectionColor, Font textFont, Font boldTextFont, Font fixedFont,
             NapkinBackground paper, NapkinBackground erasure,
             NapkinBackground popupPaper) {
 
         this(name, description, penColor, checkColor, radioColor,
-                highlightColor, textFont, boldTextFont, fixedFont, paper,
+                highlightColor, selectionColor, textFont, boldTextFont, fixedFont, paper,
                 erasure, new NapkinTheme(name + "Popup",
                         description + " (popup)", penColor, checkColor,
-                        radioColor, highlightColor, textFont, boldTextFont,
+                        radioColor, highlightColor, selectionColor, textFont, boldTextFont,
                         fixedFont, popupPaper, erasure, (NapkinTheme) null));
     }
 
     public NapkinTheme(String name, String description, Color penColor,
             Color checkColor, Color radioColor, Color highlightColor,
-            Font textFont, Font boldTextFont, Font fixedFont,
+            Color selectionColor, Font textFont, Font boldTextFont, Font fixedFont,
             NapkinBackground paper, NapkinBackground erasure,
             NapkinTheme popupTheme) {
 
@@ -56,6 +77,7 @@ public class NapkinTheme {
         colors[CHECK_COLOR] = uiResource(checkColor);
         colors[RADIO_COLOR] = uiResource(radioColor);
         colors[HIGHLIGHT_COLOR] = uiResource(highlightColor);
+        colors[SELECTION_COLOR] = uiResource(selectionColor);
         this.textFont = uiResource(textFont);
         this.boldTextFont = uiResource(boldTextFont);
         this.fixedFont = uiResource(fixedFont);
@@ -100,6 +122,10 @@ public class NapkinTheme {
 
     public Color getHighlightColor() {
         return colors[HIGHLIGHT_COLOR];
+    }
+
+    public Color getSelectionColor() {
+        return colors[SELECTION_COLOR];
     }
 
     public Color getColor(int which) {
@@ -152,11 +178,12 @@ public class NapkinTheme {
             Font fixed = tryToLoadFont("1942.ttf");
             Font augie = tryToLoadFont("augie.ttf");
 
+            Color checkGreen = Color.GREEN.darker();
             NapkinTheme def = new NapkinTheme(DEFAULT_THEME, "Default theme",
-                    Color.BLACK, Color.GREEN.darker(), new Color(0xf50000),
-                    new Color(0x00, 0xff, 0xff, 0xff / 2),
+                    Color.BLACK, checkGreen, new Color(0xf50000),
+                    new Color(0x00, 0xff, 0xff, 0xff / 2), checkGreen,
                     scrawl.deriveFont(Font.PLAIN, 15),
-                    scrawlBold.deriveFont(Font.PLAIN, 15),
+                    scrawlBold.deriveFont(Font.BOLD, 15),
                     fixed.deriveFont(Font.PLAIN, 15),
                     new NapkinBackground("resources/napkin.jpg"),
                     new NapkinBackground("resources/erasure.png"),
@@ -166,8 +193,9 @@ public class NapkinTheme {
 
             addTheme(new NapkinTheme("debug", "Debug theme", def.getPenColor(),
                     def.getCheckColor(), def.getRadioColor(),
-                    def.getHighlightColor(), def.getTextFont(),
-                    def.getBoldTextFont(), def.getFixedFont(),
+                    def.getHighlightColor(), def.getSelectionColor(),
+                    def.getTextFont(), def.getBoldTextFont(),
+                    def.getFixedFont(),
                     new NapkinBackground("resources/testPaper.jpg",
                             0, 0, 10, 10),
                     def.getErasureMask(), new NapkinBackground(
@@ -175,10 +203,13 @@ public class NapkinTheme {
 
             Color blueprintInk = new Color(0xe7edf2);
             Color blueprintHighlight = new Color(0x89b5ed);
+            // We're using the same font for plain and bold because the current
+            // font has no bold, so it's better to do this than let the graphics
+            // system pick a replacement "best match" for the bold font.
+            Font blueFont = augie.deriveFont(Font.PLAIN, 13);
             addTheme(new NapkinTheme("blueprint", "Blueprint", Color.white,
                     blueprintInk, blueprintInk, blueprintHighlight,
-                    augie.deriveFont(Font.PLAIN, 13),
-                    augie.deriveFont(Font.BOLD, 13), def.getFixedFont(),
+                    blueprintInk, blueFont, blueFont, def.getFixedFont(),
                     new NapkinBackground("resources/blueprint-bg.jpg"),
                     def.getErasureMask(), def.getPopupTheme()));
 
