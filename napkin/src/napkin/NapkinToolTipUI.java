@@ -14,7 +14,6 @@ public class NapkinToolTipUI extends BasicToolTipUI implements NapkinConstants {
     }
 
     public void installUI(JComponent c) {
-        Color bg = c.getBackground();
         NapkinUtil.installUI(c);
         super.installUI(c);
         NapkinUtil.setupPaper(c, NapkinBackground.POSTIT_BG);

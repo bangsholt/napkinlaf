@@ -12,7 +12,7 @@ public class DrawnCubicLineGenerator extends DrawnShapeGenerator {
     private final RandomValue rightX;
     private final RandomValue rightY;
 
-    private static final boolean DEBUG = false;
+    private static boolean DEBUG = false;
 
     public static final DrawnCubicLineGenerator INSTANCE = new DrawnCubicLineGenerator();
 
