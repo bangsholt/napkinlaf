@@ -41,6 +41,16 @@ into the font at future date).  We would like to thank Brian a lot
 for his quick and nimble cooperation, which made this work a lot
 better and easier on me.
 
+Miro Jurisic [*] has been very helpful in thinking through with me
+(sometimes for me) some of the hairy graphics problems.  This definitely
+pushes into some poorly documented areas of the 2D API, and it has
+helped a lot to have someone to talk it through with.  Thanks, Miro!
+
+[*] This really requires some non-ISO-Latin-1 chars to spell properly,
+but so far I'm keeping this file in a standard encoding, so Miro will
+have to, once more, settle for an approximation of his own name.  Someday
+everything will be in Unicode and we will all be happy.  Maybe.
+
 $Id$
 
 ........................................................................
