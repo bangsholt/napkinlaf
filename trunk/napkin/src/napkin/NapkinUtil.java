@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.plaf.*;
+import javax.swing.text.*;
 
 public class NapkinUtil implements NapkinConstants {
     private static final Set printed = new HashSet();
@@ -325,10 +326,16 @@ public class NapkinUtil implements NapkinConstants {
 
         NapkinTheme theme = currentTheme(c);
         Color penColor = theme.getPenColor();
+        //!! Use ifReplace?
         if (!penColor.equals(c.getForeground())) {
             c.setForeground(penColor);
             if (g != null)
                 g.setColor(penColor);
+            if (c instanceof JTextComponent) {
+                JTextComponent tc = (JTextComponent) c;
+                if (!penColor.equals(tc.getSelectedTextColor()))
+                    tc.setSelectedTextColor(penColor);
+            }
         }
     }
 
