@@ -59,6 +59,7 @@ public class NapkinQuickTest implements SwingConstants {
         if (napkinLAF != null)
             napkinLAF.setIsFormal(label, true, false);
         mainPanel.add(label);
+        toDisable.add(label);
 
         JButton button = new JButton("Button!");
         button.addActionListener(new ActionListener() {

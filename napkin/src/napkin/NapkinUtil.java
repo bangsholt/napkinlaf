@@ -833,10 +833,10 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     private static JComponent wrapIfNeeded(JComponent c) {
-        if (!(c instanceof AbstractButton))
+        if (c.isEnabled())
             return c;
 
-        if (c.isEnabled())
+        if (!(c instanceof AbstractButton))
             return c;
 
         if (c instanceof JMenuItem)
