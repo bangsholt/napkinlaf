@@ -263,7 +263,7 @@ public class NapkinUtil implements NapkinConstants {
         if (c instanceof JComponent) {
             JComponent jc = (JComponent) c;
             Border b = jc.getBorder();
-            if (b instanceof UIResource)
+            if (b != null && !(b instanceof NapkinBorder))
                 jc.setBorder(new NapkinWrappedBorder(b));
         }
     }
