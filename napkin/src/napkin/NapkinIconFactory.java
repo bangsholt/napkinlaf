@@ -67,7 +67,7 @@ public class NapkinIconFactory implements NapkinConstants {
         private static final AffineTransform SCALE_MAT =
                 NapkinUtil.scaleMat(SCALE);
         private static CircleGenerator placeGen;
-        public static final Color MARK_COLOR = Color.red;
+        public static final Color MARK_COLOR = new Color(0xF50000);
 
         RadioButtonIcon() {
             super(MARK_COLOR, SCALE_MAT);
