@@ -66,7 +66,8 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
     static {
         CubicTest cubic = new CubicTest();
         QuadTest quad = new QuadTest();
-        BoxTest box = new BoxTest((DrawnCubicLineGenerator) cubic.getGenerator(),
+        BoxTest box = new BoxTest(
+                (DrawnCubicLineGenerator) cubic.getGenerator(),
                 (DrawnQuadLineGenerator) quad.getGenerator());
         CheckBoxTest checkBox = new CheckBoxTest();
         drawers = new Drawer[]{cubic, quad, box, checkBox};
@@ -76,8 +77,6 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
         JComponent getDrawing();
 
         JComponent getControls();
-
-        DrawnShapeGenerator getGenerator();
 
         RandomValueSource[] getSpinners();
 
@@ -195,7 +194,8 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
     }
 
     static void
-            mark(Graphics2D g, RandomValueSource vx, RandomValueSource vy, boolean left) {
+            mark(Graphics2D g, RandomValueSource vx, RandomValueSource vy,
+            boolean left) {
 
         if (g == null)
             return;

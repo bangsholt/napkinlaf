@@ -11,7 +11,6 @@ import javax.swing.border.*;
 import napkin.DrawnBoxGenerator;
 import napkin.DrawnCubicLineGenerator;
 import napkin.DrawnQuadLineGenerator;
-import napkin.DrawnShapeGenerator;
 import napkin.RandomValueSource;
 
 class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
@@ -116,10 +115,6 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
 
     public void generate(AffineTransform matrix) {
         gen.generate(matrix);
-    }
-
-    public DrawnShapeGenerator getGenerator() {
-        return gen;
     }
 
     public void rebuild() {

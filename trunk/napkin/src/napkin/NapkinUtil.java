@@ -3,7 +3,6 @@
 package napkin;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.image.*;
 import java.beans.PropertyChangeEvent;
@@ -19,8 +18,6 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -42,7 +39,6 @@ public class NapkinUtil implements NapkinConstants {
     public static final Random random = new Random();
 
     private static final Map strokes = new WeakHashMap();
-    private static final Map borders = new WeakHashMap();
     private static final Map fieldsForType = new WeakHashMap();
 
     private static final Stack themeStack = new Stack();
@@ -113,32 +109,6 @@ public class NapkinUtil implements NapkinConstants {
         }
     }
 
-    public static class DumpListener implements FocusListener {
-        private Timer timer;
-
-        public void focusGained(final FocusEvent ev) {
-            if (timer != null)
-                timer.stop();
-            int delay = 1000; //milliseconds
-            ActionListener taskPerformer = new ActionListener() {
-                public void actionPerformed(ActionEvent evt) {
-                    NapkinLookAndFeel laf = (NapkinLookAndFeel) UIManager.getLookAndFeel();
-                    laf.dumpFormality(
-                            ((JComponent) ev.getSource()).getTopLevelAncestor(),
-                            System.out);
-                }
-            };
-            timer = new Timer(delay, taskPerformer);
-            timer.start();
-            ev.getComponent().removeFocusListener(this);
-        }
-
-        public void focusLost(FocusEvent e) {
-            if (timer != null)
-                timer.stop();
-        }
-    }
-
     public static Object property(ComponentUI ui, String prop) {
         String name = ui.getClass().getName();
         String base = ".Napkin";
@@ -174,13 +144,6 @@ public class NapkinUtil implements NapkinConstants {
             printed.add(c.getClass());
         }
         return ui;
-    }
-
-    static String prBool(boolean bool, String name) {
-        if (bool)
-            return name;
-        else
-            return '!' + name;
     }
 
     static String descFor(Object obj) {
@@ -381,14 +344,6 @@ public class NapkinUtil implements NapkinConstants {
         }
     }
 
-    public static NapkinTheme themeFor(Component c) {
-        JComponent themeTop = themeTopFor(c);
-        if (themeTop == null)
-            return NapkinTheme.Manager.getCurrentTheme();
-        else
-            return (NapkinTheme) themeTop.getClientProperty(THEME_KEY);
-    }
-
     static int count = 0;
 
     public static NapkinTheme currentTheme(Component c) {
@@ -440,7 +395,7 @@ public class NapkinUtil implements NapkinConstants {
         jc.putClientProperty(DISABLED_MARK_KEY, null);
         Graphics2D tg = (Graphics2D) g1;
         tg.setComposite(ERASURE_COMPOSITE);
-        Point start = getStart(jc, null, false);
+        Point start = getStart(jc, null);
         int w = textureImage.getWidth();
         int h = textureImage.getHeight();
         Rectangle anchor = new Rectangle(w - start.x, h - start.y, w, h);
@@ -559,8 +514,9 @@ public class NapkinUtil implements NapkinConstants {
         return next;
     }
 
-    public static void printPair(String label, double x, double y) {
-        System.out.println(label + ": " + x + ", " + y);
+    public static void printPair(Logger logger, Level level, String label,
+            double x, double y) {
+        logger.log(level, label + ": " + x + ", " + y);
     }
 
     public static void setupPaper(JComponent c, int theme) {
@@ -586,7 +542,7 @@ public class NapkinUtil implements NapkinConstants {
 
     private static Rectangle bounds(Component c) {
         Insets in = insets(c);
-        Point start = getStart(c, in, false);
+        Point start = getStart(c, in);
         int x = start.x;
         int y = start.y;
         int width = c.getWidth() + in.left + in.right;
@@ -652,21 +608,14 @@ public class NapkinUtil implements NapkinConstants {
         return themeTop;
     }
 
-    private static Point getStart(Component c, Insets insets,
-            boolean print) {
+    private static Point getStart(Component c, Insets insets) {
         Point start = new Point();
         if (insets != null)
             start.setLocation(-insets.left, -insets.top);
         Component paper = currentPaper(c);
         while (c != null && c != paper) {
-            if (print)
-                System.out.println(
-                        "(" + c.getX() + ", " + c.getY() + "): " + descFor(c));
-
             start.x += c.getX();
             start.y += c.getY();
-            if (print)
-                System.out.println("start = " + start);
             c = c.getParent();
         }
         return start;
@@ -873,25 +822,6 @@ public class NapkinUtil implements NapkinConstants {
                 Integer.toHexString(c.getAlpha());
     }
 
-    public static String getProperty(final String prop,
-            final String defaultValue) {
-        String themeName;
-        try {
-            themeName = (String)
-                    AccessController.doPrivileged(new PrivilegedAction() {
-                        public Object run() {
-                            return System.getProperty(prop,
-                                    defaultValue);
-                        }
-                    });
-        } catch (SecurityException e) {
-            themeName = null;
-        }
-        if (themeName == null)
-            themeName = defaultValue;
-        return themeName;
-    }
-
     public static boolean replace(Object current, Object candidate) {
         if (current == null)
             return true;
@@ -903,10 +833,6 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static Color ifReplace(Color current, Color candidate) {
-        return (replace(current, candidate) ? candidate : current);
-    }
-
-    public static Font ifReplace(Font current, Font candidate) {
         return (replace(current, candidate) ? candidate : current);
     }
 

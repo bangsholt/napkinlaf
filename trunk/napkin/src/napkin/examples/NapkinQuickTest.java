@@ -54,10 +54,10 @@ public class NapkinQuickTest implements SwingConstants {
         JLabel label = new JLabel("-- Label --");
 
         if (napkinLAF != null)
-            napkinLAF.setIsFormal(top, true, true);
+            napkinLAF.setIsFormal(top, true);
         mainPanel.setLayout(new GridLayout(4, 2));
         if (napkinLAF != null)
-            napkinLAF.setIsFormal(label, true, false);
+            napkinLAF.setIsFormal(label, true);
         mainPanel.add(label);
         toDisable.add(label);
 
@@ -70,7 +70,7 @@ public class NapkinQuickTest implements SwingConstants {
             }
         });
         if (napkinLAF != null)
-            napkinLAF.setIsFormal(button, true, false);
+            napkinLAF.setIsFormal(button, true);
         mainPanel.add(button);
         boolean formal = (napkinLAF != null && napkinLAF.isFormal(label));
         label.setText(formal ? "formal" : "napkin");

@@ -36,7 +36,7 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
         }
     }
 
-    private Map linesFor = new HashMap();
+    private final Map linesFor = new HashMap();
 
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinTreeUI());
@@ -58,7 +58,7 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
 
     public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         setHashColor(NapkinUtil.ifReplace(getHashColor(), theme.getPenColor()));
-        super.update(g, (JComponent) c);
+        super.update(g, c);
     }
 
     protected void paintVerticalLine(Graphics g, JComponent c, int x, int top,

@@ -5,13 +5,9 @@ package napkin;
 import java.awt.*;
 
 public abstract class DrawnShapeHolder {
-    DrawnShapeGenerator gen;
-    Shape shape;
-    float width;
-
-    interface Factory {
-        DrawnShapeHolder create();
-    }
+    protected DrawnShapeGenerator gen;
+    protected Shape shape;
+    protected float width;
 
     public DrawnShapeHolder(DrawnShapeGenerator gen) {
         this(gen, 1);

@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DrawnBoxGenerator extends DrawnShapeGenerator {
     private final RandomValue begX;
@@ -23,7 +25,8 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
     private final Map generators;
     private boolean asX;
 
-    private static boolean DEBUG = false;
+    private static final Logger logger =
+            Logger.getLogger(DrawnBoxGenerator.class.getName());
 
     public static final String[] SIDE_NAMES = {
         null, "top", "left", "bottom", "right"
@@ -186,25 +189,33 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
     }
 
     private void dumpValues(AffineTransform smat, double beg, double end) {
-        if (DEBUG) {
-            System.out.println();
-            NapkinUtil.printPair("translate", smat.getTranslateX(),
-                    smat.getTranslateY());
-            NapkinUtil.printPair("scale", smat.getScaleX(), smat.getScaleY());
-            NapkinUtil.printPair("breakBeg", breakBeg.getX(), breakBeg.getY());
-            NapkinUtil.printPair("breakEnd", breakEnd.getX(), breakEnd.getY());
-            NapkinUtil.printPair("size", sizeX.get(), sizeY.get());
-            NapkinUtil.printPair("adjustment", adjustmentX, adjustmentY);
-            NapkinUtil.printPair("beg/end", begX.get(), endY.get());
-            NapkinUtil.printPair("break beg/end", beg, end);
+        if (logger.isLoggable(Level.FINE)) {
+            logger.log(Level.FINE, "");
+            NapkinUtil.printPair(logger, Level.FINE, "translate",
+                    smat.getTranslateX(), smat.getTranslateY());
+            NapkinUtil.printPair(logger, Level.FINE, "scale", smat.getScaleX(),
+                    smat.getScaleY());
+            NapkinUtil.printPair(logger, Level.FINE, "breakBeg",
+                    breakBeg.getX(), breakBeg.getY());
+            NapkinUtil.printPair(logger, Level.FINE, "breakEnd",
+                    breakEnd.getX(), breakEnd.getY());
+            NapkinUtil.printPair(logger, Level.FINE, "size", sizeX.get(),
+                    sizeY.get());
+            NapkinUtil.printPair(logger, Level.FINE, "adjustment", adjustmentX,
+                    adjustmentY);
+            NapkinUtil.printPair(logger, Level.FINE, "beg/end", begX.get(),
+                    endY.get());
+            NapkinUtil.printPair(logger, Level.FINE, "break beg/end", beg, end);
         }
     }
 
     private void addSegment(GeneralPath side, AffineTransform smat, double xBeg,
             double yBeg, double len) {
 
-        if (DEBUG)
-            NapkinUtil.printPair("addSeg (len " + len + ")", xBeg, yBeg);
+        if (logger.isLoggable(Level.FINE)) {
+            NapkinUtil.printPair(logger, Level.FINE,
+                    "addSeg (len " + len + ")", xBeg, yBeg);
+        }
         if (len > 0) {
             AffineTransform mat = NapkinUtil.copy(smat);
             mat.translate(xBeg, yBeg);

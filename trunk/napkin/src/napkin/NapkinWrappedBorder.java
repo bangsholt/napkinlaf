@@ -8,7 +8,7 @@ import java.util.WeakHashMap;
 import javax.swing.border.*;
 
 public class NapkinWrappedBorder extends NapkinBorder {
-    private static Map borders = new WeakHashMap(3);
+    private static final Map borders = new WeakHashMap(3);
 
     public NapkinWrappedBorder(Border formalBorder) {
         super(formalBorder);

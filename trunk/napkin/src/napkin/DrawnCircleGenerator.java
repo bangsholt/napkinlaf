@@ -5,7 +5,8 @@ package napkin;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class DrawnCircleGenerator extends DrawnShapeGenerator implements NapkinConstants {
+public class DrawnCircleGenerator extends DrawnShapeGenerator
+        implements NapkinConstants {
     private final RandomValue startX;
     private final RandomValue startY;
     private final RandomValue endX;
@@ -81,14 +82,6 @@ public class DrawnCircleGenerator extends DrawnShapeGenerator implements NapkinC
         circle.append(left, false);
         circle.append(right, false);
         return circle;
-    }
-
-    public boolean isForFill() {
-        return forFill;
-    }
-
-    public void setForFill(boolean forFill) {
-        this.forFill = forFill;
     }
 
     public RandomValue getBlX() {

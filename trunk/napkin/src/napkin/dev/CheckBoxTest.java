@@ -9,7 +9,6 @@ import javax.swing.event.*;
 
 import napkin.DrawnBoxGenerator;
 import napkin.DrawnCheckGenerator;
-import napkin.DrawnShapeGenerator;
 import napkin.RandomValueSource;
 
 class CheckBoxTest extends GeneratorTest
@@ -98,13 +97,17 @@ class CheckBoxTest extends GeneratorTest
         useBox.addChangeListener(REPAINT);
 
         midXScaleSpin =
-                new RandomValueSpinner("mid x", checkGen.getMidXScale(), 0, 2, 100);
+                new RandomValueSpinner("mid x", checkGen.getMidXScale(), 0, 2,
+                        100);
         midYScaleSpin =
-                new RandomValueSpinner("mid y", checkGen.getMidYScale(), 0, 2, 100);
+                new RandomValueSpinner("mid y", checkGen.getMidYScale(), 0, 2,
+                        100);
         leftXScaleSpin =
-                new RandomValueSpinner("left x", checkGen.getLeftXScale(), 0, 2, 100);
+                new RandomValueSpinner("left x", checkGen.getLeftXScale(), 0,
+                        2, 100);
         leftYScaleSpin =
-                new RandomValueSpinner("left y", checkGen.getLeftYScale(), 0, 2, 100);
+                new RandomValueSpinner("left y", checkGen.getLeftYScale(), 0,
+                        2, 100);
         rightXScaleSpin =
                 new RandomValueSpinner("right x", checkGen.getRightXScale(), 0, 2,
                         100);
@@ -119,10 +122,6 @@ class CheckBoxTest extends GeneratorTest
         };
 
         rebuild();
-    }
-
-    public DrawnShapeGenerator getGenerator() {
-        return null;
     }
 
     public RandomValueSource[] getSpinners() {
