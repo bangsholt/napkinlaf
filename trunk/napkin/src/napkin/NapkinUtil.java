@@ -3,6 +3,7 @@
 package napkin;
 
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.HashSet;
 import java.util.Map;
@@ -36,6 +37,31 @@ public class NapkinUtil implements NapkinConstants {
     };
 
     private static Map strokes = new WeakHashMap();
+
+    public static class DumpListener implements FocusListener {
+        private Timer timer;
+
+        public void focusGained(final FocusEvent ev) {
+            if (timer != null)
+                timer.stop();
+            int delay = 1000; //milliseconds
+            ActionListener taskPerformer = new ActionListener() {
+                public void actionPerformed(ActionEvent evt) {
+                    NapkinLookAndFeel laf = (NapkinLookAndFeel) UIManager.getLookAndFeel();
+                    laf.dumpFormality(
+                            ((JComponent) ev.getSource()).getTopLevelAncestor(),
+                            System.out);
+                }
+            };
+            timer = new Timer(delay, taskPerformer);
+            timer.start();
+        }
+
+        public void focusLost(FocusEvent e) {
+            if (timer != null)
+                timer.stop();
+        }
+    }
 
     static boolean isFormal(JComponent l) {
         NapkinLookAndFeel nlaf = (NapkinLookAndFeel) UIManager.getLookAndFeel();

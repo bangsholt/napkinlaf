@@ -25,7 +25,25 @@
         </copy>
     </target>
 
+    <target name="jars" description="build jar files">
+        <mkdir dir="${basedir}/jars"/>
+        <jar destfile="${basedir}/jars/napkinlaf.jar"
+            basedir="${basedir}/classes" index="true">
+            <include name="napkin/**/*"/>
+        </jar>
+        <jar destfile="${basedir}/jars/swingset2.jar"
+            basedir="${basedir}/classes" index="true">
+            <include name="napkin/**/*"/>
+            <include name="*.class"/>
+            <include name="resources/**/*"/>
+            <manifest>
+                <attribute name="Main-Class" value="SwingSet2"/>
+            </manifest>
+        </jar>
+    </target>
+
     <target name="clean" description="remove buildable files">
         <delete dir="${basedir}/classes"/>
+        <delete dir="${basedir}/jars"/>
     </target>
 </project>
