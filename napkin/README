@@ -6,6 +6,16 @@ curious about anyone who does use it.  I'd consider it a favor if
 you'd drop us a note about what you are doing with it and any
 comments you have.
 
+The font Ænigma Scrawl was created by Brian Kent, and has worked
+very well for a handwritten font that scales reasonably to GUI-control
+sizes (most handwritten-style fonts are display fonts that only work in
+large sizes).  To make things work better, Brian has adapted the font
+to adjust the spacing around some punction as well as some other tweaks.
+So the version released here is a custom one direct from the artist (which
+I believe he expected to roll back into the font at future date).
+I would like to thank Brian a lot for his quick and nimble cooperation,
+which made this work a lot better and easier on me.
+
 $Id$
 
 ........................................................................
