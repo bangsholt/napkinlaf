@@ -250,12 +250,12 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         if (ff.known)
             return ff.formal;
 
-        FormalityFlags pff = inhieritedFormal(c.getParent());
+        FormalityFlags pff = inheritedFormal(c.getParent());
         ff.setFrom(pff);
         return ff.formal;
     }
 
-    private FormalityFlags inhieritedFormal(Container container) {
+    private FormalityFlags inheritedFormal(Container container) {
         System.out.println(
                 "inheritedFormal(" + NapkinUtil.descFor(container) + ")");
         if (container == null)
@@ -265,7 +265,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         if (ff.known)
             return ff;
         else {
-            FormalityFlags pff = inhieritedFormal(container.getParent());
+            FormalityFlags pff = inheritedFormal(container.getParent());
             ff.setFrom(pff);
             return pff;
         }
