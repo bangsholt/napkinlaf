@@ -44,7 +44,7 @@ public class NapkinCheckBoxUI extends BasicCheckBoxUI
         if (line == null)
             line = new DrawnLineHolder(new DrawnCubicLineGenerator());
         NapkinUtil.paintText(g, c, textRect, text, getTextShiftOffset(), line,
-                false, this);
+                c.isFocusOwner(), this);
     }
 
     public void superPaintText(Graphics g, JComponent c, Rectangle textRect,
