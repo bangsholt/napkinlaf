@@ -253,8 +253,13 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     static JButton createArrowButton(int pointTowards) {
+        int size = NapkinIconFactory.ArrowIcon.DEFAULT_SIZE;
+        return createArrowButton(pointTowards, size);
+    }
+
+    static JButton createArrowButton(int pointTowards, int size) {
         JButton button = new JButton(
-                NapkinIconFactory.createArrowIcon(pointTowards));
+                NapkinIconFactory.createArrowIcon(pointTowards, size));
         button.setBorderPainted(false);
         return button;
     }
@@ -334,7 +339,7 @@ public class NapkinUtil implements NapkinConstants {
         System.out.println(label + ": " + x + ", " + y);
     }
 
-    public static void background(Graphics g, JComponent c) {
+    public static void background(Graphics g, Component c) {
         String name = c.getName();
         if (name != null && name.endsWith("glassPane"))
             return;

@@ -320,6 +320,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "CheckBox.textIconGap", zero,
             "TabbedPane.contentBorderInsets", DrawnBorder.DEFAULT_INSETS,
             "ProgressBar.border", buttonBorder,
+            "SplitPane.dividerSize", new Integer(NapkinSplitPaneDivider.SIZE),
         };
 
         table.putDefaults(napkinDefaults);
