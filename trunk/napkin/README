@@ -26,7 +26,7 @@ it properly.  Making fonts is not easy, and font folks get their
 work ripped off far too often.  If you do want to use it, buy it
 from his site http://www.ms-studio.com, where he gets more from it.
 
-The font Ænigma Scrawl was created by Brian Kent, and has worked
+The font nigma Scrawl was created by Brian Kent, and has worked
 very well for a handwritten font that scales reasonably to GUI-control
 sizes (most handwritten-style fonts are display fonts that only
 work in large sizes).  To make things work better, Brian has adapted
@@ -38,14 +38,30 @@ for his quick and nimble cooperation, which made this work a lot
 better and easier on me.
 
 Miro Jurisic [*] has been very helpful in thinking through with me
-(sometimes for me) some of the hairy graphics problems.  This definitely
-pushes into some poorly documented areas of the 2D API, and it has
-helped a lot to have someone to talk it through with.  Thanks, Miro!
+(sometimes for me) some of the hairy graphics problems.  This
+definitely pushes into some poorly documented areas of the 2D API,
+and it has helped a lot to have someone to talk it through with.
+Thanks, Miro!
 
 [*] This really requires some non-ISO-Latin-1 chars to spell properly,
-but so far I'm keeping this file in a standard encoding, so Miro will
-have to, once more, settle for an approximation of his own name.  Someday
-everything will be in Unicode and we will all be happy.  Maybe.
+but so far I'm keeping this file in a standard encoding, so Miro
+will have to, once more, settle for an approximation of his own
+name.  Someday everything will be in Unicode and we will all be
+happy.  Maybe.
+
+Brian Hawthorne did a quick and excellent selection of blueprint
+backgrounds for me to choose from.  Thanks!
+
+Scott Violet of Sun has helped me pick apart some of the more
+abstruse and arcane bits of the plaf framework, which is full of
+'em.  Thanks a bunch, Scott, and thanks to Hans Muller, also of
+Sun, for plugging me together with him.
+
+Several people have helped with testing, reporting bugs, and
+suggesting things.  The most persistent have been: Deryl Steinert,
+Bob Herrmann, David Matuszek, Graham Perks, Henry Story, and Tom
+Eugelink.  Thanks to all, and happy to have you be added to this
+list.
 
 $Id$
 
