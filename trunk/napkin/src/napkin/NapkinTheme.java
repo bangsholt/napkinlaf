@@ -184,16 +184,30 @@ public class NapkinTheme {
         private static final Logger LOG =
                 LogManager.getLogManager().getLogger(THIS_CLASS.getName());
 
+        static Font scrawl;
+        static Font scrawlBold;
+        static Font fixed;
+        static Font augie;
+        static NapkinTheme def;
         static {
+	        AccessController.doPrivileged(new PrivilegedAction() {
+	            public Object run() {
+		        	setup();
+		        	return null;
+	            }
+	        });
+        }
+        
+        private static void setup() {
+        	Color checkGreen = Color.GREEN.darker();
             //!! Make this selectable
 //            scrawl = tryToLoadFont("aescr5b.ttf");
-            Font scrawl = tryToLoadFont("FeltTipRoman.ttf");
-            Font scrawlBold = tryToLoadFont("FeltTipRoman-Bold.ttf");
-            Font fixed = tryToLoadFont("1942.ttf");
-            Font augie = tryToLoadFont("augie.ttf");
+            scrawl = tryToLoadFont("FeltTipRoman.ttf");
+            scrawlBold = tryToLoadFont("FeltTipRoman-Bold.ttf");
+            fixed = tryToLoadFont("1942.ttf");
+            augie = tryToLoadFont("augie.ttf");
 
-            Color checkGreen = Color.GREEN.darker();
-            NapkinTheme def = new NapkinTheme(DEFAULT_THEME, "Default theme",
+            def = new NapkinTheme(DEFAULT_THEME, "Default theme",
                     Color.BLACK, checkGreen, new Color(0xf50000),
                     new Color(0x00, 0xff, 0xff, 0xff / 2), checkGreen,
                     scrawl.deriveFont(Font.PLAIN, 15),
@@ -285,9 +299,14 @@ public class NapkinTheme {
                 String fontRes = "resources/" + fontName;
                 InputStream fontDef;
                 fontDef = NapkinLookAndFeel.class.getResourceAsStream(fontRes);
-                if (fontDef == null)
-                    System.err.println("Could not find font " + fontName);
-                else
+                if (fontDef == null) {
+                    throw new NullPointerException(
+                    	"Could not find font resource \"" + fontName+
+                    	"\"\n\t\tin \""+fontRes+
+                    	"\"\n\t\tfor \""+NapkinLookAndFeel.class.getName()+
+                    	"\"\n\t\ttry: "+NapkinLookAndFeel.class.getResource(fontRes));
+//                    return new Font( "serif", Font.PLAIN, 12 );
+                } else
                     return Font.createFont(Font.TRUETYPE_FONT, fontDef);
             } catch (FontFormatException e) {
                 LOG.log(Level.WARNING, "getting font " + fontName, e);
