@@ -335,9 +335,6 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static void background(Graphics g, JComponent c) {
-        if (c instanceof NapkinBackgroundLabel)
-            return;
-
         String name = c.getName();
         if (name != null && name.endsWith("glassPane"))
             return;

@@ -26,7 +26,8 @@ public class NapkinLabelUI extends BasicLabelUI {
     }
 
     public void update(Graphics g, JComponent c) {
-        NapkinUtil.background(g, c);
+        if (!(c instanceof NapkinBackgroundLabel))
+            NapkinUtil.background(g, c);
         super.update(g, c);
     }
 }
