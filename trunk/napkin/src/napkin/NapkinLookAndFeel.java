@@ -496,6 +496,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "ToolTip.border", null,
             "DesktopIcon.border", null,
             "ToggleButton.border", selectBorder,
+            "InternalFrame.border", new BorderUIResource(
+                    new EmptyBorder(3, 3, 3, 3)),
 
             "SplitPaneDivider.border", null,
             "SplitPane.dividerSize", new Integer(NapkinSplitPaneDivider.SIZE),
