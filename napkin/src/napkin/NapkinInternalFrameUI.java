@@ -28,4 +28,9 @@ public class NapkinInternalFrameUI extends BasicInternalFrameUI {
         NapkinUtil.defaultGraphics(g);
         super.paint(g, c);
     }
+
+    protected JComponent createNorthPane(JInternalFrame w) {
+        titlePane = new NapkinInternalFrameTitlePane(w);
+        return titlePane;
+    }
 }
