@@ -10,14 +10,6 @@ import javax.swing.plaf.basic.*;
 public class NapkinComboBoxUI extends BasicComboBoxUI
         implements NapkinConstants {
 
-    public static class RenderResource extends BasicComboBoxRenderer
-            implements UIResource {
-
-        RenderResource() {
-            setOpaque(false);
-        }
-    }
-
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinComboBoxUI());
     }
@@ -40,10 +32,6 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
         NapkinComboPopup popup = new NapkinComboPopup(comboBox);
         popup.getAccessibleContext().setAccessibleParent(comboBox);
         return popup;
-    }
-
-    protected ListCellRenderer createRenderer() {
-        return new RenderResource();
     }
 
     public void paintCurrentValueBackground(Graphics g, Rectangle bounds,
