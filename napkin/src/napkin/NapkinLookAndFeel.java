@@ -90,7 +90,10 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
     private static final boolean JUST_NAPKIN = true;
 
-    private static final Logger LOG = LogManager.getLogManager().getLogger(NapkinLookAndFeel.class.getName());
+    private static final Class THIS_CLASS = NapkinLookAndFeel.class;
+    private static final Logger LOG =
+            LogManager.getLogManager().getLogger(THIS_CLASS.getName());
+
     private static final String[] UI_TYPES = {
         "ButtonUI",
         "CheckBoxMenuItemUI",
