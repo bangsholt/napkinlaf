@@ -9,7 +9,8 @@
 
 <ul>
 <li> Put SwingSet2 source in the swingset jar file.
-<li> No longer need "switch and back" to make demo work.
+<li> No longer need "switch and back" to make demo work.  (This was a bug in
+     SwingSet2.)
 <li> Get titled borders working.
 <li> Separators.
 <li> Set all the properties to use drawn borders.
