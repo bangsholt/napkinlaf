@@ -9,7 +9,7 @@ comments you have.
 $Id$
 
 ........................................................................
-Legal Stuff: The Code
+Legal Stuff: The Napkin Code
 
 Copyright (c) 2003-2004, Ken Arnold
 All rights reserved.
@@ -45,6 +45,12 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
 LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
+
+........................................................................
+Legal Stuff: The SwingSet2 Code
+
+The SwingSet2 Code is that released in JDK 1.4.2, and contains its
+own copyright and license as comments in the source files.
 
 ........................................................................
 Legal Stuff: The Handwritten Font
