@@ -22,8 +22,16 @@ public class NapkinQuickTest implements SwingConstants {
      * @throws Exception Exception we don't recover from.
      */
     public static void main(String[] args) throws Exception {
-        final NapkinLookAndFeel laf = new NapkinLookAndFeel();
-        UIManager.setLookAndFeel(laf);
+        LookAndFeel laf;
+        if (args.length == 1) {
+            UIManager.setLookAndFeel(args[0]);
+            laf = null;
+        } else {
+            laf = new NapkinLookAndFeel();
+            UIManager.setLookAndFeel(laf);
+        }
+
+        final NapkinLookAndFeel napkinLAF = (NapkinLookAndFeel) laf;
 
         final Set toDisable = new HashSet();
 
@@ -36,9 +44,11 @@ public class NapkinQuickTest implements SwingConstants {
 
         JLabel label = new JLabel("-- Label --");
 
-        laf.setIsFormal(top, true, true);
+        if (napkinLAF != null)
+            napkinLAF.setIsFormal(top, true, true);
         mainPanel.setLayout(new GridLayout(4, 2));
-        laf.setIsFormal(label, true, false);
+        if (napkinLAF != null)
+            napkinLAF.setIsFormal(label, true, false);
         System.out.println("\nAdding label to " +
                 System.identityHashCode(mainPanel));
         mainPanel.add(label);
@@ -47,13 +57,16 @@ public class NapkinQuickTest implements SwingConstants {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println();
-                laf.dumpFormality(top, System.out);
+                if (napkinLAF != null)
+                    napkinLAF.dumpFormality(top, System.out);
             }
         });
-        laf.setIsFormal(button, true, false);
+        if (napkinLAF != null)
+            napkinLAF.setIsFormal(button, true, false);
         System.out.println("\nAdding button");
         mainPanel.add(button);
-        label.setText(laf.isFormal(label) ? "formal" : "napkin");
+        boolean formal = (napkinLAF != null && napkinLAF.isFormal(label));
+        label.setText(formal ? "formal" : "napkin");
         toDisable.add(button);
 
         mainPanel.add(new JCheckBox("Check?"));
