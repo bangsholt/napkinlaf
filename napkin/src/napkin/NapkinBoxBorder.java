@@ -1,11 +1,11 @@
 package napkin;
 
 import java.awt.*;
-import java.util.Map;
+import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.plaf.*;
 
-public class NapkinBoxBorder extends NapkinBorder {
+public class NapkinBoxBorder extends NapkinBorder implements NapkinConstants {
     private static final int BORDER = 3;
 
     static final Insets DEFAULT_INSETS =
@@ -15,22 +15,19 @@ public class NapkinBoxBorder extends NapkinBorder {
         super(new LineBorder(color));
     }
 
-    //!! We should revisit this decision.  -arnold
-    /**
-     * We use our own hash map instead of using get/putClientProperty because
-     * those methods are only defined for JComponent, not component, and we're
-     * sort of suspicious that we ought to do this for non-Swing components.
-     */
-    private static final Map borders = new DrawnShapeHolderMap(new DrawnShapeHolder.Factory() {
-        public DrawnShapeHolder create() {
-            return new DrawnBoxHolder();
-        }
-    });
+    private static final NapkinUtil.PropertyFactory BOX_FACTORY =
+            new NapkinUtil.PropertyFactory() {
+                public Object createPropertyValue() {
+                    return new DrawnBoxHolder();
+                }
+            };
 
     public void doPaintBorder(Component c, Graphics g1, int x, int y,
             int width, int height) {
 
-        DrawnBoxHolder box = (DrawnBoxHolder) borders.get(c);
+        DrawnBoxHolder box = (DrawnBoxHolder)
+                NapkinUtil.getProperty((JComponent) c, BORDER_KEY, BOX_FACTORY);
+
         Rectangle passed = new Rectangle(x, y, width, height);
         box.shapeUpToDate(passed);
 
