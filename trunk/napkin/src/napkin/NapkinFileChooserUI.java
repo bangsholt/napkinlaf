@@ -2,33 +2,25 @@
 
 package napkin;
 
-import sun.awt.shell.ShellFolder;
-
 import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.*;
-import java.text.DateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.EventObject;
-import java.util.Locale;
-import java.util.Vector;
 import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.metal.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.table.*;
-import javax.swing.text.*;
 
 // This is nearly entirely copied from MetalFileChooserUI.  It seems as if the
 // BasicFileChooserUI is not yet well formed.
+
 public class NapkinFileChooserUI extends MetalFileChooserUI {
+    private static final ComponentWalker.Visitor NO_BORDER_VISITOR =
+            new ComponentWalker.Visitor() {
+                public boolean visit(Component c, int depth) {
+                    if (c instanceof JButton) {
+                        JButton button = (JButton) c;
+                        button.setBorderPainted(false);
+                    }
+                    return true;
+                }
+            };
 
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinFileChooserUI((JFileChooser) c));
@@ -41,6 +33,13 @@ public class NapkinFileChooserUI extends MetalFileChooserUI {
     public void installUI(JComponent c) {
         NapkinUtil.installUI(c);
         super.installUI(c);
+    }
+
+    public void installComponents(JFileChooser fc) {
+        super.installComponents(fc);
+        Component[] comps = fc.getComponents();
+        JPanel topPanel = (JPanel) comps[0];
+        new ComponentWalker(topPanel, NO_BORDER_VISITOR);
     }
 
     public void paint(Graphics g, JComponent c) {

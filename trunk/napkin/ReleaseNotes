@@ -13,6 +13,7 @@
 <dt> Text areas are a normal size.
 <dt> Paint background on each individual component, so changes to contents
      don't overlay on each other.
+<dt> Much better about switching to/from Napkin LAF.
 </dl>
 
 <h4>alpha-003, 16 April 2004</h4>
