@@ -1,0 +1,31 @@
+<!-- $Id$ -->
+
+<project name="Napkin Look and Feel" default="all">
+    <property file="${basedir}/build.properties"/>
+
+    <!-- Default value for the properties -->
+    <property name="debug" value="yes"/>
+
+    <path id="classpath">
+        <pathelement path="${basedir}/classes"/>
+    </path>
+
+    <target name="all" depends="compile"/>
+
+    <target name="compile" description="build classes directory">
+        <mkdir dir="${basedir}/classes"/>
+        <javac srcdir="${basedir}/src" destdir="${basedir}/classes"
+            includes="napkin/**/" classpathref="classpath"
+            debug="${debug}" deprecation="yes"/>
+        <copy todir="${basedir}/classes">
+            <fileset dir="${basedir}/src">
+                <include name="**/resources/**/*"/>
+                <include name="**/icons/**/*"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="clean" description="remove buildable files">
+        <delete dir="${basedir}/classes"/>
+    </target>
+</project>

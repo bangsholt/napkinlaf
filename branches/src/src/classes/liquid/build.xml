@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="dist" name="Liquid Look And Feel">
+
+    <!-- Don't worry if you don't know the Ant syntax completely or need help on some tasks! -->
+    <!-- The standard Ant documentation can be downloaded from AutoUpdate and -->
+    <!-- and then you can access the help in menu Help | Help Sets | Ant 1.5.1 Manual. -->
+
+    <!-- You can set up any variables you want used throughout the script here. -->
+    <property environment="env"/>
+    <property file="liquid.properties"/>
+    <property name="xdoclet.home" value="/usr/local/xdoclet"/>
+    <property name="project.classes" value="classes"/>
+    <property name="project.dist" value="dist"/>
+    <property name="project.src" value="src"/>
+    <property name="project.bin" value="dist/bin"/>
+
+    <target name="init">
+        <delete file="${java.home}/lib/ext/${jar.name}" />
+        <mkdir dir="${project.classes}"/>        
+    </target>
+
+    <target depends="init" name="compile">
+        <javac debug="true" deprecation="false" description="Project compilation." destdir="${project.classes}" srcdir="${project.src}"/>
+        <copy todir="${project.classes}">
+            <fileset dir="${project.src}" excludes="**/*.java,**/*.form,**/.nbattrs"/>
+        </copy>
+    </target>
+
+    <target depends="init,compile" description="Make jar file" name="jar">
+	<mkdir dir="${project.dist}"/>
+        <jar basedir="${project.classes}" compress="true" jarfile="${project.dist}/${jar.name}">
+            <exclude name="**/*.java"/>
+            <exclude name="**/*.form"/>
+        </jar>
+    </target>
+
+    <target depends="jar" description="Install jar file" name="install">
+        <copy file="${project.dist}/${jar.name}" todir="${java.home}/lib/ext"/>
+    </target>
+
+    <target depends="clean" description="Create src.jar file" name="src.dist">
+        <tar basedir="." tarfile="${project.name}-${project.version}-src.tar">
+            <exclude name="CVS/*.*"/>
+            <exclude name="**/.nbattrs"/>
+        </tar>
+        <mkdir dir="${project.dist}"/>
+        <bzip2 src="${project.name}-${project.version}-src.tar" zipfile="${project.dist}/${project.name}-${project.version}-src.tar.bz2"/>
+        <delete file="${project.name}-${project.version}-src.tar"/>
+    </target>
+
+    <target depends="src.dist,jar,install" description="Create files for distribution" name="dist">
+	<mkdir dir="${project.bin}"/>
+	<copy todir="${project.bin}">
+	    <fileset dir="${project.dist}" excludes="bin,**/*.bz2"/>
+	    <fileset dir="." includes="README,swing.properties,*.txt"/>
+	</copy>
+	<zip destfile="${project.dist}/${project.name}-${project.version}.zip" basedir="${project.bin}"/>
+	<delete dir="${project.bin}"/>
+	<delete file="${project.dist}/${jar.name}"/>
+    </target>
+
+    <target description="Clean project." name="clean">
+        <delete dir="${project.classes}"/>
+        <delete dir="${project.dist}"/>
+    </target>
+
+</project>
