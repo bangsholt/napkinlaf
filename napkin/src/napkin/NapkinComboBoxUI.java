@@ -49,7 +49,7 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
     public void paintCurrentValueBackground(Graphics g, Rectangle bounds,
             boolean hasFocus) {
 
-        return; // we don't want any background
+        return; // we don't want any special background
     }
 
     public void update(Graphics g, JComponent c) {
