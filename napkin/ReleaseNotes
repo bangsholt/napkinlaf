@@ -1,5 +1,16 @@
+<!-- $Header$ -->
 <html>
+
+<title>Release Notes: Napkin Look & Feel</title>
+
 <body>
+<h4>alpha-003, 16 April 2004</h4>
+
+<dl>
+<dt> Fix fatal bug in tabbed panes
+<dt> Show disabled buttons better
+</dl>
+
 <h4>alpha-002, 11 April 2004</h4>
 
 <dl>
@@ -13,5 +24,6 @@
 <dt> build the relase automatically
 <dt> bugs, bugs, bugs
 </dl>
+
 </body>
 </html>
