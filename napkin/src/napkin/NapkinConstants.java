@@ -14,11 +14,10 @@ public interface NapkinConstants extends SwingConstants {
     String BACKGROUND_KEY = "napkin.background";
     String DISABLED_MARK_KEY = "napkin.disabledMark";
     String BORDER_KEY = "napkin.border";
-    String OPAQUE_KEY = "napkin.opaque";
 
     String[] CLIENT_PROPERTIES = {
         IS_THEME_TOP_KEY, THEME_KEY, THEME_TOP_KEY, BACKGROUND_KEY,
-        DISABLED_MARK_KEY, BORDER_KEY, OPAQUE_KEY,
+        DISABLED_MARK_KEY, BORDER_KEY,
     };
 
     // ColorUIResource can't seem to deal with the alpha channel, so we

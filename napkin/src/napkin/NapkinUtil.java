@@ -58,11 +58,13 @@ public class NapkinUtil implements NapkinConstants {
             };
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
 
-    public static boolean replace(Color current, Color candidate) {
+    private static final AlphaComposite ERASURE_COMPOSITE =
+            AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.8f);
+
+    public static boolean replace(Object current, Object candidate) {
         if (current == null)
             return true;
-        return !current.equals(candidate) && (current instanceof UIResource ||
-                candidate instanceof UIResource);
+        return !current.equals(candidate) && current instanceof UIResource;
     }
 
     static {
@@ -222,18 +224,12 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static void installUI(JComponent c) {
-        if (c.isOpaque()) {
-            c.putClientProperty(OPAQUE_KEY, Boolean.TRUE);
-            c.setOpaque(false);
-        }
         if (replace(c.getBackground(), CLEAR))
             c.setBackground(CLEAR);
         c.addHierarchyListener(CLEAR_BACKGROUND_LISTENER);
     }
 
     public static void uninstallUI(JComponent c) {
-        if (c.getClientProperty(OPAQUE_KEY) == Boolean.TRUE)
-            c.setOpaque(true);
         c.removeHierarchyListener(CLEAR_BACKGROUND_LISTENER);
         unsetupBorder(c);
         for (int i = 0; i < CLIENT_PROPERTIES.length; i++)
@@ -274,9 +270,6 @@ public class NapkinUtil implements NapkinConstants {
                 RenderingHints.VALUE_ANTIALIAS_ON);
         return lineG;
     }
-
-    private static final AlphaComposite ERASURE_COMPOSITE =
-            AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.8f);
 
     public static Graphics2D defaultGraphics(Graphics g1, Component c) {
         return defaultGraphics(g1, c, c);
@@ -487,7 +480,6 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static void setupThemeTop(JComponent c, NapkinTheme theme) {
-        c.setOpaque(true);
         c.putClientProperty(IS_THEME_TOP_KEY, Boolean.TRUE);
         c.putClientProperty(THEME_TOP_KEY, c);
         c.putClientProperty(THEME_KEY, theme);
@@ -802,5 +794,9 @@ public class NapkinUtil implements NapkinConstants {
         if (themeName == null)
             themeName = defaultValue;
         return themeName;
+    }
+
+    public static Object ifReplace(Object current, Object candidate) {
+        return (replace(current, candidate) ? candidate : current);
     }
 }

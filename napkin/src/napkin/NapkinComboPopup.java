@@ -2,32 +2,33 @@
 
 package napkin;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.*;
 
-public class NapkinComboPopup extends BasicComboPopup {
+public class NapkinComboPopup extends BasicComboPopup
+        implements NapkinConstants {
+
     public NapkinComboPopup(JComboBox combo) {
         super(combo);
     }
 
     protected void configureList() {
         super.configureList();
-        list.setCellRenderer(new NapkinComboBoxUI.RenderResource());
-    }
 
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return new PropertyChangeHandler() {
-            public void propertyChange(PropertyChangeEvent e) {
-                if (!e.getPropertyName().equals("renderer"))
-                    super.propertyChange(e);
-                else {
-                    // done for renderer in super.propertChange, don't know why
-                    if (isVisible())
-                        hide();
-                }
-            }
-        };
+        // now override those things that we set from the theme
+        NapkinTheme theme = NapkinUtil.themeFor(comboBox);
+        list.setFont((Font) NapkinUtil.ifReplace(list.getFont(),
+                theme.getTextFont()));
+        list.setForeground((Color) NapkinUtil.ifReplace(list.getForeground(),
+                theme.getPenColor()));
+        list.setBackground((Color) NapkinUtil.ifReplace(list.getBackground(),
+                CLEAR));
+        list.setSelectionForeground((Color)
+                NapkinUtil.ifReplace(list.getSelectionForeground(),
+                        theme.getPenColor()));
+        list.setSelectionBackground((Color)
+                NapkinUtil.ifReplace(list.getSelectionBackground(), CLEAR));
+        list.setCellRenderer(new NapkinComboBoxUI.RenderResource());
     }
 }

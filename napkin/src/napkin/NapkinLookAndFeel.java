@@ -529,7 +529,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 }
             } else if (key.endsWith(".foreground")) {
                 entry.setValue(theme.getPenColor());
-            } else if (key.endsWith(".background")) {
+            } else if (key.endsWith(".background") ||
+                    key.endsWith(".selectionBackground")) {
                 entry.setValue(clear);
             }
         }
