@@ -8,10 +8,6 @@ contains both SwingSet2 classes so it can be run as a demo thusly:
 
     java -jar napkinlaf-swingset2.jar
 
-Currently, for reasons as yet unknown, it works best if after
-starting, you first select another look and feel (such as Motif)
-from the menu, and then switch back to Napkin Look and Feel.
-
 ........................................................................
 Personal Stuff:
 
