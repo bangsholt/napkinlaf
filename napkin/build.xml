@@ -17,7 +17,7 @@
     <target name="compile" description="build classes directory">
         <mkdir dir="classes"/>
         <javac srcdir="src" destdir="classes"
-            classpathref="classpath"
+            classpathref="classpath" excludes="javax/**/*.java"
             debug="${debug}" deprecation="yes"/>
         <javac srcdir="swingset/src" destdir="classes"
             classpathref="classpath"

@@ -583,14 +583,20 @@ public class NapkinUtil implements NapkinConstants {
             line.draw(ulG);
         }
 
-        try {
-            // disabled buttons are drawn just like enabled ones but crossed out
-            if (!enabled)
-                c.setEnabled(true);
-            helper.superPaintText(g, c, textRect, text);
-        } finally {
-            if (!enabled)
-                c.setEnabled(false);
-        }
+        c = wrapIfNeeded(c);
+        helper.superPaintText(g, c, textRect, text);
+    }
+
+    private static JComponent wrapIfNeeded(JComponent c) {
+        if (!(c instanceof AbstractButton))
+            return c;
+
+        if (c.isEnabled())
+            return c;
+
+        if (c instanceof JMenuItem)
+            return new ForceEnabledMenuItem(c);
+        else
+            return new ForceEnabledButton(c);
     }
 }

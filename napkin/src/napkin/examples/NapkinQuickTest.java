@@ -38,7 +38,7 @@ public class NapkinQuickTest implements SwingConstants {
                 System.identityHashCode(mainPanel));
         mainPanel.add(label);
 
-        JButton button = new JButton("Button!");
+        final JButton button = new JButton("Button!");
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println();
@@ -51,7 +51,13 @@ public class NapkinQuickTest implements SwingConstants {
         label.setText(laf.isFormal(label) ? "formal" : "napkin");
 
         mainPanel.add(new JCheckBox("Check?"));
-        mainPanel.add(new JCheckBox("Check!"));
+        JCheckBox disableButton = new JCheckBox("Disable");
+        disableButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                button.setEnabled(!button.isEnabled());
+            }
+        });
+        mainPanel.add(disableButton);
 
         ButtonGroup bgrp = new ButtonGroup();
         JRadioButton r1 = new JRadioButton("Radio?");
