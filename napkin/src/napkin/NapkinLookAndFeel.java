@@ -356,7 +356,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                     entry.setValue(drawnBorder); // we override manually below
                 }
             } else if (key.endsWith(".foreground")) {
-                System.out.println("  Changing " + key);
                 entry.setValue(theme.getPenColor());
             }
         }
