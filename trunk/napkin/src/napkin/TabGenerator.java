@@ -53,6 +53,14 @@ public class TabGenerator extends ShapeGenerator {
         lrY = new Value(1, shimmy);
         llX = new Value(0, shimmy);
         llY = new Value(1, shimmy);
+        if (side == LEFT || side == RIGHT) {
+            // when this gets exagerated to stretch out the line it's too much
+            final double horizAdj = 10;
+            ulX.setRange(shimmy / horizAdj);
+            urX.setRange(shimmy / horizAdj);
+            llX.setRange(shimmy / horizAdj);
+            lrX.setRange(shimmy / horizAdj);
+        }
         squeeze = new Value(0.09, 0.001);
     }
 

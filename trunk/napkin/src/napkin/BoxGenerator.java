@@ -23,7 +23,7 @@ public class BoxGenerator extends ShapeGenerator {
     private final ShapeGenerator[] gens;
     private final Map generators;
 
-    private static final boolean DEBUG = false;
+    private static boolean DEBUG = false;
 
     public static final String[] SIDE_NAMES = {
         null, "top", "left", "bottom", "right"
@@ -93,50 +93,90 @@ public class BoxGenerator extends ShapeGenerator {
         adjustmentY = yEnd - endY.get();
 
         AffineTransform smat;
+        double scale;
 
+        scale = (xSize - adjustmentX) / LENGTH;
         smat = NapkinUtil.copy(matrix);
         smat.translate(xBeg, 0);
-        smat.scale((xSize - adjustmentX) / LENGTH, 1);
-        sides[TOP] = addSide(shape, smat, TOP);
+        smat.scale(scale, 1);
+        sides[TOP] = addSide(shape, smat, TOP, scale);
 
-        smat = NapkinUtil.copy(matrix);
-        smat.translate(xSize, 0);
-        smat.rotate(Math.PI / 2);
-        smat.scale(yScale, 1);
-        sides[RIGHT] = addSide(shape, smat, RIGHT);
-
-        smat = NapkinUtil.copy(matrix);
-        smat.translate(0, ySize);
-        smat.rotate(-Math.PI / 2);
-        smat.scale((ySize - adjustmentY) / LENGTH, 1);
-        sides[LEFT] = addSide(shape, smat, LEFT);
-
+        scale = xScale;
         smat = NapkinUtil.copy(matrix);
         smat.translate(xSize, ySize);
         smat.rotate(Math.PI);
-        smat.scale(xScale, 1);
-        sides[BOTTOM] = addSide(shape, smat, BOTTOM);
+        smat.scale(scale, 1);
+        sides[BOTTOM] = addSide(shape, smat, BOTTOM, scale);
+
+        scale = yScale;
+        smat = NapkinUtil.copy(matrix);
+        smat.translate(xSize, 0);
+        smat.rotate(Math.PI / 2);
+        smat.scale(scale, 1);
+        sides[RIGHT] = addSide(shape, smat, RIGHT, scale);
+
+        scale = (ySize - adjustmentY) / LENGTH;
+        smat = NapkinUtil.copy(matrix);
+        smat.translate(0, ySize);
+        smat.rotate(-Math.PI / 2);
+        smat.scale(scale, 1);
+        sides[LEFT] = addSide(shape, smat, LEFT, scale);
 
         return shape;
     }
 
-    private Shape addSide(GeneralPath shape, AffineTransform smat, int which) {
-        if (which != breakSide)
-            return addLine(shape, smat, gens[which]);
+    private Shape addSide(GeneralPath shape, AffineTransform smat, int side,
+            double scale) {
+        if (side != breakSide)
+            return addLine(shape, smat, gens[side]);
 
-        GeneralPath side = new GeneralPath();
+        GeneralPath line = new GeneralPath();
+        if (side == BOTTOM || side == LEFT)
+            scale = -scale; // this ones are drawn backwards
+        if (side == TOP || side == BOTTOM)
+            addWithXBreak(smat, line, scale);
+        else
+            addWithYBreak(smat, line, scale);
 
+        shape.append(line, false);
+        return line;
+    }
 
+    private void addWithXBreak(AffineTransform smat, GeneralPath line,
+            double scale) {
         // Need to transalate the absolute positions into positions on the line
         double xOff = smat.getTranslateX();
-        double xScale = smat.getScaleX();
-        double xAdj = begX.get() + adjustmentX;
-        double xSize = sizeX.get() - xAdj;
-        if (xScale < 0)
+        double xSize = sizeX.get() - (begX.get() + adjustmentX);
+        if (scale < 0)
             xSize = -xSize;
         double xBeg = breakBeg.getX() - xOff;
         double xEnd = breakEnd.getX() - xOff;
 
+        dumpValues(smat, xBeg, xEnd);
+
+        addSegment(line, smat, 0, 0, xBeg / scale);
+        addSegment(line, smat, xEnd / scale, 0, (xSize - xEnd) / scale);
+    }
+
+    // I wish I could figure out a way to share code here -- one of those
+    // places where the C macro preprocessor would really help.
+    private void addWithYBreak(AffineTransform smat, GeneralPath line,
+            double scale) {
+        // Need to transalate the absolute positions into positions on the line
+        double yOff = smat.getTranslateY();
+        double ySize = sizeY.get() - (endY.get() + adjustmentY);
+        if (scale < 0)
+            ySize = -ySize;
+        double yBeg = breakBeg.getY() - yOff;
+        double yEnd = breakEnd.getY() - yOff;
+
+        dumpValues(smat, yBeg, yEnd);
+
+        addSegment(line, smat, 0, 0, yBeg / scale);
+        addSegment(line, smat, yEnd / scale, 0, (ySize - yEnd) / scale);
+    }
+
+    private void dumpValues(AffineTransform smat, double beg, double end) {
         if (DEBUG) {
             System.out.println();
             NapkinUtil.printPair("translate", smat.getTranslateX(),
@@ -147,14 +187,8 @@ public class BoxGenerator extends ShapeGenerator {
             NapkinUtil.printPair("size", sizeX.get(), sizeY.get());
             NapkinUtil.printPair("adjustment", adjustmentX, adjustmentY);
             NapkinUtil.printPair("beg/end", begX.get(), endY.get());
-            NapkinUtil.printPair("x beg/end", xBeg, xEnd);
+            NapkinUtil.printPair("break beg/end", beg, end);
         }
-
-        addSegment(side, smat, 0, 0, xBeg / xScale);
-        addSegment(side, smat, xEnd / xScale, 0, (xSize - xEnd) / xScale);
-
-        shape.append(side, false);
-        return side;
     }
 
     private void addSegment(GeneralPath side, AffineTransform smat, double xBeg,
