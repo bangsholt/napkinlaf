@@ -29,7 +29,7 @@ public class NapkinPopupMenuUI extends BasicPopupMenuUI
 
     public void paint(Graphics g, JComponent c) {
         NapkinUtil.applyPendingBackground(c);
-        NapkinUtil.defaultGraphics(g);
+        NapkinUtil.defaultGraphics(g, c);
         super.paint(g, c);
     }
 

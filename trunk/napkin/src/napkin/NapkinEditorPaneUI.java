@@ -19,7 +19,7 @@ public class NapkinEditorPaneUI extends BasicEditorPaneUI {
     }
 
     protected void paintSafely(Graphics g) {
-        NapkinUtil.defaultGraphics(g);
+        NapkinUtil.defaultGraphics(g, getComponent());
         super.paintSafely(g);
     }
 

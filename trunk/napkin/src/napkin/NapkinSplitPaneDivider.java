@@ -22,7 +22,7 @@ public class NapkinSplitPaneDivider extends BasicSplitPaneDivider
     }
 
     public void paint(Graphics g) {
-        NapkinUtil.defaultGraphics(g);
+        NapkinUtil.defaultGraphics(g, this);
         super.paint(g);
     }
 

@@ -2,8 +2,8 @@
 package napkin;
 
 import java.awt.*;
-import javax.swing.plaf.basic.*;
 import javax.swing.*;
+import javax.swing.plaf.basic.*;
 
 public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane {
     private LineHolder line;
@@ -27,7 +27,7 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane {
     }
 
     public void paint(Graphics g) {
-        NapkinUtil.defaultGraphics(g);
+        NapkinUtil.defaultGraphics(g, this);
         super.paint(g);
     }
 }

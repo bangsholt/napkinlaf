@@ -19,7 +19,7 @@ public class NapkinScrollPaneUI extends BasicScrollPaneUI {
     }
 
     public void paint(Graphics g, JComponent c) {
-        NapkinUtil.defaultGraphics(g);
+        NapkinUtil.defaultGraphics(g, c);
         super.paint(g, c);
     }
 

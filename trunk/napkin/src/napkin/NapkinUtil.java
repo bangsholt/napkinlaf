@@ -71,6 +71,11 @@ public class NapkinUtil implements NapkinConstants {
         return nlaf.isFormal(l);
     }
 
+    public static boolean isFormal(Component c) {
+        NapkinLookAndFeel nlaf = (NapkinLookAndFeel) UIManager.getLookAndFeel();
+        return nlaf.isFormal(c);
+    }
+
     static ComponentUI uiFor(JComponent c, ComponentUI napkinUI) {
         NapkinLookAndFeel nlaf = (NapkinLookAndFeel) UIManager.getLookAndFeel();
         ComponentUI ui;
@@ -219,11 +224,21 @@ public class NapkinUtil implements NapkinConstants {
         return lineG;
     }
 
-    public static Graphics2D defaultGraphics(Graphics g1) {
+    public static Graphics2D defaultGraphics(Graphics g1, Component c) {
         Graphics2D g = (Graphics2D) g1;
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
+        setupBorder(c);
         return g;
+    }
+
+    private static void setupBorder(Component c) {
+        if (c instanceof JComponent) {
+            JComponent jc = (JComponent) c;
+            Border b = jc.getBorder();
+            if (b != null && !(b instanceof NapkinBorder))
+                jc.setBorder(NapkinBorderFactory.wrappedBorder(b));
+        }
     }
 
     boolean isPressed(Component c) {
