@@ -27,8 +27,8 @@ public class DumbTest {
 
     static void realMain(String[] args) throws Exception {
         if (args.length == 0) {
-            System.out.println("setting first");
-            UIManager.setLookAndFeel("napkin.NapkinLookAndFeel");
+            System.out.println("setting 'control'");
+            UIManager.getDefaults().put("control", new Color(0, 0, 0, 0));
         }
         JFrame f = new JFrame("DumbTest") {
             public void reshape(int x, int y, int width, int height) {
@@ -37,11 +37,6 @@ public class DumbTest {
                 super.reshape(x, y, width, height);
             }
         };
-        if (args.length > 0) {
-            System.out.println("setting second");
-            UIManager.setLookAndFeel("napkin.NapkinLookAndFeel");
-            SwingUtilities.updateComponentTreeUI(f);
-        }
         JLabel lab = new JLabel("foo");
         lab.setPreferredSize(new Dimension(100, 25));
         f.getContentPane().add(lab);
