@@ -42,7 +42,7 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
     }
 
     public void paint(Graphics g, JComponent c) {
-        NapkinUtil.defaultGraphics(g);
+        NapkinUtil.defaultGraphics(g, c);
         majorPos = minorPos = 0;
         super.paint(g, c);
     }
