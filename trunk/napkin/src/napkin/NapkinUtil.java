@@ -598,8 +598,8 @@ public class NapkinUtil implements NapkinConstants {
 
     static {
         skip = new HashSet();
-        skip.add("source");
-        skip.add("mostRecentKeyValue");
+//        skip.add("source");
+//        skip.add("mostRecentKeyValue");
     }
 
     private static void
@@ -613,12 +613,13 @@ public class NapkinUtil implements NapkinConstants {
         id = new Integer(known.size());
         known.put(obj, id);
 
-        out.println(descFor(obj) + "<" + id + ">");
+        out.println(descFor(obj) + " <" + id + ">");
 
         try {
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i <= depth; i++)
                 sb.append(i % 2 == 0 ? '.' : '|').append(' ');
+            String indent = sb.toString();
 
             Field[] fields = getFields(obj);
             for (int i = 0; i < fields.length; i++) {
@@ -626,27 +627,43 @@ public class NapkinUtil implements NapkinConstants {
                 if (skip.contains(field.getName()))
                     continue;
                 Class type = field.getType();
-                out.print(sb);
-                out.print(field.getName() + " [" +
-                        field.getDeclaringClass().getName() +
+                out.print(indent);
+                out.print(field.getName() + " [" + field.getType().getName() +
                         "]: ");
                 Object val = field.get(obj);
-                if (type.isPrimitive())
-                    out.println(val);
-                else {
-                    if (val == null || type == String.class)
-                        out.println(val);
-                    else if (type.isArray()) {
-                        Class aType = type.getComponentType();
-                        out.println(" " + aType.getName() + "[" +
-                                Array.getLength(val) + "]");
-                    } else {
-                        dumpObject(val, out, depth + 1, known);
-                    }
+                dumpValue(type, out, val, depth, known);
+            }
+
+            if (obj.getClass().isArray()) {
+                Class type = obj.getClass().getComponentType();
+                int length = Array.getLength(obj);
+                for (int i = 0; i < length; i++) {
+                    Object val = Array.get(obj, i);
+                    if (val == null)
+                        continue;
+                    out.print(indent);
+                    out.print(i + ": ");
+                    dumpValue(type, out, val, depth, known);
                 }
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void dumpValue(Class type, PrintStream out, Object val,
+            int depth, Map known) {
+        if (type.isPrimitive())
+            out.println(val);
+        else if (val == null || type == String.class)
+            out.println(val);
+        else {
+            if (type.isArray()) {
+                Class aType = type.getComponentType();
+                out.println(" " + aType.getName() + "[" +
+                        Array.getLength(val) + "]");
+            }
+            dumpObject(val, out, depth + 1, known);
         }
     }
 
@@ -657,7 +674,7 @@ public class NapkinUtil implements NapkinConstants {
             return fields;
 
         Set fSet = new HashSet();
-        int skip = Modifier.STATIC | Modifier.FINAL;
+        int skip = Modifier.STATIC | Modifier.FINAL | Modifier.TRANSIENT;
         while (type != Object.class) {
             Field[] declaredFields = type.getDeclaredFields();
             for (int i = 0; i < declaredFields.length; i++) {
