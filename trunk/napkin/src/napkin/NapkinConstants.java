@@ -17,8 +17,8 @@ public interface NapkinConstants extends SwingConstants {
         IS_PAPER, PAPER, PAPER_HOLDER, BACKGROUND, DISABLED_MARK
     };
 
-    //!! ColorUIResource can't seem to deal with the alpha channel -- file a bug
-//    ColorUIResource CLEAR = new ColorUIResource(new Color(0, 0, 0, 0));
+    // ColorUIResource can't seem to deal with the alpha channel, so we
+    // have to use a Color.  I've filed a bug, but for now we do this.
     Color CLEAR = new Color(0, 0, 0, 0);
     ColorUIResource BLACK = new ColorUIResource(Color.black);
 
