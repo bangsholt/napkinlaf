@@ -18,7 +18,6 @@ public class NapkinTextFieldUI extends BasicTextFieldUI {
     public void installUI(JComponent c) {
         NapkinUtil.installUI(c);
         super.installUI(c);
-        c.setMaximumSize(new Dimension(1, 1));
     }
 
     //!! Fix this

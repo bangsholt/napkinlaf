@@ -4,6 +4,15 @@
 <title>Release Notes: Napkin Look & Feel</title>
 
 <body>
+
+<h4>alpha-004, ???</h4>
+
+<dl>
+<dt> Text areas are a normal size.
+<dt> Paint background on each individual component, so changes to contents
+     don't overlay on each other.
+</dl>
+
 <h4>alpha-003, 16 April 2004</h4>
 
 <dl>

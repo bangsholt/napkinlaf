@@ -16,7 +16,6 @@ public class NapkinTextAreaUI extends BasicTextAreaUI {
     public void installUI(JComponent c) {
         NapkinUtil.installUI(c);
         super.installUI(c);
-        c.setMaximumSize(new Dimension(1, 1));
     }
 
     protected void paintSafely(Graphics g) {
