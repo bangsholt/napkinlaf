@@ -2,25 +2,33 @@
 
 package napkin;
 
-import javax.swing.*;
-import javax.swing.Timer;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import javax.swing.plaf.ComponentUI;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.geom.AffineTransform;
-import java.io.*;
+import java.awt.event.*;
+import java.awt.geom.*;
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.plaf.*;
 
 public class NapkinUtil implements NapkinConstants {
     private static final Set printed = new HashSet();
@@ -42,8 +50,11 @@ public class NapkinUtil implements NapkinConstants {
         }
     };
 
-    private static Map strokes = new WeakHashMap();
-    private static Map fieldsForType = new WeakHashMap();
+    private static final Map strokes = new WeakHashMap();
+    private static final Map fieldsForType = new WeakHashMap();
+    private static final float FOCUS_MARK_WIDTH = 1.5f;
+    private static final float DISABLE_MARK_WIDTH = 2.5f;
+    private static final double DISABLE_LINE_HEIGHT = 0.34;
 
     public static Object property(ComponentUI ui, String prop) {
         String uiName = ui.getClass().getName();
@@ -325,7 +336,7 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static LineHolder paintLine(Graphics g, boolean vertical,
-                                       LineHolder holder, Rectangle bounds) {
+            LineHolder holder, Rectangle bounds) {
         if (holder == null)
             holder = new LineHolder(CubicGenerator.INSTANCE, vertical);
         holder.shapeUpToDate(bounds, null);
@@ -352,7 +363,7 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     private static void dumpTo(PrintWriter out, Object obj, Class cl, int level,
-                               Set dumped)
+            Set dumped)
             throws IllegalAccessException {
         if (cl == null)
             return;
@@ -547,8 +558,8 @@ public class NapkinUtil implements NapkinConstants {
      */
     public static void
             paintText(Graphics g, JComponent c, Rectangle textRect,
-                      String text, int textOffset, LineHolder line,
-                      boolean isDefault, NapkinPainter helper) {
+            String text, int textOffset, LineHolder line,
+            boolean isDefault, NapkinPainter helper) {
 
         boolean enabled = c.isEnabled();
         Graphics2D ulG;
@@ -563,9 +574,11 @@ public class NapkinUtil implements NapkinConstants {
             ulG.translate(x, y);
             if (enabled) {
                 ulG.setColor(NapkinIconFactory.CheckBoxIcon.MARK_COLOR);
+                line.setWidth(FOCUS_MARK_WIDTH);
             } else {
                 ulG.setColor(NapkinIconFactory.RadioButtonIcon.MARK_COLOR);
-                ulG.translate(0, -fm.getAscent() * 0.34);
+                ulG.translate(0, -fm.getAscent() * DISABLE_LINE_HEIGHT);
+                line.setWidth(DISABLE_MARK_WIDTH);
             }
             line.draw(ulG);
         }
