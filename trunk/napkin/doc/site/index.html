@@ -41,23 +41,20 @@
 </table>
 
 <h4><i>Latest Release: 
-<a href="http://sourceforge.net/project/showfiles.php?group_id=104116&package_id=111904&release_id=242189">
-alpha-005</a>, 30 May 2004</i></h4>
+<a href="http://sourceforge.net/project/showfiles.php?group_id=104116&package_id=111904">
+alpha-006</a>, 19 June, 2004</i></h4>
 
 <ul>
-<li> <b>Note:</b> This LaF will not work under Java 1.3.  There were many
-     changes in the LaF infrastructure and I can't figure out a way to do
-     one development for both versions.  [<a href="http://sourceforge.net/tracker/index.php?func=detail&aid=963198&group_id=104116&atid=636983">bug 963198</a>]
-<li> Put SwingSet2 source in the swingset jar file.
-<li> No longer need "switch and back" to make demo work.  (This was a bug in
-     SwingSet2.)
-<li> Get titled borders working.
-<li> Separators.
-<li> Set all the properties to use drawn borders.
-<li> Wrap all borders in a simple thing that at least anti-aliases all the
-     the stuff.
-<li> Indeterminate progress bar.
-<li> Split panes.
+<li>Better red for radio button marks, etc.
+<li>Wrap all non-Napkin borders, not just default borders.
+<li>Do progress bar scribbling on image so it's cheaper to redraw.
+<li>Reduced bias for "too high" when drawing longer lines.
+<li>Disabled line height adjusted, and put behind the text (black shows
+    through).  (Maybe should do color blending?)
+<li>Use a simple underline for text and password fields, not a box.
+<li>Use red line for disabled; green for "default button".
+<li>All the buttons are drawn the same when they are disabled (and they now
+    look disabled too, instead of looking bold).
 </ul>
 
 <hr>
