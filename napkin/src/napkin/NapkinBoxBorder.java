@@ -15,11 +15,6 @@ public class NapkinBoxBorder extends NapkinBorder {
         super(new LineBorder(color));
     }
 
-    protected boolean doIsBorderOpaque() {
-        //!! Not implemented (yet)
-        throw new UnsupportedOperationException();
-    }
-
     //!! We should revisit this decision.  -arnold
     /**
      * We use our own hash map instead of using get/putClientProperty because
