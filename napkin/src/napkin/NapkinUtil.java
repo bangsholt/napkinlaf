@@ -338,7 +338,7 @@ public class NapkinUtil implements NapkinConstants {
         if (c instanceof JTextComponent) {
             JTextComponent tc = (JTextComponent) c;
             Color selColor = ifReplace(tc.getSelectedTextColor(), themePen);
-            // just set, as the method only does work if it's different
+            // just set, as the method does work only if it's different
             tc.setSelectedTextColor(selColor);
         }
     }
