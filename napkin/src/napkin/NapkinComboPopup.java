@@ -2,7 +2,6 @@
 
 package napkin;
 
-import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.*;
 
@@ -17,18 +16,14 @@ public class NapkinComboPopup extends BasicComboPopup
         super.configureList();
 
         // now override those things that we set from the theme
-        NapkinTheme theme = NapkinUtil.themeFor(comboBox);
-        list.setFont((Font) NapkinUtil.ifReplace(list.getFont(),
-                theme.getTextFont()));
-        list.setForeground((Color) NapkinUtil.ifReplace(list.getForeground(),
+        NapkinTheme theme = NapkinUtil.themeFor(this);
+        list.setFont(NapkinUtil.ifReplace(list.getFont(), theme.getTextFont()));
+        list.setForeground(NapkinUtil.ifReplace(list.getForeground(),
                 theme.getPenColor()));
-        list.setBackground((Color) NapkinUtil.ifReplace(list.getBackground(),
-                CLEAR));
-        list.setSelectionForeground((Color)
-                NapkinUtil.ifReplace(list.getSelectionForeground(),
-                        theme.getPenColor()));
-        list.setSelectionBackground((Color)
+        list.setBackground(NapkinUtil.ifReplace(list.getBackground(), CLEAR));
+        list.setSelectionForeground(NapkinUtil.ifReplace(
+                list.getSelectionForeground(), theme.getSelectionColor()));
+        list.setSelectionBackground(
                 NapkinUtil.ifReplace(list.getSelectionBackground(), CLEAR));
-        list.setCellRenderer(new NapkinComboBoxUI.RenderResource());
     }
 }
