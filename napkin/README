@@ -16,7 +16,7 @@ from the menu, and then switch back to Napkin Look and Feel.
 Personal Stuff:
 
 You may use this under the BSD license specified below, but we're
-curious about anyone who does use it.  I'd consider it a favor if
+curious about anyone who does use it.  We'd consider it a favor if
 you'd drop us a note about what you are doing with it and any
 comments you have.
 
@@ -24,7 +24,7 @@ The font Felt Tip Roman was created by Mark Simonson, who spent a
 lot of time with me on how to license this.  He has kindly decided
 that this particular use does not require individual licensing for
 each user of the LAF, but can be done by special arrangement.  The
-legalities are below, but beyond those legalities, I'd like to ask
+legalities are below, but beyond those legalities, we'd like to ask
 you all to be cool -- if you like the font and want to use it, buy
 it properly.  Making fonts is not easy, and font folks get their
 work ripped off far too often.  If you do want to use it, buy it
@@ -32,13 +32,14 @@ from his site http://www.ms-studio.com, where he gets more from it.
 
 The font Ænigma Scrawl was created by Brian Kent, and has worked
 very well for a handwritten font that scales reasonably to GUI-control
-sizes (most handwritten-style fonts are display fonts that only work in
-large sizes).  To make things work better, Brian has adapted the font
-to adjust the spacing around some punctuation as well as some other tweaks.
-So the version released here is a custom one direct from the artist (which
-I believe he expected to roll back into the font at future date).
-I would like to thank Brian a lot for his quick and nimble cooperation,
-which made this work a lot better and easier on me.
+sizes (most handwritten-style fonts are display fonts that only
+work in large sizes).  To make things work better, Brian has adapted
+the font to adjust the spacing around some punctuation as well as
+some other tweaks.  So the version released here is a custom one
+direct from the artist (which we believe he expects to roll back
+into the font at future date).  We would like to thank Brian a lot
+for his quick and nimble cooperation, which made this work a lot
+better and easier on me.
 
 $Id$
 
