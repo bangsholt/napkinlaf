@@ -1,12 +1,11 @@
-
 package napkin;
 
 import java.awt.*;
 import java.awt.geom.*;
 
-public class ScribbleGenerator extends ShapeGenerator {
-    private final Value position;
-    private final Value side;
+public class DrawnScribbleGenerator extends DrawnShapeGenerator {
+    private final RandomValue position;
+    private final RandomValue side;
     private final float[] point;
     private final float minShow;
     private int shown;
@@ -18,10 +17,10 @@ public class ScribbleGenerator extends ShapeGenerator {
 
     private static final float PER_STROKE = 1.5f;
 
-    ScribbleGenerator(float minShow) {
+    DrawnScribbleGenerator(float minShow) {
         this.minShow = minShow;
-        position = new Value(0, 0.4);
-        side = new Value(0, 0.4);
+        position = new RandomValue(0, 0.4);
+        side = new RandomValue(0, 0.4);
         point = new float[2];
     }
 

@@ -1,14 +1,13 @@
-
 package napkin;
-
-import napkin.ShapeHolder.Factory;
 
 import java.util.WeakHashMap;
 
-class ShapeHolderMap extends WeakHashMap {
+import napkin.DrawnShapeHolder.Factory;
+
+public class DrawnShapeHolderMap extends WeakHashMap {
     private final Factory factory;
 
-    ShapeHolderMap(Factory factory) {
+    public DrawnShapeHolderMap(Factory factory) {
         this.factory = factory;
     }
 

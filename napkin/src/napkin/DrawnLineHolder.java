@@ -3,7 +3,7 @@ package napkin;
 import java.awt.*;
 import java.awt.geom.*;
 
-class LineHolder extends ShapeHolder implements NapkinConstants {
+public class DrawnLineHolder extends DrawnShapeHolder implements NapkinConstants {
     private Rectangle rect;
     private FontMetrics metrics;
     private final Endpoints endpoints;
@@ -31,15 +31,15 @@ class LineHolder extends ShapeHolder implements NapkinConstants {
         Rectangle getEndpoints(Rectangle bounds);
     }
 
-    LineHolder(ShapeGenerator gen) {
+    public DrawnLineHolder(DrawnShapeGenerator gen) {
         this(gen, false);
     }
 
-    LineHolder(ShapeGenerator gen, boolean vertical) {
+    public DrawnLineHolder(DrawnShapeGenerator gen, boolean vertical) {
         this(gen, vertical ? VERTICAL_LINE : HORIZ_LINE);
     }
 
-    LineHolder(ShapeGenerator gen, Endpoints endpoints) {
+    public DrawnLineHolder(DrawnShapeGenerator gen, Endpoints endpoints) {
         super(gen);
         this.endpoints = endpoints;
     }
@@ -90,7 +90,7 @@ class LineHolder extends ShapeHolder implements NapkinConstants {
             System.out.println("yDelta = " + yDelta);
             System.out.println("len = " + len);
         }
-        double xScale = len / ShapeGenerator.LENGTH;
+        double xScale = len / DrawnShapeGenerator.LENGTH;
         matrix.scale(xScale, 1);
         shape = gen.generate(matrix);
         return;

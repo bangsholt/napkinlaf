@@ -1,34 +1,33 @@
-
 package napkin;
 
 import java.awt.*;
 import java.awt.geom.*;
 
-public class TriangleGenerator extends ShapeGenerator {
-    private final Value midX, midY;
-    private final Value v1X, v1Y;
-    private final Value v2X, v2Y;
-    private final Value startAdjust;
+public class DrawnTriangleGenerator extends DrawnShapeGenerator {
+    private final RandomValue midX, midY;
+    private final RandomValue v1X, v1Y;
+    private final RandomValue v2X, v2Y;
+    private final RandomValue startAdjust;
     private final double rotate;
 
-    public static final TriangleGenerator INSTANCE = new TriangleGenerator();
+    public static final DrawnTriangleGenerator INSTANCE = new DrawnTriangleGenerator();
 
-    public TriangleGenerator() {
+    public DrawnTriangleGenerator() {
         this(0);
     }
 
-    public TriangleGenerator(double rotate) {
+    public DrawnTriangleGenerator(double rotate) {
         this.rotate = rotate;
 
         double shimmy = 0.05;
-        midX = new Value(0.5, shimmy);
-        midY = new Value(0, shimmy);
-        v1X = new Value(0, shimmy);
-        v1Y = new Value(1, shimmy);
-        v2X = new Value(1, shimmy);
-        v2Y = new Value(1, shimmy);
+        midX = new RandomValue(0.5, shimmy);
+        midY = new RandomValue(0, shimmy);
+        v1X = new RandomValue(0, shimmy);
+        v1Y = new RandomValue(1, shimmy);
+        v2X = new RandomValue(1, shimmy);
+        v2Y = new RandomValue(1, shimmy);
 
-        startAdjust = new Value(0.07);
+        startAdjust = new RandomValue(0.07);
     }
 
     public Shape generate(AffineTransform matrix) {
@@ -80,7 +79,7 @@ public class TriangleGenerator extends ShapeGenerator {
         return t;
     }
 
-    private double adjustStartOffset(ValueSource off, double scale) {
+    private double adjustStartOffset(RandomValueSource off, double scale) {
         if (scale >= 1)
             return off.generate();
         double delta = 1 - scale;
@@ -90,15 +89,15 @@ public class TriangleGenerator extends ShapeGenerator {
         return off.generate() * startScale;
     }
 
-    public Value getMidX() {
+    public RandomValue getMidX() {
         return midX;
     }
 
-    public Value getMidY() {
+    public RandomValue getMidY() {
         return midY;
     }
 
-    public Value getStartAdjust() {
+    public RandomValue getStartAdjust() {
         return startAdjust;
     }
 }

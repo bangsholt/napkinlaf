@@ -1,8 +1,8 @@
 package napkin;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
+import java.awt.geom.*;
+import javax.swing.*;
 
 public abstract class NapkinIcon implements Icon {
     Shape place;
@@ -12,8 +12,8 @@ public abstract class NapkinIcon implements Icon {
     private final AffineTransform scaleMat;
     private int width;
     private int height;
-    private ShapeGenerator placeGen;
-    ShapeGenerator markGen;
+    private DrawnShapeGenerator placeGen;
+    DrawnShapeGenerator markGen;
 
     NapkinIcon(Color markColor, AffineTransform scaleMat) {
         this.markColor = markColor;
@@ -63,7 +63,7 @@ public abstract class NapkinIcon implements Icon {
 
     abstract int calcHeight();
 
-    abstract ShapeGenerator createPlaceGenerator();
+    abstract DrawnShapeGenerator createPlaceGenerator();
 
-    abstract ShapeGenerator createMarkGenerator();
+    abstract DrawnShapeGenerator createMarkGenerator();
 }

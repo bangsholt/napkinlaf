@@ -10,13 +10,13 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
-import napkin.CubicGenerator;
+import napkin.DrawnCubicLineGenerator;
+import napkin.DrawnQuadLineGenerator;
+import napkin.DrawnShapeGenerator;
 import napkin.NapkinConstants;
 import napkin.NapkinUtil;
-import napkin.QuadGenerator;
-import napkin.ShapeGenerator;
-import napkin.Value;
-import napkin.ValueSource;
+import napkin.RandomValue;
+import napkin.RandomValueSource;
 
 public class GeneratorTest extends NapkinUtil implements NapkinConstants {
 
@@ -24,7 +24,7 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
 
     // Subclass of this that implement Generator will have a symbol conflict
     // if we just call this "length"
-    private static final int STD_LENGTH = ShapeGenerator.LENGTH;
+    private static final int STD_LENGTH = DrawnShapeGenerator.LENGTH;
     static final int SPACE = STD_LENGTH / 2;
     static final int MIN_HEIGHT = STD_LENGTH * 2;
 
@@ -38,7 +38,7 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
 
     private static final Drawer[] drawers;
 
-    static final ValueSource ZERO = new Value(0);
+    static final RandomValueSource ZERO = new RandomValue(0);
 
     static final ChangeListener REPAINT = new ChangeListener() {
         public void stateChanged(ChangeEvent e) {
@@ -60,14 +60,14 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
             REPAINT.stateChanged(null);
         }
     };
-    protected final Value width;
-    protected final ValueSpinner widthSpin;
+    protected final RandomValue width;
+    protected final RandomValueSpinner widthSpin;
 
     static {
         CubicTest cubic = new CubicTest();
         QuadTest quad = new QuadTest();
-        BoxTest box = new BoxTest((CubicGenerator) cubic.getGenerator(),
-                (QuadGenerator) quad.getGenerator());
+        BoxTest box = new BoxTest((DrawnCubicLineGenerator) cubic.getGenerator(),
+                (DrawnQuadLineGenerator) quad.getGenerator());
         CheckBoxTest checkBox = new CheckBoxTest();
         drawers = new Drawer[]{cubic, quad, box, checkBox};
     }
@@ -77,9 +77,9 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
 
         JComponent getControls();
 
-        ShapeGenerator getGenerator();
+        DrawnShapeGenerator getGenerator();
 
-        ValueSource[] getSpinners();
+        RandomValueSource[] getSpinners();
 
         String getName();
 
@@ -87,8 +87,8 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
     }
 
     public GeneratorTest() {
-        width = new Value(1);
-        widthSpin = new ValueSpinner("w", width, 0, 3, 20);
+        width = new RandomValue(1);
+        widthSpin = new RandomValueSpinner("w", width, 0, 3, 20);
     }
 
     /**
@@ -131,7 +131,7 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
         randomize.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (currentDrawer != null) {
-                    ValueSource[] sources = currentDrawer.getSpinners();
+                    RandomValueSource[] sources = currentDrawer.getSpinners();
                     for (int i = 0; i < sources.length; i++) {
                         sources[i].randomize();
                     }
@@ -195,7 +195,7 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
     }
 
     static void
-            mark(Graphics2D g, ValueSource vx, ValueSource vy, boolean left) {
+            mark(Graphics2D g, RandomValueSource vx, RandomValueSource vy, boolean left) {
 
         if (g == null)
             return;
@@ -216,8 +216,8 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
         g.draw(mark);
     }
 
-    static void mark(Graphics2D g, ValueSource vx, ValueSource vy,
-            ValueSource vw, ValueSource vh) {
+    static void mark(Graphics2D g, RandomValueSource vx, RandomValueSource vy,
+            RandomValueSource vw, RandomValueSource vh) {
         if (g == null)
             return;
 

@@ -5,22 +5,22 @@ package napkin;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class QuadGenerator extends ShapeGenerator {
+public class DrawnQuadLineGenerator extends DrawnShapeGenerator {
 
-    private final Value ctlX;
-    private final Value ctlY;
-    public static final QuadGenerator INSTANCE = new QuadGenerator();
+    private final RandomValue ctlX;
+    private final RandomValue ctlY;
+    public static final DrawnQuadLineGenerator INSTANCE = new DrawnQuadLineGenerator();
 
-    public QuadGenerator() {
-        ctlX = new Value(60, 3);
-        ctlY = new Value(0, 0.5);
+    public DrawnQuadLineGenerator() {
+        ctlX = new RandomValue(60, 3);
+        ctlY = new RandomValue(0, 0.5);
     }
 
-    public Value getCtlX() {
+    public RandomValue getCtlX() {
         return ctlX;
     }
 
-    public Value getCtlY() {
+    public RandomValue getCtlY() {
         return ctlY;
     }
 

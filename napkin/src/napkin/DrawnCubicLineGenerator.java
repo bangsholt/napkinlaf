@@ -5,37 +5,37 @@ package napkin;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class CubicGenerator extends ShapeGenerator {
+public class DrawnCubicLineGenerator extends DrawnShapeGenerator {
 
-    private final Value leftX;
-    private final Value leftY;
-    private final Value rightX;
-    private final Value rightY;
+    private final RandomValue leftX;
+    private final RandomValue leftY;
+    private final RandomValue rightX;
+    private final RandomValue rightY;
 
     private static final boolean DEBUG = false;
 
-    public static final CubicGenerator INSTANCE = new CubicGenerator();
+    public static final DrawnCubicLineGenerator INSTANCE = new DrawnCubicLineGenerator();
 
-    public CubicGenerator() {
-        leftX = new Value(10, 4);
-        leftY = new Value(-0.7, 1.5);
-        rightX = new Value(20, 8);
-        rightY = new Value(-1.3, 2);
+    public DrawnCubicLineGenerator() {
+        leftX = new RandomValue(10, 4);
+        leftY = new RandomValue(-0.7, 1.5);
+        rightX = new RandomValue(20, 8);
+        rightY = new RandomValue(-1.3, 2);
     }
 
-    public Value getLeftX() {
+    public RandomValue getLeftX() {
         return leftX;
     }
 
-    public Value getLeftY() {
+    public RandomValue getLeftY() {
         return leftY;
     }
 
-    public Value getRightX() {
+    public RandomValue getRightX() {
         return rightX;
     }
 
-    public Value getRightY() {
+    public RandomValue getRightY() {
         return rightY;
     }
 

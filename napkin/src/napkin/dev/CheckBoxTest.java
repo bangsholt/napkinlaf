@@ -7,33 +7,33 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
-import napkin.BoxGenerator;
-import napkin.CheckGenerator;
-import napkin.ShapeGenerator;
-import napkin.ValueSource;
+import napkin.DrawnBoxGenerator;
+import napkin.DrawnCheckGenerator;
+import napkin.DrawnShapeGenerator;
+import napkin.RandomValueSource;
 
 class CheckBoxTest extends GeneratorTest
         implements GeneratorTest.Drawer {
 
-    private final CheckGenerator checkGen;
-    private final BoxGenerator boxGen;
+    private final DrawnCheckGenerator checkGen;
+    private final DrawnBoxGenerator boxGen;
 
-    private final ValueSpinner midXScaleSpin;
-    private final ValueSpinner midYScaleSpin;
-    private final ValueSpinner leftXScaleSpin;
-    private final ValueSpinner leftYScaleSpin;
-    private final ValueSpinner rightXScaleSpin;
-    private final ValueSpinner rightYScaleSpin;
+    private final RandomValueSpinner midXScaleSpin;
+    private final RandomValueSpinner midYScaleSpin;
+    private final RandomValueSpinner leftXScaleSpin;
+    private final RandomValueSpinner leftYScaleSpin;
+    private final RandomValueSpinner rightXScaleSpin;
+    private final RandomValueSpinner rightYScaleSpin;
     private final JCheckBox isSelected;
     private final JCheckBox useBox;
-    private final ValueSource[] spinners;
+    private final RandomValueSource[] spinners;
 
     private JComponent drawing;
 
     private Shape box;
     private Shape check;
 
-    private static final BoxGenerator DEFAULT_BOX = new BoxGenerator();
+    private static final DrawnBoxGenerator DEFAULT_BOX = new DrawnBoxGenerator();
 
     static {
         DEFAULT_BOX.getSizeX().setMid(10);
@@ -55,7 +55,7 @@ class CheckBoxTest extends GeneratorTest
             if (useBox.isSelected())
                 boxG.draw(box);
             else
-                boxG.draw(boxGen.getSide(BoxGenerator.BOTTOM));
+                boxG.draw(boxGen.getSide(DrawnBoxGenerator.BOTTOM));
 
             if (isSelected.isSelected()) {
                 Graphics2D checkG = lineGraphics(g, (float) widthSpin.get());
@@ -83,9 +83,9 @@ class CheckBoxTest extends GeneratorTest
         this(DEFAULT_BOX);
     }
 
-    public CheckBoxTest(BoxGenerator boxGen) {
+    public CheckBoxTest(DrawnBoxGenerator boxGen) {
         this.boxGen = boxGen;
-        checkGen = new CheckGenerator();
+        checkGen = new DrawnCheckGenerator();
 
         isSelected = new JCheckBox("Selected", true);
         isSelected.addChangeListener(REPAINT);
@@ -98,20 +98,20 @@ class CheckBoxTest extends GeneratorTest
         useBox.addChangeListener(REPAINT);
 
         midXScaleSpin =
-                new ValueSpinner("mid x", checkGen.getMidXScale(), 0, 2, 100);
+                new RandomValueSpinner("mid x", checkGen.getMidXScale(), 0, 2, 100);
         midYScaleSpin =
-                new ValueSpinner("mid y", checkGen.getMidYScale(), 0, 2, 100);
+                new RandomValueSpinner("mid y", checkGen.getMidYScale(), 0, 2, 100);
         leftXScaleSpin =
-                new ValueSpinner("left x", checkGen.getLeftXScale(), 0, 2, 100);
+                new RandomValueSpinner("left x", checkGen.getLeftXScale(), 0, 2, 100);
         leftYScaleSpin =
-                new ValueSpinner("left y", checkGen.getLeftYScale(), 0, 2, 100);
+                new RandomValueSpinner("left y", checkGen.getLeftYScale(), 0, 2, 100);
         rightXScaleSpin =
-                new ValueSpinner("right x", checkGen.getRightXScale(), 0, 2,
+                new RandomValueSpinner("right x", checkGen.getRightXScale(), 0, 2,
                         100);
         rightYScaleSpin =
-                new ValueSpinner("right y", checkGen.getRightYScale(), 0, 2,
+                new RandomValueSpinner("right y", checkGen.getRightYScale(), 0, 2,
                         100);
-        spinners = new ValueSource[]{
+        spinners = new RandomValueSource[]{
             midXScaleSpin, midYScaleSpin,
             leftXScaleSpin, leftYScaleSpin,
             rightXScaleSpin, rightYScaleSpin,
@@ -121,11 +121,11 @@ class CheckBoxTest extends GeneratorTest
         rebuild();
     }
 
-    public ShapeGenerator getGenerator() {
+    public DrawnShapeGenerator getGenerator() {
         return null;
     }
 
-    public ValueSource[] getSpinners() {
+    public RandomValueSource[] getSpinners() {
         return spinners;
     }
 

@@ -8,10 +8,10 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
 public class NapkinProgressBarUI extends BasicProgressBarUI {
-    private final ScribbleHolder scribble = new ScribbleHolder();
+    private final DrawnScribbleHolder scribble = new DrawnScribbleHolder();
     private final Rectangle sz = new Rectangle(0, 0, 0, 0);
     private Rectangle boxRect;
-    private BoxHolder box;
+    private DrawnBoxHolder box;
     private Image curImage;
 
     public static ComponentUI createUI(JComponent c) {
@@ -46,7 +46,7 @@ public class NapkinProgressBarUI extends BasicProgressBarUI {
             return;
 
         if (box == null) {
-            box = new BoxHolder();
+            box = new DrawnBoxHolder();
             box.width = 2;
         }
         box.shapeUpToDate(boxRect);

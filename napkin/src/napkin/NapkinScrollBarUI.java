@@ -8,9 +8,9 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
 public class NapkinScrollBarUI extends BasicScrollBarUI {
-    private LineHolder track;
+    private DrawnLineHolder track;
     private final boolean vertical;
-    private BoxHolder thumb;
+    private DrawnBoxHolder thumb;
 
     public NapkinScrollBarUI(JScrollBar bar) {
         vertical = (bar.getOrientation() == VERTICAL);
@@ -44,7 +44,7 @@ public class NapkinScrollBarUI extends BasicScrollBarUI {
 
     protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
         if (thumb == null)
-            thumb = new BoxHolder();
+            thumb = new DrawnBoxHolder();
         thumb.shapeUpToDate(thumbBounds);
         Graphics2D lineG = NapkinUtil.copy(g);
         lineG.setColor(Color.black);

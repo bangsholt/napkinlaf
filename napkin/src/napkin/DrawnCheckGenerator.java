@@ -5,47 +5,47 @@ package napkin;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class CheckGenerator extends ShapeGenerator {
-    private final ValueSource widthVal;
-    private final ValueSource heightVal;
-    private final QuadGenerator leftLineGen;
-    private final QuadGenerator rightLineGen;
+public class DrawnCheckGenerator extends DrawnShapeGenerator {
+    private final RandomValueSource widthVal;
+    private final RandomValueSource heightVal;
+    private final DrawnQuadLineGenerator leftLineGen;
+    private final DrawnQuadLineGenerator rightLineGen;
 
-    private final Value midXScale;
-    private final Value midYScale;
-    private final Value leftXScale;
-    private final Value leftYScale;
-    private final Value rightXScale;
-    private final Value rightYScale;
+    private final RandomValue midXScale;
+    private final RandomValue midYScale;
+    private final RandomValue leftXScale;
+    private final RandomValue leftYScale;
+    private final RandomValue rightXScale;
+    private final RandomValue rightYScale;
 
-    public static final CheckGenerator INSTANCE = new CheckGenerator();
+    public static final DrawnCheckGenerator INSTANCE = new DrawnCheckGenerator();
 
-    public CheckGenerator() {
+    public DrawnCheckGenerator() {
         this(10);
     }
 
-    public CheckGenerator(double size) {
-        this(new Value(size), new Value(size));
+    public DrawnCheckGenerator(double size) {
+        this(new RandomValue(size), new RandomValue(size));
     }
 
-    public CheckGenerator(ValueSource widthVal, ValueSource heightVal) {
+    public DrawnCheckGenerator(RandomValueSource widthVal, RandomValueSource heightVal) {
         this.widthVal = widthVal;
         this.heightVal = heightVal;
 
-        leftLineGen = new QuadGenerator();
+        leftLineGen = new DrawnQuadLineGenerator();
         leftLineGen.getCtlY().setMid(+2);
         leftLineGen.getCtlY().setRange(0.3);
 
-        rightLineGen = new QuadGenerator();
+        rightLineGen = new DrawnQuadLineGenerator();
         rightLineGen.getCtlY().setMid(-2);
         rightLineGen.getCtlY().setRange(0.3);
 
-        leftXScale = new Value(0.5, 0.075);
-        leftYScale = new Value(0.5, 0.075);
-        midXScale = new Value(0.5, 0.1);
-        midYScale = new Value(0.1, 0.05);
-        rightXScale = new Value(1.1, 0.1);
-        rightYScale = new Value(0.9, 0.1);
+        leftXScale = new RandomValue(0.5, 0.075);
+        leftYScale = new RandomValue(0.5, 0.075);
+        midXScale = new RandomValue(0.5, 0.1);
+        midYScale = new RandomValue(0.1, 0.05);
+        rightXScale = new RandomValue(1.1, 0.1);
+        rightYScale = new RandomValue(0.9, 0.1);
     }
 
     public Shape generate(AffineTransform matrix) {
@@ -75,7 +75,7 @@ public class CheckGenerator extends ShapeGenerator {
 
     private static void drawStroke(GeneralPath check, AffineTransform matrix,
             double mx, double my, double ex, double ey,
-            double rot, ShapeGenerator lineGen) {
+            double rot, DrawnShapeGenerator lineGen) {
 
         double xDelta = mx - ex;
         double yDelta = my - ey;
@@ -88,27 +88,27 @@ public class CheckGenerator extends ShapeGenerator {
         addLine(check, mat, lineGen);
     }
 
-    public Value getLeftXScale() {
+    public RandomValue getLeftXScale() {
         return leftXScale;
     }
 
-    public Value getLeftYScale() {
+    public RandomValue getLeftYScale() {
         return leftYScale;
     }
 
-    public Value getMidXScale() {
+    public RandomValue getMidXScale() {
         return midXScale;
     }
 
-    public Value getMidYScale() {
+    public RandomValue getMidYScale() {
         return midYScale;
     }
 
-    public Value getRightXScale() {
+    public RandomValue getRightXScale() {
         return rightXScale;
     }
 
-    public Value getRightYScale() {
+    public RandomValue getRightYScale() {
         return rightYScale;
     }
 }

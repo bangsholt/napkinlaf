@@ -3,20 +3,20 @@ package napkin;
 import java.awt.*;
 import java.awt.geom.*;
 
-class BoxHolder extends ShapeHolder implements NapkinConstants {
+public class DrawnBoxHolder extends DrawnShapeHolder implements NapkinConstants {
     private Rectangle size;
     private int breakSide;
     private final Point2D begBreak, endBreak;
 
-    BoxHolder(BoxGenerator gen) {
+    public DrawnBoxHolder(DrawnBoxGenerator gen) {
         super(gen);
         breakSide = NO_SIDE;
         begBreak = new Point2D.Double();
         endBreak = new Point2D.Double();
     }
 
-    BoxHolder() {
-        this(new BoxGenerator());
+    public DrawnBoxHolder() {
+        this(new DrawnBoxGenerator());
     }
 
     void shapeUpToDate(Rectangle sz) {
@@ -49,7 +49,7 @@ class BoxHolder extends ShapeHolder implements NapkinConstants {
         int cornerX = in.top / 2 + 1;
         int cornerY = in.left / 2 + 1;
 
-        BoxGenerator gen = (BoxGenerator) this.gen;
+        DrawnBoxGenerator gen = (DrawnBoxGenerator) this.gen;
         gen.getSizeX().setMid(borderWidth);
         gen.getSizeY().setMid(borderHeight);
         gen.getBegX().setMid(cornerX);

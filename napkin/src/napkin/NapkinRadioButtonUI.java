@@ -10,7 +10,7 @@ import javax.swing.plaf.basic.*;
 public class NapkinRadioButtonUI extends BasicRadioButtonUI
         implements NapkinPainter, NapkinConstants {
 
-    private LineHolder line;
+    private DrawnLineHolder line;
     private boolean defaultsInstalled;
 
     private NapkinRadioButtonUI() {
@@ -43,7 +43,7 @@ public class NapkinRadioButtonUI extends BasicRadioButtonUI
             String text) {
 
         if (line == null)
-            line = new LineHolder(new CubicGenerator());
+            line = new DrawnLineHolder(new DrawnCubicLineGenerator());
         NapkinUtil.paintText(g, c, textRect, text, getTextShiftOffset(), line, false, this);
     }
 

@@ -7,20 +7,20 @@ import java.awt.geom.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BoxGenerator extends ShapeGenerator {
+public class DrawnBoxGenerator extends DrawnShapeGenerator {
 
-    private final Value begX;
-    private final Value endY;
+    private final RandomValue begX;
+    private final RandomValue endY;
     private double adjustmentX;
     private double adjustmentY;
-    private final Value startAdjust;
-    private final Value sizeX;
-    private final Value sizeY;
+    private final RandomValue startAdjust;
+    private final RandomValue sizeX;
+    private final RandomValue sizeY;
     private int breakSide;
     private final Point2D breakBeg;
     private final Point2D breakEnd;
     private final Shape[] sides;
-    private final ShapeGenerator[] gens;
+    private final DrawnShapeGenerator[] gens;
     private final Map generators;
 
     private static final boolean DEBUG = false;
@@ -29,9 +29,9 @@ public class BoxGenerator extends ShapeGenerator {
         null, "top", "left", "bottom", "right"
     };
 
-    public static final BoxGenerator INSTANCE = new BoxGenerator();
+    public static final DrawnBoxGenerator INSTANCE = new DrawnBoxGenerator();
 
-    private class SideSize extends Value {
+    private class SideSize extends RandomValue {
         private final int s1;
         private final int s2;
 
@@ -54,24 +54,24 @@ public class BoxGenerator extends ShapeGenerator {
         }
     }
 
-    public BoxGenerator() {
-        this(CubicGenerator.INSTANCE, QuadGenerator.INSTANCE);
+    public DrawnBoxGenerator() {
+        this(DrawnCubicLineGenerator.INSTANCE, DrawnQuadLineGenerator.INSTANCE);
     }
 
-    public BoxGenerator(CubicGenerator cubic, QuadGenerator quad) {
+    public DrawnBoxGenerator(DrawnCubicLineGenerator cubic, DrawnQuadLineGenerator quad) {
         generators = new HashMap(3);
-        generators.put(CubicGenerator.class, cubic);
-        generators.put(QuadGenerator.class, quad);
+        generators.put(DrawnCubicLineGenerator.class, cubic);
+        generators.put(DrawnQuadLineGenerator.class, quad);
 
         // TOP ... BOTTOM runs from 1 to 4
         sides = new Shape[5];
-        gens = new ShapeGenerator[5];
+        gens = new DrawnShapeGenerator[5];
         for (int i = 1; i < 5; i++)
-            setGenerator(i, CubicGenerator.class);
+            setGenerator(i, DrawnCubicLineGenerator.class);
 
-        begX = new Value(-1, 3);
-        endY = new Value(0, 2.5);
-        startAdjust = new Value(5);
+        begX = new RandomValue(-1, 3);
+        endY = new RandomValue(0, 2.5);
+        startAdjust = new RandomValue(5);
         sizeX = new SideSize(LENGTH, LEFT, RIGHT);
         sizeY = new SideSize(LENGTH * 0.618, TOP, BOTTOM);
         breakSide = NO_SIDE;
@@ -204,7 +204,7 @@ public class BoxGenerator extends ShapeGenerator {
         }
     }
 
-    private double adjustStartOffset(ValueSource off, double scale) {
+    private double adjustStartOffset(RandomValueSource off, double scale) {
         if (scale >= 1)
             return off.generate();
         double delta = 1 - scale;
@@ -214,23 +214,23 @@ public class BoxGenerator extends ShapeGenerator {
         return off.generate() * startScale;
     }
 
-    public Value getBegX() {
+    public RandomValue getBegX() {
         return begX;
     }
 
-    public Value getEndY() {
+    public RandomValue getEndY() {
         return endY;
     }
 
-    public Value getSizeX() {
+    public RandomValue getSizeX() {
         return sizeX;
     }
 
-    public Value getSizeY() {
+    public RandomValue getSizeY() {
         return sizeY;
     }
 
-    public Value getStartAdjust() {
+    public RandomValue getStartAdjust() {
         return startAdjust;
     }
 
@@ -257,26 +257,26 @@ public class BoxGenerator extends ShapeGenerator {
         return fromGenerator(gens[side]);
     }
 
-    private static Class fromGenerator(ShapeGenerator gen) {
+    private static Class fromGenerator(DrawnShapeGenerator gen) {
         if (gen == null)
             return null;
         return gen.getClass();
     }
 
-    private ShapeGenerator toGenerator(Class type) {
+    private DrawnShapeGenerator toGenerator(Class type) {
         if (type == null)
             return null;
-        ShapeGenerator gen = (ShapeGenerator) generators.get(type);
+        DrawnShapeGenerator gen = (DrawnShapeGenerator) generators.get(type);
         if (gen == null)
             throw new IllegalArgumentException("Unknown type: " + type);
         return gen;
     }
 
-    public QuadGenerator getQuadGenerator() {
-        return (QuadGenerator) generators.get(QuadGenerator.class);
+    public DrawnQuadLineGenerator getQuadGenerator() {
+        return (DrawnQuadLineGenerator) generators.get(DrawnQuadLineGenerator.class);
     }
 
-    public CubicGenerator getCubicGenerator() {
-        return (CubicGenerator) generators.get(CubicGenerator.class);
+    public DrawnCubicLineGenerator getCubicGenerator() {
+        return (DrawnCubicLineGenerator) generators.get(DrawnCubicLineGenerator.class);
     }
 }

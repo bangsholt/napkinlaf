@@ -8,7 +8,7 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
 public class NapkinButtonUI extends BasicButtonUI implements NapkinPainter {
-    private LineHolder line;
+    private DrawnLineHolder line;
 
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinButtonUI());
@@ -31,7 +31,7 @@ public class NapkinButtonUI extends BasicButtonUI implements NapkinPainter {
             String text) {
 
         if (line == null)
-            line = new LineHolder(new CubicGenerator());
+            line = new DrawnLineHolder(new DrawnCubicLineGenerator());
         boolean isDefault = ((JButton) c).isDefaultButton();
         int offset = getTextShiftOffset();
         NapkinUtil.paintText(g, c, textRect, text, offset, line, isDefault, this);

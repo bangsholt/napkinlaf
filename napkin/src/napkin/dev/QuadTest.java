@@ -2,28 +2,28 @@
 
 package napkin.dev;
 
-import napkin.QuadGenerator;
-import napkin.ShapeGenerator;
-import napkin.Value;
-import napkin.ValueSource;
-
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
+import napkin.DrawnQuadLineGenerator;
+import napkin.DrawnShapeGenerator;
+import napkin.RandomValue;
+import napkin.RandomValueSource;
+
 class QuadTest extends GeneratorTest implements GeneratorTest.Drawer {
 
-    private final QuadGenerator gen;
+    private final DrawnQuadLineGenerator gen;
 
-    private final Value width;
+    private final RandomValue width;
 
     private Shape curve;
 
-    private final ValueSpinner ctlXSpin;
-    private final ValueSpinner ctlYSpin;
-    private final ValueSpinner widthSpin;
-    private final ValueSource[] spinners;
+    private final RandomValueSpinner ctlXSpin;
+    private final RandomValueSpinner ctlYSpin;
+    private final RandomValueSpinner widthSpin;
+    private final RandomValueSource[] spinners;
 
     private JComponent drawing;
 
@@ -57,12 +57,12 @@ class QuadTest extends GeneratorTest implements GeneratorTest.Drawer {
     };
 
     QuadTest() {
-        gen = new QuadGenerator();
-        ctlXSpin = new ValueSpinner("x", gen.getCtlX(), 0, LENGTH, 100);
-        ctlYSpin = new ValueSpinner("y", gen.getCtlY(), -20, +20, 100);
-        width = new Value(1, 0);
-        widthSpin = new ValueSpinner("w", width, 0, 3, 20);
-        spinners = new ValueSpinner[]{ctlXSpin, ctlYSpin, widthSpin};
+        gen = new DrawnQuadLineGenerator();
+        ctlXSpin = new RandomValueSpinner("x", gen.getCtlX(), 0, LENGTH, 100);
+        ctlYSpin = new RandomValueSpinner("y", gen.getCtlY(), -20, +20, 100);
+        width = new RandomValue(1, 0);
+        widthSpin = new RandomValueSpinner("w", width, 0, 3, 20);
+        spinners = new RandomValueSpinner[]{ctlXSpin, ctlYSpin, widthSpin};
 
         rebuild();
     }
@@ -71,7 +71,7 @@ class QuadTest extends GeneratorTest implements GeneratorTest.Drawer {
         return gen.generate(matrix);
     }
 
-    public ShapeGenerator getGenerator() {
+    public DrawnShapeGenerator getGenerator() {
         return gen;
     }
 
@@ -79,7 +79,7 @@ class QuadTest extends GeneratorTest implements GeneratorTest.Drawer {
         curve = generate(null);
     }
 
-    public ValueSource[] getSpinners() {
+    public RandomValueSource[] getSpinners() {
         return spinners;
     }
 

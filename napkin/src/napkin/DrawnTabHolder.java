@@ -2,15 +2,15 @@ package napkin;
 
 import java.awt.geom.*;
 
-class TabHolder extends ShapeHolder implements NapkinConstants {
+public class DrawnTabHolder extends DrawnShapeHolder implements NapkinConstants {
     private int tabPlacement;
     private int x, y;
     private int w, h;
     private final Point2D breakBeg;
     private final Point2D breakEnd;
 
-    TabHolder(int tabPlacement) {
-        super(TabGenerator.generatorFor(tabPlacement));
+    public DrawnTabHolder(int tabPlacement) {
+        super(DrawnTabGenerator.generatorFor(tabPlacement));
         breakBeg = new Point2D.Double();
         breakEnd = new Point2D.Double();
     }
@@ -22,7 +22,7 @@ class TabHolder extends ShapeHolder implements NapkinConstants {
         }
 
         if (tabPlacement != this.tabPlacement)
-            gen = TabGenerator.generatorFor(tabPlacement);
+            gen = DrawnTabGenerator.generatorFor(tabPlacement);
 
         AffineTransform matrix = new AffineTransform();
         matrix.translate(x, y);
@@ -39,7 +39,7 @@ class TabHolder extends ShapeHolder implements NapkinConstants {
     }
 
     private void setBreak(int tabPlacement, int x, int w, int y, int h) {
-        TabGenerator tab = ((TabGenerator) gen);
+        DrawnTabGenerator tab = ((DrawnTabGenerator) gen);
         switch (tabPlacement) {
         case TOP:
             breakBeg.setLocation(x + tab.getLLX().get() * w,
