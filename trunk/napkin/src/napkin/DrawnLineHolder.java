@@ -8,7 +8,7 @@ public class DrawnLineHolder extends DrawnShapeHolder implements NapkinConstants
     private FontMetrics metrics;
     private final Endpoints endpoints;
 
-    private final boolean DEBUG = false;
+    private static boolean DEBUG = false;
 
     static final Endpoints HORIZ_LINE = new Endpoints() {
         public Rectangle getEndpoints(Rectangle bounds) {

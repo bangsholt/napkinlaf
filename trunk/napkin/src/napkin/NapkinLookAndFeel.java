@@ -88,7 +88,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         }
     };
 
-    private static final boolean JUST_NAPKIN = true;
+    private static boolean JUST_NAPKIN = true;
 
     private static final Class THIS_CLASS = NapkinLookAndFeel.class;
     private static final Logger LOG =

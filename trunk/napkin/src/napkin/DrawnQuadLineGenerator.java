@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.geom.*;
 
 public class DrawnQuadLineGenerator extends DrawnShapeGenerator {
-
     private final RandomValue ctlX;
     private final RandomValue ctlY;
     public static final DrawnQuadLineGenerator INSTANCE = new DrawnQuadLineGenerator();

@@ -23,7 +23,7 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
     private final DrawnShapeGenerator[] gens;
     private final Map generators;
 
-    private static final boolean DEBUG = false;
+    private static boolean DEBUG = false;
 
     public static final String[] SIDE_NAMES = {
         null, "top", "left", "bottom", "right"
