@@ -27,8 +27,14 @@ public class NapkinLabelUI extends BasicLabelUI {
 
     public void update(Graphics g, JComponent c) {
         g = NapkinUtil.defaultGraphics(g, c);
+        NapkinUtil.background(g, c);
         super.update(g, c);
         NapkinUtil.finishGraphics(g, c);
+    }
+
+    protected void paintDisabledText(JLabel l, Graphics g, String s, int textX,
+            int textY) {
+        paintEnabledText(l, g, s, textX, textY);
     }
 }
 
