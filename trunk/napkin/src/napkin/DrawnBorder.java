@@ -11,7 +11,7 @@ import javax.swing.plaf.*;
 
 public class DrawnBorder extends AbstractBorder implements UIResource {
 
-    private static final int BORDER = 6;
+    private static final int BORDER = 3;
 
     static final Insets DEFAULT_INSETS =
             new Insets(BORDER, BORDER, BORDER, BORDER);
@@ -41,8 +41,10 @@ public class DrawnBorder extends AbstractBorder implements UIResource {
 
         Rectangle rect = c.getBounds();
         rect.x = rect.y = 0;
+        Rectangle clip = g.getClipBounds();
+        g.setClip(clip.x - BORDER, clip.y - BORDER, clip.width + 2 * BORDER,
+                clip.height + 2 * BORDER);
         box.draw(g);
-
     }
 
     public Insets getBorderInsets(Component c) {

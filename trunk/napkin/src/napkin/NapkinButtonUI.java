@@ -21,7 +21,6 @@ public class NapkinButtonUI extends BasicButtonUI {
         super.installUI(c);
         NapkinUtil.installUI(c);
     }
-    public void uninstallUI(JComponent c) { super.uninstallUI(c); NapkinUtil.uninstallUI(c); }
 
     public void paint(Graphics g, JComponent c) {
         NapkinUtil.defaultGraphics(g);

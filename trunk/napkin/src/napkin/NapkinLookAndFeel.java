@@ -6,11 +6,7 @@ import napkin.ComponentWalker.Visitor;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.PrintStream;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,7 +19,8 @@ import javax.swing.UIDefaults.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
-public class NapkinLookAndFeel extends BasicLookAndFeel {
+public class NapkinLookAndFeel extends BasicLookAndFeel
+        implements NapkinConstants {
 
     private LookAndFeel formal;
     private final Map flags = new WeakHashMap();
@@ -75,9 +72,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
     };
 
     private static final boolean JUST_NAPKIN = true;
-
-    private static final String BASE_FONT = "aescr5b.ttf";
-    private static final String FIXED_FONT = "Mcgf____.ttf";
 
     class DumpVisitor implements Visitor {
         private final PrintStream out;
@@ -246,21 +240,31 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         System.out.println("keys we didn't overwrite: " + keys);
     }
 
+    protected void initSystemColorDefaults(UIDefaults table) {
+        super.initSystemColorDefaults(table);
+        // make a copy so we can modify the table as we read the key set
+        Set keys = new HashSet(table.keySet());
+        for (Iterator it = keys.iterator(); it.hasNext();) {
+            String key = (String) it.next();
+            if (key.endsWith("Text")) {
+                table.put(key, BLACK);
+                if (key.indexOf("Caption") < 0)
+                    table.put(key.substring(0, key.length() - 4), CLEAR);
+            }
+        }
+    }
+
     protected void initComponentDefaults(UIDefaults table) {
         super.initComponentDefaults(table);
 
-        Font writtenBase = createFont(BASE_FONT);
-        Font writtenPlain = writtenBase.deriveFont(Font.PLAIN, 12);
-        Font writtenBold = writtenBase.deriveFont(Font.BOLD, 12);
-
-        Font fixedBase = createFont(FIXED_FONT);
-        Font fixedPlain = fixedBase.deriveFont(Font.PLAIN, 13);
-
-        Object dialogPlain = writtenPlain;
-        Object dialogBold = writtenBold;
-        Object serifPlain = writtenPlain;
-        Object sansSerifPlain = writtenPlain;
-        Object monospacedPlain = fixedPlain;
+        Integer twelve = new Integer(12);
+        Integer plain = new Integer(Font.PLAIN);
+        Integer bold = new Integer(Font.BOLD);
+        Object dialogPlain = fontValue("nigmaScrawl5bBRK", plain, twelve);
+        Object dialogBold = fontValue("nigmaScrawl5bBRK", bold, twelve);
+        Object serifPlain = fontValue("nigmaScrawl5bBRK", plain, twelve);
+        Object sansSerifPlain = fontValue("nigmaScrawl5bBRK", plain, twelve);
+        Object monospacedPlain = fontValue("ProFont", plain, twelve);
 
         for (Iterator it = table.entrySet().iterator(); it.hasNext();) {
             Entry entry = (Entry) it.next();
@@ -307,31 +311,12 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         table.putDefaults(napkinDefaults);
     }
 
-    private Font createFont(String fontName) {
-        InputStream in = null;
-        try {
-            InputStream fin = getResourceAsStream("resources/" + fontName);
-            in = new BufferedInputStream(fin);
-            return Font.createFont(0, in);
-        } catch (RuntimeException e) {
-            throw e;
-        } catch (Exception e) {
-            RuntimeException re = new IllegalStateException("font problem");
-            throw (RuntimeException) re.initCause(e);
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    ;   // we tried
-                }
-            }
-        }
-    }
+    private static ProxyLazyValue
+            fontValue(String font, Integer fontPlain, Integer twelve) {
 
-    private InputStream getResourceAsStream(String path) {
-        String fullPath = getClass().getPackage().getName() + "/" + path;
-        return getClass().getClassLoader().getResourceAsStream(fullPath);
+        String resName = "javax.swing.plaf.FontUIResource";
+        Object[] args = new Object[]{font, fontPlain, twelve};
+        return new ProxyLazyValue(resName, null, args);
     }
 
     public void setIsFormal(Component c, boolean isFormal) {

@@ -4,6 +4,9 @@
   <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/classes" />
     <exclude-output />
+    <content url="file:///Users/arnold/Desktop/j2sdk-1_4_2-src-scsl/j2se/src/share/classes">
+      <sourceFolder url="file:///Users/arnold/Desktop/j2sdk-1_4_2-src-scsl/j2se/src/share/classes" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
