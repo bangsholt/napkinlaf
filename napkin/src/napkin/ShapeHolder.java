@@ -1,4 +1,3 @@
-
 package napkin;
 
 import java.awt.*;
@@ -18,6 +17,14 @@ abstract class ShapeHolder {
 
     ShapeHolder(ShapeGenerator gen, float width) {
         this.gen = gen;
+        this.width = width;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public void setWidth(float width) {
         this.width = width;
     }
 
