@@ -1,0 +1,135 @@
+<!-- $Id$ -->
+
+<html>
+<head>
+    <title>Napkin Look & Feel</title>
+    <link href="napkin.css" rel="stylesheet" type="text/css" title="Style">
+</head>
+
+<body>
+
+<center>
+<img src="title.png">
+</center>
+
+<table width="100%" border="0">
+<tr>
+
+<td nowrap="true">
+<h4>
+[ <a href="http://sourceforge.net/projects/napkinlaf/">SourceForge page</a> ]
+</h4>
+</td>
+
+<td nowrap="true">
+<h4>
+[ <a href="napkin.jnlp">Demo using WebStart</a> ]
+</h4>
+</td>
+
+<td width="100%"></td>
+
+<p align="right">
+<td align="right" rowspan="2">
+<a href="http://sourceforge.net">
+    <img src="http://sourceforge.net/sflogo.php?group_id=104116&amp;type=4"
+	width="125" height="37" border="0" alt="SourceForge.net Logo"/>
+</a>
+</td>
+</tr>
+
+</table>
+
+<h4><i>Latest Release: 
+<a href="http://sourceforge.net/project/showfiles.php?group_id=104116&package_id=111904">
+alpha-006</a>, 19 June, 2004</i></h4>
+
+<ul>
+<li>Better red for radio button marks, etc.
+<li>Wrap all non-Napkin borders, not just default borders.
+<li>Do progress bar scribbling on image so it's cheaper to redraw.
+<li>Reduced bias for "too high" when drawing longer lines.
+<li>Disabled line height adjusted, and put behind the text (black shows
+    through).  (Maybe should do color blending?)
+<li>Use a simple underline for text and password fields, not a box.
+<li>Use red line for disabled; green for "default button".
+<li>All the buttons are drawn the same when they are disabled (and they now
+    look disabled too, instead of looking bold).
+</ul>
+
+<hr>
+
+<h2>Overview</h2>
+The Napkin Look & Feel is a pluggable Java look and feel that looks
+like it was scrawled on a napkin.  You can use it to make provisional
+work actually look provisonal, or just for fun.
+<p>
+The idea is to try to develop a look and feel that can be used in
+Java applications that looks informal and provisional, yet be fully
+functional for development.  Often when people see a GUI mock-up, or
+a complete GUI without full functionality, they assume that the code
+behind it is working.  While this can be used to sleazy advantage,
+it can also convince people who ought to know better (like your
+managers) that you are already done when you have just barely begun,
+or when only parts are complete.  No matter how much you speak to their
+rational side, the emotional response still says "Done!".  Which after
+a while leads to a later question: "That was done months ago!  What are
+they doing?  Playing <i>Quake?</i>"  A good article on this is <i><a
+href="http://www.joelonsoftware.com/">Joel on Software</a>'s</i> <a
+href="http://www.joelonsoftware.com/articles/fog0000000356.html">"The
+Iceberg Secret, Revealed"</a>.
+<p/>
+So the idea is to create a complete look and feel that can be used while
+the thing is not done which will convey an emotional message to match the
+rational one.  As pieces of the work are done, the GUI for those pieces
+can be switched to use the "formal" (final) look and feel, allowing
+someone looking at demos over time to see the progress of the entire
+system reflected in the expression of the GUI.
+<p/>
+This is all done using the Java Swing pluggable Look & Feel framework.
+
+<h2>Sightings</h2>
+
+<dl>
+
+    <dt> <a href="http://weblogs.java.net/pub/wlg/1178">Daniel
+    Steinberg's blog</a> at <a href="http://java.net">java.net</a>,
+    April 5, 2004
+
+    <dd> A very nice quick writeup.
+
+    <dt>Front page note on <a
+    href="http://community.java.net/javadesktop/">javadesktop.org</a>,
+    April 1 2004
+
+    <dd> Just a brief note pointing to the home page, but I got
+    some good mail from it.
+
+</dl>
+
+
+<h2>Snapshots</h2>
+To give you a feel for what this might look like, here are a couple
+screen snapshots:
+
+<center>
+<p><img class="snap" align="center" src="NapkinSnapProgress.jpg"/>
+<h4>A Progress Bar (scribbled in at the bottom)</h4>
+<p><img class="snap" align="center" src="NapkinSnapButtons.jpg"/>
+<h4>Various buttons</h4>
+<p><img class="snap" align="center" src="NapkinSnapCombo.jpg"/>
+<h4>A Combo Box (Postit-style Popup Menu)</h4>
+</center>
+
+<h2>Development</h2>
+I currently have a basic background model and most of the most basic
+components working.  Still need to work on uninstall and icons and generally
+cleaning up, but I think I'm getting towards beta finally.
+<p/>
+I welcome anyone to contribute -- thoughts, code, understanding, chocolate...
+
+<p/><i>&mdash;<a href="mailto:arnold@moonhill.org">Ken Arnold</a></i></p>
+
+</body>
+
+</html>
