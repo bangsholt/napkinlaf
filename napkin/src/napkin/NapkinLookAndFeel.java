@@ -327,6 +327,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         Object[] napkinDefaults = {
             "RadioButton.textIconGap", zero,
 
+            "RadioButton.textIconGap", zero,
             "RadioButton.icon", radioButtonIcon,
             "RadioButtonMenuItem.checkIcon", radioButtonIcon,
 
