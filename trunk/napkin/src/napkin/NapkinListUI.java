@@ -25,7 +25,10 @@ public class NapkinListUI extends BasicListUI {
 
     public void update(Graphics g, JComponent c) {
         g = NapkinUtil.defaultGraphics(g, c);
-        NapkinUtil.background(g, c);
+        NapkinTheme theme = NapkinUtil.background(g, c);
+        Color penColor = theme.getPenColor();
+        if (NapkinUtil.replace(list.getSelectionForeground(), penColor))
+            list.setSelectionForeground(penColor);
         super.update(g, c);
         NapkinUtil.finishGraphics(g, c);
     }

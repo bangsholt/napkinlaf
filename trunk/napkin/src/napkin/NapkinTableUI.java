@@ -25,7 +25,13 @@ public class NapkinTableUI extends BasicTableUI {
 
     public void update(Graphics g, JComponent c) {
         g = NapkinUtil.defaultGraphics(g, c);
-        NapkinUtil.background(g, c);
+        NapkinTheme theme = NapkinUtil.background(g, c);
+        Color highlightColor = theme.getHighlightColor();
+        if (NapkinUtil.replace(table.getSelectionBackground(), highlightColor))
+            table.setSelectionBackground(highlightColor);
+        Color penColor = theme.getPenColor();
+        if (NapkinUtil.replace(table.getSelectionForeground(), penColor))
+            table.setSelectionForeground(penColor);
         super.update(g, c);
         NapkinUtil.finishGraphics(g, c);
     }

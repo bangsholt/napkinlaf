@@ -56,6 +56,10 @@ public class NapkinUtil implements NapkinConstants {
             };
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
 
+    public static boolean replace(Color current, Color needed) {
+        return !current.equals(needed) && current instanceof UIResource;
+    }
+
     static {
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
         ImageIcon icon = theme.getErasureMask().getIcon();
@@ -266,7 +270,6 @@ public class NapkinUtil implements NapkinConstants {
 
     public static Graphics2D defaultGraphics(Graphics g1, Component c) {
         return defaultGraphics(g1, c, c);
-
     }
 
     public static Graphics2D defaultGraphics(Graphics g1, Component c,
@@ -323,12 +326,6 @@ public class NapkinUtil implements NapkinConstants {
             c.setForeground(penColor);
             if (g != null)
                 g.setColor(penColor);
-        }
-        if (c instanceof JList) {
-            JList list = (JList) c;
-            Color checkColor = theme.getCheckColor();
-            if (!checkColor.equals(list.getSelectionForeground()))
-                list.setSelectionForeground(checkColor);
         }
     }
 
@@ -488,12 +485,12 @@ public class NapkinUtil implements NapkinConstants {
         c.putClientProperty(THEME_KEY, theme);
     }
 
-    public static void background(Graphics g1, Component c) {
+    public static NapkinTheme background(Graphics g1, Component c) {
         JComponent themeTop = themeTopFor(c);
         if (themeTop == null)
-            return;
+            return null;
         if (themeTop.getRootPane().getGlassPane() == c)
-            return;
+            return null;
 
         Graphics2D g = (Graphics2D) g1;
         NapkinTheme theme = (NapkinTheme) themeTop.getClientProperty(THEME_KEY);
@@ -503,6 +500,7 @@ public class NapkinUtil implements NapkinConstants {
         Rectangle cRect = bounds(c);
 
         bg.paint(c, g, pRect, cRect, insets(c));
+        return theme;
     }
 
     private static Rectangle bounds(Component c) {
@@ -722,7 +720,14 @@ public class NapkinUtil implements NapkinConstants {
             line.draw(ulG);
         }
 
-        g.setColor(c.getForeground());
+        Color penColor = c.getForeground();
+        if (c instanceof AbstractButton) {
+            AbstractButton button = (AbstractButton) c;
+            ButtonModel model = button.getModel();
+            if (model.isArmed() || (c instanceof JMenu && model.isSelected()))
+                penColor = themeFor(c).getCheckColor();
+        }
+        g.setColor(penColor);
         c = wrapIfNeeded(c);
         helper.superPaintText(g, c, textRect, text);
     }

@@ -13,6 +13,7 @@ public class NapkinProgressBarUI extends BasicProgressBarUI {
     private Rectangle boxRect;
     private DrawnBoxHolder box;
     private Image curImage;
+    private Color selectionForeground, selectionBackground;
 
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinProgressBarUI());
@@ -90,9 +91,23 @@ public class NapkinProgressBarUI extends BasicProgressBarUI {
 
     public void update(Graphics g, JComponent c) {
         g = NapkinUtil.defaultGraphics(g, c);
-        NapkinUtil.background(g, c);
+        NapkinTheme theme = NapkinUtil.background(g, c);
+        Color radioColor = theme.getRadioColor();
+        if (NapkinUtil.replace(selectionForeground, radioColor))
+            selectionForeground = radioColor;
+        Color checkColor = theme.getCheckColor();
+        if (NapkinUtil.replace(selectionBackground, checkColor))
+            selectionBackground = theme.getCheckColor();
         super.update(g, c);
         NapkinUtil.finishGraphics(g, c);
+    }
+
+    protected Color getSelectionBackground() {
+        return selectionBackground;
+    }
+
+    protected Color getSelectionForeground() {
+        return selectionForeground;
     }
 }
 

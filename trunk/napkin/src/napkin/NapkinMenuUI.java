@@ -27,7 +27,10 @@ public class NapkinMenuUI extends BasicMenuUI implements NapkinPainter {
 
     public void update(Graphics g, JComponent c) {
         g = NapkinUtil.defaultGraphics(g, c);
-        NapkinUtil.background(g, c);
+        NapkinTheme theme = NapkinUtil.background(g, c);
+        Color penColor = theme.getPenColor();
+        if (NapkinUtil.replace(selectionForeground, penColor))
+            selectionForeground = penColor;
         super.update(g, c);
         NapkinUtil.finishGraphics(g, c);
     }
@@ -40,7 +43,8 @@ public class NapkinMenuUI extends BasicMenuUI implements NapkinPainter {
         NapkinUtil.paintText(g, item, textRect, text, 0, line, false, this);
     }
 
-    public void superPaintText(Graphics g, JComponent c, Rectangle textRect, String text) {
+    public void superPaintText(Graphics g, JComponent c, Rectangle textRect,
+            String text) {
         super.paintText(g, (JMenuItem) c, textRect, text);
     }
 }
