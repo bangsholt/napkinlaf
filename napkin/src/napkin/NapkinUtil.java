@@ -327,5 +327,9 @@ public class NapkinUtil implements NapkinConstants {
         System.arraycopy(orig, 0, next, 0, Math.min(orig.length, next.length));
         return next;
     }
+
+    public static void printPair(String label, double x, double y) {
+        System.out.println(label + ": " + x + ", " + y);
+    }
 }
 

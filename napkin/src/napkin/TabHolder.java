@@ -36,6 +36,10 @@ class TabHolder extends ShapeHolder implements NapkinConstants {
         this.w = w;
         this.h = h;
 
+        setBreak(tabPlacement, x, w, y, h);
+    }
+
+    private void setBreak(int tabPlacement, int x, int w, int y, int h) {
         TabGenerator tab = ((TabGenerator) gen);
         switch (tabPlacement) {
         case TOP:
