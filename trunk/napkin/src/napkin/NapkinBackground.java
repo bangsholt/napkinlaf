@@ -2,6 +2,8 @@ package napkin;
 
 import java.awt.*;
 import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import javax.swing.*;
 
 public class NapkinBackground {
@@ -15,8 +17,24 @@ public class NapkinBackground {
 
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
 
-    private static final boolean DEBUG =
-            Boolean.getBoolean("napkin.NapkinBackground.debug");
+    private static final boolean DEBUG;
+
+    static {
+        Boolean dbg;
+        try {
+            dbg = (Boolean)
+                    AccessController.doPrivileged(new PrivilegedAction() {
+                        public Object run() {
+                            String prop = "napkin.NapkinBackground.debug";
+                            return Boolean.valueOf(Boolean.getBoolean(prop));
+                        }
+                    });
+        } catch (SecurityException e) {
+            dbg = Boolean.FALSE;
+        }
+
+        DEBUG = dbg.booleanValue();
+    }
 
     public static final NapkinBackground NAPKIN_BG = (DEBUG ?
             new NapkinBackground("resources/testPaper.jpg", 0, 0, 10, 10) :
