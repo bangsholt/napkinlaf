@@ -8,6 +8,7 @@
 <h4>alpha-005, ???</h4>
 
 <ul>
+<li> Put SwingSet2 source in the swingset jar file.
 <li> No longer need "switch and back" to make demo work.
 <li> Get titled borders working.
 <li> Separators.

@@ -25,6 +25,11 @@
                 <include name="**/icons/**/*"/>
             </fileset>
         </copy>
+        <copy todir="classes/src">
+            <fileset dir="src">
+		<include name="*.java"/>
+            </fileset>
+        </copy>
     </target>
 
     <target name="jars" description="build jar files">
