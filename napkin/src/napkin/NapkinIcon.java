@@ -8,14 +8,14 @@ public abstract class NapkinIcon implements Icon {
     Shape place;
     Shape mark;
 
-    private final Color markColor;
+    private final int markColor;
     private final AffineTransform scaleMat;
     private int width;
     private int height;
     private DrawnShapeGenerator placeGen;
     DrawnShapeGenerator markGen;
 
-    NapkinIcon(Color markColor, AffineTransform scaleMat) {
+    public NapkinIcon(int markColor, AffineTransform scaleMat) {
         this.markColor = markColor;
         this.scaleMat = scaleMat;
     }
@@ -51,7 +51,7 @@ public abstract class NapkinIcon implements Icon {
             if (markGen != null && mark == null)
                 mark = markGen.generate(scaleMat);
             markG = NapkinUtil.lineGraphics(g1, 2.5f);
-            markG.setColor(markColor);
+            markG.setColor(NapkinUtil.themeFor(c).getColor(markColor));
         }
         placeG.setColor(c.getForeground());
         doPaint(placeG, markG, x, y);

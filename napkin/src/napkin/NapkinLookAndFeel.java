@@ -317,7 +317,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
         Object drawnBorder = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
-                return NapkinBorders.getDrawnBorder();
+                return new NapkinBoxBorder();
             }
         };
 
@@ -373,7 +373,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
         Object underlineBorder = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
-                return NapkinBorders.getUnderlineBorder();
+                return new NapkinLineBorder(null, false);
             }
         };
 
@@ -485,7 +485,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
             "OptionPane.messageAreaBorder", null,
 
-            "TabbedPane.contentBorderInsets", DrawnBorder.DEFAULT_INSETS,
+            "TabbedPane.contentBorderInsets", NapkinBoxBorder.DEFAULT_INSETS,
 
             "TextField.border", underlineBorder,
             "PasswordField.border", underlineBorder,
