@@ -6,30 +6,28 @@ import java.awt.*;
 import javax.swing.border.*;
 
 public class NapkinWrappedBorder extends NapkinBorder {
-    private final Border formal;
-
-    public NapkinWrappedBorder(Border formal) {
-        super(formal);
-        this.formal = formal;
+    public NapkinWrappedBorder(Border formalBorder) {
+        super(formalBorder);
     }
 
     protected Insets doGetBorderInsets(Component c) {
-        return formal.getBorderInsets(c);
+        return formalBorder.getBorderInsets(c);
     }
 
     protected boolean doIsBorderOpaque() {
-        return formal.isBorderOpaque();
+        return formalBorder.isBorderOpaque();
     }
 
     protected void doPaintBorder(Component c, Graphics g, int x, int y,
             int width, int height) {
 
         g = NapkinUtil.defaultGraphics(g, c);
-        formal.paintBorder(c, g, x, y, width, height);
+        NapkinUtil.syncWithTheme(formalBorder, c);
+        formalBorder.paintBorder(c, g, x, y, width, height);
         NapkinUtil.finishGraphics(g, c);
     }
 
     protected Border getFormalBorder() {
-        return formal;
+        return formalBorder;
     }
 }

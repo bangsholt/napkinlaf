@@ -6,7 +6,7 @@ import java.awt.*;
 import javax.swing.border.*;
 
 public abstract class NapkinBorder extends AbstractBorder {
-    private final Border formalBorder;
+    protected final Border formalBorder;
     private boolean recentlyFormal;
 
     public NapkinBorder(Border formalBorder) {
