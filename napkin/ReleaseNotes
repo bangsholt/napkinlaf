@@ -9,6 +9,7 @@
 
 <ul>
 <li>Thicker button marker lines
+<li>Can delete, etc. in text fields and areas (bug 968192)
 </ul>
 
 <h4>alpha-006, 19 June, 2004</h4>
