@@ -2,30 +2,28 @@
 
 package napkin;
 
-import napkin.ComponentWalker.Visitor;
-
-import javax.swing.*;
-import javax.swing.UIDefaults.ActiveValue;
-import javax.swing.UIDefaults.ProxyLazyValue;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.plaf.UIResource;
-import javax.swing.plaf.basic.BasicLookAndFeel;
 import java.awt.*;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
+import java.awt.event.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
+import javax.swing.*;
+import javax.swing.UIDefaults.*;
+import javax.swing.border.*;
+import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
+
+import napkin.ComponentWalker.Visitor;
 
 public class NapkinLookAndFeel extends BasicLookAndFeel
         implements NapkinConstants {
@@ -436,7 +434,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             fontValue(Font font, String name, Integer style, Number size) {
 
         if (font != null) {
-            return new FontUIResource(font.deriveFont(style.intValue(), size.floatValue()));
+            Font derived = font.deriveFont(style.intValue(), size.floatValue());
+            return new FontUIResource(derived);
         }
         String resName = FontUIResource.class.getName();
         Object[] args = new Object[]{name, style, size};
