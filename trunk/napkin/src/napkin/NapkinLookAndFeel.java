@@ -5,22 +5,24 @@ package napkin;
 import napkin.ComponentWalker.Visitor;
 
 import javax.swing.*;
-import javax.swing.UIDefaults.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
+import javax.swing.UIDefaults.ActiveValue;
+import javax.swing.UIDefaults.ProxyLazyValue;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.plaf.UIResource;
+import javax.swing.plaf.basic.BasicLookAndFeel;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -285,11 +287,11 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         Object sansSerifPlain = fontValue(scrawl, SCRAWL_NAME, plain, size);
         Object monospacedPlain = fontValue(fixed, FIXED_NAME, plain, size);
 
-        String borderFactory = NapkinBorders.class.getName();
-        String iconFactory = NapkinIconFactory.class.getName();
-
-        Object drawnBorder = new ProxyLazyValue(borderFactory,
-                "getDrawnBorder");
+        Object drawnBorder = new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
+                return NapkinBorders.getDrawnBorder();
+            }
+        };
 
         for (Iterator it = table.entrySet().iterator(); it.hasNext();) {
             Entry entry = (Entry) it.next();
@@ -327,19 +329,32 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         }
 
         Integer zero = new Integer(0);
-        Object radioButtonIcon = new UIDefaults.ProxyLazyValue(iconFactory, "createRadioButtonIcon");
-        Object checkBoxButtonIcon = new UIDefaults.ProxyLazyValue(iconFactory, "createCheckBoxIcon");
+        Object checkBoxButtonIcon = new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
+                return NapkinIconFactory.createCheckBoxIcon();
+            }
+        };
+        Object radioButtonIcon = new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
+                return NapkinIconFactory.createRadioButtonIcon();
+            }
+        };
 
-        Object underlineBorder =
-                new ProxyLazyValue(borderFactory, "getUnderlineBorder");
+        Object underlineBorder = new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
+                return NapkinBorders.getUnderlineBorder();
+            }
+        };
 
         Object[] napkinDefaults = {
             "RadioButton.textIconGap", zero,
             "RadioButton.icon", radioButtonIcon,
+            "RadioButtonMenuItem.textIconGap", zero,
             "RadioButtonMenuItem.checkIcon", radioButtonIcon,
 
             "CheckBox.textIconGap", zero,
             "CheckBox.icon", checkBoxButtonIcon,
+            "CheckBoxMenuItem.textIconGap", zero,
             "CheckBoxMenuItem.checkIcon", checkBoxButtonIcon,
 
             "MenuItem.disabledForeground", new ColorUIResource(Color.gray),
@@ -382,8 +397,9 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             return null;
 
         if (val instanceof ProxyLazyValue) {
-            ProxyLazyValue lazyValue = (ProxyLazyValue) val;
-            val = lazyValue.createValue(table);
+            val = ((ProxyLazyValue) val).createValue(table);
+        } else if (val instanceof ActiveValue) {
+            val = ((ActiveValue) val).createValue(table);
         }
         return val;
     }

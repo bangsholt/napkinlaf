@@ -1,9 +1,8 @@
-
 package napkin;
 
-import java.awt.*;
-import java.awt.geom.*;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 public abstract class NapkinIcon implements Icon {
     Shape place;
@@ -48,8 +47,8 @@ public abstract class NapkinIcon implements Icon {
         Graphics2D markG = null;
         if (!selected) {
             mark = null;
-        } else if (markGen != null) {
-            if (mark == null)
+        } else {
+            if (markGen != null && mark == null)
                 mark = markGen.generate(scaleMat);
             markG = NapkinUtil.lineGraphics(g1, 2.5f);
             markG.setColor(markColor);
