@@ -42,6 +42,7 @@ public class NapkinUtil implements NapkinConstants {
     public static final Random random = new Random();
 
     private static final Map strokes = new WeakHashMap();
+    private static final Map borders = new WeakHashMap();
     private static final Map fieldsForType = new WeakHashMap();
 
     private static final Stack themeStack = new Stack();
@@ -455,7 +456,7 @@ public class NapkinUtil implements NapkinConstants {
             JComponent jc = (JComponent) c;
             Border b = jc.getBorder();
             if (b != null && !(b instanceof NapkinBorder))
-                jc.setBorder(new NapkinWrappedBorder(b));
+                jc.setBorder(NapkinWrappedBorder.wrap(b));
         }
     }
 
