@@ -18,16 +18,16 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI {
     }
 
     public void installUI(JComponent c) {
-        NapkinUtil.installUI(c);
         super.installUI(c);
+        NapkinUtil.installUI(c);
         origInsets = contentBorderInsets;
         contentBorderInsets = DrawnBorder.DEFAULT_INSETS;
     }
 
     public void uninstallUI(JComponent c) {
+        NapkinUtil.uninstallUI(c);
         contentBorderInsets = origInsets;
         super.uninstallUI(c);
-        NapkinUtil.uninstallUI(c);
     }
 
     public void paint(Graphics g, JComponent c) {

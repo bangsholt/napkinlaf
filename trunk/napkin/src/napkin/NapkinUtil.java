@@ -6,8 +6,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.io.*;
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
@@ -40,6 +45,7 @@ public class NapkinUtil implements NapkinConstants {
     };
 
     private static Map strokes = new WeakHashMap();
+    private static Map fieldsForType = new WeakHashMap();
 
     public static class DumpListener implements FocusListener {
         private Timer timer;
@@ -102,6 +108,13 @@ public class NapkinUtil implements NapkinConstants {
             return '!' + name;
     }
 
+    static String descFor(Object obj) {
+        if (obj instanceof Component)
+            return descFor((Component) obj);
+        else
+            return obj.getClass().getName();
+    }
+
     static String descFor(Component c) {
         if (c == null)
             return "null";
@@ -152,6 +165,7 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static void uninstallUI(JComponent c) {
+        c.setOpaque(true);
         unsetupBorder(c);
     }
 
@@ -244,7 +258,7 @@ public class NapkinUtil implements NapkinConstants {
         if (c instanceof JComponent) {
             JComponent jc = (JComponent) c;
             Border b = jc.getBorder();
-            if (b != null && !(b instanceof NapkinBorder))
+            if (b instanceof UIResource)
                 jc.setBorder(new NapkinWrappedBorder(b));
         }
     }
@@ -400,5 +414,120 @@ public class NapkinUtil implements NapkinConstants {
             c = c.getParent();
         }
         return start;
+    }
+
+    public static void dumpObject(Object obj, String fileName) {
+        PrintStream out = null;
+        try {
+            out =
+                    new PrintStream(new BufferedOutputStream(
+                            new FileOutputStream(fileName)));
+            dumpObject(obj, out);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null)
+                out.close();
+        }
+    }
+
+    public static void dumpObject(Object obj, PrintStream out) {
+        Map known = new HashMap();
+        dumpObject(obj, out, 0, known);
+    }
+
+    static Set skip;
+
+    static {
+        skip = new HashSet();
+        skip.add("source");
+        skip.add("mostRecentKeyValue");
+    }
+
+    private static void
+            dumpObject(Object obj, PrintStream out, int depth, Map known) {
+
+        Object id = known.get(obj);
+        if (id != null) {
+            out.println("<known: " + id + ">");
+            return;
+        }
+        id = new Integer(known.size());
+        known.put(obj, id);
+
+        out.println(descFor(obj) + "<" + id + ">");
+
+        try {
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i <= depth; i++)
+                sb.append(i % 2 == 0 ? '.' : '|').append(' ');
+
+            Field[] fields = getFields(obj);
+            for (int i = 0; i < fields.length; i++) {
+                Field field = fields[i];
+                if (skip.contains(field.getName()))
+                    continue;
+                Class type = field.getType();
+                out.print(sb);
+                out.print(
+                        field.getName() + " [" +
+                        field.getDeclaringClass().getName() +
+                        "]: ");
+                Object val = field.get(obj);
+                if (type.isPrimitive())
+                    out.println(val);
+                else {
+                    if (val == null || type == String.class)
+                        out.println(val);
+                    else if (type.isArray()) {
+                        Class aType = type.getComponentType();
+                        out.println(" " + aType.getName() + "[" +
+                                Array.getLength(val) + "]");
+                    } else {
+                        dumpObject(val, out, depth + 1, known);
+                    }
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static Field[] getFields(Object obj) {
+        Class type = obj.getClass();
+        Field[] fields = (Field[]) fieldsForType.get(type);
+        if (fields != null)
+            return fields;
+
+        Set fSet = new HashSet();
+        int skip = Modifier.STATIC | Modifier.FINAL;
+        while (type != Object.class) {
+            Field[] declaredFields = type.getDeclaredFields();
+            for (int i = 0; i < declaredFields.length; i++) {
+                Field field = declaredFields[i];
+                int mods = field.getModifiers();
+                if (!field.getDeclaringClass().isAssignableFrom(obj.getClass()))
+                    fSet.size();
+                if ((mods & skip) == 0)
+                    fSet.add(field);
+            }
+            type = type.getSuperclass();
+        }
+        fields = (Field[]) fSet.toArray(new Field[fSet.size()]);
+        Arrays.sort(fields, new Comparator() {
+            public int compare(Object o1, Object o2) {
+                Field f1 = (Field) o1;
+                Field f2 = (Field) o2;
+                int d = f1.getName().compareTo(f2.getName());
+                if (d != 0)
+                    return d;
+                Class c1 = f1.getDeclaringClass();
+                Class c2 = f2.getDeclaringClass();
+                return c1.getName().compareTo(c2.getName());
+            }
+        });
+        AccessibleObject.setAccessible(fields, true);
+        fieldsForType.put(obj.getClass(), fields);
+        return fields;
     }
 }

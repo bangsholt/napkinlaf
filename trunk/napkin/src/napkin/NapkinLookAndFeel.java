@@ -308,16 +308,13 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                     }
                 }
             } else if ((res = propVal(key, "border", val, table)) != null) {
-                if (res instanceof BorderUIResource ||
-                        res instanceof BasicBorders.ButtonBorder ||
-                        res instanceof BasicBorders.FieldBorder ||
-                        res instanceof BasicBorders.MenuBarBorder ||
+                if (res instanceof UIResource || (val instanceof UIResource && (
                         res instanceof BevelBorder ||
                         res instanceof EtchedBorder ||
                         res instanceof LineBorder ||
-                        res instanceof CompoundBorder
+                        res instanceof CompoundBorder))
                 ) {
-                    entry.setValue(drawnBorder); // we null some out later
+                    entry.setValue(drawnBorder); // we override manually below
                 }
             }
         }
