@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.image.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -56,6 +58,21 @@ public class NapkinUtil implements NapkinConstants {
                     }
                 }
             };
+
+    private static final PropertyChangeListener PROPERTY_LISTENER =
+            new PropertyChangeListener() {
+                public void propertyChange(PropertyChangeEvent event) {
+                    String prop = event.getPropertyName();
+                    if (!prop.equals("opaque"))
+                        return;
+                    JComponent c = (JComponent) event.getSource();
+                    Boolean val = (Boolean) event.getNewValue();
+                    if (val == Boolean.FALSE)
+                        val = null;
+                    c.putClientProperty(OPAQUE_KEY, val);
+                }
+            };
+
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
 
     private static final AlphaComposite ERASURE_COMPOSITE =
@@ -224,16 +241,43 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static void installUI(JComponent c) {
+        if (c.isOpaque()) {
+            c.putClientProperty(OPAQUE_KEY, Boolean.TRUE);
+            c.setOpaque(false);
+        }
+        c.addPropertyChangeListener(PROPERTY_LISTENER);
         if (replace(c.getBackground(), CLEAR))
             c.setBackground(CLEAR);
         c.addHierarchyListener(CLEAR_BACKGROUND_LISTENER);
     }
 
     public static void uninstallUI(JComponent c) {
+        c.removePropertyChangeListener(PROPERTY_LISTENER);
         c.removeHierarchyListener(CLEAR_BACKGROUND_LISTENER);
+        if (shouldMakeOpaque(c))
+            c.setOpaque(true);
         unsetupBorder(c);
         for (int i = 0; i < CLIENT_PROPERTIES.length; i++)
             c.putClientProperty(CLIENT_PROPERTIES[i], null);
+    }
+
+    private static boolean shouldMakeOpaque(JComponent c) {
+        if (isGlassPane(c))
+            return false;
+        return (c.getClientProperty(OPAQUE_KEY) == Boolean.TRUE &&
+                !c.isOpaque());
+    }
+
+    private static boolean isGlassPane(Component c) {
+        if (c instanceof JComponent)
+            return isGlassPane((JComponent) c);
+        else
+            return false;
+    }
+
+    private static boolean isGlassPane(JComponent c) {
+        JRootPane rootPane = c.getRootPane();
+        return (rootPane != null && rootPane.getGlassPane() == c);
     }
 
     public static double leftRight(double x, boolean left) {
@@ -480,17 +524,17 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static void setupThemeTop(JComponent c, NapkinTheme theme) {
+        c.setOpaque(true);
         c.putClientProperty(IS_THEME_TOP_KEY, Boolean.TRUE);
         c.putClientProperty(THEME_TOP_KEY, c);
         c.putClientProperty(THEME_KEY, theme);
     }
 
     public static NapkinTheme background(Graphics g1, Component c) {
-        if (!c.isOpaque())
-            return null;
-
         JComponent themeTop = themeTopFor(c);
         if (themeTop == null)
+            return null;
+        if (isGlassPane(c))
             return null;
 
         Graphics2D g = (Graphics2D) g1;
