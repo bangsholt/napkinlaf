@@ -271,6 +271,9 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                     table.put(key.substring(0, key.length() - 4), CLEAR);
             }
         }
+
+        Color highlighter = new Color(0xff, 0xff, 0x00, 0xff / 2);
+        table.put("textHighlight", new ColorUIResource(highlighter));
     }
 
     protected void initComponentDefaults(UIDefaults table) {
