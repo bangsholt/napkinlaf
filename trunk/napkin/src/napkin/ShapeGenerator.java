@@ -24,7 +24,7 @@ public abstract class ShapeGenerator implements NapkinConstants {
         return shape;
     }
 
-    public static Class defaultLineGenerator(double mid) {
-        return (mid < 10 ? QuadGenerator.class : CubicGenerator.class);
+    public static Class defaultLineGenerator(double len) {
+        return (len < 10 ? QuadGenerator.class : CubicGenerator.class);
     }
 }

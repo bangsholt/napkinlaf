@@ -11,21 +11,22 @@ public class BoxGenerator extends ShapeGenerator {
 
     private final Value begX;
     private final Value endY;
+    private double adjustmentX;
+    private double adjustmentY;
     private final Value startAdjust;
     private final Value sizeX;
     private final Value sizeY;
+    private int breakSide;
+    private final Point2D breakBeg;
+    private final Point2D breakEnd;
     private final Shape[] sides;
     private final ShapeGenerator[] gens;
-
     private final Map generators;
 
-    public static final int TOP_SIDE = 0;
-    public static final int RIGHT_SIDE = 1;
-    public static final int LEFT_SIDE = 2;
-    public static final int BOTTOM_SIDE = 3;
+    private static final boolean DEBUG = false;
 
     public static final String[] SIDE_NAMES = {
-        "top", "right", "left", "bottom"
+        null, "top", "left", "bottom", "right"
     };
 
     public static final BoxGenerator INSTANCE = new BoxGenerator();
@@ -62,16 +63,20 @@ public class BoxGenerator extends ShapeGenerator {
         generators.put(CubicGenerator.class, cubic);
         generators.put(QuadGenerator.class, quad);
 
-        sides = new Shape[4];
-        gens = new ShapeGenerator[4];
-        for (int i = 0; i < 4; i++)
+        // TOP ... BOTTOM runs from 1 to 4
+        sides = new Shape[5];
+        gens = new ShapeGenerator[5];
+        for (int i = 1; i < 5; i++)
             setGenerator(i, CubicGenerator.class);
 
         begX = new Value(-1, 3);
         endY = new Value(0, 2.5);
         startAdjust = new Value(5);
-        sizeX = new SideSize(LENGTH, LEFT_SIDE, RIGHT_SIDE);
-        sizeY = new SideSize(LENGTH * 0.618, TOP_SIDE, BOTTOM_SIDE);
+        sizeX = new SideSize(LENGTH, LEFT, RIGHT);
+        sizeY = new SideSize(LENGTH * 0.618, TOP, BOTTOM);
+        breakSide = NO_SIDE;
+        breakBeg = new Point2D.Double(0, 0);
+        breakEnd = new Point2D.Double(0, 0);
     }
 
     public Shape generate(AffineTransform matrix) {
@@ -84,33 +89,88 @@ public class BoxGenerator extends ShapeGenerator {
 
         double xBeg = adjustStartOffset(begX, xScale);
         double yEnd = adjustStartOffset(endY, yScale);
+        adjustmentX = xBeg - begX.get();
+        adjustmentY = yEnd - endY.get();
 
         AffineTransform smat;
 
         smat = NapkinUtil.copy(matrix);
         smat.translate(xBeg, 0);
-        smat.scale((xSize - xBeg) / LENGTH, 1);
-        sides[TOP_SIDE] = addLine(shape, smat, gens[TOP_SIDE]);
+        smat.scale((xSize - adjustmentX) / LENGTH, 1);
+        sides[TOP] = addSide(shape, smat, TOP);
 
         smat = NapkinUtil.copy(matrix);
         smat.translate(xSize, 0);
         smat.rotate(Math.PI / 2);
         smat.scale(yScale, 1);
-        sides[RIGHT_SIDE] = addLine(shape, smat, gens[RIGHT_SIDE]);
+        sides[RIGHT] = addSide(shape, smat, RIGHT);
 
         smat = NapkinUtil.copy(matrix);
         smat.translate(0, ySize);
         smat.rotate(-Math.PI / 2);
-        smat.scale((ySize - yEnd) / LENGTH, 1);
-        sides[LEFT_SIDE] = addLine(shape, smat, gens[LEFT_SIDE]);
+        smat.scale((ySize - adjustmentY) / LENGTH, 1);
+        sides[LEFT] = addSide(shape, smat, LEFT);
 
         smat = NapkinUtil.copy(matrix);
         smat.translate(xSize, ySize);
         smat.rotate(Math.PI);
         smat.scale(xScale, 1);
-        sides[BOTTOM_SIDE] = addLine(shape, smat, gens[BOTTOM_SIDE]);
+        sides[BOTTOM] = addSide(shape, smat, BOTTOM);
 
         return shape;
+    }
+
+    private Shape addSide(GeneralPath shape, AffineTransform smat, int which) {
+        if (which != breakSide)
+            return addLine(shape, smat, gens[which]);
+
+        GeneralPath side = new GeneralPath();
+
+
+        // Need to transalate the absolute positions into positions on the line
+        double xOff = smat.getTranslateX();
+        double xScale = smat.getScaleX();
+        double xAdj = begX.get() + adjustmentX;
+        double xSize = sizeX.get() - xAdj;
+        if (xScale < 0)
+            xSize = -xSize;
+        double xBeg = breakBeg.getX() - xOff;
+        double xEnd = breakEnd.getX() - xOff;
+
+        if (DEBUG) {
+            System.out.println();
+            prPair("translate", smat.getTranslateX(), smat.getTranslateY());
+            prPair("scale", smat.getScaleX(), smat.getScaleY());
+            prPair("breakBeg", breakBeg.getX(), breakBeg.getY());
+            prPair("breakEnd", breakEnd.getX(), breakEnd.getY());
+            prPair("size", sizeX.get(), sizeY.get());
+            prPair("adjustment", adjustmentX, adjustmentY);
+            prPair("beg/end", begX.get(), endY.get());
+            prPair("x beg/end", xBeg, xEnd);
+        }
+
+        addSegment(side, smat, 0, 0, xBeg / xScale);
+        addSegment(side, smat, xEnd / xScale, 0, (xSize - xEnd) / xScale);
+
+        shape.append(side, false);
+        return side;
+    }
+
+    private void prPair(String label, double x, double y) {
+        System.out.println(label + ": " + x + ", " + y);
+    }
+
+    private void addSegment(GeneralPath side, AffineTransform smat, double xBeg,
+            double yBeg, double len) {
+
+        if (DEBUG)
+            prPair("addSeg (len " + len + ")", xBeg, yBeg);
+        if (len > 0) {
+            AffineTransform mat = NapkinUtil.copy(smat);
+            mat.translate(xBeg, yBeg);
+            mat.scale(len / LENGTH, 1);
+            addLine(side, mat, toGenerator(defaultLineGenerator(len)));
+        }
     }
 
     private double adjustStartOffset(ValueSource off, double scale) {
@@ -147,6 +207,17 @@ public class BoxGenerator extends ShapeGenerator {
         return sides[side];
     }
 
+    public void setBreak(int side, double begX, double begY, double endX,
+            double endY) {
+        breakSide = side;
+        breakBeg.setLocation(begX, begY);
+        breakEnd.setLocation(endX, endY);
+    }
+
+    public void setNoBreak() {
+        breakSide = NO_SIDE;
+    }
+
     public void setGenerator(int side, Class type) {
         gens[side] = toGenerator(type);
     }
@@ -178,4 +249,3 @@ public class BoxGenerator extends ShapeGenerator {
         return (CubicGenerator) generators.get(CubicGenerator.class);
     }
 }
-

@@ -16,4 +16,6 @@ public interface NapkinConstants extends SwingConstants {
 //    ColorUIResource CLEAR = new ColorUIResource(new Color(0, 0, 0, 0));
     Color CLEAR = new Color(0, 0, 0, 0);
     ColorUIResource BLACK = new ColorUIResource(Color.black);
+
+    int NO_SIDE = -1;
 }

@@ -1,4 +1,18 @@
 ........................................................................
+What's here:
+
+If you get the jars release, you will have two jar files (and this
+README).  The smaller one -- napkinlaf.jar -- is the jar for the
+Napkin Look and Feel.  The larger one -- napkin-swingset2.jar --
+contains both SwingSet2 classes so it can be run as a demo thusly:
+
+    java -jar napkinlaf-swingset2.jar
+
+Currently, for reasons as yet unknown, it works best if after
+starting, you first select another look and feel (such as Motif)
+from the menu, and then switch back to Napkin Look and Feel.
+
+........................................................................
 Personal Stuff:
 
 You may use this under the BSD license specified below, but we're
@@ -6,11 +20,21 @@ curious about anyone who does use it.  I'd consider it a favor if
 you'd drop us a note about what you are doing with it and any
 comments you have.
 
+The font Felt Tip Roman was created by Mark Simonson, who spent a
+lot of time with me on how to license this.  He has kindly decided
+that this particular use does not require individual licensing for
+each user of the LAF, but can be done by special arrangement.  The
+legalities are below, but beyond those legalities, I'd like to ask
+you all to be cool -- if you like the font and want to use it, buy
+it properly.  Making fonts is not easy, and font folks get their
+work ripped off far too often.  If you do want to use it, buy it
+from his site http://www.ms-studio.com, where he gets more from it.
+
 The font Ænigma Scrawl was created by Brian Kent, and has worked
 very well for a handwritten font that scales reasonably to GUI-control
 sizes (most handwritten-style fonts are display fonts that only work in
 large sizes).  To make things work better, Brian has adapted the font
-to adjust the spacing around some punction as well as some other tweaks.
+to adjust the spacing around some punctuation as well as some other tweaks.
 So the version released here is a custom one direct from the artist (which
 I believe he expected to roll back into the font at future date).
 I would like to thank Brian a lot for his quick and nimble cooperation,
@@ -59,11 +83,21 @@ POSSIBILITY OF SUCH DAMAGE.
 ........................................................................
 Legal Stuff: The SwingSet2 Code
 
-The SwingSet2 Code is that released in JDK 1.4.2, and contains its
+The SwingSet2 Code is the one released in JDK 1.4.2, and contains its
 own copyright and license as comments in the source files.
 
 ........................................................................
-Legal Stuff: The Handwritten Font
+Legal Stuff: The Handwritten Font #1
+
+Felt Tip Roman font(s) Copyright (c) 2001 & 2003 Mark Simonson and
+included by special arrangement with Mark Simonson Studio for use
+with Napkin Look & Feel only. Any other use prohibited without
+obtaining a user license from Mark Simonson Studio or one of its
+authorized distributors. For more information contact mark@ms-studio.com
+or visit http://www.ms-studio.com.
+
+........................................................................
+Legal Stuff: The Handwritten Font #2
 
 ____________________________________
 Ænigma Scrawl  Created by Brian Kent
@@ -132,7 +166,7 @@ intact with the Font.
 any way without asking me first.  [e-mail -  kentpw@norwich.net]
 
 ........................................................................
-Legal Stuff: The Typewritter Font
+Legal Stuff: The Typewriter Font
 
 I downloaded this from http://www.abstractfonts.com/fonts/ which
 came with no attribution or README or anything but the TTF file.

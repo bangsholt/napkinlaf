@@ -27,9 +27,13 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
     private static boolean gotFonts;
     private static Font scrawl;
+    private static Font scrawlBold;
     private static Font fixed;
 
-    private static final String SCRAWL_NAME = "nigmaScrawl5bBRK";
+    //!! Want to make this selectable
+//    private static final String SCRAWL_NAME = "nigmaScrawl5bBRK";
+    private static final String SCRAWL_NAME = "Felt Tip Roman";
+    private static final String SCRAWL_BOLD_NAME = "Felt Tip Roman-Bold";
     private static final String FIXED_NAME = "ProFont";
 
     private final Visitor clearKidsVisitor = new Visitor() {
@@ -265,14 +269,14 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         super.initComponentDefaults(table);
 
         getFonts();
-        Integer twelve = new Integer(12);
+        Integer size = new Integer(15);
         Integer plain = new Integer(Font.PLAIN);
         Integer bold = new Integer(Font.BOLD);
-        Object dialogPlain = fontValue(scrawl, SCRAWL_NAME, plain, twelve);
-        Object dialogBold = fontValue(scrawl, SCRAWL_NAME, bold, twelve);
-        Object serifPlain = fontValue(scrawl, SCRAWL_NAME, plain, twelve);
-        Object sansSerifPlain = fontValue(scrawl, SCRAWL_NAME, plain, twelve);
-        Object monospacedPlain = fontValue(fixed, FIXED_NAME, plain, twelve);
+        Object dialogPlain = fontValue(scrawl, SCRAWL_NAME, plain, size);
+        Object dialogBold = fontValue(scrawlBold, SCRAWL_BOLD_NAME, bold, size);
+        Object serifPlain = fontValue(scrawl, SCRAWL_NAME, plain, size);
+        Object sansSerifPlain = fontValue(scrawl, SCRAWL_NAME, plain, size);
+        Object monospacedPlain = fontValue(fixed, FIXED_NAME, plain, size);
 
         for (Iterator it = table.entrySet().iterator(); it.hasNext();) {
             Entry entry = (Entry) it.next();
@@ -314,6 +318,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "RadioButton.textIconGap", zero,
             "CheckBox.border", buttonBorder,
             "CheckBox.textIconGap", zero,
+            "TabbedPane.contentBorderInsets", DrawnBorder.DEFAULT_INSETS,
         };
 
         table.putDefaults(napkinDefaults);
@@ -322,7 +327,10 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     private static synchronized void getFonts() {
         if (gotFonts)
             return;
-        scrawl = tryToLoadFont("aescr5b.ttf");
+        //!! Make this selectable
+//        scrawl = tryToLoadFont("aescr5b.ttf");
+        scrawl = tryToLoadFont("FeltTipRoman.ttf");
+        scrawlBold = tryToLoadFont("FeltTipRoman-Bold.ttf");
         fixed = tryToLoadFont("Mcgf____.ttf");
     }
 

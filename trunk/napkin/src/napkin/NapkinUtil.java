@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Map;
@@ -316,6 +317,15 @@ public class NapkinUtil implements NapkinConstants {
                 dumped.add(obj);
             }
         }
+    }
+
+    public static Object[] reallocate(Object[] orig, int count) {
+        if (count == orig.length)
+            return orig;
+        Class componentType = orig.getClass().getComponentType();
+        Object[] next = (Object[]) Array.newInstance(componentType, count);
+        System.arraycopy(orig, 0, next, 0, Math.min(orig.length, next.length));
+        return next;
     }
 }
 
