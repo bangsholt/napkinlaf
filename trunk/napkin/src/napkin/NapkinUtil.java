@@ -286,7 +286,7 @@ public class NapkinUtil implements NapkinConstants {
         }
     }
 
-    boolean isPressed(Component c) {
+    static boolean isPressed(Component c) {
         if (c instanceof AbstractButton) {
             AbstractButton b = (AbstractButton) c;
             ButtonModel model = b.getModel();
@@ -295,7 +295,7 @@ public class NapkinUtil implements NapkinConstants {
         return false;
     }
 
-    boolean isDefault(Component c) {
+    static boolean isDefault(Component c) {
         if (c instanceof JButton)
             return ((JButton) c).isDefaultButton();
         return false;
@@ -450,7 +450,7 @@ public class NapkinUtil implements NapkinConstants {
         dumpObject(obj, out, 0, known);
     }
 
-    static Set skip;
+    static final Set skip;
 
     static {
         skip = new HashSet();

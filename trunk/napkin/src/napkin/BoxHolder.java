@@ -1,4 +1,3 @@
-
 package napkin;
 
 import java.awt.*;
@@ -20,12 +19,12 @@ class BoxHolder extends ShapeHolder implements NapkinConstants {
         this(new BoxGenerator());
     }
 
-    void shapeUpToDate(Component c, Rectangle sz) {
-        shapeUpToDate(c, sz, -1, 0, 0, 0, 0);
+    void shapeUpToDate(Rectangle sz) {
+        shapeUpToDate(sz, -1, 0, 0, 0, 0);
     }
 
-    void shapeUpToDate(Component c, Rectangle sz, int bSide, double begX,
-            double begY, double endX, double endY) {
+    void shapeUpToDate(Rectangle sz, int bSide, double begX, double begY,
+            double endX, double endY) {
 
         if (size != null && size.width == sz.width && size.height == sz.height
                 && bSide == breakSide &&

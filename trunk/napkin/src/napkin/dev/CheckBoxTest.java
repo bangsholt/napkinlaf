@@ -2,31 +2,31 @@
 
 package napkin.dev;
 
-import napkin.BoxGenerator;
-import napkin.CheckGenerator;
-import napkin.ShapeGenerator;
-import napkin.ValueSource;
-
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
+import napkin.BoxGenerator;
+import napkin.CheckGenerator;
+import napkin.ShapeGenerator;
+import napkin.ValueSource;
+
 class CheckBoxTest extends GeneratorTest
         implements GeneratorTest.Drawer {
 
-    private CheckGenerator checkGen;
-    private BoxGenerator boxGen;
+    private final CheckGenerator checkGen;
+    private final BoxGenerator boxGen;
 
-    private ValueSpinner midXScaleSpin;
-    private ValueSpinner midYScaleSpin;
-    private ValueSpinner leftXScaleSpin;
-    private ValueSpinner leftYScaleSpin;
-    private ValueSpinner rightXScaleSpin;
-    private ValueSpinner rightYScaleSpin;
-    private JCheckBox isSelected;
-    private JCheckBox useBox;
+    private final ValueSpinner midXScaleSpin;
+    private final ValueSpinner midYScaleSpin;
+    private final ValueSpinner leftXScaleSpin;
+    private final ValueSpinner leftYScaleSpin;
+    private final ValueSpinner rightXScaleSpin;
+    private final ValueSpinner rightYScaleSpin;
+    private final JCheckBox isSelected;
+    private final JCheckBox useBox;
     private final ValueSource[] spinners;
 
     private JComponent drawing;

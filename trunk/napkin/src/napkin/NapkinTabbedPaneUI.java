@@ -10,7 +10,7 @@ import javax.swing.plaf.basic.*;
 
 public class NapkinTabbedPaneUI extends BasicTabbedPaneUI {
     private TabHolder[] tabs = new TabHolder[0];
-    private BoxHolder contentBorder = new BoxHolder();
+    private final BoxHolder contentBorder = new BoxHolder();
     private Insets origInsets;
 
     public static ComponentUI createUI(JComponent c) {
@@ -65,12 +65,12 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI {
         calcRect.width = w;
         calcRect.height = h;
         if (selectedIndex < 0)
-            contentBorder.shapeUpToDate(tabPane, calcRect);
+            contentBorder.shapeUpToDate(calcRect);
         else {
             TabHolder tab = tabs[selectedIndex];
             Point2D beg = tab.getBreakBeg();
             Point2D end = tab.getBreakEnd();
-            contentBorder.shapeUpToDate(null, calcRect, tabPlacement,
+            contentBorder.shapeUpToDate(calcRect, tabPlacement,
                     beg.getX(), beg.getY(), end.getX(), end.getY());
         }
         g.setColor(Color.black);

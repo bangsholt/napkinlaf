@@ -17,14 +17,14 @@ class LineHolder extends ShapeHolder implements NapkinConstants {
         this.vertical = vertical;
     }
 
-    boolean shapeUpToDate(Rectangle cRect, FontMetrics cMetrics) {
+    void shapeUpToDate(Rectangle cRect, FontMetrics cMetrics) {
         boolean sameMetrics = false;
         if ((metrics == null) == (cMetrics == null))
             sameMetrics = true;
         else if (metrics != null && metrics.equals(cMetrics))
             sameMetrics = true;
         if (sameMetrics && rect != null && rect.equals(cRect))
-            return false;
+            return;
 
         rect = (Rectangle) cRect.clone();
         metrics = cMetrics;
@@ -42,6 +42,6 @@ class LineHolder extends ShapeHolder implements NapkinConstants {
             matrix.rotate(Math.PI / 2);
         matrix.scale((endX - begX) / ShapeGenerator.LENGTH, 1);
         shape = gen.generate(matrix);
-        return true;
+        return;
     }
 }

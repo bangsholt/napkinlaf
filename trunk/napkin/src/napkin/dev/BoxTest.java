@@ -2,13 +2,17 @@
 
 package napkin.dev;
 
-import napkin.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.border.*;
+
+import napkin.BoxGenerator;
+import napkin.CubicGenerator;
+import napkin.QuadGenerator;
+import napkin.ShapeGenerator;
+import napkin.ValueSource;
 
 class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
 
@@ -110,8 +114,8 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
         rebuild();
     }
 
-    public Shape generate(AffineTransform matrix) {
-        return gen.generate(matrix);
+    public void generate(AffineTransform matrix) {
+        gen.generate(matrix);
     }
 
     public ShapeGenerator getGenerator() {

@@ -374,7 +374,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         table.putDefaults(napkinDefaults);
     }
 
-    private Object
+    private static Object
             propVal(String key, String prop, Object val, UIDefaults table) {
 
         int keyLen = key.length();
