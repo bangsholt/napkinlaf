@@ -139,14 +139,15 @@ public class BoxGenerator extends ShapeGenerator {
 
         if (DEBUG) {
             System.out.println();
-            prPair("translate", smat.getTranslateX(), smat.getTranslateY());
-            prPair("scale", smat.getScaleX(), smat.getScaleY());
-            prPair("breakBeg", breakBeg.getX(), breakBeg.getY());
-            prPair("breakEnd", breakEnd.getX(), breakEnd.getY());
-            prPair("size", sizeX.get(), sizeY.get());
-            prPair("adjustment", adjustmentX, adjustmentY);
-            prPair("beg/end", begX.get(), endY.get());
-            prPair("x beg/end", xBeg, xEnd);
+            NapkinUtil.printPair("translate", smat.getTranslateX(),
+                    smat.getTranslateY());
+            NapkinUtil.printPair("scale", smat.getScaleX(), smat.getScaleY());
+            NapkinUtil.printPair("breakBeg", breakBeg.getX(), breakBeg.getY());
+            NapkinUtil.printPair("breakEnd", breakEnd.getX(), breakEnd.getY());
+            NapkinUtil.printPair("size", sizeX.get(), sizeY.get());
+            NapkinUtil.printPair("adjustment", adjustmentX, adjustmentY);
+            NapkinUtil.printPair("beg/end", begX.get(), endY.get());
+            NapkinUtil.printPair("x beg/end", xBeg, xEnd);
         }
 
         addSegment(side, smat, 0, 0, xBeg / xScale);
@@ -156,15 +157,11 @@ public class BoxGenerator extends ShapeGenerator {
         return side;
     }
 
-    private void prPair(String label, double x, double y) {
-        System.out.println(label + ": " + x + ", " + y);
-    }
-
     private void addSegment(GeneralPath side, AffineTransform smat, double xBeg,
             double yBeg, double len) {
 
         if (DEBUG)
-            prPair("addSeg (len " + len + ")", xBeg, yBeg);
+            NapkinUtil.printPair("addSeg (len " + len + ")", xBeg, yBeg);
         if (len > 0) {
             AffineTransform mat = NapkinUtil.copy(smat);
             mat.translate(xBeg, yBeg);

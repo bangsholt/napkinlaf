@@ -9,6 +9,7 @@ public class TabGenerator extends ShapeGenerator {
     private final Value urX, urY;
     private final Value lrX, lrY;
     private final Value llX, llY;
+    private final Value squeeze;
     private final int side;
 
     public static final TabGenerator LEFT_TAB = new TabGenerator(LEFT);
@@ -52,6 +53,7 @@ public class TabGenerator extends ShapeGenerator {
         lrY = new Value(1, shimmy);
         llX = new Value(0, shimmy);
         llY = new Value(1, shimmy);
+        squeeze = new Value(0.09, 0.001);
     }
 
     public Shape generate(AffineTransform matrix) {
@@ -66,23 +68,22 @@ public class TabGenerator extends ShapeGenerator {
         double xLL = llX.generate();
         double yLL = llY.generate();
 
-        final double squeeze = 0.09;
         switch (side) {
         case LEFT:
-            yUL -= squeeze;
-            yLL += squeeze;
+            yUL += squeeze.generate();
+            yLL -= squeeze.generate();
             break;
         case RIGHT:
-            yUR += squeeze;
-            yLR -= squeeze;
+            yUR += squeeze.generate();
+            yLR -= squeeze.generate();
             break;
         case TOP:
-            xUL += squeeze;
-            xUR -= squeeze;
+            xUL += squeeze.generate();
+            xUR -= squeeze.generate();
             break;
         case BOTTOM:
-            xLL += squeeze;
-            xLR -= squeeze;
+            xLL += squeeze.generate();
+            xLR -= squeeze.generate();
             break;
         }
 
