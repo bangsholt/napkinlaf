@@ -5,7 +5,7 @@ package napkin;
 import java.awt.*;
 import javax.swing.*;
 
-public class NapkinBackgroundLabel extends JLabel {
+public class NapkinPaperLabel extends JLabel {
     private Icon bgIcon;
     private Icon tlCorner, tSide, trCorner;
     private Icon rSide, middle, lSide;
@@ -14,7 +14,7 @@ public class NapkinBackgroundLabel extends JLabel {
 
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
 
-    public NapkinBackgroundLabel(NapkinBackground bg) {
+    public NapkinPaperLabel(NapkinBackground bg) {
         setBounds(0, 0, 50000, 50000);
         setBackgroundIcon(bg.icon);
         setInsets(bg.insets);

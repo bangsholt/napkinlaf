@@ -22,7 +22,7 @@ public class NapkinPopupMenuUI extends BasicPopupMenuUI
 
     public void uninstallUI(JComponent c) {
         super.uninstallUI(c);
-        NapkinUtil.removeBackground(c);
+        NapkinUtil.removePaper(c);
     }
 
     public void paint(Graphics g, JComponent c) {

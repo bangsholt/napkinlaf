@@ -20,7 +20,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI {
         JComponent content = (JComponent) jRootPane.getContentPane();
         content.setOpaque(false);
         JLayeredPane lp = jRootPane.getLayeredPane();
-        NapkinUtil.setBackground(lp, NapkinBackground.NAPKIN_BG);
+        NapkinUtil.setPaper(lp, NapkinBackground.NAPKIN_BG);
     }
 
     protected void uninstallComponents(JRootPane jRootPane) {
@@ -28,7 +28,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI {
         JComponent content = (JComponent) jRootPane.getContentPane();
         content.setOpaque(true);
         JLayeredPane lp = jRootPane.getLayeredPane();
-        NapkinUtil.removeBackground(lp);
+        NapkinUtil.removePaper(lp);
     }
 
     public void paint(Graphics g, JComponent c) {

@@ -121,11 +121,11 @@ public class NapkinUtil implements NapkinConstants {
         // the next UI installed will set the colors, but they assume opacity
     }
 
-    static void setBackground(Component child, NapkinBackground bg) {
+    static void setPaper(Component child, NapkinBackground bg) {
         for (Component c = child; c != null; c = c.getParent()) {
             if (c instanceof JLayeredPane) {
                 JLayeredPane lp = (JLayeredPane) c;
-                setBackground(lp, bg);
+                setPaper(lp, bg);
                 return;
             }
         }
@@ -133,34 +133,34 @@ public class NapkinUtil implements NapkinConstants {
                 "not in JLayeredPane: " + descFor(child));
     }
 
-    static void setBackground(JLayeredPane lp, NapkinBackground bg) {
-        removeBackground(lp);
-        Component cur = new NapkinBackgroundLabel(bg);
+    static void setPaper(JLayeredPane lp, NapkinBackground bg) {
+        removePaper(lp);
+        Component cur = new NapkinPaperLabel(bg);
         lp.add(cur, BOTTOM_LAYER);
-        lp.putClientProperty(BG_COMPONENT, cur);
+        lp.putClientProperty(PAPER_COMPONENT, cur);
     }
 
-    static void removeBackground(Component child) {
+    static void removePaper(Component child) {
         for (Component c = child; c != null; c = c.getParent()) {
             if (c instanceof JLayeredPane) {
                 JLayeredPane lp = (JLayeredPane) c;
-                removeBackground(lp);
+                removePaper(lp);
                 return;
             }
         }
         // removing is OK even if nothing is there
     }
 
-    static void removeBackground(JLayeredPane lp) {
-        Component cur = (Component) lp.getClientProperty(BG_COMPONENT);
+    static void removePaper(JLayeredPane lp) {
+        Component cur = (Component) lp.getClientProperty(PAPER_COMPONENT);
         if (cur != null) {
-            lp.putClientProperty(BG_COMPONENT, null);
+            lp.putClientProperty(PAPER_COMPONENT, null);
             lp.remove(cur);
         }
     }
 
     static void uninstallLayeredPane(JLayeredPane lp) {
-        removeBackground(lp);
+        removePaper(lp);
     }
 
     public static double leftRight(double x, boolean left) {
@@ -242,7 +242,7 @@ public class NapkinUtil implements NapkinConstants {
         Object pending = c.getClientProperty(PENDING_BG_COMPONENT);
         if (pending != null) {
             c.putClientProperty(PENDING_BG_COMPONENT, null);
-            setBackground(c, (NapkinBackground) pending);
+            setPaper(c, (NapkinBackground) pending);
         }
     }
 
