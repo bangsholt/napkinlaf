@@ -29,6 +29,11 @@ public class NapkinRootPaneUI extends BasicRootPaneUI {
         return NapkinUtil.uiFor(c, napkinRootPaneUI);
     }
 
+    public void uninstallUI(JComponent c) {
+        super.uninstallUI(c);
+        NapkinUtil.uninstallUI(c);
+    }
+
     public void paint(Graphics g, JComponent c) {
         NapkinUtil.defaultGraphics(g, c);
         super.paint(g, c);

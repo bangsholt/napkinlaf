@@ -24,6 +24,11 @@ public class NapkinInternalFrameUI extends BasicInternalFrameUI {
         c.setOpaque(true);
     }
 
+    public void uninstallUI(JComponent c) {
+        super.uninstallUI(c);
+        NapkinUtil.uninstallUI(c);
+    }
+
     public void paint(Graphics g, JComponent c) {
         NapkinUtil.defaultGraphics(g, c);
         super.paint(g, c);

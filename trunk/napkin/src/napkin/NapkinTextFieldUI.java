@@ -20,6 +20,11 @@ public class NapkinTextFieldUI extends BasicTextFieldUI {
         super.installUI(c);
     }
 
+    public void uninstallUI(JComponent c) {
+        super.uninstallUI(c);
+        NapkinUtil.uninstallUI(c);
+    }
+
     //!! Fix this
     /**
      * This works around a problem: Without this, I get a NullPointerException

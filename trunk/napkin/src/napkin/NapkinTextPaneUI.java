@@ -18,6 +18,11 @@ public class NapkinTextPaneUI extends BasicTextPaneUI {
         super.installUI(c);
     }
 
+    public void uninstallUI(JComponent c) {
+        super.uninstallUI(c);
+        NapkinUtil.uninstallUI(c);
+    }
+
     protected void paintSafely(Graphics g) {
         NapkinUtil.defaultGraphics(g, getComponent());
         super.paintSafely(g);

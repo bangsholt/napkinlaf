@@ -22,6 +22,11 @@ public class NapkinProgressBarUI extends BasicProgressBarUI {
         super.installUI(c);
     }
 
+    public void uninstallUI(JComponent c) {
+        super.uninstallUI(c);
+        NapkinUtil.uninstallUI(c);
+    }
+
     public void paint(Graphics g, JComponent c) {
         NapkinUtil.defaultGraphics(g, c);
         c.setForeground(Color.black);
