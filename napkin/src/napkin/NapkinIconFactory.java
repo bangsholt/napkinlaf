@@ -2,7 +2,7 @@ package napkin;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.*;
+import java.awt.geom.AffineTransform;
 
 public class NapkinIconFactory implements NapkinConstants {
     static class CheckBoxIcon extends NapkinIcon {

@@ -3,14 +3,15 @@
 package napkin;
 
 import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.basic.BasicRadioButtonMenuItemUI;
 import java.awt.*;
 
 public class NapkinRadioButtonMenuItemUI extends BasicRadioButtonMenuItemUI
         implements NapkinPainter {
 
     private LineHolder line;
+    private boolean defaultsInstalled;
 
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinRadioButtonMenuItemUI());
@@ -24,6 +25,14 @@ public class NapkinRadioButtonMenuItemUI extends BasicRadioButtonMenuItemUI
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
+    }
+
+    protected void installDefaults() {
+        super.installDefaults();    //To change body of overridden methods use File | Settings | File Templates.
+        if (!defaultsInstalled) {
+            menuItem.setIcon(UIManager.getIcon(NapkinUtil.property(this, "checkIcon")));
+            defaultsInstalled = true;
+        }
     }
 
     protected void paintText(Graphics g, JMenuItem item, Rectangle textRect,
