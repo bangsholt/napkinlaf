@@ -6,6 +6,9 @@ import napkin.NapkinLookAndFeel;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Map;
+import java.util.Hashtable;
+import java.util.Dictionary;
 import javax.swing.*;
 
 public class NapkinQuickTest {
@@ -77,10 +80,16 @@ public class NapkinQuickTest {
         content.add(scrollPane);
 
         JSlider slider = new JSlider(JSlider.HORIZONTAL, -100, 100, 0);
+        int majorSpacing = 50;
+        slider.setMajorTickSpacing(majorSpacing);
+        slider.setMinorTickSpacing(10);
+        slider.setPaintTicks(true);
+        Dictionary labels = slider.createStandardLabels(majorSpacing);
+        slider.setLabelTable(labels);
+        slider.setPaintLabels(true);
         content.add(slider);
 
         top.pack();
         top.show();
     }
 }
-
