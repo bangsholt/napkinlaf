@@ -139,23 +139,19 @@ public class NapkinTheme {
         private static NapkinTheme currentTheme;
 
         private static final String DEFAULT_THEME = "napkin";
-        private static boolean gotFonts;
-        private static Font scrawl;
-        private static Font scrawlBold;
-        private static Font fixed;
-        private static Font augie;
-        //!! Want to make this selectable
-
-//    private static final String SCRAWL_NAME = "nigmaScrawl5bBRK";
 
         private static final Class THIS_CLASS = NapkinLookAndFeel.class;
         private static final Logger LOG =
                 LogManager.getLogManager().getLogger(THIS_CLASS.getName());
 
         static {
-            getFonts();
+            //!! Make this selectable
+//            scrawl = tryToLoadFont("aescr5b.ttf");
+            Font scrawl = tryToLoadFont("FeltTipRoman.ttf");
+            Font scrawlBold = tryToLoadFont("FeltTipRoman-Bold.ttf");
+            Font fixed = tryToLoadFont("1942.ttf");
+            Font augie = tryToLoadFont("augie.ttf");
 
-//    private static final String SCRAWL_NAME = "nigmaScrawl5bBRK";
             NapkinTheme def = new NapkinTheme(DEFAULT_THEME, "Default theme",
                     Color.BLACK, Color.GREEN.darker(), new Color(0xf50000),
                     new Color(0x00, 0xff, 0xff, 0xff / 2),
@@ -237,18 +233,6 @@ public class NapkinTheme {
 
         public static void addTheme(NapkinTheme theme) {
             themes.put(theme.getName(), theme);
-        }
-
-        private static synchronized void getFonts() {
-            if (gotFonts)
-                return;
-            //!! Make this selectable
-//        scrawl = tryToLoadFont("aescr5b.ttf");
-            scrawl = tryToLoadFont("FeltTipRoman.ttf");
-            scrawlBold = tryToLoadFont("FeltTipRoman-Bold.ttf");
-            fixed = tryToLoadFont("Mcgf____.ttf");
-            augie = tryToLoadFont("augie.ttf");
-            gotFonts = true;
         }
 
         private static Font tryToLoadFont(String fontName) {
