@@ -290,17 +290,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     protected void initSystemColorDefaults(UIDefaults table) {
         super.initSystemColorDefaults(table);
         // make a copy so we can modify the table as we read the key set
-        Set keys = new HashSet(table.keySet());
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
-        for (Iterator it = keys.iterator(); it.hasNext();) {
-            String key = (String) it.next();
-            if (key.endsWith("Text")) {
-                table.put(key, theme.getPenColor());
-                if (key.indexOf("Caption") < 0)
-                    table.put(key.substring(0, key.length() - 4), CLEAR);
-            }
-        }
-
         table.put("textHighlight", theme.getHighlightColor());
     }
 
