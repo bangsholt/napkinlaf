@@ -28,11 +28,6 @@ public class NapkinProgressBarUI extends BasicProgressBarUI {
         super.uninstallUI(c);
     }
 
-    public void paint(Graphics g, JComponent c) {
-        c.setForeground(NapkinTheme.Manager.getCurrentTheme().drawColor());
-        super.paint(g, c);
-    }
-
     protected void paintIndeterminate(Graphics g1, JComponent c) {
         Insets b = progressBar.getInsets(); // area for border
         int barRectWidth = progressBar.getWidth() - (b.right + b.left);
@@ -51,7 +46,7 @@ public class NapkinProgressBarUI extends BasicProgressBarUI {
         }
         box.shapeUpToDate(boxRect);
         Graphics2D lineG = NapkinUtil.copy(g);
-        lineG.setColor(NapkinIconFactory.CheckBoxIcon.MARK_COLOR);
+        lineG.setColor(NapkinTheme.Manager.getCurrentTheme().getCheckColor());
         lineG.translate(boxRect.x, boxRect.y);
         box.draw(lineG);
 
@@ -81,7 +76,8 @@ public class NapkinProgressBarUI extends BasicProgressBarUI {
         if (scribble.shapeUpToDate(c, sz, orientation, amountFull, backwards)) {
             curImage = c.createImage(sz.x + sz.width, sz.y + sz.height);
             Graphics imgG = curImage.getGraphics();
-            imgG.setColor(NapkinIconFactory.CheckBoxIcon.MARK_COLOR);
+            imgG.setColor(
+                    NapkinTheme.Manager.getCurrentTheme().getCheckColor());
             scribble.draw(imgG);
         }
 

@@ -58,7 +58,7 @@ public class NapkinUtil implements NapkinConstants {
 
     static {
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
-        ImageIcon icon = theme.erasureMask().getIcon();
+        ImageIcon icon = theme.getErasureMask().getIcon();
         int w = icon.getIconWidth();
         int h = icon.getIconHeight();
         textureImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
@@ -386,12 +386,10 @@ public class NapkinUtil implements NapkinConstants {
     public static DrawnLineHolder paintLine(Graphics g, boolean vertical,
             DrawnLineHolder holder, Rectangle bounds) {
         if (holder == null)
-            holder =
-                    new DrawnLineHolder(DrawnCubicLineGenerator.INSTANCE,
-                            vertical);
+            holder = new DrawnLineHolder(DrawnCubicLineGenerator.INSTANCE,
+                    vertical);
         holder.shapeUpToDate(bounds, null);
         Graphics2D lineG = copy(g);
-        lineG.setColor(NapkinTheme.Manager.getCurrentTheme().drawColor());
         if (vertical)
             lineG.translate(bounds.x + bounds.width / 2, 0);
         else
@@ -515,7 +513,7 @@ public class NapkinUtil implements NapkinConstants {
             // and have no UI classes.  So this is what you get for any regular
             // top-level window we haven't overridden.  I wonder why JFrame and
             // friends are like this.
-            setupPaper(jc, NapkinTheme.Manager.getCurrentTheme().paper());
+            setupPaper(jc, NapkinTheme.Manager.getCurrentTheme().getPaper());
             return jc;
         }
         jc.putClientProperty(PAPER_KEY, paper);
@@ -549,9 +547,8 @@ public class NapkinUtil implements NapkinConstants {
         PrintStream out = null;
         try {
             out =
-                    new PrintStream(
-                            new BufferedOutputStream(
-                                    new FileOutputStream(fileName)));
+                    new PrintStream(new BufferedOutputStream(
+                            new FileOutputStream(fileName)));
             dumpObject(obj, out);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -687,11 +684,12 @@ public class NapkinUtil implements NapkinConstants {
             int x = textOffset;
             int y = textOffset;
             ulG.translate(x, y);
-            ulG.setColor(NapkinIconFactory.CheckBoxIcon.MARK_COLOR);
+            ulG.setColor(NapkinTheme.Manager.getCurrentTheme().getCheckColor());
             line.setWidth(FOCUS_MARK_WIDTH);
             line.draw(ulG);
         }
 
+        g.setColor(c.getForeground());
         c = wrapIfNeeded(c);
         helper.superPaintText(g, c, textRect, text);
     }

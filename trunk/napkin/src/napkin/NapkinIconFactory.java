@@ -9,12 +9,10 @@ public class NapkinIconFactory implements NapkinConstants {
 
         protected static final int SIZE = 13;
         protected static final int MID_INSET = 3;
-        public static final Color MARK_COLOR =
-                NapkinTheme.Manager.getCurrentTheme().checkColor();
         private static DrawnCheckGenerator checkGen;
 
         CheckBoxIcon() {
-            super(MARK_COLOR, null);
+            super(NapkinTheme.Manager.getCurrentTheme().getCheckColor(), null);
             init();
         }
 
@@ -44,9 +42,7 @@ public class NapkinIconFactory implements NapkinConstants {
             return (int) Math.round(SIZE * (my.max() + ry.max()) + 2);
         }
 
-        void doPaint(Graphics2D placeG, Graphics2D markG,
-                int x, int y) {
-
+        void doPaint(Graphics2D placeG, Graphics2D markG, int x, int y) {
             FontMetrics fm = placeG.getFontMetrics();
             int ypos = y + fm.getAscent();
             placeG.translate(x, ypos);
@@ -55,7 +51,6 @@ public class NapkinIconFactory implements NapkinConstants {
 
             if (markG != null) {
                 markG.translate(x, ypos - SIZE);
-                markG.setColor(MARK_COLOR);
                 markG.draw(mark);
             }
         }
@@ -68,11 +63,10 @@ public class NapkinIconFactory implements NapkinConstants {
         private static final AffineTransform SCALE_MAT =
                 NapkinUtil.scaleMat(SCALE);
         private static DrawnCircleGenerator placeGen;
-        public static final Color MARK_COLOR =
-                NapkinTheme.Manager.getCurrentTheme().radioColor();
 
         RadioButtonIcon() {
-            super(MARK_COLOR, SCALE_MAT);
+            super(NapkinTheme.Manager.getCurrentTheme().getRadioColor(),
+                    SCALE_MAT);
             init();
         }
 
@@ -134,7 +128,7 @@ public class NapkinIconFactory implements NapkinConstants {
          * @param pointTowards One of NORTH, EAST, WEST, or SOUTH.
          */
         ArrowIcon(int pointTowards, int size) {
-            super(NapkinTheme.Manager.getCurrentTheme().drawColor(),
+            super(NapkinTheme.Manager.getCurrentTheme().getPenColor(),
                     NapkinUtil.scaleMat(size));
             genNum = pointTowards / 2;
             this.size = size;

@@ -68,6 +68,7 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
         trackBounds.height = trackRect.height;
         trackBounds.x = trackRect.x;
         trackBounds.y = trackRect.y;
+        g.setColor(slider.getForeground());
 
         track = NapkinUtil.paintLine(g, vertical, track, trackBounds);
     }
@@ -110,6 +111,7 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
         while (pos >= ticks.size())
             ticks.add(null);
         DrawnLineHolder holder = (DrawnLineHolder) ticks.get(pos);
+        g.setColor(slider.getForeground());
         holder = NapkinUtil.paintLine(g, vertTicks, holder, tickBounds);
         ticks.set(pos, holder);
     }
