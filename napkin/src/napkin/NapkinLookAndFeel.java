@@ -500,8 +500,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "CheckBoxMenuItem.textIconGap", zero,
             "CheckBoxMenuItem.checkIcon", checkBoxButtonIcon,
 
-            "MenuItem.disabledForeground", new ColorUIResource(Color.gray),
-
             "OptionPane.messageAreaBorder", null,
 
             "TabbedPane.contentBorderInsets", DrawnBorder.DEFAULT_INSETS,
@@ -519,6 +517,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "SplitPane.dividerSize", new Integer(NapkinSplitPaneDivider.SIZE),
 
             // these are just copied from Metal L&F -- no values in Basic L&F
+            //!! Should get input maps from the formal L&F for all map defaults
             "TextField.focusInputMap", fieldInputMap,
             "PasswordField.focusInputMap", fieldInputMap,
             "TextArea.focusInputMap", multilineInputMap,
