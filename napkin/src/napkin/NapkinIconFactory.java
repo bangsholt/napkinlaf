@@ -118,11 +118,9 @@ public class NapkinIconFactory implements NapkinConstants {
 
     static class ArrowIcon extends NapkinIcon {
         private final int genNum;
+        private final int size;
 
-        private static final int SIZE = 10;
-        private static final double SCALE = SIZE;
-        private static final AffineTransform SCALE_MAT =
-                NapkinUtil.scaleMat(SCALE);
+        public static final int DEFAULT_SIZE = 10;
         private static final TriangleGenerator[] ARROW_GEN = {
             new TriangleGenerator(0),
             new TriangleGenerator(Math.PI / 2),
@@ -133,9 +131,10 @@ public class NapkinIconFactory implements NapkinConstants {
         /**
          * @param pointTowards One of NORTH, EAST, WEST, or SOUTH.
          */
-        ArrowIcon(int pointTowards) {
-            super(Color.black, SCALE_MAT);
+        ArrowIcon(int pointTowards, int size) {
+            super(Color.black, NapkinUtil.scaleMat(size));
             this.genNum = pointTowards / 2;
+            this.size = size;
             init();
         }
 
@@ -148,11 +147,11 @@ public class NapkinIconFactory implements NapkinConstants {
         }
 
         int calcHeight() {
-            return SIZE;
+            return size;
         }
 
         int calcWidth() {
-            return SIZE;
+            return size;
         }
 
         void doPaint(Graphics2D placeG, Graphics2D markG, int x,
@@ -179,6 +178,10 @@ public class NapkinIconFactory implements NapkinConstants {
     }
 
     public static Icon createArrowIcon(int pointTowards) {
-        return new ArrowIcon(pointTowards);
+        return createArrowIcon(pointTowards, ArrowIcon.DEFAULT_SIZE);
+    }
+
+    public static Icon createArrowIcon(int pointTowards, int size) {
+        return new ArrowIcon(pointTowards, size);
     }
 }
