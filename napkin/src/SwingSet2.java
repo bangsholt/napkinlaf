@@ -772,6 +772,7 @@ public class SwingSet2 extends JPanel {
 	    addDemo(demo);
 	} catch (Exception e) {
 	    System.out.println("Error occurred loading demo: " + classname);
+            e.printStackTrace();
 	}
     }
 
