@@ -279,8 +279,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         Object sansSerifPlain = fontValue(scrawl, SCRAWL_NAME, plain, size);
         Object monospacedPlain = fontValue(fixed, FIXED_NAME, plain, size);
 
-        Object drawnBorder =
-                new ProxyLazyValue("napkin.NapkinBorders", "getDrawnBorder");
+        Object drawnBorder = new ProxyLazyValue(NapkinBorders.class.getName(),
+                "getDrawnBorder");
 
         for (Iterator it = table.entrySet().iterator(); it.hasNext();) {
             Entry entry = (Entry) it.next();
@@ -309,24 +309,30 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             } else if ((res = propVal(key, "border", val, table)) != null) {
                 if (res instanceof BorderUIResource || res instanceof Border) {
                     System.out.println("replacing " + key);
-                    entry.setValue(drawnBorder);
-// we null some out later
+                    entry.setValue(drawnBorder); // we null some out later
                 }
             }
         }
 
         Integer zero = new Integer(0);
+        Object radioButtonIcon =
+                new UIDefaults.ProxyLazyValue(
+                        NapkinIconFactory.class.getName(),
+                        "createRadioButtonIcon");
+        Object checkBoxButtonIcon =
+                new UIDefaults.ProxyLazyValue(
+                        NapkinIconFactory.class.getName(),
+                        "createCheckBoxIcon");
 
         Object[] napkinDefaults = {
             "RadioButton.textIconGap", zero,
 
+            "RadioButton.icon", radioButtonIcon,
+            "RadioButtonMenuItem.checkIcon", radioButtonIcon,
+
             "CheckBox.textIconGap", zero,
-
-            //"RadioButtonMenuItem.checkIcon", radioButtonMenuItemIcon,
-            //"RadioButtonMenuItem.arrowIcon", menuItemArrowIcon,
-
-            //"CheckBoxMenuItem.checkIcon", checkBoxMenuItemIcon,
-            //"CheckBoxMenuItem.arrowIcon", menuItemArrowIcon,
+            "CheckBox.icon", checkBoxButtonIcon,
+            "CheckBoxMenuItem.checkIcon", checkBoxButtonIcon,
 
             "OptionPane.messageAreaBorder", null,
 
@@ -400,7 +406,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             return new FontUIResource(
                     font.deriveFont(style.intValue(), size.floatValue()));
         }
-        String resName = "javax.swing.plaf.FontUIResource";
+        String resName = FontUIResource.class.getName();
         Object[] args = new Object[]{name, style, size};
         return new ProxyLazyValue(resName, null, args);
     }

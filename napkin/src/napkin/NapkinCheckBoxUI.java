@@ -17,7 +17,6 @@ public class NapkinCheckBoxUI extends BasicCheckBoxUI
     public void installUI(JComponent c) {
         NapkinUtil.installUI(c);
         super.installUI(c);
-        icon = NapkinIconFactory.createCheckBoxIcon();
     }
 
     public void uninstallUI(JComponent c) {
