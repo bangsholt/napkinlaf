@@ -7,8 +7,8 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.metal.*;
 
-// This is nearly entirely copied from MetalFileChooserUI.  It seems as if the
-// BasicFileChooserUI is not yet well formed.
+// It seems as if the BasicFileChooserUI is not yet well formed, so we're just
+// borrowing the metal chooser for now.
 
 public class NapkinFileChooserUI extends MetalFileChooserUI {
     private static final ComponentWalker.Visitor NO_BORDER_VISITOR =
