@@ -48,6 +48,22 @@
 
 <h2>Recent</h2>
 
+<h4>Beta!</h4>
+
+I have declared "Beta".  Things seem to basically work, but there are certainly
+some issues still.  Nonetheless, it seems to meet the web standard of "beta".
+
+<h4>New "Disabled" Model</h4>
+
+Now all disabled controls are marked in the same way.  The idea is to make it
+look as if someone had erased the underlying image.  In the image below, the
+"Themes" menu in the menu bar has been disabled, as have the buttons in the
+display region.
+
+<center>
+<p><img class="snap" align="center" src="NapkinDisabled.jpg"/>
+</center>
+
 <h4>JavaOne 2004</h4>
 
 I had about a dozen folks accost me at JavaOne 2004 to talk about the LAF.
@@ -57,13 +73,16 @@ spending a few cycles to help out would be most welcome.)
 
 <h4><i>Latest Release: 
 <a href="http://sourceforge.net/project/showfiles.php?group_id=104116&package_id=111904">
-alpha-007</a>, 2 July, 2004</i></h4>
+beta-001</a>, 18 July, 2004</i></h4>
 
 <ul>
-<li>Fixed bug that made disabled buttons peg the CPU (bug 964358).
-<li>Thicker button marker lines.
-<li>Can delete, etc. in text fields and areas (bug 968192).
-<li>Make highlight color like yellow highlighter.
+<li>No drawn border on postit paper.
+<li>Internal frames done on postit paper.
+<li>New background model; backgrounds should now work properly.
+<li>All components will be marked disabled by pseudo-erasure.  Again, thanks
+    to graphics help from Miro Juri&#353;i&#263.
+<li>Thanks to debugging and modeling help from Miro Juri&#353;i&#263; we can
+    now render "hand-drawn" lines at an angle.
 </ul>
 
 <hr>
@@ -123,23 +142,61 @@ This is all done using the Java Swing pluggable Look & Feel framework.
 
 
 <h2>Snapshots</h2>
-To give you a feel for what this might look like, here are a couple
-screen snapshots:
+To give you a feel for what this might look like, here are a few
+screen snapshots (as thumbnails; click for full-sized images):
+<p><br>
 
 <center>
-<p><img class="snap" align="center" src="NapkinSnapProgress.jpg"/>
-<h4>A Progress Bar (scribbled in at the bottom)</h4>
-<p><img class="snap" align="center" src="NapkinSnapButtons.jpg"/>
-<h4>Various buttons</h4>
-<p><img class="snap" align="center" src="NapkinSnapCombo.jpg"/>
-<h4>A Combo Box (Postit-style Popup Menu)</h4>
+<table>
+    <tr>
+	<td align="center">
+	<a href="NapkinDisabled.jpg"/>
+	<img class="snap" align="center" src="NapkinDisabledThumb.jpg"/><br>
+	Disabled things
+	</a>
+	</td>
+
+	<td align="center">
+	<a href="NapkinProgress.jpg">
+	<img class="snap" src="NapkinProgressThumb.jpg"/><br>
+	A progress bar<br>(scribbled in at the bottom)
+	</a>
+	</td>
+
+	<td align="center">
+	<a href="NapkinButtons.jpg">
+	<img class="snap" src="NapkinButtonsThumb.jpg"/><br>
+	Various buttons
+	</a>
+	</td>
+    </tr>
+    <tr>
+	<td align="center">
+	<a href="NapkinCombo.jpg"/>
+	<img class="snap" src="NapkinComboThumb.jpg"/><br>
+	A combo box<br>
+	(postit-style popup menu)
+	</a>
+	</td>
+
+	<td align="center">
+	<a href="NapkinSliders.jpg">
+	<img class="snap" src="NapkinSlidersThumb.jpg"/><br>
+	Various sliders
+	</a>
+	</td>
+
+	<td align="center">
+	<a href="NapkinTable.jpg">
+	<img class="snap" src="NapkinTableThumb.jpg"/><br>
+	A table
+	</a>
+	</td>
+    </tr>
+</table>
 </center>
 
 <h2>Development</h2>
-I currently have a basic background model and most of the most basic
-components working.  Still need to work on uninstall and icons and generally
-cleaning up, but I think I'm getting towards beta finally.
-<p/>
 I welcome anyone to contribute -- thoughts, code, understanding, chocolate...
 
 <p/><i>&mdash;<a href="mailto:arnold@moonhill.org">Ken Arnold</a></i></p>
