@@ -25,12 +25,13 @@ public class NapkinDesktopIconUI extends BasicDesktopIconUI {
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
+        NapkinUtil.setupPaper(c, NapkinTheme.POPUP_THEME);
     }
 
     protected void installComponents() {                            // PASTED
         super.installComponents();  // must do this to set iconPane in parent
         desktopIcon.removeAll();    // now get it out of the way
-        iconPane = new BasicInternalFrameTitlePane(frame);          // PASTED
+        iconPane = new NapkinInternalFrameTitlePane(frame);         // MODIFIED
         desktopIcon.setLayout(new BorderLayout());                  // PASTED
         desktopIcon.add(iconPane, BorderLayout.CENTER);             // PASTED
     }
@@ -51,7 +52,6 @@ public class NapkinDesktopIconUI extends BasicDesktopIconUI {
     public Dimension getMinimumSize(JComponent c) {                 // PASTED
         Dimension dim = new Dimension(iconPane.getMinimumSize());   // PASTED
         Border border = frame.getBorder();                          // PASTED
-        // PASTED
         if (border != null) {                                       // PASTED
             dim.height += border.getBorderInsets(frame).bottom + // PASTED
                     border.getBorderInsets(frame).top;              // PASTED
