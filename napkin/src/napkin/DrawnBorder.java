@@ -14,7 +14,7 @@ public class DrawnBorder extends AbstractBorder implements UIResource {
     private static final int BORDER = 3;
 
     static final Insets DEFAULT_INSETS =
-            new Insets(BORDER, BORDER, BORDER, BORDER);
+            new InsetsUIResource(BORDER, BORDER, BORDER, BORDER);
 
     //!! We should revisit this decision.  -arnold
     /**

@@ -6,12 +6,10 @@ import napkin.NapkinLookAndFeel;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Map;
-import java.util.Hashtable;
 import java.util.Dictionary;
 import javax.swing.*;
 
-public class NapkinQuickTest {
+public class NapkinQuickTest implements SwingConstants {
 
     /**
      * Run this class as a program
@@ -26,15 +24,19 @@ public class NapkinQuickTest {
 
         final JFrame top = new JFrame();
         top.setBackground(Color.cyan);
+        JTabbedPane tabbed = new JTabbedPane();
+        JPanel mainPanel = new JPanel();
+        tabbed.addTab("Main Stuff", mainPanel);
+        top.getContentPane().add(tabbed);
+
         JLabel label = new JLabel("-- Label --");
 
         laf.setIsFormal(top, true, true);
-        Container content = top.getContentPane();
-        content.setLayout(new GridLayout(4, 2));
+        mainPanel.setLayout(new GridLayout(4, 2));
         laf.setIsFormal(label, true, false);
         System.out.println("\nAdding label to " +
-                System.identityHashCode(content));
-        content.add(label);
+                System.identityHashCode(mainPanel));
+        mainPanel.add(label);
 
         JButton button = new JButton("Button!");
         button.addActionListener(new ActionListener() {
@@ -45,23 +47,33 @@ public class NapkinQuickTest {
         });
         laf.setIsFormal(button, true, false);
         System.out.println("\nAdding button");
-        content.add(button);
+        mainPanel.add(button);
         label.setText(laf.isFormal(label) ? "formal" : "napkin");
 
-        content.add(new JCheckBox("Check?"));
-        content.add(new JCheckBox("Check!"));
+        mainPanel.add(new JCheckBox("Check?"));
+        mainPanel.add(new JCheckBox("Check!"));
 
         ButtonGroup bgrp = new ButtonGroup();
         JRadioButton r1 = new JRadioButton("Radio?");
         JRadioButton r2 = new JRadioButton("Radio!");
         bgrp.add(r1);
         bgrp.add(r2);
-        content.add(r1);
-        content.add(r2);
+        mainPanel.add(r1);
+        mainPanel.add(r2);
 
         String[] words = new String[]{"combo", "box", "ui", "test"};
         JComboBox comboBox = new JComboBox(words);
-        content.add(comboBox);
+        mainPanel.add(comboBox);
+
+        JSlider slider = new JSlider(JSlider.HORIZONTAL, -100, 100, 0);
+        int majorSpacing = 50;
+        slider.setMajorTickSpacing(majorSpacing);
+        slider.setMinorTickSpacing(10);
+        slider.setPaintTicks(true);
+        Dictionary labels = slider.createStandardLabels(majorSpacing);
+        slider.setLabelTable(labels);
+        slider.setPaintLabels(true);
+        mainPanel.add(slider);
 
         JTextArea textArea = new JTextArea();
         StringBuffer sb = new StringBuffer();
@@ -77,19 +89,33 @@ public class NapkinQuickTest {
         }
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setPreferredSize(new Dimension(200, 100));
-        content.add(scrollPane);
+        tabbed.addTab("Text", scrollPane);
 
-        JSlider slider = new JSlider(JSlider.HORIZONTAL, -100, 100, 0);
-        int majorSpacing = 50;
-        slider.setMajorTickSpacing(majorSpacing);
-        slider.setMinorTickSpacing(10);
-        slider.setPaintTicks(true);
-        Dictionary labels = slider.createStandardLabels(majorSpacing);
-        slider.setLabelTable(labels);
-        slider.setPaintLabels(true);
-        content.add(slider);
+        for (int i = 0; i < 4; i++)
+            tabbed.addTab("Tab " + i, new JLabel("Just a Label #" + i, CENTER));
+
+        JPanel tabCtrls = new JPanel();
+        ButtonGroup ctlGrp = new ButtonGroup();
+        tabCtrls.setLayout(new GridLayout(2, 2));
+        addCtrl(tabbed, tabCtrls, ctlGrp, "top", TOP, true);
+        addCtrl(tabbed, tabCtrls, ctlGrp, "right", RIGHT, false);
+        addCtrl(tabbed, tabCtrls, ctlGrp, "left", LEFT, false);
+        addCtrl(tabbed, tabCtrls, ctlGrp, "bottom", BOTTOM, false);
+        tabbed.addTab("Controls", tabCtrls);
 
         top.pack();
         top.show();
+    }
+
+    private static void addCtrl(final JTabbedPane tabs, Container ctrls,
+            ButtonGroup grp, String lab, final int side, boolean on) {
+        JRadioButton button = new JRadioButton(lab, on);
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                tabs.setTabPlacement(side);
+            }
+        });
+        grp.add(button);
+        ctrls.add(button);
     }
 }

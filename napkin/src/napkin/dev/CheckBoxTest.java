@@ -56,7 +56,7 @@ class CheckBoxTest extends GeneratorTest
             if (useBox.isSelected())
                 boxG.draw(box);
             else
-                boxG.draw(boxGen.getSide(BoxGenerator.BOTTOM_SIDE));
+                boxG.draw(boxGen.getSide(BoxGenerator.BOTTOM));
 
             if (isSelected.isSelected()) {
                 Graphics2D checkG = lineGraphics(g, (float) widthSpin.get());
