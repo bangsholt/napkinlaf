@@ -1,4 +1,3 @@
-
 package napkin;
 
 import java.awt.*;
@@ -14,8 +13,8 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane {
     }
 
     protected void paintTitleBackground(Graphics g) {
-        NapkinUtil.background(g, this);
-
+        g = NapkinUtil.defaultGraphics(g, frame);
+        NapkinUtil.background(g, frame);
         if (line == null)
             line = new LineHolder(new CubicGenerator());
         Graphics2D ulG = NapkinUtil.copy(g);
@@ -24,10 +23,6 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane {
         line.shapeUpToDate(bounds, null);
         ulG.translate(0, bounds.height - 2);
         line.draw(ulG);
-    }
-
-    public void paint(Graphics g) {
-        NapkinUtil.defaultGraphics(g, this);
-        super.paint(g);
+        NapkinUtil.finishGraphics(g, frame);
     }
 }

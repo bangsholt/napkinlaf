@@ -25,15 +25,10 @@ public class NapkinLabelUI extends BasicLabelUI {
         super.uninstallUI(c);
     }
 
-    public void paint(Graphics g, JComponent c) {
-        NapkinUtil.defaultGraphics(g, c);
-        super.paint(g, c);
-    }
-
     public void update(Graphics g, JComponent c) {
-        if (!(c instanceof NapkinBackgroundLabel))
-            NapkinUtil.background(g, c);
+        g = NapkinUtil.defaultGraphics(g, c);
         super.update(g, c);
+        NapkinUtil.finishGraphics(g, c);
     }
 }
 

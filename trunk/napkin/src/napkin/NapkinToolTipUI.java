@@ -17,8 +17,7 @@ public class NapkinToolTipUI extends BasicToolTipUI implements NapkinConstants {
         Color bg = c.getBackground();
         NapkinUtil.installUI(c);
         super.installUI(c);
-        c.setOpaque(true);
-        c.setBackground(bg);
+        NapkinUtil.setupPaper(c, NapkinBackground.POSTIT_BG);
     }
 
     public void uninstallUI(JComponent c) {
@@ -26,14 +25,11 @@ public class NapkinToolTipUI extends BasicToolTipUI implements NapkinConstants {
         super.uninstallUI(c);
     }
 
-    public void paint(Graphics g, JComponent c) {
-        NapkinUtil.defaultGraphics(g, c);
-        super.paint(g, c);
-    }
-
     public void update(Graphics g, JComponent c) {
+        g = NapkinUtil.defaultGraphics(g, c);
         NapkinUtil.background(g, c);
         super.update(g, c);
+        NapkinUtil.finishGraphics(g, c);
     }
 }
 

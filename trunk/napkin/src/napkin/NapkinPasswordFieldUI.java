@@ -23,14 +23,11 @@ public class NapkinPasswordFieldUI extends BasicPasswordFieldUI {
         super.uninstallUI(c);
     }
 
-    protected void paintSafely(Graphics g) {
-        NapkinUtil.defaultGraphics(g, getComponent());
-        super.paintSafely(g);
-    }
-
     public void update(Graphics g, JComponent c) {
+        g = NapkinUtil.defaultGraphics(g, c);
         NapkinUtil.background(g, c);
         super.update(g, c);
+        NapkinUtil.finishGraphics(g, c);
     }
 }
 

@@ -2,31 +2,22 @@
 
 package napkin;
 
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
-import java.awt.*;
 
 public class NapkinRootPaneUI extends BasicRootPaneUI {
 
     private static final NapkinRootPaneUI napkinRootPaneUI = new NapkinRootPaneUI();
 
-    protected void installComponents(JRootPane jRootPane) {
-        super.installComponents(jRootPane);
-        JComponent content = (JComponent) jRootPane.getContentPane();
-        content.setOpaque(false);
-        JLayeredPane lp = jRootPane.getLayeredPane();
-        NapkinUtil.setBackground(lp, NapkinBackground.NAPKIN_BG);
-    }
-
-    protected void uninstallComponents(JRootPane jRootPane) {
-        super.uninstallComponents(jRootPane);
-        JLayeredPane lp = jRootPane.getLayeredPane();
-        NapkinUtil.uninstallLayeredPane(lp);
-    }
-
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, napkinRootPaneUI);
+    }
+
+    public void installUI(JComponent c) {
+        super.installUI(c);
+        NapkinUtil.installUI(c);
     }
 
     public void uninstallUI(JComponent c) {
@@ -34,9 +25,11 @@ public class NapkinRootPaneUI extends BasicRootPaneUI {
         super.uninstallUI(c);
     }
 
-    public void paint(Graphics g, JComponent c) {
-        NapkinUtil.defaultGraphics(g, c);
-        super.paint(g, c);
+    public void update(Graphics g, JComponent c) {
+        g = NapkinUtil.defaultGraphics(g, c);
+        NapkinUtil.background(g, c);
+        super.update(g, c);
+        NapkinUtil.finishGraphics(g, c);
     }
 }
 

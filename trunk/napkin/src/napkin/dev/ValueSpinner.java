@@ -2,13 +2,13 @@
 
 package napkin.dev;
 
-import napkin.Value;
-import napkin.ValueSource;
-
 import java.text.DecimalFormat;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
+
+import napkin.Value;
+import napkin.ValueSource;
 
 class ValueSpinner extends JPanel implements ValueSource {
 
@@ -75,11 +75,6 @@ class ValueSpinner extends JPanel implements ValueSource {
         format.applyPattern(pattern);
         model.addChangeListener(GeneratorTest.NEWPOINTS);
         return spinner;
-    }
-
-    void set(double val) {
-        midModel.setValue(new Double(val));
-        value.setMid(val);
     }
 
     public void randomize() {

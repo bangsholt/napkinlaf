@@ -31,7 +31,6 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI {
     }
 
     public void paint(Graphics g, JComponent c) {
-        NapkinUtil.defaultGraphics(g, c);
         int count = ((JTabbedPane) c).getTabCount();
         tabs = (TabHolder[]) NapkinUtil.reallocate(tabs, count);
         super.paint(g, c);
@@ -95,8 +94,10 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI {
     }
 
     public void update(Graphics g, JComponent c) {
+        g = NapkinUtil.defaultGraphics(g, c);
         NapkinUtil.background(g, c);
         super.update(g, c);
+        NapkinUtil.finishGraphics(g, c);
     }
 }
 

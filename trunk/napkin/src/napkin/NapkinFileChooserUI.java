@@ -47,14 +47,11 @@ public class NapkinFileChooserUI extends MetalFileChooserUI {
         new ComponentWalker(topPanel, NO_BORDER_VISITOR);
     }
 
-    public void paint(Graphics g, JComponent c) {
-        NapkinUtil.defaultGraphics(g, c);
-        super.paint(g, c);
-    }
-
     public void update(Graphics g, JComponent c) {
+        g = NapkinUtil.defaultGraphics(g, c);
         NapkinUtil.background(g, c);
         super.update(g, c);
+        NapkinUtil.finishGraphics(g, c);
     }
 }
 

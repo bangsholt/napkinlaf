@@ -35,17 +35,18 @@ public class NapkinBoxBorder extends NapkinBorder {
     public void doPaintBorder(Component c, Graphics g1, int x, int y,
             int width, int height) {
 
-        Graphics2D g = (Graphics2D) g1;
         BoxHolder box = (BoxHolder) borders.get(c);
         Rectangle passed = new Rectangle(x, y, width, height);
         box.shapeUpToDate(passed);
 
-        Rectangle clip = g.getClipBounds();
-        g.setClip(clip.x - BORDER, clip.y - BORDER, clip.width + 2 * BORDER,
+        Rectangle clip = g1.getClipBounds();
+        g1.setClip(clip.x - BORDER, clip.y - BORDER, clip.width + 2 * BORDER,
                 clip.height + 2 * BORDER);
+        Graphics2D g = NapkinUtil.defaultGraphics(g1, c);
         g.translate(x, y);
         box.draw(g);
         g.translate(-x, -y);
+        NapkinUtil.finishGraphics(g, c);
     }
 
     public Insets doGetBorderInsets(Component c) {

@@ -17,9 +17,7 @@ public class NapkinPopupMenuUI extends BasicPopupMenuUI
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
-        c.putClientProperty(PENDING_BG_COMPONENT, NapkinBackground.POSTIT_BG);
-        JPopupMenu m = (JPopupMenu) c;
-        m.addFocusListener(new NapkinUtil.DumpListener());
+        NapkinUtil.setupPaper(c, NapkinBackground.POSTIT_BG);
     }
 
     public void uninstallUI(JComponent c) {
@@ -27,15 +25,11 @@ public class NapkinPopupMenuUI extends BasicPopupMenuUI
         super.uninstallUI(c);
     }
 
-    public void paint(Graphics g, JComponent c) {
-        NapkinUtil.applyPendingBackground(c);
-        NapkinUtil.defaultGraphics(g, c);
-        super.paint(g, c);
-    }
-
     public void update(Graphics g, JComponent c) {
+        g = NapkinUtil.defaultGraphics(g, c);
         NapkinUtil.background(g, c);
         super.update(g, c);
+        NapkinUtil.finishGraphics(g, c);
     }
 }
 

@@ -34,58 +34,58 @@ import javax.swing.plaf.*;
 public class NapkinUtil implements NapkinConstants {
     private static final Set printed = new HashSet();
 
-    private static final Integer BOTTOM_LAYER = new Integer(Integer.MIN_VALUE);
-
     private static final Logger logger = Logger.getLogger("NapkinUtil");
     public static final Random random = new Random();
-    public static final Icon EMPTY_ICON = new Icon() {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-        }
-
-        public int getIconWidth() {
-            return 0;
-        }
-
-        public int getIconHeight() {
-            return 0;
-        }
-    };
 
     private static final Map strokes = new WeakHashMap();
     private static final Map fieldsForType = new WeakHashMap();
     private static final float FOCUS_MARK_WIDTH = 1.5f;
-    private static final float DISABLE_MARK_WIDTH = 2.2f;
-    private static final double DISABLE_LINE_HEIGHT = 0.34;
-    public static float alpha = 1.0f;
-    public static int compositeType = AlphaComposite.SRC_ATOP;
-    public static Image textureImage;
+
+    private static final BufferedImage textureImage;
+
+    private static final HierarchyListener CLEAR_BACKGROUND_LISTENER =
+            new HierarchyListener() {
+                public void hierarchyChanged(HierarchyEvent e) {
+                    Component c = e.getComponent();
+                    if (c instanceof JComponent) {
+                        JComponent jc = (JComponent) c;
+                        if (jc.getClientProperty(IS_PAPER) == null)
+                            jc.putClientProperty(BACKGROUND, null);
+                    }
+                }
+            };
+    private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
+
+    static {
+        ImageIcon icon = NapkinBackground.ERASURE.getIcon();
+        int w = icon.getIconWidth();
+        int h = icon.getIconHeight();
+        textureImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D gi = textureImage.createGraphics();
+        gi.setColor(new Color(0, 0, 0, 0));
+        gi.fillRect(0, 0, w, h);
+        gi.drawImage(icon.getImage(), 0, 0, icon.getImageObserver());
+    }
+
+    public static class DisabledMark {
+        public final BufferedImage image;
+        public final int offX;
+        public final int offY;
+        public final Graphics2D graphics;
+
+        public DisabledMark(Graphics2D graphics, BufferedImage image, int offX, int offY) {
+            this.graphics = copy(graphics);
+            this.image = image;
+            this.offX = offX;
+            this.offY = offY;
+        }
+    }
 
     public static Object property(ComponentUI ui, String prop) {
         String uiName = ui.getClass().getName();
         String base = ".Napkin";
         String pref = uiName.substring(uiName.lastIndexOf(base) + base.length(), uiName.length() - 2);
         return pref + "." + prop;
-    }
-
-    public static void markDisabled(Graphics g, JComponent c) {
-        if (c.isEnabled())
-            return;
-
-        LineHolder slash = (LineHolder) c.getClientProperty(DISABLED_MARK);
-        if (slash == null) {
-            slash = new LineHolder(CubicGenerator.INSTANCE, LineHolder.SLASH_UP);
-            slash.setWidth(DISABLE_MARK_WIDTH);
-            c.putClientProperty(DISABLED_MARK, slash);
-        }
-
-        Rectangle bounds = c.getBounds();
-        slash.shapeUpToDate(new Rectangle(bounds.width, bounds.height), null);
-        Color origColor = g.getColor();
-        Rectangle clip = g.getClipBounds();
-        g.setColor(NapkinIconFactory.RadioButtonIcon.MARK_COLOR);
-        slash.draw(g);
-        g.setColor(origColor);
-        g.setClip(clip);
     }
 
     public static class DumpListener implements FocusListener {
@@ -104,6 +104,7 @@ public class NapkinUtil implements NapkinConstants {
             };
             timer = new Timer(delay, taskPerformer);
             timer.start();
+            ev.getComponent().removeFocusListener(this);
         }
 
         public void focusLost(FocusEvent e) {
@@ -157,44 +158,48 @@ public class NapkinUtil implements NapkinConstants {
 
     static String descFor(Component c) {
         if (c == null)
-            return "null";
+            return "[null]";
         String desc;
+        String idStr = "[" + System.identityHashCode(c) + "]";
         if ((desc = c.getName()) != null)
-            return desc;
+            return desc.trim() + idStr + "/" + c.getClass().getName();
         desc = c.getClass().getName();
         int dot = desc.lastIndexOf('.');
         if (dot > 0)
             desc = desc.substring(dot + 1);
+        desc += idStr;
 
         if (c instanceof JLabel)
             desc += ": " + ((JLabel) c).getText();
-        if (c instanceof AbstractButton)
-            return desc + ": " + ((AbstractButton) c).getText();
-        if (c instanceof JTextField)
-            return desc + ": " + ((JTextField) c).getText();
-        if (c instanceof JPopupMenu)
-            return desc + ": " + ((JPopupMenu) c).getLabel();
-        if (c instanceof Label)
-            return desc + ": " + ((Label) c).getText();
-        if (c instanceof TextField)
-            return desc + ": " + ((TextField) c).getText();
-        if (c instanceof Button)
-            return desc + ": " + ((Button) c).getLabel();
-        if (c instanceof Checkbox)
-            return desc + ": " + ((Checkbox) c).getLabel();
-        if (c instanceof Dialog)
-            return desc + ": " + ((Dialog) c).getTitle();
-        if (c instanceof Frame)
-            return desc + ": " + ((Frame) c).getTitle();
-        if (c instanceof JInternalFrame)
-            return desc + ": " + ((JInternalFrame) c).getTitle();
+        else if (c instanceof AbstractButton)
+            desc += ": " + ((AbstractButton) c).getText();
+        else if (c instanceof JTextField)
+            desc += ": " + ((JTextField) c).getText();
+        else if (c instanceof JPopupMenu)
+            desc += ": " + ((JPopupMenu) c).getLabel();
+        else if (c instanceof Label)
+            desc += ": " + ((Label) c).getText();
+        else if (c instanceof TextField)
+            desc += ": " + ((TextField) c).getText();
+        else if (c instanceof Button)
+            desc += ": " + ((Button) c).getLabel();
+        else if (c instanceof Checkbox)
+            desc += ": " + ((Checkbox) c).getLabel();
+        else if (c instanceof Dialog)
+            desc += ": " + ((Dialog) c).getTitle();
+        else if (c instanceof Frame)
+            desc += ": " + ((Frame) c).getTitle();
+        else if (c instanceof JInternalFrame)
+            desc += ": " + ((JInternalFrame) c).getTitle();
+        desc = desc.trim();
 
         if (c instanceof JComponent) {
             JComponent jc = (JComponent) c;
             Border border = jc.getBorder();
             if (border instanceof TitledBorder)
-                return desc + ": " + ((TitledBorder) border).getTitle();
+                desc += ": " + ((TitledBorder) border).getTitle();
         }
+        desc = desc.trim();
 
         return desc;
     }
@@ -202,53 +207,15 @@ public class NapkinUtil implements NapkinConstants {
     public static void installUI(JComponent c) {
         c.setOpaque(false);
         c.setBackground(CLEAR);
+        c.addHierarchyListener(CLEAR_BACKGROUND_LISTENER);
     }
 
     public static void uninstallUI(JComponent c) {
         c.setOpaque(true);
+        c.removeHierarchyListener(CLEAR_BACKGROUND_LISTENER);
+        for (int i = 0; i < CLIENT_PROPERTIES.length; i++)
+            c.putClientProperty(CLIENT_PROPERTIES[i], null);
         unsetupBorder(c);
-    }
-
-    static void setBackground(Component child, NapkinBackground bg) {
-        setBackground(layeredPane(child), bg);
-    }
-
-    static JLayeredPane layeredPane(Component child) {
-        for (Component c = child; c != null; c = c.getParent()) {
-            if (c instanceof JLayeredPane)
-                return (JLayeredPane) c;
-        }
-        return null;
-    }
-
-    static void setBackground(JLayeredPane lp, NapkinBackground bg) {
-        if (lp == null)
-            return;
-        removeBackground(lp);
-        Component cur = new NapkinBackgroundLabel(bg);
-        lp.add(cur, BOTTOM_LAYER);
-        lp.putClientProperty(BG_COMPONENT, cur);
-    }
-
-    static void removeBackground(Component child) {
-        for (Component c = child; c != null; c = c.getParent()) {
-            if (c instanceof JLayeredPane) {
-                JLayeredPane lp = (JLayeredPane) c;
-                removeBackground(lp);
-                return;
-            }
-        }
-        // removing is OK even if nothing is there
-    }
-
-    static void removeBackground(JLayeredPane lp) {
-        Component cur = (Component) lp.getClientProperty(BG_COMPONENT);
-        if (cur != null)
-            lp.remove(cur);
-    }
-
-    static void uninstallLayeredPane(JLayeredPane lp) {
-        removeBackground(lp);
     }
 
     public static double leftRight(double x, boolean left) {
@@ -286,36 +253,74 @@ public class NapkinUtil implements NapkinConstants {
         return lineG;
     }
 
-    private static TexturePaint texture;
-
-    static {
-        int w = 10;
-        int h = 10;
-        BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-        Graphics2D gi = bi.createGraphics();
-        Color oc = Color.blue;
-        Color ic = Color.green;
-        gi.setPaint(new GradientPaint(0, 0, oc, w * .35f, h * .35f, ic));
-        gi.fillRect(0, 0, w / 2, h / 2);
-        gi.setPaint(new GradientPaint(w, 0, oc, w * .65f, h * .35f, ic));
-        gi.fillRect(w / 2, 0, w / 2, h / 2);
-        gi.setPaint(new GradientPaint(0, h, oc, w * .35f, h * .65f, ic));
-        gi.fillRect(0, h / 2, w / 2, h / 2);
-        gi.setPaint(new GradientPaint(w, h, oc, w * .65f, h * .65f, ic));
-        gi.fillRect(w / 2, h / 2, w / 2, h / 2);
-        texture = new TexturePaint(bi, new Rectangle(0, 0, w, h));
-    }
+    private static final AlphaComposite ERASURE_COMPOSITE =
+            AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.8f);
 
     public static Graphics2D defaultGraphics(Graphics g1, Component c) {
+
         Graphics2D g = (Graphics2D) g1;
+        boolean enabled = c.isEnabled() && !(c instanceof FakeEnabled);
+        if (!enabled && c instanceof JComponent) {
+            Rectangle r = g.getClipBounds();
+            int w = r.width;
+            int h = r.height;
+            BufferedImage tmp = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D tg = tmp.createGraphics();
+            Composite origComp = tg.getComposite();
+            tg.setComposite(AlphaComposite.Clear);
+            tg.fillRect(0, 0, w, h);
+            tg.setComposite(origComp);
+            int offX = -r.x;
+            int offY = -r.y;
+            tg.translate(offX, offY);
+
+            // copy in values from the original (should be a method to do this)
+            tg.setBackground(g.getBackground());
+            tg.setClip(0, 0, w, h);
+            tg.setColor(g.getColor());
+            tg.setComposite(g.getComposite());
+            tg.setFont(g.getFont());
+            tg.setPaint(g.getPaint());
+            tg.setRenderingHints(g.getRenderingHints());
+            tg.setStroke(g.getStroke());
+
+            JComponent jc = (JComponent) c;
+            jc.putClientProperty(DISABLED_MARK, new DisabledMark(g, tmp, offX, offY));
+            g = tg;
+        }
+
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        if (!c.isEnabled()) {
-            g.setPaint(texture);
-            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 0.5f));
-        }
         setupBorder(c);
         return g;
+    }
+
+    private static final Set disabled = new HashSet();
+
+    public static void finishGraphics(Graphics g1, Component c) {
+        if (!(c instanceof JComponent))
+            return;
+
+        JComponent jc = (JComponent) c;
+        DisabledMark mark = (DisabledMark) jc.getClientProperty(DISABLED_MARK);
+        if (mark == null) {
+            disabled.remove(c);
+            return;
+        }
+
+        jc.putClientProperty(DISABLED_MARK, null);
+        Graphics2D tg = (Graphics2D) g1;
+        tg.setComposite(ERASURE_COMPOSITE);
+        Point start = getStart(jc, null, false);
+        int w = textureImage.getWidth();
+        int h = textureImage.getHeight();
+        Rectangle anchor = new Rectangle(w - start.x, h - start.y, w, h);
+        tg.setPaint(new TexturePaint(textureImage, anchor));
+        tg.fillRect(0, 0, mark.image.getWidth(), mark.image.getHeight());
+
+        Graphics2D g = mark.graphics;
+        g.drawImage(mark.image, -mark.offX, -mark.offY, jc);
+        disabled.add(c);
     }
 
     private static void setupBorder(Component c) {
@@ -332,22 +337,9 @@ public class NapkinUtil implements NapkinConstants {
         if (b instanceof NapkinWrappedBorder) {
             NapkinWrappedBorder nb = (NapkinWrappedBorder) b;
             c.setBorder(nb.getFormalBorder());
+        } else if (b instanceof NapkinBorder) {
+            c.setBorder(null);
         }
-    }
-
-    static boolean isPressed(Component c) {
-        if (c instanceof AbstractButton) {
-            AbstractButton b = (AbstractButton) c;
-            ButtonModel model = b.getModel();
-            return model.isPressed() && model.isArmed();
-        }
-        return false;
-    }
-
-    static boolean isDefault(Component c) {
-        if (c instanceof JButton)
-            return ((JButton) c).isDefaultButton();
-        return false;
     }
 
     static AffineTransform scaleMat(double scale) {
@@ -361,23 +353,16 @@ public class NapkinUtil implements NapkinConstants {
             matrix.transform(points, 0, points, 0, points.length / 2);
     }
 
-    static JButton createArrowButton(int pointTowards) {
+    static JButton createArrowButton(int pointTowards, JComponent holder) {
         int size = NapkinIconFactory.ArrowIcon.DEFAULT_SIZE;
-        return createArrowButton(pointTowards, size);
+        return createArrowButton(pointTowards, size, holder);
     }
 
-    static JButton createArrowButton(int pointTowards, int size) {
+    static JButton createArrowButton(int pointTowards, int size, JComponent holder) {
         JButton button = new JButton(NapkinIconFactory.createArrowIcon(pointTowards, size));
         button.setBorderPainted(false);
+        button.putClientProperty(PAPER_HOLDER, holder);
         return button;
-    }
-
-    static void applyPendingBackground(JComponent c) {
-        Object pending = c.getClientProperty(PENDING_BG_COMPONENT);
-        if (pending != null) {
-            c.putClientProperty(PENDING_BG_COMPONENT, null);
-            setBackground(c, (NapkinBackground) pending);
-        }
     }
 
     static boolean isLeftToRight(Component c) {
@@ -446,29 +431,85 @@ public class NapkinUtil implements NapkinConstants {
         System.out.println(label + ": " + x + ", " + y);
     }
 
-    public static void background(Graphics g, Component c) {
-        String name = c.getName();
-        if (name != null && name.endsWith("glassPane"))
+    public static void setupPaper(JComponent c, NapkinBackground bg) {
+        c.setOpaque(true);
+        c.putClientProperty(IS_PAPER, Boolean.TRUE);
+        c.putClientProperty(PAPER, c);
+        c.putClientProperty(BACKGROUND, bg);
+    }
+
+    public static void background(Graphics g1, Component c) {
+        JComponent paper = paperFor(c);
+        if (paper == null)
+            return;
+        if (paper.getRootPane().getGlassPane() == c)
             return;
 
-        JLayeredPane lp = layeredPane(c);
-        if (lp == null)
-            return;
-        NapkinBackgroundLabel lab = (NapkinBackgroundLabel)
-                lp.getClientProperty(BG_COMPONENT);
-        NapkinBackground bg = lab.getNapkinBackground();
-        boolean print = c.getClass() == JLabel.class;
-        print = false;
-        Insets insets = ((JComponent) c).getInsets();
-        Point start = getStart(c, insets, print);
-        int w = lp.getWidth() + insets.left + insets.right;
-        int h = lp.getHeight() + insets.top + insets.bottom;
-        bg.paint(c, g, -start.x, -start.y, w, h);
+        Graphics2D g = (Graphics2D) g1;
+        NapkinBackground bg =
+                (NapkinBackground) paper.getClientProperty(BACKGROUND);
+
+        Rectangle pRect = bounds(paper);
+        Rectangle cRect = bounds(c);
+
+        bg.paint(c, g, pRect, cRect, insets(c));
+    }
+
+    private static Rectangle bounds(Component c) {
+        Insets in = insets(c);
+        Point start = getStart(c, in, false);
+        int x = start.x;
+        int y = start.y;
+        int width = c.getWidth() + in.left + in.right;
+        int height = c.getHeight() + in.top + in.bottom;
+        return new Rectangle(x, y, width, height);
+    }
+
+    private static Insets insets(Component c) {
+        Insets in;
+        if (c instanceof JComponent)
+            in = ((JComponent) c).getInsets();
+        else
+            in = NO_INSETS;
+        return in;
+    }
+
+    private static JComponent paperFor(Component c) {
+        if (c == null)
+            return null;
+
+        if (!(c instanceof JComponent))
+            return paperFor(c.getParent());
+
+        JComponent jc = (JComponent) c;
+        JComponent paper = (JComponent) jc.getClientProperty(PAPER);
+        if (paper != null)
+            return paper;
+
+        JComponent holder = (JComponent) jc.getClientProperty(PAPER_HOLDER);
+        if (holder != null)
+            paper = paperFor(holder);
+        else
+            paper = paperFor(jc.getParent());
+        if (paper == null) {
+            // This can happen to any entity without a JComponent ancestors.
+            // If so, we nominate ourselves as the relevant background paper.
+            // Unfortunately this is common: JFrame et al are not JComponents
+            // and have no UI classes.  So this is what you get for any regular
+            // top-level window we haven't overridden.  I wonder why JFrame and
+            // friends are like this.
+            setupPaper(jc, NapkinBackground.NAPKIN_BG);
+            return jc;
+        }
+        jc.putClientProperty(PAPER, paper);
+        return paper;
     }
 
     private static Point getStart(Component c, Insets insets, boolean print) {
-        Point start = new Point(-insets.left, -insets.top);
-        while (c != null && !(c instanceof JRootPane)) {
+        Point start = new Point();
+        if (insets != null)
+            start.setLocation(-insets.left, -insets.top);
+        while (c != null && !isPaper(c)) {
             if (print)
                 System.out.println("(" + c.getX() + ", " + c.getY() + "): " + descFor(c));
             start.x += c.getX();
@@ -478,6 +519,12 @@ public class NapkinUtil implements NapkinConstants {
             c = c.getParent();
         }
         return start;
+    }
+
+    private static boolean isPaper(Component c) {
+        if (c instanceof JComponent)
+            return (((JComponent) c).getClientProperty(IS_PAPER) != null);
+        return false;
     }
 
     public static void dumpObject(Object obj, String fileName) {
@@ -610,9 +657,8 @@ public class NapkinUtil implements NapkinConstants {
             String text, int textOffset, LineHolder line,
             boolean isDefault, NapkinPainter helper) {
 
-        boolean enabled = c.isEnabled();
         Graphics2D ulG;
-        if (isDefault || !enabled) {
+        if (isDefault) {
             if (line == null)
                 line = new LineHolder(new CubicGenerator());
             ulG = copy(g);
@@ -621,14 +667,8 @@ public class NapkinUtil implements NapkinConstants {
             int x = textOffset;
             int y = textOffset;
             ulG.translate(x, y);
-            if (enabled) {
-                ulG.setColor(NapkinIconFactory.CheckBoxIcon.MARK_COLOR);
-                line.setWidth(FOCUS_MARK_WIDTH);
-            } else {
-                ulG.setColor(NapkinIconFactory.RadioButtonIcon.MARK_COLOR);
-                ulG.translate(0, -fm.getAscent() * DISABLE_LINE_HEIGHT);
-                line.setWidth(DISABLE_MARK_WIDTH);
-            }
+            ulG.setColor(NapkinIconFactory.CheckBoxIcon.MARK_COLOR);
+            line.setWidth(FOCUS_MARK_WIDTH);
             line.draw(ulG);
         }
 

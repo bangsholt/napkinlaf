@@ -2,10 +2,10 @@
 
 package napkin;
 
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
-import java.awt.*;
 
 public class NapkinMenuItemUI extends BasicMenuItemUI implements NapkinPainter {
 
@@ -26,7 +26,7 @@ public class NapkinMenuItemUI extends BasicMenuItemUI implements NapkinPainter {
     }
 
     protected void paintText(Graphics g, JMenuItem item, Rectangle textRect,
-                             String text) {
+            String text) {
 
         if (line == null)
             line = new LineHolder(new CubicGenerator());
@@ -37,14 +37,11 @@ public class NapkinMenuItemUI extends BasicMenuItemUI implements NapkinPainter {
         super.paintText(g, (JMenuItem) c, textRect, text);
     }
 
-    public void paint(Graphics g, JComponent c) {
-        NapkinUtil.defaultGraphics(g, c);
-        super.paint(g, c);
-    }
-
     public void update(Graphics g, JComponent c) {
+        g = NapkinUtil.defaultGraphics(g, c);
         NapkinUtil.background(g, c);
         super.update(g, c);
+        NapkinUtil.finishGraphics(g, c);
     }
 }
 
