@@ -57,44 +57,64 @@ public class NapkinBackground {
     }
 
     public void paint(Component c, Graphics g, int w, int h) {
+        paint(c, g, 0, 0, w, h);
+    }
+
+    public void
+            paint(Component c, Graphics g, int xOff, int yOff, int w, int h) {
+
         int topH = tlCorner.getIconHeight();
-        paintSliceAcross(c, g, 0, w, topH, tlCorner, tSide, trCorner);
+        paintSliceAcross(c, g, 0, w, topH, xOff, yOff, tlCorner, tSide,
+                trCorner);
 
         int midH = h - (tSide.getIconHeight() + bSide.getIconHeight());
-        paintSliceAcross(c, g, topH, w, midH, lSide, middle, rSide);
+        paintSliceAcross(c, g, topH, w, midH, xOff, yOff, lSide, middle, rSide);
 
         int botH = blCorner.getIconHeight();
-        paintSliceAcross(c, g, h - botH, w, botH, blCorner, bSide, brCorner);
+        paintSliceAcross(c, g, h - botH, w, botH, xOff, yOff, blCorner, bSide,
+                brCorner);
     }
 
     private void paintSliceAcross(Component c, Graphics g1, int y, int w,
-            int h, Icon left, Icon mid, Icon right) {
+            int h, int xOff, int yOff, Icon left, Icon mid, Icon right) {
 
-        if (left.getIconHeight() == 0)
+        if (yOff + h <= y)
             return;
 
         int lw = left.getIconWidth();
-        paintArea(c, g1, left, 0, y, lw, h);
+        paintArea(c, g1, left, 0, y, lw, h, xOff, yOff);
 
         int midW = w - (lw + right.getIconWidth());
-        paintArea(c, g1, mid, lw, y, midW, h);
+        paintArea(c, g1, mid, lw, y, midW, h, xOff, yOff);
 
         int rX = w - right.getIconWidth();
-        paintArea(c, g1, right, rX, y, right.getIconWidth(), h);
+        paintArea(c, g1, right, rX, y, right.getIconWidth(), h, xOff, yOff);
     }
 
     private void paintArea(Component c, Graphics g1, Icon icon, int atX,
-            int atY, int width, int height) {
+            int atY, int w, int h, int xOff, int yOff) {
 
-        if (width == 0 || height == 0)
+        if (w == 0 || h == 0)
             return;
 
-        int endX = atX + width;
-        int endY = atY + height;
+        int endX = atX + w;
+        int endY = atY + h;
+
+        atX += xOff;
+        atY += yOff;
+
         int iw = icon.getIconWidth();
         int ih = icon.getIconHeight();
-        for (int x = atX; x < endX; x += iw)
-            for (int y = atY; y < endY; y += ih)
-                icon.paintIcon(c, g1, x, y);
+        for (int x = atX; x < endX; x += iw) {
+            if (x + iw < 0)
+                continue;
+            for (int y = atY; y < endY; y += ih) {
+                if (y + ih >= 0) {
+//                    if (c.getClass() == JLabel.class)
+//                        System.out.println("(" + x + ", " + y + ") " + iw + " x " + ih);
+                    icon.paintIcon(c, g1, x, y);
+                }
+            }
+        }
     }
 }

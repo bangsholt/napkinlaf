@@ -18,8 +18,8 @@ public class NapkinButtonUI extends BasicButtonUI {
     }
 
     public void installUI(JComponent c) {
-        super.installUI(c);
         NapkinUtil.installUI(c);
+        super.installUI(c);
     }
 
     public void paint(Graphics g, JComponent c) {
@@ -70,6 +70,11 @@ public class NapkinButtonUI extends BasicButtonUI {
         }
 
         super.paintText(g, b, textRect, text);
+    }
+
+    public void update(Graphics g, JComponent c) {
+        NapkinUtil.background(g, c);
+        super.update(g, c);
     }
 }
 

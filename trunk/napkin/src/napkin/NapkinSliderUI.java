@@ -37,8 +37,8 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
     }
 
     public void installUI(JComponent c) {
-        super.installUI(c);
         NapkinUtil.installUI(c);
+        super.installUI(c);
     }
 
     public void paint(Graphics g, JComponent c) {
@@ -118,5 +118,9 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
         ticks.set(pos, holder);
     }
 
+    public void update(Graphics g, JComponent c) {
+        NapkinUtil.background(g, c);
+        super.update(g, c);
+    }
 }
 

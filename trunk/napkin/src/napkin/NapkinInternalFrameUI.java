@@ -19,8 +19,8 @@ public class NapkinInternalFrameUI extends BasicInternalFrameUI {
     }
 
     public void installUI(JComponent c) {
-        super.installUI(c);
         NapkinUtil.installUI(c);
+        super.installUI(c);
         c.setOpaque(true);
     }
 
@@ -29,4 +29,3 @@ public class NapkinInternalFrameUI extends BasicInternalFrameUI {
         super.paint(g, c);
     }
 }
-

@@ -22,8 +22,8 @@ public class NapkinScrollBarUI extends BasicScrollBarUI {
     }
 
     public void installUI(JComponent c) {
-        super.installUI(c);
         NapkinUtil.installUI(c);
+        super.installUI(c);
     }
 
     public void paint(Graphics g, JComponent c) {
@@ -64,5 +64,10 @@ public class NapkinScrollBarUI extends BasicScrollBarUI {
                 super.mouseClicked(e);
             }
         };
+    }
+
+    public void update(Graphics g, JComponent c) {
+        NapkinUtil.background(g, c);
+        super.update(g, c);
     }
 }

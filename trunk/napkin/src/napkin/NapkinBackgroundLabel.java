@@ -15,7 +15,10 @@ public class NapkinBackgroundLabel extends JLabel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         bg.paint(this, g, getParent().getWidth(), getParent().getHeight());
+    }
 
+    NapkinBackground getNapkinBackground() {
+        return bg;
     }
 
     public Dimension getPreferredSize() {

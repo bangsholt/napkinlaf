@@ -14,13 +14,18 @@ public class NapkinToolBarUI extends BasicToolBarUI {
     }
 
     public void installUI(JComponent c) {
-        super.installUI(c);
         NapkinUtil.installUI(c);
+        super.installUI(c);
     }
 
     public void paint(Graphics g, JComponent c) {
         NapkinUtil.defaultGraphics(g);
         super.paint(g, c);
+    }
+
+    public void update(Graphics g, JComponent c) {
+        NapkinUtil.background(g, c);
+        super.update(g, c);
     }
 }
 
