@@ -486,11 +486,10 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static NapkinTheme background(Graphics g1, Component c) {
-        if (!c.isOpaque())
-            return null;
-
         JComponent themeTop = themeTopFor(c);
         if (themeTop == null)
+            return null;
+        if (themeTop.getRootPane().getGlassPane() == c)
             return null;
 
         Graphics2D g = (Graphics2D) g1;
@@ -512,30 +511,6 @@ public class NapkinUtil implements NapkinConstants {
         int width = c.getWidth() + in.left + in.right;
         int height = c.getHeight() + in.top + in.bottom;
         return new Rectangle(x, y, width, height);
-    }
-
-    /**
-     * This is basically meant to help do debugging only inside a certain type
-     * of component.  For example, you might turn on a debugging flag only for
-     * components underneath a <tt>JViewport.class</tt> (inclusive; that is, the
-     * <tt>JViewport</tt> itself would be included as <tt>true</tt>).
-     *
-     * @param c    A component that might be under a component of a given type
-     * @param type The type of component
-     *
-     * @return <tt>true</tt> if this component is of the type or has such a
-     *         component as an ancestor.
-     */
-    public static boolean within(Component c, Class type) {
-        if (c == null)
-            return false;
-        if (c instanceof JTree)
-            return false;   // just a workaround
-        if (type.isAssignableFrom(c.getClass())) {
-            System.out.println("--");
-            return true;
-        }
-        return within(c.getParent(), type);
     }
 
     private static Insets insets(Component c) {
@@ -575,8 +550,7 @@ public class NapkinUtil implements NapkinConstants {
         return themeTop;
     }
 
-    private static Point getStart(Component c, Insets insets,
-            boolean print) {
+    private static Point getStart(Component c, Insets insets, boolean print) {
         Point start = new Point();
         if (insets != null)
             start.setLocation(-insets.left, -insets.top);
@@ -584,7 +558,6 @@ public class NapkinUtil implements NapkinConstants {
             if (print)
                 System.out.println(
                         "(" + c.getX() + ", " + c.getY() + "): " + descFor(c));
-
             start.x += c.getX();
             start.y += c.getY();
             if (print)
@@ -824,10 +797,6 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static Object ifReplace(Object current, Object candidate) {
-        return (replace(current, candidate) ? candidate : current);
-    }
-
-    public static Color ifReplace(Color current, Color candidate) {
         return (replace(current, candidate) ? candidate : current);
     }
 }

@@ -320,16 +320,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 return new NapkinSelectedBorder();
             }
         };
-        Object treeOpenIcon = new UIDefaults.ActiveValue() {
-            public Object createValue(UIDefaults table) {
-                return NapkinIconFactory.createArrowIcon(SOUTH, 8);
-            }
-        };
-        Object treeClosedIcon = new UIDefaults.ActiveValue() {
-            public Object createValue(UIDefaults table) {
-                return NapkinIconFactory.createArrowIcon(EAST, 8);
-            }
-        };
 
         setupActions(table);
 
@@ -347,11 +337,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "OptionPane.messageAreaBorder", null,
 
             "TabbedPane.contentBorderInsets", NapkinBoxBorder.DEFAULT_INSETS,
-
-            "Tree.openIcon", treeOpenIcon,
-            "Tree.closedIcon", treeClosedIcon,
-            "Tree.leafIcon", null,
-            "Tree.selectionBorderColor", null,
 
             "TextField.border", underlineBorder,
             "PasswordField.border", underlineBorder,
@@ -542,16 +527,11 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                     else
                         entry.setValue(compoundBorder);
                 }
-            } else if (key.endsWith(".foreground") ||
-                    key.endsWith("BorderColor") ||
-                    key.endsWith(".textForeground")) {
+            } else if (key.endsWith(".foreground")) {
                 entry.setValue(theme.getPenColor());
             } else if (key.endsWith(".background") ||
-                    key.endsWith(".selectionBackground") ||
-                    key.endsWith(".textBackground")) {
+                    key.endsWith(".selectionBackground")) {
                 entry.setValue(clear);
-            } else if (key.endsWith(".selectionForeground")) {
-                entry.setValue(theme.getSelectionColor());
             }
         }
     }

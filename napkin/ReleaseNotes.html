@@ -5,47 +5,6 @@
 
 <body>
 
-<h2>Release Notes: Napkin Look & Feel</h2>
-
-<h3>Things You Ought To Know</h3>
-
-Here are some things you ought to know if you are going to use the Napkin
-Look & Feel in your work.
-
-<ul>
-
-<li>Napkin does not work with JDK 1.3.  The PLAF framework is quite
-    different between the two.
-
-<li>It takes time to draw all the variations that make up the "hand
-    drawn" look of Napkin.  You will therefore notice that it is rather
-    slower than other L&Fs, although it seems quite usable on a
-    "modern" system.  I'm sure this could be made better, but I
-    think it will be inevitable.
-
-<li><tt>JViewport</tt> requires "simple" scrolling
-    (<tt>JViewport.SIMPLE_SCROLL_MODE).  So it will actively ignore
-    any other mode you set, although it will remember the other
-    mode and restore it when you swtich away from Napkin.
-
-<li>You will not get handwritten text (by default) in HTML, or at
-    least if you do that is platform dependent.  This is not possible
-    to set in JDK 1.4, but will be in JDK 1.5.
-
-</ul>
-
-<h3>Change History</h3>
-
-<h4>beta-005, 29 August, 2004</h4>
-
-<ul>
-<li>Make progress bar stop clearing its own background.
-<li>JTree now does something napkin-ish. [fr 1019700]
-<li>Scrolling repaints entire background to keep it correct. [bug 1019688]
-<li>Automatically tag the CVS version.
-<li>Use selection color for selections in JList.
-</ul>
-
 <h4>beta-004, 29 August, 2004</h4>
 
 <ul>
