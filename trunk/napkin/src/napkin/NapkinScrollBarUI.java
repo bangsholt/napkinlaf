@@ -47,7 +47,7 @@ public class NapkinScrollBarUI extends BasicScrollBarUI {
             thumb = new DrawnBoxHolder();
         thumb.shapeUpToDate(thumbBounds);
         Graphics2D lineG = NapkinUtil.copy(g);
-        lineG.setColor(Color.black);
+        lineG.setColor(NapkinTheme.Manager.getCurrentTheme().drawColor());
         lineG.translate(thumbBounds.x, thumbBounds.y);
         thumb.draw(lineG);
     }

@@ -20,7 +20,7 @@ public class NapkinDesktopIconUI extends BasicDesktopIconUI {
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
-        NapkinUtil.setupPaper(c, NapkinBackground.POSTIT_BG);
+        NapkinUtil.setupPaper(c, NapkinTheme.Manager.getCurrentTheme().popup());
     }
 
     public void uninstallUI(JComponent c) {

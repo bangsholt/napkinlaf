@@ -37,12 +37,6 @@
  * @(#)SwingSet2.java	1.35 03/01/23
  */
 
-import napkin.NapkinUtil;
-
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import javax.swing.plaf.metal.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.lang.reflect.Constructor;
@@ -51,6 +45,10 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import java.util.Vector;
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.event.*;
+import javax.swing.plaf.metal.*;
 
 /**
  * A demo that shows all of the Swing components.
@@ -309,12 +307,15 @@ public class SwingSet2 extends JPanel {
         JMenuItem mi;
         // ***** create the menubar ****
         JMenuBar menuBar = new JMenuBar();
-        menuBar.getAccessibleContext().setAccessibleName(getString("MenuBar.accessible_description"));
+        menuBar.getAccessibleContext().setAccessibleName(
+                getString("MenuBar.accessible_description"));
 
         // ***** create File menu
-        JMenu fileMenu = (JMenu) menuBar.add(new JMenu(getString("FileMenu.file_label")));
+        JMenu fileMenu = (JMenu) menuBar.add(
+                new JMenu(getString("FileMenu.file_label")));
         fileMenu.setMnemonic(getMnemonic("FileMenu.file_mnemonic"));
-        fileMenu.getAccessibleContext().setAccessibleDescription(getString("FileMenu.accessible_description"));
+        fileMenu.getAccessibleContext().setAccessibleDescription(
+                getString("FileMenu.accessible_description"));
 
         createMenuItem(fileMenu, "FileMenu.about_label",
                 "FileMenu.about_mnemonic",
@@ -344,9 +345,11 @@ public class SwingSet2 extends JPanel {
         if (numSSs == 0) {
             // ***** create laf switcher menu
             lafMenu =
-                    (JMenu) menuBar.add(new JMenu(getString("LafMenu.laf_label")));
+                    (JMenu) menuBar.add(
+                            new JMenu(getString("LafMenu.laf_label")));
             lafMenu.setMnemonic(getMnemonic("LafMenu.laf_mnemonic"));
-            lafMenu.getAccessibleContext().setAccessibleDescription(getString("LafMenu.laf_accessible_description"));
+            lafMenu.getAccessibleContext().setAccessibleDescription(
+                    getString("LafMenu.laf_accessible_description"));
 
             initLaf = null;
             String[] lafs = split(getString("LafMenu.laf_list"));
@@ -369,15 +372,19 @@ public class SwingSet2 extends JPanel {
 
             // ***** create themes menu
             themesMenu =
-                    (JMenu) menuBar.add(new JMenu(getString("ThemesMenu.themes_label")));
+                    (JMenu) menuBar.add(
+                            new JMenu(getString("ThemesMenu.themes_label")));
             themesMenu.setMnemonic(getMnemonic("ThemesMenu.themes_mnemonic"));
-            themesMenu.getAccessibleContext().setAccessibleDescription(getString("ThemesMenu.themes_accessible_description"));
+            themesMenu.getAccessibleContext().setAccessibleDescription(
+                    getString("ThemesMenu.themes_accessible_description"));
 
             // ***** create the audio submenu under the theme menu
             audioMenu =
-                    (JMenu) themesMenu.add(new JMenu(getString("AudioMenu.audio_label")));
+                    (JMenu) themesMenu.add(
+                            new JMenu(getString("AudioMenu.audio_label")));
             audioMenu.setMnemonic(getMnemonic("AudioMenu.audio_mnemonic"));
-            audioMenu.getAccessibleContext().setAccessibleDescription(getString("AudioMenu.audio_accessible_description"));
+            audioMenu.getAccessibleContext().setAccessibleDescription(
+                    getString("AudioMenu.audio_accessible_description"));
 
             createAudioMenuItem(audioMenu, "AudioMenu.on_label",
                     "AudioMenu.on_mnemonic",
@@ -426,9 +433,13 @@ public class SwingSet2 extends JPanel {
                     "ThemesMenu.ruby_accessible_description", new RubyTheme());
 
             // ***** create the tooltip menu.
-            toolTipMenu = (JMenu) menuBar.add(new JMenu(getString("ToolTipMenu.tooltip_label")));
-            toolTipMenu.setMnemonic(getMnemonic("ToolTipMenu.tooltip_mnemonic"));
-            toolTipMenu.getAccessibleContext().setAccessibleDescription(getString("ToolTipMenu.tooltip_accessible_description"));
+            toolTipMenu =
+                    (JMenu) menuBar.add(
+                            new JMenu(getString("ToolTipMenu.tooltip_label")));
+            toolTipMenu.setMnemonic(
+                    getMnemonic("ToolTipMenu.tooltip_mnemonic"));
+            toolTipMenu.getAccessibleContext().setAccessibleDescription(
+                    getString("ToolTipMenu.tooltip_accessible_description"));
 
             // ***** create tool tip submenu items.
             mi = createToolTipMenuItem(toolTipMenu, "ToolTipMenu.on_label",
@@ -451,10 +462,13 @@ public class SwingSet2 extends JPanel {
                     getScreenDevices();
             if (screens.length > 1) {
 
-                JMenu multiScreenMenu = (JMenu) menuBar.add(new JMenu(getString("MultiMenu.multi_label")));
+                JMenu multiScreenMenu = (JMenu) menuBar.add(
+                        new JMenu(getString("MultiMenu.multi_label")));
 
-                multiScreenMenu.setMnemonic(getMnemonic("MultiMenu.multi_mnemonic"));
-                multiScreenMenu.getAccessibleContext().setAccessibleDescription(getString("MultiMenu.multi_accessible_description"));
+                multiScreenMenu.setMnemonic(
+                        getMnemonic("MultiMenu.multi_mnemonic"));
+                multiScreenMenu.getAccessibleContext().setAccessibleDescription(
+                        getString("MultiMenu.multi_accessible_description"));
 
                 createMultiscreenMenuItem(multiScreenMenu,
                         MultiScreenAction.ALL_SCREENS);
@@ -463,19 +477,6 @@ public class SwingSet2 extends JPanel {
                 }
             }
         }
-        InputMap map = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        map.put(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK),
-                "dumpAction");
-        final JComponent mb = menuBar;
-        getActionMap().put("dumpAction", new AbstractAction() {
-            private int dumpNum = 0;
-
-            public void actionPerformed(ActionEvent e) {
-                String fileName = "dump." + dumpNum++;
-                System.out.println("dumping to " + fileName);
-                NapkinUtil.dumpObject(mb.getRootPane(), fileName);
-            }
-        });
 
         return menuBar;
     }
@@ -507,13 +508,15 @@ public class SwingSet2 extends JPanel {
      * Create the tool tip submenu
      */
     public JMenuItem createToolTipMenuItem(JMenu menu, String label,
-                                           String mnemonic,
-                                           String accessibleDescription,
-                                           Action action) {
-        JRadioButtonMenuItem mi = (JRadioButtonMenuItem) menu.add(new JRadioButtonMenuItem(getString(label)));
+            String mnemonic,
+            String accessibleDescription,
+            Action action) {
+        JRadioButtonMenuItem mi = (JRadioButtonMenuItem) menu.add(
+                new JRadioButtonMenuItem(getString(label)));
         toolTipMenuGroup.add(mi);
         mi.setMnemonic(getMnemonic(mnemonic));
-        mi.getAccessibleContext().setAccessibleDescription(getString(accessibleDescription));
+        mi.getAccessibleContext().setAccessibleDescription(
+                getString(accessibleDescription));
         mi.addActionListener(action);
 
         return mi;
@@ -523,13 +526,15 @@ public class SwingSet2 extends JPanel {
      * Create the theme's audio submenu
      */
     public JMenuItem createAudioMenuItem(JMenu menu, String label,
-                                         String mnemonic,
-                                         String accessibleDescription,
-                                         Action action) {
-        JRadioButtonMenuItem mi = (JRadioButtonMenuItem) menu.add(new JRadioButtonMenuItem(getString(label)));
+            String mnemonic,
+            String accessibleDescription,
+            Action action) {
+        JRadioButtonMenuItem mi = (JRadioButtonMenuItem) menu.add(
+                new JRadioButtonMenuItem(getString(label)));
         audioMenuGroup.add(mi);
         mi.setMnemonic(getMnemonic(mnemonic));
-        mi.getAccessibleContext().setAccessibleDescription(getString(accessibleDescription));
+        mi.getAccessibleContext().setAccessibleDescription(
+                getString(accessibleDescription));
         mi.addActionListener(action);
 
         return mi;
@@ -539,10 +544,11 @@ public class SwingSet2 extends JPanel {
      * Creates a generic menu item
      */
     public JMenuItem createMenuItem(JMenu menu, String label, String mnemonic,
-                                    String accessibleDescription, Action action) {
+            String accessibleDescription, Action action) {
         JMenuItem mi = (JMenuItem) menu.add(new JMenuItem(getString(label)));
         mi.setMnemonic(getMnemonic(mnemonic));
-        mi.getAccessibleContext().setAccessibleDescription(getString(accessibleDescription));
+        mi.getAccessibleContext().setAccessibleDescription(
+                getString(accessibleDescription));
         mi.addActionListener(action);
         if (action == null) {
             mi.setEnabled(false);
@@ -554,11 +560,13 @@ public class SwingSet2 extends JPanel {
      * Creates a JRadioButtonMenuItem for the Themes menu
      */
     public JMenuItem createThemesMenuItem(JMenu menu, String label, String mnemonic,
-                                          String accessibleDescription, DefaultMetalTheme theme) {
-        JRadioButtonMenuItem mi = (JRadioButtonMenuItem) menu.add(new JRadioButtonMenuItem(getString(label)));
+            String accessibleDescription, DefaultMetalTheme theme) {
+        JRadioButtonMenuItem mi = (JRadioButtonMenuItem) menu.add(
+                new JRadioButtonMenuItem(getString(label)));
         themesMenuGroup.add(mi);
         mi.setMnemonic(getMnemonic(mnemonic));
-        mi.getAccessibleContext().setAccessibleDescription(getString(accessibleDescription));
+        mi.getAccessibleContext().setAccessibleDescription(
+                getString(accessibleDescription));
         mi.addActionListener(new ChangeThemeAction(this, theme));
 
         return mi;
@@ -568,11 +576,13 @@ public class SwingSet2 extends JPanel {
      * Creates a JRadioButtonMenuItem for the Look and Feel menu
      */
     public JMenuItem createLafMenuItem(JMenu menu, String label, String mnemonic,
-                                       String accessibleDescription, String laf) {
-        JMenuItem mi = (JRadioButtonMenuItem) menu.add(new JRadioButtonMenuItem(getString(label)));
+            String accessibleDescription, String laf) {
+        JMenuItem mi = (JRadioButtonMenuItem) menu.add(
+                new JRadioButtonMenuItem(getString(label)));
         lafMenuGroup.add(mi);
         mi.setMnemonic(getMnemonic(mnemonic));
-        mi.getAccessibleContext().setAccessibleDescription(getString(accessibleDescription));
+        mi.getAccessibleContext().setAccessibleDescription(
+                getString(accessibleDescription));
         mi.addActionListener(new ChangeLookAndFeelAction(this, laf));
 
         mi.setEnabled(isAvailableLookAndFeel(laf));
@@ -587,16 +597,20 @@ public class SwingSet2 extends JPanel {
         JMenuItem mi = null;
         if (screen == MultiScreenAction.ALL_SCREENS) {
             mi =
-                    (JMenuItem) menu.add(new JMenuItem(getString("MultiMenu.all_label")));
+                    (JMenuItem) menu.add(
+                            new JMenuItem(getString("MultiMenu.all_label")));
             mi.setMnemonic(getMnemonic("MultiMenu.all_mnemonic"));
-            mi.getAccessibleContext().setAccessibleDescription(getString("MultiMenu.all_accessible_description"));
+            mi.getAccessibleContext().setAccessibleDescription(
+                    getString("MultiMenu.all_accessible_description"));
         } else {
             mi =
-                    (JMenuItem) menu.add(new JMenuItem(getString("MultiMenu.single_label") +
+                    (JMenuItem) menu.add(new JMenuItem(getString(
+                            "MultiMenu.single_label") +
                     " " +
                     screen));
             mi.setMnemonic(KeyEvent.VK_0 + screen);
-            mi.getAccessibleContext().setAccessibleDescription(getString("MultiMenu.single_accessible_description") +
+            mi.getAccessibleContext().setAccessibleDescription(getString(
+                    "MultiMenu.single_accessible_description") +
                     " " +
                     screen);
 
@@ -618,7 +632,8 @@ public class SwingSet2 extends JPanel {
 
         // register key binding to activate popup menu
         InputMap map = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        map.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, InputEvent.CTRL_MASK),
+        map.put(
+                KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, InputEvent.CTRL_MASK),
                 "postMenuAction");
         getActionMap().put("postMenuAction",
                 new ActivatePopupMenuAction(this, popup));
@@ -630,11 +645,12 @@ public class SwingSet2 extends JPanel {
      * Creates a JMenuItem for the Look and Feel popup menu
      */
     public JMenuItem createPopupMenuItem(JPopupMenu menu, String label, String mnemonic,
-                                         String accessibleDescription, String laf) {
+            String accessibleDescription, String laf) {
         JMenuItem mi = menu.add(new JMenuItem(getString(label)));
         popupMenuGroup.add(mi);
         mi.setMnemonic(getMnemonic(mnemonic));
-        mi.getAccessibleContext().setAccessibleDescription(getString(accessibleDescription));
+        mi.getAccessibleContext().setAccessibleDescription(
+                getString(accessibleDescription));
         mi.addActionListener(new ChangeLookAndFeelAction(this, laf));
         mi.setEnabled(isAvailableLookAndFeel(laf));
 
@@ -660,7 +676,8 @@ public class SwingSet2 extends JPanel {
             public void run() {
                 SwitchToDemoAction action = new SwitchToDemoAction(swingset,
                         (DemoModule) obj);
-                JToggleButton tb = swingset.getToolBar().addToggleButton(action);
+                JToggleButton tb = swingset.getToolBar().addToggleButton(
+                        action);
                 swingset.getToolBarGroup().add(tb);
                 if (swingset.getToolBarGroup().getSelection() == null) {
                     tb.setSelected(true);
@@ -708,7 +725,8 @@ public class SwingSet2 extends JPanel {
             f.pack();
 
             Rectangle screenRect = f.getGraphicsConfiguration().getBounds();
-            Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(f.getGraphicsConfiguration());
+            Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(
+                    f.getGraphicsConfiguration());
 
 // Make sure we don't place the demo off the screen.
             int centerWidth = screenRect.width < f.getSize().width ?
@@ -783,9 +801,11 @@ public class SwingSet2 extends JPanel {
         DemoModule demo = null;
         try {
             Class demoClass = Class.forName(classname);
-            Constructor demoConstructor = demoClass.getConstructor(new Class[]{SwingSet2.class});
+            Constructor demoConstructor = demoClass.getConstructor(
+                    new Class[]{SwingSet2.class});
             demo =
-                    (DemoModule) demoConstructor.newInstance(new Object[]{this});
+                    (DemoModule) demoConstructor.newInstance(
+                            new Object[]{this});
             addDemo(demo);
         } catch (Exception e) {
             System.out.println("Error occurred loading demo: " + classname);
@@ -996,7 +1016,8 @@ public class SwingSet2 extends JPanel {
                 // do the following on the gui thread
                 SwingUtilities.invokeLater(new SwingSetRunnable(this, demo) {
                     public void run() {
-                        SwingUtilities.updateComponentTreeUI(((DemoModule) obj).getDemoPanel());
+                        SwingUtilities.updateComponentTreeUI(
+                                ((DemoModule) obj).getDemoPanel());
                     }
                 });
             }
@@ -1012,7 +1033,8 @@ public class SwingSet2 extends JPanel {
         // do the following on the gui thread
         SwingUtilities.invokeLater(new SwingSetRunnable(this, demo) {
             public void run() {
-                swingset.demoSrcPane.setText(((DemoModule) obj).getSourceCode());
+                swingset.demoSrcPane.setText(
+                        ((DemoModule) obj).getSourceCode());
                 swingset.demoSrcPane.setCaretPosition(0);
 
             }
@@ -1030,7 +1052,8 @@ public class SwingSet2 extends JPanel {
         }
 
         JToggleButton addToggleButton(Action a) {
-            JToggleButton tb = new JToggleButton((String) a.getValue(Action.NAME),
+            JToggleButton tb = new JToggleButton(
+                    (String) a.getValue(Action.NAME),
                     (Icon) a.getValue(Action.SMALL_ICON));
             tb.setMargin(zeroInsets);
             tb.setText(null);
@@ -1232,7 +1255,7 @@ public class SwingSet2 extends JPanel {
         DefaultMetalTheme theme;
 
         protected ChangeThemeAction(SwingSet2 swingset,
-                                    DefaultMetalTheme theme) {
+                DefaultMetalTheme theme) {
             super("ChangeTheme");
             this.swingset = swingset;
             this.theme = theme;
@@ -1279,7 +1302,8 @@ public class SwingSet2 extends JPanel {
                 // JButton button = new JButton(getString("AboutBox.ok_button_text"));
                 JPanel buttonpanel = new JPanel();
                 buttonpanel.setOpaque(false);
-                JButton button = (JButton) buttonpanel.add(new JButton(getString("AboutBox.ok_button_text")));
+                JButton button = (JButton) buttonpanel.add(
+                        new JButton(getString("AboutBox.ok_button_text")));
                 panel.add(buttonpanel, BorderLayout.SOUTH);
 
                 button.addActionListener(new OkAction(aboutBox));

@@ -41,8 +41,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import napkin.NapkinUtil;
-
 /**
  * Internal Frames Demo
  *
@@ -151,11 +149,14 @@ public class InternalFrameDemo extends DemoModule {
             int width, int height) {
         JInternalFrame jif = new JInternalFrame();
 
-        if (!windowTitleField.getText().equals(getString("InternalFrameDemo.frame_label"))) {
+        if (!windowTitleField.getText().equals(
+                getString("InternalFrameDemo.frame_label"))) {
             jif.setTitle(windowTitleField.getText() + "  ");
         } else {
             jif =
-                    new JInternalFrame(getString("InternalFrameDemo.frame_label") + " " +
+                    new JInternalFrame(getString(
+                            "InternalFrameDemo.frame_label") +
+                    " " +
                     windowCount +
                     "  ");
         }
@@ -166,7 +167,8 @@ public class InternalFrameDemo extends DemoModule {
         jif.setIconifiable(windowIconifiable.isSelected());
         jif.setResizable(windowResizable.isSelected());
 
-        jif.setBounds(20 * (windowCount % 10), 20 * (windowCount % 10), width, height);
+        jif.setBounds(20 * (windowCount % 10), 20 * (windowCount % 10), width,
+                height);
         jif.setContentPane(new ImageScroller(this, icon, 0, windowCount));
 
         windowCount++;
@@ -186,7 +188,8 @@ public class InternalFrameDemo extends DemoModule {
     }
 
     public JInternalFrame createInternalFramePalette() {
-        JInternalFrame palette = new JInternalFrame(getString("InternalFrameDemo.palette_label"));
+        JInternalFrame palette = new JInternalFrame(
+                getString("InternalFrameDemo.palette_label"));
         palette.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
         palette.getContentPane().setLayout(new BorderLayout());
         palette.setBounds(PALETTE_X, PALETTE_Y, PALETTE_WIDTH, PALETTE_HEIGHT);
@@ -287,8 +290,8 @@ public class InternalFrameDemo extends DemoModule {
         windowTitleField =
                 new JTextField(getString("InternalFrameDemo.frame_label"));
         windowTitleLabel =
-                new JLabel(getString("InternalFrameDemo.title_text_field_label"));
-        windowTitleField.addFocusListener(new NapkinUtil.DumpListener());
+                new JLabel(
+                        getString("InternalFrameDemo.title_text_field_label"));
 
         p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));
         p.add(Box.createRigidArea(HGAP5));
