@@ -29,14 +29,12 @@ public class NapkinLineBorder extends NapkinBorder {
         Graphics2D g = (Graphics2D) g1;
         Rectangle passed = new Rectangle(x, y, width, height);
         if (line == null)
-            line = new DrawnLineHolder(DrawnCubicLineGenerator.INSTANCE, vertical);
+            line =
+                    new DrawnLineHolder(DrawnCubicLineGenerator.INSTANCE,
+                            vertical);
         line.shapeUpToDate(passed, null);
 
-        Rectangle clip = g.getClipBounds();
         Insets insets = doGetBorderInsets(c);
-        g.setClip(clip.x - insets.left, clip.y - insets.top,
-                clip.width + insets.left + insets.right,
-                clip.height + insets.top + insets.bottom);
         if (insets.bottom != 0)
             y += c.getHeight() - insets.bottom;
         else

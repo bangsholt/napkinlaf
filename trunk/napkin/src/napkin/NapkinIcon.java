@@ -46,14 +46,12 @@ public abstract class NapkinIcon implements Icon {
     public void paintIcon(Component c, Graphics g1, int x, int y) {
         if (place == null)
             place = placeGen.generate(scaleMat);
-        boolean selected = false;
-        if (c instanceof AbstractButton)
-            selected = ((AbstractButton) c).isSelected();
+        boolean useMark = shouldUseMark(c);
 
         Graphics2D placeG = NapkinUtil.copy(g1);
 
         Graphics2D markG = null;
-        if (!selected) {
+        if (!useMark) {
             mark = null;
         } else {
             if (markGen != null && mark == null)
@@ -63,6 +61,13 @@ public abstract class NapkinIcon implements Icon {
         }
         placeG.setColor(c.getForeground());
         doPaint(placeG, markG, x, y);
+    }
+
+    protected boolean shouldUseMark(Component c) {
+        if (c instanceof AbstractButton)
+            return ((AbstractButton) c).isSelected();
+        else
+            return false;
     }
 
     protected void

@@ -26,7 +26,7 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
 
     private NapkinSliderUI(JSlider c) {
         super(c);
-        vertical = (((JSlider) c).getOrientation() == JSlider.VERTICAL);
+        vertical = (c.getOrientation() == JSlider.VERTICAL);
         trackBounds = new Rectangle();
 
         tickBounds = new Rectangle();
@@ -59,6 +59,23 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
         return new Dimension(thumb.getIconWidth(), thumb.getIconHeight());
     }
 
+    /**
+     * This is a copy of the code from the superclass because I need to expand
+     * the clip rectangle -- the slider draws a bit outside of its area because
+     * the lines are curved.  I wish there were a better way rather than the
+     * copy/paste that caused this, but so far there isn't.
+     */
+    public void setThumbLocation(int x, int y) {
+        Rectangle unionRect = new Rectangle(thumbRect);
+
+        thumbRect.setLocation(x, y);
+
+        SwingUtilities.computeUnion(thumbRect.x, thumbRect.y, thumbRect.width,
+                thumbRect.height, unionRect);
+        slider.repaint(unionRect.x - 3, unionRect.y - 3, unionRect.width + 6,
+                unionRect.height + 6);
+    }
+
     public void paintThumb(Graphics g) {
         thumb.paintIcon(slider, g, thumbRect.x, thumbRect.y);
     }
@@ -71,6 +88,10 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants {
         g.setColor(slider.getForeground());
 
         track = NapkinUtil.paintLine(g, vertical, track, trackBounds);
+    }
+
+    public void paintFocus(Graphics g) {
+        return; // do nothing here -- we show focus by color on slider
     }
 
     protected void paintMinorTickForHorizSlider(Graphics g,
