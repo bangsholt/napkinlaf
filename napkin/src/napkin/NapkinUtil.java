@@ -573,15 +573,6 @@ public class NapkinUtil implements NapkinConstants {
                 System.out.println(
                         "(" + c.getX() + ", " + c.getY() + "): " + descFor(c));
 
-            if (c instanceof JViewport) {
-                JViewport vp = (JViewport) c;
-                Point viewPos = vp.getViewPosition();
-                start.x += 1 * viewPos.x;
-                start.y += 1 * viewPos.y;
-                if (print)
-                    System.out.println("    viewPos = " + viewPos);
-            }
-
             start.x += c.getX();
             start.y += c.getY();
             if (print)
