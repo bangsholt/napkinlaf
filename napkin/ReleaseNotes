@@ -10,7 +10,7 @@
 <ul>
 <li> <b>Note:</b> This LaF will not work under Java 1.3.  There were many
      changes in the LaF infrastructure and I can't figure out a way to do
-     one development for both versions.
+     one development for both versions. [<a href="http://sourceforge.net/tracker/index.php?func=detail&aid=963198&group_id=104116&atid=636983">bug 963198</a>]
 <li> Put SwingSet2 source in the swingset jar file.
 <li> No longer need "switch and back" to make demo work.  (This was a bug in
      SwingSet2.)
