@@ -325,17 +325,21 @@ public class NapkinUtil implements NapkinConstants {
         }
 
         NapkinTheme theme = currentTheme(c);
-        Color penColor = theme.getPenColor();
-        //!! Use ifReplace?
-        if (!penColor.equals(c.getForeground())) {
-            c.setForeground(penColor);
+        Color themePen = theme.getPenColor();
+
+        Color fgColor = ifReplace(c.getForeground(), themePen);
+        // explicitly check for equality because two things depend on it
+        if (!fgColor.equals(c.getForeground())) {
+            c.setForeground(fgColor);
             if (g != null)
-                g.setColor(penColor);
-            if (c instanceof JTextComponent) {
-                JTextComponent tc = (JTextComponent) c;
-                if (!penColor.equals(tc.getSelectedTextColor()))
-                    tc.setSelectedTextColor(penColor);
-            }
+                g.setColor(fgColor);
+        }
+
+        if (c instanceof JTextComponent) {
+            JTextComponent tc = (JTextComponent) c;
+            Color selColor = ifReplace(tc.getSelectedTextColor(), themePen);
+            // just set, as the method only does work if it's different
+            tc.setSelectedTextColor(selColor);
         }
     }
 
