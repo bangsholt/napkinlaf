@@ -7,36 +7,35 @@
 
 <h4>alpha-004, 15 May 2004</h4>
 
-<dl>
-<dt> Progress bar gets scribbled in.
-<dt> File chooser (borrowed entirely from <tt>MetalFileChooserUI</tt>, as the
+<ul>
+<li> Progress bar gets scribbled in.
+<li> File chooser (borrowed entirely from <tt>MetalFileChooserUI</tt>, as the
      <tt>BasicFileChooserUI</tt> class seems entirely inadaquate).
-<dt> Text areas are a normal size.
-<dt> Paint background on each individual component, so changes to contents
+<li> Text areas are a normal size.
+<li> Paint background on each individual component, so changes to contents
      don't overlay on each other.
-<dt> Much better about switching to/from Napkin LAF.
-</dl>
+<li> Much better about switching to/from Napkin LAF.
+</ul>
 
 <h4>alpha-003, 16 April 2004</h4>
 
-<dl>
-<dt> Fix fatal bug in tabbed panes
-<dt> Show disabled buttons better
-</dl>
+<ul>
+<li> Fix fatal bug in tabbed panes
+<li> Show disabled buttons better
+</ul>
 
 <h4>alpha-002, 11 April 2004</h4>
 
-<dl>
-<dt> tabbed panes
-<dt> fonts loaded from jar
-<dt> new font: Felt Tip Roman (has bold + full char set)
-<dd>
-	I want to add a few choices of fonts; this release I'm just
-	switching to the new one but next release I want to have
-	them choosable because both are good.
-<dt> build the relase automatically
-<dt> bugs, bugs, bugs
-</dl>
+<ul>
+<li> tabbed panes
+<li> fonts loaded from jar
+<li> new font: Felt Tip Roman (has bold + full char set)
+    <i>I want to add a few choices of fonts; this release I'm just
+    switching to the new one but next release I want to have them
+    choosable because both are good.</i>
+<li> build the relase automatically
+<li> bugs, bugs, bugs
+</ul>
 
 </body>
 </html>
