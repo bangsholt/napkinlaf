@@ -98,8 +98,22 @@ public class NapkinQuickTest implements SwingConstants {
         toDisable.add(r1);
         toDisable.add(r2);
 
-        String[] words = new String[]{"combo", "box", "ui", "test"};
-        JComboBox comboBox = new JComboBox(words);
+        String[] themeNames = NapkinTheme.Manager.themeNames();
+        final JComboBox comboBox = new JComboBox(themeNames);
+        String currentTheme = NapkinTheme.Manager.getCurrentTheme().getName();
+        comboBox.setSelectedItem(currentTheme);
+        comboBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                try {
+                    String name = (String) comboBox.getSelectedItem();
+                    NapkinTheme.Manager.setCurrentTheme(name);
+                    UIManager.setLookAndFeel(UIManager.getLookAndFeel());
+                    SwingUtilities.updateComponentTreeUI(top);
+                } catch (UnsupportedLookAndFeelException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
         mainPanel.add(comboBox);
         toDisable.add(comboBox);
 
@@ -113,32 +127,6 @@ public class NapkinQuickTest implements SwingConstants {
         slider.setPaintLabels(true);
         mainPanel.add(slider);
         toDisable.add(slider);
-
-        JPanel themes = new JPanel();
-        ButtonGroup themeButtons = new ButtonGroup();
-        String[] themeNames = NapkinTheme.Manager.themeNames();
-        String defaultName = NapkinTheme.Manager.getCurrentTheme().getName();
-        themes.setLayout(new GridLayout(themeNames.length, 1));
-        for (int i = 0; i < themeNames.length; i++) {
-            final String name = themeNames[i];
-            JRadioButton b = new JRadioButton(name);
-            if (name.equals(defaultName))
-                b.setSelected(true);
-            themeButtons.add(b);
-            themes.add(b);
-            b.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent ev) {
-                    try {
-                        NapkinTheme.Manager.setCurrentTheme(name);
-                        UIManager.setLookAndFeel(UIManager.getLookAndFeel());
-                        SwingUtilities.updateComponentTreeUI(top);
-                    } catch (UnsupportedLookAndFeelException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            });
-        }
-        tabbed.addTab("Themes", themes);
 
         final JPanel textPanel = new JPanel();
         textPanel.setLayout(new BorderLayout());
