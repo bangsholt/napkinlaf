@@ -321,7 +321,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             }
         };
 
-        System.out.println("theme.penColor() = " + theme.getPenColor());
         for (Iterator it = table.entrySet().iterator(); it.hasNext();) {
             Entry entry = (Entry) it.next();
             String key = (String) entry.getKey();
@@ -356,7 +355,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                     entry.setValue(drawnBorder); // we override manually below
                 }
             } else if (key.endsWith(".foreground")) {
-                entry.setValue(theme.getPenColor());
+                entry.setValue(Color.PINK);
             }
         }
 

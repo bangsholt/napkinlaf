@@ -38,6 +38,12 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
         return NapkinUtil.createArrowButton(SOUTH, comboBox);
     }
 
+    protected ComboPopup createPopup() {
+        NapkinComboPopup popup = new NapkinComboPopup(comboBox);
+        popup.getAccessibleContext().setAccessibleParent(comboBox);
+        return popup;
+    }
+
     protected ListCellRenderer createRenderer() {
         return new RenderResource();
     }
