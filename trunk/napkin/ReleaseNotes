@@ -1,11 +1,17 @@
-........................................................................
-alpha-002
+<html>
+<body>
+<h4>alpha-002, 11 April 2004</h4>
 
-(*) tabbed panes
-(*) fonts loaded from jar
-(*) new font: Felt Tip Roman (has bold + full char set)
+<dl>
+<dt> tabbed panes
+<dt> fonts loaded from jar
+<dt> new font: Felt Tip Roman (has bold + full char set)
+<dd>
 	I want to add a few choices of fonts; this release I'm just
 	switching to the new one but next release I want to have
 	them choosable because both are good.
-(*) build the relase automatically
-(*) bugs, bugs, bugs
+<dt> build the relase automatically
+<dt> bugs, bugs, bugs
+</dl>
+</body>
+</html>
