@@ -14,13 +14,13 @@ public class NapkinTextPaneUI extends BasicTextPaneUI {
     }
 
     public void installUI(JComponent c) {
-        NapkinUtil.installUI(c);
         super.installUI(c);
+        NapkinUtil.installUI(c);
     }
 
     public void uninstallUI(JComponent c) {
-        super.uninstallUI(c);
         NapkinUtil.uninstallUI(c);
+        super.uninstallUI(c);
     }
 
     protected void paintSafely(Graphics g) {

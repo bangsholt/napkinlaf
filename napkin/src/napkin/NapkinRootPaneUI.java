@@ -30,8 +30,8 @@ public class NapkinRootPaneUI extends BasicRootPaneUI {
     }
 
     public void uninstallUI(JComponent c) {
-        super.uninstallUI(c);
         NapkinUtil.uninstallUI(c);
+        super.uninstallUI(c);
     }
 
     public void paint(Graphics g, JComponent c) {

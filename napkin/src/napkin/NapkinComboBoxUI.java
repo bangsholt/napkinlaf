@@ -23,15 +23,15 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
     }
 
     public void installUI(JComponent c) {
-        NapkinUtil.installUI(c);
         super.installUI(c);
+        NapkinUtil.installUI(c);
         listBox.setSelectionForeground(
                 NapkinIconFactory.CheckBoxIcon.MARK_COLOR);
     }
 
     public void uninstallUI(JComponent c) {
-        super.uninstallUI(c);
         NapkinUtil.uninstallUI(c);
+        super.uninstallUI(c);
     }
 
     protected JButton createArrowButton() {
