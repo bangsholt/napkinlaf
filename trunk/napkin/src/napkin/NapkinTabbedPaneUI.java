@@ -11,6 +11,7 @@ import javax.swing.plaf.basic.*;
 public class NapkinTabbedPaneUI extends BasicTabbedPaneUI {
     private TabHolder[] tabs = new TabHolder[0];
     private BoxHolder contentBorder = new BoxHolder();
+    private Insets origInsets;
 
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinTabbedPaneUI());
@@ -19,6 +20,12 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI {
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
+        origInsets = contentBorderInsets;
+        contentBorderInsets = DrawnBorder.DEFAULT_INSETS;
+    }
+
+    public void uninstallUI(JComponent c) {
+        contentBorderInsets = origInsets;
     }
 
     public void paint(Graphics g, JComponent c) {
@@ -51,17 +58,14 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI {
     protected void paintContentBorderTopEdge(Graphics g, int tabPlacement,
             int selectedIndex, int x, int y, int w, int h) {
 
-        Insets insets = getContentBorderInsets(tabPlacement);
-
-        calcRect.x = x + insets.left;
-        calcRect.y = y + insets.top;
-        calcRect.width = w - (insets.left + insets.right);
-        calcRect.height = h - (insets.top + insets.bottom);
+        calcRect.x = x;
+        calcRect.y = y;
+        calcRect.width = w;
+        calcRect.height = h;
         if (selectedIndex < 0)
             contentBorder.shapeUpToDate(tabPane, calcRect);
         else {
             TabHolder tab = tabs[selectedIndex];
-
             Point2D beg = tab.getBreakBeg();
             Point2D end = tab.getBreakEnd();
             contentBorder.shapeUpToDate(null, calcRect, tabPlacement,
