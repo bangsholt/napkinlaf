@@ -5,7 +5,8 @@ package napkin;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class DrawnLineHolder extends DrawnShapeHolder implements NapkinConstants {
+public class DrawnLineHolder extends DrawnShapeHolder
+        implements NapkinConstants {
     private Rectangle rect;
     private FontMetrics metrics;
     private final Endpoints endpoints;
@@ -44,6 +45,19 @@ public class DrawnLineHolder extends DrawnShapeHolder implements NapkinConstants
     public DrawnLineHolder(DrawnShapeGenerator gen, Endpoints endpoints) {
         super(gen);
         this.endpoints = endpoints;
+    }
+
+    public DrawnLineHolder(double len, boolean vertical) {
+        this(generatorFor(len), vertical);
+    }
+
+    private static DrawnShapeGenerator generatorFor(double len) {
+        Class type = DrawnShapeGenerator.defaultLineType(len);
+
+        if (type == DrawnCubicLineGenerator.class)
+            return new DrawnCubicLineGenerator();
+        else
+            return new DrawnQuadLineGenerator();
     }
 
     void shapeUpToDate(Rectangle cRect, FontMetrics cMetrics) {
