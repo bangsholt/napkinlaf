@@ -38,14 +38,12 @@ public class NapkinBoxBorder extends NapkinBorder implements NapkinConstants {
         //!! overlapping internal frame, which causes garbage.  Gotta get this
         //!! right.  -arnold
         Rectangle clip = g1.getClipBounds();
-        g1.setClip(clip);
         g1.setClip(clip.x - BORDER, clip.y - BORDER, clip.width + 2 * BORDER,
                 clip.height + 2 * BORDER);
-        Graphics2D g = NapkinUtil.defaultGraphics(g1, c);
+        Graphics2D g = (Graphics2D) g1;
         g.translate(x, y);
         box.draw(g);
         g.translate(-x, -y);
-        NapkinUtil.finishGraphics(g, c);
     }
 
     public Insets doGetBorderInsets(Component c) {

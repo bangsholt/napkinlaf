@@ -23,7 +23,7 @@ public interface NapkinConstants extends SwingConstants {
 
     // ColorUIResource can't seem to deal with the alpha channel, so we
     // have to use a Color.  I've filed a bug, but for now we do this.
-    Color CLEAR = new Color(0, 0, 0, 0);
+    Color CLEAR = new AlphaColorUIResource(new Color(0, 0, 0, 0));
 
     int NO_SIDE = -1;
 }

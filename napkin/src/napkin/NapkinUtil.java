@@ -17,6 +17,8 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -56,8 +58,11 @@ public class NapkinUtil implements NapkinConstants {
             };
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
 
-    public static boolean replace(Color current, Color needed) {
-        return !current.equals(needed) && current instanceof UIResource;
+    public static boolean replace(Color current, Color candidate) {
+        if (current == null)
+            return true;
+        return !current.equals(candidate) && (current instanceof UIResource ||
+                candidate instanceof UIResource);
     }
 
     static {
@@ -221,7 +226,8 @@ public class NapkinUtil implements NapkinConstants {
             c.putClientProperty(OPAQUE_KEY, Boolean.TRUE);
             c.setOpaque(false);
         }
-        c.setBackground(CLEAR);
+        if (replace(c.getBackground(), CLEAR))
+            c.setBackground(CLEAR);
         c.addHierarchyListener(CLEAR_BACKGROUND_LISTENER);
     }
 
@@ -229,9 +235,9 @@ public class NapkinUtil implements NapkinConstants {
         if (c.getClientProperty(OPAQUE_KEY) == Boolean.TRUE)
             c.setOpaque(true);
         c.removeHierarchyListener(CLEAR_BACKGROUND_LISTENER);
+        unsetupBorder(c);
         for (int i = 0; i < CLIENT_PROPERTIES.length; i++)
             c.putClientProperty(CLIENT_PROPERTIES[i], null);
-        unsetupBorder(c);
     }
 
     public static double leftRight(double x, boolean left) {
@@ -341,8 +347,6 @@ public class NapkinUtil implements NapkinConstants {
             return (NapkinTheme) themeTop.getClientProperty(THEME_KEY);
     }
 
-    private static final Set disabled = new HashSet();
-
     public static void finishGraphics(Graphics g1, Component c) {
         if (!(c instanceof JComponent))
             return;
@@ -350,10 +354,8 @@ public class NapkinUtil implements NapkinConstants {
         JComponent jc = (JComponent) c;
         DisabledMark mark = (DisabledMark) jc.getClientProperty(
                 DISABLED_MARK_KEY);
-        if (mark == null) {
-            disabled.remove(c);
+        if (mark == null)
             return;
-        }
 
         jc.putClientProperty(DISABLED_MARK_KEY, null);
         Graphics2D tg = (Graphics2D) g1;
@@ -367,7 +369,6 @@ public class NapkinUtil implements NapkinConstants {
 
         Graphics2D g = mark.graphics;
         g.drawImage(mark.image, -mark.offX, -mark.offY, jc);
-        disabled.add(c);
     }
 
     private static void setupBorder(Component c) {
@@ -411,6 +412,9 @@ public class NapkinUtil implements NapkinConstants {
         Icon arrow = NapkinIconFactory.createArrowIcon(pointTowards, size);
         JButton button = new JButton(arrow);
         button.setBorderPainted(false);
+        Dimension dim = new Dimension(size + 3, size + 3);
+        button.setPreferredSize(dim);
+        button.setMinimumSize(dim);
         button.putClientProperty(THEME_TOP_KEY, themeTop);
         return button;
     }
@@ -774,5 +778,29 @@ public class NapkinUtil implements NapkinConstants {
             c.putClientProperty(key, value);
         }
         return value;
+    }
+
+    public static String toString(Color c) {
+        return "#" + Integer.toHexString(c.getRGB()) + "/" +
+                Integer.toHexString(c.getAlpha());
+    }
+
+    public static String getProperty(final String prop,
+            final String defaultValue) {
+        String themeName;
+        try {
+            themeName = (String)
+                    AccessController.doPrivileged(new PrivilegedAction() {
+                        public Object run() {
+                            return System.getProperty(prop,
+                                    defaultValue);
+                        }
+                    });
+        } catch (SecurityException e) {
+            themeName = null;
+        }
+        if (themeName == null)
+            themeName = defaultValue;
+        return themeName;
     }
 }
