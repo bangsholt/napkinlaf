@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.WeakHashMap;
 import javax.swing.*;
@@ -297,68 +296,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     protected void initComponentDefaults(UIDefaults table) {
         super.initComponentDefaults(table);
 
-        NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
-
-        Object dialogPlain = theme.getTextFont();
-        Object dialogBold = theme.getBoldTextFont();
-        Object serifPlain = theme.getTextFont();
-        Object sansSerifPlain = theme.getTextFont();
-        Object monospacedPlain = theme.getFixedFont();
-
-        Object drawnBorder = new UIDefaults.ActiveValue() {
-            public Object createValue(UIDefaults table) {
-                return new NapkinBoxBorder();
-            }
-        };
-        Object selectBorder = new UIDefaults.ActiveValue() {
-            public Object createValue(UIDefaults table) {
-                return new NapkinSelectedBorder();
-            }
-        };
-
-        for (Iterator it = table.entrySet().iterator(); it.hasNext();) {
-            Entry entry = (Entry) it.next();
-            String key = (String) entry.getKey();
-            Object val = entry.getValue();
-            Object res;
-            if ((res = propVal(key, "font", val, table)) != null) {
-                if (res instanceof FontUIResource) {
-                    FontUIResource resource = (FontUIResource) res;
-                    String name = resource.getFontName();
-                    if (name.equals("Dialog.plain")) {
-                        entry.setValue(dialogPlain);
-                    } else if (name.equals("Dialog.bold")) {
-                        entry.setValue(dialogBold);
-                    } else if (name.equals("Serif.plain")) {
-                        entry.setValue(serifPlain);
-                    } else if (name.equals("SansSerif.plain")) {
-                        entry.setValue(sansSerifPlain);
-                    } else if (name.equals("MonoSpaced.plain")) {
-                        entry.setValue(monospacedPlain);
-                    } else {
-                        System.err.println(
-                                "unknown font; " + name + " for " + key);
-                    }
-                }
-            } else if ((res = propVal(key, "border", val, table)) != null) {
-                if (res instanceof UIResource || (val instanceof UIResource && (
-                        res instanceof BevelBorder ||
-                        res instanceof EtchedBorder ||
-                        res instanceof LineBorder ||
-                        res instanceof CompoundBorder))
-                ) {
-                    if (!(res instanceof CompoundBorder))
-                        entry.setValue(drawnBorder); // we override manually below
-                    else {
-                        entry.setValue(new BorderUIResource.CompoundBorderUIResource(
-                                new NapkinBoxBorder(),
-                                new BasicBorders.MarginBorder()));
-                    }
-                }
-            } else if (key.endsWith(".foreground")) {
-                entry.setValue(theme.getPenColor());
-            }
-        }
+        overrideComponentDefaults(table);
 
         Integer zero = new Integer(0);
         Object checkBoxButtonIcon = new UIDefaults.ActiveValue() {
@@ -377,7 +315,48 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 return new NapkinLineBorder(null, false);
             }
         };
+        Object selectBorder = new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
+                return new NapkinSelectedBorder();
+            }
+        };
 
+        setupActions(table);
+
+        Object[] napkinDefaults = {
+            "RadioButton.textIconGap", zero,
+            "RadioButton.icon", radioButtonIcon,
+            "RadioButtonMenuItem.textIconGap", zero,
+            "RadioButtonMenuItem.checkIcon", radioButtonIcon,
+
+            "CheckBox.textIconGap", zero,
+            "CheckBox.icon", checkBoxButtonIcon,
+            "CheckBoxMenuItem.textIconGap", zero,
+            "CheckBoxMenuItem.checkIcon", checkBoxButtonIcon,
+
+            "OptionPane.messageAreaBorder", null,
+
+            "TabbedPane.contentBorderInsets", NapkinBoxBorder.DEFAULT_INSETS,
+
+            "TextField.border", underlineBorder,
+            "PasswordField.border", underlineBorder,
+
+            "Menu.border", null,
+            "PopupMenu.border", null,
+            "ToolTip.border", null,
+            "DesktopIcon.border", null,
+            "ToggleButton.border", selectBorder,
+            "InternalFrame.border", new BorderUIResource(
+                    new EmptyBorder(3, 3, 3, 3)),
+
+            "SplitPaneDivider.border", null,
+            "SplitPane.dividerSize", new Integer(NapkinSplitPaneDivider.SIZE),
+        };
+
+        table.putDefaults(napkinDefaults);
+    }
+
+    private void setupActions(UIDefaults table) {
         //!! These are copied from Metal LookAndFeel, but we should get them
         //!! From the formal L&F, as well as getting *all* behavior.  -arnold
         Object fieldInputMap = new UIDefaults.LazyInputMap(new Object[]{
@@ -473,35 +452,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "control shift O", "toggle-componentOrientation"/*DefaultEditorKit.toggleComponentOrientation*/
         });
 
-        Object[] napkinDefaults = {
-            "RadioButton.textIconGap", zero,
-            "RadioButton.icon", radioButtonIcon,
-            "RadioButtonMenuItem.textIconGap", zero,
-            "RadioButtonMenuItem.checkIcon", radioButtonIcon,
-
-            "CheckBox.textIconGap", zero,
-            "CheckBox.icon", checkBoxButtonIcon,
-            "CheckBoxMenuItem.textIconGap", zero,
-            "CheckBoxMenuItem.checkIcon", checkBoxButtonIcon,
-
-            "OptionPane.messageAreaBorder", null,
-
-            "TabbedPane.contentBorderInsets", NapkinBoxBorder.DEFAULT_INSETS,
-
-            "TextField.border", underlineBorder,
-            "PasswordField.border", underlineBorder,
-
-            "Menu.border", null,
-            "PopupMenu.border", null,
-            "ToolTip.border", null,
-            "DesktopIcon.border", null,
-            "ToggleButton.border", selectBorder,
-            "InternalFrame.border", new BorderUIResource(
-                    new EmptyBorder(3, 3, 3, 3)),
-
-            "SplitPaneDivider.border", null,
-            "SplitPane.dividerSize", new Integer(NapkinSplitPaneDivider.SIZE),
-
+        Object[] actionDefaults = {
             // these are just copied from Metal L&F -- no values in Basic L&F
             //!! Should get input maps from the formal L&F for all map defaults
             "TextField.focusInputMap", fieldInputMap,
@@ -511,7 +462,77 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "EditorPane.focusInputMap", multilineInputMap,
         };
 
-        table.putDefaults(napkinDefaults);
+        table.putDefaults(actionDefaults);
+    }
+
+    private void overrideComponentDefaults(UIDefaults table) {
+        NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
+
+        Font dialogPlain = theme.getTextFont();
+        Font dialogBold = theme.getBoldTextFont();
+        Font serifPlain = theme.getTextFont();
+        Font sansSerifPlain = theme.getTextFont();
+        Font monospacedPlain = theme.getFixedFont();
+
+        Object drawnBorder = new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
+                return new NapkinBoxBorder();
+            }
+        };
+        Object compoundBorder = new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
+                NapkinBoxBorder outside = new NapkinBoxBorder();
+                BasicBorders.MarginBorder inside = new BasicBorders.MarginBorder();
+                CompoundBorder compound = new CompoundBorder(outside, inside);
+                return compound;
+            }
+        };
+
+        Color clear = new AlphaColorUIResource(CLEAR);
+
+        for (Iterator it = table.entrySet().iterator(); it.hasNext();) {
+            Map.Entry entry = (Map.Entry) it.next();
+            String key = (String) entry.getKey();
+            Object val = entry.getValue();
+            Object res;
+            if ((res = propVal(key, "font", val, table)) != null) {
+                if (res instanceof FontUIResource) {
+                    FontUIResource resource = (FontUIResource) res;
+                    String name = resource.getFontName();
+                    if (name.equals("Dialog.plain")) {
+                        entry.setValue(dialogPlain);
+                    } else if (name.equals("Dialog.bold")) {
+                        entry.setValue(dialogBold);
+                    } else if (name.equals("Serif.plain")) {
+                        entry.setValue(serifPlain);
+                    } else if (name.equals("SansSerif.plain")) {
+                        entry.setValue(sansSerifPlain);
+                    } else if (name.equals("MonoSpaced.plain")) {
+                        entry.setValue(monospacedPlain);
+                    } else {
+                        System.err.println(
+                                "unknown font; " + name + " for " + key);
+                    }
+                }
+            } else if ((res = propVal(key, "border", val, table)) != null) {
+                if (res instanceof UIResource || (val instanceof UIResource && (
+                        res instanceof BevelBorder ||
+                        res instanceof EtchedBorder ||
+                        res instanceof LineBorder ||
+                        res instanceof CompoundBorder))
+                ) {
+                    // we override manually below
+                    if (!(res instanceof CompoundBorder))
+                        entry.setValue(drawnBorder);
+                    else
+                        entry.setValue(compoundBorder);
+                }
+            } else if (key.endsWith(".foreground")) {
+                entry.setValue(theme.getPenColor());
+            } else if (key.endsWith(".background")) {
+                entry.setValue(clear);
+            }
+        }
     }
 
     private static Object

@@ -33,8 +33,13 @@ public abstract class NapkinBorder extends AbstractBorder {
 
         if (isFormal(c))
             formalBorder.paintBorder(c, g, x, y, width, height);
-        else
+        else {
+            NapkinTheme theme = NapkinUtil.themeFor(c);
+            Color penColor = theme.getPenColor();
+            if (NapkinUtil.replace(g.getColor(), penColor))
+                g.setColor(penColor);
             doPaintBorder(c, g, x, y, width, height);
+        }
     }
 
     protected boolean isFormal(Component c) {

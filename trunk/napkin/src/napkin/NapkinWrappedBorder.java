@@ -26,6 +26,7 @@ public class NapkinWrappedBorder extends NapkinBorder {
 
         g = NapkinUtil.defaultGraphics(g, c);
         formal.paintBorder(c, g, x, y, width, height);
+        NapkinUtil.finishGraphics(g, c);
     }
 
     protected Border getFormalBorder() {
