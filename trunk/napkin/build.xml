@@ -72,8 +72,12 @@
         <ant target="release" inheritAll="false"/>
     </target>
 
-    <target name="release" depends="clean, compile, jars, release.files"
-        description="build release files">
+    <target name="release"
+	    depends="clean, compile, jars, release.files release.tag"
+	    description="build release files"/>
+
+    <target name="release.tag">
+	<cvs command="tag -F REL_${cvstag}_${build}"/>
     </target>
 
     <target name="release.files">
