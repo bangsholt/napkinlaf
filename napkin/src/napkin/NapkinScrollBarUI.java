@@ -39,6 +39,7 @@ public class NapkinScrollBarUI extends BasicScrollBarUI {
     }
 
     protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
+        g.setColor(c.getForeground());
         track = NapkinUtil.paintLine(g, vertical, track, trackBounds);
     }
 
@@ -47,7 +48,7 @@ public class NapkinScrollBarUI extends BasicScrollBarUI {
             thumb = new DrawnBoxHolder();
         thumb.shapeUpToDate(thumbBounds);
         Graphics2D lineG = NapkinUtil.copy(g);
-        lineG.setColor(NapkinTheme.Manager.getCurrentTheme().drawColor());
+        lineG.setColor(c.getForeground());
         lineG.translate(thumbBounds.x, thumbBounds.y);
         thumb.draw(lineG);
     }

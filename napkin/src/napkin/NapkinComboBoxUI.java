@@ -25,7 +25,8 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
-        listBox.setSelectionForeground(NapkinIconFactory.CheckBoxIcon.MARK_COLOR);
+        listBox.setSelectionForeground(
+                NapkinTheme.Manager.getCurrentTheme().getCheckColor());
     }
 
     public void uninstallUI(JComponent c) {

@@ -43,7 +43,7 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI {
         if (tabHolder == null)
             tabHolder = tabs[tabIndex] = new DrawnTabHolder(tabPlacement);
         tabHolder.shapeUpToDate(tabPlacement, x, y, w, h);
-        g.setColor(NapkinTheme.Manager.getCurrentTheme().drawColor());
+        g.setColor(tabPane.getForeground());
         tabHolder.draw(g);
     }
 
@@ -72,7 +72,7 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI {
             contentBorder.shapeUpToDate(calcRect, tabPlacement,
                     beg.getX(), beg.getY(), end.getX(), end.getY());
         }
-        g.setColor(NapkinTheme.Manager.getCurrentTheme().drawColor());
+        g.setColor(tabPane.getForeground());
         g.translate(+calcRect.x, +calcRect.y);
         contentBorder.draw(g);
         g.translate(-calcRect.x, -calcRect.y);

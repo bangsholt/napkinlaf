@@ -12,159 +12,104 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import javax.swing.plaf.*;
 
-public interface NapkinTheme {
-    String name();
+public class NapkinTheme {
+    private final String name;
+    private final String description;
+    private final Color penColor;
+    private final Color checkColor;
+    private final Color radioColor;
+    private final Color highlightColor;
+    private final Font textFont;
+    private final Font boldTextFont;
+    private final Font fixedFont;
+    private final NapkinBackground paper;
+    private final NapkinBackground popup;
+    private final NapkinBackground erasure;
 
-    String description();
+    public NapkinTheme(String name, String description, Color penColor,
+            Color checkColor, Color radioColor, Color highlightColor,
+            Font textFont, Font boldTextFont, Font fixedFont,
+            NapkinBackground paper, NapkinBackground popup,
+            NapkinBackground erasure) {
 
-    Color textColor();
-
-    Color drawColor();
-
-    Color checkColor();
-
-    Color radioColor();
-
-    Color highlightColor();
-
-    FontUIResource textFont();
-
-    FontUIResource boldTextFont();
-
-    FontUIResource fixedFont();
-
-    NapkinBackground paper();
-
-    NapkinBackground popup();
-
-    NapkinBackground erasureMask();
-
-    class Simple implements NapkinTheme {
-        private final String name;
-        private final String description;
-        private final Color textColor;
-        private final Color drawColor;
-        private final Color checkColor;
-        private final Color radioColor;
-        private final Color highlightColor;
-        private final FontUIResource text;
-        private final FontUIResource boldText;
-        private final FontUIResource fixed;
-        private final NapkinBackground paper;
-        private final NapkinBackground popup;
-        private final NapkinBackground erasure;
-
-        public Simple(String name, String description, Color textColor,
-                Color drawColor, Color checkColor, Color radioColor,
-                Color highlightColor, FontUIResource text, FontUIResource boldText,
-                FontUIResource fixed, NapkinBackground paper,
-                NapkinBackground popup, NapkinBackground erasure) {
-
-            this.checkColor = checkColor;
-            this.description = description;
-            this.drawColor = drawColor;
-            this.erasure = erasure;
-            this.fixed = fixed;
-            this.name = name;
-            this.paper = paper;
-            this.popup = popup;
-            this.radioColor = radioColor;
-            this.highlightColor = highlightColor;
-            this.text = text;
-            this.boldText = boldText;
-            this.textColor = textColor;
-        }
-
-        public Simple(String name, String description, Color textColor,
-                Color drawColor, Color checkColor, Color radioColor,
-                Color highlightColor, FontUIResource text, FontUIResource fixed,
-                NapkinBackground paper, NapkinBackground popup,
-                NapkinBackground erasure) {
-
-            this(name, description, textColor, drawColor, checkColor,
-                    radioColor, highlightColor, text, fixed,
-                    new FontUIResource(text.deriveFont(Font.BOLD)),
-                    paper, popup, erasure);
-        }
-
-        public Simple(String name, String description, Color textColor,
-                Color drawColor, Color checkColor, Color radioColor,
-                Color highlightColor, Font text, Font boldText, Font fixed,
-                NapkinBackground paper, NapkinBackground popup,
-                NapkinBackground erasure) {
-
-            this(name, description, textColor, drawColor, checkColor,
-                    radioColor, highlightColor, new FontUIResource(text),
-                    new FontUIResource(boldText), new FontUIResource(fixed),
-                    paper, popup, erasure);
-        }
-
-        public Simple(String name, String description, Color textColor,
-                Color drawColor, Color checkColor, Color radioColor,
-                Color highlightColor, Font text, Font fixed,
-                NapkinBackground paper, NapkinBackground popup,
-                NapkinBackground erasure) {
-
-            this(name, description, textColor, drawColor, checkColor,
-                    radioColor, highlightColor, new FontUIResource(text),
-                    new FontUIResource(fixed), paper, popup, erasure);
-        }
-
-        public String name() {
-            return name;
-        }
-
-        public String description() {
-            return description;
-        }
-
-        public Color textColor() {
-            return textColor;
-        }
-
-        public Color drawColor() {
-            return drawColor;
-        }
-
-        public Color checkColor() {
-            return checkColor;
-        }
-
-        public Color radioColor() {
-            return radioColor;
-        }
-
-        public Color highlightColor() {
-            return highlightColor;
-        }
-
-        public FontUIResource textFont() {
-            return text;
-        }
-
-        public FontUIResource boldTextFont() {
-            return boldText;
-        }
-
-        public FontUIResource fixedFont() {
-            return fixed;
-        }
-
-        public NapkinBackground paper() {
-            return paper;
-        }
-
-        public NapkinBackground popup() {
-            return popup;
-        }
-
-        public NapkinBackground erasureMask() {
-            return erasure;
-        }
+        this.name = name;
+        this.description = description;
+        this.penColor = uiResource(penColor);
+        this.checkColor = uiResource(checkColor);
+        this.radioColor = uiResource(radioColor);
+        this.highlightColor = uiResource(highlightColor);
+        this.textFont = uiResource(textFont);
+        this.boldTextFont = uiResource(boldTextFont);
+        this.fixedFont = uiResource(fixedFont);
+        this.paper = paper;
+        this.popup = popup;
+        this.erasure = erasure;
     }
 
-    class Manager {
-        private static Map themes = new HashMap();
+    private Color uiResource(Color color) {
+        if (color instanceof UIResource)
+            return color;
+        else
+            return new AlphaColorUIResource(color);
+    }
+
+    private Font uiResource(Font font) {
+        if (font instanceof UIResource)
+            return font;
+        else
+            return new FontUIResource(font);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Color getPenColor() {
+        return penColor;
+    }
+
+    public Color getCheckColor() {
+        return checkColor;
+    }
+
+    public Color getRadioColor() {
+        return radioColor;
+    }
+
+    public Color getHighlightColor() {
+        return highlightColor;
+    }
+
+    public Font getTextFont() {
+        return textFont;
+    }
+
+    public Font getBoldTextFont() {
+        return boldTextFont;
+    }
+
+    public Font getFixedFont() {
+        return fixedFont;
+    }
+
+    public NapkinBackground getPaper() {
+        return paper;
+    }
+
+    public NapkinBackground getPopup() {
+        return popup;
+    }
+
+    public NapkinBackground getErasureMask() {
+        return erasure;
+    }
+
+    public static class Manager {
+        private static final Map themes = new HashMap();
         private static NapkinTheme currentTheme;
 
         private static final String DEFAULT_THEME = "napkin";
@@ -172,6 +117,7 @@ public interface NapkinTheme {
         private static Font scrawl;
         private static Font scrawlBold;
         private static Font fixed;
+        private static Font blueprint;
         //!! Want to make this selectable
 
 //    private static final String SCRAWL_NAME = "nigmaScrawl5bBRK";
@@ -184,27 +130,36 @@ public interface NapkinTheme {
             getFonts();
 
 //    private static final String SCRAWL_NAME = "nigmaScrawl5bBRK";
-            addTheme(new Simple(DEFAULT_THEME, "Default theme",
-                    Color.BLACK, Color.BLACK, Color.GREEN.darker(),
-                    new Color(0xF50000), new Color(0x00, 0xff, 0xff, 0xff / 2),
+            NapkinTheme def = new NapkinTheme(DEFAULT_THEME, "Default theme",
+                    Color.BLACK, Color.GREEN.darker(), new Color(0xf50000),
+                    new Color(0x00, 0xff, 0xff, 0xff / 2),
                     scrawl.deriveFont(Font.PLAIN, 15),
                     scrawlBold.deriveFont(Font.PLAIN, 15),
                     fixed.deriveFont(Font.PLAIN, 15),
                     new NapkinBackground("resources/napkin.jpg"),
                     new NapkinBackground("resources/postit01.jpg",
                             15, 15, 38, 32),
-                    new NapkinBackground("resources/erasure.png")));
+                    new NapkinBackground("resources/erasure.png"));
+            addTheme(def);
 
-            NapkinTheme def = getTheme(DEFAULT_THEME);
-            addTheme(new Simple("debug", "Debug theme", def.textColor(),
-                    def.drawColor(), def.checkColor(), def.radioColor(),
-                    def.highlightColor(), def.textFont(), def.boldTextFont(),
-                    def.fixedFont(),
+            addTheme(new NapkinTheme("debug", "Debug theme", def.getPenColor(),
+                    def.getCheckColor(), def.getRadioColor(),
+                    def.getHighlightColor(), def.getTextFont(),
+                    def.getBoldTextFont(), def.getFixedFont(),
                     new NapkinBackground("resources/testPaper.jpg",
                             0, 0, 10, 10),
                     new NapkinBackground("resources/testPostit.jpg",
                             0, 0, 10, 10),
-                    def.erasureMask()));
+                    def.getErasureMask()));
+
+            Color blueprintInk = new Color(0xe7edf2);
+            Color blueprintHighlight = new Color(0x89b5ed);
+            addTheme(new NapkinTheme("blueprint", "Blueprint", Color.white,
+                    blueprintInk, blueprintInk, blueprintHighlight,
+                    blueprint.deriveFont(Font.PLAIN, 13),
+                    blueprint.deriveFont(Font.BOLD, 13), def.getFixedFont(),
+                    new NapkinBackground("resources/blueprint-bg.gif"),
+                    def.getPopup(), def.getErasureMask()));
 
             String themeName;
             try {
@@ -247,8 +202,16 @@ public interface NapkinTheme {
             currentTheme = (theme != null ? theme : getDefaultTheme());
         }
 
+        public static void setCurrentTheme(String themeName) {
+            NapkinTheme theme = getTheme(themeName);
+            if (theme == null)
+                throw new IllegalArgumentException("unknown theme");
+            else
+                setCurrentTheme(theme);
+        }
+
         public static void addTheme(NapkinTheme theme) {
-            themes.put(theme.name(), theme);
+            themes.put(theme.getName(), theme);
         }
 
         private static synchronized void getFonts() {
@@ -259,6 +222,7 @@ public interface NapkinTheme {
             scrawl = tryToLoadFont("FeltTipRoman.ttf");
             scrawlBold = tryToLoadFont("FeltTipRoman-Bold.ttf");
             fixed = tryToLoadFont("Mcgf____.ttf");
+            blueprint = tryToLoadFont("blueprin.ttf");
             gotFonts = true;
         }
 

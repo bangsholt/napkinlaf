@@ -295,13 +295,13 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         for (Iterator it = keys.iterator(); it.hasNext();) {
             String key = (String) it.next();
             if (key.endsWith("Text")) {
-                table.put(key, theme.textColor());
+                table.put(key, theme.getPenColor());
                 if (key.indexOf("Caption") < 0)
                     table.put(key.substring(0, key.length() - 4), CLEAR);
             }
         }
 
-        table.put("textHighlight", theme.highlightColor());
+        table.put("textHighlight", theme.getHighlightColor());
     }
 
     protected void initComponentDefaults(UIDefaults table) {
@@ -309,11 +309,11 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
 
-        Object dialogPlain = theme.textFont();
-        Object dialogBold = theme.boldTextFont();
-        Object serifPlain = theme.textFont();
-        Object sansSerifPlain = theme.textFont();
-        Object monospacedPlain = theme.fixedFont();
+        Object dialogPlain = theme.getTextFont();
+        Object dialogBold = theme.getBoldTextFont();
+        Object serifPlain = theme.getTextFont();
+        Object sansSerifPlain = theme.getTextFont();
+        Object monospacedPlain = theme.getFixedFont();
 
         Object drawnBorder = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
@@ -321,6 +321,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             }
         };
 
+        System.out.println("theme.penColor() = " + theme.getPenColor());
         for (Iterator it = table.entrySet().iterator(); it.hasNext();) {
             Entry entry = (Entry) it.next();
             String key = (String) entry.getKey();
@@ -354,6 +355,9 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 ) {
                     entry.setValue(drawnBorder); // we override manually below
                 }
+            } else if (key.endsWith(".foreground")) {
+                System.out.println("  Changing " + key);
+                entry.setValue(theme.getPenColor());
             }
         }
 

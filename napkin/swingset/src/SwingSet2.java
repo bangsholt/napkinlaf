@@ -40,7 +40,9 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.lang.reflect.Constructor;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
@@ -49,6 +51,8 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.plaf.metal.*;
+
+import napkin.NapkinTheme;
 
 /**
  * A demo that shows all of the Swing components.
@@ -75,6 +79,7 @@ public class SwingSet2 extends JPanel {
         "ToolTipDemo",
         "TreeDemo"
     };
+    private static final String DEFAULT_THEME_PREFIX = "default:";
 
     void loadDemos() {
         for (int i = 0; i < demos.length;) {
@@ -92,6 +97,7 @@ public class SwingSet2 extends JPanel {
 
     // The current Look & Feel
     private static String currentLookAndFeel = metal;
+    private static String themesMenuLookAndFeel = metal;
 
     // List of demos
     private Vector demosVector = new Vector();
@@ -131,6 +137,9 @@ public class SwingSet2 extends JPanel {
     private ButtonGroup themesMenuGroup = new ButtonGroup();
     private ButtonGroup audioMenuGroup = new ButtonGroup();
     private ButtonGroup toolTipMenuGroup = new ButtonGroup();
+
+    private Map themesFor = new HashMap();
+    private Map namesFor = new HashMap();
 
     // Popup menu
     private JPopupMenu popupMenu = null;
@@ -355,6 +364,7 @@ public class SwingSet2 extends JPanel {
             String[] lafs = split(getString("LafMenu.laf_list"));
             String defaultLaf = getString("LafMenu.laf_default").trim();
             currentLookAndFeel = null;
+            ResourceBundle bundle = getResourceBundle();
             for (int i = 0; i < lafs.length; i++) {
                 String laf = lafs[i];
                 String lafClass = getLafClass(laf);
@@ -368,6 +378,11 @@ public class SwingSet2 extends JPanel {
                 }
                 if (laf.equals("metal"))
                     metal = lafClass;
+                String themes = getStringIfPresent(pref + "themes");
+                if (themes != null) {
+                    themesFor.put(lafClass, themes);
+                    namesFor.put(lafClass, laf);
+                }
             }
 
             // ***** create themes menu
@@ -402,35 +417,7 @@ public class SwingSet2 extends JPanel {
                     "AudioMenu.off_accessible_description",
                     new OffAudioAction(this));
 
-            // *** now back to adding color/font themes to the theme menu
-            mi =
-                    createThemesMenuItem(themesMenu,
-                            "ThemesMenu.default_label",
-                            "ThemesMenu.default_mnemonic",
-                            "ThemesMenu.default_accessible_description",
-                            new DefaultMetalTheme());
-            mi.setSelected(true); // This is the default theme
-
-            createThemesMenuItem(themesMenu, "ThemesMenu.aqua_label", "ThemesMenu.aqua_mnemonic",
-                    "ThemesMenu.aqua_accessible_description", new AquaTheme());
-
-            createThemesMenuItem(themesMenu, "ThemesMenu.charcoal_label",
-                    "ThemesMenu.charcoal_mnemonic",
-                    "ThemesMenu.charcoal_accessible_description",
-                    new CharcoalTheme());
-
-            createThemesMenuItem(themesMenu, "ThemesMenu.contrast_label",
-                    "ThemesMenu.contrast_mnemonic",
-                    "ThemesMenu.contrast_accessible_description",
-                    new ContrastTheme());
-
-            createThemesMenuItem(themesMenu, "ThemesMenu.emerald_label",
-                    "ThemesMenu.emerald_mnemonic",
-                    "ThemesMenu.emerald_accessible_description",
-                    new EmeraldTheme());
-
-            createThemesMenuItem(themesMenu, "ThemesMenu.ruby_label", "ThemesMenu.ruby_mnemonic",
-                    "ThemesMenu.ruby_accessible_description", new RubyTheme());
+            populateThemesMenu();
 
             // ***** create the tooltip menu.
             toolTipMenu =
@@ -453,7 +440,6 @@ public class SwingSet2 extends JPanel {
                     "ToolTipMenu.off_accessible_description",
                     new ToolTipAction(this, false));
         }
-
 
         // ***** create the multiscreen menu, if we have multiple screens
         if (!isApplet()) {
@@ -479,6 +465,54 @@ public class SwingSet2 extends JPanel {
         }
 
         return menuBar;
+    }
+
+    private void populateThemesMenu() {
+        if (themesMenu == null)
+            return;
+
+        if (themesMenuLookAndFeel == currentLookAndFeel)
+            return;
+        themesMenuLookAndFeel = currentLookAndFeel;
+
+        String themesList = (String) themesFor.get(currentLookAndFeel);
+        if (themesList == null) {
+            themesMenu.setEnabled(false);
+            return;
+        }
+
+        themesMenu.removeAll();
+        themesMenuGroup = new ButtonGroup(); // create a new empty one
+
+        String laf = (String) namesFor.get(currentLookAndFeel);
+        StringTokenizer themes = new StringTokenizer(themesList, ", \t\n\r\f");
+        while (themes.hasMoreTokens()) {
+            String theme = themes.nextToken();
+            boolean isDefault = theme.startsWith(DEFAULT_THEME_PREFIX);
+            if (isDefault)
+                theme = theme.substring(DEFAULT_THEME_PREFIX.length());
+            String prefix = "ThemesMenu." + laf + "." + theme + "_";
+            Object themeObj;
+            try {
+                String className = getStringIfPresent(prefix + "class");
+                if (className != null) {
+                    Class themeClass = Class.forName(className);
+                    themeObj = themeClass.newInstance();
+                } else {
+                    themeObj = getStringIfPresent(prefix + "name");
+                }
+            } catch (Exception e) {
+                themeObj = null;
+            }
+            JMenuItem mi = createThemesMenuItem(themesMenu,
+                    prefix + "label", prefix + "mnemonic",
+                    prefix + "accessible_description",
+                    themeObj);
+            if (isDefault)
+                mi.setSelected(true);
+        }
+
+        themesMenu.setEnabled(true);
     }
 
     private String getLafClass(String laf) {
@@ -560,14 +594,20 @@ public class SwingSet2 extends JPanel {
      * Creates a JRadioButtonMenuItem for the Themes menu
      */
     public JMenuItem createThemesMenuItem(JMenu menu, String label, String mnemonic,
-            String accessibleDescription, DefaultMetalTheme theme) {
+            String accessibleDescription, Object theme) {
         JRadioButtonMenuItem mi = (JRadioButtonMenuItem) menu.add(
                 new JRadioButtonMenuItem(getString(label)));
         themesMenuGroup.add(mi);
         mi.setMnemonic(getMnemonic(mnemonic));
         mi.getAccessibleContext().setAccessibleDescription(
                 getString(accessibleDescription));
-        mi.addActionListener(new ChangeThemeAction(this, theme));
+        if (theme instanceof MetalTheme)
+            mi.addActionListener(
+                    new ChangeThemeAction(this, (MetalTheme) theme));
+        else if (theme instanceof String)
+            mi.addActionListener(new ChangeThemeAction(this, (String) theme));
+        else
+            mi.setEnabled(false);
 
         return mi;
     }
@@ -937,6 +977,14 @@ public class SwingSet2 extends JPanel {
         return value;
     }
 
+    public String getStringIfPresent(String key) {
+        try {
+            return getResourceBundle().getString(key);
+        } catch (MissingResourceException e) {
+            return null;
+        }
+    }
+
     /**
      * Returns the resource bundle associated with this demo. Used to get
      * accessable and internationalized strings.
@@ -979,7 +1027,6 @@ public class SwingSet2 extends JPanel {
     public void setLookAndFeel(String laf) {
         if (currentLookAndFeel != laf) {
             currentLookAndFeel = laf;
-            themesMenu.setEnabled(laf == metal);
             updateLookAndFeel();
         }
     }
@@ -1003,6 +1050,8 @@ public class SwingSet2 extends JPanel {
             SwingUtilities.updateComponentTreeUI(popupMenu);
             if (!getFrame().isAncestorOf(this))
                 SwingUtilities.updateComponentTreeUI(this);
+
+            populateThemesMenu();
 
         } catch (Exception ex) {
             System.out.println("Failed loading L&F: " + currentLookAndFeel);
@@ -1252,17 +1301,28 @@ public class SwingSet2 extends JPanel {
 
     class ChangeThemeAction extends AbstractAction {
         SwingSet2 swingset;
-        DefaultMetalTheme theme;
+        MetalTheme metalThemeObj;
+        String napkinThemeName;
 
         protected ChangeThemeAction(SwingSet2 swingset,
-                DefaultMetalTheme theme) {
+                MetalTheme theme) {
             super("ChangeTheme");
             this.swingset = swingset;
-            this.theme = theme;
+            this.metalThemeObj = theme;
+        }
+
+        protected ChangeThemeAction(SwingSet2 swingset,
+                String theme) {
+            super("ChangeTheme");
+            this.swingset = swingset;
+            this.napkinThemeName = theme;
         }
 
         public void actionPerformed(ActionEvent e) {
-            MetalLookAndFeel.setCurrentTheme(theme);
+            if (metalThemeObj != null)
+                MetalLookAndFeel.setCurrentTheme(metalThemeObj);
+            else if (napkinThemeName != null)
+                NapkinTheme.Manager.setCurrentTheme(napkinThemeName);
             swingset.updateLookAndFeel();
         }
     }
