@@ -4,6 +4,13 @@ package napkin.examples;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.StringWriter;
 import java.util.Dictionary;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -133,7 +140,9 @@ public class NapkinQuickTest implements SwingConstants {
         }
         tabbed.addTab("Themes", themes);
 
-        JTextArea textArea = new JTextArea();
+        final JPanel textPanel = new JPanel();
+        textPanel.setLayout(new BorderLayout());
+        final JTextArea textArea = new JTextArea();
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < 400; i++) {
             if (sb.length() > 0)
@@ -147,7 +156,19 @@ public class NapkinQuickTest implements SwingConstants {
         }
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setPreferredSize(new Dimension(200, 100));
-        tabbed.addTab("Text", scrollPane);
+        textPanel.add(scrollPane, BorderLayout.CENTER);
+        JButton loadButton = new JButton("Load File");
+        textPanel.add(loadButton, BorderLayout.SOUTH);
+        loadButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser chooser = new JFileChooser();
+                int result = chooser.showOpenDialog(textPanel);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    loadFile(textArea, chooser.getSelectedFile());
+                }
+            }
+        });
+        tabbed.addTab("Text", textPanel);
 
         JPanel fields = new JPanel();
         fields.setLayout(new BorderLayout());
@@ -170,6 +191,27 @@ public class NapkinQuickTest implements SwingConstants {
 
         top.pack();
         top.show();
+    }
+
+    private static void loadFile(JTextArea textArea, File file) {
+        Reader in = null;
+        try {
+            in = new BufferedReader(new FileReader(file));
+            textArea.read(in, file);
+        } catch (IOException e) {
+            PrintWriter out = new PrintWriter(new StringWriter());
+            e.printStackTrace(out);
+            out.close();
+            textArea.setText(out.toString());
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    ;   // we tried
+                }
+            }
+        }
     }
 
     private static void addCtrl(final JTabbedPane tabs, Container ctrls,
