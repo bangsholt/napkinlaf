@@ -1,0 +1,12 @@
+/* $Id$ */
+
+body {
+    color: black;
+    background: url(napkin.jpg) #F6F6F6;
+}
+
+.snap {
+    border: 9pt groove grey;
+}
+
+tr, th, td, table { vertical-align: baseline; }
