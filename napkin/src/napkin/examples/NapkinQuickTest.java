@@ -2,12 +2,12 @@
 
 package napkin.examples;
 
-import napkin.NapkinLookAndFeel;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Dictionary;
 import javax.swing.*;
+
+import napkin.NapkinLookAndFeel;
 
 public class NapkinQuickTest implements SwingConstants {
 
@@ -90,6 +90,13 @@ public class NapkinQuickTest implements SwingConstants {
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setPreferredSize(new Dimension(200, 100));
         tabbed.addTab("Text", scrollPane);
+
+        JPanel fields = new JPanel();
+        fields.setLayout(new BorderLayout());
+        JTextField field = new JTextField("of dreams", 20);
+        fields.add(new JLabel("Field:"), BorderLayout.WEST);
+        fields.add(field, BorderLayout.CENTER);
+        tabbed.addTab("Fields", fields);
 
         for (int i = 0; i < 4; i++)
             tabbed.addTab("Tab " + i, new JLabel("Just a Label #" + i, CENTER));
