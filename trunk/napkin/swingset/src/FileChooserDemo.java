@@ -41,7 +41,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.*;
+import java.io.File;
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -125,17 +125,22 @@ public class FileChooserDemo extends DemoModule {
     }
 
     public JFileChooser createFileChooser() {
-        // create a filechooser
-        JFileChooser fc = new JFileChooser();
+        try {
+            // create a filechooser
+            JFileChooser fc = new JFileChooser();
 
-        // set the current directory to be the images directory
-        File swingFile = new File("resources/images/About.jpg");
-        if (swingFile.exists()) {
-            fc.setCurrentDirectory(swingFile);
-            fc.setSelectedFile(swingFile);
+            // set the current directory to be the images directory
+            File swingFile = new File("resources/images/About.jpg");
+            if (swingFile.exists()) {
+                fc.setCurrentDirectory(swingFile);
+                fc.setSelectedFile(swingFile);
+            }
+
+            return fc;
+        } catch (SecurityException e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+            throw e;
         }
-
-        return fc;
     }
 
     public JButton createPlainFileChooserButton() {
@@ -387,9 +392,8 @@ class FilePreviewer extends JComponent implements PropertyChangeListener {
             ImageIcon tmpIcon = new ImageIcon(f.getPath());
             if (tmpIcon.getIconWidth() > 90) {
                 thumbnail =
-                        new ImageIcon(
-                                tmpIcon.getImage().getScaledInstance(90, -1,
-                                        Image.SCALE_DEFAULT));
+                        new ImageIcon(tmpIcon.getImage().getScaledInstance(90, -1,
+                                Image.SCALE_DEFAULT));
             } else {
                 thumbnail = tmpIcon;
             }
