@@ -30,9 +30,9 @@ public class DrawnCircleGenerator extends DrawnShapeGenerator
     public DrawnCircleGenerator(boolean forFill) {
         this.forFill = forFill;
 
-        startX = new RandomValue(LENGTH / 2, 2);
+        startX = new RandomValue(LENGTH / 2.0, 2);
         startY = new RandomValue(0, 20);
-        endX = new RandomValue(LENGTH / 2, 2);
+        endX = new RandomValue(LENGTH / 2.0, 2);
         endY = new RandomValue(0, 20);
         tlX = new RandomValue(0);
         tlY = new RandomValue(0);

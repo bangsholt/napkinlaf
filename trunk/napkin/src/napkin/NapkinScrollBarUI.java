@@ -18,6 +18,9 @@ public class NapkinScrollBarUI extends BasicScrollBarUI
         vertical = (bar.getOrientation() == VERTICAL);
     }
 
+    /**
+     * @noinspection MethodOverridesStaticMethod
+     */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinScrollBarUI(((JScrollBar) c)));
     }

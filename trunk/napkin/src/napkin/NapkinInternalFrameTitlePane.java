@@ -42,16 +42,16 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
             FontMetrics fm = getFontMetrics(getFont());
             String frameTitle = frame.getTitle();
             if (frameTitle != null) {
-                int title_w = fm.stringWidth(frameTitle);
-                int title_length = frameTitle.length();
+                int titleW = fm.stringWidth(frameTitle);
+                int titleLength = frameTitle.length();
 
                 // Leave room for three characters in the title.
-                if (title_length <= min) {
-                    width += title_w;
+                if (titleLength <= min) {
+                    width += titleW;
                 } else {
                     String replStr = frameTitle.substring(0, min) + "...";
-                    int subtitle_w = fm.stringWidth(replStr);
-                    width += (title_w < subtitle_w) ? title_w : subtitle_w;
+                    int subtitleW = fm.stringWidth(replStr);
+                    width += (titleW < subtitleW) ? titleW : subtitleW;
                 }
             }
 

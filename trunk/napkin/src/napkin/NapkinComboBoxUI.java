@@ -10,6 +10,9 @@ import javax.swing.plaf.basic.*;
 public class NapkinComboBoxUI extends BasicComboBoxUI
         implements NapkinPainter, NapkinConstants {
 
+    /**
+     * @noinspection MethodOverridesStaticMethod
+     */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinComboBoxUI());
     }
@@ -28,6 +31,9 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
         return NapkinUtil.createArrowButton(SOUTH);
     }
 
+    /**
+     * @noinspection ParameterHidingMemberVariable
+     */
     public void paintCurrentValueBackground(Graphics g, Rectangle bounds,
             boolean hasFocus) {
 

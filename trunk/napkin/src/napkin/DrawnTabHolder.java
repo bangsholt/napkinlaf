@@ -4,7 +4,9 @@ package napkin;
 
 import java.awt.geom.*;
 
-public class DrawnTabHolder extends DrawnShapeHolder implements NapkinConstants {
+public class DrawnTabHolder extends DrawnShapeHolder
+        implements NapkinConstants {
+
     private int tabPlacement;
     private int x, y;
     private int w, h;
@@ -17,6 +19,9 @@ public class DrawnTabHolder extends DrawnShapeHolder implements NapkinConstants 
         breakEnd = new Point2D.Double();
     }
 
+    /**
+     * @noinspection ParameterHidingMemberVariable
+     */
     public void shapeUpToDate(int tabPlacement, int x, int y, int w, int h) {
         if (tabPlacement == this.tabPlacement && w == this.w && h == this.h &&
                 this.x == x && this.y == y) {

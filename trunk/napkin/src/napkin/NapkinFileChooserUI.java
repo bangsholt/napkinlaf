@@ -24,6 +24,9 @@ public class NapkinFileChooserUI extends MetalFileChooserUI
                 }
             };
 
+    /**
+     * @noinspection MethodOverridesStaticMethod
+     */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinFileChooserUI((JFileChooser) c));
     }
@@ -46,7 +49,7 @@ public class NapkinFileChooserUI extends MetalFileChooserUI
         super.installComponents(fc);
         Component[] comps = fc.getComponents();
         JPanel topPanel = (JPanel) comps[0];
-        new ComponentWalker(topPanel, NO_BORDER_VISITOR);
+        new ComponentWalker(NO_BORDER_VISITOR).walk(topPanel);
     }
 
     public void update(Graphics g, JComponent c) {

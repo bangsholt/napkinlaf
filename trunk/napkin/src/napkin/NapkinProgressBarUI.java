@@ -17,6 +17,9 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
     private Image curImage;
     private Color selectionForeground, selectionBackground;
 
+    /**
+     * @noinspection MethodOverridesStaticMethod
+     */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinProgressBarUI());
     }

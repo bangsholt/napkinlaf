@@ -11,6 +11,9 @@ public class NapkinPanelUI extends BasicPanelUI implements NapkinPainter {
 
     private static final NapkinPanelUI napkinPanelUI = new NapkinPanelUI();
 
+    /**
+     * @noinspection MethodOverridesStaticMethod
+     */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, napkinPanelUI);
     }

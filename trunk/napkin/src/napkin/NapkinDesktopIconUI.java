@@ -20,6 +20,9 @@ public class NapkinDesktopIconUI extends BasicDesktopIconUI
 
     protected JComponent iconPane;                                  // PASTED
 
+    /**
+     * @noinspection MethodOverridesStaticMethod
+     */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinDesktopIconUI());
     }

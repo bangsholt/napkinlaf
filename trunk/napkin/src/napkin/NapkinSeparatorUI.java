@@ -46,6 +46,9 @@ public class NapkinSeparatorUI extends BasicSeparatorUI
         }
     }
 
+    /**
+     * @noinspection MethodOverridesStaticMethod
+     */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinSeparatorUI());
     }

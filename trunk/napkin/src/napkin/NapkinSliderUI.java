@@ -22,6 +22,9 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
     private int minorPos;
     private final Rectangle tickBounds;
 
+    /**
+     * @noinspection MethodOverridesStaticMethod
+     */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinSliderUI((JSlider) c));
     }
@@ -97,23 +100,23 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
     }
 
     protected void paintMinorTickForHorizSlider(Graphics g,
-            Rectangle tickBounds, int x) {
-        paintTick(minor, minorPos++, g, x, 0, x, tickBounds.height / 2 - 1);
+            Rectangle tick, int x) {
+        paintTick(minor, minorPos++, g, x, 0, x, tick.height / 2 - 1);
     }
 
     protected void paintMajorTickForHorizSlider(Graphics g,
-            Rectangle tickBounds, int x) {
-        paintTick(major, majorPos++, g, x, 0, x, tickBounds.height - 2);
+            Rectangle tick, int x) {
+        paintTick(major, majorPos++, g, x, 0, x, tick.height - 2);
     }
 
     protected void paintMinorTickForVertSlider(Graphics g,
-            Rectangle tickBounds, int y) {
-        paintTick(minor, minorPos++, g, 0, y, tickBounds.width / 2 - 1, y);
+            Rectangle tick, int y) {
+        paintTick(minor, minorPos++, g, 0, y, tick.width / 2 - 1, y);
     }
 
     protected void paintMajorTickForVertSlider(Graphics g,
-            Rectangle tickBounds, int y) {
-        paintTick(major, majorPos++, g, 0, y, tickBounds.width - 2, y);
+            Rectangle tick, int y) {
+        paintTick(major, majorPos++, g, 0, y, tick.width - 2, y);
     }
 
     private void paintTick(List ticks, int pos, Graphics g, int x, int y,

@@ -10,6 +10,9 @@ import javax.swing.plaf.basic.*;
 public class NapkinFormattedTextFieldUI extends BasicFormattedTextFieldUI
         implements NapkinPainter {
 
+    /**
+     * @noinspection MethodOverridesStaticMethod
+     */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinFormattedTextFieldUI());
     }

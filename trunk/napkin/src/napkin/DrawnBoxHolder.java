@@ -50,20 +50,20 @@ public class DrawnBoxHolder extends DrawnShapeHolder
         int cornerX = in.top;
         int cornerY = in.left;
 
-        DrawnBoxGenerator gen = (DrawnBoxGenerator) this.gen;
-        gen.getSizeX().setMid(borderWidth);
-        gen.getSizeY().setMid(borderHeight);
-        gen.getBegX().setMid(cornerX);
-        gen.getEndY().setMid(cornerY);
+        DrawnBoxGenerator dbg = (DrawnBoxGenerator) gen;
+        dbg.getSizeX().setMid(borderWidth);
+        dbg.getSizeY().setMid(borderHeight);
+        dbg.getBegX().setMid(cornerX);
+        dbg.getEndY().setMid(cornerY);
 
         AffineTransform matrix = new AffineTransform();
         matrix.translate(cornerX, cornerY);
 
         if (bSide == NO_SIDE)
-            gen.setNoBreak();
+            dbg.setNoBreak();
         else
-            gen.setBreak(bSide, begX, begY, endX, endY);
+            dbg.setBreak(bSide, begX, begY, endX, endY);
 
-        shape = gen.generate(matrix);
+        shape = dbg.generate(matrix);
     }
 }

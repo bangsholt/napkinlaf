@@ -13,10 +13,13 @@ public class DrawnTabGenerator extends DrawnShapeGenerator {
     private final RandomValue squeeze;
     private final int side;
 
-    public static final DrawnTabGenerator LEFT_TAB = new DrawnTabGenerator(LEFT);
-    public static final DrawnTabGenerator RIGHT_TAB = new DrawnTabGenerator(RIGHT);
+    public static final DrawnTabGenerator LEFT_TAB = new DrawnTabGenerator(
+            LEFT);
+    public static final DrawnTabGenerator RIGHT_TAB = new DrawnTabGenerator(
+            RIGHT);
     public static final DrawnTabGenerator TOP_TAB = new DrawnTabGenerator(TOP);
-    public static final DrawnTabGenerator BOTTOM_TAB = new DrawnTabGenerator(BOTTOM);
+    public static final DrawnTabGenerator BOTTOM_TAB = new DrawnTabGenerator(
+            BOTTOM);
 
     private static final int[] STARTS;
     private static final DrawnTabGenerator[] SIDES;
@@ -56,7 +59,7 @@ public class DrawnTabGenerator extends DrawnShapeGenerator {
         llY = new RandomValue(1, shimmy);
         if (side == LEFT || side == RIGHT) {
             // when this gets exagerated to stretch out the line it's too much
-            final double horizAdj = 10;
+            double horizAdj = 10;
             ulX.setRange(shimmy / horizAdj);
             urX.setRange(shimmy / horizAdj);
             llX.setRange(shimmy / horizAdj);

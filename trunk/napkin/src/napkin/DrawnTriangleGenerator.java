@@ -7,8 +7,8 @@ import java.awt.geom.*;
 
 public class DrawnTriangleGenerator extends DrawnShapeGenerator {
     private final RandomValue midX, midY;
-    private final RandomValue v1X, v1Y;
-    private final RandomValue v2X, v2Y;
+    private final RandomValue lX, lY;
+    private final RandomValue rX, rY;
     private final RandomValue startAdjust;
     private final double rotate;
 
@@ -24,10 +24,10 @@ public class DrawnTriangleGenerator extends DrawnShapeGenerator {
         double shimmy = 0.05;
         midX = new RandomValue(0.5, shimmy);
         midY = new RandomValue(0, shimmy);
-        v1X = new RandomValue(0, shimmy);
-        v1Y = new RandomValue(1, shimmy);
-        v2X = new RandomValue(1, shimmy);
-        v2Y = new RandomValue(1, shimmy);
+        lX = new RandomValue(0, shimmy);
+        lY = new RandomValue(1, shimmy);
+        rX = new RandomValue(1, shimmy);
+        rY = new RandomValue(1, shimmy);
 
         startAdjust = new RandomValue(0.07);
     }
@@ -40,10 +40,10 @@ public class DrawnTriangleGenerator extends DrawnShapeGenerator {
 
         double xMid = midX.generate();
         double yMid = midY.generate();
-        double xV1 = v1X.generate();
-        double yV1 = v1Y.generate();
-        double xV2 = v2X.generate();
-        double yV2 = v2Y.generate();
+        double xV1 = lX.generate();
+        double yV1 = lY.generate();
+        double xV2 = rX.generate();
+        double yV2 = rY.generate();
 
         if (rotate != 0) {
             matrix = NapkinUtil.copy(matrix);

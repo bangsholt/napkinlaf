@@ -15,6 +15,9 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
     private final DrawnBoxHolder contentBorder = new DrawnBoxHolder();
     private Insets origInsets;
 
+    /**
+     * @noinspection MethodOverridesStaticMethod
+     */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinTabbedPaneUI());
     }
