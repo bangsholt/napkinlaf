@@ -15,7 +15,7 @@ public class NapkinTreeUI extends BasicTreeUI {
     public class DefaultNapkinTreeCellRender extends DefaultTreeCellRenderer {
         public void paint(Graphics g) {
             g = NapkinUtil.defaultGraphics(g, tree);
-            NapkinTheme theme = NapkinUtil.themeFor(tree);
+            NapkinTheme theme = NapkinUtil.currentTheme(this);
             setBackgroundSelectionColor(NapkinUtil.ifReplace(
                     getBackgroundSelectionColor(),
                     theme.getHighlightColor()));
@@ -44,7 +44,7 @@ public class NapkinTreeUI extends BasicTreeUI {
     public void update(Graphics g, JComponent c) {
         g = NapkinUtil.defaultGraphics(g, c);
 
-        NapkinTheme theme = NapkinUtil.themeFor(tree);
+        NapkinTheme theme = NapkinUtil.currentTheme(c);
         setHashColor(NapkinUtil.ifReplace(getHashColor(), theme.getPenColor()));
 
         NapkinUtil.background(g, c);
@@ -105,7 +105,7 @@ public class NapkinTreeUI extends BasicTreeUI {
     }
 
     protected Color getHashColor() {
-        NapkinTheme theme = NapkinUtil.themeFor(tree);
+        NapkinTheme theme = NapkinUtil.currentTheme(tree);
         return theme.getPenColor();
     }
 

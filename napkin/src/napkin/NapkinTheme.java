@@ -23,13 +23,16 @@ public class NapkinTheme {
     private final Font fixedFont;
     private final NapkinBackground paper;
     private final NapkinBackground erasure;
-    private final NapkinTheme popupTheme;
+    private NapkinTheme[] themes = new NapkinTheme[2];
 
     public static final int PEN_COLOR = 0;
     public static final int CHECK_COLOR = 1;
     public static final int RADIO_COLOR = 2;
     public static final int HIGHLIGHT_COLOR = 3;
     public static final int SELECTION_COLOR = 4;
+
+    public static final int BASIC_THEME = 0;
+    public static final int POPUP_THEME = 1;
 
     /**
      * Creates a new theme with a popup theme derived from the specified one,
@@ -83,7 +86,10 @@ public class NapkinTheme {
         this.fixedFont = uiResource(fixedFont);
         this.paper = paper;
         this.erasure = erasure;
-        this.popupTheme = popupTheme;
+        themes[BASIC_THEME] = this;
+        themes[POPUP_THEME] = popupTheme;
+        if (popupTheme != null)
+            popupTheme.themes = themes;
     }
 
     private Color uiResource(Color color) {
@@ -153,7 +159,15 @@ public class NapkinTheme {
     }
 
     public NapkinTheme getPopupTheme() {
-        return popupTheme;
+        return getTheme(POPUP_THEME);
+    }
+
+    public NapkinTheme getBasicTheme() {
+        return getTheme(BASIC_THEME);
+    }
+
+    public NapkinTheme getTheme(int which) {
+        return themes[which];
     }
 
     public String toString() {

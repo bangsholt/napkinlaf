@@ -25,13 +25,7 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
     }
 
     protected JButton createArrowButton() {
-        return NapkinUtil.createArrowButton(SOUTH, comboBox);
-    }
-
-    protected ComboPopup createPopup() {
-        NapkinComboPopup popup = new NapkinComboPopup(comboBox);
-        popup.getAccessibleContext().setAccessibleParent(comboBox);
-        return popup;
+        return NapkinUtil.createArrowButton(SOUTH);
     }
 
     public void paintCurrentValueBackground(Graphics g, Rectangle bounds,

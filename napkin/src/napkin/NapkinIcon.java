@@ -53,7 +53,7 @@ public abstract class NapkinIcon implements Icon {
             if (markGen != null && mark == null)
                 mark = markGen.generate(scaleMat);
             markG = NapkinUtil.lineGraphics(g1, 2.5f);
-            markG.setColor(NapkinUtil.themeFor(c).getColor(markColor));
+            markG.setColor(NapkinUtil.currentTheme(c).getColor(markColor));
         }
         placeG.setColor(c.getForeground());
         doPaint(placeG, markG, x, y);

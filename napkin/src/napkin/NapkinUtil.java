@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.Stack;
 import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,28 +39,21 @@ import javax.swing.plaf.*;
 public class NapkinUtil implements NapkinConstants {
     private static final Set printed = new HashSet();
 
-    private static final Logger logger = Logger.getLogger("NapkinUtil");
     public static final Random random = new Random();
 
     private static final Map strokes = new WeakHashMap();
     private static final Map fieldsForType = new WeakHashMap();
+
+    private static final Stack themeStack = new Stack();
+    private static final Stack paperStack = new Stack();
+
     private static boolean drawingDisabled;
 
     private static final BufferedImage textureImage;
 
-    private static final float FOCUS_MARK_WIDTH = 1.5f;
+    private static final Set skip;
 
-    private static final HierarchyListener CLEAR_BACKGROUND_LISTENER =
-            new HierarchyListener() {
-                public void hierarchyChanged(HierarchyEvent e) {
-                    Component c = e.getComponent();
-                    if (c instanceof JComponent) {
-                        JComponent jc = (JComponent) c;
-                        if (jc.getClientProperty(IS_THEME_TOP_KEY) == null)
-                            jc.putClientProperty(BACKGROUND_KEY, null);
-                    }
-                }
-            };
+    private static final float FOCUS_MARK_WIDTH = 1.5f;
 
     private static final PropertyChangeListener PROPERTY_LISTENER =
             new PropertyChangeListener() {
@@ -80,7 +74,14 @@ public class NapkinUtil implements NapkinConstants {
     private static final AlphaComposite ERASURE_COMPOSITE =
             AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.8f);
 
+    public static class Logs {
+        public static final Logger ui = Logger.getLogger("napkin.util");
+        public static final Logger paper = Logger.getLogger("napkin.paper");
+    }
+
     static {
+        skip = new HashSet();
+
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
         ImageIcon icon = theme.getErasureMask().getIcon();
         int w = icon.getIconWidth();
@@ -166,8 +167,8 @@ public class NapkinUtil implements NapkinConstants {
             ui = nlaf.getFormalLAF().getDefaults().getUI(c);
         else
             ui = napkinUI;
-        if (logger.isLoggable(Level.FINER) && !printed.contains(c.getClass())) {
-            logger.finer(c.getUIClassID() + "\n  " + napkinUI.getClass() +
+        if (Logs.ui.isLoggable(Level.FINER) && !printed.contains(c.getClass())) {
+            Logs.ui.finer(c.getUIClassID() + "\n  " + napkinUI.getClass() +
                     "\n  " + c.getClass());
             printed.add(c.getClass());
         }
@@ -244,12 +245,10 @@ public class NapkinUtil implements NapkinConstants {
         c.addPropertyChangeListener(PROPERTY_LISTENER);
         if (replace(c.getBackground(), CLEAR))
             c.setBackground(CLEAR);
-        c.addHierarchyListener(CLEAR_BACKGROUND_LISTENER);
     }
 
     public static void uninstallUI(JComponent c) {
         c.removePropertyChangeListener(PROPERTY_LISTENER);
-        c.removeHierarchyListener(CLEAR_BACKGROUND_LISTENER);
         if (shouldMakeOpaque(c))
             c.setOpaque(true);
         unsetupBorder(c);
@@ -312,13 +311,8 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static Graphics2D defaultGraphics(Graphics g1, Component c) {
-        return defaultGraphics(g1, c, c);
-    }
-
-    public static Graphics2D defaultGraphics(Graphics g1, Component c,
-            Component themeFrom) {
         Graphics2D g = (Graphics2D) g1;
-        syncWithTheme(g, c, themeFrom);
+        syncWithTheme(g, c);
         boolean enabled = c.isEnabled() && !(c instanceof FakeEnabled);
         if (!enabled && c instanceof JComponent && !drawingDisabled) {
             drawingDisabled = true;
@@ -359,12 +353,13 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static void syncWithTheme(Graphics2D g, Component c) {
-        syncWithTheme(g, c, c);
-    }
+        if (isPaper(c)) {
+            paperStack.push(c);
+            themeStack.push(((JComponent) c).getClientProperty(THEME_KEY));
+            dumpStacks();
+        }
 
-    public static void syncWithTheme(Graphics2D g, Component c,
-            Component themeFrom) {
-        NapkinTheme theme = themeFor(themeFrom);
+        NapkinTheme theme = currentTheme(c);
         Color penColor = theme.getPenColor();
         if (!penColor.equals(c.getForeground())) {
             c.setForeground(penColor);
@@ -381,7 +376,44 @@ public class NapkinUtil implements NapkinConstants {
             return (NapkinTheme) themeTop.getClientProperty(THEME_KEY);
     }
 
+    static int count = 0;
+
+    public static NapkinTheme currentTheme(Component c) {
+        if (themeStack.isEmpty())
+            return (NapkinTheme) themeTopFor(c).getClientProperty(THEME_KEY);
+        return (NapkinTheme) themeStack.peek();
+    }
+
+    public static Component currentPaper(Component c) {
+        if (paperStack.isEmpty())
+            return themeTopFor(c);
+        return (JComponent) paperStack.peek();
+    }
+
+    private static void dumpStacks() {
+        if (!Logs.paper.isLoggable(Level.FINER))
+            return;
+
+        if (themeStack.size() != paperStack.size())
+            System.out.println("!!!");
+        String dump = count + ":\t";
+        count++;
+        for (int i = 0; i < paperStack.size(); i++)
+            dump += ". ";
+        if (!themeStack.isEmpty())
+            dump += themeStack.peek() + " / " + descFor(paperStack.peek());
+        Logs.paper.log(Level.FINER, dump);
+    }
+
     public static void finishGraphics(Graphics g1, Component c) {
+        if (c == currentPaper(c)) {
+            if (!paperStack.isEmpty())
+                paperStack.pop();
+            if (!themeStack.isEmpty())
+                themeStack.pop();
+            dumpStacks();
+        }
+
         if (!(c instanceof JComponent))
             return;
 
@@ -436,21 +468,18 @@ public class NapkinUtil implements NapkinConstants {
             matrix.transform(points, 0, points, 0, points.length / 2);
     }
 
-    static JButton createArrowButton(int pointTowards, JComponent holder) {
+    static JButton createArrowButton(int pointTowards) {
         int size = NapkinIconFactory.ArrowIcon.DEFAULT_SIZE;
-        return createArrowButton(pointTowards, size, holder);
+        return createArrowButton(pointTowards, size);
     }
 
-    static JButton
-            createArrowButton(int pointTowards, int size, JComponent themeTop) {
-
+    static JButton createArrowButton(int pointTowards, int size) {
         Icon arrow = NapkinIconFactory.createArrowIcon(pointTowards, size);
         JButton button = new JButton(arrow);
         button.setBorderPainted(false);
         Dimension dim = new Dimension(size + 3, size + 3);
         button.setPreferredSize(dim);
         button.setMinimumSize(dim);
-        button.putClientProperty(THEME_TOP_KEY, themeTop);
         return button;
     }
 
@@ -521,25 +550,21 @@ public class NapkinUtil implements NapkinConstants {
         System.out.println(label + ": " + x + ", " + y);
     }
 
-    public static void setupThemeTop(JComponent c, NapkinTheme theme) {
+    public static void setupPaper(JComponent c, int theme) {
         c.setOpaque(true);
-        c.putClientProperty(IS_THEME_TOP_KEY, Boolean.TRUE);
-        c.putClientProperty(THEME_TOP_KEY, c);
-        c.putClientProperty(THEME_KEY, theme);
+        NapkinTheme baseTheme = NapkinTheme.Manager.getCurrentTheme();
+        c.putClientProperty(THEME_KEY, baseTheme.getTheme(theme));
     }
 
     public static NapkinTheme background(Graphics g1, Component c) {
-        JComponent themeTop = themeTopFor(c);
-        if (themeTop == null)
-            return null;
         if (isGlassPane(c))
             return null;
 
         Graphics2D g = (Graphics2D) g1;
-        NapkinTheme theme = (NapkinTheme) themeTop.getClientProperty(THEME_KEY);
+        NapkinTheme theme = currentTheme(c);
         NapkinBackground bg = theme.getPaper();
 
-        Rectangle pRect = bounds(themeTop);
+        Rectangle pRect = bounds(currentPaper(c));
         Rectangle cRect = bounds(c);
 
         bg.paint(c, g, pRect, cRect, insets(c));
@@ -597,11 +622,10 @@ public class NapkinUtil implements NapkinConstants {
             return themeTopFor(c.getParent());
 
         JComponent jc = (JComponent) c;
-        JComponent themeTop = (JComponent) jc.getClientProperty(THEME_TOP_KEY);
-        if (themeTop != null && themeTop.getClientProperty(THEME_KEY) != null)
-            return themeTop;
+        if (jc.getClientProperty(THEME_KEY) != null)
+            return jc;
 
-        themeTop = themeTopFor(jc.getParent());
+        JComponent themeTop = themeTopFor(jc.getParent());
         if (themeTop == null) {
             // This can happen to any entity without a JComponent ancestors.
             // If so, we nominate ourselves as the relevant background paper.
@@ -609,11 +633,9 @@ public class NapkinUtil implements NapkinConstants {
             // and have no UI classes.  So this is what you get for any regular
             // top-level window we haven't overridden.  I wonder why JFrame and
             // friends are like this.
-            setupThemeTop(jc, NapkinTheme.Manager.getCurrentTheme());
+            setupPaper(jc, NapkinTheme.BASIC_THEME);
             return jc;
         }
-        jc.putClientProperty(THEME_TOP_KEY, themeTop);
-        jc.putClientProperty(THEME_KEY, themeTop.getClientProperty(THEME_KEY));
         return themeTop;
     }
 
@@ -622,7 +644,8 @@ public class NapkinUtil implements NapkinConstants {
         Point start = new Point();
         if (insets != null)
             start.setLocation(-insets.left, -insets.top);
-        while (c != null && !isPaper(c)) {
+        Component paper = currentPaper(c);
+        while (c != null && c != paper) {
             if (print)
                 System.out.println(
                         "(" + c.getX() + ", " + c.getY() + "): " + descFor(c));
@@ -638,8 +661,7 @@ public class NapkinUtil implements NapkinConstants {
 
     private static boolean isPaper(Component c) {
         if (c instanceof JComponent)
-            return (((JComponent) c).getClientProperty(IS_THEME_TOP_KEY) !=
-                    null);
+            return (((JComponent) c).getClientProperty(THEME_KEY) != null);
         return false;
     }
 
@@ -661,14 +683,6 @@ public class NapkinUtil implements NapkinConstants {
     public static void dumpObject(Object obj, PrintStream out) {
         Map known = new HashMap();
         dumpObject(obj, out, 0, known);
-    }
-
-    static final Set skip;
-
-    static {
-        skip = new HashSet();
-//        skip.add("source");
-//        skip.add("mostRecentKeyValue");
     }
 
     private static void
@@ -801,7 +815,7 @@ public class NapkinUtil implements NapkinConstants {
             int x = textOffset;
             int y = textOffset;
             ulG.translate(x, y);
-            ulG.setColor(NapkinUtil.themeFor(c).getCheckColor());
+            ulG.setColor(NapkinUtil.currentTheme(c).getCheckColor());
             line.setWidth(FOCUS_MARK_WIDTH);
             line.draw(ulG);
         }
@@ -811,7 +825,7 @@ public class NapkinUtil implements NapkinConstants {
             AbstractButton button = (AbstractButton) c;
             ButtonModel model = button.getModel();
             if (model.isArmed() || (c instanceof JMenu && model.isSelected()))
-                textColor = themeFor(c).getSelectionColor();
+                textColor = currentTheme(c).getSelectionColor();
         }
         g.setColor(textColor);
         c = wrapIfNeeded(c);

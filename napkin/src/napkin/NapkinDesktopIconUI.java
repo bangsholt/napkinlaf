@@ -20,7 +20,6 @@ public class NapkinDesktopIconUI extends BasicDesktopIconUI {
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
-        NapkinUtil.setupThemeTop(c, NapkinUtil.themeFor(c).getPopupTheme());
     }
 
     public void uninstallUI(JComponent c) {

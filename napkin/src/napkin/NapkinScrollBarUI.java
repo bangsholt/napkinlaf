@@ -31,11 +31,11 @@ public class NapkinScrollBarUI extends BasicScrollBarUI {
     }
 
     protected JButton createDecreaseButton(int orientation) {
-        return NapkinUtil.createArrowButton(orientation, scrollbar);
+        return NapkinUtil.createArrowButton(orientation);
     }
 
     protected JButton createIncreaseButton(int orientation) {
-        return NapkinUtil.createArrowButton(orientation, scrollbar);
+        return NapkinUtil.createArrowButton(orientation);
     }
 
     protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {

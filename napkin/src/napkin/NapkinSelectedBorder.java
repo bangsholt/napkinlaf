@@ -13,7 +13,7 @@ public class NapkinSelectedBorder extends NapkinBoxBorder {
             AbstractButton b = (AbstractButton) c;
             if (b.getModel().isSelected()) {
                 origC = g.getColor();
-                g.setColor(NapkinUtil.themeFor(b).getSelectionColor());
+                g.setColor(NapkinUtil.currentTheme(c).getSelectionColor());
             }
             super.doPaintBorder(c, g, x, y, width, height);
         } finally {
