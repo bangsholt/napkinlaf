@@ -21,8 +21,7 @@ public class NapkinInternalFrameUI extends BasicInternalFrameUI {
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
-        NapkinUtil.setupThemeTop(c,
-                NapkinTheme.Manager.getCurrentTheme().getPopupTheme());
+        NapkinUtil.setupThemeTop(c, NapkinUtil.themeFor(c).getPopupTheme());
     }
 
     public void uninstallUI(JComponent c) {

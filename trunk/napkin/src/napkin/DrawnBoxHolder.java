@@ -3,7 +3,8 @@ package napkin;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class DrawnBoxHolder extends DrawnShapeHolder implements NapkinConstants {
+public class DrawnBoxHolder extends DrawnShapeHolder
+        implements NapkinConstants {
     private Rectangle size;
     private int breakSide;
     private final Point2D begBreak, endBreak;
@@ -39,7 +40,7 @@ public class DrawnBoxHolder extends DrawnShapeHolder implements NapkinConstants 
         begBreak.setLocation(begX, begY);
         endBreak.setLocation(endX, endY);
 
-        Insets in = DrawnBorder.DEFAULT_INSETS;
+        Insets in = NapkinBoxBorder.DEFAULT_INSETS;
 
         double innerWidth = sz.getWidth() - (in.left + in.right);
         double innerHeight = sz.getHeight() - (in.top + in.bottom);

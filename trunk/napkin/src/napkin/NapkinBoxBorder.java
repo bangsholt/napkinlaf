@@ -11,8 +11,10 @@ public class NapkinBoxBorder extends NapkinBorder implements NapkinConstants {
     static final Insets DEFAULT_INSETS =
             new InsetsUIResource(BORDER, BORDER, BORDER, BORDER);
 
-    public NapkinBoxBorder(Color color) {
-        super(new LineBorder(color));
+    public NapkinBoxBorder() {
+        super(
+                new LineBorder(
+                        NapkinTheme.Manager.getCurrentTheme().getPenColor()));
     }
 
     private static final NapkinUtil.PropertyFactory BOX_FACTORY =

@@ -46,7 +46,7 @@ public class NapkinProgressBarUI extends BasicProgressBarUI {
         }
         box.shapeUpToDate(boxRect);
         Graphics2D lineG = NapkinUtil.copy(g);
-        lineG.setColor(NapkinTheme.Manager.getCurrentTheme().getCheckColor());
+        lineG.setColor(NapkinUtil.themeFor(c).getCheckColor());
         lineG.translate(boxRect.x, boxRect.y);
         box.draw(lineG);
 
@@ -76,8 +76,7 @@ public class NapkinProgressBarUI extends BasicProgressBarUI {
         if (scribble.shapeUpToDate(c, sz, orientation, amountFull, backwards)) {
             curImage = c.createImage(sz.x + sz.width, sz.y + sz.height);
             Graphics imgG = curImage.getGraphics();
-            imgG.setColor(
-                    NapkinTheme.Manager.getCurrentTheme().getCheckColor());
+            imgG.setColor(NapkinUtil.themeFor(c).getCheckColor());
             scribble.draw(imgG);
         }
 

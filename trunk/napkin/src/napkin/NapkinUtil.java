@@ -265,8 +265,14 @@ public class NapkinUtil implements NapkinConstants {
             AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.8f);
 
     public static Graphics2D defaultGraphics(Graphics g1, Component c) {
+        return defaultGraphics(g1, c, c);
+
+    }
+
+    public static Graphics2D defaultGraphics(Graphics g1, Component c,
+            Component themeFrom) {
         Graphics2D g = (Graphics2D) g1;
-        syncWithTheme(g, c);
+        syncWithTheme(g, c, themeFrom);
         boolean enabled = c.isEnabled() && !(c instanceof FakeEnabled);
         if (!enabled && c instanceof JComponent) {
             Rectangle r = g.getClipBounds();
@@ -306,7 +312,12 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static void syncWithTheme(Graphics2D g, Component c) {
-        NapkinTheme theme = themeFor(c);
+        syncWithTheme(g, c, c);
+    }
+
+    public static void syncWithTheme(Graphics2D g, Component c,
+            Component themeFrom) {
+        NapkinTheme theme = themeFor(themeFrom);
         Color penColor = theme.getPenColor();
         if (!penColor.equals(c.getForeground())) {
             c.setForeground(penColor);
@@ -321,9 +332,12 @@ public class NapkinUtil implements NapkinConstants {
         }
     }
 
-    private static NapkinTheme themeFor(Component c) {
+    public static NapkinTheme themeFor(Component c) {
         JComponent themeTop = themeTopFor(c);
-        return (NapkinTheme) themeTop.getClientProperty(THEME_KEY);
+        if (themeTop == null)
+            return NapkinTheme.Manager.getCurrentTheme();
+        else
+            return (NapkinTheme) themeTop.getClientProperty(THEME_KEY);
     }
 
     private static final Set disabled = new HashSet();
@@ -519,7 +533,7 @@ public class NapkinUtil implements NapkinConstants {
 
         JComponent jc = (JComponent) c;
         JComponent themeTop = (JComponent) jc.getClientProperty(THEME_TOP_KEY);
-        if (themeTop != null)
+        if (themeTop != null && themeTop.getClientProperty(THEME_KEY) != null)
             return themeTop;
 
         themeTop = themeTopFor(jc.getParent());
@@ -703,7 +717,7 @@ public class NapkinUtil implements NapkinConstants {
             int x = textOffset;
             int y = textOffset;
             ulG.translate(x, y);
-            ulG.setColor(NapkinTheme.Manager.getCurrentTheme().getCheckColor());
+            ulG.setColor(NapkinUtil.themeFor(c).getCheckColor());
             line.setWidth(FOCUS_MARK_WIDTH);
             line.draw(ulG);
         }

@@ -15,16 +15,18 @@ import javax.swing.plaf.*;
 public class NapkinTheme {
     private final String name;
     private final String description;
-    private final Color penColor;
-    private final Color checkColor;
-    private final Color radioColor;
-    private final Color highlightColor;
+    private final Color[] colors = new Color[4];
     private final Font textFont;
     private final Font boldTextFont;
     private final Font fixedFont;
     private final NapkinBackground paper;
     private final NapkinBackground erasure;
     private final NapkinTheme popupTheme;
+
+    public static final int PEN_COLOR = 0;
+    public static final int CHECK_COLOR = 1;
+    public static final int RADIO_COLOR = 2;
+    public static final int HIGHLIGHT_COLOR = 3;
 
     public NapkinTheme(String name, String description, Color penColor,
             Color checkColor, Color radioColor, Color highlightColor,
@@ -48,10 +50,10 @@ public class NapkinTheme {
 
         this.name = name;
         this.description = description;
-        this.penColor = uiResource(penColor);
-        this.checkColor = uiResource(checkColor);
-        this.radioColor = uiResource(radioColor);
-        this.highlightColor = uiResource(highlightColor);
+        colors[PEN_COLOR] = uiResource(penColor);
+        colors[CHECK_COLOR] = uiResource(checkColor);
+        colors[RADIO_COLOR] = uiResource(radioColor);
+        colors[HIGHLIGHT_COLOR] = uiResource(highlightColor);
         this.textFont = uiResource(textFont);
         this.boldTextFont = uiResource(boldTextFont);
         this.fixedFont = uiResource(fixedFont);
@@ -83,19 +85,23 @@ public class NapkinTheme {
     }
 
     public Color getPenColor() {
-        return penColor;
+        return colors[PEN_COLOR];
     }
 
     public Color getCheckColor() {
-        return checkColor;
+        return colors[CHECK_COLOR];
     }
 
     public Color getRadioColor() {
-        return radioColor;
+        return colors[RADIO_COLOR];
     }
 
     public Color getHighlightColor() {
-        return highlightColor;
+        return colors[HIGHLIGHT_COLOR];
+    }
+
+    public Color getColor(int which) {
+        return colors[which];
     }
 
     public Font getTextFont() {
@@ -135,7 +141,7 @@ public class NapkinTheme {
         private static Font scrawl;
         private static Font scrawlBold;
         private static Font fixed;
-        private static Font blueprint;
+        private static Font augie;
         //!! Want to make this selectable
 
 //    private static final String SCRAWL_NAME = "nigmaScrawl5bBRK";
@@ -173,8 +179,8 @@ public class NapkinTheme {
             Color blueprintHighlight = new Color(0x89b5ed);
             addTheme(new NapkinTheme("blueprint", "Blueprint", Color.white,
                     blueprintInk, blueprintInk, blueprintHighlight,
-                    blueprint.deriveFont(Font.PLAIN, 13),
-                    blueprint.deriveFont(Font.BOLD, 13), def.getFixedFont(),
+                    augie.deriveFont(Font.PLAIN, 13),
+                    augie.deriveFont(Font.BOLD, 13), def.getFixedFont(),
                     new NapkinBackground("resources/blueprint-bg.jpg"),
                     def.getErasureMask(), def.getPopupTheme()));
 
@@ -239,7 +245,7 @@ public class NapkinTheme {
             scrawl = tryToLoadFont("FeltTipRoman.ttf");
             scrawlBold = tryToLoadFont("FeltTipRoman-Bold.ttf");
             fixed = tryToLoadFont("Mcgf____.ttf");
-            blueprint = tryToLoadFont("blueprin.ttf");
+            augie = tryToLoadFont("augie.ttf");
             gotFonts = true;
         }
 

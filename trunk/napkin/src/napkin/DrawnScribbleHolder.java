@@ -4,7 +4,8 @@ import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
 
-public class DrawnScribbleHolder extends DrawnShapeHolder implements NapkinConstants {
+public class DrawnScribbleHolder extends DrawnShapeHolder
+        implements NapkinConstants {
     private Rectangle size;
     private Insets insets;
     private int orientation;
@@ -20,7 +21,7 @@ public class DrawnScribbleHolder extends DrawnShapeHolder implements NapkinConst
     boolean shapeUpToDate(Component c, Rectangle sz, int orient, int shn,
             boolean bwrds) {
         Insets in = (c instanceof JComponent ?
-                ((JComponent) c).getInsets() : DrawnBorder.DEFAULT_INSETS);
+                ((JComponent) c).getInsets() : NapkinBoxBorder.DEFAULT_INSETS);
 
         if (size != null && bwrds == backwards && insets.equals(in) &&
                 orientation == orient && shown == shn &&
