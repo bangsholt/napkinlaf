@@ -364,13 +364,15 @@ public class NapkinUtil implements NapkinConstants {
 
         if (themeStack.size() != paperStack.size())
             System.out.println("!!!");
-        String dump = count + ":\t";
+        StringBuffer dump = new StringBuffer(count).append(":\t");
         count++;
         for (int i = 0; i < paperStack.size(); i++)
-            dump += ". ";
-        if (!themeStack.isEmpty())
-            dump += themeStack.peek() + " / " + descFor(paperStack.peek());
-        Logs.paper.log(Level.FINER, dump);
+            dump.append(". ");
+        if (!themeStack.isEmpty()) {
+            dump.append(themeStack.peek()).append(" / ").append(
+                    descFor(paperStack.peek()));
+        }
+        Logs.paper.log(Level.FINER, dump.toString());
     }
 
     public static void finishGraphics(Graphics g1, Component c) {
@@ -471,15 +473,17 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     static void dumpTo(String file, JComponent c) {
+        PrintWriter out = null;
         try {
-            PrintWriter out = new PrintWriter(
-                    new BufferedWriter(new FileWriter(file)));
+            out = new PrintWriter(new BufferedWriter(new FileWriter(file)));
             Set dumped = new HashSet();
             dumpTo(out, c, c.getClass(), 0, dumped);
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
-            System.exit(0);
+        } finally {
+            if (out != null)
+                out.close();
         }
     }
 

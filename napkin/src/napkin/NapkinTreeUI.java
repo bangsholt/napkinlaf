@@ -12,7 +12,8 @@ import javax.swing.tree.*;
 
 public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
 
-    public class DefaultNapkinTreeCellRender extends DefaultTreeCellRenderer
+    public static class DefaultNapkinTreeCellRender
+            extends DefaultTreeCellRenderer
             implements NapkinPainter {
 
         public void paint(Graphics g) {
