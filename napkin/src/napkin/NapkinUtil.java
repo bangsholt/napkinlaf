@@ -313,6 +313,12 @@ public class NapkinUtil implements NapkinConstants {
             if (g != null)
                 g.setColor(penColor);
         }
+        if (c instanceof JList) {
+            JList list = (JList) c;
+            Color checkColor = theme.getCheckColor();
+            if (!checkColor.equals(list.getSelectionForeground()))
+                list.setSelectionForeground(checkColor);
+        }
     }
 
     private static NapkinTheme themeFor(Component c) {
