@@ -23,7 +23,9 @@ public class NapkinQuickTest implements SwingConstants {
      */
     public static void main(String[] args) throws Exception {
         LookAndFeel laf;
-        if (args.length == 1) {
+        if (args[0].equals("none")) {
+            laf = null;
+        } else if (args.length == 1) {
             UIManager.setLookAndFeel(args[0]);
             laf = null;
         } else {
@@ -49,8 +51,6 @@ public class NapkinQuickTest implements SwingConstants {
         mainPanel.setLayout(new GridLayout(4, 2));
         if (napkinLAF != null)
             napkinLAF.setIsFormal(label, true, false);
-        System.out.println("\nAdding label to " +
-                System.identityHashCode(mainPanel));
         mainPanel.add(label);
 
         JButton button = new JButton("Button!");
@@ -63,7 +63,6 @@ public class NapkinQuickTest implements SwingConstants {
         });
         if (napkinLAF != null)
             napkinLAF.setIsFormal(button, true, false);
-        System.out.println("\nAdding button");
         mainPanel.add(button);
         boolean formal = (napkinLAF != null && napkinLAF.isFormal(label));
         label.setText(formal ? "formal" : "napkin");
