@@ -17,7 +17,7 @@
     <target name="compile" description="build classes directory">
         <mkdir dir="classes"/>
         <javac srcdir="src" destdir="classes"
-            includes="napkin/**/" classpathref="classpath"
+            classpathref="classpath"
             debug="${debug}" deprecation="yes"/>
         <copy todir="classes">
             <fileset dir="src">
@@ -29,8 +29,7 @@
 
     <target name="jars" description="build jar files">
         <mkdir dir="jars"/>
-        <jar destfile="jars/napkinlaf.jar"
-            basedir="classes" index="true">
+        <jar destfile="jars/napkinlaf.jar" basedir="classes" index="true">
             <include name="napkin/**/*"/>
             <manifest>
                 <attribute name="Version" value="${version}"/>
@@ -38,9 +37,6 @@
         </jar>
         <jar destfile="jars/napkinlaf-swingset2.jar"
             basedir="classes" index="true">
-            <include name="napkin/**/*"/>
-            <include name="*.class"/>
-            <include name="resources/**/*"/>
             <manifest>
                 <attribute name="Main-Class" value="SwingSet2"/>
                 <attribute name="Version" value="${version}"/>
