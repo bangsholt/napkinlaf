@@ -8,6 +8,8 @@
 <h4>alpha-005, ???</h4>
 
 <ul>
+<li> Separators
+<li> Set all the properties to use drawn borders
 <li> Wrap all borders in a simple thing that at least anti-aliases all the
      the stuff.
 <li> Indeterminate progress bar.

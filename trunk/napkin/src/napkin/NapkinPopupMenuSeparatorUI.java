@@ -8,6 +8,7 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
 public class NapkinPopupMenuSeparatorUI extends BasicPopupMenuSeparatorUI {
+    private final NapkinSeparatorUI.Separator separator = new NapkinSeparatorUI.Separator();
 
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinPopupMenuSeparatorUI());
@@ -24,8 +25,11 @@ public class NapkinPopupMenuSeparatorUI extends BasicPopupMenuSeparatorUI {
     }
 
     public void paint(Graphics g, JComponent c) {
-        NapkinUtil.defaultGraphics(g, c);
-        super.paint(g, c);
+        separator.paint(g, c);
+    }
+
+    public Dimension getPreferredSize(JComponent c) {
+        return separator.getPreferredSize(c);
     }
 
     public void update(Graphics g, JComponent c) {
