@@ -16,8 +16,12 @@
 
     <target name="compile" description="build classes directory">
         <mkdir dir="classes"/>
+	<!-- specially handle these because they must use deprecated APIs -->
         <javac srcdir="src" destdir="classes"
-            classpathref="classpath" excludes="javax/**/*.java"
+            classpathref="classpath" includes="napkin/Force*.java"
+            debug="${debug}" deprecation="no"/>
+        <javac srcdir="src" destdir="classes"
+            classpathref="classpath" excludes="java*/**/*.java"
             debug="${debug}" deprecation="yes"/>
         <javac srcdir="swingset/src" destdir="classes"
             classpathref="classpath"
