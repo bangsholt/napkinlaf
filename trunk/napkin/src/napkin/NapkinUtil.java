@@ -338,9 +338,10 @@ public class NapkinUtil implements NapkinConstants {
         if (c instanceof NapkinBackgroundLabel)
             return;
 
-        String desc = NapkinUtil.descFor(c);
-        if (desc.endsWith("glassPane"))
+        String name = c.getName();
+        if (name != null && name.endsWith("glassPane"))
             return;
+
         JLayeredPane lp = layeredPane(c);
         if (lp == null)
             return;

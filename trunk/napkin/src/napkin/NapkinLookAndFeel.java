@@ -281,7 +281,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         for (Iterator it = table.entrySet().iterator(); it.hasNext();) {
             Entry entry = (Entry) it.next();
             String key = (String) entry.getKey();
-            if (!key.endsWith(".font"))
+            if (!key.endsWith(".font") && !key.endsWith("Font"))
                 continue;
             Object val = entry.getValue();
             if (val instanceof ProxyLazyValue) {
