@@ -1,31 +1,91 @@
 <!-- $Id$ -->
-<html>
-    <head>
-	<title>Napkin Look & Feel</title>
-    </head>
 
-    <a href="napkin.jnlp">Launch with Web Start</a>
-    <body background="napkin.jpg">
-    <h2>Overview</h2>
-    The Napkin Look & Feel is a pluggable Java look and feel that looks like it was scrawled on a napkin.  You can use it to make provisional work actually look provisonal, or just for fun.
-    <p>
-The idea is to try to develop a look and feel that can be used in Java applications that looks informal and provisional, yet be fully functional for development.  Often when people see a GUI mock-up, or a complete GUI without full functionality, they assume that the code behind it is working.  While this can be used to sleazy advantage, it can also convince people who ought to know better (like your managers) that you are already done when you have just barely begun, or when only parts are complete.  No matter how much you speak to their rational side, the emotional response still says "Done!".  Which after a while leads to a later question: "That was done months ago!  What are they doing?  Playing <i>Quake?</i>"  A good article on this is <i><a href="http://www.joelonsoftware.com/">Joel on Software</a>'s</i> <a href="http://www.joelonsoftware.com/articles/fog0000000356.html">"The Iceberg Secret, Revealed"</a>.
+<html>
+<head>
+    <title>Napkin Look & Feel</title>
+    <link href="napkin.css" rel="stylesheet" type="text/css" title="Style">
+</head>
+
+<body>
+
+<table width="100%" border="0">
+<tr>
+
+<td nowrap="true">
+<h4>
+[ <a href="http://sourceforge.net/projects/napkinlaf/">Sourceforge page</a> ]
+</h4>
+</td>
+
+<td nowrap="true">
+<h4>
+[ <a href="napkin.jnlp">Demo using WebStart</a> ]
+</h4>
+</td>
+
+<td><i>For&nbsp;some&nbsp;reason,&nbsp;as&nbsp;yet&nbsp;unknown, the demo works best if you switch to another Look &amp; Feel and back to the Napkin Look &amp; Feel again.</i></td>
+
+<p align="right">
+<td width="100%" align="right" rowspan="2">
+<a href="http://sourceforge.net">
+    <img src="http://sourceforge.net/sflogo.php?group_id=104116&amp;type=4"
+	width="125" height="37" border="0" alt="SourceForge.net Logo"/>
+</a>
+</td>
+</tr>
+
+</table>
+
+<h2>Overview</h2>
+The Napkin Look & Feel is a pluggable Java look and feel that looks
+like it was scrawled on a napkin.  You can use it to make provisional
+work actually look provisonal, or just for fun.
+<p>
+The idea is to try to develop a look and feel that can be used in
+Java applications that looks informal and provisional, yet be fully
+functional for development.  Often when people see a GUI mock-up, or
+a complete GUI without full functionality, they assume that the code
+behind it is working.  While this can be used to sleazy advantage,
+it can also convince people who ought to know better (like your
+managers) that you are already done when you have just barely begun,
+or when only parts are complete.  No matter how much you speak to their
+rational side, the emotional response still says "Done!".  Which after
+a while leads to a later question: "That was done months ago!  What are
+they doing?  Playing <i>Quake?</i>"  A good article on this is <i><a
+href="http://www.joelonsoftware.com/">Joel on Software</a>'s</i> <a
+href="http://www.joelonsoftware.com/articles/fog0000000356.html">"The
+Iceberg Secret, Revealed"</a>.
 <p/>
-So the idea is to create a complete look and feel that can be used while the thing is not done that conveys the emotional message to match the rational one.  As pieces of the work are done, the GUI for those pieces can be switched to use the "formal" (final) look and feel, allowing someone looking at demos over time to see the progress of the entire system reflected in the expression of the GUI.
+So the idea is to create a complete look and feel that can be used while
+the thing is not done which will convey an emotional message to match the
+rational one.  As pieces of the work are done, the GUI for those pieces
+can be switched to use the "formal" (final) look and feel, allowing
+someone looking at demos over time to see the progress of the entire
+system reflected in the expression of the GUI.
 
 This is all done using the Java Swing pluggable Look & Feel framework.
 
 <h2>Snapshots</h2>
-To give you a feel for what this might look like, here are a couple screen snapshots:
+To give you a feel for what this might look like, here are a couple
+screen snapshots:
 
-<br><img align="center" src="NapkinSnapButtons.jpg"/></br>
-<h4 align="center">Various buttons</h4 >
-<br><img align="center" src="NapkinSnapCombo.jpg"/></br>
-<h4 align="center">A Combo Box (Postit-style Popup Menu)</h4 >
+<center>
+<p><img class="snap" align="center" src="NapkinSnapButtons.jpg"/>
+<h4>Various buttons</h4>
+<p><img class="snap" align="center" src="NapkinSnapCombo.jpg"/>
+<h4>A Combo Box (Postit-style Popup Menu)</h4>
+</center>
 
 <h2>Development</h2>
-I will produce a release as soon as I figure out how to use a font included in a distribution (currently the handwritten fonts I use are installed locally).  I currently have a basic background model and many of the most basic components working.
+I will produce a release as soon as I figure out how to use a font
+included in a distribution (currently the handwritten fonts I use are
+installed locally).  I currently have a basic background model and many
+of the most basic components working.
 <p/>
 I welcome anyone to contribute -- thoughts, code, understanding, chocolate...
-    </body>
+
+<p/><i>&mdash;<a href="mailto:arnold@moonhill.org">Ken Arnold</a></i></p>
+
+</body>
+
 </html>
