@@ -28,7 +28,8 @@ public class DrawnCheckGenerator extends DrawnShapeGenerator {
         this(new RandomValue(size), new RandomValue(size));
     }
 
-    public DrawnCheckGenerator(RandomValueSource widthVal, RandomValueSource heightVal) {
+    public DrawnCheckGenerator(RandomValueSource widthVal,
+            RandomValueSource heightVal) {
         this.widthVal = widthVal;
         this.heightVal = heightVal;
 
@@ -67,25 +68,11 @@ public class DrawnCheckGenerator extends DrawnShapeGenerator {
         double rx = mx + rxScale * boxWidth;
         double ry = my - ryScale * boxHeight;
 
-        drawStroke(check, matrix, mx, my, lx, ly, -Math.PI, leftLineGen);
-        drawStroke(check, matrix, mx, my, rx, ry, 0, rightLineGen);
+        NapkinUtil.drawStroke(check, matrix, mx, my, lx, ly, -Math.PI,
+                leftLineGen);
+        NapkinUtil.drawStroke(check, matrix, mx, my, rx, ry, 0, rightLineGen);
 
         return check;
-    }
-
-    private static void drawStroke(GeneralPath check, AffineTransform matrix,
-            double mx, double my, double ex, double ey,
-            double rot, DrawnShapeGenerator lineGen) {
-
-        double xDelta = mx - ex;
-        double yDelta = my - ey;
-        double angle = Math.atan2(xDelta, yDelta);
-        AffineTransform mat = NapkinUtil.copy(matrix);
-        mat.translate(mx, my);
-        mat.rotate(rot + angle);
-        double len = Math.sqrt(xDelta * xDelta + yDelta * yDelta);
-        mat.scale(len / LENGTH, 1);
-        addLine(check, mat, lineGen);
     }
 
     public RandomValue getLeftXScale() {

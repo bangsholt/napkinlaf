@@ -320,6 +320,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 return new NapkinSelectedBorder();
             }
         };
+
         Object treeOpenIcon = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createArrowIcon(SOUTH, 8);
@@ -328,6 +329,22 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         Object treeClosedIcon = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createArrowIcon(EAST, 8);
+            }
+        };
+
+        Object iconifyIcon = new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
+                return NapkinIconFactory.createUnderlineIcon(10);
+            }
+        };
+        Object closeIcon = new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
+                return NapkinIconFactory.createXIcon(10);
+            }
+        };
+        Object minIcon = new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
+                return NapkinIconFactory.createArrowIcon(SOUTH, 10);
             }
         };
 
@@ -363,6 +380,11 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "ToggleButton.border", selectBorder,
             "InternalFrame.border", new BorderUIResource(
                     new EmptyBorder(3, 3, 3, 3)),
+
+            "InternalFrame.maximizeIcon", null,
+            "InternalFrame.minimizeIcon", null,
+            "InternalFrame.iconifyIcon", minIcon,
+            "InternalFrame.closeIcon", closeIcon,
 
             "SplitPaneDivider.border", null,
             "SplitPane.dividerSize", new Integer(NapkinSplitPaneDivider.SIZE),

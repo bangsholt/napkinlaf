@@ -23,4 +23,6 @@ public interface NapkinConstants extends SwingConstants {
     Color CLEAR = new AlphaColorUIResource(new Color(0, 0, 0, 0));
 
     int NO_SIDE = -1;
+
+    float CHECK_WIDTH = 2.5f;
 }

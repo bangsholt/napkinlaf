@@ -7,26 +7,32 @@ import java.awt.geom.*;
 import javax.swing.*;
 
 public abstract class NapkinIcon implements Icon {
-    Shape place;
-    Shape mark;
+    protected Shape place;
+    protected Shape mark;
 
     private final int markColor;
     private final AffineTransform scaleMat;
     private int width;
     private int height;
-    private DrawnShapeGenerator placeGen;
-    DrawnShapeGenerator markGen;
+
+    protected DrawnShapeGenerator placeGen;
+    protected DrawnShapeGenerator markGen;
 
     public NapkinIcon(int markColor, AffineTransform scaleMat) {
         this.markColor = markColor;
         this.scaleMat = scaleMat;
     }
 
-    void init() {
-        markGen = createMarkGenerator();
-        placeGen = createPlaceGenerator();
-        width = calcWidth();
-        height = calcHeight();
+    protected void init() {
+        try {
+            markGen = createMarkGenerator();
+            placeGen = createPlaceGenerator();
+            width = calcWidth();
+            height = calcHeight();
+        } catch (StackOverflowError e) {
+            Thread.dumpStack();
+            throw e;
+        }
     }
 
     public int getIconHeight() {
@@ -52,20 +58,29 @@ public abstract class NapkinIcon implements Icon {
         } else {
             if (markGen != null && mark == null)
                 mark = markGen.generate(scaleMat);
-            markG = NapkinUtil.lineGraphics(g1, 2.5f);
+            markG = NapkinUtil.lineGraphics(g1, NapkinConstants.CHECK_WIDTH);
             markG.setColor(NapkinUtil.currentTheme(c).getColor(markColor));
         }
         placeG.setColor(c.getForeground());
         doPaint(placeG, markG, x, y);
     }
 
-    abstract void doPaint(Graphics2D placeG, Graphics2D markG, int x, int y);
+    protected void
+            doPaint(Graphics2D placeG, Graphics2D markG, int x, int y) {
+        if (markG != null) {
+            markG.translate(x, y);
+            markG.fill(mark);
+        }
 
-    abstract int calcWidth();
+        placeG.translate(x, y);
+        placeG.draw(place);
+    }
 
-    abstract int calcHeight();
+    protected abstract int calcWidth();
 
-    abstract DrawnShapeGenerator createPlaceGenerator();
+    protected abstract int calcHeight();
 
-    abstract DrawnShapeGenerator createMarkGenerator();
+    protected abstract DrawnShapeGenerator createPlaceGenerator();
+
+    protected abstract DrawnShapeGenerator createMarkGenerator();
 }

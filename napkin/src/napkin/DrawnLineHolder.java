@@ -30,7 +30,7 @@ public class DrawnLineHolder extends DrawnShapeHolder
         }
     };
 
-    interface Endpoints {
+    public interface Endpoints {
         Rectangle getEndpoints(Rectangle bounds);
     }
 
@@ -49,6 +49,10 @@ public class DrawnLineHolder extends DrawnShapeHolder
 
     public DrawnLineHolder(double len, boolean vertical) {
         this(generatorFor(len), vertical);
+    }
+
+    public DrawnLineHolder(double len, Endpoints endpoints) {
+        this(generatorFor(len), endpoints);
     }
 
     private static DrawnShapeGenerator generatorFor(double len) {

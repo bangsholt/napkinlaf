@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DrawnBoxGenerator extends DrawnShapeGenerator {
-
     private final RandomValue begX;
     private final RandomValue endY;
     private double adjustmentX;
@@ -22,6 +21,7 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
     private final Shape[] sides;
     private final DrawnShapeGenerator[] gens;
     private final Map generators;
+    private boolean asX;
 
     private static boolean DEBUG = false;
 
@@ -92,6 +92,14 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
         double yEnd = adjustStartOffset(endY, yScale);
         adjustmentX = xBeg - begX.get();
         adjustmentY = yEnd - endY.get();
+
+        if (asX) {
+            NapkinUtil.drawStroke(shape, matrix, xBeg, 0, xSize, ySize,
+                    Math.PI, gens[0]);
+            NapkinUtil.drawStroke(shape, matrix, 0, ySize, xSize, yEnd, 0,
+                    gens[0]);
+            return shape;
+        }
 
         AffineTransform smat;
         double scale;
@@ -281,5 +289,13 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
     public DrawnCubicLineGenerator getCubicGenerator() {
         return (DrawnCubicLineGenerator) generators.get(
                 DrawnCubicLineGenerator.class);
+    }
+
+    public void setAsX(boolean asX) {
+        this.asX = asX;
+    }
+
+    public boolean isAsX() {
+        return asX;
     }
 }

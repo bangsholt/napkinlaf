@@ -896,4 +896,19 @@ public class NapkinUtil implements NapkinConstants {
     public static Font ifReplace(Font current, Font candidate) {
         return (replace(current, candidate) ? candidate : current);
     }
+
+    public static void drawStroke(GeneralPath path, AffineTransform matrix,
+            double x1, double y1, double x2, double y2,
+            double baseAngle, DrawnShapeGenerator lineGen) {
+
+        double xDelta = x1 - x2;
+        double yDelta = y1 - y2;
+        double angle = Math.atan2(xDelta, yDelta);
+        AffineTransform mat = copy(matrix);
+        mat.translate(x1, y1);
+        mat.rotate(baseAngle + angle);
+        double len = Math.sqrt(xDelta * xDelta + yDelta * yDelta);
+        mat.scale(len / LENGTH, 1);
+        DrawnShapeGenerator.addLine(path, mat, lineGen);
+    }
 }
