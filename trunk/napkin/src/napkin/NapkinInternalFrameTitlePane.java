@@ -4,6 +4,7 @@ package napkin;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.*;
 import javax.swing.plaf.basic.*;
 
 public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
@@ -14,6 +15,19 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
 
     public NapkinInternalFrameTitlePane(JInternalFrame f) {
         super(f);
+    }
+
+    protected void createButtons() {
+        super.createButtons();
+        setupButton(iconButton);
+        setupButton(maxButton);
+        setupButton(closeButton);
+    }
+
+    private void setupButton(JButton button) {
+        if (button != maxButton)
+            button.setBorder(new EmptyBorder(1, 1, 1, 1));
+        button.setOpaque(false);
     }
 
     public void paint(Graphics g) {

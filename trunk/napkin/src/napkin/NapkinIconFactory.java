@@ -7,58 +7,68 @@ import java.awt.geom.*;
 import javax.swing.*;
 
 public class NapkinIconFactory implements NapkinConstants {
-    static class CheckBoxIcon extends NapkinIcon {
+    public static class CheckBoxIcon extends NapkinIcon {
+        private final int size;
+        private final int midInset;
 
         protected static final int SIZE = 13;
         protected static final int MID_INSET = 3;
+
         private static DrawnCheckGenerator checkGen;
 
-        CheckBoxIcon() {
+        public CheckBoxIcon() {
+            this(SIZE);
+        }
+
+        public CheckBoxIcon(int size) {
             super(NapkinTheme.CHECK_COLOR, null);
+            this.size = size;
+            midInset = size * Math.round(MID_INSET / (float) SIZE);
             init();
         }
 
-        DrawnShapeGenerator createPlaceGenerator() {
+        protected DrawnShapeGenerator createPlaceGenerator() {
             DrawnQuadLineGenerator placeGen = new DrawnQuadLineGenerator();
             placeGen.getCtlY().setMid(1);
             return placeGen;
         }
 
-        DrawnShapeGenerator createMarkGenerator() {
-            return (checkGen = new DrawnCheckGenerator(SIZE - MID_INSET));
+        protected DrawnShapeGenerator createMarkGenerator() {
+            return (checkGen = new DrawnCheckGenerator(size - midInset));
         }
 
-        int calcWidth() {
+        protected int calcWidth() {
             RandomValue lx = checkGen.getLeftXScale();
             RandomValue mx = checkGen.getMidXScale();
             RandomValue rx = checkGen.getRightXScale();
             double l = mx.min() - lx.min();
             double r = mx.max() + rx.max();
-            return (int) Math.round(SIZE * (r - l));
+            return (int) Math.round(size * (r - l));
         }
 
-        int calcHeight() {
+        protected int calcHeight() {
             RandomValue my = checkGen.getMidYScale();
             RandomValue ry = checkGen.getRightYScale();
             // the "2" is for the underline if it loops down a bit
-            return (int) Math.round(SIZE * (my.max() + ry.max()) + 2);
+            return (int) Math.round(size * (my.max() + ry.max()) + 2);
         }
 
-        void doPaint(Graphics2D placeG, Graphics2D markG, int x, int y) {
+        protected void
+                doPaint(Graphics2D placeG, Graphics2D markG, int x, int y) {
             FontMetrics fm = placeG.getFontMetrics();
             int ypos = y + fm.getAscent();
             placeG.translate(x, ypos);
-            placeG.scale((double) SIZE / NapkinConstants.LENGTH, 1);
+            placeG.scale((double) size / NapkinConstants.LENGTH, 1);
             placeG.draw(place);
 
             if (markG != null) {
-                markG.translate(x, ypos - SIZE);
+                markG.translate(x, ypos - size);
                 markG.draw(mark);
             }
         }
     }
 
-    static class RadioButtonIcon extends NapkinIcon {
+    public static class RadioButtonIcon extends NapkinIcon {
         private static final int SIZE = 13;
         private static final double SCALE =
                 (double) SIZE / NapkinConstants.LENGTH;
@@ -66,16 +76,16 @@ public class NapkinIconFactory implements NapkinConstants {
                 NapkinUtil.scaleMat(SCALE);
         private static DrawnCircleGenerator placeGen;
 
-        RadioButtonIcon() {
+        public RadioButtonIcon() {
             super(NapkinTheme.RADIO_COLOR, SCALE_MAT);
             init();
         }
 
-        DrawnShapeGenerator createPlaceGenerator() {
+        protected DrawnShapeGenerator createPlaceGenerator() {
             return (placeGen = new DrawnCircleGenerator());
         }
 
-        DrawnShapeGenerator createMarkGenerator() {
+        protected DrawnShapeGenerator createMarkGenerator() {
             DrawnCircleGenerator markGen = new DrawnCircleGenerator(true);
             double skew = LENGTH / 3;
             RandomValue tlX = markGen.getTlX();
@@ -100,24 +110,14 @@ public class NapkinIconFactory implements NapkinConstants {
             double min = placeGen.getTrY().min();
             return (int) Math.ceil(SCALE * (max - min));
         }
-
-        void doPaint(Graphics2D placeG, Graphics2D markG, int x,
-                int y) {
-            if (markG != null) {
-                markG.translate(x, y);
-                markG.fill(mark);
-            }
-
-            placeG.translate(x, y);
-            placeG.draw(place);
-        }
     }
 
-    static class ArrowIcon extends NapkinIcon {
+    public static class ArrowIcon extends NapkinIcon {
         private final int genNum;
         private final int size;
 
         public static final int DEFAULT_SIZE = 10;
+
         private static final DrawnTriangleGenerator[] ARROW_GEN = {
             new DrawnTriangleGenerator(0),
             new DrawnTriangleGenerator(Math.PI / 2),
@@ -128,42 +128,62 @@ public class NapkinIconFactory implements NapkinConstants {
         /**
          * @param pointTowards One of NORTH, EAST, WEST, or SOUTH.
          */
-        ArrowIcon(int pointTowards, int size) {
+        public ArrowIcon(int pointTowards, int size) {
             super(NapkinTheme.PEN_COLOR, NapkinUtil.scaleMat(size));
             genNum = pointTowards / 2;
             this.size = size;
             init();
         }
 
-        DrawnShapeGenerator createPlaceGenerator() {
+        protected DrawnShapeGenerator createPlaceGenerator() {
             return ARROW_GEN[genNum];
         }
 
-        DrawnShapeGenerator createMarkGenerator() {
+        protected DrawnShapeGenerator createMarkGenerator() {
             return ARROW_GEN[genNum];
         }
 
-        int calcHeight() {
+        protected int calcHeight() {
             return size;
         }
 
-        int calcWidth() {
+        protected int calcWidth() {
             return size;
-        }
-
-        void doPaint(Graphics2D placeG, Graphics2D markG, int x,
-                int y) {
-            if (markG != null) {
-                markG.translate(x, y);
-                markG.fill(mark);
-            }
-
-            placeG.translate(x, y);
-            placeG.draw(place);
         }
     }
 
-    private NapkinIconFactory() {
+    public static class XIcon implements Icon {
+        private final int size;
+        private final DrawnBoxHolder mark;
+
+        protected static final int SIZE = 15;
+        protected static final int MID_INSET = 3;
+
+        public XIcon() {
+            this(SIZE);
+        }
+
+        public XIcon(int size) {
+            DrawnBoxGenerator box = new DrawnBoxGenerator();
+            box.setAsX(true);
+            mark = new DrawnBoxHolder(box);
+            this.size = size;
+        }
+
+        public int getIconHeight() {
+            return size;
+        }
+
+        public int getIconWidth() {
+            return size;
+        }
+
+        public void paintIcon(Component c, Graphics g1, int x, int y) {
+            Graphics2D g =
+                    NapkinUtil.lineGraphics(g1, NapkinConstants.CHECK_WIDTH);
+            mark.shapeUpToDate(new Rectangle(x, y, size, size));
+            mark.draw(g);
+        }
     }
 
     public static Icon createCheckBoxIcon() {
@@ -180,5 +200,13 @@ public class NapkinIconFactory implements NapkinConstants {
 
     public static Icon createArrowIcon(int pointTowards, int size) {
         return new ArrowIcon(pointTowards, size);
+    }
+
+    public static Icon createUnderlineIcon(int size) {
+        return new CheckBoxIcon(size);
+    }
+
+    public static Icon createXIcon(int size) {
+        return new XIcon(size);
     }
 }
