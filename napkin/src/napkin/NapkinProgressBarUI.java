@@ -76,7 +76,9 @@ public class NapkinProgressBarUI extends BasicProgressBarUI {
         boolean backwards = !NapkinUtil.isLeftToRight(c);
         if (scribble.shapeUpToDate(c, sz, orientation, amountFull, backwards)) {
             curImage = c.createImage(sz.x + sz.width, sz.y + sz.height);
-            Graphics imgG = curImage.getGraphics();
+            Graphics2D imgG = (Graphics2D) curImage.getGraphics();
+            imgG.setComposite(AlphaComposite.Clear);
+            imgG.fillRect(0, 0, sz.width, sz.height);
             imgG.setColor(NapkinUtil.themeFor(c).getCheckColor());
             scribble.draw(imgG);
         }
