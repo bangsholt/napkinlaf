@@ -54,6 +54,7 @@ public abstract class NapkinIcon implements Icon {
             markG = NapkinUtil.lineGraphics(g1, 2.5f);
             markG.setColor(markColor);
         }
+        placeG.setColor(Color.black);
         doPaint(placeG, markG, x, y);
     }
 

@@ -23,8 +23,8 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
     }
 
     public void installUI(JComponent c) {
-        super.installUI(c);
         NapkinUtil.installUI(c);
+        super.installUI(c);
         listBox.setSelectionForeground(
                 NapkinIconFactory.CheckBoxIcon.MARK_COLOR);
     }
@@ -46,6 +46,11 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
             boolean hasFocus) {
 
         return; // we don't want any background
+    }
+
+    public void update(Graphics g, JComponent c) {
+        NapkinUtil.background(g, c);
+        super.update(g, c);
     }
 }
 

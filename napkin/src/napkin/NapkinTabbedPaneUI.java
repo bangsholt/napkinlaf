@@ -18,8 +18,8 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI {
     }
 
     public void installUI(JComponent c) {
-        super.installUI(c);
         NapkinUtil.installUI(c);
+        super.installUI(c);
         origInsets = contentBorderInsets;
         contentBorderInsets = DrawnBorder.DEFAULT_INSETS;
     }
@@ -91,6 +91,11 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI {
     protected void paintContentBorderBottomEdge(Graphics g, int tabPlacement,
             int selectedIndex, int x, int y, int w, int h) {
         return; // see comment for paintContentBorderBottomEdge
+    }
+
+    public void update(Graphics g, JComponent c) {
+        NapkinUtil.background(g, c);
+        super.update(g, c);
     }
 }
 

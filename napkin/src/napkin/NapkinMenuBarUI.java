@@ -18,8 +18,8 @@ public class NapkinMenuBarUI extends BasicMenuBarUI {
     public void installUI(JComponent c) {
 //        System.out.println(
 //                num + ": " + System.identityHashCode(this) + ": before: " + c);
-        super.installUI(c);
         NapkinUtil.installUI(c);
+        super.installUI(c);
 //        NapkinUtil.dumpTo("/tmp/c." + num, c);
 //        System.out.println(num++ + ": " + System.identityHashCode(this) +
 //                ": after:  " + c);
@@ -28,6 +28,11 @@ public class NapkinMenuBarUI extends BasicMenuBarUI {
     public void paint(Graphics g, JComponent c) {
         NapkinUtil.defaultGraphics(g);
         super.paint(g, c);
+    }
+
+    public void update(Graphics g, JComponent c) {
+        NapkinUtil.background(g, c);
+        super.update(g, c);
     }
 }
 

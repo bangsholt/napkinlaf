@@ -143,18 +143,20 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     static void setBackground(Component child, NapkinBackground bg) {
+        setBackground(layeredPane(child), bg);
+    }
+
+    static JLayeredPane layeredPane(Component child) {
         for (Component c = child; c != null; c = c.getParent()) {
-            if (c instanceof JLayeredPane) {
-                JLayeredPane lp = (JLayeredPane) c;
-                setBackground(lp, bg);
-                return;
-            }
+            if (c instanceof JLayeredPane)
+                return (JLayeredPane) c;
         }
-        throw new IllegalArgumentException(
-                "not in JLayeredPane: " + descFor(child));
+        return null;
     }
 
     static void setBackground(JLayeredPane lp, NapkinBackground bg) {
+        if (lp == null)
+            return;
         removeBackground(lp);
         Component cur = new NapkinBackgroundLabel(bg);
         lp.add(cur, BOTTOM_LAYER);
@@ -331,5 +333,38 @@ public class NapkinUtil implements NapkinConstants {
     public static void printPair(String label, double x, double y) {
         System.out.println(label + ": " + x + ", " + y);
     }
-}
 
+    public static void background(Graphics g, JComponent c) {
+        if (c instanceof NapkinBackgroundLabel)
+            return;
+
+        String desc = NapkinUtil.descFor(c);
+        if (desc.endsWith("glassPane"))
+            return;
+        JLayeredPane lp = layeredPane(c);
+        if (lp == null)
+            return;
+        NapkinBackgroundLabel lab = (NapkinBackgroundLabel)
+                lp.getClientProperty(BG_COMPONENT);
+        NapkinBackground bg = lab.getNapkinBackground();
+        boolean print = c.getClass() == JLabel.class;
+        print = false;
+        Point start = getStart(c, print);
+        bg.paint(c, g, -start.x, -start.y, lp.getWidth(), lp.getHeight());
+    }
+
+    private static Point getStart(Component c, boolean print) {
+        Point start = new Point(0, 0);
+        while (c != null && !(c instanceof JRootPane)) {
+            if (print)
+                System.out.println(
+                        "(" + c.getX() + ", " + c.getY() + "): " + descFor(c));
+            start.x += c.getX();
+            start.y += c.getY();
+            if (print)
+                System.out.println("start = " + start);
+            c = c.getParent();
+        }
+        return start;
+    }
+}
