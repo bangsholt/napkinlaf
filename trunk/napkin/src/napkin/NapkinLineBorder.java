@@ -21,11 +21,6 @@ public class NapkinLineBorder extends NapkinBorder {
         return (vertical ? DEFAULT_VERT_INSETS : DEFAULT_HORIZ_INSETS);
     }
 
-    protected boolean doIsBorderOpaque() {
-        //!! Not implemented (yet)
-        throw new UnsupportedOperationException();
-    }
-
     public void doPaintBorder(Component c, Graphics g1, int x, int y,
             int width, int height) {
 

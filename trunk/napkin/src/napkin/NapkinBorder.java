@@ -1,4 +1,3 @@
-
 package napkin;
 
 import java.awt.*;
@@ -20,6 +19,7 @@ public abstract class NapkinBorder extends AbstractBorder {
     }
 
     public boolean isBorderOpaque() {
+        // As far as I can tell this is actually unused, but just in case...
         if (recentlyFormal)
             return formalBorder.isBorderOpaque();
         else
@@ -41,7 +41,10 @@ public abstract class NapkinBorder extends AbstractBorder {
 
     protected abstract Insets doGetBorderInsets(Component c);
 
-    protected abstract boolean doIsBorderOpaque();
+    protected boolean doIsBorderOpaque() {
+        // default if false, just like for isBorderOpaque()
+        return false;
+    }
 
     protected abstract void doPaintBorder(Component c, Graphics g, int x, int y,
             int width, int height);
