@@ -486,10 +486,11 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static NapkinTheme background(Graphics g1, Component c) {
+        if (!c.isOpaque())
+            return null;
+
         JComponent themeTop = themeTopFor(c);
         if (themeTop == null)
-            return null;
-        if (themeTop.getRootPane().getGlassPane() == c)
             return null;
 
         Graphics2D g = (Graphics2D) g1;
