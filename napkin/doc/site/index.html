@@ -46,26 +46,23 @@
 
 </table>
 
-<h2>Recent</h2>
-
-<h4>Beta!</h4>
-
-I have declared "Beta".  Things seem to basically work, but there are certainly
-some issues still.  Nonetheless, it seems to meet the web standard of "beta".
-
 <h4><i>Latest Release: 
 <a href="http://sourceforge.net/project/showfiles.php?group_id=104116&package_id=111904">
-beta-003, 10 August, 2004</i></h4></a>
+beta-004, 29 August, 2004</i></h4></a>
 
 <ul>
-<li>Fixed bug 1003040, which had dragging anywhere in a window drag the whole
-    window around.  This turned out to be a Mac Java problem.
-<li>Added "blueprint" theme.  Thanks to Brian Hawthorne for creating the
-    background!
-<li>Make SwingSet2 use Napkin themes in menu when its the L&F (that was hard).
-<li>Use more properties instead of hard-wired values for colors, etc.
-<li>Added a basic "themes" notion: <tt>NapkinTheme</tt> and its
-    contained classes.
+<li>Can switch to other L&Fs without problems. [bug 997786]
+<li>Several theme-related color fixes.
+<li>"Selection color" added to theme.
+<li>Make internal frames resizable. [bug 1007542]
+<li>Use selection color for toggle button borders [bug 1007554]
+<li>SwingSet file selection dialog shows error if run from applet (the applet
+    can't read files so it can't create a file selection dialog). [bug 1007321]
+<li>New fixed-width font ("1942") with more characters. [bug 1007573]
+<li>Handle all component padding. [bug 1007543]
+<li>CVS <tt>Id</tt> tags in all source files.
+<li>Added acknowledgements to README (I can't <em>believe</em> it took me this
+    long to think to do this).
 </ul>
 
 <hr>
