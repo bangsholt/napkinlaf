@@ -28,9 +28,9 @@ public class NapkinIconFactory implements NapkinConstants {
         }
 
         protected DrawnShapeGenerator createPlaceGenerator() {
-            DrawnQuadLineGenerator placeGen = new DrawnQuadLineGenerator();
-            placeGen.getCtlY().setMid(1);
-            return placeGen;
+            DrawnQuadLineGenerator gen = new DrawnQuadLineGenerator();
+            gen.getCtlY().setMid(1);
+            return gen;
         }
 
         protected DrawnShapeGenerator createMarkGenerator() {
@@ -74,7 +74,7 @@ public class NapkinIconFactory implements NapkinConstants {
                 (double) SIZE / NapkinConstants.LENGTH;
         private static final AffineTransform SCALE_MAT =
                 NapkinUtil.scaleMat(SCALE);
-        private static DrawnCircleGenerator placeGen;
+        private static DrawnCircleGenerator circleGen;
 
         public RadioButtonIcon() {
             super(NapkinTheme.RADIO_COLOR, SCALE_MAT);
@@ -82,32 +82,32 @@ public class NapkinIconFactory implements NapkinConstants {
         }
 
         protected DrawnShapeGenerator createPlaceGenerator() {
-            return (placeGen = new DrawnCircleGenerator());
+            return (circleGen = new DrawnCircleGenerator());
         }
 
         protected DrawnShapeGenerator createMarkGenerator() {
-            DrawnCircleGenerator markGen = new DrawnCircleGenerator(true);
-            double skew = LENGTH / 3;
-            RandomValue tlX = markGen.getTlX();
-            RandomValue blX = markGen.getBlX();
-            RandomValue trX = markGen.getTrX();
-            RandomValue brX = markGen.getBrX();
+            DrawnCircleGenerator gen = new DrawnCircleGenerator(true);
+            double skew = LENGTH / 3.0;
+            RandomValue tlX = gen.getTlX();
+            RandomValue blX = gen.getBlX();
+            RandomValue trX = gen.getTrX();
+            RandomValue brX = gen.getBrX();
             tlX.setMid(tlX.getMid() + skew);
             trX.setMid(trX.getMid() + skew);
             blX.setMid(blX.getMid() - skew);
             brX.setMid(brX.getMid() - skew);
-            return markGen;
+            return gen;
         }
 
         public int calcHeight() {
-            double max = placeGen.getBrX().max();
-            double min = placeGen.getBlX().min();
+            double max = circleGen.getBrX().max();
+            double min = circleGen.getBlX().min();
             return (int) Math.ceil(SCALE * (max - min));
         }
 
         public int calcWidth() {
-            double max = placeGen.getBrY().max();
-            double min = placeGen.getTrY().min();
+            double max = circleGen.getBrY().max();
+            double min = circleGen.getTrY().min();
             return (int) Math.ceil(SCALE * (max - min));
         }
     }

@@ -44,11 +44,11 @@ public class DrawnScribbleHolder extends DrawnShapeHolder
         double innerWidth = sz.getWidth() - (in.left + in.right);
         double innerHeight = sz.getHeight() - (in.top + in.bottom);
 
-        DrawnScribbleGenerator gen = (DrawnScribbleGenerator) this.gen;
-        gen.setShown(shown);
-        gen.setOrientation(orientation);
-        gen.setRange(orientation == HORIZONTAL ? innerHeight : innerWidth);
-        gen.setMax(orientation == HORIZONTAL ? innerWidth : innerHeight);
+        DrawnScribbleGenerator dsg = (DrawnScribbleGenerator) gen;
+        dsg.setShown(shown);
+        dsg.setOrientation(orientation);
+        dsg.setRange(orientation == HORIZONTAL ? innerHeight : innerWidth);
+        dsg.setMax(orientation == HORIZONTAL ? innerWidth : innerHeight);
 
         AffineTransform matrix = new AffineTransform();
         matrix.translate(cornerY, cornerX);
@@ -57,7 +57,7 @@ public class DrawnScribbleHolder extends DrawnShapeHolder
             matrix.scale(-1, -1);
         }
 
-        shape = gen.generate(matrix);
+        shape = dsg.generate(matrix);
         return true;
     }
 }

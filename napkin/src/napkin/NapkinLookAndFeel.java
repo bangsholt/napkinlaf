@@ -2,9 +2,11 @@
 
 package napkin;
 
+import napkin.ComponentWalker.Visitor;
+
 import java.awt.*;
 import java.awt.event.*;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -17,8 +19,6 @@ import javax.swing.border.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import javax.swing.text.*;
-
-import napkin.ComponentWalker.Visitor;
 
 public class NapkinLookAndFeel extends BasicLookAndFeel
         implements NapkinConstants {
@@ -72,7 +72,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         }
     };
 
-    private static boolean JUST_NAPKIN = true;
+    private static boolean justNapkin = true;
 
     private static final String[] UI_TYPES = {
         "ButtonUI",
@@ -141,7 +141,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             out.println();
             return true;
         }
-    };
+    }
 
     private class FormalityFlags implements ContainerListener {
         boolean known;
@@ -189,6 +189,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     }
 
     public String getDescription() {
+        //noinspection StringReplaceableByStringBuffer
         String desc = "The Napkin Look and Feel";
         if (formalLAF != null)
             desc += " [backed by " + formalLAF.getDescription() + "]";
@@ -196,6 +197,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     }
 
     public String getID() {
+        //noinspection StringReplaceableByStringBuffer
         String desc = "Napkin";
         if (formalLAF != null)
             desc += "[" + formalLAF.getID() + "]";
@@ -219,7 +221,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     }
 
     private void setFormalLAF(LookAndFeel formalLAF) {
-        if (!JUST_NAPKIN)
+        if (!justNapkin)
             this.formalLAF = formalLAF;
     }
 
@@ -242,7 +244,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     }
 
     public boolean isFormal(Component c) {
-        if (JUST_NAPKIN)
+        if (justNapkin)
             return false;
 
         FormalityFlags ff = flags(c);
@@ -273,7 +275,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
     protected void initClassDefaults(UIDefaults table) {
         super.initClassDefaults(table);
-        final String basicPackageName =
+        String basicPackageName =
                 NapkinLookAndFeel.class.getPackage().getName() + ".Napkin";
         for (int i = 0; i < UI_TYPES.length; i++) {
             String uiType = UI_TYPES[i];
@@ -609,7 +611,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     }
 
     public void setIsFormal(Component c, boolean isFormal) {
-        if (JUST_NAPKIN)
+        if (justNapkin)
             return;
         FormalityFlags ff = flags(c);
         ff.known = true;
@@ -626,8 +628,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     }
 
     private void clearKids(Component c) {
-        new ComponentWalker(c, clearKidsVisitor);
-        new ComponentWalker(c, updateUIVisitor);
+        new ComponentWalker(clearKidsVisitor).walk(c);
+        new ComponentWalker(updateUIVisitor).walk(c);
     }
 
     private FormalityFlags flags(Component c) {
@@ -635,13 +637,13 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     }
 
     private FormalityFlags flags(Component c, boolean recurse) {
-        if (JUST_NAPKIN)
+        if (justNapkin)
             return null;
         FormalityFlags ff = (FormalityFlags) flags.get(c);
         if (ff == null) {
             System.out.println("adding flags: " + NapkinUtil.descFor(c));
             if (recurse && c instanceof Container) {
-                new ComponentWalker(c, addListenerVisitor);
+                new ComponentWalker(addListenerVisitor).walk(c);
                 ff = (FormalityFlags) flags.get(c);
             } else {
                 ff = new FormalityFlags();
@@ -652,7 +654,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     }
 
     public void dumpFormality(Component top, PrintStream out) {
-        new ComponentWalker(top, new DumpVisitor(out));
+        new ComponentWalker(new DumpVisitor(out)).walk(top);
     }
 }
 

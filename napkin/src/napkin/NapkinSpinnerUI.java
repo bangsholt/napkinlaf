@@ -8,6 +8,9 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
 public class NapkinSpinnerUI extends BasicSpinnerUI implements NapkinPainter {
+    /**
+     * @noinspection MethodOverridesStaticMethod
+     */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinSpinnerUI());
     }

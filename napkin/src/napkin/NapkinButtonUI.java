@@ -12,6 +12,9 @@ public class NapkinButtonUI extends BasicButtonUI
 
     private DrawnLineHolder line;
 
+    /**
+     * @noinspection MethodOverridesStaticMethod
+     */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinButtonUI());
     }

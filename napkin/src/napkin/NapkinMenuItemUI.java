@@ -12,6 +12,9 @@ public class NapkinMenuItemUI extends BasicMenuItemUI
 
     private DrawnLineHolder line;
 
+    /**
+     * @noinspection MethodOverridesStaticMethod
+     */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinMenuItemUI());
     }

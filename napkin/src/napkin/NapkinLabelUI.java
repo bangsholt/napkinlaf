@@ -11,6 +11,9 @@ public class NapkinLabelUI extends BasicLabelUI implements NapkinPainter {
 
     private static final NapkinLabelUI napkinLabelUI = new NapkinLabelUI();
 
+    /**
+     * @noinspection MethodOverridesStaticMethod
+     */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, napkinLabelUI);
     }

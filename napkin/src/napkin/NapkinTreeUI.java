@@ -39,6 +39,9 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
 
     private final Map linesFor = new HashMap();
 
+    /**
+     * @noinspection MethodOverridesStaticMethod
+     */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinTreeUI());
     }

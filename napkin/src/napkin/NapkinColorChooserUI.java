@@ -10,6 +10,9 @@ import javax.swing.plaf.basic.*;
 public class NapkinColorChooserUI extends BasicColorChooserUI
         implements NapkinPainter {
 
+    /**
+     * @noinspection MethodOverridesStaticMethod
+     */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinColorChooserUI());
     }

@@ -9,6 +9,9 @@ import javax.swing.plaf.basic.*;
 
 public class NapkinListUI extends BasicListUI implements NapkinPainter {
 
+    /**
+     * @noinspection MethodOverridesStaticMethod
+     */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinListUI());
     }

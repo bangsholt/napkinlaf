@@ -7,13 +7,7 @@ import java.awt.geom.*;
 import java.awt.image.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.PrintStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -72,9 +66,9 @@ public class NapkinUtil implements NapkinConstants {
     private static final AlphaComposite ERASURE_COMPOSITE =
             AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.8f);
 
-    public static class Logs {
-        public static final Logger ui = Logger.getLogger("napkin.util");
-        public static final Logger paper = Logger.getLogger("napkin.paper");
+    public interface Logs {
+        Logger ui = Logger.getLogger("napkin.util");
+        Logger paper = Logger.getLogger("napkin.paper");
     }
 
     static {
@@ -96,9 +90,21 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static class DisabledMark {
+        /**
+         * @noinspection PublicField
+         */
         public final BufferedImage image;
+        /**
+         * @noinspection PublicField
+         */
         public final int offX;
+        /**
+         * @noinspection PublicField
+         */
         public final int offY;
+        /**
+         * @noinspection PublicField
+         */
         public final Graphics2D graphics;
 
         public DisabledMark(Graphics2D graphics, BufferedImage image, int offX,
@@ -157,6 +163,7 @@ public class NapkinUtil implements NapkinConstants {
     static String descFor(Component c) {
         if (c == null)
             return "[null]";
+        //noinspection StringReplaceableByStringBuffer
         String desc;
         String idStr = "[" + System.identityHashCode(c) + "]";
         if ((desc = c.getName()) != null)
@@ -171,14 +178,12 @@ public class NapkinUtil implements NapkinConstants {
             desc += ": " + ((JLabel) c).getText();
         else if (c instanceof AbstractButton)
             desc += ": " + ((AbstractButton) c).getText();
-        else if (c instanceof JTextField)
-            desc += ": " + ((JTextField) c).getText();
+        else if (c instanceof JTextComponent)
+            desc += ": " + ((JTextComponent) c).getText();
         else if (c instanceof JPopupMenu)
             desc += ": " + ((JPopupMenu) c).getLabel();
         else if (c instanceof Label)
             desc += ": " + ((Label) c).getText();
-        else if (c instanceof TextField)
-            desc += ": " + ((TextField) c).getText();
         else if (c instanceof Button)
             desc += ": " + ((Button) c).getLabel();
         else if (c instanceof Checkbox)
@@ -346,8 +351,8 @@ public class NapkinUtil implements NapkinConstants {
     public static void syncWithTheme(Border border, Component c) {
         if (border instanceof TitledBorder) {
             TitledBorder tb = (TitledBorder) border;
-            Color pen = NapkinUtil.currentTheme(c).getPenColor();
-            tb.setTitleColor(NapkinUtil.ifReplace(tb.getTitleColor(), pen));
+            Color pen = currentTheme(c).getPenColor();
+            tb.setTitleColor(ifReplace(tb.getTitleColor(), pen));
         } else if (border instanceof CompoundBorder) {
             CompoundBorder cb = (CompoundBorder) border;
             syncWithTheme(cb.getInsideBorder(), c);
@@ -366,7 +371,7 @@ public class NapkinUtil implements NapkinConstants {
     public static Component currentPaper(Component c) {
         if (paperStack.isEmpty())
             return themeTopFor(c);
-        return (JComponent) paperStack.peek();
+        return (Component) paperStack.peek();
     }
 
     private static void dumpStacks() {
@@ -520,11 +525,11 @@ public class NapkinUtil implements NapkinConstants {
         }
     }
 
-    public static Object[] reallocate(Object[] orig, int count) {
-        if (count == orig.length)
+    public static Object[] reallocate(Object[] orig, int size) {
+        if (size == orig.length)
             return orig;
         Class componentType = orig.getClass().getComponentType();
-        Object[] next = (Object[]) Array.newInstance(componentType, count);
+        Object[] next = (Object[]) Array.newInstance(componentType, size);
         System.arraycopy(orig, 0, next, 0, Math.min(orig.length, next.length));
         return next;
     }
@@ -576,6 +581,8 @@ public class NapkinUtil implements NapkinConstants {
      *
      * @return <tt>true</tt> if this component is of the type or has such a
      *         component as an ancestor.
+     *
+     * @noinspection TailRecursion
      */
     public static boolean within(Component c, Class type) {
         if (c == null)
@@ -598,6 +605,9 @@ public class NapkinUtil implements NapkinConstants {
         return in;
     }
 
+    /**
+     * @noinspection TailRecursion
+     */
     public static JComponent themeTopFor(Component c) {
         if (c == null)
             return null;
@@ -792,7 +802,7 @@ public class NapkinUtil implements NapkinConstants {
             int x = textOffset;
             int y = textOffset;
             ulG.translate(x, y);
-            ulG.setColor(NapkinUtil.currentTheme(c).getCheckColor());
+            ulG.setColor(currentTheme(c).getCheckColor());
             line.setWidth(FOCUS_MARK_WIDTH);
             line.draw(ulG);
         }
@@ -867,9 +877,9 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static void update(Graphics g, JComponent c, NapkinPainter painter) {
-        g = NapkinUtil.defaultGraphics(g, c);
-        NapkinTheme theme = NapkinUtil.background(g, c);
+        g = defaultGraphics(g, c);
+        NapkinTheme theme = background(g, c);
         painter.superPaint(g, c, theme);
-        NapkinUtil.finishGraphics(g, c);
+        finishGraphics(g, c);
     }
 }

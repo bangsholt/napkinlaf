@@ -12,6 +12,9 @@ public class NapkinPopupMenuSeparatorUI extends BasicPopupMenuSeparatorUI
 
     private final NapkinSeparatorUI.Separator separator = new NapkinSeparatorUI.Separator();
 
+    /**
+     * @noinspection MethodOverridesStaticMethod
+     */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinPopupMenuSeparatorUI());
     }
