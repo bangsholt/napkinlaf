@@ -1,0 +1,134 @@
+<!-- $Header$ -->
+<html>
+
+<title>Release Notes: Napkin Look & Feel</title>
+
+<body>
+
+<h4>beta-004, 29 August, 2004</h4>
+
+<ul>
+<li>Can switch to other L&Fs without problems. [bug 997786]
+<li>Several theme-related color fixes.
+<li>"Selection color" added to theme.
+<li>Make internal frames resizable. [bug 1007542]
+<li>Use selection color for toggle button borders [bug 1007554]
+<li>SwingSet file selection dialog shows error if run from applet (the applet
+    can't read files so it can't create a file selection dialog). [bug 1007321]
+<li>New fixed-width font ("1942") with more characters. [bug 1007573]
+<li>Handle all component padding. [bug 1007543]
+<li>CVS <tt>Id</tt> tags in all source files.
+<li>Added acknowledgements to README (I can't <em>believe</em> it took me this
+    long to think to do this).
+</ul>
+
+<h4>beta-003, 10 August, 2004</h4>
+
+<ul>
+<li>Fixed bug 1003040, which had dragging anywhere in a window drag the whole
+    window around.  This turned out to be a Mac Java problem.
+<li>Added "blueprint" theme.  Thanks to Brian Hawthorne for creating the
+    background!
+<li>Make SwingSet2 use Napkin themes in menu when its the L&F (that was hard).
+<li>Use more properties instead of hard-wired values for colors, etc.
+<li>Added a basic "themes" notion: <tt>NapkinTheme</tt> and its
+    contained classes.
+</ul>
+
+<h4>beta-002, 23 July, 2004</h4>
+
+<ul>
+<li>Check for debug property in security context to avoid security exception.
+    <i>(This caused impenetrable failures in web start and anywhere else
+    security was in place, so it gets a release of its own.)</i>
+</ul>
+
+<h4>beta-001, 21 July, 2004</h4>
+
+<ul>
+<li>No drawn border on postit paper.
+<li>Internal frames done on postit paper.
+<li>New background model; backgrounds should now work properly.
+<li>All components will be marked disabled by pseudo-erasure.  Again, thanks
+    to graphics help from Miro Juri&#353;i&#263.
+<li>Thanks to debugging and modeling help from Miro Juri&#353;i&#263; we can
+    now render "hand-drawn" lines at an angle.
+</ul>
+
+<hr>
+
+<h4>alpha-007, 2 July, 2004</h4>
+
+<ul>
+<li>Fixed bug that made disabled buttons peg the CPU (bug 964358).
+<li>Thicker button marker lines.
+<li>Can delete, etc. in text fields and areas (bug 968192).
+<li>Make highlight color like yellow highlighter.
+</ul>
+
+<h4>alpha-006, 19 June, 2004</h4>
+<ul>
+<li>Better red for radio button marks, etc.
+<li>Wrap all non-Napkin borders, not just default borders.
+<li>Do progress bar scribbling on image so it's cheaper to redraw.
+<li>Reduced bias for "too high" when drawing longer lines.
+<li>Disabled line height adjusted, and put behind the text (black shows
+    through).  (Maybe should do color blending?)
+<li>Use a simple underline for text and password fields, not a box.
+<li>Use red line for disabled; green for "default button".
+<li>All the buttons are drawn the same when they are disabled (and they now
+    look disabled too, instead of looking bold).
+</ul>
+
+<h4>alpha-005, 30 May, 2004</h4>
+
+<ul>
+<li> <b>Note:</b> This LAF will not work under Java 1.3.  There were many
+     changes in the LAF infrastructure and I can't figure out a way to do
+     one development for both versions. [<a href="http://sourceforge.net/tracker/index.php?func=detail&aid=963198&group_id=104116&atid=636983">bug 963198</a>]
+<li> Put SwingSet2 source in the swingset jar file.
+<li> No longer need "switch and back" to make demo work.  (This was a bug in
+     SwingSet2.)
+<li> Get titled borders working.
+<li> Separators.
+<li> Set all the properties to use drawn borders.
+<li> Wrap all borders in a simple thing that at least anti-aliases all the
+     the stuff.
+<li> Indeterminate progress bar.
+<li> Split panes.
+</ul>
+
+<h4>alpha-004, 15 May 2004</h4>
+
+<ul>
+<li> Progress bar gets scribbled in.
+<li> File chooser (borrowed entirely from <tt>MetalFileChooserUI</tt>, as the
+     <tt>BasicFileChooserUI</tt> class seems entirely inadequate).
+<li> Text areas are a normal size.
+<li> Paint background on each individual component, so changes to contents
+     don't overlay on each other.
+<li> Much better about switching to/from Napkin LAF.
+</ul>
+
+<h4>alpha-003, 16 April 2004</h4>
+
+<ul>
+<li> Fix fatal bug in tabbed panes
+<li> Show disabled buttons better
+</ul>
+
+<h4>alpha-002, 11 April 2004</h4>
+
+<ul>
+<li> tabbed panes
+<li> fonts loaded from jar
+<li> new font: Felt Tip Roman (has bold + full char set)
+    <i>I want to add a few choices of fonts; this release I'm just
+    switching to the new one but next release I want to have them
+    choosable because both are good.</i>
+<li> build the release automatically
+<li> bugs, bugs, bugs
+</ul>
+
+</body>
+</html>
