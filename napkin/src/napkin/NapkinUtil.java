@@ -5,6 +5,7 @@ package napkin;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.awt.image.*;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -53,7 +54,7 @@ public class NapkinUtil implements NapkinConstants {
     private static final Map strokes = new WeakHashMap();
     private static final Map fieldsForType = new WeakHashMap();
     private static final float FOCUS_MARK_WIDTH = 1.5f;
-    private static final float DISABLE_MARK_WIDTH = 2.5f;
+    private static final float DISABLE_MARK_WIDTH = 2.2f;
     private static final double DISABLE_LINE_HEIGHT = 0.34;
 
     public static Object property(ComponentUI ui, String prop) {
@@ -61,6 +62,27 @@ public class NapkinUtil implements NapkinConstants {
         String base = ".Napkin";
         String pref = uiName.substring(uiName.lastIndexOf(base) + base.length(), uiName.length() - 2);
         return pref + "." + prop;
+    }
+
+    public static void markDisabled(Graphics g, JComponent c) {
+        if (c.isEnabled())
+            return;
+
+        LineHolder slash = (LineHolder) c.getClientProperty(DISABLED_MARK);
+        if (slash == null) {
+            slash = new LineHolder(CubicGenerator.INSTANCE, LineHolder.SLASH_UP);
+            slash.setWidth(DISABLE_MARK_WIDTH);
+            c.putClientProperty(DISABLED_MARK, slash);
+        }
+
+        Rectangle bounds = c.getBounds();
+        slash.shapeUpToDate(new Rectangle(bounds.width, bounds.height), null);
+        Color origColor = g.getColor();
+        Rectangle clip = g.getClipBounds();
+        g.setColor(NapkinIconFactory.RadioButtonIcon.MARK_COLOR);
+        slash.draw(g);
+        g.setColor(origColor);
+        g.setClip(clip);
     }
 
     public static class DumpListener implements FocusListener {
@@ -261,10 +283,34 @@ public class NapkinUtil implements NapkinConstants {
         return lineG;
     }
 
+    private static TexturePaint texture;
+
+    static {
+        int w = 10;
+        int h = 10;
+        BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+        Graphics2D gi = bi.createGraphics();
+        Color oc = Color.blue;
+        Color ic = Color.green;
+        gi.setPaint(new GradientPaint(0, 0, oc, w * .35f, h * .35f, ic));
+        gi.fillRect(0, 0, w / 2, h / 2);
+        gi.setPaint(new GradientPaint(w, 0, oc, w * .65f, h * .35f, ic));
+        gi.fillRect(w / 2, 0, w / 2, h / 2);
+        gi.setPaint(new GradientPaint(0, h, oc, w * .35f, h * .65f, ic));
+        gi.fillRect(0, h / 2, w / 2, h / 2);
+        gi.setPaint(new GradientPaint(w, h, oc, w * .65f, h * .65f, ic));
+        gi.fillRect(w / 2, h / 2, w / 2, h / 2);
+        texture = new TexturePaint(bi, new Rectangle(0, 0, w, h));
+    }
+
     public static Graphics2D defaultGraphics(Graphics g1, Component c) {
         Graphics2D g = (Graphics2D) g1;
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
+        if (!c.isEnabled()) {
+            g.setPaint(texture);
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 0.5f));
+        }
         setupBorder(c);
         return g;
     }

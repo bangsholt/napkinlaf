@@ -12,6 +12,8 @@ public class CubicGenerator extends ShapeGenerator {
     private final Value rightX;
     private final Value rightY;
 
+    private static final boolean DEBUG = false;
+
     public static final CubicGenerator INSTANCE = new CubicGenerator();
 
     public CubicGenerator() {
@@ -46,10 +48,18 @@ public class CubicGenerator extends ShapeGenerator {
         if (matrix != null)
             matrix.transform(coords, 0, coords, 0, 4);
 
-        return new CubicCurve2D.Double(coords[0], coords[1],
+        CubicCurve2D.Double line = new CubicCurve2D.Double(coords[0], coords[1],
                 coords[2], coords[3],
                 coords[4], coords[5],
                 coords[6], coords[7]);
+        if (!DEBUG)
+            return line;
+        else {
+            GeneralPath shape = new GeneralPath(new Rectangle2D.Double(coords[0] - 2, coords[1] - 2, 4, 4));
+            shape.append(line, false);
+            shape.append(new Line2D.Double(coords[6] - 2, coords[7] - 2, coords[6] + 2, coords[7] + 2), false);
+            shape.append(new Line2D.Double(coords[6] + 2, coords[7] - 2, coords[6] - 2, coords[7] + 2), false);
+            return shape;
+        }
     }
 }
-
