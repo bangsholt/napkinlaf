@@ -43,9 +43,11 @@ public class NapkinUtil implements NapkinConstants {
 
     private static final Map strokes = new WeakHashMap();
     private static final Map fieldsForType = new WeakHashMap();
-    private static final float FOCUS_MARK_WIDTH = 1.5f;
+    private static boolean drawingDisabled;
 
     private static final BufferedImage textureImage;
+
+    private static final float FOCUS_MARK_WIDTH = 1.5f;
 
     private static final HierarchyListener CLEAR_BACKGROUND_LISTENER =
             new HierarchyListener() {
@@ -77,12 +79,6 @@ public class NapkinUtil implements NapkinConstants {
 
     private static final AlphaComposite ERASURE_COMPOSITE =
             AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.8f);
-
-    public static boolean replace(Object current, Object candidate) {
-        if (current == null)
-            return true;
-        return !current.equals(candidate) && current instanceof UIResource;
-    }
 
     static {
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
@@ -324,7 +320,8 @@ public class NapkinUtil implements NapkinConstants {
         Graphics2D g = (Graphics2D) g1;
         syncWithTheme(g, c, themeFrom);
         boolean enabled = c.isEnabled() && !(c instanceof FakeEnabled);
-        if (!enabled && c instanceof JComponent) {
+        if (!enabled && c instanceof JComponent && !drawingDisabled) {
+            drawingDisabled = true;
             Rectangle r = g.getClipBounds();
             int w = r.width;
             int h = r.height;
@@ -394,6 +391,7 @@ public class NapkinUtil implements NapkinConstants {
         if (mark == null)
             return;
 
+        drawingDisabled = false;
         jc.putClientProperty(DISABLED_MARK_KEY, null);
         Graphics2D tg = (Graphics2D) g1;
         tg.setComposite(ERASURE_COMPOSITE);
@@ -865,6 +863,12 @@ public class NapkinUtil implements NapkinConstants {
         if (themeName == null)
             themeName = defaultValue;
         return themeName;
+    }
+
+    public static boolean replace(Object current, Object candidate) {
+        if (current == null)
+            return true;
+        return !current.equals(candidate) && current instanceof UIResource;
     }
 
     public static Object ifReplace(Object current, Object candidate) {
