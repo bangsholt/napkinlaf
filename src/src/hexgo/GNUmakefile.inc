@@ -1,0 +1,1 @@
+CLASSPATH.dirs	+= $(HOME)/hexmap
