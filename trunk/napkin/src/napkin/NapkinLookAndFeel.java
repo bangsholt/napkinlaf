@@ -22,6 +22,7 @@ import javax.swing.UIDefaults.*;
 import javax.swing.border.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
+import javax.swing.text.*;
 
 import napkin.ComponentWalker.Visitor;
 
@@ -344,6 +345,99 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             }
         };
 
+        Object fieldInputMap = new UIDefaults.LazyInputMap(new Object[]{
+            "ctrl C", DefaultEditorKit.copyAction,
+            "ctrl V", DefaultEditorKit.pasteAction,
+            "ctrl X", DefaultEditorKit.cutAction,
+            "COPY", DefaultEditorKit.copyAction,
+            "PASTE", DefaultEditorKit.pasteAction,
+            "CUT", DefaultEditorKit.cutAction,
+            "shift LEFT", DefaultEditorKit.selectionBackwardAction,
+            "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
+            "shift RIGHT", DefaultEditorKit.selectionForwardAction,
+            "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
+            "ctrl LEFT", DefaultEditorKit.previousWordAction,
+            "ctrl KP_LEFT", DefaultEditorKit.previousWordAction,
+            "ctrl RIGHT", DefaultEditorKit.nextWordAction,
+            "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
+            "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
+            "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
+            "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
+            "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
+            "ctrl A", DefaultEditorKit.selectAllAction,
+            "HOME", DefaultEditorKit.beginLineAction,
+            "END", DefaultEditorKit.endLineAction,
+            "shift HOME", DefaultEditorKit.selectionBeginLineAction,
+            "shift END", DefaultEditorKit.selectionEndLineAction,
+            "typed \010", DefaultEditorKit.deletePrevCharAction,
+            "DELETE", DefaultEditorKit.deleteNextCharAction,
+            "RIGHT", DefaultEditorKit.forwardAction,
+            "LEFT", DefaultEditorKit.backwardAction,
+            "KP_RIGHT", DefaultEditorKit.forwardAction,
+            "KP_LEFT", DefaultEditorKit.backwardAction,
+            "ENTER", JTextField.notifyAction,
+            "ctrl BACK_SLASH", "unselect"/*DefaultEditorKit.unselectAction*/,
+            "control shift O", "toggle-componentOrientation"/*DefaultEditorKit.toggleComponentOrientation*/
+        });
+
+        Object multilineInputMap = new UIDefaults.LazyInputMap(new Object[]{
+            "ctrl C", DefaultEditorKit.copyAction,
+            "ctrl V", DefaultEditorKit.pasteAction,
+            "ctrl X", DefaultEditorKit.cutAction,
+            "COPY", DefaultEditorKit.copyAction,
+            "PASTE", DefaultEditorKit.pasteAction,
+            "CUT", DefaultEditorKit.cutAction,
+            "shift LEFT", DefaultEditorKit.selectionBackwardAction,
+            "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
+            "shift RIGHT", DefaultEditorKit.selectionForwardAction,
+            "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
+            "ctrl LEFT", DefaultEditorKit.previousWordAction,
+            "ctrl KP_LEFT", DefaultEditorKit.previousWordAction,
+            "ctrl RIGHT", DefaultEditorKit.nextWordAction,
+            "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
+            "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
+            "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
+            "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
+            "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
+            "ctrl A", DefaultEditorKit.selectAllAction,
+            "HOME", DefaultEditorKit.beginLineAction,
+            "END", DefaultEditorKit.endLineAction,
+            "shift HOME", DefaultEditorKit.selectionBeginLineAction,
+            "shift END", DefaultEditorKit.selectionEndLineAction,
+
+            "UP", DefaultEditorKit.upAction,
+            "KP_UP", DefaultEditorKit.upAction,
+            "DOWN", DefaultEditorKit.downAction,
+            "KP_DOWN", DefaultEditorKit.downAction,
+            "PAGE_UP", DefaultEditorKit.pageUpAction,
+            "PAGE_DOWN", DefaultEditorKit.pageDownAction,
+            "shift PAGE_UP", "selection-page-up",
+            "shift PAGE_DOWN", "selection-page-down",
+            "ctrl shift PAGE_UP", "selection-page-left",
+            "ctrl shift PAGE_DOWN", "selection-page-right",
+            "shift UP", DefaultEditorKit.selectionUpAction,
+            "shift KP_UP", DefaultEditorKit.selectionUpAction,
+            "shift DOWN", DefaultEditorKit.selectionDownAction,
+            "shift KP_DOWN", DefaultEditorKit.selectionDownAction,
+            "ENTER", DefaultEditorKit.insertBreakAction,
+            "typed \010", DefaultEditorKit.deletePrevCharAction,
+            "DELETE", DefaultEditorKit.deleteNextCharAction,
+            "RIGHT", DefaultEditorKit.forwardAction,
+            "LEFT", DefaultEditorKit.backwardAction,
+            "KP_RIGHT", DefaultEditorKit.forwardAction,
+            "KP_LEFT", DefaultEditorKit.backwardAction,
+            "TAB", DefaultEditorKit.insertTabAction,
+            "ctrl BACK_SLASH", "unselect"/*DefaultEditorKit.unselectAction*/,
+            "ctrl HOME", DefaultEditorKit.beginAction,
+            "ctrl END", DefaultEditorKit.endAction,
+            "ctrl shift HOME", DefaultEditorKit.selectionBeginAction,
+            "ctrl shift END", DefaultEditorKit.selectionEndAction,
+            "ctrl T", "next-link-action",
+            "ctrl shift T", "previous-link-action",
+            "ctrl SPACE", "activate-link-action",
+            "control shift O", "toggle-componentOrientation"/*DefaultEditorKit.toggleComponentOrientation*/
+        });
+
         Object[] napkinDefaults = {
             "RadioButton.textIconGap", zero,
             "RadioButton.icon", radioButtonIcon,
@@ -369,6 +463,13 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
             "SplitPaneDivider.border", null,
             "SplitPane.dividerSize", new Integer(NapkinSplitPaneDivider.SIZE),
+
+            // these are just copied from Metal L&F -- no values in Basic L&F
+            "TextField.focusInputMap", fieldInputMap,
+            "PasswordField.focusInputMap", fieldInputMap,
+            "TextArea.focusInputMap", multilineInputMap,
+            "TextPane.focusInputMap", multilineInputMap,
+            "EditorPane.focusInputMap", multilineInputMap,
         };
 
         table.putDefaults(napkinDefaults);
