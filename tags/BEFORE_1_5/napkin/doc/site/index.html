@@ -1,0 +1,274 @@
+<!-- $Id$ -->
+
+<html>
+<head>
+    <title>Napkin Look & Feel</title>
+    <link href="napkin.css" rel="stylesheet" type="text/css" title="Style">
+</head>
+
+<body>
+
+<center>
+<img src="title.png">
+</center>
+
+<table width="100%" border="0">
+<tr>
+
+<td nowrap="true">
+<h4>
+[ <a href="http://sourceforge.net/projects/napkinlaf/">SourceForge page</a> ]
+</h4>
+</td>
+
+<td nowrap="true">
+<h4>
+[ <a href="napkin.jnlp">Demo using WebStart</a> ]
+</h4>
+</td>
+
+<td width="100%"></td>
+
+<p align="right">
+<td align="right" rowspan="2" nowrap="true">
+<a href="http://sourceforge.net">
+    <img src="http://sourceforge.net/sflogo.php?group_id=104116&amp;type=4"
+	width="125" height="37" border="0" alt="SourceForge.net Logo"/>
+</a>
+
+<a href="http://www.java.net">
+    <img src="http://www.java.net/images/javanet_button_90.gif"
+	width="90" height="25" border="0" alt="java.net Member"/>
+</a>
+
+</td>
+</tr>
+
+</table>
+
+<h4><i>Latest Release: 
+<a href="http://sourceforge.net/project/showfiles.php?group_id=104116&package_id=111904">
+beta-005, 16 September, 2004</i></h4></a>
+
+<ul>
+<li>Sliders drag without leaving droplets behind.
+<li>Dragging internal frames and scroll bars no longer leave junk around edges
+    [bug 1007324 and bug 1007327]
+<li>Icons for internal frames now work well enough.
+<li>A completely new, stupider, and hence more reliable model for paper, so
+    the right color scheme should always be used.
+<li>Tweaking with glass panes to get the opacity settings right (very bizarre).
+<li>Make progress bar stop clearing its own background.
+<li>JTree now does something napkin-ish. [fr 1019700]
+<li>Scrolling repaints entire background to keep it correct. [bug 1019688]
+<li>Automatically tag the CVS version.
+<li>Use selection color for selections in JList.
+</ul>
+
+<hr>
+
+<h2>Note on Java 1.5</h2>
+Java 1.5 has a somewhat incompatible framework for pluggable L&F
+implementations.  Not terrible, but enough to cause some starkly
+visible failures.  We are currently examining this and will get a
+1.5 compatible implementation as soon as we can. <i>(12 Feb 2005)</i>
+
+<h2>Overview</h2>
+The Napkin Look & Feel is a pluggable Java look and feel that looks
+like it was scrawled on a napkin.  You can use it to make provisional
+work actually look provisonal, or just for fun.
+<p>
+The idea is to try to develop a look and feel that can be used in
+Java applications that looks informal and provisional, yet be fully
+functional for development.  Often when people see a GUI mock-up, or
+a complete GUI without full functionality, they assume that the code
+behind it is working.  While this can be used to sleazy advantage,
+it can also convince people who ought to know better (like your
+managers) that you are already done when you have just barely begun,
+or when only parts are complete.  No matter how much you speak to their
+rational side, the emotional response still says "Done!".  Which after
+a while leads to a later question: "That was done months ago!  What are
+they doing?  Playing <i>Quake?</i>"  A good article on this is <i><a
+href="http://www.joelonsoftware.com/">Joel on Software</a>'s</i> <a
+href="http://www.joelonsoftware.com/articles/fog0000000356.html">"The
+Iceberg Secret, Revealed"</a>.
+<p/>
+So the idea is to create a complete look and feel that can be used while
+the thing is not done which will convey an emotional message to match the
+rational one.  As pieces of the work are done, the GUI for those pieces
+can be switched to use the "formal" (final) look and feel, allowing
+someone looking at demos over time to see the progress of the entire
+system reflected in the expression of the GUI.
+<p/>
+This is all done using the Java Swing pluggable Look & Feel framework.
+
+<h2>Sightings</h2>
+
+<dl>
+
+    <dt> <a href="http://wiki.java.net/bin/view/Javadesktop/BlogEd">
+    BlogEd</a> </dt>
+
+    <dd> "I have added the napkin L&F to BlogEd and made it the
+    default when run from cvs using 'ant run'. We can easily change
+    it back if it gets in the way. The only bug I have noticed
+    currently is that the pulling on the scrollbar seems to move
+    the whole window. Perhaps Ken Arnold will know what the problem
+    is there."
+
+    <dt> Johnathan Knudsen's <a
+    href="http://java.sun.com/javaone/daily_prompt3.html">Daily
+    Prompt for JavaOne 2004</a>.  (The link doesn't look perma, so
+    it may not be good forever -- get it while it's hot!)
+
+    <dt> <a href="http://weblogs.java.net/pub/wlg/1178">Daniel
+    Steinberg's blog</a> at <a href="http://java.net">java.net</a>,
+    April 5, 2004
+
+    <dd> A very nice quick writeup.
+
+    <dt>Front page note on <a
+    href="http://community.java.net/javadesktop/">javadesktop.org</a>,
+    April 1 2004
+
+    <dd> Just a brief note pointing to the home page, but I got
+    some good mail from it.
+
+</dl>
+
+
+<h2>Snapshots</h2>
+To give you a feel for what this looks like, here are a few
+screen snapshots (as thumbnails; click for full-sized images):
+<p><br>
+
+<center>
+<table>
+    <tr>
+	<td align="center">
+	<a href="NapkinButtons.jpg">
+	<img class="snap" src="NapkinButtonsThumb.jpg"/><br>
+	Various buttons
+	</a>
+	</td>
+
+	<td align="center">
+	<a href="NapkinDisabled.jpg"/>
+	<img class="snap" align="center" src="NapkinDisabledThumb.jpg"/><br>
+	Disabled things
+	</a>
+	</td>
+
+	<td align="center">
+	<a href="NapkinProgress.jpg">
+	<img class="snap" src="NapkinProgressThumb.jpg"/><br>
+	A progress bar<br>(scribbled in at the bottom)
+	</a>
+	</td>
+    </tr>
+    <tr>
+	<td align="center">
+	<a href="NapkinCombo.jpg"/>
+	<img class="snap" src="NapkinComboThumb.jpg"/><br>
+	A combo box<br>
+	(postit-style popup menu)
+	</a>
+	</td>
+
+	<td align="center">
+	<a href="NapkinSliders.jpg">
+	<img class="snap" src="NapkinSlidersThumb.jpg"/><br>
+	Various sliders
+	</a>
+	</td>
+
+	<td align="center">
+	<a href="NapkinTree.jpg">
+	<img class="snap" src="NapkinTreeThumb.jpg"/><br>
+	A tree
+	</a>
+	</td>
+    </tr>
+    <tr>
+	<td align="center">
+	<a href="BlueprintFrames.jpg"/>
+	<img class="snap" src="BlueprintFramesThumb.jpg"/><br>
+	Internal frames<br>
+	(blueprint theme)
+	</a>
+	</td>
+
+	<td align="center">
+	<a href="BlueprintFileChooser.jpg">
+	<img class="snap" src="BlueprintFileChooserThumb.jpg"/><br>
+	File chooser<br>
+	(blueprint theme)
+	</a>
+	</td>
+
+	<td align="center">
+	<a href="BlueprintTables.jpg">
+	<img class="snap" src="BlueprintTablesThumb.jpg"/><br>
+	A table<br>
+	(blueprint theme)
+	</a>
+	</td>
+    </tr>
+</table>
+</center>
+
+<h2>Development</h2>
+I welcome anyone to contribute -- thoughts, code, understanding, chocolate...
+
+<p/><i>&mdash;<a href="mailto:arnold@moonhill.org">Ken Arnold</a></i></p>
+
+<h2>Acknowledgements</h2>
+
+The font Felt Tip Roman was created by <b>Mark Simonson</b>, who
+spent a lot of time with me on how to license this.  He has kindly
+decided that this particular use does not require individual licensing
+for each user of the LAF, but can be done by special arrangement.
+The legalities are below, but beyond those legalities, we'd like
+to ask you all to be cool &mdash; if you like the font and want to
+use it, buy it properly.  Making fonts is not easy, and font folks
+get their work ripped off far too often.  If you do want to use it,
+buy it from his site <a
+href="http://www.ms-studio.com">http://www.ms-studio.com</a>, where
+he gets more from it.
+
+<p>
+
+The font &AElig;nigma Scrawl was created by <b>Brian Kent</b>, and
+has worked very well for a handwritten font that scales reasonably
+to GUI-control sizes (most handwritten-style fonts are display fonts
+that only work in large sizes).  To make things work better, Brian
+has adapted the font to adjust the spacing around some punctuation
+as well as some other tweaks.  So the version released here is a
+custom one direct from the artist (which we believe he expects to
+roll back into the font at future date).  We would like to thank
+Brian a lot for his quick and nimble cooperation, which made this
+work a lot better and easier on me.
+
+<p> <b>Miro Juri&#353;i&#263</b> has been very helpful in thinking
+through <tt>with</tt> me (sometimes <em>for</em> me) some of the
+hairy graphics problems.  This definitely pushes into some poorly
+documented areas of the 2D API, and it has helped a lot to have
+someone to talk it through with.  Thanks, Miro!
+
+<p> <b>Brian Hawthorne</b> did a quick and excellent selection of
+blueprint backgrounds for me to choose from.  Thanks!
+
+<p> <b>Scott Violet</b> of Sun has helped me pick apart some of the
+more abstruse and arcane bits of the plaf framework, which is full
+of 'em.  Thanks a bunch, Scott, and thanks to <b>Hans Muller</b>,
+also of Sun, for plugging me together with him.
+
+<p> Several people have helped with testing, reporting bugs, and
+suggesting things.  The most persistent have been: <b>Deryl
+Steinert</b>, <b>Bob Herrmann</b>, <b>David Matuszek</b>, <b>Graham
+Perks</b>, <b>Henry Story</b>, and <b>Tom Eugelink</b>.  Thanks to
+all, and happy to have <em>you</em> be added to this list.
+
+</body>
+
+</html>
