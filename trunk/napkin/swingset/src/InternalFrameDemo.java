@@ -51,8 +51,20 @@ public class InternalFrameDemo extends DemoModule {
     int windowCount = 0;
     JDesktopPane desktop = null;
 
-    ImageIcon icon1, icon2, icon3, icon4;
-    ImageIcon smIcon1, smIcon2, smIcon3, smIcon4;
+    ImageIcon icon1
+    ,
+    icon2
+    ,
+    icon3
+    ,
+    icon4;
+    ImageIcon smIcon1
+    ,
+    smIcon2
+    ,
+    smIcon3
+    ,
+    smIcon4;
 
     public Integer FIRST_FRAME_LAYER = new Integer(1);
     public Integer DEMO_FRAME_LAYER = new Integer(2);
@@ -81,17 +93,13 @@ public class InternalFrameDemo extends DemoModule {
     JTextField windowTitleField = null;
     JLabel windowTitleLabel = null;
 
-    /**
-     * main method allows us to run as a standalone demo.
-     */
+    /** main method allows us to run as a standalone demo. */
     public static void main(String[] args) {
         InternalFrameDemo demo = new InternalFrameDemo(null);
         demo.mainImpl();
     }
 
-    /**
-     * InternalFrameDemo Constructor
-     */
+    /** InternalFrameDemo Constructor */
     public InternalFrameDemo(SwingSet2 swingset) {
         super(swingset, "InternalFrameDemo", "toolbar/JDesktop.gif");
 
@@ -142,9 +150,7 @@ public class InternalFrameDemo extends DemoModule {
         createInternalFrame(icon2, DEMO_FRAME_LAYER, FRAME_WIDTH, FRAME_HEIGHT);
     }
 
-    /**
-     * Create an internal frame and add a scrollable imageicon to it
-     */
+    /** Create an internal frame and add a scrollable imageicon to it */
     public JInternalFrame createInternalFrame(Icon icon, Integer layer,
             int width, int height) {
         JInternalFrame jif = new JInternalFrame();
@@ -156,9 +162,9 @@ public class InternalFrameDemo extends DemoModule {
             jif =
                     new JInternalFrame(getString(
                             "InternalFrameDemo.frame_label") +
-                    " " +
-                    windowCount +
-                    "  ");
+                            " " +
+                            windowCount +
+                            "  ");
         }
 
         // set properties
@@ -182,7 +188,7 @@ public class InternalFrameDemo extends DemoModule {
         } catch (java.beans.PropertyVetoException e2) {
         }
 
-        jif.show();
+        jif.setVisible(true);
 
         return jif;
     }
@@ -302,7 +308,7 @@ public class InternalFrameDemo extends DemoModule {
 
         palette.getContentPane().add(p, BorderLayout.SOUTH);
 
-        palette.show();
+        palette.setVisible(true);
 
         return palette;
     }
@@ -337,7 +343,6 @@ public class InternalFrameDemo extends DemoModule {
     }
 
     class ImageScroller extends JScrollPane {
-
         public ImageScroller(InternalFrameDemo demo, Icon icon, int layer,
                 int count) {
             super();
@@ -355,7 +360,5 @@ public class InternalFrameDemo extends DemoModule {
         public Dimension getMinimumSize() {
             return new Dimension(25, 25);
         }
-
     }
-
 }

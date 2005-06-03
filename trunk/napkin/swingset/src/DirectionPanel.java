@@ -50,7 +50,6 @@ import javax.swing.border.*;
  */
 
 public class DirectionPanel extends JPanel {
-
     private ButtonGroup group;
 
     public DirectionPanel(boolean enable, String selection, ActionListener l) {
@@ -184,10 +183,7 @@ public class DirectionPanel extends JPanel {
     }
 
     public class DirectionButton extends JRadioButton {
-
-        /**
-         * A layout direction button
-         */
+        /** A layout direction button */
         public DirectionButton(Icon icon, Icon downIcon, String direction,
                 String description, ActionListener l,
                 ButtonGroup group, boolean selected) {
@@ -204,7 +200,7 @@ public class DirectionPanel extends JPanel {
             setSelected(selected);
         }
 
-        public boolean isFocusTraversable() {
+        public boolean isFocusable() {
             return false;
         }
 

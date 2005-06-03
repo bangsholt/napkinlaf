@@ -52,7 +52,6 @@ import javax.swing.border.*;
  * @version 1.14 01/23/03
  */
 public class DemoModule extends JApplet {
-
     // The preferred size of the demo
     private int PREFERRED_WIDTH = 680;
     private int PREFERRED_HEIGHT = 600;
@@ -96,7 +95,8 @@ public class DemoModule extends JApplet {
         this(swingset, null, null);
     }
 
-    public DemoModule(SwingSet2 swingset, String resourceName, String iconPath) {
+    public DemoModule(SwingSet2 swingset, String resourceName, String iconPath)
+    {
         panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
@@ -133,7 +133,7 @@ public class DemoModule extends JApplet {
         } catch (MissingResourceException e) {
             System.out.println(
                     "java.util.MissingResourceException: Couldn't find value for: " +
-                    key);
+                            key);
         }
         return value;
     }
@@ -187,15 +187,21 @@ public class DemoModule extends JApplet {
 
     public String getName() {
         return getString(getResourceName() + ".name");
-    };
+    }
+
+    ;
 
     public Icon getIcon() {
         return createImageIcon(iconPath, getResourceName() + ".name");
-    };
+    }
+
+    ;
 
     public String getToolTip() {
         return getString(getResourceName() + ".tooltip");
-    };
+    }
+
+    ;
 
     public void mainImpl() {
         JFrame frame = new JFrame(getName());
@@ -204,7 +210,7 @@ public class DemoModule extends JApplet {
         getDemoPanel().setPreferredSize(
                 new Dimension(PREFERRED_WIDTH, PREFERRED_HEIGHT));
         frame.pack();
-        frame.show();
+        frame.setVisible(true);
     }
 
     public JPanel createHorizontalPanel(boolean threeD) {

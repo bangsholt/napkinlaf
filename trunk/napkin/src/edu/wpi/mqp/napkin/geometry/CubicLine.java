@@ -12,7 +12,7 @@ import java.awt.geom.*;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-public class CubicLine extends Double implements UtilityShape {
+public class CubicLine extends CubicCurve2D.Double implements UtilityShape {
     /** Constructs a new <tt>CubicLine</tt> object */
     public CubicLine() {
         super();

@@ -31,6 +31,6 @@ public class TestColorUIResource {
         blue.setBackground(Color.blue);
 
         frame.pack();
-        frame.show();
+        frame.setVisible(true);
     }
 }

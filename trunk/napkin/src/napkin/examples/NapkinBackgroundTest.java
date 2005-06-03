@@ -18,7 +18,7 @@ public class NapkinBackgroundTest {
         m.add(mi);
 
         mb.add(m);
-//        frame.setJMenuBar(mb);
+        //        frame.setJMenuBar(mb);
 
         JPanel stuff = new JPanel();
         stuff.setLayout(new BorderLayout());
@@ -33,6 +33,6 @@ public class NapkinBackgroundTest {
 
         frame.setSize(200, 100);
         frame.setLocationRelativeTo(null);
-        frame.show();
+        frame.setVisible(true);
     }
 }

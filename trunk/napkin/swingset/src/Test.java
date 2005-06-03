@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 
 public class Test {
@@ -11,6 +10,6 @@ public class Test {
         JFrame lFrame = new JFrame();
         lFrame.getContentPane().add(new JButton("blabla"));
         lFrame.pack();
-        lFrame.show();
+        lFrame.setVisible(true);
     }
 }
