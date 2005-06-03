@@ -358,7 +358,8 @@ public class TemplateTest implements ActionListener {
         DrawnIcon ret = null;
 
         try {
-            ret = new DrawnIcon(templatePath, renderer);
+            Template template = Template.produceFromXMLDocument(templatePath);
+            ret = new DrawnIcon(template, renderer);
         } catch (TemplateReadException e) {
             e.printStackTrace();
             System.exit(1);
