@@ -9,16 +9,13 @@ import javax.swing.plaf.basic.*;
 
 public class NapkinViewportUI extends BasicViewportUI
         implements NapkinConstants, NapkinPainter {
-
     private int revertScrollMode;
 
     private static final NapkinViewportUI napkinViewportUI =
             new NapkinViewportUI();
     private JViewport viewport;
 
-    /**
-     * @noinspection MethodOverridesStaticMethod
-     */
+    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, napkinViewportUI);
     }

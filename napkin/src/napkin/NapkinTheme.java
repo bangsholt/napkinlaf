@@ -3,8 +3,7 @@
 package napkin;
 
 import java.awt.*;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.HashMap;
@@ -23,7 +22,7 @@ public class NapkinTheme {
     private final Font fixedFont;
     private final NapkinBackground paper;
     private final NapkinBackground erasure;
-    private NapkinTheme[] themes = new NapkinTheme[2];
+    private NapkinTheme[] variants = new NapkinTheme[2];
 
     public static final int PEN_COLOR = 0;
     public static final int CHECK_COLOR = 1;
@@ -56,22 +55,25 @@ public class NapkinTheme {
      */
     public NapkinTheme(String name, String description, Color penColor,
             Color checkColor, Color radioColor, Color highlightColor,
-            Color selectionColor, Font textFont, Font boldTextFont, Font fixedFont,
+            Color selectionColor, Font textFont, Font boldTextFont,
+            Font fixedFont,
             NapkinBackground paper, NapkinBackground erasure,
             NapkinBackground popupPaper) {
 
         this(name, description, penColor, checkColor, radioColor,
-                highlightColor, selectionColor, textFont, boldTextFont, fixedFont, paper,
+                highlightColor, selectionColor, textFont, boldTextFont,
+                fixedFont, paper,
                 erasure, new NapkinTheme(name + "Popup",
-                        description + " (popup)", penColor, checkColor,
-                        radioColor, highlightColor, selectionColor, textFont, boldTextFont,
-                        fixedFont, popupPaper, erasure, (NapkinTheme) null));
+                description + " (popup)", penColor, checkColor,
+                radioColor, highlightColor, selectionColor, textFont,
+                boldTextFont,
+                fixedFont, popupPaper, erasure, (NapkinTheme) null));
     }
 
     public NapkinTheme(String name, String description, Color penColor,
             Color checkColor, Color radioColor, Color highlightColor,
-            Color selectionColor, Font textFont, Font boldTextFont, Font fixedFont,
-            NapkinBackground paper, NapkinBackground erasure,
+            Color selectionColor, Font textFont, Font boldTextFont,
+            Font fixedFont, NapkinBackground paper, NapkinBackground erasure,
             NapkinTheme popupTheme) {
 
         this.name = name;
@@ -86,10 +88,10 @@ public class NapkinTheme {
         this.fixedFont = uiResource(fixedFont);
         this.paper = paper;
         this.erasure = erasure;
-        themes[BASIC_THEME] = this;
-        themes[POPUP_THEME] = popupTheme;
+        variants[BASIC_THEME] = this;
+        variants[POPUP_THEME] = popupTheme;
         if (popupTheme != null)
-            popupTheme.themes = themes;
+            popupTheme.variants = variants;
     }
 
     private static Color uiResource(Color color) {
@@ -167,7 +169,7 @@ public class NapkinTheme {
     }
 
     public NapkinTheme getTheme(int which) {
-        return themes[which];
+        return variants[which];
     }
 
     public String toString() {
@@ -175,12 +177,14 @@ public class NapkinTheme {
     }
 
     public static class Manager {
-        private static final Map themes = new HashMap();
+        private static final Map<String, NapkinTheme> themes =
+                new HashMap<String, NapkinTheme>();
         private static NapkinTheme currentTheme;
 
         private static final String DEFAULT_THEME = "napkin";
 
-        private static final Class THIS_CLASS = NapkinLookAndFeel.class;
+        private static final Class<NapkinLookAndFeel> THIS_CLASS =
+                NapkinLookAndFeel.class;
         private static final Logger LOG =
                 LogManager.getLogManager().getLogger(THIS_CLASS.getName());
 
@@ -189,19 +193,21 @@ public class NapkinTheme {
         static Font fixed;
         static Font augie;
         static NapkinTheme def;
+
         static {
-	        AccessController.doPrivileged(new PrivilegedAction() {
-	            public Object run() {
-		        	setup();
-		        	return null;
-	            }
-	        });
+            AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                public Object run() {
+                    setup();
+                    return null;
+                }
+            });
         }
-        
+
+        /** @noinspection UnusedCatchParameter */
         private static void setup() {
-        	Color checkGreen = Color.GREEN.darker();
+            Color checkGreen = Color.GREEN.darker();
             //!! Make this selectable
-//            scrawl = tryToLoadFont("aescr5b.ttf");
+            //            scrawl = tryToLoadFont("aescr5b.ttf");
             scrawl = tryToLoadFont("FeltTipRoman.ttf");
             scrawlBold = tryToLoadFont("FeltTipRoman-Bold.ttf");
             fixed = tryToLoadFont("1942.ttf");
@@ -227,7 +233,7 @@ public class NapkinTheme {
                     new NapkinBackground("resources/testPaper.jpg",
                             0, 0, 10, 10),
                     def.getErasureMask(), new NapkinBackground(
-                            "resources/testPostit.jpg", 0, 0, 10, 10)));
+                    "resources/testPostit.jpg", 0, 0, 10, 10)));
 
             Color blueprintInk = new Color(0xe7edf2);
             Color blueprintHighlight = new Color(0x89b5ed);
@@ -243,9 +249,9 @@ public class NapkinTheme {
 
             String themeName;
             try {
-                themeName = (String)
-                        AccessController.doPrivileged(new PrivilegedAction() {
-                            public Object run() {
+                themeName = AccessController.doPrivileged(
+                        new PrivilegedAction<String>() {
+                            public String run() {
                                 return System.getProperty("napkin.theme",
                                         DEFAULT_THEME);
                             }
@@ -262,12 +268,11 @@ public class NapkinTheme {
         }
 
         public static String[] themeNames() {
-            return (String[])
-                    themes.keySet().toArray(new String[themes.size()]);
+            return themes.keySet().toArray(new String[themes.size()]);
         }
 
         public static NapkinTheme getTheme(String name) {
-            return (NapkinTheme) themes.get(name);
+            return themes.get(name);
         }
 
         public static NapkinTheme getDefaultTheme() {
@@ -301,11 +306,13 @@ public class NapkinTheme {
                 fontDef = NapkinLookAndFeel.class.getResourceAsStream(fontRes);
                 if (fontDef == null) {
                     throw new NullPointerException(
-                    	"Could not find font resource \"" + fontName+
-                    	"\"\n\t\tin \""+fontRes+
-                    	"\"\n\t\tfor \""+NapkinLookAndFeel.class.getName()+
-                    	"\"\n\t\ttry: "+NapkinLookAndFeel.class.getResource(fontRes));
-//                    return new Font( "serif", Font.PLAIN, 12 );
+                            "Could not find font resource \"" + fontName +
+                                    "\"\n\t\tin \"" + fontRes +
+                                    "\"\n\t\tfor \"" + NapkinLookAndFeel.class
+                                    .getName() +
+                                    "\"\n\t\ttry: " + NapkinLookAndFeel.class
+                                    .getResource(fontRes));
+                    //                    return new Font( "serif", Font.PLAIN, 12 );
                 } else
                     return Font.createFont(Font.TRUETYPE_FONT, fontDef);
             } catch (FontFormatException e) {

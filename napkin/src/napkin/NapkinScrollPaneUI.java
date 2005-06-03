@@ -9,10 +9,7 @@ import javax.swing.plaf.basic.*;
 
 public class NapkinScrollPaneUI extends BasicScrollPaneUI
         implements NapkinPainter {
-
-    /**
-     * @noinspection MethodOverridesStaticMethod
-     */
+    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinScrollPaneUI());
     }

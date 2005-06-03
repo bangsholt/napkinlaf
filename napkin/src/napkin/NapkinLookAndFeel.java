@@ -9,7 +9,6 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
@@ -22,9 +21,9 @@ import javax.swing.text.*;
 
 public class NapkinLookAndFeel extends BasicLookAndFeel
         implements NapkinConstants {
-
     private LookAndFeel formalLAF;
-    private final Map flags = new WeakHashMap();
+    private final Map<Component, FormalityFlags> flags =
+            new WeakHashMap<Component, FormalityFlags>();
 
     private final Visitor clearKidsVisitor = new Visitor() {
         public boolean visit(Component c, int depth) {
@@ -189,7 +188,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     }
 
     public String getDescription() {
-        //noinspection StringReplaceableByStringBuffer
+        //noinspection NonConstantStringShouldBeStringBuffer
         String desc = "The Napkin Look and Feel";
         if (formalLAF != null)
             desc += " [backed by " + formalLAF.getDescription() + "]";
@@ -197,7 +196,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     }
 
     public String getID() {
-        //noinspection StringReplaceableByStringBuffer
+        //noinspection NonConstantStringShouldBeStringBuffer
         String desc = "Napkin";
         if (formalLAF != null)
             desc += "[" + formalLAF.getID() + "]";
@@ -277,12 +276,11 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         super.initClassDefaults(table);
         String basicPackageName =
                 NapkinLookAndFeel.class.getPackage().getName() + ".Napkin";
-        for (int i = 0; i < UI_TYPES.length; i++) {
-            String uiType = UI_TYPES[i];
+        for (String uiType : UI_TYPES) {
             String uiClass = basicPackageName + uiType;
             table.put(uiType, uiClass);
         }
-        Set keys = new HashSet(table.keySet());
+        Set<Object> keys = new HashSet<Object>(table.keySet());
         keys.removeAll(Arrays.asList(UI_TYPES));
         if (keys.size() != 0)
             System.out.println("keys we didn't overwrite: " + keys);
@@ -300,7 +298,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
         overrideComponentDefaults(table);
 
-        Integer zero = new Integer(0);
+        Integer zero = 0;
         Object checkBoxButtonIcon = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createCheckBoxIcon();
@@ -384,7 +382,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "InternalFrame.closeIcon", closeIcon,
 
             "SplitPaneDivider.border", null,
-            "SplitPane.dividerSize", new Integer(NapkinSplitPaneDivider.SIZE),
+            "SplitPane.dividerSize", NapkinSplitPaneDivider.SIZE,
         };
 
         table.putDefaults(napkinDefaults);
@@ -393,7 +391,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     private static void setupActions(UIDefaults table) {
         //!! These are copied from Metal LookAndFeel, but we should get them
         //!! From the formal L&F, as well as getting *all* behavior.  -arnold
-        Object fieldInputMap = new UIDefaults.LazyInputMap(new Object[]{
+        Object fieldInputMap = new UIDefaults.LazyInputMap(new Object[] {
             "ctrl C", DefaultEditorKit.copyAction,
             "ctrl V", DefaultEditorKit.pasteAction,
             "ctrl X", DefaultEditorKit.cutAction,
@@ -425,10 +423,11 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "KP_LEFT", DefaultEditorKit.backwardAction,
             "ENTER", JTextField.notifyAction,
             "ctrl BACK_SLASH", "unselect"/*DefaultEditorKit.unselectAction*/,
-            "control shift O", "toggle-componentOrientation"/*DefaultEditorKit.toggleComponentOrientation*/
+            "control shift O", "toggle-componentOrientation"
+            /*DefaultEditorKit.toggleComponentOrientation*/
         });
 
-        Object multilineInputMap = new UIDefaults.LazyInputMap(new Object[]{
+        Object multilineInputMap = new UIDefaults.LazyInputMap(new Object[] {
             "ctrl C", DefaultEditorKit.copyAction,
             "ctrl V", DefaultEditorKit.pasteAction,
             "ctrl X", DefaultEditorKit.cutAction,
@@ -483,7 +482,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "ctrl T", "next-link-action",
             "ctrl shift T", "previous-link-action",
             "ctrl SPACE", "activate-link-action",
-            "control shift O", "toggle-componentOrientation"/*DefaultEditorKit.toggleComponentOrientation*/
+            "control shift O", "toggle-componentOrientation"
+            /*DefaultEditorKit.toggleComponentOrientation*/
         });
 
         Object[] actionDefaults = {
@@ -517,16 +517,15 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             public Object createValue(UIDefaults table) {
                 NapkinBoxBorder outside = new NapkinBoxBorder();
                 BasicBorders.MarginBorder inside = new BasicBorders.MarginBorder();
-                CompoundBorder compound = new CompoundBorder(outside, inside);
-                return compound;
+                return new CompoundBorder(outside, inside);
             }
         };
 
         Color clear = new AlphaColorUIResource(CLEAR);
 
-        for (Iterator it = table.entrySet().iterator(); it.hasNext();) {
-            Map.Entry entry = (Map.Entry) it.next();
-            String key = (String) entry.getKey();
+        for (Object o : table.entrySet()) {
+            Map.Entry<String, Object> entry = (Map.Entry<String, Object>) o;
+            String key = entry.getKey();
             Object val = entry.getValue();
             Object res;
             if ((res = propVal(key, "font", val, table)) != null) {
@@ -551,10 +550,10 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             } else if ((res = propVal(key, "border", val, table)) != null) {
                 if (res instanceof UIResource || (val instanceof UIResource && (
                         res instanceof BevelBorder ||
-                        res instanceof EtchedBorder ||
-                        res instanceof LineBorder ||
-                        res instanceof CompoundBorder))
-                ) {
+                                res instanceof EtchedBorder ||
+                                res instanceof LineBorder ||
+                                res instanceof CompoundBorder))
+                        ) {
                     // we override manually later
                     if (!(res instanceof CompoundBorder))
                         entry.setValue(drawnBorder);
@@ -596,7 +595,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             match = true;
         else if (key.endsWith(prop.substring(1)) &&
                 key.charAt(prePos + 1) ==
-                Character.toUpperCase(prop.charAt(0)))
+                        Character.toUpperCase(prop.charAt(0)))
             match = true;
 
         if (!match)
@@ -639,12 +638,12 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     private FormalityFlags flags(Component c, boolean recurse) {
         if (justNapkin)
             return null;
-        FormalityFlags ff = (FormalityFlags) flags.get(c);
+        FormalityFlags ff = flags.get(c);
         if (ff == null) {
             System.out.println("adding flags: " + NapkinDebug.descFor(c));
             if (recurse && c instanceof Container) {
                 new ComponentWalker(addListenerVisitor).walk(c);
-                ff = (FormalityFlags) flags.get(c);
+                ff = flags.get(c);
             } else {
                 ff = new FormalityFlags();
                 flags.put(c, ff);

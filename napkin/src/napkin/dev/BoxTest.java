@@ -14,7 +14,6 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
-
     private final DrawnBoxGenerator gen;
 
     private final RandomValueSpinner begXSpin;
@@ -101,7 +100,7 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
                 LENGTH, 100, false);
         sizeYSpin = new RandomValueSpinner("height", gen.getSize().getY(), 0,
                 LENGTH, 100, false);
-        spinners = new RandomValueSource[]{begXSpin, endYSpin, widthSpin};
+        spinners = new RandomValueSource[] {begXSpin, endYSpin, widthSpin};
 
         sides = new Side[4];
         for (int i = 0; i < sides.length; i++) {
@@ -146,8 +145,7 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
         JPanel typeControl = new JPanel();
         typeControl.setBorder(new TitledBorder("Side types"));
         typeControl.setLayout(new SpringLayout());
-        for (int i = 0; i < sides.length; i++) {
-            Side side = sides[i];
+        for (Side side : sides) {
             typeControl.add(side.show);
             typeControl.add(side.selector);
         }

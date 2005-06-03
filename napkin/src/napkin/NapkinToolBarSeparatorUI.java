@@ -11,9 +11,7 @@ public class NapkinToolBarSeparatorUI extends BasicToolBarSeparatorUI
         implements NapkinPainter {
     private final NapkinSeparatorUI.Separator separator = new NapkinSeparatorUI.Separator();
 
-    /**
-     * @noinspection MethodOverridesStaticMethod
-     */
+    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinToolBarSeparatorUI());
     }

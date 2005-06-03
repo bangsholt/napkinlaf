@@ -13,9 +13,9 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
-
     private final DrawnCubicLineGenerator gen;
 
+    /** @noinspection FieldNameHidesFieldInSuperclass */
     private final RandomValue width;
 
     private Shape curve;
@@ -24,6 +24,7 @@ class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
     private final RandomValueSpinner leftYSpin;
     private final RandomValueSpinner rightXSpin;
     private final RandomValueSpinner rightYSpin;
+    /** @noinspection FieldNameHidesFieldInSuperclass */
     private final RandomValueSpinner widthSpin;
     private final RandomValueSource[] spinners;
 
@@ -31,12 +32,12 @@ class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
 
     private class Drawing extends JLabel {
         Drawing() {
-            final int space = SPACE;
-            setBorder(new EmptyBorder(space, space, space, space));
+            setBorder(new EmptyBorder(SPACE, SPACE, SPACE, SPACE));
         }
 
         protected void paintComponent(Graphics g1) {
             Graphics2D g = (Graphics2D) g1;
+            //noinspection IntegerDivisionInFloatingPointContext
             double mid = getHeight() / 2;
             g.translate(SPACE, mid);
 
@@ -56,7 +57,7 @@ class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
             return new Dimension(LENGTH + 2 * SPACE,
                     MIN_HEIGHT * 2 + 2 * SPACE);
         }
-    };
+    }
 
     CubicTest() {
         gen = new DrawnCubicLineGenerator();
@@ -75,7 +76,7 @@ class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
                         100);
         width = new RandomValue(1, 0);
         widthSpin = new RandomValueSpinner("w", width, 0, 3, 20);
-        spinners = new RandomValueSpinner[]{
+        spinners = new RandomValueSpinner[] {
             leftXSpin, leftYSpin, rightXSpin, rightYSpin, widthSpin
         };
 

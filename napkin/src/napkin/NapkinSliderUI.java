@@ -11,20 +11,17 @@ import javax.swing.plaf.basic.*;
 
 public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
         NapkinPainter {
-
     private Icon thumb;
     private DrawnLineHolder track;
     private final Rectangle trackBounds;
     private final boolean vertical;
-    private final List major;
+    private final List<DrawnLineHolder> major;
     private int majorPos;
-    private final List minor;
+    private final List<DrawnLineHolder> minor;
     private int minorPos;
     private final Rectangle tickBounds;
 
-    /**
-     * @noinspection MethodOverridesStaticMethod
-     */
+    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinSliderUI((JSlider) c));
     }
@@ -35,8 +32,8 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
         trackBounds = new Rectangle();
 
         tickBounds = new Rectangle();
-        major = new ArrayList(0);
-        minor = new ArrayList(0);
+        major = new ArrayList<DrawnLineHolder>(0);
+        minor = new ArrayList<DrawnLineHolder>(0);
     }
 
     public void installUI(JComponent c) {
@@ -96,7 +93,7 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
     }
 
     public void paintFocus(Graphics g) {
-        return; // do nothing here -- we show focus by color on slider
+        // do nothing here -- we show focus by color on slider
     }
 
     protected void paintMinorTickForHorizSlider(Graphics g,
@@ -119,7 +116,8 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
         paintTick(major, majorPos++, g, 0, y, tick.width - 2, y);
     }
 
-    private void paintTick(List ticks, int pos, Graphics g, int x, int y,
+    private void paintTick(List<DrawnLineHolder> ticks, int pos, Graphics g,
+            int x, int y,
             int width, int height) {
 
         boolean vertTicks = !vertical;
@@ -134,9 +132,8 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
         else
             tickBounds.y /= 4;
 
-        while (pos >= ticks.size())
-            ticks.add(null);
-        DrawnLineHolder holder = (DrawnLineHolder) ticks.get(pos);
+        while (pos >= ticks.size()) ticks.add(null);
+        DrawnLineHolder holder = ticks.get(pos);
         g.setColor(slider.getForeground());
         holder = NapkinUtil.paintLine(g, vertTicks, holder, tickBounds);
         ticks.set(pos, holder);

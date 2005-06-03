@@ -12,7 +12,6 @@ import javax.swing.plaf.metal.*;
 
 public class NapkinFileChooserUI extends MetalFileChooserUI
         implements NapkinPainter {
-
     private static final ComponentWalker.Visitor NO_BORDER_VISITOR =
             new ComponentWalker.Visitor() {
                 public boolean visit(Component c, int depth) {
@@ -24,9 +23,7 @@ public class NapkinFileChooserUI extends MetalFileChooserUI
                 }
             };
 
-    /**
-     * @noinspection MethodOverridesStaticMethod
-     */
+    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinFileChooserUI((JFileChooser) c));
     }

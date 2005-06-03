@@ -11,11 +11,9 @@ import javax.swing.plaf.basic.*;
 import javax.swing.tree.*;
 
 public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
-
     public static class DefaultNapkinTreeCellRender
             extends DefaultTreeCellRenderer
             implements NapkinPainter {
-
         public void paint(Graphics g) {
             NapkinUtil.update(g, this, this);
         }
@@ -37,11 +35,10 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
         }
     }
 
-    private final Map linesFor = new HashMap();
+    private final Map<Rectangle, DrawnLineHolder> linesFor =
+            new HashMap<Rectangle, DrawnLineHolder>();
 
-    /**
-     * @noinspection MethodOverridesStaticMethod
-     */
+    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinTreeUI());
     }
@@ -79,7 +76,7 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
         int w = x2 - x1;
         int h = y2 - y1;
         Rectangle rect = new Rectangle(x1, y1, w, h);
-        DrawnLineHolder holder = (DrawnLineHolder) linesFor.get(rect);
+        DrawnLineHolder holder = linesFor.get(rect);
         if (holder == null) {
             holder = new DrawnLineHolder(Math.max(w, h), w == 0);
             linesFor.put(rect, holder);

@@ -2,26 +2,18 @@
 
 package napkin.examples;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.util.Dictionary;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import javax.swing.*;
-
 import napkin.NapkinLookAndFeel;
 import napkin.NapkinTheme;
 
-public class NapkinQuickTest implements SwingConstants {
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.Dictionary;
+import java.util.HashSet;
+import java.util.Set;
+import javax.swing.*;
 
+public class NapkinQuickTest implements SwingConstants {
     /**
      * Run this class as a program
      *
@@ -42,7 +34,7 @@ public class NapkinQuickTest implements SwingConstants {
 
         final NapkinLookAndFeel napkinLAF = (NapkinLookAndFeel) laf;
 
-        final Set toDisable = new HashSet();
+        final Set<JComponent> toDisable = new HashSet<JComponent>();
 
         final JFrame top = new JFrame();
         top.setBackground(Color.cyan);
@@ -82,10 +74,8 @@ public class NapkinQuickTest implements SwingConstants {
         disableButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 boolean enable = !disableButton.isSelected();
-                for (Iterator it = toDisable.iterator(); it.hasNext();) {
-                    JComponent component = (JComponent) it.next();
+                for (JComponent component : toDisable)
                     component.setEnabled(enable);
-                }
             }
         });
         mainPanel.add(disableButton);
@@ -113,7 +103,7 @@ public class NapkinQuickTest implements SwingConstants {
                     UIManager.setLookAndFeel(UIManager.getLookAndFeel());
                     SwingUtilities.updateComponentTreeUI(top);
                 } catch (UnsupportedLookAndFeelException e) {
-                    throw new RuntimeException(e);
+                    throw new IllegalArgumentException(e);
                 }
             }
         });
@@ -125,6 +115,7 @@ public class NapkinQuickTest implements SwingConstants {
         slider.setMajorTickSpacing(majorSpacing);
         slider.setMinorTickSpacing(10);
         slider.setPaintTicks(true);
+        //noinspection RawUseOfParameterizedType
         Dictionary labels = slider.createStandardLabels(majorSpacing);
         slider.setLabelTable(labels);
         slider.setPaintLabels(true);
@@ -134,7 +125,7 @@ public class NapkinQuickTest implements SwingConstants {
         final JPanel textPanel = new JPanel();
         textPanel.setLayout(new BorderLayout());
         final JTextArea textArea = new JTextArea();
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 400; i++) {
             if (sb.length() > 0)
                 sb.append(' ');
@@ -181,7 +172,7 @@ public class NapkinQuickTest implements SwingConstants {
         tabbed.addTab("Controls", tabCtrls);
 
         top.pack();
-        top.show();
+        top.setVisible(true);
     }
 
     private static void loadFile(JTextArea textArea, File file) {
@@ -199,7 +190,7 @@ public class NapkinQuickTest implements SwingConstants {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    ;   // we tried
+                    // we tried
                 }
             }
         }

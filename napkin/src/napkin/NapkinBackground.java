@@ -9,11 +9,21 @@ import javax.swing.*;
 public class NapkinBackground {
     private final String name;
     private final ImageIcon icon;
-    private final Image image;
-    private final int iconW, iconH;
-    private final Icon tlCorner, tSide, trCorner;
-    private final Icon rSide, middle, lSide;
-    private final Icon blCorner, bSide, brCorner;
+    private final Icon tlCorner
+    ,
+    tSide
+    ,
+    trCorner;
+    private final Icon rSide
+    ,
+    middle
+    ,
+    lSide;
+    private final Icon blCorner
+    ,
+    bSide
+    ,
+    brCorner;
 
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
 
@@ -27,10 +37,13 @@ public class NapkinBackground {
     }
 
     public NapkinBackground(String name, Insets insets) {
+        int iconW;
+        int iconH;
+        Image image;
         this.name = name;
         URL resource = getClass().getResource(name);
-        if( resource == null )
-        	throw new NullPointerException("no resource found for: "+name );
+        if (resource == null)
+            throw new NullPointerException("no resource found for: " + name);
         image = Toolkit.getDefaultToolkit().getImage(resource);
         icon = new ImageIcon(image);
         iconW = icon.getIconWidth();
@@ -65,6 +78,7 @@ public class NapkinBackground {
         return "NapkinBackground(\"" + name + "\")";
     }
 
+    /** @noinspection UnnecessaryLocalVariable */
     public void paint(Component c, Graphics g, Rectangle paper, Rectangle comp,
             Insets cInsets) {
         int topH = tlCorner.getIconHeight();
@@ -84,8 +98,10 @@ public class NapkinBackground {
                 bSide, brCorner);
     }
 
+    /** @noinspection UnnecessaryLocalVariable */
     private static void paintSliceAcross(Component c, Graphics g,
-            Rectangle paper, Rectangle comp, Insets cInsets, int bandY, int bandH,
+            Rectangle paper, Rectangle comp, Insets cInsets, int bandY,
+            int bandH,
             Icon lftIcon, Icon midIcon, Icon rgtIcon) {
 
         if (bandH == 0)

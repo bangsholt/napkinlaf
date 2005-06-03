@@ -20,10 +20,12 @@ import javax.swing.border.*;
 import javax.swing.text.*;
 
 public class NapkinDebug {
-    private static final Map fieldsForType = new WeakHashMap();
-    private static final Set skip = new HashSet();
+    private static final Map<Class<?>, Field[]> fieldsForType =
+            new WeakHashMap<Class<?>, Field[]>();
+    /** @noinspection MismatchedQueryAndUpdateOfCollection */
+    private static final Set<String> skip = new HashSet<String>();
 
-    static int count = 0;
+    static int count;
 
     public static void dumpObject(Object obj, String fileName) {
         PrintStream out = null;
@@ -49,7 +51,7 @@ public class NapkinDebug {
     static String descFor(Component c) {
         if (c == null)
             return "[null]";
-        //noinspection StringReplaceableByStringBuffer
+        //noinspection NonConstantStringShouldBeStringBuffer
         String desc;
         String idStr = "[" + System.identityHashCode(c) + "]";
         if ((desc = c.getName()) != null)
@@ -97,7 +99,7 @@ public class NapkinDebug {
         PrintWriter out = null;
         try {
             out = new PrintWriter(new BufferedWriter(new FileWriter(file)));
-            Set dumped = new HashSet();
+            Set<Object> dumped = new HashSet<Object>();
             dumpTo(out, c, c.getClass(), 0, dumped);
             out.close();
         } catch (Exception e) {
@@ -108,15 +110,15 @@ public class NapkinDebug {
         }
     }
 
-    private static void dumpTo(PrintWriter out, Object obj, Class cl, int level,
-            Set dumped)
+    private static void dumpTo(PrintWriter out, Object obj, Class<?> cl,
+            int level, Set<Object> dumped)
             throws IllegalAccessException {
+
         if (cl == null)
             return;
         dumpTo(out, obj, cl.getSuperclass(), level, dumped);
         Field[] fields = cl.getDeclaredFields();
-        for (int i = 0; i < fields.length; i++) {
-            Field field = fields[i];
+        for (Field field : fields) {
             field.setAccessible(true);
             Object val = field.get(obj);
             for (int l = 0; l < level; l++)
@@ -131,35 +133,34 @@ public class NapkinDebug {
     }
 
     public static void dumpObject(Object obj, PrintStream out) {
-        Map known = new HashMap();
+        Map<Object, Integer> known = new HashMap<Object, Integer>();
         dumpObject(obj, out, 0, known);
     }
 
-    private static void
-            dumpObject(Object obj, PrintStream out, int depth, Map known) {
+    private static void dumpObject(Object obj, PrintStream out, int depth,
+            Map<Object, Integer> known) {
 
-        Object id = known.get(obj);
+        Integer id = known.get(obj);
         if (id != null) {
             out.println("<known: " + id + ">");
             return;
         }
-        id = new Integer(known.size());
+        id = known.size();
         known.put(obj, id);
 
         out.println(descFor(obj) + " <" + id + ">");
 
         try {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i <= depth; i++)
                 sb.append(i % 2 == 0 ? '.' : '|').append(' ');
             String indent = sb.toString();
 
             Field[] fields = getFields(obj);
-            for (int i = 0; i < fields.length; i++) {
-                Field field = fields[i];
+            for (Field field : fields) {
                 if (skip.contains(field.getName()))
                     continue;
-                Class type = field.getType();
+                Class<?> type = field.getType();
                 out.print(indent);
                 out.print(field.getName() + " [" + field.getType().getName() +
                         "]: ");
@@ -168,7 +169,7 @@ public class NapkinDebug {
             }
 
             if (obj.getClass().isArray()) {
-                Class type = obj.getClass().getComponentType();
+                Class<?> type = obj.getClass().getComponentType();
                 int length = Array.getLength(obj);
                 for (int i = 0; i < length; i++) {
                     Object val = Array.get(obj, i);
@@ -184,15 +185,15 @@ public class NapkinDebug {
         }
     }
 
-    private static void dumpValue(Class type, PrintStream out, Object val,
-            int depth, Map known) {
+    private static void dumpValue(Class<?> type, PrintStream out, Object val,
+            int depth, Map<Object, Integer> known) {
         if (type.isPrimitive())
             out.println(val);
         else if (val == null || type == String.class)
             out.println(val);
         else {
             if (type.isArray()) {
-                Class aType = type.getComponentType();
+                Class<?> aType = type.getComponentType();
                 out.println(" " + aType.getName() + "[" +
                         Array.getLength(val) + "]");
             }
@@ -201,17 +202,16 @@ public class NapkinDebug {
     }
 
     private static Field[] getFields(Object obj) {
-        Class type = obj.getClass();
-        Field[] fields = (Field[]) fieldsForType.get(type);
+        Class<?> type = obj.getClass();
+        Field[] fields = fieldsForType.get(type);
         if (fields != null)
             return fields;
 
-        Set fSet = new HashSet();
+        Set<Field> fSet = new HashSet<Field>();
         int skip = Modifier.STATIC | Modifier.FINAL | Modifier.TRANSIENT;
         while (type != Object.class) {
             Field[] declaredFields = type.getDeclaredFields();
-            for (int i = 0; i < declaredFields.length; i++) {
-                Field field = declaredFields[i];
+            for (Field field : declaredFields) {
                 int mods = field.getModifiers();
                 if (!field.getDeclaringClass().isAssignableFrom(obj.getClass()))
                     fSet.size();
@@ -220,16 +220,14 @@ public class NapkinDebug {
             }
             type = type.getSuperclass();
         }
-        fields = (Field[]) fSet.toArray(new Field[fSet.size()]);
-        Arrays.sort(fields, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                Field f1 = (Field) o1;
-                Field f2 = (Field) o2;
+        fields = fSet.toArray(new Field[fSet.size()]);
+        Arrays.sort(fields, new Comparator<Field>() {
+            public int compare(Field f1, Field f2) {
                 int d = f1.getName().compareTo(f2.getName());
                 if (d != 0)
                     return d;
-                Class c1 = f1.getDeclaringClass();
-                Class c2 = f2.getDeclaringClass();
+                Class<?> c1 = f1.getDeclaringClass();
+                Class<?> c2 = f2.getDeclaringClass();
                 return c1.getName().compareTo(c2.getName());
             }
         });

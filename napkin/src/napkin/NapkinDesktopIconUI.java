@@ -18,11 +18,10 @@ public class NapkinDesktopIconUI extends BasicDesktopIconUI
     // it.  Which means that much of the code here is pasted in.  Yuck!
     //!! Periodically check to see if this has been fixed.
 
+    /** @noinspection FieldNameHidesFieldInSuperclass */
     protected JComponent iconPane;                                  // PASTED
 
-    /**
-     * @noinspection MethodOverridesStaticMethod
-     */
+    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinDesktopIconUI());
     }

@@ -8,10 +8,7 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
 public class NapkinToolBarUI extends BasicToolBarUI implements NapkinPainter {
-
-    /**
-     * @noinspection MethodOverridesStaticMethod
-     */
+    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinToolBarUI());
     }

@@ -13,15 +13,13 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 class QuadTest extends GeneratorTest implements GeneratorTest.Drawer {
-
     private final DrawnQuadLineGenerator gen;
-
-    private final RandomValue width;
 
     private Shape curve;
 
     private final RandomValueSpinner ctlXSpin;
     private final RandomValueSpinner ctlYSpin;
+    /** @noinspection FieldNameHidesFieldInSuperclass */
     private final RandomValueSpinner widthSpin;
     private final RandomValueSource[] spinners;
 
@@ -29,12 +27,12 @@ class QuadTest extends GeneratorTest implements GeneratorTest.Drawer {
 
     private class Drawing extends JLabel {
         Drawing() {
-            final int space = SPACE;
-            setBorder(new EmptyBorder(space, space, space, space));
+            setBorder(new EmptyBorder(SPACE, SPACE, SPACE, SPACE));
         }
 
         protected void paintComponent(Graphics g1) {
             Graphics2D g = (Graphics2D) g1;
+            //noinspection IntegerDivisionInFloatingPointContext
             double mid = getHeight() / 2;
             g.translate(SPACE, mid);
 
@@ -43,7 +41,6 @@ class QuadTest extends GeneratorTest implements GeneratorTest.Drawer {
 
             Graphics2D markG = markGraphics(g);
             mark(markG, ctlXSpin, ctlYSpin, true);
-
         }
 
         public Dimension getPreferredSize() {
@@ -54,17 +51,18 @@ class QuadTest extends GeneratorTest implements GeneratorTest.Drawer {
             return new Dimension(LENGTH + 2 * SPACE,
                     MIN_HEIGHT * 2 + 2 * SPACE);
         }
-    };
+    }
 
     QuadTest() {
+        RandomValue w;
         gen = new DrawnQuadLineGenerator();
         ctlXSpin = new RandomValueSpinner("x", gen.getCtl().getX(), 0, LENGTH,
                 100);
         ctlYSpin = new RandomValueSpinner("y", gen.getCtl().getY(), -20, +20,
                 100);
-        width = new RandomValue(1, 0);
-        widthSpin = new RandomValueSpinner("w", width, 0, 3, 20);
-        spinners = new RandomValueSpinner[]{ctlXSpin, ctlYSpin, widthSpin};
+        w = new RandomValue(1, 0);
+        widthSpin = new RandomValueSpinner("w", w, 0, 3, 20);
+        spinners = new RandomValueSpinner[] {ctlXSpin, ctlYSpin, widthSpin};
 
         rebuild();
     }

@@ -9,12 +9,9 @@ import javax.swing.plaf.basic.*;
 
 public class NapkinRadioButtonMenuItemUI extends BasicRadioButtonMenuItemUI
         implements NapkinTextPainter, NapkinPainter {
-
     private DrawnLineHolder line;
 
-    /**
-     * @noinspection MethodOverridesStaticMethod
-     */
+    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinRadioButtonMenuItemUI());
     }

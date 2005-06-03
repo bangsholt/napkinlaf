@@ -8,12 +8,9 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
 public class NapkinLabelUI extends BasicLabelUI implements NapkinPainter {
-
     private static final NapkinLabelUI napkinLabelUI = new NapkinLabelUI();
 
-    /**
-     * @noinspection MethodOverridesStaticMethod
-     */
+    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, napkinLabelUI);
     }

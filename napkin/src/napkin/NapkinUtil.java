@@ -22,10 +22,10 @@ import javax.swing.plaf.*;
 import javax.swing.text.*;
 
 public class NapkinUtil implements NapkinConstants {
-
     public static final Random random = new Random();
 
-    private static final Map strokes = new WeakHashMap();
+    private static final Map<Float, Stroke> strokes =
+            new WeakHashMap<Float, Stroke>();
 
     private static boolean drawingDisabled;
 
@@ -51,11 +51,14 @@ public class NapkinUtil implements NapkinConstants {
 
     private static final AlphaComposite ERASURE_COMPOSITE =
             AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.8f);
-    private static final Set printed = new HashSet();
-    private static final Stack themeStack = new Stack();
-    private static final Stack paperStack = new Stack();
+    private static final Set<Class<?>> printed = new HashSet<Class<?>>();
+    private static final Stack<Object> themeStack = new Stack<Object>();
+    private static final Stack<Component> paperStack = new Stack<Component>();
 
     static {
+        /*
+        * This is a test
+        */
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
         ImageIcon icon = theme.getErasureMask().getIcon();
         int w = icon.getIconWidth();
@@ -149,8 +152,8 @@ public class NapkinUtil implements NapkinConstants {
         if (shouldMakeOpaque(c))
             c.setOpaque(true);
         unsetupBorder(c);
-        for (int i = 0; i < CLIENT_PROPERTIES.length; i++)
-            c.putClientProperty(CLIENT_PROPERTIES[i], null);
+        for (String clientProp : CLIENT_PROPERTIES)
+            c.putClientProperty(clientProp, null);
     }
 
     private static boolean shouldMakeOpaque(JComponent c) {
@@ -194,12 +197,11 @@ public class NapkinUtil implements NapkinConstants {
     public static Graphics2D lineGraphics(Graphics2D orig, float w) {
         Graphics2D lineG = copy(orig);
 
-        Float key = new Float(w);
-        Stroke stroke = (Stroke) strokes.get(key);
+        Stroke stroke = strokes.get(w);
         if (stroke == null) {
             stroke = new BasicStroke(w, BasicStroke.CAP_ROUND,
                     BasicStroke.JOIN_ROUND);
-            strokes.put(key, stroke);
+            strokes.put((Float) w, stroke);
         }
         lineG.setStroke(stroke);
         lineG.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -296,7 +298,7 @@ public class NapkinUtil implements NapkinConstants {
     public static Component currentPaper(Component c) {
         if (paperStack.isEmpty())
             return themeTopFor(c);
-        return (Component) paperStack.peek();
+        return paperStack.peek();
     }
 
     public static void finishGraphics(Graphics g1, Component c) {
@@ -399,7 +401,7 @@ public class NapkinUtil implements NapkinConstants {
     public static Object[] reallocate(Object[] orig, int size) {
         if (size == orig.length)
             return orig;
-        Class componentType = orig.getClass().getComponentType();
+        Class<?> componentType = orig.getClass().getComponentType();
         Object[] next = (Object[]) Array.newInstance(componentType, size);
         System.arraycopy(orig, 0, next, 0, Math.min(orig.length, next.length));
         return next;
@@ -455,7 +457,7 @@ public class NapkinUtil implements NapkinConstants {
      *
      * @noinspection TailRecursion
      */
-    public static boolean within(Component c, Class type) {
+    public static boolean within(Component c, Class<?> type) {
         if (c == null)
             return false;
         if (c instanceof JTree)
@@ -545,9 +547,7 @@ public class NapkinUtil implements NapkinConstants {
             ulG = copy(g);
             FontMetrics fm = ulG.getFontMetrics();
             line.shapeUpToDate(textRect, fm);
-            int x = textOffset;
-            int y = textOffset;
-            ulG.translate(x, y);
+            ulG.translate(textOffset, textOffset);
             ulG.setColor(currentTheme(c).getCheckColor());
             line.setWidth(FOCUS_MARK_WIDTH);
             line.draw(ulG);
@@ -630,7 +630,7 @@ public class NapkinUtil implements NapkinConstants {
 
         if (themeStack.size() != paperStack.size())
             System.out.println("!!!");
-        StringBuffer dump = new StringBuffer(NapkinDebug.count).append(":\t");
+        StringBuilder dump = new StringBuilder(NapkinDebug.count).append(":\t");
         NapkinDebug.count++;
         for (int i = 0; i < paperStack.size(); i++)
             dump.append(". ");
