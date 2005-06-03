@@ -18,29 +18,10 @@ import javax.swing.*;
  * @author Peter Goodspeed
  */
 public class DrawnIcon implements Icon {
-    private Template template; // The template object to render
-    private Renderer renderer; // The renderer to use to create the icon's image
+    private Template template;    // The template object to render
+    private Renderer renderer;    // The renderer used to create icon's image
     private BufferedImage bimage; // The stored image of the final render
-    private boolean isRendered; // Determines whether this icon's template has
-
-    // been rendered
-
-    /**
-     * Constructs a new <tt>DrawnIcon</tt> using the provided template and
-     * rendering style
-     *
-     * @param path        The path on the local filesystem to the XML template
-     *                    document
-     * @param renderStyle The renderer to use to create the icon's image
-     *
-     * @throws TemplateReadException
-     * @deprecated This is not the place to be loading the XML files
-     */
-    public DrawnIcon(String path, Renderer renderStyle)
-            throws TemplateReadException {
-        this(Template.produceFromXMLDocument(path));
-        this.renderer = renderStyle;
-    }
+    private boolean isRendered;   // Has this icon's template has been rendered?
 
     /**
      * Creates a new DrawnIcon with Ideal render style. Typical syntax will
@@ -52,9 +33,7 @@ public class DrawnIcon implements Icon {
      * @see TemplateReadException
      */
     public DrawnIcon(Template template) {
-        this.template = template;
-        this.renderer = new IdealRenderer();
-        isRendered = false;
+        this(template, new IdealRenderer());
     }
 
     /**
@@ -66,8 +45,9 @@ public class DrawnIcon implements Icon {
      * @see DrawnIcon#DrawnIcon(Template)
      */
     public DrawnIcon(Template template, Renderer renderer) {
-        this(template);
+        this.template = template;
         this.renderer = renderer;
+        isRendered = false;
     }
 
     /**
@@ -76,7 +56,7 @@ public class DrawnIcon implements Icon {
      * @param renderStyle
      */
     public void setRenderStyle(Renderer renderStyle) {
-        this.renderer = renderStyle;
+        renderer = renderStyle;
         isRendered = false;
     }
 
@@ -101,20 +81,17 @@ public class DrawnIcon implements Icon {
         return template.getDescription();
     }
 
-    /** @see javax.swing.Icon#getIconHeight() */
+    /** @see Icon#getIconHeight() */
     public int getIconHeight() {
         return (int) template.getClippingBounds().getHeight();
     }
 
-    /** @see javax.swing.Icon#getIconWidth() */
+    /** @see Icon#getIconWidth() */
     public int getIconWidth() {
         return (int) template.getClippingBounds().getWidth();
     }
 
-    /**
-     * @see javax.swing.Icon#paintIcon(java.awt.Component, java.awt.Graphics,
-     *      int, int)
-     */
+    /** @see Icon#paintIcon(Component, Graphics, int, int) */
     public void paintIcon(Component c, Graphics g, int x, int y) {
         int width = template.getClippingBounds().width;
         int height = template.getClippingBounds().height;
