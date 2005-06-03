@@ -1,7 +1,5 @@
-/*
- * Created on Nov 11, 2004 by peterg
- * XMLShape.java in edu.wpi.mqp.napkin for MQP
- */
+// $Id$
+
 package edu.wpi.mqp.napkin.geometry;
 
 import org.jdom.Element;
@@ -11,8 +9,6 @@ import org.jdom.Element;
  * @author Justin Crafford
  */
 public interface XMLShape extends UtilityShape {
-	/**
-	 * @return the XML representation of this Shape
-	 */
-	public Element produceXML();
+    /** @return the XML representation of this Shape */
+    public Element produceXML();
 }
