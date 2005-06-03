@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 
 public class DrawnLineHolder extends DrawnShapeHolder
         implements NapkinConstants {
-
     private Rectangle rect;
     private FontMetrics metrics;
     private final Endpoints endpoints;
@@ -50,7 +49,7 @@ public class DrawnLineHolder extends DrawnShapeHolder
     }
 
     private static DrawnShapeGenerator generatorFor(double len) {
-        Class type = DrawnShapeGenerator.defaultLineType(len);
+        Class<?> type = DrawnShapeGenerator.defaultLineType(len);
 
         if (type == DrawnCubicLineGenerator.class)
             return new DrawnCubicLineGenerator();
@@ -107,6 +106,5 @@ public class DrawnLineHolder extends DrawnShapeHolder
         double xScale = len / DrawnShapeGenerator.LENGTH;
         matrix.scale(xScale, 1);
         shape = gen.generate(matrix);
-        return;
     }
 }

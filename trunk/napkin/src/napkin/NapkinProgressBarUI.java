@@ -9,17 +9,19 @@ import javax.swing.plaf.basic.*;
 
 public class NapkinProgressBarUI extends BasicProgressBarUI
         implements NapkinPainter {
-
     private final DrawnScribbleHolder scribble = new DrawnScribbleHolder();
     private final Rectangle sz = new Rectangle(0, 0, 0, 0);
+    /** @noinspection FieldNameHidesFieldInSuperclass */
     private Rectangle boxRect;
     private DrawnBoxHolder box;
     private Image curImage;
-    private Color selectionForeground, selectionBackground;
+    /** @noinspection FieldNameHidesFieldInSuperclass */
+    private Color selectionForeground;
+    /** @noinspection FieldNameHidesFieldInSuperclass */
+    private Color selectionBackground;
+    /** @noinspection FieldNameHidesFieldInSuperclass*/
 
-    /**
-     * @noinspection MethodOverridesStaticMethod
-     */
+    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinProgressBarUI());
     }

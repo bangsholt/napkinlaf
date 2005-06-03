@@ -6,10 +6,13 @@ import java.awt.geom.*;
 
 public class DrawnTabHolder extends DrawnShapeHolder
         implements NapkinConstants {
-
     private int tabPlacement;
-    private int x, y;
-    private int w, h;
+    private int x
+    ,
+    y;
+    private int w
+    ,
+    h;
     private final Point2D breakBeg;
     private final Point2D breakEnd;
 
@@ -19,9 +22,7 @@ public class DrawnTabHolder extends DrawnShapeHolder
         breakEnd = new Point2D.Double();
     }
 
-    /**
-     * @noinspection ParameterHidingMemberVariable
-     */
+    /** @noinspection ParameterHidingMemberVariable,ParameterHidesMemberVariable */
     public void shapeUpToDate(int tabPlacement, int x, int y, int w, int h) {
         if (tabPlacement == this.tabPlacement && w == this.w && h == this.h &&
                 this.x == x && this.y == y) {
@@ -72,6 +73,8 @@ public class DrawnTabHolder extends DrawnShapeHolder
             breakEnd.setLocation(x + tab.getUR().getX().get() * w,
                     y + tab.getUR().getY().get() * h);
             break;
+        default:
+            throw new IllegalStateException("unknown side: " + tabPlacement);
         }
     }
 
@@ -82,5 +85,4 @@ public class DrawnTabHolder extends DrawnShapeHolder
     public Point2D getBreakEnd() {
         return breakEnd;
     }
-
 }

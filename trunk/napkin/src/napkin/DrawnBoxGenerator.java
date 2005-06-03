@@ -20,7 +20,7 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
     private final Point2D breakEnd;
     private final Shape[] sides;
     private final DrawnShapeGenerator[] gens;
-    private final Map generators;
+    private final Map<Class<?>, DrawnShapeGenerator> generators;
     private boolean asX;
 
     private static final Logger logger =
@@ -47,7 +47,7 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
         }
 
         private void setSideType(double mid) {
-            Class type = defaultLineType(mid);
+            Class<?> type = defaultLineType(mid);
             setGenerator(s1, type);
             setGenerator(s2, type);
         }
@@ -59,7 +59,7 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
 
     public DrawnBoxGenerator(DrawnCubicLineGenerator cubic,
             DrawnQuadLineGenerator quad) {
-        generators = new HashMap(3);
+        generators = new HashMap<Class<?>, DrawnShapeGenerator>(3);
         generators.put(DrawnCubicLineGenerator.class, cubic);
         generators.put(DrawnQuadLineGenerator.class, quad);
 
@@ -167,8 +167,8 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
     }
 
     // I wish I could figure out a way to share code here -- one of those
-    // places where the C macro preprocessor would really help.
-    private void addWithYBreak(AffineTransform smat, GeneralPath line,
+            // places where the C macro preprocessor would really help.
+            private void addWithYBreak(AffineTransform smat, GeneralPath line,
             double scale) {
         // Need to transalate the absolute positions into positions on the line
         double yOff = smat.getTranslateY();
@@ -250,7 +250,7 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
         breakSide = NO_SIDE;
     }
 
-    public void setGenerator(int side, Class type) {
+    public void setGenerator(int side, Class<?> type) {
         gens[side] = toGenerator(type);
     }
 
@@ -264,10 +264,10 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
         return gen.getClass();
     }
 
-    private DrawnShapeGenerator toGenerator(Class type) {
+    private DrawnShapeGenerator toGenerator(Class<?> type) {
         if (type == null)
             return null;
-        DrawnShapeGenerator gen = (DrawnShapeGenerator) generators.get(type);
+        DrawnShapeGenerator gen = generators.get(type);
         if (gen == null)
             throw new IllegalArgumentException("Unknown type: " + type);
         return gen;

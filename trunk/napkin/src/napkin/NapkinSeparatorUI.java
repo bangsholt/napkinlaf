@@ -9,7 +9,6 @@ import javax.swing.plaf.basic.*;
 
 public class NapkinSeparatorUI extends BasicSeparatorUI
         implements NapkinPainter {
-
     private final Separator separator = new Separator();
 
     public static class Separator {
@@ -46,9 +45,7 @@ public class NapkinSeparatorUI extends BasicSeparatorUI
         }
     }
 
-    /**
-     * @noinspection MethodOverridesStaticMethod
-     */
+    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinSeparatorUI());
     }

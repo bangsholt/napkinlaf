@@ -10,8 +10,7 @@ import java.awt.image.*;
 import java.awt.peer.*;
 import java.beans.PropertyChangeListener;
 import java.beans.VetoableChangeListener;
-import java.io.PrintStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.EventListener;
 import java.util.Locale;
 import java.util.Set;
@@ -79,7 +78,7 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         orig.menuSelectionChanged(isIncluded);
     }
 
-    public void processKeyEvent(KeyEvent e, MenuElement path[],
+    public void processKeyEvent(KeyEvent e, MenuElement[] path,
             MenuSelectionManager manager) {
         orig.processKeyEvent(e, path, manager);
     }
@@ -92,7 +91,7 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         orig.processMenuKeyEvent(e);
     }
 
-    public void processMouseEvent(MouseEvent e, MenuElement path[],
+    public void processMouseEvent(MouseEvent e, MenuElement[] path,
             MenuSelectionManager manager) {
         orig.processMouseEvent(e, path, manager);
     }
@@ -592,7 +591,7 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         return faked.getLayout();
     }
 
-    public EventListener[] getListeners(Class listenerType) {
+    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
         return faked.getListeners(listenerType);
     }
 
@@ -1323,7 +1322,8 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         if (faked != null) faked.setFocusPainted(b);
     }
 
-    public void setFocusTraversalKeys(int id, Set keystrokes) {
+    public void setFocusTraversalKeys(int id,
+            Set<? extends AWTKeyStroke> keystrokes) {
         if (faked != null) faked.setFocusTraversalKeys(id, keystrokes);
     }
 

@@ -9,7 +9,6 @@ import javax.swing.plaf.basic.*;
 
 public class NapkinScrollBarUI extends BasicScrollBarUI
         implements NapkinPainter {
-
     private DrawnLineHolder track;
     private final boolean vertical;
     private DrawnBoxHolder thumb;
@@ -18,9 +17,7 @@ public class NapkinScrollBarUI extends BasicScrollBarUI
         vertical = (bar.getOrientation() == VERTICAL);
     }
 
-    /**
-     * @noinspection MethodOverridesStaticMethod
-     */
+    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinScrollBarUI(((JScrollBar) c)));
     }

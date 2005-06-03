@@ -2,14 +2,6 @@
 
 package napkin.dev;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.*;
-import java.text.DecimalFormat;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-
 import napkin.DrawnCubicLineGenerator;
 import napkin.DrawnQuadLineGenerator;
 import napkin.DrawnShapeGenerator;
@@ -18,8 +10,15 @@ import napkin.NapkinUtil;
 import napkin.RandomValue;
 import napkin.RandomValueSource;
 
-public class GeneratorTest extends NapkinUtil implements NapkinConstants {
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.*;
+import java.text.DecimalFormat;
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.event.*;
 
+public class GeneratorTest extends NapkinUtil implements NapkinConstants {
     private static final double MARK_SIZE = 3;
 
     // Subclass of this that implement Generator will have a symbol conflict
@@ -34,7 +33,6 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
 
     private static Drawer currentDrawer;
     private static JCheckBox showControlPoints;
-    private static JButton randomize;
 
     private static final Drawer[] drawers;
 
@@ -70,7 +68,7 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
                 (DrawnCubicLineGenerator) cubic.getGenerator(),
                 (DrawnQuadLineGenerator) quad.getGenerator());
         CheckBoxTest checkBox = new CheckBoxTest();
-        drawers = new Drawer[]{cubic, quad, box, checkBox};
+        drawers = new Drawer[] {cubic, quad, box, checkBox};
     }
 
     interface Drawer {
@@ -97,10 +95,9 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
      *
      * @throws Exception Exception we don't recover from.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         final JTabbedPane tabs = new JTabbedPane();
-        for (int i = 0; i < drawers.length; i++) {
-            Drawer drawer = drawers[i];
+        for (Drawer drawer : drawers) {
             JPanel panel = new JPanel();
             panel.setLayout(new BorderLayout());
             panel.add(drawer.getControls(), BorderLayout.CENTER);
@@ -110,6 +107,7 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
         currentDrawer = drawers[0];
 
         tabs.addChangeListener(new ChangeListener() {
+            /** @noinspection AssignmentToStaticFieldFromInstanceMethod */
             public void stateChanged(ChangeEvent e) {
                 currentDrawer = drawers[tabs.getSelectedIndex()];
             }
@@ -121,10 +119,11 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
         top.getContentPane().add(displayControls(), BorderLayout.SOUTH);
 
         top.pack();
-        top.show();
+        top.setVisible(true);
     }
 
     private static JPanel displayControls() {
+        JButton randomize;
         showControlPoints = new JCheckBox("Show control points", false);
         randomize = new JButton("Randomize");
         randomize.addActionListener(new ActionListener() {
@@ -140,33 +139,27 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
         });
         randomize.addChangeListener(REPAINT);
 
-        JPanel displayControls =
-                controlSet("Display", showControlPoints, randomize);
-        return displayControls;
+        return controlSet("Display", showControlPoints, randomize);
     }
 
     static JPanel controlSet(String label, JComponent v1) {
-        return controlSet(label, new JComponent[]{v1});
-
+        return controlSet(label, new JComponent[] {v1});
     }
 
     static JPanel controlSet(String label, JComponent v1, JComponent v2) {
-        return controlSet(label, new JComponent[]{v1, v2});
-
+        return controlSet(label, new JComponent[] {v1, v2});
     }
 
     static JPanel controlSet(String label, JComponent v1, JComponent v2,
             JComponent v3) {
-        return controlSet(label, new JComponent[]{v1, v2, v3});
-
+        return controlSet(label, new JComponent[] {v1, v2, v3});
     }
 
     private static JPanel controlSet(String label, JComponent[] cs) {
         JPanel controls = new JPanel();
         controls.setBorder(new TitledBorder(label));
         controls.setLayout(new BoxLayout(controls, BoxLayout.X_AXIS));
-        for (int i = 0; i < cs.length; i++) {
-            JComponent c = cs[i];
+        for (JComponent c : cs) {
             if (c == null)
                 continue;
             controls.add(c);
@@ -178,6 +171,7 @@ public class GeneratorTest extends NapkinUtil implements NapkinConstants {
         return controls;
     }
 
+    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static Graphics2D lineGraphics(Graphics2D orig, float w) {
         return NapkinUtil.lineGraphics(orig, w);
     }

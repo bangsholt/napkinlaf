@@ -10,9 +10,7 @@ import javax.swing.plaf.basic.*;
 public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
     private static final NapkinRootPaneUI napkinRootPaneUI = new NapkinRootPaneUI();
 
-    /**
-     * @noinspection MethodOverridesStaticMethod
-     */
+    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, napkinRootPaneUI);
     }

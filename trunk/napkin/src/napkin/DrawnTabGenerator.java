@@ -97,6 +97,8 @@ public class DrawnTabGenerator extends DrawnShapeGenerator {
             xLL += squeeze.generate();
             xLR -= squeeze.generate();
             break;
+        default:
+            throw new IllegalStateException("unknown side: " + side);
         }
 
         double[] points = {xUL, yUL, xUR, yUR, xLR, yLR, xLL, yLL};

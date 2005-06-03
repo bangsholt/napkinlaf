@@ -10,8 +10,7 @@ import java.awt.image.*;
 import java.awt.peer.*;
 import java.beans.PropertyChangeListener;
 import java.beans.VetoableChangeListener;
-import java.io.PrintStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.EventListener;
 import java.util.Locale;
 import java.util.Set;
@@ -124,7 +123,8 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
     }
 
     public void addFocusListener(FocusListener l) {
-        if (orig != null)   // can be null during construction, and we don't care
+        if (orig !=
+                null)   // can be null during construction, and we don't care
             orig.addFocusListener(l);
     }
 
@@ -280,19 +280,23 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         orig.firePropertyChange(propertyName, oldValue, newValue);
     }
 
-    public void firePropertyChange(String propertyName, byte oldValue, byte newValue) {
+    public void firePropertyChange(String propertyName, byte oldValue,
+            byte newValue) {
         orig.firePropertyChange(propertyName, oldValue, newValue);
     }
 
-    public void firePropertyChange(String propertyName, char oldValue, char newValue) {
+    public void firePropertyChange(String propertyName, char oldValue,
+            char newValue) {
         orig.firePropertyChange(propertyName, oldValue, newValue);
     }
 
-    public void firePropertyChange(String propertyName, double oldValue, double newValue) {
+    public void firePropertyChange(String propertyName, double oldValue,
+            double newValue) {
         orig.firePropertyChange(propertyName, oldValue, newValue);
     }
 
-    public void firePropertyChange(String propertyName, float oldValue, float newValue) {
+    public void firePropertyChange(String propertyName, float oldValue,
+            float newValue) {
         orig.firePropertyChange(propertyName, oldValue, newValue);
     }
 
@@ -301,11 +305,13 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         orig.firePropertyChange(propertyName, oldValue, newValue);
     }
 
-    public void firePropertyChange(String propertyName, long oldValue, long newValue) {
+    public void firePropertyChange(String propertyName, long oldValue,
+            long newValue) {
         orig.firePropertyChange(propertyName, oldValue, newValue);
     }
 
-    public void firePropertyChange(String propertyName, short oldValue, short newValue) {
+    public void firePropertyChange(String propertyName, short oldValue,
+            short newValue) {
         orig.firePropertyChange(propertyName, oldValue, newValue);
     }
 
@@ -541,7 +547,7 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         return orig.getLayout();
     }
 
-    public EventListener[] getListeners(Class listenerType) {
+    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
         return orig.getListeners(listenerType);
     }
 
@@ -831,7 +837,8 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
     }
 
     public boolean isManagingFocus() {
-        if (orig != null)   // can be null during construction, and we don't care
+        if (orig !=
+                null)   // can be null during construction, and we don't care
             return orig.isManagingFocus();
         else
             return false;
@@ -1014,11 +1021,13 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         orig.printAll(g);
     }
 
-    public void registerKeyboardAction(ActionListener anAction, String aCommand, KeyStroke aKeyStroke, int aCondition) {
+    public void registerKeyboardAction(ActionListener anAction, String aCommand,
+            KeyStroke aKeyStroke, int aCondition) {
         orig.registerKeyboardAction(anAction, aCommand, aKeyStroke, aCondition);
     }
 
-    public void registerKeyboardAction(ActionListener anAction, KeyStroke aKeyStroke, int aCondition) {
+    public void registerKeyboardAction(ActionListener anAction,
+            KeyStroke aKeyStroke, int aCondition) {
         orig.registerKeyboardAction(anAction, aKeyStroke, aCondition);
     }
 
@@ -1283,7 +1292,8 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
             orig.setFocusPainted(b);
     }
 
-    public void setFocusTraversalKeys(int id, Set keystrokes) {
+    public void setFocusTraversalKeys(int id,
+            Set<? extends AWTKeyStroke> keystrokes) {
         if (orig != null)
             orig.setFocusTraversalKeys(id, keystrokes);
     }

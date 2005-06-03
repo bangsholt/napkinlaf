@@ -8,7 +8,8 @@ import java.util.WeakHashMap;
 import javax.swing.border.*;
 
 public class NapkinWrappedBorder extends NapkinBorder {
-    private static final Map borders = new WeakHashMap(3);
+    private static final Map<Border, Border> borders =
+            new WeakHashMap<Border, Border>(3);
 
     public NapkinWrappedBorder(Border formalBorder) {
         super(formalBorder);
@@ -36,11 +37,11 @@ public class NapkinWrappedBorder extends NapkinBorder {
     }
 
     public static NapkinWrappedBorder wrap(Border formalBorder) {
-    	Object brd = borders.get(formalBorder);
-    	// Not all passed borders are wrapped yet...
-    	if( brd instanceof NapkinWrappedBorder ) {
-        	return (NapkinWrappedBorder) brd;
-    	}
+        Object brd = borders.get(formalBorder);
+        // Not all passed borders are wrapped yet...
+        if (brd instanceof NapkinWrappedBorder) {
+            return (NapkinWrappedBorder) brd;
+        }
 
         Border toWrap = formalBorder;
         if (formalBorder instanceof EtchedBorder) {

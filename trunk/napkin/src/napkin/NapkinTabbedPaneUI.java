@@ -10,14 +10,11 @@ import javax.swing.plaf.basic.*;
 
 public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
         implements NapkinPainter {
-
     private DrawnTabHolder[] tabs = new DrawnTabHolder[0];
     private final DrawnBoxHolder contentBorder = new DrawnBoxHolder();
     private Insets origInsets;
 
-    /**
-     * @noinspection MethodOverridesStaticMethod
-     */
+    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinTabbedPaneUI());
     }
@@ -85,17 +82,17 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
 
     protected void paintContentBorderLeftEdge(Graphics g, int tabPlacement,
             int selectedIndex, int x, int y, int w, int h) {
-        return; // see comment for paintContentBorderBottomEdge
+        // see comment for paintContentBorderBottomEdge
     }
 
     protected void paintContentBorderRightEdge(Graphics g, int tabPlacement,
             int selectedIndex, int x, int y, int w, int h) {
-        return; // see comment for paintContentBorderBottomEdge
+        // see comment for paintContentBorderBottomEdge
     }
 
     protected void paintContentBorderBottomEdge(Graphics g, int tabPlacement,
             int selectedIndex, int x, int y, int w, int h) {
-        return; // see comment for paintContentBorderBottomEdge
+        // see comment for paintContentBorderBottomEdge
     }
 
     public void update(Graphics g, JComponent c) {
