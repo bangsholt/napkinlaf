@@ -41,7 +41,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
+import java.io.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -56,17 +56,13 @@ public class FileChooserDemo extends DemoModule {
     Icon jpgIcon;
     Icon gifIcon;
 
-    /**
-     * main method allows us to run as a standalone demo.
-     */
+    /** main method allows us to run as a standalone demo. */
     public static void main(String[] args) {
         FileChooserDemo demo = new FileChooserDemo(null);
         demo.mainImpl();
     }
 
-    /**
-     * FileChooserDemo Constructor
-     */
+    /** FileChooserDemo Constructor */
     public FileChooserDemo(SwingSet2 swingset) {
         // Set the title for this demo, and an icon used to represent this
         // demo inside the SwingSet2 app.
@@ -168,7 +164,7 @@ public class FileChooserDemo extends DemoModule {
 
                 // Add filefilter & fileview
                 ExampleFileFilter filter = new ExampleFileFilter(
-                        new String[]{"jpg", "gif"},
+                        new String[] {"jpg", "gif"},
                         getString("FileChooserDemo.filterdescription"));
                 ExampleFileView fileView = new ExampleFileView();
                 fileView.putIcon("jpg", jpgIcon);
@@ -203,7 +199,7 @@ public class FileChooserDemo extends DemoModule {
 
                 // Add filefilter & fileview
                 ExampleFileFilter filter = new ExampleFileFilter(
-                        new String[]{"jpg", "gif"},
+                        new String[] {"jpg", "gif"},
                         getString("FileChooserDemo.filterdescription"));
                 ExampleFileView fileView = new ExampleFileView();
                 fileView.putIcon("jpg", jpgIcon);
@@ -260,7 +256,7 @@ public class FileChooserDemo extends DemoModule {
                 dialog.getContentPane().add(custom, BorderLayout.CENTER);
                 dialog.pack();
                 dialog.setLocationRelativeTo(getDemoPanel());
-                dialog.show();
+                dialog.setVisible(true);
             }
         };
         return createButton(a);
@@ -335,7 +331,10 @@ public class FileChooserDemo extends DemoModule {
     class MyImageIcon extends ImageIcon {
         public MyImageIcon(String filename) {
             super(filename);
-        };
+        }
+
+        ;
+
         public synchronized void paintIcon(Component c, Graphics g, int x,
                 int y) {
             g.setColor(Color.white);
@@ -392,7 +391,8 @@ class FilePreviewer extends JComponent implements PropertyChangeListener {
             ImageIcon tmpIcon = new ImageIcon(f.getPath());
             if (tmpIcon.getIconWidth() > 90) {
                 thumbnail =
-                        new ImageIcon(tmpIcon.getImage().getScaledInstance(90, -1,
+                        new ImageIcon(tmpIcon.getImage().getScaledInstance(90,
+                                -1,
                                 Image.SCALE_DEFAULT));
             } else {
                 thumbnail = tmpIcon;

@@ -12,7 +12,7 @@ import java.awt.geom.*;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-public class QuadLine extends Double implements UtilityShape {
+public class QuadLine extends QuadCurve2D.Double implements UtilityShape {
     /** Constructs a new <tt>QuadLine</tt> object */
     public QuadLine() {
         super();
