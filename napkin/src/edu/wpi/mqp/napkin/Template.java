@@ -27,12 +27,9 @@ import java.util.ListIterator;
 public class Template implements Cloneable {
     private String title; // The title of the template
     private String description; // A description of the template
-    private Rectangle clippingBounds; // The area that defines which portion of
-    // the image to draw
-    private int width; // The width of the image with all the template components
-    // combined
-    private int height; // the height of the image with all the template
-    // components combined
+    private Rectangle clippingBounds; // The area that defines which portion of the image to draw
+    private int width; // The width of the image with all the template components combined
+    private int height; // the height of the image with all the template components combined
     private LinkedList<TemplateItem> templateItems; // A list of all template components
 
     /**
