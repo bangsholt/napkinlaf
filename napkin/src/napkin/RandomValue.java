@@ -3,7 +3,6 @@
 package napkin;
 
 public class RandomValue implements RandomValueSource {
-
     private double adjust;
     private double mid;
     private double range;
@@ -22,7 +21,7 @@ public class RandomValue implements RandomValueSource {
         if (factor == 0)
             adjust = 0;
         else
-            adjust = NapkinUtil.random.nextGaussian() * factor;
+            adjust = NapkinRandom.gaussian(factor);
     }
 
     public double get() {

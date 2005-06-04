@@ -122,8 +122,8 @@ public abstract class Renderer {
         Point p = new Point(l[0].getP1());
         ret.moveTo(p.fX(), p.fY());
 
-        for (StraightLine aL : l) {
-            p = new Point(aL.getP2());
+        for (StraightLine line : l) {
+            p = new Point(line.getP2());
             ret.lineTo(p.fX(), p.fY());
         }
 
@@ -141,9 +141,9 @@ public abstract class Renderer {
         Point c;
         ret.moveTo(p.fX(), p.fY());
 
-        for (QuadLine aQ : q) {
-            p = new Point(aQ.getP2());
-            c = new Point(aQ.getCtrlPt());
+        for (QuadLine ql : q) {
+            p = new Point(ql.getP2());
+            c = new Point(ql.getCtrlPt());
             ret.quadTo(c.fX(), c.fY(), p.fX(), p.fY());
         }
 
@@ -162,10 +162,10 @@ public abstract class Renderer {
         Point c2;
         ret.moveTo(p.fX(), p.fY());
 
-        for (CubicLine aC : c) {
-            p = new Point(aC.getP2());
-            c1 = new Point(aC.getCtrlP1());
-            c2 = new Point(aC.getCtrlP2());
+        for (CubicLine cl : c) {
+            p = new Point(cl.getP2());
+            c1 = new Point(cl.getCtrlP1());
+            c2 = new Point(cl.getCtrlP2());
             ret.curveTo(c1.fX(), c1.fY(), c2.fX(), c2.fY(), p.fX(), p.fY());
         }
 

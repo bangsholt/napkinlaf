@@ -11,11 +11,11 @@ import edu.wpi.mqp.napkin.geometry.Point;
 import edu.wpi.mqp.napkin.geometry.QuadLine;
 import edu.wpi.mqp.napkin.geometry.StraightLine;
 import edu.wpi.mqp.napkin.geometry.UtilityShape;
+import napkin.NapkinRandom;
 
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.Iterator;
-import java.util.Random;
 
 /**
  * JotRenderer: Renders the image in such a manner that it resembles something
@@ -34,12 +34,10 @@ public class JotRenderer extends Renderer {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-        TemplateItem draw;
-
         Iterator<TemplateItem> iter = template.getListIterator();
         while (iter.hasNext()) {
             TemplateItem current = iter.next();
-            draw = (TemplateItem) current.clone();
+            TemplateItem draw = (TemplateItem) current.clone();
             if (current.isDrawFill()) {
                 draw.setDrawStroke(false);
                 draw.setDrawFill(true);
@@ -75,12 +73,12 @@ public class JotRenderer extends Renderer {
     private CubicLine deform(CubicLine c, boolean perturbInitial) {
         double twopercent = c.approximateLength() * DEFORM_FACTOR;
 
-        return new CubicLine((perturbInitial ?
-                Point.random(c.getP1(), twopercent)
-                : new Point(c.getP1())), Point
-                .random(c.getCtrlP1(), twopercent * 5),
-                Point.random(c.getCtrlP2(),
-                        twopercent * 5), Point.random(c.getP2(), twopercent));
+        Point p1 = (perturbInitial ?
+                Point.random(c.getP1(), twopercent) : new Point(c.getP1()));
+        return new CubicLine(p1,
+                Point.random(c.getCtrlP1(), twopercent * 5),
+                Point.random(c.getCtrlP2(), twopercent * 5),
+                Point.random(c.getP2(), twopercent));
     }
 
     /**
@@ -126,6 +124,7 @@ public class JotRenderer extends Renderer {
             segType = pi.currentSegment(coords);
             pi.next();
 
+            // Do we need to keep creating new points or can we set coordinates
             switch (segType) {
             case PathIterator.SEG_MOVETO:
                 current = new Point(coords[0], coords[1]);
@@ -163,8 +162,8 @@ public class JotRenderer extends Renderer {
                 ctrl1 = new Point(draw.getCtrlP1());
                 ctrl2 = new Point(draw.getCtrlP2());
                 far = new Point(draw.getP2());
-                ret.curveTo(ctrl1.fX(), ctrl1.fY(), ctrl2.fX(), ctrl2.fY(), far
-                        .fX(), far.fY());
+                ret.curveTo(ctrl1.fX(), ctrl1.fY(), ctrl2.fX(), ctrl2.fY(),
+                        far.fX(), far.fY());
             }
         }
 
@@ -184,17 +183,16 @@ public class JotRenderer extends Renderer {
     }
 
     private float computeStrokeModifier(double lineLength) {
-        float ret;
+        double ret;
 
         if (lineLength < 1.68) {
-            ret = (float) (2 - (0.19 * lineLength));
+            ret = 2 - 0.19 * lineLength;
         } else {
-            ret = (float)
-                    (Math.pow(lineLength + 0.5, 2) / Math.pow(lineLength, 2));
+            ret = Math.pow(lineLength + 0.5, 2) / Math.pow(lineLength, 2);
         }
-        ret *= new Random().nextGaussian() * 0.15 + 1;
+        ret *= NapkinRandom.gaussian(0.15) + 1;
 
-        return ret;
+        return (float) ret;
     }
 
     /** @see Renderer#deformLine(StraightLine) */
