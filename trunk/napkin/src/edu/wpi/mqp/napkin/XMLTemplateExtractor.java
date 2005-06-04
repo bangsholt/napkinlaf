@@ -15,7 +15,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.awt.*;
 import java.io.*;
-import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -152,36 +151,38 @@ public class XMLTemplateExtractor extends DefaultHandler {
                 template.setDescription(value);
                 break;
             case GET_TEMPLATE_CLIP_WIDTH:
-                dimensions.width = new Integer(value).intValue();
+                dimensions.width = Integer.parseInt(value);
                 break;
             case GET_TEMPLATE_CLIP_HEIGHT:
-                dimensions.height = new Integer(value).intValue();
+                dimensions.height = Integer.parseInt(value);
                 break;
             case GET_DRAW_STROKE:
-                templateItem.setDrawStroke(new Boolean(value).booleanValue());
+                templateItem.setDrawStroke(Boolean.valueOf(value));
                 break;
             case GET_DRAW_FILL:
-                templateItem.setDrawFill(new Boolean(value).booleanValue());
+                templateItem.setDrawFill(Boolean.valueOf(value));
                 break;
             case GET_STROKE_WEIGHT:
-                templateItem.setStrokeWeight(new Float(value).floatValue());
+                templateItem.setStrokeWeight(Float.parseFloat(value));
                 break;
             case GET_R_VALUE:
-                rgb[0] = new Integer(value).intValue();
+                rgb[0] = Integer.parseInt(value);
                 break;
             case GET_G_VALUE:
-                rgb[1] = new Integer(value).intValue();
+                rgb[1] = Integer.parseInt(value);
                 break;
             case GET_B_VALUE:
-                rgb[2] = new Integer(value).intValue();
+                rgb[2] = Integer.parseInt(value);
                 break;
             case GET_X_VALUE:
                 point = new Point();
-                point.x = new Integer(value).intValue();
+                point.x = Integer.parseInt(value);
                 break;
             case GET_Y_VALUE:
-                point.y = new Integer(value).intValue();
+                point.y = Integer.parseInt(value);
                 break;
+            default:
+                throw new IllegalStateException(currentAction + ": unknown");
             }
         }
     }
@@ -285,12 +286,14 @@ public class XMLTemplateExtractor extends DefaultHandler {
     /**
      * Creates a Template object from an XML document
      *
-     * @param path A string describing the location of the XML document to
-     *             parse
+     * @param tmplPath A string describing the location of the XML document to
+     *                 parse
      *
      * @return a Template
      */
-    public Template createTemplate(String path) throws TemplateReadException {
+    public Template createTemplate(String tmplPath)
+            throws TemplateReadException {
+
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
@@ -310,11 +313,10 @@ public class XMLTemplateExtractor extends DefaultHandler {
                         true);
             } catch (SAXException e) {
                 System.out.println("Warning: Parser does not support schema validation");
+                e.printStackTrace();
             }
 
-            parser.parse(path, this);
-        } catch (FactoryConfigurationError e) {
-            System.out.println("Factory configuration error: " + e);
+            parser.parse(tmplPath, this);
         } catch (ParserConfigurationException e) {
             System.out.println("Parser configuration error: " + e);
         } catch (SAXException e) {

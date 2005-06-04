@@ -20,14 +20,14 @@ import java.util.Random;
  * @author Justin Crafford
  */
 public class DraftsmanRenderer extends Renderer {
-    private static final double deformFactor = .05;
+    private static final double DEFORM_FACTOR = 0.05;
     private static Random rng = new Random();
 
-    /** @see edu.wpi.mqp.napkin.Renderer#deformLine(edu.wpi.mqp.napkin.geometry.StraightLine) */
+    /** @see Renderer#deformLine(StraightLine) */
     public UtilityShape deformLine(StraightLine l) {
         StraightLine ret = new StraightLine(l);
 
-        double scale = l.length() * deformFactor;
+        double scale = l.length() * DEFORM_FACTOR;
 
         if (l.slope() == Double.POSITIVE_INFINITY) {
             if (ret.y2 < ret.y1) scale *= -1;
@@ -47,31 +47,31 @@ public class DraftsmanRenderer extends Renderer {
         return ret;
     }
 
-    /** @see edu.wpi.mqp.napkin.Renderer#deformQuad(edu.wpi.mqp.napkin.geometry.QuadLine) */
+    /** @see Renderer#deformQuad(QuadLine) */
     public UtilityShape deformQuad(QuadLine q) {
-        if (q.getFlatness() < (q.approximateLength() * deformFactor)) {
+        if (q.getFlatness() < (q.approximateLength() * DEFORM_FACTOR)) {
             return new StraightLine(q.getP1(), q.getP2()).deform(this);
         } else {
             return q;
         }
     }
 
-    /** @see edu.wpi.mqp.napkin.Renderer#deformCubic(edu.wpi.mqp.napkin.geometry.CubicLine) */
+    /** @see Renderer#deformCubic(CubicLine) */
     public UtilityShape deformCubic(CubicLine c) {
-        if (c.getFlatness() < (c.approximateLength() * deformFactor * .5)) {
+        if (c.getFlatness() < (c.approximateLength() * DEFORM_FACTOR * 0.5)) {
             return new StraightLine(c.getP1(), c.getP2()).deform(this);
         } else {
             return c;
         }
     }
 
-    /** @see edu.wpi.mqp.napkin.Renderer#deformPath(edu.wpi.mqp.napkin.geometry.Path) */
+    /** @see Renderer#deformPath(Path) */
     public UtilityShape deformPath(Path p) {
         Path ret = new Path();
         UtilityShape[] elements = p.simplify();
 
-        for (int i = 0; i < elements.length; ++i) {
-            ret.append(elements[i].deform(this), false);
+        for (UtilityShape element : elements) {
+            ret.append(element.deform(this), false);
         }
 
         return ret;

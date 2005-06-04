@@ -11,7 +11,6 @@ import edu.wpi.mqp.napkin.geometry.UtilityShape;
 
 import java.awt.*;
 import java.util.Iterator;
-import java.util.Random;
 
 /**
  * The <tt>Renderer<tt> class uses the graphical information contained in a
@@ -28,8 +27,6 @@ import java.util.Random;
  * @author Justin Crafford
  */
 public abstract class Renderer {
-    private static Random rng = new Random();
-
     /**
      * Renders a TemplateItem exactly as specified by the TemplateItem itself.
      * Usually only useful for rendering items which have been deformed by other
@@ -45,7 +42,7 @@ public abstract class Renderer {
             g2d.fill(tItem.getShape());
         }
         if (tItem.isDrawStroke()) {
-            g2d.setStroke(Renderer.getPen(tItem.getStrokeWeight()));
+            g2d.setStroke(getPen(tItem.getStrokeWeight()));
             g2d.setColor(tItem.getStrokeColor());
 
             g2d.draw(tItem.getShape());
@@ -75,11 +72,11 @@ public abstract class Renderer {
     public void render(Template template, Graphics2D g2d) {
         TemplateItem current;
 
-        Iterator i = template.getListIterator();
+        Iterator<TemplateItem> i = template.getListIterator();
         while (i.hasNext()) {
-            current = (TemplateItem) i.next();
+            current = i.next();
             current.setShape(current.getShape().deform(this));
-            this.quickRender(current, g2d);
+            quickRender(current, g2d);
         }
     }
 
@@ -116,26 +113,6 @@ public abstract class Renderer {
     public abstract UtilityShape deformPath(Path p);
 
     /**
-     * Returns the index in <tt>edges</tt> of the edge which first intersects
-     * <tt>l</tt>, or -1 if no such edge is found. First is defined as 'has the
-     * lowest index'
-     *
-     * @param l
-     * @param edges
-     *
-     * @return the index in <tt>edges</tt> of the edge which first intersects
-     *         <tt>l</tt>
-     */
-    private int intersectsEdges(StraightLine l, UtilityShape[] edges) {
-        for (int i = 0; i < edges.length; ++i) {
-            if (l.intersectsLine((StraightLine) edges[i])) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    /**
      * @param l
      *
      * @return a path which represents the input collection of lines
@@ -145,8 +122,8 @@ public abstract class Renderer {
         Point p = new Point(l[0].getP1());
         ret.moveTo(p.fX(), p.fY());
 
-        for (int i = 0; i < l.length; ++i) {
-            p = new Point(l[i].getP2());
+        for (StraightLine aL : l) {
+            p = new Point(aL.getP2());
             ret.lineTo(p.fX(), p.fY());
         }
 
@@ -164,9 +141,9 @@ public abstract class Renderer {
         Point c;
         ret.moveTo(p.fX(), p.fY());
 
-        for (int i = 0; i < q.length; ++i) {
-            p = new Point(q[i].getP2());
-            c = new Point(q[i].getCtrlPt());
+        for (QuadLine aQ : q) {
+            p = new Point(aQ.getP2());
+            c = new Point(aQ.getCtrlPt());
             ret.quadTo(c.fX(), c.fY(), p.fX(), p.fY());
         }
 
@@ -185,10 +162,10 @@ public abstract class Renderer {
         Point c2;
         ret.moveTo(p.fX(), p.fY());
 
-        for (int i = 0; i < c.length; ++i) {
-            p = new Point(c[i].getP2());
-            c1 = new Point(c[i].getCtrlP1());
-            c2 = new Point(c[i].getCtrlP2());
+        for (CubicLine aC : c) {
+            p = new Point(aC.getP2());
+            c1 = new Point(aC.getCtrlP1());
+            c2 = new Point(aC.getCtrlP2());
             ret.curveTo(c1.fX(), c1.fY(), c2.fX(), c2.fY(), p.fX(), p.fY());
         }
 

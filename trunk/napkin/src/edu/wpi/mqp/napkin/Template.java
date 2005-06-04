@@ -23,6 +23,7 @@ import java.util.ListIterator;
  * @author Justin Crafford
  * @author Peter Goodspeed
  */
+@SuppressWarnings("CollectionDeclaredAsConcreteClass")
 public class Template implements Cloneable {
     private String title; // The title of the template
     private String description; // A description of the template
@@ -32,7 +33,7 @@ public class Template implements Cloneable {
     // combined
     private int height; // the height of the image with all the template
     // components combined
-    private LinkedList templateItems; // A list of all template components
+    private LinkedList<TemplateItem> templateItems; // A list of all template components
 
     /**
      * Constructs a new template with the given values.
@@ -48,7 +49,7 @@ public class Template implements Cloneable {
             Dimension dimensions) {
         this.title = title;
         this.description = description;
-        templateItems = new LinkedList();
+        templateItems = new LinkedList<TemplateItem>();
         clippingBounds = new Rectangle(origin, dimensions);
     }
 
@@ -101,7 +102,7 @@ public class Template implements Cloneable {
     public void addBefore(TemplateItem add, TemplateItem before) {
         int index = templateItems.indexOf(before);
         if (index == -1) {
-            this.add(add);
+            add(add);
         } else {
             templateItems.add(index, add);
         }
@@ -119,20 +120,18 @@ public class Template implements Cloneable {
         int miny = 0;
         int maxy = 0;
 
-        double tminx = 0;
-        double tmaxx = 0;
-        double tminy = 0;
-        double tmaxy = 0;
+        double tminx;
+        double tmaxx;
+        double tminy;
+        double tmaxy;
 
-        Iterator i = templateItems.iterator();
-        while (i.hasNext()) {
-            TemplateItem t = (TemplateItem) i.next();
+        for (TemplateItem t : templateItems) {
             Shape s = t.getShape();
 
             tminx = s.getBounds2D().getMinX();
             tmaxx = s.getBounds2D().getMaxX();
             tminy = s.getBounds2D().getMinY();
-            tminy = s.getBounds2D().getMaxY();
+            tmaxy = s.getBounds2D().getMaxY();
 
             if (tminx < minx)
                 minx = new Long(Math.round(Math.floor(tminx))).intValue();
@@ -154,7 +153,7 @@ public class Template implements Cloneable {
      *
      * @return a listIterator of the elements in this list.
      */
-    public ListIterator getListIterator() {
+    public ListIterator<TemplateItem> getListIterator() {
         return templateItems.listIterator();
     }
 
@@ -230,7 +229,7 @@ public class Template implements Cloneable {
     public String produceXMLString() {
         StringWriter stringWriter = new StringWriter();
         try {
-            new XMLOutputter(Format.getPrettyFormat()).output(this.produceXML(),
+            new XMLOutputter(Format.getPrettyFormat()).output(produceXML(),
                     stringWriter);
         } catch (IOException e) {
             // There was an error creating the XML output
@@ -251,22 +250,24 @@ public class Template implements Cloneable {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element("template");
 
-        Iterator i = templateItems.iterator();
-        while (i.hasNext()) {
-            ret.addContent(((TemplateItem) i.next()).produceXML());
+        for (TemplateItem templateItem : templateItems) {
+            ret.addContent((templateItem).produceXML());
         }
 
         return f.document(ret);
     }
 
-    /** @see java.lang.Object#clone() */
+    /** @see Object#clone() */
     public Object clone() {
-        Template ret = new Template(title, description,
-                clippingBounds.getLocation(), clippingBounds.getSize());
-        Iterator i = this.getListIterator();
-        while (i.hasNext()) {
-            ret.add((TemplateItem) ((TemplateItem) i.next()).clone());
+        try {
+            Template ret = (Template) super.clone();
+            Iterator<TemplateItem> i = getListIterator();
+            while (i.hasNext()) {
+                ret.add((TemplateItem) (i.next()).clone());
+            }
+            return ret;
+        } catch (CloneNotSupportedException e) {
+            throw new IllegalStateException("cannot clone?", e);
         }
-        return ret;
     }
 }

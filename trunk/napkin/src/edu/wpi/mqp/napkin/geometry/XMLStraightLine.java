@@ -49,13 +49,13 @@ public class XMLStraightLine extends StraightLine implements XMLShape {
                         start.getY() + (length * Math.sin(angle))));
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.XMLShape#produceXML() */
+    /** @see XMLShape#produceXML() */
     public Element produceXML() {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element("straightLine");
 
-        ret.addContent(XMLUtility.pointToXML(this.getP1(), "start"));
-        ret.addContent(XMLUtility.pointToXML(this.getP2(), "end"));
+        ret.addContent(XMLUtility.pointToXML(getP1(), "start"));
+        ret.addContent(XMLUtility.pointToXML(getP2(), "end"));
 
         return ret;
     }

@@ -17,22 +17,22 @@ import edu.wpi.mqp.napkin.geometry.UtilityShape;
  * @author Justin Crafford
  */
 public class IdealRenderer extends Renderer {
-    /** @see edu.wpi.mqp.napkin.Renderer#deformLine(edu.wpi.mqp.napkin.geometry.StraightLine) */
+    /** @see Renderer#deformLine(StraightLine) */
     public UtilityShape deformLine(StraightLine l) {
         return l;
     }
 
-    /** @see edu.wpi.mqp.napkin.Renderer#deformQuad(edu.wpi.mqp.napkin.geometry.QuadLine) */
+    /** @see Renderer#deformQuad(QuadLine) */
     public UtilityShape deformQuad(QuadLine q) {
         return q;
     }
 
-    /** @see edu.wpi.mqp.napkin.Renderer#deformCubic(edu.wpi.mqp.napkin.geometry.CubicLine) */
+    /** @see Renderer#deformCubic(CubicLine) */
     public UtilityShape deformCubic(CubicLine c) {
         return c;
     }
 
-    /** @see edu.wpi.mqp.napkin.Renderer#deformPath(edu.wpi.mqp.napkin.geometry.Path) */
+    /** @see Renderer#deformPath(Path) */
     public UtilityShape deformPath(Path p) {
         return p;
     }

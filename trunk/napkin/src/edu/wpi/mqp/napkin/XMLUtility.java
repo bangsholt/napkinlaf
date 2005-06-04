@@ -40,9 +40,9 @@ public class XMLUtility {
         Element green = f.element("g");
         Element blue = f.element("b");
 
-        red.addContent(f.text(new Integer(c.getRed()).toString()));
-        green.addContent(f.text(new Integer(c.getGreen()).toString()));
-        blue.addContent(f.text(new Integer(c.getBlue()).toString()));
+        red.addContent(f.text(Integer.toString(c.getRed())));
+        green.addContent(f.text(Integer.toString(c.getGreen())));
+        blue.addContent(f.text(Integer.toString(c.getBlue())));
 
         ret.addContent(red);
         ret.addContent(green);

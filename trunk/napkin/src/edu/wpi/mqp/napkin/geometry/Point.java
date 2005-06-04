@@ -51,7 +51,7 @@ public class Point extends Point2D.Double {
      *         and the origin, modified by the scale factor.
      */
     public Point magnify(double scaleFactor) {
-        return new Point(this.x * scaleFactor, this.y * scaleFactor);
+        return new Point(x * scaleFactor, y * scaleFactor);
     }
 
     /**
@@ -87,12 +87,12 @@ public class Point extends Point2D.Double {
 
     /** @return the float value of the x coordinate */
     public float fX() {
-        return new java.lang.Float(this.x).floatValue();
+        return (float) x;
     }
 
     /** @return the float value of the y coordinate */
     public float fY() {
-        return new java.lang.Float(this.y).floatValue();
+        return (float) y;
     }
 
     /**

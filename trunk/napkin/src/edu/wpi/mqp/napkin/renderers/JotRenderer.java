@@ -27,21 +27,18 @@ import java.util.Random;
  * @author Justin Crafford
  */
 public class JotRenderer extends Renderer {
-    private static final double deformFactor = .2;
+    private static final double DEFORM_FACTOR = 0.2;
 
-    /**
-     * @see edu.wpi.mqp.napkin.Renderer#render(edu.wpi.mqp.napkin.Template,
-     *      java.awt.Graphics2D)
-     */
+    /** @see Renderer#render(Template, Graphics2D) */
     public void render(Template template, Graphics2D g2d) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
         TemplateItem draw;
 
-        Iterator iter = template.getListIterator();
+        Iterator<TemplateItem> iter = template.getListIterator();
         while (iter.hasNext()) {
-            TemplateItem current = (TemplateItem) iter.next();
+            TemplateItem current = iter.next();
             draw = (TemplateItem) current.clone();
             if (current.isDrawFill()) {
                 draw.setDrawStroke(false);
@@ -55,18 +52,18 @@ public class JotRenderer extends Renderer {
                 //						current.getShape().transformToPath()).deform(this));
                 //it is horrible
 
-                this.quickRender(draw, g2d);
+                quickRender(draw, g2d);
             }
             if (current.isDrawStroke()) {
                 draw.setDrawFill(false);
                 draw.setDrawStroke(true);
 
                 UtilityShape u = current.getShape().deform(this);
-                draw.setStrokeWeight(this.computeStrokeModifier(u
-                        .approximateLength()));
+                draw.setStrokeWeight(
+                        computeStrokeModifier(u.approximateLength()));
                 draw.setShape(u);
 
-                this.quickRender(draw, g2d);
+                quickRender(draw, g2d);
             }
         }
     }
@@ -76,7 +73,7 @@ public class JotRenderer extends Renderer {
     }
 
     private CubicLine deform(CubicLine c, boolean perturbInitial) {
-        double twopercent = c.approximateLength() * deformFactor;
+        double twopercent = c.approximateLength() * DEFORM_FACTOR;
 
         return new CubicLine((perturbInitial ?
                 Point.random(c.getP1(), twopercent)
@@ -118,10 +115,10 @@ public class JotRenderer extends Renderer {
         Point ctrl1;
         Point ctrl2;
         Point far;
-        UtilityShape seg = null;
+        UtilityShape seg;
         CubicLine draw;
 
-        int segType = 0;
+        int segType;
         double[] coords = new double[6];
 
         PathIterator pi = p.getPathIterator(new AffineTransform());
@@ -158,6 +155,8 @@ public class JotRenderer extends Renderer {
                 seg = new StraightLine(current, initial);
                 current = new Point(initial);
                 break;
+            default:
+                throw new IllegalStateException(segType + ": unknown");
             }
             if (seg != null) {
                 draw = deform(seg.transformToCubic(), false);
@@ -188,34 +187,33 @@ public class JotRenderer extends Renderer {
         float ret;
 
         if (lineLength < 1.68) {
-            ret = new Float(2 - (.19 * lineLength)).floatValue();
+            ret = (float) (2 - (0.19 * lineLength));
         } else {
-            ret = new Float(Math.pow(lineLength + .5, 2) / Math
-                    .pow(lineLength, 2))
-                    .floatValue();
+            ret = (float)
+                    (Math.pow(lineLength + 0.5, 2) / Math.pow(lineLength, 2));
         }
-        ret *= ((new Random().nextGaussian() * .15) + 1);
+        ret *= new Random().nextGaussian() * 0.15 + 1;
 
         return ret;
     }
 
-    /** @see edu.wpi.mqp.napkin.Renderer#deformLine(edu.wpi.mqp.napkin.geometry.StraightLine) */
+    /** @see Renderer#deformLine(StraightLine) */
     public UtilityShape deformLine(StraightLine l) {
         return l.transformToCubic().deform(this);
     }
 
-    /** @see edu.wpi.mqp.napkin.Renderer#deformQuad(edu.wpi.mqp.napkin.geometry.QuadLine) */
+    /** @see Renderer#deformQuad(QuadLine) */
     public UtilityShape deformQuad(QuadLine q) {
         return q.transformToCubic().deform(this);
     }
 
-    /** @see edu.wpi.mqp.napkin.Renderer#deformCubic(edu.wpi.mqp.napkin.geometry.CubicLine) */
+    /** @see Renderer#deformCubic(CubicLine) */
     public UtilityShape deformCubic(CubicLine c) {
-        return this.deform(c);
+        return deform(c);
     }
 
-    /** @see edu.wpi.mqp.napkin.Renderer#deformPath(edu.wpi.mqp.napkin.geometry.Path) */
+    /** @see Renderer#deformPath(Path) */
     public UtilityShape deformPath(Path p) {
-        return this.deform(p);
+        return deform(p);
     }
 }

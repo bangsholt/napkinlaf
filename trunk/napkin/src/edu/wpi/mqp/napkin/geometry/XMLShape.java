@@ -10,5 +10,5 @@ import org.jdom.Element;
  */
 public interface XMLShape extends UtilityShape {
     /** @return the XML representation of this Shape */
-    public Element produceXML();
+    Element produceXML();
 }

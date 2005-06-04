@@ -174,9 +174,12 @@ public class TemplateItem implements Cloneable {
         }
     }
 
-    /** @see java.lang.Object#clone() */
+    /** @see Object#clone() */
     public Object clone() {
-        return new TemplateItem(drawStroke, drawFill, strokeColor,
-                strokeWeight, fillColor, shape);
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new IllegalStateException("cannot clone/", e);
+        }
     }
 }

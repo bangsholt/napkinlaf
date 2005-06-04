@@ -68,35 +68,34 @@ public class CubicLine extends CubicCurve2D.Double implements UtilityShape {
      * @return the approximate path length of this CubicLine.
      */
     public double approximateLength() {
-        StraightLine s1 = new StraightLine(this.getP1(), this.getCtrlP1());
-        StraightLine s2 = new StraightLine(this.getCtrlP1(), this.getCtrlP2());
-        StraightLine s3 = new StraightLine(this.getCtrlP2(), this.getP2());
+        StraightLine s1 = new StraightLine(getP1(), getCtrlP1());
+        StraightLine s2 = new StraightLine(getCtrlP1(), getCtrlP2());
+        StraightLine s3 = new StraightLine(getCtrlP2(), getP2());
         return (s1.length() + s2.length() + s3.length())
-                / (1 + Math.log(this.getFlatness() + 1));
+                / (1 + Math.log(getFlatness() + 1));
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#magnify(double) */
+    /** @see UtilityShape#magnify(double) */
     public UtilityShape magnify(double scaleFactor) {
-        return new XMLCubicLine(this.x1 * scaleFactor, this.y1 * scaleFactor,
-                this.ctrlx1 * scaleFactor, this.ctrly1 * scaleFactor,
-                this.ctrlx2
-                        * scaleFactor, this.ctrly2 * scaleFactor, this.x2
-                * scaleFactor, this.y2 * scaleFactor);
+        return new XMLCubicLine(x1 * scaleFactor, y1 * scaleFactor,
+                ctrlx1 * scaleFactor, ctrly1 * scaleFactor,
+                ctrlx2 * scaleFactor, ctrly2 * scaleFactor,
+                x2 * scaleFactor, y2 * scaleFactor);
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToCubic() */
+    /** @see UtilityShape#transformToCubic() */
     public CubicLine transformToCubic() {
         return this;
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToPath() */
+    /** @see UtilityShape#transformToPath() */
     public Path transformToPath() {
         Path ret = new Path();
 
-        Point s = new Point(this.getP1());
-        Point c1 = new Point(this.getCtrlP1());
-        Point c2 = new Point(this.getCtrlP2());
-        Point f = new Point(this.getP2());
+        Point s = new Point(getP1());
+        Point c1 = new Point(getCtrlP1());
+        Point c2 = new Point(getCtrlP2());
+        Point f = new Point(getP2());
 
         ret.moveTo(s.fX(), s.fY());
         ret.curveTo(c1.fX(), c1.fY(), c2.fX(), c2.fY(), f.fX(), f.fY());
@@ -104,36 +103,36 @@ public class CubicLine extends CubicCurve2D.Double implements UtilityShape {
         return ret;
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToLine() */
+    /** @see UtilityShape#transformToLine() */
     public StraightLine[] transformToLine() {
-        Point mid = Point.midpoint(this.getP1(), this.getP2());
-        Point q1 = Point.midpoint(this.getP1(), mid);
-        Point q3 = Point.midpoint(mid, this.getP2());
+        Point mid = Point.midpoint(getP1(), getP2());
+        Point q1 = Point.midpoint(getP1(), mid);
+        Point q3 = Point.midpoint(mid, getP2());
 
-        StraightLine span = new StraightLine(q1, this.getCtrlP1());
-        double lenmultiplier = .4;
+        StraightLine span = new StraightLine(q1, getCtrlP1());
+        double lenmultiplier = 0.4;
         if (span.x2 < span.x1 || (span.x2 == span.x1 && span.y2 < span.y1))
             lenmultiplier *= -1;
         Point2D p1 = new Point(q1, span.angle(), span.length() * lenmultiplier);
 
-        span = new StraightLine(q3, this.getCtrlP2());
-        lenmultiplier = .4;
+        span = new StraightLine(q3, getCtrlP2());
+        lenmultiplier = 0.4;
         if (span.x2 < span.x1 || (span.x2 == span.x1 && span.y2 < span.y1))
             lenmultiplier *= -1;
         Point2D p2 = new Point(q3, span.angle(), span.length() * lenmultiplier);
 
-        span = new StraightLine(this.getP1(), this.getCtrlP1());
-        lenmultiplier = .6;
+        span = new StraightLine(getP1(), getCtrlP1());
+        lenmultiplier = 0.6;
         if (span.x2 < span.x1 || (span.x2 == span.x1 && span.y2 < span.y1))
             lenmultiplier *= -1;
-        Point2D s1 = new Point(this.getP1(), span.angle(), span.length()
+        Point2D s1 = new Point(getP1(), span.angle(), span.length()
                 * lenmultiplier);
 
-        span = new StraightLine(this.getP2(), this.getCtrlP2());
-        lenmultiplier = .6;
+        span = new StraightLine(getP2(), getCtrlP2());
+        lenmultiplier = 0.6;
         if (span.x2 < span.x1 || (span.x2 == span.x1 && span.y2 < span.y1))
             lenmultiplier *= -1;
-        Point2D s2 = new Point(this.getP2(), span.angle(), span.length()
+        Point2D s2 = new Point(getP2(), span.angle(), span.length()
                 * lenmultiplier);
 
         Point one = Point.midpoint(p1, s1);
@@ -141,43 +140,42 @@ public class CubicLine extends CubicCurve2D.Double implements UtilityShape {
 
         StraightLine[] ret = new StraightLine[3];
 
-        ret[0] = new StraightLine(this.getP1(), one);
+        ret[0] = new StraightLine(getP1(), one);
         ret[1] = new StraightLine(one, two);
-        ret[2] = new StraightLine(two, this.getP2());
+        ret[2] = new StraightLine(two, getP2());
 
         return ret;
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToQuad() */
+    /** @see UtilityShape#transformToQuad() */
     public QuadLine[] transformToQuad() {
-        QuadLine[] ret = new QuadLine[0];
+        QuadLine[] ret;
 
-        Point intersection = new StraightLine(this.getP1(), this.getP2())
-                .intersects(new StraightLine(this.getCtrlP1(),
-                this.getCtrlP2()));
+        StraightLine line = new StraightLine(getP1(), getP2());
+        Point intersection = line.intersects(
+                new StraightLine(getCtrlP1(), getCtrlP2()));
         if (intersection == null) {
             ret = new QuadLine[1];
-            ret[0] = new QuadLine(this.getP1(),
-                    Point.midpoint(this.getCtrlP1(), this
-                            .getCtrlP2()), this.getP2());
+            ret[0] = new QuadLine(getP1(),
+                    Point.midpoint(getCtrlP1(), getCtrlP2()), getP2());
         } else {
             ret = new QuadLine[2];
-            ret[0] = new QuadLine(this.getP1(), this.getCtrlP1(), intersection);
-            ret[1] = new QuadLine(intersection, this.getCtrlP2(), this.getP2());
+            ret[0] = new QuadLine(getP1(), getCtrlP1(), intersection);
+            ret[1] = new QuadLine(intersection, getCtrlP2(), getP2());
         }
 
         return ret;
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#deform(edu.wpi.mqp.napkin.Renderer) */
+    /** @see UtilityShape#deform(Renderer) */
     public UtilityShape deform(Renderer r) {
         return r.deformCubic(this);
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToCubicList() */
+    /** @see UtilityShape#transformToCubicList() */
     public CubicLine[] transformToCubicList() {
         CubicLine[] ret = new CubicLine[1];
-        ret[0] = this.transformToCubic();
+        ret[0] = transformToCubic();
         return ret;
     }
 }
