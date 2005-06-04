@@ -10,7 +10,6 @@ import org.jdom.output.XMLOutputter;
 
 import java.awt.*;
 import java.io.*;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
@@ -30,7 +29,7 @@ public class Template implements Cloneable {
     private Rectangle clippingBounds; // The area that defines which portion of the image to draw
     private int width; // The width of the image with all the template components combined
     private int height; // the height of the image with all the template components combined
-    private final LinkedList<TemplateItem> templateItems; // A list of all template components
+    private LinkedList<TemplateItem> templateItems; // A list of all template components
 
     /**
      * Constructs a new template with the given values.
@@ -255,13 +254,12 @@ public class Template implements Cloneable {
     }
 
     /** @see Object#clone() */
-    public Object clone() {
+    public Template clone() {
         try {
             Template ret = (Template) super.clone();
-            Iterator<TemplateItem> i = getListIterator();
-            while (i.hasNext()) {
-                ret.add((TemplateItem) (i.next()).clone());
-            }
+            ret.templateItems = (LinkedList<TemplateItem>)
+                    templateItems.clone();
+            ret.clippingBounds = (Rectangle) clippingBounds.clone();
             return ret;
         } catch (CloneNotSupportedException e) {
             throw new IllegalStateException("cannot clone?", e);
