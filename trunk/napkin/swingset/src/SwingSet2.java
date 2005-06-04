@@ -1,40 +1,41 @@
 /*
- * Copyright (c) 2003 Sun Microsystems, Inc. All  Rights Reserved.
+ * @(#)SwingSet2.java	1.50 04/07/26
+ *
+ * Copyright (c) 2004 Sun Microsystems, Inc. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * modification, are permitted provided that the following conditions are met:
  *
- * -Redistributions of source code must retain the above copyright
- *  notice, this list of conditions and the following disclaimer.
+ * -Redistribution of source code must retain the above copyright notice, this
+ *  list of conditions and the following disclaimer.
  *
- * -Redistribution in binary form must reproduct the above copyright
- *  notice, this list of conditions and the following disclaimer in
- *  the documentation and/or other materials provided with the distribution.
+ * -Redistribution in binary form must reproduce the above copyright notice,
+ *  this list of conditions and the following disclaimer in the documentation
+ *  and/or other materials provided with the distribution.
  *
- * Neither the name of Sun Microsystems, Inc. or the names of contributors
- * may be used to endorse or promote products derived from this software
- * without specific prior written permission.
+ * Neither the name of Sun Microsystems, Inc. or the names of contributors may
+ * be used to endorse or promote products derived from this software without
+ * specific prior written permission.
  *
  * This software is provided "AS IS," without a warranty of any kind. ALL
  * EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING
  * ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
- * OR NON-INFRINGEMENT, ARE HEREBY EXCLUDED. SUN AND ITS LICENSORS SHALL NOT
- * BE LIABLE FOR ANY DAMAGES OR LIABILITIES SUFFERED BY LICENSEE AS A RESULT
- * OF OR RELATING TO USE, MODIFICATION OR DISTRIBUTION OF THE SOFTWARE OR ITS
+ * OR NON-INFRINGEMENT, ARE HEREBY EXCLUDED. SUN MIDROSYSTEMS, INC. ("SUN")
+ * AND ITS LICENSORS SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY LICENSEE
+ * AS A RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
  * DERIVATIVES. IN NO EVENT WILL SUN OR ITS LICENSORS BE LIABLE FOR ANY LOST
  * REVENUE, PROFIT OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL,
  * INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE THEORY
- * OF LIABILITY, ARISING OUT OF THE USE OF OR INABILITY TO USE SOFTWARE, EVEN
- * IF SUN HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+ * OF LIABILITY, ARISING OUT OF THE USE OF OR INABILITY TO USE THIS SOFTWARE,
+ * EVEN IF SUN HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
  *
- * You acknowledge that Software is not designed, licensed or intended for
- * use in the design, construction, operation or maintenance of any nuclear
- * facility.
+ * You acknowledge that this software is not designed, licensed or intended
+ * for use in the design, construction, operation or maintenance of any
+ * nuclear facility.
  */
 
 /*
- * @(#)SwingSet2.java	1.35 03/01/23
+ * @(#)SwingSet2.java	1.50 04/07/26
  */
 
 import napkin.NapkinTheme;
@@ -42,6 +43,7 @@ import napkin.NapkinTheme;
 import java.awt.*;
 import java.awt.event.*;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -58,7 +60,7 @@ import javax.swing.plaf.metal.*;
  * A demo that shows all of the Swing components.
  *
  * @author Jeff Dinkins
- * @version 1.35 01/23/03
+ * @version 1.50 07/26/04
  */
 public class SwingSet2 extends JPanel {
     String[] demos = {
@@ -78,6 +80,7 @@ public class SwingSet2 extends JPanel {
         "ToolTipDemo",
         "TreeDemo"
     };
+
     private static final String DEFAULT_THEME_PREFIX = "default:";
 
     void loadDemos() {
@@ -92,14 +95,15 @@ public class SwingSet2 extends JPanel {
         }
     }
 
-    private static String metal = "javax.swing.plaf.metal.MetalLookAndFeel";
+    private static String metal =
+            "javax.swing.plaf.metal.MetalLookAndFeel";
 
     // The current Look & Feel
     private static String currentLookAndFeel = metal;
     private static String themesMenuLookAndFeel = metal;
 
     // List of demos
-    private Vector demosVector = new Vector();
+    private ArrayList<DemoModule> demosList = new ArrayList<DemoModule>();
 
     // The preferred size of the demo
     private static final int PREFERRED_WIDTH = 720;
@@ -131,11 +135,10 @@ public class SwingSet2 extends JPanel {
     private JMenu lafMenu = null;
     private JMenu themesMenu = null;
     private JMenu audioMenu = null;
-    private JMenu toolTipMenu = null;
+    private JMenu optionsMenu = null;
     private ButtonGroup lafMenuGroup = new ButtonGroup();
     private ButtonGroup themesMenuGroup = new ButtonGroup();
     private ButtonGroup audioMenuGroup = new ButtonGroup();
-    private ButtonGroup toolTipMenuGroup = new ButtonGroup();
 
     private Map themesFor = new HashMap();
     private Map namesFor = new HashMap();
@@ -171,7 +174,9 @@ public class SwingSet2 extends JPanel {
     // keep track of the number of SwingSets created - we only want to exit
     // the program when the last one has been closed.
     private static int numSSs = 0;
-    private static Vector swingSets = new Vector();
+    private static Vector<SwingSet2> swingSets = new Vector<SwingSet2>();
+
+    private boolean dragEnabled = false;
 
     public SwingSet2(SwingSet2Applet applet) {
         this(applet, null);
@@ -227,6 +232,7 @@ public class SwingSet2 extends JPanel {
     /** SwingSet2 Main. Called only if we're an application, not an applet. */
     public static void main(String[] args) {
         // Create SwingSet on the default monitor
+        UIManager.put("swing.boldMetal", Boolean.FALSE);
         SwingSet2 swingset = new SwingSet2(null, GraphicsEnvironment.
                 getLocalGraphicsEnvironment().
                 getDefaultScreenDevice().
@@ -243,7 +249,12 @@ public class SwingSet2 extends JPanel {
         add(top, BorderLayout.NORTH);
 
         menuBar = createMenus();
-        top.add(menuBar, BorderLayout.NORTH);
+
+        if (isApplet()) {
+            applet.setJMenuBar(menuBar);
+        } else {
+            frame.setJMenuBar(menuBar);
+        }
 
         // creates popup menu accessible via keyboard
         popupMenu = createPopupMenu();
@@ -271,17 +282,19 @@ public class SwingSet2 extends JPanel {
         tabbedPane.addTab("Hi There!", demoPanel);
 
         // Add html src code viewer
-        demoSrcPane =
-                new JEditorPane("text/html", getString("SourceCode.loading"));
+        demoSrcPane = new JEditorPane("text/html",
+                getString("SourceCode.loading"));
         demoSrcPane.setEditable(false);
 
         JScrollPane scroller = new JScrollPane();
         scroller.getViewport().add(demoSrcPane);
 
-        tabbedPane.addTab(getString("TabbedPane.src_label"),
+        tabbedPane.addTab(
+                getString("TabbedPane.src_label"),
                 null,
                 scroller,
-                getString("TabbedPane.src_tooltip"));
+                getString("TabbedPane.src_tooltip")
+        );
     }
 
     DemoModule currentTabDemo = null;
@@ -311,11 +324,10 @@ public class SwingSet2 extends JPanel {
                 getString("MenuBar.accessible_description"));
 
         // ***** create File menu
-        JMenu fileMenu = (JMenu) menuBar.add(
-                new JMenu(getString("FileMenu.file_label")));
+        JMenu fileMenu = (JMenu) menuBar.add(new JMenu(getString("FileMenu.file_label")));
         fileMenu.setMnemonic(getMnemonic("FileMenu.file_mnemonic"));
-        fileMenu.getAccessibleContext().setAccessibleDescription(
-                getString("FileMenu.accessible_description"));
+        fileMenu.getAccessibleContext()
+                .setAccessibleDescription(getString("FileMenu.accessible_description"));
 
         createMenuItem(fileMenu, "FileMenu.about_label",
                 "FileMenu.about_mnemonic",
@@ -340,16 +352,14 @@ public class SwingSet2 extends JPanel {
 
             createMenuItem(fileMenu, "FileMenu.exit_label",
                     "FileMenu.exit_mnemonic",
-                    "FileMenu.exit_accessible_description",
-                    new ExitAction(this));
+                    "FileMenu.exit_accessible_description", new ExitAction(this)
+            );
         }
 
         // Create these menu items for the first SwingSet only.
         if (numSSs == 0) {
             // ***** create laf switcher menu
-            lafMenu =
-                    (JMenu) menuBar.add(
-                            new JMenu(getString("LafMenu.laf_label")));
+            lafMenu = (JMenu) menuBar.add(new JMenu(getString("LafMenu.laf_label")));
             lafMenu.setMnemonic(getMnemonic("LafMenu.laf_mnemonic"));
             lafMenu.getAccessibleContext().setAccessibleDescription(
                     getString("LafMenu.laf_accessible_description"));
@@ -358,9 +368,7 @@ public class SwingSet2 extends JPanel {
             String[] lafs = split(getString("LafMenu.laf_list"));
             String defaultLaf = getString("LafMenu.laf_default").trim();
             currentLookAndFeel = null;
-            ResourceBundle bundle = getResourceBundle();
-            for (int i = 0; i < lafs.length; i++) {
-                String laf = lafs[i];
+            for (String laf : lafs) {
                 String lafClass = getLafClass(laf);
                 String pref = "LafMenu." + laf + "_";
                 mi = createLafMenuItem(lafMenu, pref + "label",
@@ -370,7 +378,7 @@ public class SwingSet2 extends JPanel {
                     mi.setSelected(true);
                     initLaf = lafClass;
                 }
-                if (laf.equals("metal"))
+                if (laf.equals("java"))
                     metal = lafClass;
                 String themes = getStringIfPresent(pref + "themes");
                 if (themes != null) {
@@ -378,19 +386,19 @@ public class SwingSet2 extends JPanel {
                     namesFor.put(lafClass, laf);
                 }
             }
+            setLookAndFeel(initLaf);
 
             // ***** create themes menu
-            themesMenu =
-                    (JMenu) menuBar.add(
-                            new JMenu(getString("ThemesMenu.themes_label")));
+            themesMenu = new JMenu(getString("ThemesMenu.themes_label"));
+            menuBar.add(themesMenu);
             themesMenu.setMnemonic(getMnemonic("ThemesMenu.themes_mnemonic"));
             themesMenu.getAccessibleContext().setAccessibleDescription(
                     getString("ThemesMenu.themes_accessible_description"));
 
+            populateThemesMenu();
+
             // ***** create the audio submenu under the theme menu
-            audioMenu =
-                    (JMenu) themesMenu.add(
-                            new JMenu(getString("AudioMenu.audio_label")));
+            audioMenu = (JMenu) this.themesMenu.add(new JMenu(getString("AudioMenu.audio_label")));
             audioMenu.setMnemonic(getMnemonic("AudioMenu.audio_mnemonic"));
             audioMenu.getAccessibleContext().setAccessibleDescription(
                     getString("AudioMenu.audio_accessible_description"));
@@ -411,29 +419,45 @@ public class SwingSet2 extends JPanel {
                     "AudioMenu.off_accessible_description",
                     new OffAudioAction(this));
 
-            populateThemesMenu();
+            // ***** create the font submenu under the theme menu
+            JMenu fontMenu = (JMenu) this.themesMenu.add(new JMenu(getString("FontMenu.fonts_label")));
+            fontMenu.setMnemonic(getMnemonic("FontMenu.fonts_mnemonic"));
+            fontMenu.getAccessibleContext().setAccessibleDescription(
+                    getString("FontMenu.fonts_accessible_description"));
+            ButtonGroup fontButtonGroup = new ButtonGroup();
+            mi = createButtonGroupMenuItem(fontMenu, "FontMenu.plain_label",
+                    "FontMenu.plain_mnemonic",
+                    "FontMenu.plain_accessible_description",
+                    new ChangeFontAction(this, true), fontButtonGroup);
+            mi.setSelected(true);
+            mi = createButtonGroupMenuItem(fontMenu, "FontMenu.bold_label",
+                    "FontMenu.bold_mnemonic",
+                    "FontMenu.bold_accessible_description",
+                    new ChangeFontAction(this, false), fontButtonGroup);
 
-            // ***** create the tooltip menu.
-            toolTipMenu =
-                    (JMenu) menuBar.add(
-                            new JMenu(getString("ToolTipMenu.tooltip_label")));
-            toolTipMenu.setMnemonic(
-                    getMnemonic("ToolTipMenu.tooltip_mnemonic"));
-            toolTipMenu.getAccessibleContext().setAccessibleDescription(
-                    getString("ToolTipMenu.tooltip_accessible_description"));
 
-            // ***** create tool tip submenu items.
-            mi = createToolTipMenuItem(toolTipMenu, "ToolTipMenu.on_label",
-                    "ToolTipMenu.on_mnemonic",
-                    "ToolTipMenu.on_accessible_description",
-                    new ToolTipAction(this, true));
+            // ***** create the options menu
+            optionsMenu = (JMenu) menuBar.add(
+                    new JMenu(getString("OptionsMenu.options_label")));
+            optionsMenu.setMnemonic(getMnemonic("OptionsMenu.options_mnemonic"));
+            optionsMenu.getAccessibleContext().setAccessibleDescription(
+                    getString("OptionsMenu.options_accessible_description"));
+
+            // ***** create tool tip submenu item.
+            mi = createCheckBoxMenuItem(optionsMenu,
+                    "OptionsMenu.tooltip_label",
+                    "OptionsMenu.tooltip_mnemonic",
+                    "OptionsMenu.tooltip_accessible_description",
+                    new ToolTipAction());
             mi.setSelected(true);
 
-            createToolTipMenuItem(toolTipMenu, "ToolTipMenu.off_label",
-                    "ToolTipMenu.off_mnemonic",
-                    "ToolTipMenu.off_accessible_description",
-                    new ToolTipAction(this, false));
+            // ***** create drag support submenu item.
+            createCheckBoxMenuItem(optionsMenu, "OptionsMenu.dragEnabled_label",
+                    "OptionsMenu.dragEnabled_mnemonic",
+                    "OptionsMenu.dragEnabled_accessible_description",
+                    new DragSupportAction());
         }
+
 
         // ***** create the multiscreen menu, if we have multiple screens
         if (!isApplet()) {
@@ -442,11 +466,10 @@ public class SwingSet2 extends JPanel {
                     getScreenDevices();
             if (screens.length > 1) {
 
-                JMenu multiScreenMenu = (JMenu) menuBar.add(
-                        new JMenu(getString("MultiMenu.multi_label")));
+                JMenu multiScreenMenu = (JMenu) menuBar.add(new JMenu(
+                        getString("MultiMenu.multi_label")));
 
-                multiScreenMenu.setMnemonic(
-                        getMnemonic("MultiMenu.multi_mnemonic"));
+                multiScreenMenu.setMnemonic(getMnemonic("MultiMenu.multi_mnemonic"));
                 multiScreenMenu.getAccessibleContext().setAccessibleDescription(
                         getString("MultiMenu.multi_accessible_description"));
 
@@ -532,19 +555,32 @@ public class SwingSet2 extends JPanel {
         return strs;
     }
 
-    /** Create the tool tip submenu */
-    public JMenuItem createToolTipMenuItem(JMenu menu, String label,
+    /** Create a checkbox menu menu item */
+    private JMenuItem createCheckBoxMenuItem(JMenu menu, String label,
             String mnemonic,
             String accessibleDescription,
             Action action) {
+        JCheckBoxMenuItem mi = (JCheckBoxMenuItem) menu.add(
+                new JCheckBoxMenuItem(getString(label)));
+        mi.setMnemonic(getMnemonic(mnemonic));
+        mi.getAccessibleContext().setAccessibleDescription(getString(
+                accessibleDescription));
+        mi.addActionListener(action);
+        return mi;
+    }
+
+    private JMenuItem createButtonGroupMenuItem(JMenu menu, String label,
+            String mnemonic,
+            String accessibleDescription,
+            Action action,
+            ButtonGroup buttonGroup) {
         JRadioButtonMenuItem mi = (JRadioButtonMenuItem) menu.add(
                 new JRadioButtonMenuItem(getString(label)));
-        toolTipMenuGroup.add(mi);
+        buttonGroup.add(mi);
         mi.setMnemonic(getMnemonic(mnemonic));
-        mi.getAccessibleContext().setAccessibleDescription(
-                getString(accessibleDescription));
+        mi.getAccessibleContext().setAccessibleDescription(getString(
+                accessibleDescription));
         mi.addActionListener(action);
-
         return mi;
     }
 
@@ -553,12 +589,11 @@ public class SwingSet2 extends JPanel {
             String mnemonic,
             String accessibleDescription,
             Action action) {
-        JRadioButtonMenuItem mi = (JRadioButtonMenuItem) menu.add(
-                new JRadioButtonMenuItem(getString(label)));
+        JRadioButtonMenuItem mi = (JRadioButtonMenuItem) menu.add(new JRadioButtonMenuItem(getString(label)));
         audioMenuGroup.add(mi);
         mi.setMnemonic(getMnemonic(mnemonic));
-        mi.getAccessibleContext().setAccessibleDescription(
-                getString(accessibleDescription));
+        mi.getAccessibleContext()
+                .setAccessibleDescription(getString(accessibleDescription));
         mi.addActionListener(action);
 
         return mi;
@@ -569,8 +604,8 @@ public class SwingSet2 extends JPanel {
             String accessibleDescription, Action action) {
         JMenuItem mi = (JMenuItem) menu.add(new JMenuItem(getString(label)));
         mi.setMnemonic(getMnemonic(mnemonic));
-        mi.getAccessibleContext().setAccessibleDescription(
-                getString(accessibleDescription));
+        mi.getAccessibleContext()
+                .setAccessibleDescription(getString(accessibleDescription));
         mi.addActionListener(action);
         if (action == null) {
             mi.setEnabled(false);
@@ -603,12 +638,11 @@ public class SwingSet2 extends JPanel {
     public JMenuItem createLafMenuItem(JMenu menu, String label,
             String mnemonic,
             String accessibleDescription, String laf) {
-        JMenuItem mi = (JRadioButtonMenuItem) menu.add(
-                new JRadioButtonMenuItem(getString(label)));
+        JMenuItem mi = (JRadioButtonMenuItem) menu.add(new JRadioButtonMenuItem(getString(label)));
         lafMenuGroup.add(mi);
         mi.setMnemonic(getMnemonic(mnemonic));
-        mi.getAccessibleContext().setAccessibleDescription(
-                getString(accessibleDescription));
+        mi.getAccessibleContext()
+                .setAccessibleDescription(getString(accessibleDescription));
         mi.addActionListener(new ChangeLookAndFeelAction(this, laf));
 
         mi.setEnabled(isAvailableLookAndFeel(laf));
@@ -620,23 +654,17 @@ public class SwingSet2 extends JPanel {
     public JMenuItem createMultiscreenMenuItem(JMenu menu, int screen) {
         JMenuItem mi = null;
         if (screen == MultiScreenAction.ALL_SCREENS) {
-            mi =
-                    (JMenuItem) menu.add(
-                            new JMenuItem(getString("MultiMenu.all_label")));
+            mi = (JMenuItem) menu.add(new JMenuItem(getString("MultiMenu.all_label")));
             mi.setMnemonic(getMnemonic("MultiMenu.all_mnemonic"));
-            mi.getAccessibleContext().setAccessibleDescription(
-                    getString("MultiMenu.all_accessible_description"));
+            mi.getAccessibleContext().setAccessibleDescription(getString(
+                    "MultiMenu.all_accessible_description"));
         } else {
-            mi =
-                    (JMenuItem) menu.add(new JMenuItem(getString(
-                            "MultiMenu.single_label") +
-                            " " +
-                            screen));
+            mi = (JMenuItem) menu.add(new JMenuItem(getString("MultiMenu.single_label") +
+                    " " +
+                    screen));
             mi.setMnemonic(KeyEvent.VK_0 + screen);
             mi.getAccessibleContext().setAccessibleDescription(getString(
-                    "MultiMenu.single_accessible_description") +
-                    " " +
-                    screen);
+                    "MultiMenu.single_accessible_description") + " " + screen);
         }
         mi.addActionListener(new MultiScreenAction(this, screen));
         return mi;
@@ -671,8 +699,8 @@ public class SwingSet2 extends JPanel {
         JMenuItem mi = menu.add(new JMenuItem(getString(label)));
         popupMenuGroup.add(mi);
         mi.setMnemonic(getMnemonic(mnemonic));
-        mi.getAccessibleContext().setAccessibleDescription(
-                getString(accessibleDescription));
+        mi.getAccessibleContext()
+                .setAccessibleDescription(getString(accessibleDescription));
         mi.addActionListener(new ChangeLookAndFeelAction(this, laf));
         mi.setEnabled(isAvailableLookAndFeel(laf));
 
@@ -690,14 +718,17 @@ public class SwingSet2 extends JPanel {
 
     /** Add a demo to the toolbar */
     public DemoModule addDemo(DemoModule demo) {
-        demosVector.addElement(demo);
+        demosList.add(demo);
+        if (dragEnabled) {
+            demo.updateDragEnabled(true);
+        }
         // do the following on the gui thread
         SwingUtilities.invokeLater(new SwingSetRunnable(this, demo) {
             public void run() {
                 SwitchToDemoAction action = new SwitchToDemoAction(swingset,
                         (DemoModule) obj);
-                JToggleButton tb = swingset.getToolBar().addToggleButton(
-                        action);
+                JToggleButton tb = swingset.getToolBar()
+                        .addToggleButton(action);
                 swingset.getToolBarGroup().add(tb);
                 if (swingset.getToolBarGroup().getSelection() == null) {
                     tb.setSelected(true);
@@ -748,18 +779,17 @@ public class SwingSet2 extends JPanel {
             // Make sure we don't place the demo off the screen.
             int centerWidth = screenRect.width < f.getSize().width ?
                     screenRect.x :
-                    screenRect.x + screenRect.width / 2 - f.getSize().width /
-                            2;
+                    screenRect.x + screenRect.width / 2 - f.getSize().width / 2;
             int centerHeight = screenRect.height < f.getSize().height ?
                     screenRect.y :
-                    screenRect.y + screenRect.height / 2 - f.getSize().height /
-                            2;
+                    screenRect.y + screenRect.height / 2 -
+                            f.getSize().height / 2;
 
             centerHeight = centerHeight < screenInsets.top ?
                     screenInsets.top : centerHeight;
 
             f.setLocation(centerWidth, centerHeight);
-            f.setVisible(true);
+            f.show();
             numSSs++;
             swingSets.add(this);
         }
@@ -767,9 +797,8 @@ public class SwingSet2 extends JPanel {
 
     /** Show the spash screen while the rest of the demo loads */
     public void createSplashScreen() {
-        splashLabel =
-                new JLabel(createImageIcon("Splash.jpg",
-                        "Splash.accessible_description"));
+        splashLabel = new JLabel(createImageIcon("Splash.jpg",
+                "Splash.accessible_description"));
 
         if (!isApplet()) {
             splashScreen = new JWindow(getFrame());
@@ -777,8 +806,9 @@ public class SwingSet2 extends JPanel {
             splashScreen.pack();
             Rectangle screenRect = getFrame().getGraphicsConfiguration()
                     .getBounds();
-            splashScreen.setLocation(screenRect.x + screenRect.width / 2 -
-                    splashScreen.getSize().width / 2,
+            splashScreen.setLocation(
+                    screenRect.x + screenRect.width / 2 -
+                            splashScreen.getSize().width / 2,
                     screenRect.y + screenRect.height / 2 -
                             splashScreen.getSize().height / 2);
         }
@@ -786,7 +816,7 @@ public class SwingSet2 extends JPanel {
 
     public void showSplashScreen() {
         if (!isApplet()) {
-            splashScreen.setVisible(true);
+            splashScreen.show();
         } else {
             add(splashLabel, BorderLayout.CENTER);
             validate();
@@ -813,11 +843,8 @@ public class SwingSet2 extends JPanel {
         DemoModule demo = null;
         try {
             Class demoClass = Class.forName(classname);
-            Constructor demoConstructor = demoClass.getConstructor(
-                    new Class[] {SwingSet2.class});
-            demo =
-                    (DemoModule) demoConstructor.newInstance(
-                            new Object[] {this});
+            Constructor demoConstructor = demoClass.getConstructor(new Class[] {SwingSet2.class});
+            demo = (DemoModule) demoConstructor.newInstance(new Object[] {this});
             addDemo(demo);
         } catch (Exception e) {
             System.out.println("Error occurred loading demo: " + classname);
@@ -939,6 +966,24 @@ public class SwingSet2 extends JPanel {
         }
     }
 
+    void setDragEnabled(boolean dragEnabled) {
+        if (dragEnabled == this.dragEnabled) {
+            return;
+        }
+
+        this.dragEnabled = dragEnabled;
+
+        for (DemoModule dm : demosList) {
+            dm.updateDragEnabled(dragEnabled);
+        }
+
+        demoSrcPane.setDragEnabled(dragEnabled);
+    }
+
+    boolean isDragEnabled() {
+        return dragEnabled;
+    }
+
     /**
      * Returns the resource bundle associated with this demo. Used to get
      * accessable and internationalized strings.
@@ -979,6 +1024,24 @@ public class SwingSet2 extends JPanel {
         }
     }
 
+    private void updateThisSwingSet() {
+        if (isApplet()) {
+            SwingUtilities.updateComponentTreeUI(getApplet());
+        } else {
+            JFrame frame = getFrame();
+            if (frame == null) {
+                SwingUtilities.updateComponentTreeUI(this);
+            } else {
+                SwingUtilities.updateComponentTreeUI(frame);
+            }
+        }
+
+        SwingUtilities.updateComponentTreeUI(popupMenu);
+        if (aboutBox != null) {
+            SwingUtilities.updateComponentTreeUI(aboutBox);
+        }
+    }
+
     /** Sets the current L&F on each demo module */
     public void updateLookAndFeel() {
         try {
@@ -989,32 +1052,15 @@ public class SwingSet2 extends JPanel {
             }
             // update LAF for the toplevel frame, too
             if (!isApplet()) {
-                SwingUtilities.updateComponentTreeUI(getFrame());
+                updateThisSwingSet();
             } else {
-                SwingUtilities.updateComponentTreeUI(getApplet());
+                for (SwingSet2 ss : swingSets) {
+                    ss.updateThisSwingSet();
+                }
             }
-            SwingUtilities.updateComponentTreeUI(popupMenu);
-            if (!getFrame().isAncestorOf(this))
-                SwingUtilities.updateComponentTreeUI(this);
-
-            populateThemesMenu();
         } catch (Exception ex) {
             System.out.println("Failed loading L&F: " + currentLookAndFeel);
-            ex.printStackTrace(System.out);
-        }
-
-        // lazily update update the UI's for the remaining demos
-        for (int i = 0; i < demosVector.size(); i++) {
-            DemoModule demo = (DemoModule) demosVector.elementAt(i);
-            if (currentDemo != demo) {
-                // do the following on the gui thread
-                SwingUtilities.invokeLater(new SwingSetRunnable(this, demo) {
-                    public void run() {
-                        SwingUtilities.updateComponentTreeUI(
-                                ((DemoModule) obj).getDemoPanel());
-                    }
-                });
-            }
+            System.out.println(ex);
         }
     }
 
@@ -1026,8 +1072,7 @@ public class SwingSet2 extends JPanel {
         // do the following on the gui thread
         SwingUtilities.invokeLater(new SwingSetRunnable(this, demo) {
             public void run() {
-                swingset.demoSrcPane.setText(
-                        ((DemoModule) obj).getSourceCode());
+                swingset.demoSrcPane.setText(((DemoModule) obj).getSourceCode());
                 swingset.demoSrcPane.setCaretPosition(0);
             }
         });
@@ -1046,7 +1091,8 @@ public class SwingSet2 extends JPanel {
         JToggleButton addToggleButton(Action a) {
             JToggleButton tb = new JToggleButton(
                     (String) a.getValue(Action.NAME),
-                    (Icon) a.getValue(Action.SMALL_ICON));
+                    (Icon) a.getValue(Action.SMALL_ICON)
+            );
             tb.setMargin(zeroInsets);
             tb.setText(null);
             tb.setEnabled(a.isEnabled());
@@ -1227,17 +1273,30 @@ public class SwingSet2 extends JPanel {
 
     // Turns on or off the tool tips for the demo.
     class ToolTipAction extends AbstractAction {
-        SwingSet2 swingset;
-        boolean status;
-
-        protected ToolTipAction(SwingSet2 swingset, boolean status) {
+        protected ToolTipAction() {
             super("ToolTip Control");
-            this.swingset = swingset;
-            this.status = status;
         }
 
         public void actionPerformed(ActionEvent e) {
+            boolean status = ((JCheckBoxMenuItem) e.getSource()).isSelected();
             ToolTipManager.sharedInstance().setEnabled(status);
+        }
+    }
+
+    class DragSupportAction extends AbstractAction {
+        protected DragSupportAction() {
+            super("DragSupport Control");
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            boolean dragEnabled = ((JCheckBoxMenuItem) e.getSource()).isSelected();
+            if (isApplet()) {
+                setDragEnabled(dragEnabled);
+            } else {
+                for (SwingSet2 ss : swingSets) {
+                    ss.setDragEnabled(dragEnabled);
+                }
+            }
         }
     }
 
@@ -1246,8 +1305,7 @@ public class SwingSet2 extends JPanel {
         MetalTheme metalThemeObj;
         String napkinThemeName;
 
-        protected ChangeThemeAction(SwingSet2 swingset,
-                MetalTheme theme) {
+        protected ChangeThemeAction(SwingSet2 swingset, MetalTheme theme) {
             super("ChangeTheme");
             this.swingset = swingset;
             this.metalThemeObj = theme;
@@ -1296,16 +1354,17 @@ public class SwingSet2 extends JPanel {
                 JPanel panel = new AboutPanel(swingset);
                 panel.setLayout(new BorderLayout());
 
-                aboutBox =
-                        new JDialog(swingset.getFrame(),
-                                getString("AboutBox.title"), false);
+                aboutBox = new JDialog(swingset.getFrame(),
+                        getString("AboutBox.title"), false);
+                aboutBox.setResizable(false);
                 aboutBox.getContentPane().add(panel, BorderLayout.CENTER);
 
                 // JButton button = new JButton(getString("AboutBox.ok_button_text"));
                 JPanel buttonpanel = new JPanel();
                 buttonpanel.setOpaque(false);
                 JButton button = (JButton) buttonpanel.add(
-                        new JButton(getString("AboutBox.ok_button_text")));
+                        new JButton(getString("AboutBox.ok_button_text"))
+                );
                 panel.add(buttonpanel, BorderLayout.SOUTH);
 
                 button.addActionListener(new OkAction(aboutBox));
@@ -1313,7 +1372,7 @@ public class SwingSet2 extends JPanel {
             aboutBox.pack();
             Point p = swingset.getLocationOnScreen();
             aboutBox.setLocation(p.x + 10, p.y + 10);
-            aboutBox.setVisible(true);
+            aboutBox.show();
         }
     }
 
@@ -1334,10 +1393,12 @@ public class SwingSet2 extends JPanel {
                 for (int i = 0; i < gds.length; i++) {
                     SwingSet2 swingset = new SwingSet2(null,
                             gds[i].getDefaultConfiguration());
+                    swingset.setDragEnabled(dragEnabled);
                 }
             } else {
                 SwingSet2 swingset = new SwingSet2(null,
                         gds[screen].getDefaultConfiguration());
+                swingset.setDragEnabled(dragEnabled);
             }
         }
     }
@@ -1364,9 +1425,8 @@ public class SwingSet2 extends JPanel {
 
         public AboutPanel(SwingSet2 swingset) {
             this.swingset = swingset;
-            aboutimage =
-                    swingset.createImageIcon("About.jpg",
-                            "AboutBox.accessible_description");
+            aboutimage = swingset.createImageIcon("About.jpg",
+                    "AboutBox.accessible_description");
             setOpaque(false);
         }
 
@@ -1378,6 +1438,27 @@ public class SwingSet2 extends JPanel {
         public Dimension getPreferredSize() {
             return new Dimension(aboutimage.getIconWidth(),
                     aboutimage.getIconHeight());
+        }
+    }
+
+    private class ChangeFontAction extends AbstractAction {
+        private SwingSet2 swingset;
+        private boolean plain;
+
+        ChangeFontAction(SwingSet2 swingset, boolean plain) {
+            super("FontMenu");
+            this.swingset = swingset;
+            this.plain = plain;
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            if (plain) {
+                UIManager.put("swing.boldMetal", Boolean.FALSE);
+            } else {
+                UIManager.put("swing.boldMetal", Boolean.TRUE);
+            }
+            // Change the look and feel to force the settings to take effect.
+            updateLookAndFeel();
         }
     }
 }
