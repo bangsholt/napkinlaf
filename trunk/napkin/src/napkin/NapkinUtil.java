@@ -10,7 +10,6 @@ import java.beans.PropertyChangeListener;
 import java.lang.reflect.Array;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
 import java.util.WeakHashMap;
@@ -22,8 +21,6 @@ import javax.swing.plaf.*;
 import javax.swing.text.*;
 
 public class NapkinUtil implements NapkinConstants {
-    public static final Random random = new Random();
-
     private static final Map<Float, Stroke> strokes =
             new WeakHashMap<Float, Stroke>();
 
@@ -641,3 +638,4 @@ public class NapkinUtil implements NapkinConstants {
         Logs.paper.log(Level.FINER, dump.toString());
     }
 }
+

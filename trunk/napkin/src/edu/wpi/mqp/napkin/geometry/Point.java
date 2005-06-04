@@ -2,8 +2,9 @@
 
 package edu.wpi.mqp.napkin.geometry;
 
+import napkin.NapkinRandom;
+
 import java.awt.geom.*;
-import java.util.Random;
 
 /**
  * Point: An extension of Point2D that has added utility methods.
@@ -12,8 +13,6 @@ import java.util.Random;
  * @author Justin Crafford
  */
 public class Point extends Point2D.Double {
-    private static Random rng = new Random();
-
     /** Constructs a new <tt>Point</tt> object */
     public Point() {
         super();
@@ -80,8 +79,8 @@ public class Point extends Point2D.Double {
      *         angle.
      */
     public Point random(double stdev) {
-        double dist = rng.nextGaussian() * stdev;
-        double angle = (rng.nextDouble() * Math.PI) - (Math.PI / 2);
+        double dist = NapkinRandom.gaussian(stdev);
+        double angle = NapkinRandom.nextDouble(Math.PI) - Math.PI / 2;
         return new Point(this, dist, angle);
     }
 
