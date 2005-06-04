@@ -36,22 +36,22 @@ public interface UtilityShape extends Shape {
      * @return a UtilityShape geometrically similar to this one, scaled by the
      *         scaleFactor.
      */
-    public UtilityShape magnify(double scaleFactor);
+    UtilityShape magnify(double scaleFactor);
 
     /** @return an approximation of this shape, rendered as a set of Lines */
-    public StraightLine[] transformToLine();
+    StraightLine[] transformToLine();
 
     /** @return an approximation of this shape, rendered as a set of Quads */
-    public QuadLine[] transformToQuad();
+    QuadLine[] transformToQuad();
 
     /** @return a representation of this shape in the form of a CubicLine */
-    public CubicLine transformToCubic();
+    CubicLine transformToCubic();
 
     /** @return an approximation of this shape, rendered as a set of Cubics */
-    public CubicLine[] transformToCubicList();
+    CubicLine[] transformToCubicList();
 
     /** @return a representation of this shape in the form of a Path */
-    public Path transformToPath();
+    Path transformToPath();
 
     /**
      * Deform this shape by the appropriate method within the renderer. Thus,
@@ -64,12 +64,12 @@ public interface UtilityShape extends Shape {
      * @return this shape, deformed by the appropriate method within the
      *         renderer
      */
-    public UtilityShape deform(Renderer r);
+    UtilityShape deform(Renderer r);
 
     /**
      * @return the approximate length of this item. This should be optimized for
      *         speed of computation, not accuracy. However, in general it should
      *         be accurate to within approximately 20%
      */
-    public double approximateLength();
+    double approximateLength();
 }

@@ -44,18 +44,15 @@ public class TemplateTest implements ActionListener {
     selectPanel
     ,
     displayPanel;
-    private JMenu menu;
     private JMenuItem openMenuItem
     ,
     exitMenuItem;
-    private JRadioButtonMenuItem rbMenuItem;
     private JFileChooser fileChooser;
-    private JComboBox renderChoices = null;
-    private JButton renderButton = null;
-    private JLabel templateImageLabel = null;
+    private JComboBox renderChoices;
+    private JButton renderButton;
+    private JLabel templateImageLabel;
 
-    private String templatePath = null;
-    private boolean isNapkinLAF = false;
+    private boolean isNapkinLAF;
 
     /** Constructs the main GUI objects that the application uses */
     public TemplateTest() {
@@ -87,19 +84,15 @@ public class TemplateTest implements ActionListener {
      * This class represents a file filter for use by the file chooser. It
      * limits the files displayed only to those with an "xml" file extension.
      */
-    class XMLFilter extends javax.swing.filechooser.FileFilter {
-        /** @see javax.swing.filechooser.FileFilter#accept(java.io.File) */
+    static class XMLFilter extends javax.swing.filechooser.FileFilter {
+        /** @see javax.swing.filechooser.FileFilter#accept(File) */
         public boolean accept(File pathname) {
             if (pathname.isDirectory()) {
                 return true;
             }
 
             String extension = getExtension(pathname);
-            if (extension != null && extension.equals("xml")) {
-                return true;
-            } else {
-                return false;
-            }
+            return (extension != null && extension.equals("xml"));
         }
 
         /** @see javax.swing.filechooser.FileFilter#getDescription() */
@@ -125,29 +118,29 @@ public class TemplateTest implements ActionListener {
     }
 
     class DrawnIconFileView extends FileView {
-        /** @see javax.swing.filechooser.FileView#getName(java.io.File) */
+        /** @see FileView#getName(File) */
         public String getName(File f) {
             return super.getName(f); //let the L&F FileView figure this out
         }
 
-        /** @see javax.swing.filechooser.FileView#getDescription(java.io.File) */
+        /** @see FileView#getDescription(File) */
         public String getDescription(File f) {
             return super.getDescription(f); //let the L&F FileView figure this
             // out
         }
 
-        /** @see javax.swing.filechooser.FileView#isTraversable(java.io.File) */
+        /** @see FileView#isTraversable(File) */
         public Boolean isTraversable(File f) {
             return super.isTraversable(f); //let the L&F FileView figure this
             // out
         }
 
-        /** @see javax.swing.filechooser.FileView#getTypeDescription(java.io.File) */
+        /** @see FileView#getTypeDescription(File) */
         public String getTypeDescription(File f) {
             return super.getTypeDescription(f);
         }
 
-        /** @see javax.swing.filechooser.FileView#getIcon(java.io.File) */
+        /** @see FileView#getIcon(File) */
         public Icon getIcon(File f) {
             Icon icon = null;
 
@@ -162,6 +155,7 @@ public class TemplateTest implements ActionListener {
     private void addMenuWidgets() {
         // Create the menu bar
         menuBar = new JMenuBar();
+        JMenu menu;
 
         // Create the File menu and set accessibility features
         menu = new JMenu("File");
@@ -194,6 +188,7 @@ public class TemplateTest implements ActionListener {
 
         // Create the radio button group to contain the radio buttom menu items
         ButtonGroup group = new ButtonGroup();
+        JRadioButtonMenuItem rbMenuItem;
 
         // Create the radio button menu item for selecting the Java Look and
         // Feel
@@ -369,7 +364,7 @@ public class TemplateTest implements ActionListener {
     }
 
     private static Renderer getRenderStyle(int renderStyle) {
-        Renderer renderer = null;
+        Renderer renderer;
 
         // Selects the rendering style to use
         switch (renderStyle) {

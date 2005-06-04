@@ -62,8 +62,7 @@ public class StraightLine extends Line2D.Double implements UtilityShape {
 
     /** @return the length of this line segment. */
     public double length() {
-        return Math.sqrt(Math.pow(this.x2 - this.x1, 2)
-                + Math.pow(this.y2 - this.y1, 2));
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
     /**
@@ -80,8 +79,8 @@ public class StraightLine extends Line2D.Double implements UtilityShape {
      *         x
      */
     public double slope() {
-        return (this.x2 - this.x1 == 0) ? java.lang.Double.POSITIVE_INFINITY
-                : ((this.y2 - this.y1) / (this.x2 - this.x1));
+        return (x2 - x1 == 0) ? java.lang.Double.POSITIVE_INFINITY
+                : ((y2 - y1) / (x2 - x1));
     }
 
     /**
@@ -95,9 +94,8 @@ public class StraightLine extends Line2D.Double implements UtilityShape {
 
     /** @return the y value of this line when x is set to 0 */
     public double yIntercept() {
-        return (this.slope() == java.lang.Double.POSITIVE_INFINITY) ?
-                java.lang.Double.POSITIVE_INFINITY
-                : (this.y1 - (this.slope() * this.x1));
+        return (slope() == java.lang.Double.POSITIVE_INFINITY) ?
+                java.lang.Double.POSITIVE_INFINITY : (y1 - (slope() * x1));
     }
 
     /**
@@ -113,7 +111,7 @@ public class StraightLine extends Line2D.Double implements UtilityShape {
 
     /** @return the angle of this line in the range pi/2 to -pi/2 in radians */
     public double angle() {
-        return Math.atan(this.slope());
+        return Math.atan(slope());
     }
 
     /**
@@ -130,32 +128,30 @@ public class StraightLine extends Line2D.Double implements UtilityShape {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element("straightLine");
 
-        ret.addContent(XMLUtility.pointToXML(this.getP1(), "start"));
-        ret.addContent(XMLUtility.pointToXML(this.getP2(), "end"));
+        ret.addContent(XMLUtility.pointToXML(getP1(), "start"));
+        ret.addContent(XMLUtility.pointToXML(getP2(), "end"));
 
         return ret;
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#magnify(double) */
+    /** @see UtilityShape#magnify(double) */
     public UtilityShape magnify(double scaleFactor) {
         return new XMLStraightLine(
-                new Point(this.x1 * scaleFactor, this.y1 * scaleFactor),
-                new Point(
-                        this.x2 * scaleFactor, this.y2 * scaleFactor));
+                new Point(x1 * scaleFactor, y1 * scaleFactor),
+                new Point(x2 * scaleFactor, y2 * scaleFactor));
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToCubic() */
+    /** @see UtilityShape#transformToCubic() */
     public CubicLine transformToCubic() {
-        return new CubicLine(this.getP1(), this.getP1(), this.getP2(),
-                this.getP2());
+        return new CubicLine(getP1(), getP1(), getP2(), getP2());
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToPath() */
+    /** @see UtilityShape#transformToPath() */
     public Path transformToPath() {
         Path ret = new Path();
 
-        Point s = new Point(this.getP1());
-        Point f = new Point(this.getP2());
+        Point s = new Point(getP1());
+        Point f = new Point(getP2());
 
         ret.moveTo(s.fX(), s.fY());
         ret.lineTo(f.fX(), f.fY());
@@ -163,17 +159,17 @@ public class StraightLine extends Line2D.Double implements UtilityShape {
         return ret;
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToLine() */
+    /** @see UtilityShape#transformToLine() */
     public StraightLine[] transformToLine() {
         StraightLine[] ret = new StraightLine[1];
         ret[0] = new StraightLine(this);
         return ret;
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToQuad() */
+    /** @see UtilityShape#transformToQuad() */
     public QuadLine[] transformToQuad() {
         QuadLine[] ret = new QuadLine[1];
-        ret[0] = new QuadLine(this.getP1(), this.midpoint(), this.getP2());
+        ret[0] = new QuadLine(getP1(), midpoint(), getP2());
         return ret;
     }
 
@@ -183,33 +179,31 @@ public class StraightLine extends Line2D.Double implements UtilityShape {
      * @return the point of intersection of the two lines, or null if they do
      *         not intersect
      */
+    @SuppressWarnings("MethodOverloadsMethodOfSuperclass")
     public Point intersects(StraightLine o) {
-        if (this.intersectsLine(o)) {
-            double slope = this.slope();
+        if (!intersectsLine(o)) {
+            return null;
+        } else {
+            double slope = slope();
             double slopeprime = o.slope();
 
-            double b = this.y1 - (slope * this.x1);
+            double b = y1 - (slope * x1);
             double bprime = o.y1 - (slopeprime * o.x1);
 
-            double x = 0;
-            double y = 0;
+            double x;
+            double y;
 
-            if (slope == java.lang.Double.POSITIVE_INFINITY
-                    || slopeprime == java.lang.Double.POSITIVE_INFINITY) {
-                if (slope == java.lang.Double.POSITIVE_INFINITY) {
-                    x = this.x1;
-                    y = (slopeprime * x) + bprime;
-                } else if (slopeprime == java.lang.Double.POSITIVE_INFINITY) {
-                    x = o.x1;
-                    y = (slope * x) + b;
-                }
+            if (slope == java.lang.Double.POSITIVE_INFINITY) {
+                x = x1;
+                y = (slopeprime * x) + bprime;
+            } else if (slopeprime == java.lang.Double.POSITIVE_INFINITY) {
+                x = o.x1;
+                y = (slope * x) + b;
             } else {
                 x = (b - bprime) / (slopeprime - slope);
                 y = (((slope * x) + b) + ((slopeprime * x) + bprime)) / 2;
             }
             return new Point(x, y);
-        } else {
-            return null;
         }
     }
 
@@ -228,23 +222,23 @@ public class StraightLine extends Line2D.Double implements UtilityShape {
 
     /** @return the midpoint of this StraightLine */
     public Point midpoint() {
-        return new Point((this.x2 + this.x1) / 2, (this.y2 + this.y1) / 2);
+        return new Point((x2 + x1) / 2, (y2 + y1) / 2);
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#deform(edu.wpi.mqp.napkin.Renderer) */
+    /** @see UtilityShape#deform(Renderer) */
     public UtilityShape deform(Renderer r) {
         return r.deformLine(this);
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#approximateLength() */
+    /** @see UtilityShape#approximateLength() */
     public double approximateLength() {
-        return this.length();
+        return length();
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToCubicList() */
+    /** @see UtilityShape#transformToCubicList() */
     public CubicLine[] transformToCubicList() {
         CubicLine[] ret = new CubicLine[1];
-        ret[0] = this.transformToCubic();
+        ret[0] = transformToCubic();
         return ret;
     }
 }

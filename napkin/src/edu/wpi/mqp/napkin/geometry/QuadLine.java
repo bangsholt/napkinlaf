@@ -50,31 +50,31 @@ public class QuadLine extends QuadCurve2D.Double implements UtilityShape {
         this(q.getP1(), q.getCtrlPt(), q.getP2());
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#magnify(double) */
+    /** @see UtilityShape#magnify(double) */
     public UtilityShape magnify(double scaleFactor) {
-        return new XMLQuadLine(this.x1 * scaleFactor, this.y1 * scaleFactor,
-                this.ctrlx * scaleFactor, this.ctrly * scaleFactor, this.x2
-                * scaleFactor, this.y2 * scaleFactor);
+        return new XMLQuadLine(x1 * scaleFactor, y1 * scaleFactor,
+                ctrlx * scaleFactor, ctrly * scaleFactor,
+                x2 * scaleFactor, y2 * scaleFactor);
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToCubic() */
+    /** @see UtilityShape#transformToCubic() */
     public CubicLine transformToCubic() {
-        Point base = Point.midpoint(this.getP1(), this.getP2());
-        StraightLine span = new StraightLine(base, this.getCtrlPt());
-        double lenMultiplier = .6;
+        Point base = Point.midpoint(getP1(), getP2());
+        StraightLine span = new StraightLine(base, getCtrlPt());
+        double lenMultiplier = 0.6;
         if (span.x2 < span.x1) lenMultiplier *= -1;
         Point2D reach = new StraightLine(base, span.angle(), span.length()
                 * lenMultiplier).getP2();
-        return new CubicLine(this.getP1(), reach, reach, this.getP2());
+        return new CubicLine(getP1(), reach, reach, getP2());
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToPath() */
+    /** @see UtilityShape#transformToPath() */
     public Path transformToPath() {
         Path ret = new Path();
 
-        Point s = new Point(this.getP1());
-        Point c = new Point(this.getCtrlPt());
-        Point f = new Point(this.getP2());
+        Point s = new Point(getP1());
+        Point c = new Point(getCtrlPt());
+        Point f = new Point(getP2());
 
         ret.moveTo(s.fX(), s.fY());
         ret.quadTo(c.fX(), c.fY(), f.fX(), f.fY());
@@ -82,12 +82,12 @@ public class QuadLine extends QuadCurve2D.Double implements UtilityShape {
         return ret;
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToLine() */
+    /** @see UtilityShape#transformToLine() */
     public StraightLine[] transformToLine() {
-        return this.transformToCubic().transformToLine();
+        return transformToCubic().transformToLine();
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToQuad() */
+    /** @see UtilityShape#transformToQuad() */
     public QuadLine[] transformToQuad() {
         QuadLine[] ret = new QuadLine[1];
 
@@ -96,20 +96,20 @@ public class QuadLine extends QuadCurve2D.Double implements UtilityShape {
         return ret;
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#deform(edu.wpi.mqp.napkin.Renderer) */
+    /** @see UtilityShape#deform(Renderer) */
     public UtilityShape deform(Renderer r) {
         return r.deformQuad(this);
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#approximateLength() */
+    /** @see UtilityShape#approximateLength() */
     public double approximateLength() {
-        return this.transformToCubic().approximateLength();
+        return transformToCubic().approximateLength();
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToCubicList() */
+    /** @see UtilityShape#transformToCubicList() */
     public CubicLine[] transformToCubicList() {
         CubicLine[] ret = new CubicLine[1];
-        ret[0] = this.transformToCubic();
+        ret[0] = transformToCubic();
         return ret;
     }
 }

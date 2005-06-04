@@ -58,9 +58,15 @@ public class Path implements UtilityShape {
         generalPath.append(s, connect);
     }
 
-    /** @see java.lang.Object#clone() */
+    /** @see Object#clone() */
     public Object clone() {
-        return generalPath.clone();
+        try {
+            Path clone = (Path) super.clone();
+            clone.generalPath = (GeneralPath) generalPath.clone();
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new IllegalStateException("cannot clone?", e);
+        }
     }
 
     /**
@@ -70,12 +76,12 @@ public class Path implements UtilityShape {
         generalPath.closePath();
     }
 
-    /** @see java.awt.Shape#contains(double, double) */
+    /** @see Shape#contains(double, double) */
     public boolean contains(double x, double y) {
         return generalPath.contains(x, y);
     }
 
-    /** @see java.awt.Shape#contains(double, double, double, double) */
+    /** @see Shape#contains(double, double, double, double) */
     public boolean contains(double x, double y, double w, double h) {
         return generalPath.contains(x, y, w, h);
     }
@@ -155,50 +161,47 @@ public class Path implements UtilityShape {
         generalPath.transform(at);
     }
 
-    /** @see java.awt.Shape#intersects(double, double, double, double) */
+    /** @see Shape#intersects(double, double, double, double) */
     public boolean intersects(double x, double y, double w, double h) {
         return generalPath.intersects(x, y, w, h);
     }
 
-    /** @see java.awt.Shape#getBounds() */
+    /** @see Shape#getBounds() */
     public Rectangle getBounds() {
         return generalPath.getBounds();
     }
 
-    /** @see java.awt.Shape#contains(java.awt.geom.Point2D) */
+    /** @see Shape#contains(Point2D) */
     public boolean contains(Point2D p) {
         return generalPath.contains(p);
     }
 
-    /** @see java.awt.Shape#getBounds2D() */
+    /** @see Shape#getBounds2D() */
     public Rectangle2D getBounds2D() {
         return generalPath.getBounds();
     }
 
-    /** @see java.awt.Shape#contains(java.awt.geom.Rectangle2D) */
+    /** @see Shape#contains(Rectangle2D) */
     public boolean contains(Rectangle2D r) {
         return generalPath.contains(r);
     }
 
-    /** @see java.awt.Shape#intersects(java.awt.geom.Rectangle2D) */
+    /** @see Shape#intersects(Rectangle2D) */
     public boolean intersects(Rectangle2D r) {
         return generalPath.intersects(r);
     }
 
-    /** @see java.awt.Shape#getPathIterator(java.awt.geom.AffineTransform) */
+    /** @see Shape#getPathIterator(AffineTransform) */
     public PathIterator getPathIterator(AffineTransform at) {
         return generalPath.getPathIterator(at);
     }
 
-    /**
-     * @see java.awt.Shape#getPathIterator(java.awt.geom.AffineTransform,
-     *      double)
-     */
+    /** @see Shape#getPathIterator(AffineTransform, double) */
     public PathIterator getPathIterator(AffineTransform at, double flatness) {
         return generalPath.getPathIterator(at, flatness);
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#magnify(double) */
+    /** @see UtilityShape#magnify(double) */
     public UtilityShape magnify(double scaleFactor) {
         Path ret = new Path();
         Point current;
@@ -206,9 +209,9 @@ public class Path implements UtilityShape {
         Point control2;
 
         double[] points = new double[6];
-        int type = 0;
+        int type;
 
-        PathIterator i = this.getPathIterator(new AffineTransform());
+        PathIterator i = getPathIterator(new AffineTransform());
 
         while (!i.isDone()) {
             type = i.currentSegment(points);
@@ -237,57 +240,61 @@ public class Path implements UtilityShape {
             case PathIterator.SEG_CLOSE:
                 ret.closePath();
                 break;
+            default:
+                throw new IllegalStateException(type + ": unknown");
             }
         }
 
         return ret;
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToCubic() */
+    /** @see UtilityShape#transformToCubic() */
     public CubicLine transformToCubic() {
-        throw new ClassCastException();
+        throw new UnsupportedOperationException();
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToPath() */
+    /** @see UtilityShape#transformToPath() */
     public Path transformToPath() {
         return new Path(this);
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToLine() */
+    /** @see UtilityShape#transformToLine() */
     public StraightLine[] transformToLine() {
-        LinkedList ret = new LinkedList();
+        //noinspection CollectionDeclaredAsConcreteClass
+        LinkedList<StraightLine> ret = new LinkedList<StraightLine>();
 
-        UtilityShape[] elements = this.simplify();
+        UtilityShape[] elements = simplify();
         StraightLine[] temp;
 
-        for (int i = 0; i < elements.length; ++i) {
-            temp = elements[i].transformToLine();
-            for (int j = 0; j < temp.length; ++j) {
-                ret.addLast(temp[j]);
+        for (UtilityShape element : elements) {
+            temp = element.transformToLine();
+            for (StraightLine line : temp) {
+                ret.addLast(line);
             }
         }
 
-        return (StraightLine[]) ret.toArray(new StraightLine[ret.size()]);
+        return ret.toArray(new StraightLine[ret.size()]);
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToQuad() */
+    /** @see UtilityShape#transformToQuad() */
     public QuadLine[] transformToQuad() {
-        LinkedList ret = new LinkedList();
+        //noinspection CollectionDeclaredAsConcreteClass
+        LinkedList<QuadLine> ret = new LinkedList<QuadLine>();
 
-        UtilityShape[] elements = this.simplify();
+        UtilityShape[] elements = simplify();
         QuadLine[] temp;
 
-        for (int i = 0; i < elements.length; ++i) {
-            temp = elements[i].transformToQuad();
-            for (int j = 0; j < temp.length; ++j) {
-                ret.addLast(temp[j]);
+        for (UtilityShape element : elements) {
+            temp = element.transformToQuad();
+            for (QuadLine line : temp) {
+                ret.addLast(line);
             }
         }
 
-        return (QuadLine[]) ret.toArray(new QuadLine[ret.size()]);
+        return ret.toArray(new QuadLine[ret.size()]);
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#deform(edu.wpi.mqp.napkin.Renderer) */
+    /** @see UtilityShape#deform(Renderer) */
     public UtilityShape deform(Renderer r) {
         return r.deformPath(this);
     }
@@ -297,7 +304,8 @@ public class Path implements UtilityShape {
      *         Path
      */
     public UtilityShape[] simplify() {
-        LinkedList ret = new LinkedList();
+        //noinspection CollectionDeclaredAsConcreteClass
+        LinkedList<UtilityShape> ret = new LinkedList<UtilityShape>();
 
         Point initial = new Point(0, 0);
         Point current = new Point(initial);
@@ -308,7 +316,7 @@ public class Path implements UtilityShape {
         int curseg;
         double[] coords = new double[6];
 
-        PathIterator iter = this.getPathIterator(new AffineTransform());
+        PathIterator iter = getPathIterator(new AffineTransform());
         while (!iter.isDone()) {
             curseg = iter.currentSegment(coords);
             iter.next();
@@ -340,32 +348,35 @@ public class Path implements UtilityShape {
                 ret.addLast(new StraightLine(current, initial));
                 current = initial;
                 break;
+            default:
+                throw new IllegalStateException(curseg + ": unknown seg type");
             }
         }
-        return (UtilityShape[]) ret.toArray(new UtilityShape[ret.size()]);
+        return ret.toArray(new UtilityShape[ret.size()]);
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#approximateLength() */
+    /** @see UtilityShape#approximateLength() */
     public double approximateLength() {
         double ret = 0;
 
-        UtilityShape[] elements = this.simplify();
-        for (int i = 0; i < elements.length; ++i) {
-            ret += elements[i].approximateLength();
+        UtilityShape[] elements = simplify();
+        for (UtilityShape element : elements) {
+            ret += element.approximateLength();
         }
 
         return ret;
     }
 
-    /** @see edu.wpi.mqp.napkin.geometry.UtilityShape#transformToCubicList() */
+    /** @see UtilityShape#transformToCubicList() */
     public CubicLine[] transformToCubicList() {
-        LinkedList ret = new LinkedList();
+        //noinspection CollectionDeclaredAsConcreteClass
+        LinkedList<CubicLine> ret = new LinkedList<CubicLine>();
 
-        UtilityShape[] elements = this.simplify();
-        for (int i = 0; i < elements.length; ++i) {
-            ret.addLast(elements[i].transformToCubic());
+        UtilityShape[] elements = simplify();
+        for (UtilityShape element : elements) {
+            ret.addLast(element.transformToCubic());
         }
 
-        return (CubicLine[]) ret.toArray(new CubicLine[ret.size()]);
+        return ret.toArray(new CubicLine[ret.size()]);
     }
 }
