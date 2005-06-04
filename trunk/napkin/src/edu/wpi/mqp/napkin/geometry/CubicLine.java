@@ -40,8 +40,7 @@ public class CubicLine extends CubicCurve2D.Double implements UtilityShape {
      * @param y2    the y coordinate of the end point
      */
     public CubicLine(double x1, double y1, double ctlx1, double ctly1,
-            double ctlx2,
-            double ctly2, double x2, double y2) {
+            double ctlx2, double ctly2, double x2, double y2) {
         super(x1, y1, ctlx1, ctly1, ctlx2, ctly2, x2, y2);
     }
 

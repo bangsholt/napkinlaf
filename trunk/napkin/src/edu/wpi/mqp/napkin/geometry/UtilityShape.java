@@ -31,7 +31,7 @@ public interface UtilityShape extends Shape {
      * factor. Alternately, it can be visualized as multiplying the x and y
      * coordinates of each defining point by the scale factor.
      *
-     * @param scaleFactor
+     * @param scaleFactor The scaling factor.
      *
      * @return a UtilityShape geometrically similar to this one, scaled by the
      *         scaleFactor.
@@ -59,7 +59,7 @@ public interface UtilityShape extends Shape {
      * form: <br /> <br /> <tt>return r.deform</tt> <b>&lt;UtilityShape name&gt;
      * </b> <tt>(this);</tt>
      *
-     * @param r
+     * @param r The renderer.
      *
      * @return this shape, deformed by the appropriate method within the
      *         renderer
