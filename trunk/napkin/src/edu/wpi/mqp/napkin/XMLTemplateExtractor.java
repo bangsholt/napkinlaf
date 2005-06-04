@@ -28,22 +28,22 @@ import javax.xml.parsers.SAXParserFactory;
  */
 public class XMLTemplateExtractor extends DefaultHandler {
     // Constants indicating what data needs to be extracted
-    protected static final int NO_ACTION = 0;
-    protected static final int GET_TEMPLATE_TITLE = 1;
-    protected static final int GET_TEMPLATE_DESCRIPTION = 2;
-    protected static final int GET_TEMPLATE_CLIP_WIDTH = 3;
-    protected static final int GET_TEMPLATE_CLIP_HEIGHT = 4;
-    protected static final int GET_DRAW_STROKE = 5;
-    protected static final int GET_DRAW_FILL = 6;
-    protected static final int GET_STROKE_WEIGHT = 7;
-    protected static final int GET_R_VALUE = 8;
-    protected static final int GET_G_VALUE = 9;
-    protected static final int GET_B_VALUE = 10;
-    protected static final int GET_X_VALUE = 11;
-    protected static final int GET_Y_VALUE = 12;
+    private static final int NO_ACTION = 0;
+    private static final int GET_TEMPLATE_TITLE = 1;
+    private static final int GET_TEMPLATE_DESCRIPTION = 2;
+    private static final int GET_TEMPLATE_CLIP_WIDTH = 3;
+    private static final int GET_TEMPLATE_CLIP_HEIGHT = 4;
+    private static final int GET_DRAW_STROKE = 5;
+    private static final int GET_DRAW_FILL = 6;
+    private static final int GET_STROKE_WEIGHT = 7;
+    private static final int GET_R_VALUE = 8;
+    private static final int GET_G_VALUE = 9;
+    private static final int GET_B_VALUE = 10;
+    private static final int GET_X_VALUE = 11;
+    private static final int GET_Y_VALUE = 12;
 
     // Template-related objects
-    private Template template;
+    private final Template template;
     private TemplateItem templateItem;
     private Dimension dimensions;
     private UtilityShape shape;
@@ -56,7 +56,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
 
     // Data-related objects
     private Point point; // Holds point information
-    private Point[] points; // Holds all points for a particular line
+    private final Point[] points; // Holds all points for a particular line
     private int i; // Used to iterate through all the points
     private int[] rgb; // Holds r, g, b color information
 
@@ -262,7 +262,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
     }
 
     /** Prints a detailed error message. */
-    protected void printError(String type, SAXParseException e) {
+    protected static void printError(String type, SAXParseException e) {
         System.err.print("[");
         System.err.print(type);
         System.err.print("] ");

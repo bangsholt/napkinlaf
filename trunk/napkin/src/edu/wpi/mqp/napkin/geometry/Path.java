@@ -43,14 +43,6 @@ public class Path implements UtilityShape {
     }
 
     /**
-     * @param pi
-     * @param connect
-     */
-    public void append(PathIterator pi, boolean connect) {
-        generalPath.append(pi, connect);
-    }
-
-    /**
      * @param s
      * @param connect
      */
@@ -84,15 +76,6 @@ public class Path implements UtilityShape {
     /** @see Shape#contains(double, double, double, double) */
     public boolean contains(double x, double y, double w, double h) {
         return generalPath.contains(x, y, w, h);
-    }
-
-    /**
-     * @param at
-     *
-     * @return a transformed shape
-     */
-    public Shape createTransformedShape(AffineTransform at) {
-        return generalPath.createTransformedShape(at);
     }
 
     /**

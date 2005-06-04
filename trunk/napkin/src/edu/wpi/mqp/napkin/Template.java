@@ -30,7 +30,7 @@ public class Template implements Cloneable {
     private Rectangle clippingBounds; // The area that defines which portion of the image to draw
     private int width; // The width of the image with all the template components combined
     private int height; // the height of the image with all the template components combined
-    private LinkedList<TemplateItem> templateItems; // A list of all template components
+    private final LinkedList<TemplateItem> templateItems; // A list of all template components
 
     /**
      * Constructs a new template with the given values.
@@ -230,8 +230,8 @@ public class Template implements Cloneable {
                     stringWriter);
         } catch (IOException e) {
             // There was an error creating the XML output
-            System.err
-                    .println("IO exception writing XML: ".concat(e.getMessage()));
+            e.printStackTrace();
+            System.err.println("Writing XML: " + e.getMessage());
         }
 
         return stringWriter.toString();
