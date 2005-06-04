@@ -40,7 +40,7 @@ public class NapkinIconFactory implements NapkinConstants {
 
         /** @noinspection AssignmentToStaticFieldFromInstanceMethod */
         protected DrawnShapeGenerator createMarkGenerator() {
-            if (checkGen != null)
+            if (checkGen == null)
                 checkGen = new DrawnCheckGenerator(size - midInset);
             return checkGen;
         }

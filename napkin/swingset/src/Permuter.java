@@ -1,49 +1,54 @@
 /*
- * Copyright (c) 2003 Sun Microsystems, Inc. All  Rights Reserved.
- *
+ * @(#)Permuter.java	1.8 04/07/26
+ * 
+ * Copyright (c) 2004 Sun Microsystems, Inc. All Rights Reserved.
+ * 
  * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * -Redistributions of source code must retain the above copyright
- *  notice, this list of conditions and the following disclaimer.
- *
- * -Redistribution in binary form must reproduct the above copyright
- *  notice, this list of conditions and the following disclaimer in
- *  the documentation and/or other materials provided with the distribution.
- *
- * Neither the name of Sun Microsystems, Inc. or the names of contributors
- * may be used to endorse or promote products derived from this software
- * without specific prior written permission.
- *
- * This software is provided "AS IS," without a warranty of any kind. ALL
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ * -Redistribution of source code must retain the above copyright notice, this
+ *  list of conditions and the following disclaimer.
+ * 
+ * -Redistribution in binary form must reproduce the above copyright notice, 
+ *  this list of conditions and the following disclaimer in the documentation
+ *  and/or other materials provided with the distribution.
+ * 
+ * Neither the name of Sun Microsystems, Inc. or the names of contributors may 
+ * be used to endorse or promote products derived from this software without 
+ * specific prior written permission.
+ * 
+ * This software is provided "AS IS," without a warranty of any kind. ALL 
  * EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING
  * ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
- * OR NON-INFRINGEMENT, ARE HEREBY EXCLUDED. SUN AND ITS LICENSORS SHALL NOT
- * BE LIABLE FOR ANY DAMAGES OR LIABILITIES SUFFERED BY LICENSEE AS A RESULT
- * OF OR RELATING TO USE, MODIFICATION OR DISTRIBUTION OF THE SOFTWARE OR ITS
- * DERIVATIVES. IN NO EVENT WILL SUN OR ITS LICENSORS BE LIABLE FOR ANY LOST
- * REVENUE, PROFIT OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL,
- * INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE THEORY
- * OF LIABILITY, ARISING OUT OF THE USE OF OR INABILITY TO USE SOFTWARE, EVEN
- * IF SUN HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- *
- * You acknowledge that Software is not designed, licensed or intended for
- * use in the design, construction, operation or maintenance of any nuclear
- * facility.
+ * OR NON-INFRINGEMENT, ARE HEREBY EXCLUDED. SUN MIDROSYSTEMS, INC. ("SUN")
+ * AND ITS LICENSORS SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY LICENSEE
+ * AS A RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
+ * DERIVATIVES. IN NO EVENT WILL SUN OR ITS LICENSORS BE LIABLE FOR ANY LOST 
+ * REVENUE, PROFIT OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL, 
+ * INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE THEORY 
+ * OF LIABILITY, ARISING OUT OF THE USE OF OR INABILITY TO USE THIS SOFTWARE, 
+ * EVEN IF SUN HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+ * 
+ * You acknowledge that this software is not designed, licensed or intended
+ * for use in the design, construction, operation or maintenance of any
+ * nuclear facility.
  */
 
 /*
- * @(#)Permuter.java	1.6 03/01/23
+ * @(#)Permuter.java	1.8 04/07/26
  */
+
+
+
+import java.util.Random;
 
 /**
  * An object that implements a cheesy pseudorandom permutation of the integers
  * from zero to some user-specified value. (The permutation is a linear
- * function.)
+ * function.) 
  *
+ * @version 1.8 07/26/04
  * @author Josh Bloch
- * @version 1.6 01/23/03
  */
 class Permuter {
     /**
@@ -62,27 +67,27 @@ class Permuter {
     private int addend = 22;
 
     public Permuter(int n) {
-        if (n < 0) {
+        if (n<0) {
             throw new IllegalArgumentException();
-        }
+	}
         modulus = n;
-        if (n == 1) {
+        if (n==1) {
             return;
-        }
+	}
 
         // Initialize the multiplier and offset
         multiplier = (int) Math.sqrt(n);
         while (gcd(multiplier, n) != 1) {
             if (++multiplier == n) {
                 multiplier = 1;
-            }
-        }
+	    }
+	}
     }
 
     /**
      * Returns the integer to which this permuter maps the specified integer.
-     * The specified integer must be between 0 and n-1, and the returned integer
-     * will be as well.
+     * The specified integer must be between 0 and n-1, and the returned
+     * integer will be as well.
      */
     public int map(int i) {
         return (multiplier * i + addend) % modulus;
@@ -92,7 +97,7 @@ class Permuter {
      * Calculate GCD of a and b, which are assumed to be non-negative.
      */
     private static int gcd(int a, int b) {
-        while (b != 0) {
+        while(b != 0) {
             int tmp = a % b;
             a = b;
             b = tmp;
@@ -106,9 +111,9 @@ class Permuter {
     public static void main(String[] args) {
         int modulus = Integer.parseInt(args[0]);
         Permuter p = new Permuter(modulus);
-        for (int i = 0; i < modulus; i++) {
-            System.out.print(p.map(i) + " ");
-        }
+        for (int i=0; i<modulus; i++) {
+            System.out.print(p.map(i)+" ");
+	}
         System.out.println();
     }
 }
