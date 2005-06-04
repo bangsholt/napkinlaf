@@ -2,8 +2,6 @@
 
 package edu.wpi.mqp.napkin;
 
-import edu.wpi.mqp.napkin.renderers.IdealRenderer;
-
 import java.awt.*;
 import java.awt.image.*;
 import javax.swing.*;
@@ -18,31 +16,16 @@ import javax.swing.*;
  * @author Peter Goodspeed
  */
 public class DrawnIcon implements Icon {
-    private Template template;    // The template object to render
+    private final Template template;    // The template object to render
     private Renderer renderer;    // The renderer used to create icon's image
     private BufferedImage bimage; // The stored image of the final render
     private boolean isRendered;   // Has this icon's template has been rendered?
-
-    /**
-     * Creates a new DrawnIcon with Ideal render style. Typical syntax will
-     * resemble the following:<br /> <code>new DrawnIcon(Template.produceFromXMLDocument(path));</code>
-     *
-     * @param template The Template to draw
-     *
-     * @see Template#produceFromXMLDocument(String)
-     * @see TemplateReadException
-     */
-    public DrawnIcon(Template template) {
-        this(template, new IdealRenderer());
-    }
 
     /**
      * Creates a new DrawnIcon with specified template and render style
      *
      * @param template
      * @param renderer
-     *
-     * @see DrawnIcon#DrawnIcon(Template)
      */
     public DrawnIcon(Template template, Renderer renderer) {
         this.template = template;

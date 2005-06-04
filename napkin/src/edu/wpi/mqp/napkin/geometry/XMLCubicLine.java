@@ -16,23 +16,6 @@ import java.awt.geom.*;
  */
 public class XMLCubicLine extends CubicLine implements XMLShape {
     /**
-     *
-     */
-    public XMLCubicLine() {
-        super();
-    }
-
-    /**
-     * Creates a new CubicLine identical to the CubicCurve2D passed into it
-     *
-     * @param clone the CubicCurve2D to duplicate
-     */
-    public XMLCubicLine(CubicCurve2D clone) {
-        this(clone.getP1(), clone.getCtrlP1(), clone.getCtrlP2(),
-                clone.getP2());
-    }
-
-    /**
      * @param x1
      * @param y1
      * @param ctlx1

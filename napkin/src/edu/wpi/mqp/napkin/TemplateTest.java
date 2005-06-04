@@ -39,15 +39,13 @@ public class TemplateTest implements ActionListener {
     // Various GUI widgets for controlling the application's settings
     private static JFrame templateTestFrame;
     private static JMenuBar menuBar;
-    private JPanel mainPanel
-    ,
-    selectPanel
-    ,
-    displayPanel;
+    private final JPanel mainPanel;
+    private final JPanel selectPanel;
+    private final JPanel displayPanel;
     private JMenuItem openMenuItem
     ,
     exitMenuItem;
-    private JFileChooser fileChooser;
+    private final JFileChooser fileChooser;
     private JComboBox renderChoices;
     private JButton renderButton;
     private JLabel templateImageLabel;
@@ -118,28 +116,6 @@ public class TemplateTest implements ActionListener {
     }
 
     class DrawnIconFileView extends FileView {
-        /** @see FileView#getName(File) */
-        public String getName(File f) {
-            return super.getName(f); //let the L&F FileView figure this out
-        }
-
-        /** @see FileView#getDescription(File) */
-        public String getDescription(File f) {
-            return super.getDescription(f); //let the L&F FileView figure this
-            // out
-        }
-
-        /** @see FileView#isTraversable(File) */
-        public Boolean isTraversable(File f) {
-            return super.isTraversable(f); //let the L&F FileView figure this
-            // out
-        }
-
-        /** @see FileView#getTypeDescription(File) */
-        public String getTypeDescription(File f) {
-            return super.getTypeDescription(f);
-        }
-
         /** @see FileView#getIcon(File) */
         public Icon getIcon(File f) {
             Icon icon = null;
@@ -347,8 +323,9 @@ public class TemplateTest implements ActionListener {
      *
      * @return An icon image of the rendered template
      */
-    private static DrawnIcon createDrawnIcon(String templatePath,
-            int renderStyle) {
+    private static DrawnIcon
+            createDrawnIcon(String templatePath, int renderStyle) {
+
         Renderer renderer = getRenderStyle(renderStyle);
         DrawnIcon ret = null;
 

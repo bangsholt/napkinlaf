@@ -18,15 +18,6 @@ import java.awt.geom.*;
 public class XMLUtility {
     /**
      * @param c
-     *
-     * @return an XML representation of the color
-     */
-    public static Element colorToXML(Color c) {
-        return colorToXML(c, "color");
-    }
-
-    /**
-     * @param c
      * @param name
      *
      * @return an XML representation of the color with the specified element
@@ -49,15 +40,6 @@ public class XMLUtility {
         ret.addContent(blue);
 
         return ret;
-    }
-
-    /**
-     * @param p
-     *
-     * @return an XML representation of the specified Point2D named 'point'
-     */
-    public static Element pointToXML(Point2D p) {
-        return pointToXML(p, "point");
     }
 
     /**

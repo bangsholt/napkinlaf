@@ -70,7 +70,7 @@ public class JotRenderer extends Renderer {
         return deform(c, true);
     }
 
-    private CubicLine deform(CubicLine c, boolean perturbInitial) {
+    private static CubicLine deform(CubicLine c, boolean perturbInitial) {
         double twopercent = c.approximateLength() * DEFORM_FACTOR;
 
         Point p1 = (perturbInitial ?
@@ -182,7 +182,7 @@ public class JotRenderer extends Renderer {
         return ret;
     }
 
-    private float computeStrokeModifier(double lineLength) {
+    private static float computeStrokeModifier(double lineLength) {
         double ret;
 
         if (lineLength < 1.68) {

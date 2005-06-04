@@ -13,11 +13,6 @@ import java.awt.geom.*;
  * @author Justin Crafford
  */
 public class Point extends Point2D.Double {
-    /** Constructs a new <tt>Point</tt> object */
-    public Point() {
-        super();
-    }
-
     /**
      * @param x
      * @param y
@@ -78,7 +73,7 @@ public class Point extends Point2D.Double {
      * @return a new Point offset from the original by a random distance and
      *         angle.
      */
-    public Point random(double stdev) {
+    private Point random(double stdev) {
         double dist = NapkinRandom.gaussian(stdev);
         double angle = NapkinRandom.nextDouble(Math.PI) - Math.PI / 2;
         return new Point(this, dist, angle);

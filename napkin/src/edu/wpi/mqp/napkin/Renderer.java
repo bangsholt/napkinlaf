@@ -36,7 +36,7 @@ public abstract class Renderer {
      *              information
      * @param g2d   The graphics object on which to render the image
      */
-    protected void quickRender(TemplateItem tItem, Graphics2D g2d) {
+    protected static void quickRender(TemplateItem tItem, Graphics2D g2d) {
         if (tItem.isDrawFill()) {
             g2d.setColor(tItem.getFillColor());
             g2d.fill(tItem.getShape());
@@ -117,7 +117,7 @@ public abstract class Renderer {
      *
      * @return a path which represents the input collection of lines
      */
-    protected Path formPath(StraightLine[] l) {
+    protected static Path formPath(StraightLine[] l) {
         Path ret = new Path();
         Point p = new Point(l[0].getP1());
         ret.moveTo(p.fX(), p.fY());
@@ -125,48 +125,6 @@ public abstract class Renderer {
         for (StraightLine line : l) {
             p = new Point(line.getP2());
             ret.lineTo(p.fX(), p.fY());
-        }
-
-        return ret;
-    }
-
-    /**
-     * @param q
-     *
-     * @return a path which represents the input collection of quads
-     */
-    protected Path formPath(QuadLine[] q) {
-        Path ret = new Path();
-        Point p = new Point(q[0].getP1());
-        Point c;
-        ret.moveTo(p.fX(), p.fY());
-
-        for (QuadLine ql : q) {
-            p = new Point(ql.getP2());
-            c = new Point(ql.getCtrlPt());
-            ret.quadTo(c.fX(), c.fY(), p.fX(), p.fY());
-        }
-
-        return ret;
-    }
-
-    /**
-     * @param c
-     *
-     * @return a path which represents the input collection of cubics
-     */
-    protected Path formPath(CubicLine[] c) {
-        Path ret = new Path();
-        Point p = new Point(c[0].getP1());
-        Point c1;
-        Point c2;
-        ret.moveTo(p.fX(), p.fY());
-
-        for (CubicLine cl : c) {
-            p = new Point(cl.getP2());
-            c1 = new Point(cl.getCtrlP1());
-            c2 = new Point(cl.getCtrlP2());
-            ret.curveTo(c1.fX(), c1.fY(), c2.fX(), c2.fY(), p.fX(), p.fY());
         }
 
         return ret;

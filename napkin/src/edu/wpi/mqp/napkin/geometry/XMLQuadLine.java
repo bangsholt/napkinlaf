@@ -16,13 +16,6 @@ import java.awt.geom.*;
  */
 public class XMLQuadLine extends QuadLine implements XMLShape {
     /**
-     *
-     */
-    public XMLQuadLine() {
-        super();
-    }
-
-    /**
      * @param x1
      * @param y1
      * @param ctrlx
@@ -44,15 +37,6 @@ public class XMLQuadLine extends QuadLine implements XMLShape {
     public XMLQuadLine(Point2D p1, Point2D ctrlpt, Point2D p2) {
         super(p1.getX(), p1.getY(), ctrlpt.getX(), ctrlpt.getY(), p2.getX(), p2
                 .getY());
-    }
-
-    /**
-     * Creates a QuadLine identical to the QuadCurve2D passed in
-     *
-     * @param q
-     */
-    public XMLQuadLine(QuadCurve2D q) {
-        this(q.getP1(), q.getCtrlPt(), q.getP2());
     }
 
     /** @see XMLShape#produceXML() */
