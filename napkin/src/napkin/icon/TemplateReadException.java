@@ -1,6 +1,6 @@
 // $Id$
 
-package edu.wpi.mqp.napkin;
+package napkin.icon;
 
 /**
  * TemplateReadException: Thrown when there is an exception while trying to read

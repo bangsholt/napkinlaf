@@ -1,8 +1,7 @@
 // $Id$
 
-package edu.wpi.mqp.napkin.geometry;
+package napkin.icon.geometry;
 
-import edu.wpi.mqp.napkin.XMLUtility;
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Element;
 
@@ -28,8 +27,8 @@ public class XMLStraightLine extends StraightLine implements XMLShape {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element("straightLine");
 
-        ret.addContent(XMLUtility.pointToXML(getP1(), "start"));
-        ret.addContent(XMLUtility.pointToXML(getP2(), "end"));
+        ret.addContent(napkin.icon.XMLUtility.pointToXML(getP1(), "start"));
+        ret.addContent(napkin.icon.XMLUtility.pointToXML(getP2(), "end"));
 
         return ret;
     }

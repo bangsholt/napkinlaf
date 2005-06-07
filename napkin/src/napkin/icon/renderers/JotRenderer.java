@@ -1,17 +1,17 @@
 // $Id$
 
-package edu.wpi.mqp.napkin.renderers;
+package napkin.icon.renderers;
 
-import edu.wpi.mqp.napkin.Renderer;
-import edu.wpi.mqp.napkin.Template;
-import edu.wpi.mqp.napkin.TemplateItem;
-import edu.wpi.mqp.napkin.geometry.CubicLine;
-import edu.wpi.mqp.napkin.geometry.Path;
-import edu.wpi.mqp.napkin.geometry.Point;
-import edu.wpi.mqp.napkin.geometry.QuadLine;
-import edu.wpi.mqp.napkin.geometry.StraightLine;
-import edu.wpi.mqp.napkin.geometry.UtilityShape;
 import napkin.NapkinRandom;
+import napkin.icon.Renderer;
+import napkin.icon.Template;
+import napkin.icon.TemplateItem;
+import napkin.icon.geometry.CubicLine;
+import napkin.icon.geometry.Path;
+import napkin.icon.geometry.Point;
+import napkin.icon.geometry.QuadLine;
+import napkin.icon.geometry.StraightLine;
+import napkin.icon.geometry.UtilityShape;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -30,14 +30,14 @@ public class JotRenderer extends Renderer {
     private static final double DEFORM_FACTOR = 0.2;
 
     /** @see Renderer#render(Template, Graphics2D) */
-    public void render(Template template, Graphics2D g2d) {
+    public void render(napkin.icon.Template template, Graphics2D g2d) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-        Iterator<TemplateItem> iter = template.getListIterator();
+        Iterator<napkin.icon.TemplateItem> iter = template.getListIterator();
         while (iter.hasNext()) {
-            TemplateItem current = iter.next();
-            TemplateItem draw = (TemplateItem) current.clone();
+            napkin.icon.TemplateItem current = iter.next();
+            napkin.icon.TemplateItem draw = (TemplateItem) current.clone();
             if (current.isDrawFill()) {
                 draw.setDrawStroke(false);
                 draw.setDrawFill(true);
@@ -195,7 +195,7 @@ public class JotRenderer extends Renderer {
         return (float) ret;
     }
 
-    /** @see Renderer#deformLine(StraightLine) */
+    /** @see napkin.icon.Renderer#deformLine(StraightLine) */
     public UtilityShape deformLine(StraightLine l) {
         return l.transformToCubic().deform(this);
     }
@@ -210,7 +210,7 @@ public class JotRenderer extends Renderer {
         return deform(c);
     }
 
-    /** @see Renderer#deformPath(Path) */
+    /** @see napkin.icon.Renderer#deformPath(Path) */
     public UtilityShape deformPath(Path p) {
         return deform(p);
     }

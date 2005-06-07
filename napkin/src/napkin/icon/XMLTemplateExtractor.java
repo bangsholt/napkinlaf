@@ -1,12 +1,12 @@
 // $Id$
 
-package edu.wpi.mqp.napkin;
+package napkin.icon;
 
-import edu.wpi.mqp.napkin.geometry.CubicLine;
-import edu.wpi.mqp.napkin.geometry.Path;
-import edu.wpi.mqp.napkin.geometry.QuadLine;
-import edu.wpi.mqp.napkin.geometry.StraightLine;
-import edu.wpi.mqp.napkin.geometry.UtilityShape;
+import napkin.icon.geometry.CubicLine;
+import napkin.icon.geometry.Path;
+import napkin.icon.geometry.QuadLine;
+import napkin.icon.geometry.StraightLine;
+import napkin.icon.geometry.UtilityShape;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -291,7 +291,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
      *
      * @return a Template
      */
-    public Template createTemplate(String tmplPath)
+    public napkin.icon.Template createTemplate(String tmplPath)
             throws TemplateReadException {
 
         try {

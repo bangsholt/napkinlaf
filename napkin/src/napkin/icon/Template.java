@@ -1,6 +1,6 @@
 // $Id$
 
-package edu.wpi.mqp.napkin;
+package napkin.icon;
 
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Document;
@@ -58,8 +58,8 @@ public class Template implements Cloneable {
      * Reads an XML file located at the path indicated, and returns a Template
      * object which instantiates the object represented in that document, so
      * long as the document is in fact an XML document which is valid according
-     * to the schema edu.wpi.mqp.napkin.resources.Template.xsd. This is useful
-     * to retrieve a Template from long-term storage.
+     * to the schema napkin.icon.resources.Template.xsd. This is useful to
+     * retrieve a Template from long-term storage.
      *
      * @param path
      *

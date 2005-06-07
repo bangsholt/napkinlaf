@@ -1,6 +1,6 @@
 // $Id$
 
-package edu.wpi.mqp.napkin;
+package napkin.icon;
 
 import java.awt.*;
 import java.awt.image.*;

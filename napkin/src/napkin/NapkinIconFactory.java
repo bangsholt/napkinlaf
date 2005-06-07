@@ -2,10 +2,10 @@
 
 package napkin;
 
-import edu.wpi.mqp.napkin.DrawnIcon;
-import edu.wpi.mqp.napkin.Template;
-import edu.wpi.mqp.napkin.TemplateReadException;
-import edu.wpi.mqp.napkin.renderers.JotRenderer;
+import napkin.icon.DrawnIcon;
+import napkin.icon.Template;
+import napkin.icon.TemplateReadException;
+import napkin.icon.renderers.JotRenderer;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -221,8 +221,8 @@ public class NapkinIconFactory implements NapkinConstants {
      * @throws TemplateReadException on IO error or when the XML file is
      *                               misformatted
      */
-    public static DrawnIcon createTemplatedIcon(String templatePath)
-            throws TemplateReadException {
+    public static napkin.icon.DrawnIcon createTemplatedIcon(String templatePath)
+            throws napkin.icon.TemplateReadException {
         return new DrawnIcon(Template.produceFromXMLDocument(templatePath),
                 new JotRenderer());
     }
@@ -232,7 +232,8 @@ public class NapkinIconFactory implements NapkinConstants {
      *
      * @return a new DrawnIcon in the Jot style representing the given template
      */
-    public static DrawnIcon createTemplatedIcon(Template template) {
+    public static napkin.icon.DrawnIcon createTemplatedIcon(napkin.icon.Template template)
+    {
         return new DrawnIcon(template, new JotRenderer());
     }
 }

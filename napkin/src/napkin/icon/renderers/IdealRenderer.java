@@ -1,13 +1,13 @@
 // $Id$
 
-package edu.wpi.mqp.napkin.renderers;
+package napkin.icon.renderers;
 
-import edu.wpi.mqp.napkin.Renderer;
-import edu.wpi.mqp.napkin.geometry.CubicLine;
-import edu.wpi.mqp.napkin.geometry.Path;
-import edu.wpi.mqp.napkin.geometry.QuadLine;
-import edu.wpi.mqp.napkin.geometry.StraightLine;
-import edu.wpi.mqp.napkin.geometry.UtilityShape;
+import napkin.icon.Renderer;
+import napkin.icon.geometry.CubicLine;
+import napkin.icon.geometry.Path;
+import napkin.icon.geometry.QuadLine;
+import napkin.icon.geometry.StraightLine;
+import napkin.icon.geometry.UtilityShape;
 
 /**
  * IdealRenderer: Renders a template without performing any deformations or
@@ -17,7 +17,7 @@ import edu.wpi.mqp.napkin.geometry.UtilityShape;
  * @author Justin Crafford
  */
 public class IdealRenderer extends Renderer {
-    /** @see Renderer#deformLine(StraightLine) */
+    /** @see napkin.icon.Renderer#deformLine(StraightLine) */
     public UtilityShape deformLine(StraightLine l) {
         return l;
     }
@@ -27,12 +27,12 @@ public class IdealRenderer extends Renderer {
         return q;
     }
 
-    /** @see Renderer#deformCubic(CubicLine) */
+    /** @see napkin.icon.Renderer#deformCubic(CubicLine) */
     public UtilityShape deformCubic(CubicLine c) {
         return c;
     }
 
-    /** @see Renderer#deformPath(Path) */
+    /** @see napkin.icon.Renderer#deformPath(Path) */
     public UtilityShape deformPath(Path p) {
         return p;
     }

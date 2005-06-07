@@ -1,8 +1,8 @@
 // $Id$
 
-package edu.wpi.mqp.napkin.geometry;
+package napkin.icon.geometry;
 
-import edu.wpi.mqp.napkin.XMLUtility;
+import napkin.icon.XMLUtility;
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Element;
 
