@@ -1,6 +1,6 @@
 // $Id$
 
-package edu.wpi.mqp.napkin.geometry;
+package napkin.icon.geometry;
 
 import org.jdom.Element;
 

@@ -1,8 +1,8 @@
 // $Id$
 
-package edu.wpi.mqp.napkin.geometry;
+package napkin.icon.geometry;
 
-import edu.wpi.mqp.napkin.Renderer;
+import napkin.icon.Renderer;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -277,7 +277,7 @@ public class Path implements UtilityShape {
         return ret.toArray(new QuadLine[ret.size()]);
     }
 
-    /** @see UtilityShape#deform(Renderer) */
+    /** @see UtilityShape#deform(napkin.icon.Renderer) */
     public UtilityShape deform(Renderer r) {
         return r.deformPath(this);
     }

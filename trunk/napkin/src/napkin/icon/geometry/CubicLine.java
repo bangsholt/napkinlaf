@@ -1,8 +1,6 @@
 // $Id$
 
-package edu.wpi.mqp.napkin.geometry;
-
-import edu.wpi.mqp.napkin.Renderer;
+package napkin.icon.geometry;
 
 import java.awt.geom.*;
 
@@ -166,8 +164,8 @@ public class CubicLine extends CubicCurve2D.Double implements UtilityShape {
         return ret;
     }
 
-    /** @see UtilityShape#deform(Renderer) */
-    public UtilityShape deform(Renderer r) {
+    /** @see UtilityShape#deform(napkin.icon.Renderer) */
+    public UtilityShape deform(napkin.icon.Renderer r) {
         return r.deformCubic(this);
     }
 

@@ -1,12 +1,12 @@
 // $Id$
 
-package edu.wpi.mqp.napkin;
+package napkin.icon;
 
-import edu.wpi.mqp.napkin.renderers.DraftsmanRenderer;
-import edu.wpi.mqp.napkin.renderers.IdealRenderer;
-import edu.wpi.mqp.napkin.renderers.JotRenderer;
-import edu.wpi.mqp.napkin.renderers.LineRenderer;
 import napkin.NapkinLookAndFeel;
+import napkin.icon.renderers.DraftsmanRenderer;
+import napkin.icon.renderers.IdealRenderer;
+import napkin.icon.renderers.JotRenderer;
+import napkin.icon.renderers.LineRenderer;
 
 import java.awt.event.*;
 import java.io.*;
@@ -331,7 +331,7 @@ public class TemplateTest implements ActionListener {
 
         try {
             Template template = Template.produceFromXMLDocument(templatePath);
-            ret = new DrawnIcon(template, renderer);
+            ret = new napkin.icon.DrawnIcon(template, renderer);
         } catch (TemplateReadException e) {
             e.printStackTrace();
             System.exit(1);

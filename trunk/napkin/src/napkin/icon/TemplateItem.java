@@ -1,10 +1,10 @@
 // $Id$
 
-package edu.wpi.mqp.napkin;
+package napkin.icon;
 
-import edu.wpi.mqp.napkin.geometry.UtilityShape;
-import edu.wpi.mqp.napkin.geometry.XMLShape;
 import napkin.NapkinTheme;
+import napkin.icon.geometry.UtilityShape;
+import napkin.icon.geometry.XMLShape;
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Element;
 

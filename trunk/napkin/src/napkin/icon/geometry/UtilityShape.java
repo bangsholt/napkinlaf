@@ -1,8 +1,6 @@
 // $Id$
 
-package edu.wpi.mqp.napkin.geometry;
-
-import edu.wpi.mqp.napkin.Renderer;
+package napkin.icon.geometry;
 
 import java.awt.*;
 
@@ -64,7 +62,7 @@ public interface UtilityShape extends Shape {
      * @return this shape, deformed by the appropriate method within the
      *         renderer
      */
-    UtilityShape deform(Renderer r);
+    UtilityShape deform(napkin.icon.Renderer r);
 
     /**
      * @return the approximate length of this item. This should be optimized for

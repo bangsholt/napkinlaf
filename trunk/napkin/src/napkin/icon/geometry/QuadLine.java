@@ -1,8 +1,8 @@
 // $Id$
 
-package edu.wpi.mqp.napkin.geometry;
+package napkin.icon.geometry;
 
-import edu.wpi.mqp.napkin.Renderer;
+import napkin.icon.Renderer;
 
 import java.awt.geom.*;
 

@@ -1,13 +1,13 @@
 // $Id$
 
-package edu.wpi.mqp.napkin;
+package napkin.icon;
 
-import edu.wpi.mqp.napkin.geometry.CubicLine;
-import edu.wpi.mqp.napkin.geometry.Path;
-import edu.wpi.mqp.napkin.geometry.Point;
-import edu.wpi.mqp.napkin.geometry.QuadLine;
-import edu.wpi.mqp.napkin.geometry.StraightLine;
-import edu.wpi.mqp.napkin.geometry.UtilityShape;
+import napkin.icon.geometry.CubicLine;
+import napkin.icon.geometry.Path;
+import napkin.icon.geometry.Point;
+import napkin.icon.geometry.QuadLine;
+import napkin.icon.geometry.StraightLine;
+import napkin.icon.geometry.UtilityShape;
 
 import java.awt.*;
 import java.util.Iterator;

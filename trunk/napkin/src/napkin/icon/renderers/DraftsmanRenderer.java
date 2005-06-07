@@ -1,14 +1,14 @@
 // $Id$
 
-package edu.wpi.mqp.napkin.renderers;
+package napkin.icon.renderers;
 
-import edu.wpi.mqp.napkin.Renderer;
-import edu.wpi.mqp.napkin.geometry.CubicLine;
-import edu.wpi.mqp.napkin.geometry.Path;
-import edu.wpi.mqp.napkin.geometry.QuadLine;
-import edu.wpi.mqp.napkin.geometry.StraightLine;
-import edu.wpi.mqp.napkin.geometry.UtilityShape;
 import napkin.NapkinRandom;
+import napkin.icon.Renderer;
+import napkin.icon.geometry.CubicLine;
+import napkin.icon.geometry.Path;
+import napkin.icon.geometry.QuadLine;
+import napkin.icon.geometry.StraightLine;
+import napkin.icon.geometry.UtilityShape;
 
 /**
  * DraftsmanRenderer: Renders like a draftsman might: lots of straight lines and
@@ -49,7 +49,7 @@ public class DraftsmanRenderer extends Renderer {
         return ret;
     }
 
-    /** @see Renderer#deformQuad(QuadLine) */
+    /** @see napkin.icon.Renderer#deformQuad(QuadLine) */
     public UtilityShape deformQuad(QuadLine q) {
         if (q.getFlatness() < q.approximateLength() * DEFORM_FACTOR) {
             return new StraightLine(q.getP1(), q.getP2()).deform(this);
@@ -58,7 +58,7 @@ public class DraftsmanRenderer extends Renderer {
         }
     }
 
-    /** @see Renderer#deformCubic(CubicLine) */
+    /** @see napkin.icon.Renderer#deformCubic(CubicLine) */
     public UtilityShape deformCubic(CubicLine c) {
         if (c.getFlatness() < c.approximateLength() * DEFORM_FACTOR * 0.5) {
             return new StraightLine(c.getP1(), c.getP2()).deform(this);
@@ -67,7 +67,7 @@ public class DraftsmanRenderer extends Renderer {
         }
     }
 
-    /** @see Renderer#deformPath(Path) */
+    /** @see napkin.icon.Renderer#deformPath(Path) */
     public UtilityShape deformPath(Path p) {
         Path ret = new Path();
         UtilityShape[] elements = p.simplify();
