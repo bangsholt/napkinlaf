@@ -1,8 +1,11 @@
 // $Id$
 
-package napkin.icon;
+package napkin.dev;
 
 import napkin.NapkinLookAndFeel;
+import napkin.icon.DrawnIcon;
+import napkin.icon.Template;
+import napkin.icon.TemplateReadException;
 import napkin.icon.renderers.DraftsmanRenderer;
 import napkin.icon.renderers.IdealRenderer;
 import napkin.icon.renderers.JotRenderer;
@@ -326,7 +329,7 @@ public class TemplateTest implements ActionListener {
     private static DrawnIcon
             createDrawnIcon(String templatePath, int renderStyle) {
 
-        Renderer renderer = getRenderStyle(renderStyle);
+        napkin.icon.Renderer renderer = getRenderStyle(renderStyle);
         DrawnIcon ret = null;
 
         try {
@@ -340,8 +343,8 @@ public class TemplateTest implements ActionListener {
         return ret;
     }
 
-    private static Renderer getRenderStyle(int renderStyle) {
-        Renderer renderer;
+    private static napkin.icon.Renderer getRenderStyle(int renderStyle) {
+        napkin.icon.Renderer renderer;
 
         // Selects the rendering style to use
         switch (renderStyle) {
