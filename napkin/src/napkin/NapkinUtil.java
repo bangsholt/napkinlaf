@@ -7,6 +7,7 @@ import java.awt.geom.*;
 import java.awt.image.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.util.HashSet;
 import java.util.Map;
@@ -636,6 +637,15 @@ public class NapkinUtil implements NapkinConstants {
                     NapkinDebug.descFor(paperStack.peek()));
         }
         Logs.paper.log(Level.FINER, dump.toString());
+    }
+
+    public static IOException tryClose(InputStream fonts) {
+        try {
+            fonts.close();
+            return null;
+        } catch (IOException e) {
+            return e;
+        }
     }
 }
 

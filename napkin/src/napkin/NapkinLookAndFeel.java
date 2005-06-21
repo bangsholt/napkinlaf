@@ -8,8 +8,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.WeakHashMap;
 import javax.swing.*;
@@ -374,7 +376,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "DesktopIcon.border", null,
             "ToggleButton.border", selectBorder,
             "InternalFrame.border", new BorderUIResource(
-                    new EmptyBorder(3, 3, 3, 3)),
+                new EmptyBorder(3, 3, 3, 3)),
 
             "InternalFrame.maximizeIcon", null,
             "InternalFrame.minimizeIcon", null,
@@ -502,11 +504,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     private static void overrideComponentDefaults(UIDefaults table) {
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
 
-        Font dialogPlain = theme.getTextFont();
-        Font dialogBold = theme.getBoldTextFont();
-        Font serifPlain = theme.getTextFont();
-        Font sansSerifPlain = theme.getTextFont();
-        Font monospacedPlain = theme.getFixedFont();
+        Map<String, Font> fontMap = fontNameMap(theme);
 
         Object drawnBorder = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
@@ -532,19 +530,12 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 if (res instanceof FontUIResource) {
                     FontUIResource resource = (FontUIResource) res;
                     String name = resource.getFontName();
-                    if (name.equals("Dialog.plain")) {
-                        entry.setValue(dialogPlain);
-                    } else if (name.equals("Dialog.bold")) {
-                        entry.setValue(dialogBold);
-                    } else if (name.equals("Serif.plain")) {
-                        entry.setValue(serifPlain);
-                    } else if (name.equals("SansSerif.plain")) {
-                        entry.setValue(sansSerifPlain);
-                    } else if (name.equals("MonoSpaced.plain")) {
-                        entry.setValue(monospacedPlain);
-                    } else {
+                    Font font = fontMap.get(name);
+                    if (font != null)
+                        entry.setValue(font);
+                    else {
                         System.err.println(
-                                "unknown font; " + name + " for " + key);
+                                "unknown font: " + name + " for " + key);
                     }
                 }
             } else if ((res = propVal(key, "border", val, table)) != null) {
@@ -579,6 +570,54 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 }
             }
         }
+    }
+
+    private static Map<String, Font> fontNameMap(NapkinTheme theme) {
+        Font dialogPlain = theme.getTextFont();
+        Font dialogBold = theme.getBoldTextFont();
+        Font serifPlain = theme.getTextFont();
+        Font sansSerifPlain = theme.getTextFont();
+        Font monospacedPlain = theme.getFixedFont();
+
+        Map<String, Font> fromName = new HashMap<String, Font>();
+        fromName.put("dialogBold", dialogBold);
+        fromName.put("dialogPlain", dialogPlain);
+        fromName.put("monospacedPlain", monospacedPlain);
+        fromName.put("sansSerifPlain", sansSerifPlain);
+        fromName.put("serifPlain", serifPlain);
+
+        // These are defaults, also in the font file but here for backup
+        fromName.put("Dialog.plain", dialogPlain);
+        fromName.put("Dialog.bold", dialogBold);
+        fromName.put("Serif.plain", serifPlain);
+        fromName.put("SansSerif.plain", sansSerifPlain);
+        fromName.put("MonoSpaced.plain", monospacedPlain);
+
+        // read in from the property file
+        InputStream fonts =
+                NapkinLookAndFeel.class.getResourceAsStream("resources/fonts.properties");
+        if (fonts != null) {
+            try {
+                Properties props = new Properties();
+                props.load(fonts);
+                fonts.close();
+
+                for (Map.Entry<Object, Object> entry : props.entrySet()) {
+                    String fontName = (String) entry.getKey();
+                    Font font = fromName.get(entry.getValue());
+                    if (font == null)
+                        System.err.println("unknown font: " + fontName);
+                    else
+                        fromName.put(fontName, font);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                NapkinUtil.tryClose(fonts);
+            }
+        }
+
+        return fromName;
     }
 
     private static Object
