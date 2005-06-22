@@ -1,8 +1,8 @@
 // $Id$
 
-package napkin.icon.geometry;
+package napkin.sketch.geometry;
 
-import napkin.icon.XMLUtility;
+import napkin.sketch.XMLUtility;
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Element;
 

@@ -1,6 +1,8 @@
 // $Id$
 
-package napkin.icon.geometry;
+package napkin.sketch.geometry;
+
+import napkin.sketch.Sketcher;
 
 import java.awt.*;
 
@@ -19,7 +21,7 @@ import java.awt.*;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-public interface UtilityShape extends Shape {
+public interface SketchShape extends Shape {
     /**
      * Returns a shape geometrically similar to this, magnified by the scale
      * factor. This transformation does not affect this shape; only the returned
@@ -34,35 +36,35 @@ public interface UtilityShape extends Shape {
      * @return a UtilityShape geometrically similar to this one, scaled by the
      *         scaleFactor.
      */
-    UtilityShape magnify(double scaleFactor);
+    SketchShape magnify(double scaleFactor);
 
-    /** @return an approximation of this shape, rendered as a set of Lines */
+    /** @return an approximation of this shape, sketched as a set of Lines */
     StraightLine[] transformToLine();
 
-    /** @return an approximation of this shape, rendered as a set of Quads */
+    /** @return an approximation of this shape, sketched as a set of Quads */
     QuadLine[] transformToQuad();
 
     /** @return a representation of this shape in the form of a CubicLine */
     CubicLine transformToCubic();
 
-    /** @return an approximation of this shape, rendered as a set of Cubics */
+    /** @return an approximation of this shape, sketched as a set of Cubics */
     CubicLine[] transformToCubicList();
 
     /** @return a representation of this shape in the form of a Path */
     Path transformToPath();
 
     /**
-     * Deform this shape by the appropriate method within the renderer. Thus,
+     * Deform this shape by the appropriate method within the sketcher. Thus,
      * the implementation of this method will nearly always take the following
      * form: <br /> <br /> <tt>return r.deform</tt> <b>&lt;UtilityShape name&gt;
      * </b> <tt>(this);</tt>
      *
-     * @param r The renderer.
+     * @param sketcher The sketcher.
      *
      * @return this shape, deformed by the appropriate method within the
-     *         renderer
+     *         sketcher
      */
-    UtilityShape deform(napkin.icon.Renderer r);
+    SketchShape deform(Sketcher sketcher);
 
     /**
      * @return the approximate length of this item. This should be optimized for

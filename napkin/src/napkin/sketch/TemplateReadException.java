@@ -1,6 +1,6 @@
 // $Id$
 
-package napkin.icon;
+package napkin.sketch;
 
 /**
  * TemplateReadException: Thrown when there is an exception while trying to read

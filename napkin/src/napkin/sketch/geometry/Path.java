@@ -1,8 +1,8 @@
 // $Id$
 
-package napkin.icon.geometry;
+package napkin.sketch.geometry;
 
-import napkin.icon.Renderer;
+import napkin.sketch.Sketcher;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -14,7 +14,7 @@ import java.util.LinkedList;
  * @author Justin Crafford
  * @author Peter Goodspeed
  */
-public class Path implements UtilityShape {
+public class Path implements SketchShape {
     private GeneralPath generalPath;
 
     /**
@@ -184,8 +184,8 @@ public class Path implements UtilityShape {
         return generalPath.getPathIterator(at, flatness);
     }
 
-    /** @see UtilityShape#magnify(double) */
-    public UtilityShape magnify(double scaleFactor) {
+    /** @see SketchShape#magnify(double) */
+    public SketchShape magnify(double scaleFactor) {
         Path ret = new Path();
         Point current;
         Point control1;
@@ -231,25 +231,25 @@ public class Path implements UtilityShape {
         return ret;
     }
 
-    /** @see UtilityShape#transformToCubic() */
+    /** @see SketchShape#transformToCubic() */
     public CubicLine transformToCubic() {
         throw new UnsupportedOperationException();
     }
 
-    /** @see UtilityShape#transformToPath() */
+    /** @see SketchShape#transformToPath() */
     public Path transformToPath() {
         return new Path(this);
     }
 
-    /** @see UtilityShape#transformToLine() */
+    /** @see SketchShape#transformToLine() */
     public StraightLine[] transformToLine() {
         //noinspection CollectionDeclaredAsConcreteClass
         LinkedList<StraightLine> ret = new LinkedList<StraightLine>();
 
-        UtilityShape[] elements = simplify();
+        SketchShape[] elements = simplify();
         StraightLine[] temp;
 
-        for (UtilityShape element : elements) {
+        for (SketchShape element : elements) {
             temp = element.transformToLine();
             for (StraightLine line : temp) {
                 ret.addLast(line);
@@ -259,15 +259,15 @@ public class Path implements UtilityShape {
         return ret.toArray(new StraightLine[ret.size()]);
     }
 
-    /** @see UtilityShape#transformToQuad() */
+    /** @see SketchShape#transformToQuad() */
     public QuadLine[] transformToQuad() {
         //noinspection CollectionDeclaredAsConcreteClass
         LinkedList<QuadLine> ret = new LinkedList<QuadLine>();
 
-        UtilityShape[] elements = simplify();
+        SketchShape[] elements = simplify();
         QuadLine[] temp;
 
-        for (UtilityShape element : elements) {
+        for (SketchShape element : elements) {
             temp = element.transformToQuad();
             for (QuadLine line : temp) {
                 ret.addLast(line);
@@ -277,8 +277,8 @@ public class Path implements UtilityShape {
         return ret.toArray(new QuadLine[ret.size()]);
     }
 
-    /** @see UtilityShape#deform(napkin.icon.Renderer) */
-    public UtilityShape deform(Renderer r) {
+    /** @see SketchShape#deform(napkin.sketch.Sketcher) */
+    public SketchShape deform(Sketcher r) {
         return r.deformPath(this);
     }
 
@@ -286,9 +286,9 @@ public class Path implements UtilityShape {
      * @return An array of UtilityShapes which comprise the elements of this
      *         Path
      */
-    public UtilityShape[] simplify() {
+    public SketchShape[] simplify() {
         //noinspection CollectionDeclaredAsConcreteClass
-        LinkedList<UtilityShape> ret = new LinkedList<UtilityShape>();
+        LinkedList<SketchShape> ret = new LinkedList<SketchShape>();
 
         Point initial = new Point(0, 0);
         Point current = new Point(initial);
@@ -335,28 +335,28 @@ public class Path implements UtilityShape {
                 throw new IllegalStateException(curseg + ": unknown seg type");
             }
         }
-        return ret.toArray(new UtilityShape[ret.size()]);
+        return ret.toArray(new SketchShape[ret.size()]);
     }
 
-    /** @see UtilityShape#approximateLength() */
+    /** @see SketchShape#approximateLength() */
     public double approximateLength() {
         double ret = 0;
 
-        UtilityShape[] elements = simplify();
-        for (UtilityShape element : elements) {
+        SketchShape[] elements = simplify();
+        for (SketchShape element : elements) {
             ret += element.approximateLength();
         }
 
         return ret;
     }
 
-    /** @see UtilityShape#transformToCubicList() */
+    /** @see SketchShape#transformToCubicList() */
     public CubicLine[] transformToCubicList() {
         //noinspection CollectionDeclaredAsConcreteClass
         LinkedList<CubicLine> ret = new LinkedList<CubicLine>();
 
-        UtilityShape[] elements = simplify();
-        for (UtilityShape element : elements) {
+        SketchShape[] elements = simplify();
+        for (SketchShape element : elements) {
             ret.addLast(element.transformToCubic());
         }
 

@@ -1,8 +1,8 @@
 // $Id$
 
-package napkin.icon.geometry;
+package napkin.sketch.geometry;
 
-import napkin.icon.Renderer;
+import napkin.sketch.Sketcher;
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Element;
 
@@ -14,7 +14,7 @@ import java.awt.geom.*;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-public class StraightLine extends Line2D.Double implements UtilityShape {
+public class StraightLine extends Line2D.Double implements SketchShape {
     /** Constructs a new <tt>StraightLine</tt> object */
     public StraightLine() {
         super();
@@ -127,25 +127,25 @@ public class StraightLine extends Line2D.Double implements UtilityShape {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element("straightLine");
 
-        ret.addContent(napkin.icon.XMLUtility.pointToXML(getP1(), "start"));
-        ret.addContent(napkin.icon.XMLUtility.pointToXML(getP2(), "end"));
+        ret.addContent(napkin.sketch.XMLUtility.pointToXML(getP1(), "start"));
+        ret.addContent(napkin.sketch.XMLUtility.pointToXML(getP2(), "end"));
 
         return ret;
     }
 
-    /** @see UtilityShape#magnify(double) */
-    public UtilityShape magnify(double scaleFactor) {
+    /** @see SketchShape#magnify(double) */
+    public SketchShape magnify(double scaleFactor) {
         return new XMLStraightLine(
                 new Point(x1 * scaleFactor, y1 * scaleFactor),
                 new Point(x2 * scaleFactor, y2 * scaleFactor));
     }
 
-    /** @see UtilityShape#transformToCubic() */
+    /** @see SketchShape#transformToCubic() */
     public CubicLine transformToCubic() {
         return new CubicLine(getP1(), getP1(), getP2(), getP2());
     }
 
-    /** @see UtilityShape#transformToPath() */
+    /** @see SketchShape#transformToPath() */
     public Path transformToPath() {
         Path ret = new Path();
 
@@ -158,14 +158,14 @@ public class StraightLine extends Line2D.Double implements UtilityShape {
         return ret;
     }
 
-    /** @see UtilityShape#transformToLine() */
+    /** @see SketchShape#transformToLine() */
     public StraightLine[] transformToLine() {
         StraightLine[] ret = new StraightLine[1];
         ret[0] = new StraightLine(this);
         return ret;
     }
 
-    /** @see UtilityShape#transformToQuad() */
+    /** @see SketchShape#transformToQuad() */
     public QuadLine[] transformToQuad() {
         QuadLine[] ret = new QuadLine[1];
         ret[0] = new QuadLine(getP1(), midpoint(), getP2());
@@ -224,17 +224,17 @@ public class StraightLine extends Line2D.Double implements UtilityShape {
         return new Point((x2 + x1) / 2, (y2 + y1) / 2);
     }
 
-    /** @see UtilityShape#deform(Renderer) */
-    public UtilityShape deform(Renderer r) {
+    /** @see SketchShape#deform(Sketcher) */
+    public SketchShape deform(Sketcher r) {
         return r.deformLine(this);
     }
 
-    /** @see UtilityShape#approximateLength() */
+    /** @see SketchShape#approximateLength() */
     public double approximateLength() {
         return length();
     }
 
-    /** @see UtilityShape#transformToCubicList() */
+    /** @see SketchShape#transformToCubicList() */
     public CubicLine[] transformToCubicList() {
         CubicLine[] ret = new CubicLine[1];
         ret[0] = transformToCubic();

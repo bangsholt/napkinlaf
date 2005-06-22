@@ -3,13 +3,14 @@
 package napkin.dev;
 
 import napkin.NapkinLookAndFeel;
-import napkin.icon.DrawnIcon;
-import napkin.icon.Template;
-import napkin.icon.TemplateReadException;
-import napkin.icon.renderers.DraftsmanRenderer;
-import napkin.icon.renderers.IdealRenderer;
-import napkin.icon.renderers.JotRenderer;
-import napkin.icon.renderers.LineRenderer;
+import napkin.sketch.SketchedIcon;
+import napkin.sketch.Sketcher;
+import napkin.sketch.Template;
+import napkin.sketch.TemplateReadException;
+import napkin.sketch.sketchers.DraftsmanSketcher;
+import napkin.sketch.sketchers.IdealSketcher;
+import napkin.sketch.sketchers.JotSketcher;
+import napkin.sketch.sketchers.LineSketcher;
 
 import java.awt.event.*;
 import java.io.*;
@@ -19,17 +20,17 @@ import javax.swing.plaf.metal.*;
 
 /**
  * A test application for loading and displaying XML template files. This
- * program allows the rendering style and the look and feel to be changed during
+ * program allows the sketching style and the look and feel to be changed during
  * runtime.
  *
  * @author Justin Crafford
  * @author Peter Goodspeed
  */
-public class TemplateTest implements ActionListener {
+public class SketchTest implements ActionListener {
     // The default directory path to the XML template files
     private static final String DEFAULT_PATH = ".\\src\\edu\\wpi\\mqp\\napkin\\resources\\";
 
-    // Constants used for setting the current rendering style
+    // Constants used for setting the current sketching style
     private static final int IDEAL = 0;
     private static final int JOT = 1;
     private static final int LINE = 2;
@@ -37,7 +38,7 @@ public class TemplateTest implements ActionListener {
     private static final int DEFAULT = IDEAL;
 
     // Drawn icons generated from an XML template
-    private DrawnIcon templateIcon;
+    private SketchedIcon templateIcon;
 
     // Various GUI widgets for controlling the application's settings
     private static JFrame templateTestFrame;
@@ -49,14 +50,14 @@ public class TemplateTest implements ActionListener {
     ,
     exitMenuItem;
     private final JFileChooser fileChooser;
-    private JComboBox renderChoices;
-    private JButton renderButton;
+    private JComboBox sketchChoices;
+    private JButton sketchButton;
     private JLabel templateImageLabel;
 
     private boolean isNapkinLAF;
 
     /** Constructs the main GUI objects that the application uses */
-    public TemplateTest() {
+    public SketchTest() {
         // Create the file chooser
         fileChooser = new JFileChooser(DEFAULT_PATH);
         XMLFilter fileFilter = new XMLFilter();
@@ -64,7 +65,7 @@ public class TemplateTest implements ActionListener {
         DrawnIconFileView diFileView = new DrawnIconFileView();
         fileChooser.setFileView(diFileView);
 
-        // Create the render style selection and display panels
+        // Create the sketch style selection and display panels
         selectPanel = new JPanel();
         displayPanel = new JPanel();
 
@@ -204,22 +205,22 @@ public class TemplateTest implements ActionListener {
         // Creates and adds the menu widgets
         addMenuWidgets();
 
-        // Create a label for displaying the rendered template image
+        // Create a label for displaying the sketched template image
         templateImageLabel = new JLabel();
 
-        // Create a combo box with render style choices
-        String[] renderStyles = {"Ideal", "Jot", "StraightLine", "Draftsman"};
-        renderChoices = new JComboBox(renderStyles);
-        renderChoices.setSelectedIndex(DEFAULT);
-        renderChoices.setEnabled(false); // Disable until a template is loaded
+        // Create a combo box with sketch style choices
+        String[] sketchStyles = {"Ideal", "Jot", "StraightLine", "Draftsman"};
+        sketchChoices = new JComboBox(sketchStyles);
+        sketchChoices.setSelectedIndex(DEFAULT);
+        sketchChoices.setEnabled(false); // Disable until a template is loaded
 
-        // Create a button for re-rendering the icon
-        renderButton = new JButton("Re-render");
-        renderButton.setEnabled(false); // Disable until a template is loaded
+        // Create a button for re-sketching the icon
+        sketchButton = new JButton("Re-sketch");
+        sketchButton.setEnabled(false); // Disable until a template is loaded
 
         // Add a border around the select panel
         selectPanel.setBorder(BorderFactory
-                .createTitledBorder("Select Rendering Style"));
+                .createTitledBorder("Select Sketch Style"));
 
         // Add a border around the display panel
         displayPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
@@ -228,12 +229,12 @@ public class TemplateTest implements ActionListener {
 
         // Add combo box and button to select panel and image label
         displayPanel.add(templateImageLabel);
-        selectPanel.add(renderChoices);
-        selectPanel.add(renderButton);
+        selectPanel.add(sketchChoices);
+        selectPanel.add(sketchButton);
 
-        // Listen to events from the combo box and render button
-        renderChoices.addActionListener(this);
-        renderButton.addActionListener(this);
+        // Listen to events from the combo box and sketch button
+        sketchChoices.addActionListener(this);
+        sketchButton.addActionListener(this);
     }
 
     /**
@@ -243,19 +244,19 @@ public class TemplateTest implements ActionListener {
      * @param event
      */
     public void actionPerformed(ActionEvent event) {
-        // Get the current render style
-        int renderStyle = renderChoices.getSelectedIndex();
+        // Get the current sketch style
+        int sketchStyle = sketchChoices.getSelectedIndex();
 
         // Combo box events
         if ("comboBoxChanged".equals(event.getActionCommand())) {
             //Update the icon to display the new image
-            templateIcon.setRenderStyle(getRenderStyle(renderStyle));
+            templateIcon.setSketchStyle(getSketchStyle(sketchStyle));
             templateImageLabel.setIcon(templateIcon);
             templateImageLabel.repaint();
         }
 
-        if (event.getSource() == renderButton) {
-            templateIcon.setRendered(false);
+        if (event.getSource() == sketchButton) {
+            templateIcon.setSketched(false);
             templateImageLabel.repaint();
         }
 
@@ -275,12 +276,12 @@ public class TemplateTest implements ActionListener {
                 templateImageLabel.setIcon(templateIcon);
                 templateImageLabel.repaint();
 
-                // Enable the combo box for choosing the rendering style
-                renderChoices.setEnabled(true);
-                // Enable the render button for re-rendering the icon's image
-                renderButton.setEnabled(true);
-                // Reset the combo box to the default rendering style
-                renderChoices.setSelectedIndex(DEFAULT);
+                // Enable the combo box for choosing the sketching style
+                sketchChoices.setEnabled(true);
+                // Enable the sketch button for re-sketching the icon's image
+                sketchButton.setEnabled(true);
+                // Reset the combo box to the default sketching style
+                sketchChoices.setSelectedIndex(DEFAULT);
             }
         }
         // Exit the java application
@@ -319,22 +320,22 @@ public class TemplateTest implements ActionListener {
     }
 
     /**
-     * Creates a rendered image of an XML template in the given render style
+     * Creates a sketched image of an XML template in the given sketch style
      *
      * @param templatePath The path to the XML template document
-     * @param renderStyle  The render style in which to draw the XML template
+     * @param sketchStyle  The sketch style in which to draw the XML template
      *
-     * @return An icon image of the rendered template
+     * @return An icon image of the sketched template
      */
-    private static DrawnIcon
-            createDrawnIcon(String templatePath, int renderStyle) {
+    private static SketchedIcon
+            createDrawnIcon(String templatePath, int sketchStyle) {
 
-        napkin.icon.Renderer renderer = getRenderStyle(renderStyle);
-        DrawnIcon ret = null;
+        Sketcher sketcher = getSketchStyle(sketchStyle);
+        SketchedIcon ret = null;
 
         try {
-            Template template = Template.produceFromXMLDocument(templatePath);
-            ret = new napkin.icon.DrawnIcon(template, renderer);
+            Template template = Template.createFromXML(templatePath);
+            ret = new SketchedIcon(template, sketcher);
         } catch (TemplateReadException e) {
             e.printStackTrace();
             System.exit(1);
@@ -343,29 +344,29 @@ public class TemplateTest implements ActionListener {
         return ret;
     }
 
-    private static napkin.icon.Renderer getRenderStyle(int renderStyle) {
-        napkin.icon.Renderer renderer;
+    private static Sketcher getSketchStyle(int sketchStyle) {
+        Sketcher sketcher;
 
-        // Selects the rendering style to use
-        switch (renderStyle) {
+        // Selects the sketching style to use
+        switch (sketchStyle) {
         case IDEAL:
-            renderer = new IdealRenderer();
+            sketcher = new IdealSketcher();
             break;
         case JOT:
-            renderer = new JotRenderer();
+            sketcher = new JotSketcher();
             break;
         case LINE:
-            renderer = new LineRenderer();
+            sketcher = new LineSketcher();
             break;
         case DRAFTSMAN:
-            renderer = new DraftsmanRenderer();
+            sketcher = new DraftsmanSketcher();
             break;
         default:
-            renderer = new IdealRenderer();
+            sketcher = new IdealSketcher();
             break;
         }
 
-        return renderer;
+        return sketcher;
     }
 
     /**
@@ -374,12 +375,12 @@ public class TemplateTest implements ActionListener {
      */
     private static void createAndShowGUI() {
         // Create a new instance of TemplateTest
-        TemplateTest renders = new TemplateTest();
+        SketchTest sketches = new SketchTest();
 
         // Create and set up the window
-        templateTestFrame = new JFrame("Template Test");
+        templateTestFrame = new JFrame("Sketch Test");
         templateTestFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        templateTestFrame.setContentPane(renders.mainPanel);
+        templateTestFrame.setContentPane(sketches.mainPanel);
         templateTestFrame.setJMenuBar(menuBar);
 
         // Display the window.

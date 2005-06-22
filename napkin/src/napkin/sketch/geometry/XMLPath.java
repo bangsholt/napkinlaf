@@ -1,6 +1,6 @@
 // $Id$
 
-package napkin.icon.geometry;
+package napkin.sketch.geometry;
 
 import org.jdom.Element;
 

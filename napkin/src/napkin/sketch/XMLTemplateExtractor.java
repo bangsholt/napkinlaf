@@ -1,12 +1,12 @@
 // $Id$
 
-package napkin.icon;
+package napkin.sketch;
 
-import napkin.icon.geometry.CubicLine;
-import napkin.icon.geometry.Path;
-import napkin.icon.geometry.QuadLine;
-import napkin.icon.geometry.StraightLine;
-import napkin.icon.geometry.UtilityShape;
+import napkin.sketch.geometry.CubicLine;
+import napkin.sketch.geometry.Path;
+import napkin.sketch.geometry.QuadLine;
+import napkin.sketch.geometry.SketchShape;
+import napkin.sketch.geometry.StraightLine;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -46,7 +46,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
     private final Template template;
     private TemplateItem templateItem;
     private Dimension dimensions;
-    private UtilityShape shape;
+    private SketchShape shape;
 
     // Shape-related objects
     private StraightLine straightLine;

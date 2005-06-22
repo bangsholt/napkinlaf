@@ -1,28 +1,28 @@
 // $Id$
 
-package napkin.icon.renderers;
+package napkin.sketch.sketchers;
 
 import napkin.NapkinRandom;
-import napkin.icon.Renderer;
-import napkin.icon.geometry.CubicLine;
-import napkin.icon.geometry.Path;
-import napkin.icon.geometry.QuadLine;
-import napkin.icon.geometry.StraightLine;
-import napkin.icon.geometry.UtilityShape;
+import napkin.sketch.Sketcher;
+import napkin.sketch.geometry.CubicLine;
+import napkin.sketch.geometry.Path;
+import napkin.sketch.geometry.QuadLine;
+import napkin.sketch.geometry.SketchShape;
+import napkin.sketch.geometry.StraightLine;
 
 /**
- * DraftsmanRenderer: Renders like a draftsman might: lots of straight lines and
- * simple curves. In this current incarnation, it's not quite done and doesn't
- * yet look very professional. Curves are a bit of a problem.
+ * DraftsmanSketcher: Sketches like a draftsman might: lots of straight lines
+ * and simple curves. In this current incarnation, it's not quite done and
+ * doesn't yet look very professional. Curves are a bit of a problem.
  *
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-public class DraftsmanRenderer extends Renderer {
+public class DraftsmanSketcher extends Sketcher {
     private static final double DEFORM_FACTOR = 0.05;
 
-    /** @see Renderer#deformLine(StraightLine) */
-    public UtilityShape deformLine(StraightLine l) {
+    /** @see Sketcher#deformLine(StraightLine) */
+    public SketchShape deformLine(StraightLine l) {
         StraightLine ret = new StraightLine(l);
 
         double scale = l.length() * DEFORM_FACTOR;
@@ -49,8 +49,8 @@ public class DraftsmanRenderer extends Renderer {
         return ret;
     }
 
-    /** @see napkin.icon.Renderer#deformQuad(QuadLine) */
-    public UtilityShape deformQuad(QuadLine q) {
+    /** @see Sketcher#deformQuad(QuadLine) */
+    public SketchShape deformQuad(QuadLine q) {
         if (q.getFlatness() < q.approximateLength() * DEFORM_FACTOR) {
             return new StraightLine(q.getP1(), q.getP2()).deform(this);
         } else {
@@ -58,8 +58,8 @@ public class DraftsmanRenderer extends Renderer {
         }
     }
 
-    /** @see napkin.icon.Renderer#deformCubic(CubicLine) */
-    public UtilityShape deformCubic(CubicLine c) {
+    /** @see Sketcher#deformCubic(CubicLine) */
+    public SketchShape deformCubic(CubicLine c) {
         if (c.getFlatness() < c.approximateLength() * DEFORM_FACTOR * 0.5) {
             return new StraightLine(c.getP1(), c.getP2()).deform(this);
         } else {
@@ -67,12 +67,12 @@ public class DraftsmanRenderer extends Renderer {
         }
     }
 
-    /** @see napkin.icon.Renderer#deformPath(Path) */
-    public UtilityShape deformPath(Path p) {
+    /** @see Sketcher#deformPath(Path) */
+    public SketchShape deformPath(Path p) {
         Path ret = new Path();
-        UtilityShape[] elements = p.simplify();
+        SketchShape[] elements = p.simplify();
 
-        for (UtilityShape element : elements) {
+        for (SketchShape element : elements) {
             ret.append(element.deform(this), false);
         }
 

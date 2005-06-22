@@ -1,6 +1,6 @@
 // $Id$
 
-package napkin.icon.geometry;
+package napkin.sketch.geometry;
 
 import org.jdom.Element;
 
@@ -8,7 +8,7 @@ import org.jdom.Element;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-public interface XMLShape extends UtilityShape {
+public interface XMLShape extends SketchShape {
     /** @return the XML representation of this Shape */
     Element produceXML();
 }

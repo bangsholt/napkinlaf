@@ -3,7 +3,8 @@
         xmlns:xs="http://www.w3.org/2001/XMLSchema"
         targetNamespace="http://www.mqp.wpi.edu/napkin/"
         elementFormDefault="qualified" attributeFormDefault="unqualified">
-    <!-- $Id$ --><!-- Main template definition -->
+    <!-- $Id$ -->
+    <!-- Main template definition -->
     <xs:element name="template">
         <xs:annotation>
             <xs:documentation>Describes a NapkinDrawing
