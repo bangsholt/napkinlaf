@@ -291,7 +291,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
      *
      * @return a Template
      */
-    public napkin.icon.Template createTemplate(String tmplPath)
+    public Template createTemplate(String tmplPath)
             throws TemplateReadException {
 
         try {
