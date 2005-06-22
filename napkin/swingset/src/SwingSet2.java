@@ -1036,7 +1036,8 @@ public class SwingSet2 extends JPanel {
             }
         }
 
-        SwingUtilities.updateComponentTreeUI(popupMenu);
+        if (popupMenu != null)
+            SwingUtilities.updateComponentTreeUI(popupMenu);
         if (aboutBox != null) {
             SwingUtilities.updateComponentTreeUI(aboutBox);
         }
