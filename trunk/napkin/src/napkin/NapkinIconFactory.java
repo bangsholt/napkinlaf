@@ -221,19 +221,9 @@ public class NapkinIconFactory implements NapkinConstants {
      * @throws TemplateReadException on IO error or when the XML file is
      *                               misformatted
      */
-    public static napkin.icon.DrawnIcon createTemplatedIcon(String templatePath)
-            throws napkin.icon.TemplateReadException {
+    public static DrawnIcon createSketchedIcon(String templatePath)
+            throws TemplateReadException {
         return new DrawnIcon(Template.produceFromXMLDocument(templatePath),
                 new JotRenderer());
-    }
-
-    /**
-     * @param template the template to create the icon from
-     *
-     * @return a new DrawnIcon in the Jot style representing the given template
-     */
-    public static napkin.icon.DrawnIcon createTemplatedIcon(napkin.icon.Template template)
-    {
-        return new DrawnIcon(template, new JotRenderer());
     }
 }
