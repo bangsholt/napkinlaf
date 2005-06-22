@@ -2,6 +2,10 @@
 
 package napkin;
 
+import napkin.sketch.Sketcher;
+import napkin.sketch.sketchers.DraftSketcher;
+import napkin.sketch.sketchers.JotSketcher;
+
 import java.awt.*;
 import java.io.*;
 import java.security.AccessController;
@@ -20,6 +24,7 @@ public class NapkinTheme {
     private final Font textFont;
     private final Font boldTextFont;
     private final Font fixedFont;
+    private final Sketcher sketcher;
     private final NapkinBackground paper;
     private final NapkinBackground erasure;
     private NapkinTheme[] variants = new NapkinTheme[2];
@@ -56,25 +61,25 @@ public class NapkinTheme {
     public NapkinTheme(String name, String description, Color penColor,
             Color checkColor, Color radioColor, Color highlightColor,
             Color selectionColor, Font textFont, Font boldTextFont,
-            Font fixedFont,
+            Font fixedFont, Sketcher sketcher,
             NapkinBackground paper, NapkinBackground erasure,
             NapkinBackground popupPaper) {
 
         this(name, description, penColor, checkColor, radioColor,
                 highlightColor, selectionColor, textFont, boldTextFont,
-                fixedFont, paper,
+                fixedFont, sketcher, paper,
                 erasure, new NapkinTheme(name + "Popup",
                 description + " (popup)", penColor, checkColor,
                 radioColor, highlightColor, selectionColor, textFont,
                 boldTextFont,
-                fixedFont, popupPaper, erasure, (NapkinTheme) null));
+                fixedFont, sketcher, popupPaper, erasure, (NapkinTheme) null));
     }
 
     public NapkinTheme(String name, String description, Color penColor,
             Color checkColor, Color radioColor, Color highlightColor,
             Color selectionColor, Font textFont, Font boldTextFont,
-            Font fixedFont, NapkinBackground paper, NapkinBackground erasure,
-            NapkinTheme popupTheme) {
+            Font fixedFont, Sketcher sketcher, NapkinBackground paper,
+            NapkinBackground erasure, NapkinTheme popupTheme) {
 
         this.name = name;
         this.description = description;
@@ -86,6 +91,7 @@ public class NapkinTheme {
         this.textFont = uiResource(textFont);
         this.boldTextFont = uiResource(boldTextFont);
         this.fixedFont = uiResource(fixedFont);
+        this.sketcher = sketcher;
         this.paper = paper;
         this.erasure = erasure;
         variants[BASIC_THEME] = this;
@@ -150,6 +156,10 @@ public class NapkinTheme {
 
     public Font getFixedFont() {
         return fixedFont;
+    }
+
+    public Sketcher getSketcher() {
+        return sketcher;
     }
 
     public NapkinBackground getPaper() {
@@ -219,6 +229,7 @@ public class NapkinTheme {
                     scrawl.deriveFont(Font.PLAIN, 15),
                     scrawlBold.deriveFont(Font.BOLD, 15),
                     fixed.deriveFont(Font.PLAIN, 15),
+                    new JotSketcher(),
                     new NapkinBackground("resources/napkin.jpg"),
                     new NapkinBackground("resources/erasure.png"),
                     new NapkinBackground("resources/postit01.jpg",
@@ -230,6 +241,7 @@ public class NapkinTheme {
                     def.getHighlightColor(), def.getSelectionColor(),
                     def.getTextFont(), def.getBoldTextFont(),
                     def.getFixedFont(),
+                    new JotSketcher(),
                     new NapkinBackground("resources/testPaper.jpg",
                             0, 0, 10, 10),
                     def.getErasureMask(), new NapkinBackground(
@@ -244,6 +256,7 @@ public class NapkinTheme {
             addTheme(new NapkinTheme("blueprint", "Blueprint", Color.white,
                     blueprintInk, blueprintInk, blueprintHighlight,
                     blueprintInk, blueFont, blueFont, def.getFixedFont(),
+                    new DraftSketcher(),
                     new NapkinBackground("resources/blueprint-bg.jpg"),
                     def.getErasureMask(), def.getPopupTheme()));
 

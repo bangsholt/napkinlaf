@@ -385,9 +385,32 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
             "SplitPaneDivider.border", null,
             "SplitPane.dividerSize", NapkinSplitPaneDivider.SIZE,
+
+            "FileChooser.upFolderIcon", sketchedIcon("UpFolder"),
+            /*
+    directoryIcon    = UIManager.getIcon("FileView.directoryIcon");
+    fileIcon         = UIManager.getIcon("FileView.fileIcon");
+    computerIcon     = UIManager.getIcon("FileView.computerIcon");
+    hardDriveIcon    = UIManager.getIcon("FileView.hardDriveIcon");
+    floppyDriveIcon  = UIManager.getIcon("FileView.floppyDriveIcon");
+
+    newFolderIcon    = UIManager.getIcon("FileChooser.newFolderIcon");
+    upFolderIcon     = UIManager.getIcon("FileChooser.upFolderIcon");
+    homeFolderIcon   = UIManager.getIcon("FileChooser.homeFolderIcon");
+    detailsViewIcon  = UIManager.getIcon("FileChooser.detailsViewIcon");
+    listViewIcon     = UIManager.getIcon("FileChooser.listViewIcon");
+            */
         };
 
         table.putDefaults(napkinDefaults);
+    }
+
+    private static Object sketchedIcon(final String templateName) {
+        return new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
+                return NapkinIconFactory.createSketchedIcon(templateName);
+            }
+        };
     }
 
     private static void setupActions(UIDefaults table) {

@@ -11,14 +11,14 @@ import napkin.sketch.geometry.SketchShape;
 import napkin.sketch.geometry.StraightLine;
 
 /**
- * DraftsmanSketcher: Sketches like a draftsman might: lots of straight lines
- * and simple curves. In this current incarnation, it's not quite done and
- * doesn't yet look very professional. Curves are a bit of a problem.
+ * DraftSketcher: Sketches like a drafter might: lots of straight lines and
+ * simple curves. In this current incarnation, it's not quite done and doesn't
+ * yet look very professional. Curves are a bit of a problem.
  *
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-public class DraftsmanSketcher extends Sketcher {
+public class DraftSketcher extends Sketcher {
     private static final double DEFORM_FACTOR = 0.05;
 
     /** @see Sketcher#deformLine(StraightLine) */

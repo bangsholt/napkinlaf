@@ -69,8 +69,29 @@ public class Template implements Cloneable {
      * @see Template#produceXMLString()
      */
     public static Template createFromXML(String path)
+            throws TemplateReadException, IOException {
+
+        return createFromXML(
+                new BufferedInputStream(new FileInputStream(path)));
+    }
+
+    /**
+     * Reads an XML file located at the path indicated, and returns a Template
+     * object which instantiates the object represented in that document, so
+     * long as the document is in fact an XML document which is valid according
+     * to the schema napkin.icon.resources.Template.xsd. This is useful to
+     * retrieve a Template from long-term storage.
+     *
+     * @param in
+     *
+     * @return a Template described by the XML document located at
+     *         <tt>path</tt>
+     *
+     * @see Template#produceXMLString()
+     */
+    public static Template createFromXML(InputStream in)
             throws TemplateReadException {
-        return new XMLTemplateExtractor().createTemplate(path);
+        return new XMLTemplateExtractor().createTemplate(in);
     }
 
     /**

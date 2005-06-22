@@ -5,10 +5,10 @@ package napkin;
 import napkin.sketch.SketchedIcon;
 import napkin.sketch.Template;
 import napkin.sketch.TemplateReadException;
-import napkin.sketch.sketchers.JotSketcher;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.io.*;
 import javax.swing.*;
 
 public class NapkinIconFactory implements NapkinConstants {
@@ -217,13 +217,21 @@ public class NapkinIconFactory implements NapkinConstants {
      *
      * @return a new DrawnIcon in the Jot style representing the Template at the
      *         given path
-     *
-     * @throws TemplateReadException on IO error or when the XML file is
-     *                               misformatted
      */
-    public static SketchedIcon createSketchedIcon(String templatePath)
-            throws TemplateReadException {
-        return new SketchedIcon(Template.createFromXML(templatePath),
-                new JotSketcher());
+    public static Icon createSketchedIcon(String templatePath) {
+
+        String subpath = "resources/templates/" + templatePath + ".xml";
+        InputStream in = NapkinIconFactory.class.getResourceAsStream(subpath);
+        if (in == null)
+            throw new IllegalArgumentException("unknown template: " + subpath);
+
+        try {
+            NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
+            Template template = Template.createFromXML(in);
+            return new SketchedIcon(template, theme.getSketcher());
+        } catch (TemplateReadException e) {
+            e.printStackTrace();
+            return createArrowIcon(WEST);   // just to have *something*
+        }
     }
 }
