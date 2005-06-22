@@ -292,6 +292,18 @@ public class XMLTemplateExtractor extends DefaultHandler {
      * @return a Template
      */
     public Template createTemplate(String tmplPath)
+            throws TemplateReadException, IOException {
+        return createTemplate(new BufferedInputStream(new FileInputStream(tmplPath)));
+    }
+
+    /**
+     * Creates a Template object from an XML document
+     *
+     * @param in An input stream containing the XML document to parse
+     *
+     * @return a Template
+     */
+    public Template createTemplate(InputStream in)
             throws TemplateReadException {
 
         try {
@@ -316,7 +328,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
                 e.printStackTrace();
             }
 
-            parser.parse(tmplPath, this);
+            parser.parse(in, this);
         } catch (ParserConfigurationException e) {
             System.out.println("Parser configuration error: " + e);
         } catch (SAXException e) {

@@ -6,8 +6,7 @@ import napkin.NapkinLookAndFeel;
 import napkin.sketch.SketchedIcon;
 import napkin.sketch.Sketcher;
 import napkin.sketch.Template;
-import napkin.sketch.TemplateReadException;
-import napkin.sketch.sketchers.DraftsmanSketcher;
+import napkin.sketch.sketchers.DraftSketcher;
 import napkin.sketch.sketchers.IdealSketcher;
 import napkin.sketch.sketchers.JotSketcher;
 import napkin.sketch.sketchers.LineSketcher;
@@ -336,7 +335,7 @@ public class SketchTest implements ActionListener {
         try {
             Template template = Template.createFromXML(templatePath);
             ret = new SketchedIcon(template, sketcher);
-        } catch (TemplateReadException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
         }
@@ -359,7 +358,7 @@ public class SketchTest implements ActionListener {
             sketcher = new LineSketcher();
             break;
         case DRAFTSMAN:
-            sketcher = new DraftsmanSketcher();
+            sketcher = new DraftSketcher();
             break;
         default:
             sketcher = new IdealSketcher();
