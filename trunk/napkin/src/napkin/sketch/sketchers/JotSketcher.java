@@ -1,24 +1,24 @@
 // $Id$
 
-package napkin.icon.renderers;
+package napkin.sketch.sketchers;
 
 import napkin.NapkinRandom;
-import napkin.icon.Renderer;
-import napkin.icon.Template;
-import napkin.icon.TemplateItem;
-import napkin.icon.geometry.CubicLine;
-import napkin.icon.geometry.Path;
-import napkin.icon.geometry.Point;
-import napkin.icon.geometry.QuadLine;
-import napkin.icon.geometry.StraightLine;
-import napkin.icon.geometry.UtilityShape;
+import napkin.sketch.Sketcher;
+import napkin.sketch.Template;
+import napkin.sketch.TemplateItem;
+import napkin.sketch.geometry.CubicLine;
+import napkin.sketch.geometry.Path;
+import napkin.sketch.geometry.Point;
+import napkin.sketch.geometry.QuadLine;
+import napkin.sketch.geometry.SketchShape;
+import napkin.sketch.geometry.StraightLine;
 
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.Iterator;
 
 /**
- * JotRenderer: Renders the image in such a manner that it resembles something
+ * JotSketcher: Sketches the image in such a manner that it resembles something
  * which has been hand-drawn. This is accomplished by transforming all the
  * component lines into cubics, and then manipulating the endpoints and the
  * control points.
@@ -26,18 +26,18 @@ import java.util.Iterator;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-public class JotRenderer extends Renderer {
+public class JotSketcher extends Sketcher {
     private static final double DEFORM_FACTOR = 0.2;
 
-    /** @see Renderer#render(Template, Graphics2D) */
-    public void render(napkin.icon.Template template, Graphics2D g2d) {
+    /** @see Sketcher#sketch(Template, Graphics2D) */
+    public void sketch(Template template, Graphics2D g2d) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-        Iterator<napkin.icon.TemplateItem> iter = template.getListIterator();
+        Iterator<TemplateItem> iter = template.getListIterator();
         while (iter.hasNext()) {
-            napkin.icon.TemplateItem current = iter.next();
-            napkin.icon.TemplateItem draw = (TemplateItem) current.clone();
+            TemplateItem current = iter.next();
+            TemplateItem draw = (TemplateItem) current.clone();
             if (current.isDrawFill()) {
                 draw.setDrawStroke(false);
                 draw.setDrawFill(true);
@@ -50,18 +50,18 @@ public class JotRenderer extends Renderer {
                 //						current.getShape().transformToPath()).deform(this));
                 //it is horrible
 
-                quickRender(draw, g2d);
+                cleanSketch(draw, g2d);
             }
             if (current.isDrawStroke()) {
                 draw.setDrawFill(false);
                 draw.setDrawStroke(true);
 
-                UtilityShape u = current.getShape().deform(this);
+                SketchShape u = current.getShape().deform(this);
                 draw.setStrokeWeight(
                         computeStrokeModifier(u.approximateLength()));
                 draw.setShape(u);
 
-                quickRender(draw, g2d);
+                cleanSketch(draw, g2d);
             }
         }
     }
@@ -89,7 +89,7 @@ public class JotRenderer extends Renderer {
      *
      * @return a Path resembling the original Path, but deformed
      *
-     * @see JotRenderer#deform(Path, boolean)
+     * @see JotSketcher#deform(Path, boolean)
      */
     private Path deform(Path p) {
         return deform(p, false);
@@ -104,7 +104,7 @@ public class JotRenderer extends Renderer {
      *
      * @return a closed Path resembling the original, but deformed.
      *
-     * @see JotRenderer#deform(Path)
+     * @see JotSketcher#deform(Path)
      */
     private Path deform(Path p, boolean close) {
         Path ret = new Path();
@@ -113,7 +113,7 @@ public class JotRenderer extends Renderer {
         Point ctrl1;
         Point ctrl2;
         Point far;
-        UtilityShape seg;
+        SketchShape seg;
         CubicLine draw;
 
         int segType;
@@ -195,23 +195,23 @@ public class JotRenderer extends Renderer {
         return (float) ret;
     }
 
-    /** @see napkin.icon.Renderer#deformLine(StraightLine) */
-    public UtilityShape deformLine(StraightLine l) {
+    /** @see Sketcher#deformLine(StraightLine) */
+    public SketchShape deformLine(StraightLine l) {
         return l.transformToCubic().deform(this);
     }
 
-    /** @see Renderer#deformQuad(QuadLine) */
-    public UtilityShape deformQuad(QuadLine q) {
+    /** @see Sketcher#deformQuad(QuadLine) */
+    public SketchShape deformQuad(QuadLine q) {
         return q.transformToCubic().deform(this);
     }
 
-    /** @see Renderer#deformCubic(CubicLine) */
-    public UtilityShape deformCubic(CubicLine c) {
+    /** @see Sketcher#deformCubic(CubicLine) */
+    public SketchShape deformCubic(CubicLine c) {
         return deform(c);
     }
 
-    /** @see napkin.icon.Renderer#deformPath(Path) */
-    public UtilityShape deformPath(Path p) {
+    /** @see Sketcher#deformPath(Path) */
+    public SketchShape deformPath(Path p) {
         return deform(p);
     }
 }

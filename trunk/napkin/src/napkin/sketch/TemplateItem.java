@@ -1,10 +1,10 @@
 // $Id$
 
-package napkin.icon;
+package napkin.sketch;
 
 import napkin.NapkinTheme;
-import napkin.icon.geometry.UtilityShape;
-import napkin.icon.geometry.XMLShape;
+import napkin.sketch.geometry.SketchShape;
+import napkin.sketch.geometry.XMLShape;
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Element;
 
@@ -13,7 +13,7 @@ import java.awt.*;
 /**
  * The <tt>TemplateItem</tt> class represents one component of a template. It
  * contains information about the geometry, colors, and line weight of this
- * component for use by the renderer.
+ * component for use by the sketcher.
  *
  * @author Justin Crafford
  * @author Peter Goodspeed
@@ -26,7 +26,7 @@ public class TemplateItem implements Cloneable {
     private float strokeWeight = 1; // The thickness of this object's boundary
     // line
     private Color fillColor; // The color of this object's internal fill
-    private UtilityShape shape; // The geometry that specifies this object's
+    private SketchShape shape; // The geometry that specifies this object's
     // shape
 
     /** Constructs a new TemplateItem with default values */
@@ -46,7 +46,7 @@ public class TemplateItem implements Cloneable {
      */
     public TemplateItem(boolean drawStroke, boolean drawFill,
             Color strokeColor, float strokeWeight, Color fillColor,
-            UtilityShape shape) {
+            SketchShape shape) {
         this.drawStroke = drawStroke;
         this.drawFill = drawFill;
         this.strokeColor = strokeColor;
@@ -69,7 +69,7 @@ public class TemplateItem implements Cloneable {
 
     /**
      * Note that by default, the strokeColor is null. This has the effect that
-     * the default render color is that of the Look and Feel. Setting a
+     * the default sketch color is that of the Look and Feel. Setting a
      * strokeColor will override the Look and Feel's default stroke color.
      *
      * @param strokeColor The strokeColor to set.
@@ -102,7 +102,7 @@ public class TemplateItem implements Cloneable {
 
     /**
      * Note that by default, the fillColor is null. This has the effect that the
-     * default render color is that of the Look and Feel. Setting a fillColor
+     * default sketch color is that of the Look and Feel. Setting a fillColor
      * will override the Look and Feel's default fill color.
      *
      * @param fillColor The fillColor to set.
@@ -112,12 +112,12 @@ public class TemplateItem implements Cloneable {
     }
 
     /** @return Returns the shape. */
-    public UtilityShape getShape() {
+    public SketchShape getShape() {
         return shape;
     }
 
     /** @param shape The shape to set. */
-    public void setShape(UtilityShape shape) {
+    public void setShape(SketchShape shape) {
         if (shape == null)
             throw new NullPointerException();
         this.shape = shape;

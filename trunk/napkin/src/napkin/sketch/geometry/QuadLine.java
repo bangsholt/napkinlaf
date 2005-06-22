@@ -1,8 +1,8 @@
 // $Id$
 
-package napkin.icon.geometry;
+package napkin.sketch.geometry;
 
-import napkin.icon.Renderer;
+import napkin.sketch.Sketcher;
 
 import java.awt.geom.*;
 
@@ -12,7 +12,7 @@ import java.awt.geom.*;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-public class QuadLine extends QuadCurve2D.Double implements UtilityShape {
+public class QuadLine extends QuadCurve2D.Double implements SketchShape {
     /** Constructs a new <tt>QuadLine</tt> object */
     public QuadLine() {
         super();
@@ -50,14 +50,14 @@ public class QuadLine extends QuadCurve2D.Double implements UtilityShape {
         this(q.getP1(), q.getCtrlPt(), q.getP2());
     }
 
-    /** @see UtilityShape#magnify(double) */
-    public UtilityShape magnify(double scaleFactor) {
+    /** @see SketchShape#magnify(double) */
+    public SketchShape magnify(double scaleFactor) {
         return new XMLQuadLine(x1 * scaleFactor, y1 * scaleFactor,
                 ctrlx * scaleFactor, ctrly * scaleFactor,
                 x2 * scaleFactor, y2 * scaleFactor);
     }
 
-    /** @see UtilityShape#transformToCubic() */
+    /** @see SketchShape#transformToCubic() */
     public CubicLine transformToCubic() {
         Point base = Point.midpoint(getP1(), getP2());
         StraightLine span = new StraightLine(base, getCtrlPt());
@@ -68,7 +68,7 @@ public class QuadLine extends QuadCurve2D.Double implements UtilityShape {
         return new CubicLine(getP1(), reach, reach, getP2());
     }
 
-    /** @see UtilityShape#transformToPath() */
+    /** @see SketchShape#transformToPath() */
     public Path transformToPath() {
         Path ret = new Path();
 
@@ -82,12 +82,12 @@ public class QuadLine extends QuadCurve2D.Double implements UtilityShape {
         return ret;
     }
 
-    /** @see UtilityShape#transformToLine() */
+    /** @see SketchShape#transformToLine() */
     public StraightLine[] transformToLine() {
         return transformToCubic().transformToLine();
     }
 
-    /** @see UtilityShape#transformToQuad() */
+    /** @see SketchShape#transformToQuad() */
     public QuadLine[] transformToQuad() {
         QuadLine[] ret = new QuadLine[1];
 
@@ -96,17 +96,17 @@ public class QuadLine extends QuadCurve2D.Double implements UtilityShape {
         return ret;
     }
 
-    /** @see UtilityShape#deform(Renderer) */
-    public UtilityShape deform(Renderer r) {
+    /** @see SketchShape#deform(Sketcher) */
+    public SketchShape deform(Sketcher r) {
         return r.deformQuad(this);
     }
 
-    /** @see UtilityShape#approximateLength() */
+    /** @see SketchShape#approximateLength() */
     public double approximateLength() {
         return transformToCubic().approximateLength();
     }
 
-    /** @see UtilityShape#transformToCubicList() */
+    /** @see SketchShape#transformToCubicList() */
     public CubicLine[] transformToCubicList() {
         CubicLine[] ret = new CubicLine[1];
         ret[0] = transformToCubic();

@@ -1,8 +1,8 @@
 // $Id$
 
-package napkin.icon.geometry;
+package napkin.sketch.geometry;
 
-import napkin.icon.XMLUtility;
+import napkin.sketch.XMLUtility;
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Element;
 
@@ -47,7 +47,7 @@ public class XMLCubicLine extends CubicLine implements XMLShape {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element("cubicLine");
 
-        ret.addContent(napkin.icon.XMLUtility.pointToXML(getP1(), "start"));
+        ret.addContent(napkin.sketch.XMLUtility.pointToXML(getP1(), "start"));
         ret.addContent(XMLUtility.pointToXML(getCtrlP1(), "control"));
         ret.addContent(XMLUtility.pointToXML(getCtrlP2(), "control"));
         ret.addContent(XMLUtility.pointToXML(getP2(), "end"));

@@ -1,6 +1,6 @@
 // $Id$
 
-package napkin.icon;
+package napkin.sketch;
 
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Element;

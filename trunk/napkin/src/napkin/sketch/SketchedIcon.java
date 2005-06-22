@@ -1,57 +1,57 @@
 // $Id$
 
-package napkin.icon;
+package napkin.sketch;
 
 import java.awt.*;
 import java.awt.image.*;
 import javax.swing.*;
 
 /**
- * The <tt>DrawnIcon</tt> class is an implmentation of the <tt>Icon</tt>
+ * The <tt>SketchedIcon</tt> class is an implmentation of the <tt>Icon</tt>
  * interface type. This class is responsible for providing the height and width
- * of the icon and painting the rendered image on screen using the given XML
- * template and rendering style.
+ * of the icon and painting the sketched image on screen using the given XML
+ * template and sketching style.
  *
  * @author Justin Crafford
  * @author Peter Goodspeed
  */
-public class DrawnIcon implements Icon {
-    private final Template template;    // The template object to render
-    private Renderer renderer;    // The renderer used to create icon's image
-    private BufferedImage bimage; // The stored image of the final render
-    private boolean isRendered;   // Has this icon's template has been rendered?
+public class SketchedIcon implements Icon {
+    private final Template template;    // The template object to sketch
+    private Sketcher sketcher;    // The sketcher used to create icon's image
+    private BufferedImage bimage; // The stored image of the final sketch
+    private boolean isSketched;   // Has this icon's template has been sketched?
 
     /**
-     * Creates a new DrawnIcon with specified template and render style
+     * Creates a new DrawnIcon with specified template and sketch style
      *
      * @param template
-     * @param renderer
+     * @param sketcher
      */
-    public DrawnIcon(Template template, Renderer renderer) {
+    public SketchedIcon(Template template, Sketcher sketcher) {
         this.template = template;
-        this.renderer = renderer;
-        isRendered = false;
+        this.sketcher = sketcher;
+        isSketched = false;
     }
 
     /**
-     * Sets the current renderer to <tt>renderStyle</tt>
+     * Sets the current sketcher to <tt>sketchStyle</tt>
      *
-     * @param renderStyle
+     * @param sketchStyle
      */
-    public void setRenderStyle(Renderer renderStyle) {
-        renderer = renderStyle;
-        isRendered = false;
+    public void setSketchStyle(Sketcher sketchStyle) {
+        sketcher = sketchStyle;
+        isSketched = false;
     }
 
     /**
-     * Set the rendered status of this icon. When the rendered status is false,
-     * the next paint command will generate a new rendering according to the
-     * renderer. This mainly matters on non-deterministic underlying renderers.
+     * Set the sketched status of this icon. When the sketched status is false,
+     * the next paint command will generate a new sketching according to the
+     * sketcher. This mainly matters on non-deterministic underlying sketchers.
      *
-     * @param isRendered
+     * @param isSketched
      */
-    public void setRendered(boolean isRendered) {
-        this.isRendered = isRendered;
+    public void setSketched(boolean isSketched) {
+        this.isSketched = isSketched;
     }
 
     /** @return the title of the underlying template */
@@ -81,14 +81,14 @@ public class DrawnIcon implements Icon {
 
         Graphics2D g2d = (Graphics2D) g.create(x, y, width, height);
 
-        if (!isRendered) {
+        if (!isSketched) {
             bimage = new BufferedImage(width, height,
                     BufferedImage.TYPE_INT_ARGB);
             Graphics2D imageGraphics = bimage.createGraphics();
 
-            renderer.render((Template) template.clone(), imageGraphics);
+            sketcher.sketch((Template) template.clone(), imageGraphics);
             g2d.drawImage(bimage, 0, 0, width, height, null);
-            isRendered = true;
+            isSketched = true;
         } else if (bimage != null) {
             g2d.drawImage(bimage, 0, 0, width, height, null);
         }

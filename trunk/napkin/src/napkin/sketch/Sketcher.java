@@ -1,42 +1,42 @@
 // $Id$
 
-package napkin.icon;
+package napkin.sketch;
 
-import napkin.icon.geometry.CubicLine;
-import napkin.icon.geometry.Path;
-import napkin.icon.geometry.Point;
-import napkin.icon.geometry.QuadLine;
-import napkin.icon.geometry.StraightLine;
-import napkin.icon.geometry.UtilityShape;
+import napkin.sketch.geometry.CubicLine;
+import napkin.sketch.geometry.Path;
+import napkin.sketch.geometry.Point;
+import napkin.sketch.geometry.QuadLine;
+import napkin.sketch.geometry.SketchShape;
+import napkin.sketch.geometry.StraightLine;
 
 import java.awt.*;
 import java.util.Iterator;
 
 /**
- * The <tt>Renderer<tt> class uses the graphical information contained in a
- * Template to produce an image. The Renderer is responsible for such things as
+ * The <tt>Sketcher<tt> class uses the graphical information contained in a
+ * Template to produce an image. The Sketcher is responsible for such things as
  * deforming shapes and changing stroke widths. The altered graphic elements are
  * then rasterized to create an icon's final image.
  * <p/>
- * A developer wishing to create a new render style needs only implement the
+ * A developer wishing to create a new sketching style needs only implement the
  * abstract methods specifying the deformations that need to be applied to each
  * UtilityShape type. However, they have the option of also overriding the
- * default <tt>render</tt> method if they wish.
+ * default <tt>sketch</tt> method if they wish.
  *
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-public abstract class Renderer {
+public abstract class Sketcher {
     /**
-     * Renders a TemplateItem exactly as specified by the TemplateItem itself.
-     * Usually only useful for rendering items which have been deformed by other
+     * Sketches a TemplateItem exactly as specified by the TemplateItem itself.
+     * Usually only useful for sketching items which have been deformed by other
      * transformations.
      *
      * @param tItem A component of a template specifying geometry and color
      *              information
-     * @param g2d   The graphics object on which to render the image
+     * @param g2d   The graphics object on which to sketch the image
      */
-    protected static void quickRender(TemplateItem tItem, Graphics2D g2d) {
+    protected static void cleanSketch(TemplateItem tItem, Graphics2D g2d) {
         if (tItem.isDrawFill()) {
             g2d.setColor(tItem.getFillColor());
             g2d.fill(tItem.getShape());
@@ -66,17 +66,17 @@ public abstract class Renderer {
     /**
      * Performs the actual drawing of the template on a Graphics2D object
      *
-     * @param template the template to render
-     * @param g2d      the graphics object on which to render the image
+     * @param template the template to sketch
+     * @param g2d      the graphics object on which to sketch the image
      */
-    public void render(Template template, Graphics2D g2d) {
+    public void sketch(Template template, Graphics2D g2d) {
         TemplateItem current;
 
         Iterator<TemplateItem> i = template.getListIterator();
         while (i.hasNext()) {
             current = i.next();
             current.setShape(current.getShape().deform(this));
-            quickRender(current, g2d);
+            cleanSketch(current, g2d);
         }
     }
 
@@ -84,33 +84,33 @@ public abstract class Renderer {
      * @param l
      *
      * @return a StraightLine which has been deformed in the manner appropriate
-     *         for this renderer
+     *         for this sketcher
      */
-    public abstract UtilityShape deformLine(StraightLine l);
+    public abstract SketchShape deformLine(StraightLine l);
 
     /**
      * @param q
      *
      * @return a QuadLine which has been deformed in the manner appropriate for
-     *         this renderer
+     *         this sketcher
      */
-    public abstract UtilityShape deformQuad(QuadLine q);
+    public abstract SketchShape deformQuad(QuadLine q);
 
     /**
      * @param c
      *
      * @return a CubicLine which has been deformed in the manner appropriate for
-     *         this renderer
+     *         this sketcher
      */
-    public abstract UtilityShape deformCubic(CubicLine c);
+    public abstract SketchShape deformCubic(CubicLine c);
 
     /**
      * @param p
      *
      * @return a Path which has been deformed in the manner appropriate for this
-     *         renderer
+     *         sketcher
      */
-    public abstract UtilityShape deformPath(Path p);
+    public abstract SketchShape deformPath(Path p);
 
     /**
      * @param l

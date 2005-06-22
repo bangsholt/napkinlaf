@@ -1,6 +1,6 @@
 // $Id$
 
-package napkin.icon;
+package napkin.sketch;
 
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Document;
@@ -17,7 +17,7 @@ import java.util.ListIterator;
  * The <tt>Template</tt> class represents an "ideal" depiction of an image by
  * maintaining a list of graphical components. The components are used, in
  * conjuction with this class's other attributes, to specify what is to be drawn
- * by the renderer.
+ * by the sketcher.
  *
  * @author Justin Crafford
  * @author Peter Goodspeed
@@ -68,7 +68,7 @@ public class Template implements Cloneable {
      *
      * @see Template#produceXMLString()
      */
-    public static Template produceFromXMLDocument(String path)
+    public static Template createFromXML(String path)
             throws TemplateReadException {
         return new XMLTemplateExtractor().createTemplate(path);
     }
@@ -184,7 +184,7 @@ public class Template implements Cloneable {
     }
 
     /**
-     * Returns the field outside of which items should not be rendered. Note
+     * Returns the field outside of which items should not be sketched. Note
      * that a null clip mask is allowable and indicates that nothing should be
      * clipped.
      *
@@ -220,7 +220,7 @@ public class Template implements Cloneable {
      * @return a String containing the pretty-printed textual XML document
      *         representing this Template
      *
-     * @see Template#produceFromXMLDocument(String)
+     * @see Template#createFromXML(String)
      */
     public String produceXMLString() {
         StringWriter stringWriter = new StringWriter();

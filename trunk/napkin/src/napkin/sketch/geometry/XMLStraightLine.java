@@ -1,6 +1,6 @@
 // $Id$
 
-package napkin.icon.geometry;
+package napkin.sketch.geometry;
 
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Element;
@@ -27,8 +27,8 @@ public class XMLStraightLine extends StraightLine implements XMLShape {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element("straightLine");
 
-        ret.addContent(napkin.icon.XMLUtility.pointToXML(getP1(), "start"));
-        ret.addContent(napkin.icon.XMLUtility.pointToXML(getP2(), "end"));
+        ret.addContent(napkin.sketch.XMLUtility.pointToXML(getP1(), "start"));
+        ret.addContent(napkin.sketch.XMLUtility.pointToXML(getP2(), "end"));
 
         return ret;
     }
