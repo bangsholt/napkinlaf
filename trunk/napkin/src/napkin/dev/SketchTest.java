@@ -86,7 +86,7 @@ public class SketchTest implements ActionListener {
      * limits the files displayed only to those with an "xml" file extension.
      */
     static class XMLFilter extends javax.swing.filechooser.FileFilter {
-        /** @see javax.swing.filechooser.FileFilter#accept(File) */
+        /** {@inheritDoc} */
         public boolean accept(File pathname) {
             if (pathname.isDirectory()) {
                 return true;
@@ -96,7 +96,7 @@ public class SketchTest implements ActionListener {
             return (extension != null && extension.equals("xml"));
         }
 
-        /** @see javax.swing.filechooser.FileFilter#getDescription() */
+        /** {@inheritDoc} */
         public String getDescription() {
             return "XML Templates";
         }
@@ -119,7 +119,7 @@ public class SketchTest implements ActionListener {
     }
 
     class DrawnIconFileView extends FileView {
-        /** @see FileView#getIcon(File) */
+        /** {@inheritDoc} */
         public Icon getIcon(File f) {
             Icon icon = null;
 

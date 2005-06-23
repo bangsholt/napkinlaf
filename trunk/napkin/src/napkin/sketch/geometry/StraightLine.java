@@ -133,19 +133,19 @@ public class StraightLine extends Line2D.Double implements SketchShape {
         return ret;
     }
 
-    /** @see SketchShape#magnify(double) */
+    /** {@inheritDoc} */
     public SketchShape magnify(double scaleFactor) {
         return new XMLStraightLine(
                 new Point(x1 * scaleFactor, y1 * scaleFactor),
                 new Point(x2 * scaleFactor, y2 * scaleFactor));
     }
 
-    /** @see SketchShape#transformToCubic() */
+    /** {@inheritDoc} */
     public CubicLine transformToCubic() {
         return new CubicLine(getP1(), getP1(), getP2(), getP2());
     }
 
-    /** @see SketchShape#transformToPath() */
+    /** {@inheritDoc} */
     public Path transformToPath() {
         Path ret = new Path();
 
@@ -158,14 +158,14 @@ public class StraightLine extends Line2D.Double implements SketchShape {
         return ret;
     }
 
-    /** @see SketchShape#transformToLine() */
+    /** {@inheritDoc} */
     public StraightLine[] transformToLine() {
         StraightLine[] ret = new StraightLine[1];
         ret[0] = new StraightLine(this);
         return ret;
     }
 
-    /** @see SketchShape#transformToQuad() */
+    /** {@inheritDoc} */
     public QuadLine[] transformToQuad() {
         QuadLine[] ret = new QuadLine[1];
         ret[0] = new QuadLine(getP1(), midpoint(), getP2());
@@ -224,17 +224,17 @@ public class StraightLine extends Line2D.Double implements SketchShape {
         return new Point((x2 + x1) / 2, (y2 + y1) / 2);
     }
 
-    /** @see SketchShape#deform(Sketcher) */
+    /** {@inheritDoc} */
     public SketchShape deform(Sketcher r) {
         return r.deformLine(this);
     }
 
-    /** @see SketchShape#approximateLength() */
+    /** {@inheritDoc} */
     public double approximateLength() {
         return length();
     }
 
-    /** @see SketchShape#transformToCubicList() */
+    /** {@inheritDoc} */
     public CubicLine[] transformToCubicList() {
         CubicLine[] ret = new CubicLine[1];
         ret[0] = transformToCubic();

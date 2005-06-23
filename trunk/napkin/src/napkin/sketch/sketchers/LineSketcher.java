@@ -16,22 +16,22 @@ import napkin.sketch.geometry.StraightLine;
  * @author Justin Crafford
  */
 public class LineSketcher extends Sketcher {
-    /** @see Sketcher#deformLine(StraightLine) */
+    /** {@inheritDoc} */
     public SketchShape deformLine(StraightLine l) {
         return l;
     }
 
-    /** @see Sketcher#deformQuad(QuadLine) */
+    /** {@inheritDoc} */
     public SketchShape deformQuad(QuadLine q) {
         return formPath(q.transformToLine());
     }
 
-    /** @see Sketcher#deformCubic(CubicLine) */
+    /** {@inheritDoc} */
     public SketchShape deformCubic(CubicLine c) {
         return formPath(c.transformToLine());
     }
 
-    /** @see Sketcher#deformPath(Path) */
+    /** {@inheritDoc} */
     public SketchShape deformPath(Path p) {
         Path ret = new Path();
         SketchShape[] elements = p.simplify();

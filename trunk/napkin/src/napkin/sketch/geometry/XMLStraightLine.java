@@ -22,7 +22,7 @@ public class XMLStraightLine extends StraightLine implements XMLShape {
         super(p1, p2);
     }
 
-    /** @see XMLShape#produceXML() */
+    /** {@inheritDoc} */
     public Element produceXML() {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element("straightLine");

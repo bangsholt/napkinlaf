@@ -29,7 +29,7 @@ import java.util.Iterator;
 public class JotSketcher extends Sketcher {
     private static final double DEFORM_FACTOR = 0.2;
 
-    /** @see Sketcher#sketch(Template, Graphics2D) */
+    /** {@inheritDoc} */
     public void sketch(Template template, Graphics2D g2d) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
@@ -195,22 +195,22 @@ public class JotSketcher extends Sketcher {
         return (float) ret;
     }
 
-    /** @see Sketcher#deformLine(StraightLine) */
+    /** {@inheritDoc} */
     public SketchShape deformLine(StraightLine l) {
         return l.transformToCubic().deform(this);
     }
 
-    /** @see Sketcher#deformQuad(QuadLine) */
+    /** {@inheritDoc} */
     public SketchShape deformQuad(QuadLine q) {
         return q.transformToCubic().deform(this);
     }
 
-    /** @see Sketcher#deformCubic(CubicLine) */
+    /** {@inheritDoc} */
     public SketchShape deformCubic(CubicLine c) {
         return deform(c);
     }
 
-    /** @see Sketcher#deformPath(Path) */
+    /** {@inheritDoc} */
     public SketchShape deformPath(Path p) {
         return deform(p);
     }

@@ -274,7 +274,7 @@ public class Template implements Cloneable {
         return f.document(ret);
     }
 
-    /** @see Object#clone() */
+    /** {@inheritDoc} */
     public Template clone() {
         try {
             Template ret = (Template) super.clone();
