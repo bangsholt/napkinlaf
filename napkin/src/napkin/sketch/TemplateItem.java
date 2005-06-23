@@ -174,7 +174,7 @@ public class TemplateItem implements Cloneable {
         }
     }
 
-    /** @see Object#clone() */
+    /** {@inheritDoc} */
     public Object clone() {
         try {
             return super.clone();

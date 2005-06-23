@@ -64,17 +64,17 @@ public class SketchedIcon implements Icon {
         return template.getDescription();
     }
 
-    /** @see Icon#getIconHeight() */
+    /** {@inheritDoc} */
     public int getIconHeight() {
         return (int) template.getClippingBounds().getHeight();
     }
 
-    /** @see Icon#getIconWidth() */
+    /** {@inheritDoc} */
     public int getIconWidth() {
         return (int) template.getClippingBounds().getWidth();
     }
 
-    /** @see Icon#paintIcon(Component, Graphics, int, int) */
+    /** {@inheritDoc} */
     public void paintIcon(Component c, Graphics g, int x, int y) {
         int width = template.getClippingBounds().width;
         int height = template.getClippingBounds().height;
@@ -86,7 +86,7 @@ public class SketchedIcon implements Icon {
                     BufferedImage.TYPE_INT_ARGB);
             Graphics2D imageGraphics = bimage.createGraphics();
 
-            sketcher.sketch((Template) template.clone(), imageGraphics);
+            sketcher.sketch(template.clone(), imageGraphics);
             g2d.drawImage(bimage, 0, 0, width, height, null);
             isSketched = true;
         } else if (bimage != null) {

@@ -50,7 +50,7 @@ public class Path implements SketchShape {
         generalPath.append(s, connect);
     }
 
-    /** @see Object#clone() */
+    /** {@inheritDoc} */
     public Object clone() {
         try {
             Path clone = (Path) super.clone();
@@ -68,12 +68,12 @@ public class Path implements SketchShape {
         generalPath.closePath();
     }
 
-    /** @see Shape#contains(double, double) */
+    /** {@inheritDoc} */
     public boolean contains(double x, double y) {
         return generalPath.contains(x, y);
     }
 
-    /** @see Shape#contains(double, double, double, double) */
+    /** {@inheritDoc} */
     public boolean contains(double x, double y, double w, double h) {
         return generalPath.contains(x, y, w, h);
     }
@@ -144,47 +144,47 @@ public class Path implements SketchShape {
         generalPath.transform(at);
     }
 
-    /** @see Shape#intersects(double, double, double, double) */
+    /** {@inheritDoc} */
     public boolean intersects(double x, double y, double w, double h) {
         return generalPath.intersects(x, y, w, h);
     }
 
-    /** @see Shape#getBounds() */
+    /** {@inheritDoc} */
     public Rectangle getBounds() {
         return generalPath.getBounds();
     }
 
-    /** @see Shape#contains(Point2D) */
+    /** {@inheritDoc} */
     public boolean contains(Point2D p) {
         return generalPath.contains(p);
     }
 
-    /** @see Shape#getBounds2D() */
+    /** {@inheritDoc} */
     public Rectangle2D getBounds2D() {
         return generalPath.getBounds();
     }
 
-    /** @see Shape#contains(Rectangle2D) */
+    /** {@inheritDoc} */
     public boolean contains(Rectangle2D r) {
         return generalPath.contains(r);
     }
 
-    /** @see Shape#intersects(Rectangle2D) */
+    /** {@inheritDoc} */
     public boolean intersects(Rectangle2D r) {
         return generalPath.intersects(r);
     }
 
-    /** @see Shape#getPathIterator(AffineTransform) */
+    /** {@inheritDoc} */
     public PathIterator getPathIterator(AffineTransform at) {
         return generalPath.getPathIterator(at);
     }
 
-    /** @see Shape#getPathIterator(AffineTransform, double) */
+    /** {@inheritDoc} */
     public PathIterator getPathIterator(AffineTransform at, double flatness) {
         return generalPath.getPathIterator(at, flatness);
     }
 
-    /** @see SketchShape#magnify(double) */
+    /** {@inheritDoc} */
     public SketchShape magnify(double scaleFactor) {
         Path ret = new Path();
         Point current;
@@ -231,17 +231,17 @@ public class Path implements SketchShape {
         return ret;
     }
 
-    /** @see SketchShape#transformToCubic() */
+    /** {@inheritDoc} */
     public CubicLine transformToCubic() {
         throw new UnsupportedOperationException();
     }
 
-    /** @see SketchShape#transformToPath() */
+    /** {@inheritDoc} */
     public Path transformToPath() {
         return new Path(this);
     }
 
-    /** @see SketchShape#transformToLine() */
+    /** {@inheritDoc} */
     public StraightLine[] transformToLine() {
         //noinspection CollectionDeclaredAsConcreteClass
         LinkedList<StraightLine> ret = new LinkedList<StraightLine>();
@@ -259,7 +259,7 @@ public class Path implements SketchShape {
         return ret.toArray(new StraightLine[ret.size()]);
     }
 
-    /** @see SketchShape#transformToQuad() */
+    /** {@inheritDoc} */
     public QuadLine[] transformToQuad() {
         //noinspection CollectionDeclaredAsConcreteClass
         LinkedList<QuadLine> ret = new LinkedList<QuadLine>();
@@ -277,7 +277,7 @@ public class Path implements SketchShape {
         return ret.toArray(new QuadLine[ret.size()]);
     }
 
-    /** @see SketchShape#deform(napkin.sketch.Sketcher) */
+    /** {@inheritDoc} */
     public SketchShape deform(Sketcher r) {
         return r.deformPath(this);
     }
@@ -338,7 +338,7 @@ public class Path implements SketchShape {
         return ret.toArray(new SketchShape[ret.size()]);
     }
 
-    /** @see SketchShape#approximateLength() */
+    /** {@inheritDoc} */
     public double approximateLength() {
         double ret = 0;
 
@@ -350,7 +350,7 @@ public class Path implements SketchShape {
         return ret;
     }
 
-    /** @see SketchShape#transformToCubicList() */
+    /** {@inheritDoc} */
     public CubicLine[] transformToCubicList() {
         //noinspection CollectionDeclaredAsConcreteClass
         LinkedList<CubicLine> ret = new LinkedList<CubicLine>();

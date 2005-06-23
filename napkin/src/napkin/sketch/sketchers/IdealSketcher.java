@@ -17,22 +17,22 @@ import napkin.sketch.geometry.StraightLine;
  * @author Justin Crafford
  */
 public class IdealSketcher extends Sketcher {
-    /** @see Sketcher#deformLine(StraightLine) */
+    /** {@inheritDoc} */
     public SketchShape deformLine(StraightLine l) {
         return l;
     }
 
-    /** @see Sketcher#deformQuad(QuadLine) */
+    /** {@inheritDoc} */
     public SketchShape deformQuad(QuadLine q) {
         return q;
     }
 
-    /** @see Sketcher#deformCubic(CubicLine) */
+    /** {@inheritDoc} */
     public SketchShape deformCubic(CubicLine c) {
         return c;
     }
 
-    /** @see Sketcher#deformPath(Path) */
+    /** {@inheritDoc} */
     public SketchShape deformPath(Path p) {
         return p;
     }

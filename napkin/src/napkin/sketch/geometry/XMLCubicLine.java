@@ -26,8 +26,7 @@ public class XMLCubicLine extends CubicLine implements XMLShape {
      * @param y2
      */
     public XMLCubicLine(double x1, double y1, double ctlx1, double ctly1,
-            double ctlx2,
-            double ctly2, double x2, double y2) {
+            double ctlx2, double ctly2, double x2, double y2) {
         super(x1, y1, ctlx1, ctly1, ctlx2, ctly2, x2, y2);
     }
 
@@ -42,7 +41,7 @@ public class XMLCubicLine extends CubicLine implements XMLShape {
                 .getY(), p2.getX(), p2.getY());
     }
 
-    /** @see XMLShape#produceXML() */
+    /** {@inheritDoc} */
     public Element produceXML() {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element("cubicLine");

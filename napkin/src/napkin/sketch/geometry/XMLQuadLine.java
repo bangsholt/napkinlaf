@@ -24,8 +24,7 @@ public class XMLQuadLine extends QuadLine implements XMLShape {
      * @param y2
      */
     public XMLQuadLine(double x1, double y1, double ctrlx, double ctrly,
-            double x2,
-            double y2) {
+            double x2, double y2) {
         super(x1, y1, ctrlx, ctrly, x2, y2);
     }
 
@@ -39,7 +38,7 @@ public class XMLQuadLine extends QuadLine implements XMLShape {
                 .getY());
     }
 
-    /** @see XMLShape#produceXML() */
+    /** {@inheritDoc} */
     public Element produceXML() {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element("quadLine");

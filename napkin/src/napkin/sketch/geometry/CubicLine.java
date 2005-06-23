@@ -2,6 +2,8 @@
 
 package napkin.sketch.geometry;
 
+import napkin.sketch.Sketcher;
+
 import java.awt.geom.*;
 
 /**
@@ -72,7 +74,7 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
                 / (1 + Math.log(getFlatness() + 1));
     }
 
-    /** @see SketchShape#magnify(double) */
+    /** {@inheritDoc} */
     public SketchShape magnify(double scaleFactor) {
         return new XMLCubicLine(x1 * scaleFactor, y1 * scaleFactor,
                 ctrlx1 * scaleFactor, ctrly1 * scaleFactor,
@@ -80,12 +82,12 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
                 x2 * scaleFactor, y2 * scaleFactor);
     }
 
-    /** @see SketchShape#transformToCubic() */
+    /** {@inheritDoc} */
     public CubicLine transformToCubic() {
         return this;
     }
 
-    /** @see SketchShape#transformToPath() */
+    /** {@inheritDoc} */
     public Path transformToPath() {
         Path ret = new Path();
 
@@ -100,7 +102,7 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
         return ret;
     }
 
-    /** @see SketchShape#transformToLine() */
+    /** {@inheritDoc} */
     public StraightLine[] transformToLine() {
         Point mid = Point.midpoint(getP1(), getP2());
         Point q1 = Point.midpoint(getP1(), mid);
@@ -144,7 +146,7 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
         return ret;
     }
 
-    /** @see SketchShape#transformToQuad() */
+    /** {@inheritDoc} */
     public QuadLine[] transformToQuad() {
         QuadLine[] ret;
 
@@ -164,12 +166,12 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
         return ret;
     }
 
-    /** @see SketchShape#deform(napkin.sketch.Sketcher) */
-    public SketchShape deform(napkin.sketch.Sketcher r) {
+    /** {@inheritDoc} */
+    public SketchShape deform(Sketcher r) {
         return r.deformCubic(this);
     }
 
-    /** @see SketchShape#transformToCubicList() */
+    /** {@inheritDoc} */
     public CubicLine[] transformToCubicList() {
         CubicLine[] ret = new CubicLine[1];
         ret[0] = transformToCubic();

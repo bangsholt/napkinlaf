@@ -50,14 +50,14 @@ public class QuadLine extends QuadCurve2D.Double implements SketchShape {
         this(q.getP1(), q.getCtrlPt(), q.getP2());
     }
 
-    /** @see SketchShape#magnify(double) */
+    /** {@inheritDoc} */
     public SketchShape magnify(double scaleFactor) {
         return new XMLQuadLine(x1 * scaleFactor, y1 * scaleFactor,
                 ctrlx * scaleFactor, ctrly * scaleFactor,
                 x2 * scaleFactor, y2 * scaleFactor);
     }
 
-    /** @see SketchShape#transformToCubic() */
+    /** {@inheritDoc} */
     public CubicLine transformToCubic() {
         Point base = Point.midpoint(getP1(), getP2());
         StraightLine span = new StraightLine(base, getCtrlPt());
@@ -68,7 +68,7 @@ public class QuadLine extends QuadCurve2D.Double implements SketchShape {
         return new CubicLine(getP1(), reach, reach, getP2());
     }
 
-    /** @see SketchShape#transformToPath() */
+    /** {@inheritDoc} */
     public Path transformToPath() {
         Path ret = new Path();
 
@@ -82,12 +82,12 @@ public class QuadLine extends QuadCurve2D.Double implements SketchShape {
         return ret;
     }
 
-    /** @see SketchShape#transformToLine() */
+    /** {@inheritDoc} */
     public StraightLine[] transformToLine() {
         return transformToCubic().transformToLine();
     }
 
-    /** @see SketchShape#transformToQuad() */
+    /** {@inheritDoc} */
     public QuadLine[] transformToQuad() {
         QuadLine[] ret = new QuadLine[1];
 
@@ -96,17 +96,17 @@ public class QuadLine extends QuadCurve2D.Double implements SketchShape {
         return ret;
     }
 
-    /** @see SketchShape#deform(Sketcher) */
+    /** {@inheritDoc} */
     public SketchShape deform(Sketcher r) {
         return r.deformQuad(this);
     }
 
-    /** @see SketchShape#approximateLength() */
+    /** {@inheritDoc} */
     public double approximateLength() {
         return transformToCubic().approximateLength();
     }
 
-    /** @see SketchShape#transformToCubicList() */
+    /** {@inheritDoc} */
     public CubicLine[] transformToCubicList() {
         CubicLine[] ret = new CubicLine[1];
         ret[0] = transformToCubic();
