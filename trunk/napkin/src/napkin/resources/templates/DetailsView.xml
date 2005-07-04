@@ -3,8 +3,8 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.mqp.wpi.edu/napkin/Template.xsd">
     <!-- $Id$ -->
-    <title>filenew.svg</title>
-    <description>filenew.svg</description>
+    <title>DetailsView</title>
+    <description>Detailed view in file dialog</description>
 
     <clippingBounds>
         <dimensions>
@@ -13,20 +13,12 @@
         </dimensions>
     </clippingBounds>
 
-    <templateItem>
-        <drawStroke>true</drawStroke>
-        <drawFill>false</drawFill>
-        <strokeWeight>1</strokeWeight>
-        <strokeColor>
-            <r>0</r>
-            <g>0</g>
-            <b>0</b>
-        </strokeColor>
-        <fillColor>
-            <r>0</r>
-            <g>0</g>
-            <b>0</b>
-        </fillColor>
+<!--
+       - This is shown as a series of lines that look like a detailed info line:
+       - a jot, a long line, a shorter line
+       -->
+
+    <templateItem>        <!-- top row -->
         <path>
             <moveTo>
                 <point>
@@ -67,20 +59,7 @@
         </path>
     </templateItem>
 
-    <templateItem>
-        <drawStroke>true</drawStroke>
-        <drawFill>false</drawFill>
-        <strokeWeight>1</strokeWeight>
-        <strokeColor>
-            <r>0</r>
-            <g>0</g>
-            <b>0</b>
-        </strokeColor>
-        <fillColor>
-            <r>0</r>
-            <g>0</g>
-            <b>0</b>
-        </fillColor>
+    <templateItem>        <!-- middle row -->
         <path>
             <moveTo>
                 <point>
@@ -121,20 +100,7 @@
         </path>
     </templateItem>
 
-    <templateItem>
-        <drawStroke>true</drawStroke>
-        <drawFill>false</drawFill>
-        <strokeWeight>1</strokeWeight>
-        <strokeColor>
-            <r>0</r>
-            <g>0</g>
-            <b>0</b>
-        </strokeColor>
-        <fillColor>
-            <r>0</r>
-            <g>0</g>
-            <b>0</b>
-        </fillColor>
+    <templateItem>        <!-- bottom row -->
         <path>
             <moveTo>
                 <point>

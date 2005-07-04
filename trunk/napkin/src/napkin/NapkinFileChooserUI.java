@@ -7,8 +7,8 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.metal.*;
 
-// It seems as if the BasicFileChooserUI is not yet well formed, so we're just
-// borrowing the metal chooser for now.
+//!! It seems as if the BasicFileChooserUI is not yet well formed, so we're just
+//!! borrowing the metal chooser for now.
 
 public class NapkinFileChooserUI extends MetalFileChooserUI
         implements NapkinPainter {

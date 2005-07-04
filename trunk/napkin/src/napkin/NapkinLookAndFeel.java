@@ -388,19 +388,15 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
             "FileChooser.upFolderIcon", sketchedIcon("UpFolder"),
             "FileChooser.detailsViewIcon", sketchedIcon("DetailsView"),
-            /*
-    directoryIcon    = UIManager.getIcon("FileView.directoryIcon");
-    fileIcon         = UIManager.getIcon("FileView.fileIcon");
-    computerIcon     = UIManager.getIcon("FileView.computerIcon");
-    hardDriveIcon    = UIManager.getIcon("FileView.hardDriveIcon");
-    floppyDriveIcon  = UIManager.getIcon("FileView.floppyDriveIcon");
+            "FileChooser.listViewIcon", sketchedIcon("ListView"),
+            "FileChooser.newFolderIcon", sketchedIcon("NewFolder"),
+            "FileChooser.homeFolderIcon", sketchedIcon("HomeFolder"),
 
-    newFolderIcon    = UIManager.getIcon("FileChooser.newFolderIcon");
-    upFolderIcon     = UIManager.getIcon("FileChooser.upFolderIcon");
-    homeFolderIcon   = UIManager.getIcon("FileChooser.homeFolderIcon");
-    detailsViewIcon  = UIManager.getIcon("FileChooser.detailsViewIcon");
-    listViewIcon     = UIManager.getIcon("FileChooser.listViewIcon");
-            */
+            "FileView.directoryIcon", sketchedIcon("Directory"),
+            "FileView.fileIcon", sketchedIcon("File"),
+            "FileView.computerIcon", sketchedIcon("Computer"),
+            "FileView.hardDriveIcon", sketchedIcon("HardDrive"),
+            "FileView.floppyIcon", sketchedIcon("Floppy"),
         };
 
         table.putDefaults(napkinDefaults);

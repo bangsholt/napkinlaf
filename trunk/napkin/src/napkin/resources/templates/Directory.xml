@@ -3,8 +3,8 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.mqp.wpi.edu/napkin/Template.xsd">
     <!-- $Id$ -->
-    <title>Up Folder</title>
-    <description>Move up a folder in the hierarchy</description>
+    <title>Directory</title>
+    <description>A directory/folder</description>
 
     <clippingBounds>
         <dimensions>
@@ -75,53 +75,6 @@
                 </point>
             </lineTo>
             <close/>
-        </path>
-    </templateItem>
-
-    <templateItem>                <!-- arrow head -->
-        <path>
-            <moveTo>
-                <point>
-                    <x>4</x>
-                    <y>10</y>
-                </point>
-            </moveTo>
-            <lineTo>
-                <point>
-                    <x>6</x>
-                    <y>7</y>
-                </point>
-            </lineTo>
-            <lineTo>
-                <point>
-                    <x>8</x>
-                    <y>10</y>
-                </point>
-            </lineTo><!-- <lineTo> <point> <x>4</x> <y>10</y> </point> </lineTo>
-            <close/> -->
-        </path>
-    </templateItem>        <!-- arrow tail -->
-
-    <templateItem>
-        <path>
-            <moveTo>
-                <point>
-                    <x>6</x>
-                    <y>9</y>
-                </point>
-            </moveTo>
-            <lineTo>
-                <point>
-                    <x>6</x>
-                    <y>13</y>
-                </point>
-            </lineTo>
-            <lineTo>
-                <point>
-                    <x>10</x>
-                    <y>13</y>
-                </point>
-            </lineTo>
         </path>
     </templateItem>
 

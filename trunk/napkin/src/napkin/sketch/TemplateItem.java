@@ -31,7 +31,7 @@ public class TemplateItem implements Cloneable {
 
     /** Constructs a new TemplateItem with default values */
     public TemplateItem() {
-        this(true, true, null, 1, null, null);
+        this(true, false, null, 1.0f, null, null);
     }
 
     /**
