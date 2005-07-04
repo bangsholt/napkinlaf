@@ -26,9 +26,6 @@ import javax.swing.plaf.metal.*;
  * @author Peter Goodspeed
  */
 public class SketchTest implements ActionListener {
-    // The default directory path to the XML template files
-    private static final String DEFAULT_PATH = ".\\src\\edu\\wpi\\mqp\\napkin\\resources\\";
-
     // Constants used for setting the current sketching style
     private static final int IDEAL = 0;
     private static final int JOT = 1;
@@ -51,9 +48,11 @@ public class SketchTest implements ActionListener {
     private final JFileChooser fileChooser;
     private JComboBox sketchChoices;
     private JButton sketchButton;
+    private JButton reloadButton;
     private JLabel templateImageLabel;
 
     private boolean isNapkinLAF;
+    private File file;
 
     /** Constructs the main GUI objects that the application uses */
     public SketchTest() {
@@ -227,6 +226,15 @@ public class SketchTest implements ActionListener {
         sketchButton = new JButton("Re-sketch");
         sketchButton.setEnabled(false); // Disable until a template is loaded
 
+        // Create a button for reloading the current file
+        reloadButton = new JButton("Reload");
+        reloadButton.setEnabled(false);
+        reloadButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                loadFile();
+            }
+        });
+
         // Add a border around the select panel
         selectPanel.setBorder(BorderFactory
                 .createTitledBorder("Select Sketch Style"));
@@ -240,6 +248,7 @@ public class SketchTest implements ActionListener {
         displayPanel.add(templateImageLabel);
         selectPanel.add(sketchChoices);
         selectPanel.add(sketchButton);
+        selectPanel.add(reloadButton);
 
         // Listen to events from the combo box and sketch button
         sketchChoices.addActionListener(this);
@@ -275,22 +284,15 @@ public class SketchTest implements ActionListener {
             int returnVal = fileChooser.showOpenDialog(mainPanel);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File file = fileChooser.getSelectedFile();
-
-                templateIcon = createDrawnIcon(file.getPath(), DEFAULT);
-
-                // Update the icon to display the new image
-                templateImageLabel.setToolTipText(templateIcon
-                        .getTemplateDescription());
-                templateImageLabel.setIcon(templateIcon);
-                templateImageLabel.repaint();
+                file = fileChooser.getSelectedFile();
+                loadFile();
 
                 // Enable the combo box for choosing the sketching style
                 sketchChoices.setEnabled(true);
                 // Enable the sketch button for re-sketching the icon's image
                 sketchButton.setEnabled(true);
-                // Reset the combo box to the default sketching style
-                sketchChoices.setSelectedIndex(DEFAULT);
+                // Now we have something to reload
+                reloadButton.setEnabled(true);
             }
         }
         // Exit the java application
@@ -326,6 +328,21 @@ public class SketchTest implements ActionListener {
 
             isNapkinLAF = true;
         }
+    }
+
+    private void loadFile() {
+        try {
+            templateIcon = createDrawnIcon(file.getPath(), DEFAULT);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        // Update the icon to display the new image
+        templateImageLabel.setToolTipText(templateIcon
+                .getTemplateDescription());
+        templateImageLabel.setIcon(templateIcon);
+        templateImageLabel.repaint();
     }
 
     /**

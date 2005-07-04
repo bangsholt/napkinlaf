@@ -3,8 +3,8 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.mqp.wpi.edu/napkin/Template.xsd">
     <!-- $Id$ -->
-    <title>Up Folder</title>
-    <description>Move up a folder in the hierarchy</description>
+    <title>NewFolder</title>
+    <description>Create a new folder</description>
 
     <clippingBounds>
         <dimensions>
@@ -18,25 +18,25 @@
             <moveTo>
                 <point>
                     <x>1</x>
-                    <y>4</y>
+                    <y>5</y>
                 </point>
             </moveTo>
             <lineTo>
                 <point>
                     <x>3</x>
-                    <y>2</y>
+                    <y>3</y>
                 </point>
             </lineTo>
             <lineTo>
                 <point>
                     <x>7</x>
-                    <y>2</y>
+                    <y>3</y>
                 </point>
             </lineTo>
             <lineTo>
                 <point>
                     <x>9</x>
-                    <y>4</y>
+                    <y>5</y>
                 </point>
             </lineTo>
         </path>
@@ -47,13 +47,13 @@
             <moveTo>
                 <point>
                     <x>14</x>
-                    <y>5</y>
+                    <y>6</y>
                 </point>
             </moveTo>
             <lineTo>
                 <point>
                     <x>1</x>
-                    <y>5</y>
+                    <y>6</y>
                 </point>
             </lineTo>
             <lineTo>
@@ -64,64 +64,59 @@
             </lineTo>
             <lineTo>
                 <point>
-                    <x>15</x>
+                    <x>14</x>
                     <y>15</y>
                 </point>
             </lineTo>
             <lineTo>
                 <point>
-                    <x>15</x>
-                    <y>5</y>
+                    <x>14</x>
+                    <y>6</y>
                 </point>
             </lineTo>
             <close/>
         </path>
     </templateItem>
 
-    <templateItem>                <!-- arrow head -->
+    <templateItem>                <!-- glint -->
         <path>
             <moveTo>
                 <point>
-                    <x>4</x>
-                    <y>10</y>
+                    <x>17</x>
+                    <y>3</y>
                 </point>
             </moveTo>
             <lineTo>
                 <point>
-                    <x>6</x>
-                    <y>7</y>
+                    <x>19</x>
+                    <y>1</y>
                 </point>
             </lineTo>
-            <lineTo>
-                <point>
-                    <x>8</x>
-                    <y>10</y>
-                </point>
-            </lineTo><!-- <lineTo> <point> <x>4</x> <y>10</y> </point> </lineTo>
-            <close/> -->
-        </path>
-    </templateItem>        <!-- arrow tail -->
-
-    <templateItem>
-        <path>
             <moveTo>
                 <point>
-                    <x>6</x>
-                    <y>9</y>
+                    <x>14</x>
+                    <y>3</y>
                 </point>
             </moveTo>
             <lineTo>
                 <point>
-                    <x>6</x>
-                    <y>13</y>
+                    <x>13</x>
+                    <y>1</y>
                 </point>
             </lineTo>
+            <moveTo>
+                <point>
+                    <x>17</x>
+                    <y>5</y>
+                </point>
+            </moveTo>
             <lineTo>
                 <point>
-                    <x>10</x>
-                    <y>13</y>
+                    <x>19</x>
+                    <y>6</y>
                 </point>
             </lineTo>
+            <close/>
         </path>
     </templateItem>
 
