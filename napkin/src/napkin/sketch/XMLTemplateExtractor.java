@@ -14,6 +14,7 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.awt.*;
+import java.awt.geom.*;
 import java.io.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -55,23 +56,24 @@ public class XMLTemplateExtractor extends DefaultHandler {
     private Path path;
 
     // Data-related objects
-    private Point point; // Holds point information
-    private final Point[] points; // Holds all points for a particular line
+    private Point2D point; // Holds point information
+    private final Point2D.Float[] points; // Holds all points for a particular line
     private int i; // Used to iterate through all the points
     private int[] rgb; // Holds r, g, b color information
 
     private int currentAction; // Specifies information that needs parsing
+    private float curX;
 
     /** Constructs a new XMLTemplateExtractor */
     public XMLTemplateExtractor() {
         template = new Template();
         i = 0;
-        point = new Point();
-        points = new Point[4];
-        points[0] = new Point();
-        points[1] = new Point();
-        points[2] = new Point();
-        points[3] = new Point();
+        point = new Point2D.Float();
+        points = new Point2D.Float[4];
+        points[0] = new Point2D.Float();
+        points[1] = new Point2D.Float();
+        points[2] = new Point2D.Float();
+        points[3] = new Point2D.Float();
         currentAction = NO_ACTION;
     }
 
@@ -175,11 +177,10 @@ public class XMLTemplateExtractor extends DefaultHandler {
                 rgb[2] = Integer.parseInt(value);
                 break;
             case GET_X_VALUE:
-                point = new Point();
-                point.x = Integer.parseInt(value);
+                curX = Float.parseFloat(value);
                 break;
             case GET_Y_VALUE:
-                point.y = Integer.parseInt(value);
+                point = new Point2D.Float(curX, Float.parseFloat(value));
                 break;
             default:
                 throw new IllegalStateException(currentAction + ": unknown");
@@ -191,7 +192,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
     public void endElement(String namespaceURI, String localName,
             String qualifiedName) {
         if (localName.equals("clippingBounds")) {
-            Rectangle clippingBounds = new Rectangle(point, dimensions);
+            Rectangle clippingBounds = new Rectangle(dimensions);
             template.setClippingBounds(clippingBounds);
         } else if (localName.equals("templateItem")) {
             templateItem.setShape(shape);
@@ -243,7 +244,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
             path.closePath();
         } else if (localName.equals("start") || localName.equals("point")
                 || localName.equals("control") || localName.equals("end")) {
-            points[i++] = new Point(point);
+            points[i++] = (Point2D.Float) point.clone();
         }
         currentAction = NO_ACTION;
     }

@@ -387,6 +387,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "SplitPane.dividerSize", NapkinSplitPaneDivider.SIZE,
 
             "FileChooser.upFolderIcon", sketchedIcon("UpFolder"),
+            "FileChooser.detailsViewIcon", sketchedIcon("DetailsView"),
             /*
     directoryIcon    = UIManager.getIcon("FileView.directoryIcon");
     fileIcon         = UIManager.getIcon("FileView.fileIcon");
