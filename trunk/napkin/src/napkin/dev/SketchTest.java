@@ -58,7 +58,7 @@ public class SketchTest implements ActionListener {
     /** Constructs the main GUI objects that the application uses */
     public SketchTest() {
         // Create the file chooser
-        fileChooser = new JFileChooser(DEFAULT_PATH);
+        fileChooser = new JFileChooser(currentDir());
         XMLFilter fileFilter = new XMLFilter();
         fileChooser.setFileFilter(fileFilter);
         DrawnIconFileView diFileView = new DrawnIconFileView();
@@ -79,6 +79,16 @@ public class SketchTest implements ActionListener {
         // Add the select and display panels to the main panel
         mainPanel.add(selectPanel);
         mainPanel.add(displayPanel);
+    }
+
+    private static File currentDir() {
+        File curDir = new File(".");
+        try {
+            curDir = curDir.getCanonicalFile();
+            return curDir;
+        } catch (IOException e) {
+            throw new IllegalArgumentException(curDir.getAbsolutePath(), e);
+        }
     }
 
     /**
