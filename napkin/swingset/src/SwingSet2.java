@@ -244,6 +244,8 @@ public class SwingSet2 extends JPanel {
     // *******************************************************
 
     public void initializeDemo() {
+        setLookAndFeel(initLaf);
+
         JPanel top = new JPanel();
         top.setLayout(new BorderLayout());
         add(top, BorderLayout.NORTH);
@@ -258,8 +260,6 @@ public class SwingSet2 extends JPanel {
 
         // creates popup menu accessible via keyboard
         popupMenu = createPopupMenu();
-
-        setLookAndFeel(initLaf);
 
         ToolBarPanel toolbarPanel = new ToolBarPanel();
         toolbarPanel.setLayout(new BorderLayout());
@@ -324,10 +324,12 @@ public class SwingSet2 extends JPanel {
                 getString("MenuBar.accessible_description"));
 
         // ***** create File menu
-        JMenu fileMenu = (JMenu) menuBar.add(new JMenu(getString("FileMenu.file_label")));
+        JMenu fileMenu = (JMenu) menuBar
+                .add(new JMenu(getString("FileMenu.file_label")));
         fileMenu.setMnemonic(getMnemonic("FileMenu.file_mnemonic"));
         fileMenu.getAccessibleContext()
-                .setAccessibleDescription(getString("FileMenu.accessible_description"));
+                .setAccessibleDescription(
+                        getString("FileMenu.accessible_description"));
 
         createMenuItem(fileMenu, "FileMenu.about_label",
                 "FileMenu.about_mnemonic",
@@ -359,7 +361,8 @@ public class SwingSet2 extends JPanel {
         // Create these menu items for the first SwingSet only.
         if (numSSs == 0) {
             // ***** create laf switcher menu
-            lafMenu = (JMenu) menuBar.add(new JMenu(getString("LafMenu.laf_label")));
+            lafMenu = (JMenu) menuBar
+                    .add(new JMenu(getString("LafMenu.laf_label")));
             lafMenu.setMnemonic(getMnemonic("LafMenu.laf_mnemonic"));
             lafMenu.getAccessibleContext().setAccessibleDescription(
                     getString("LafMenu.laf_accessible_description"));
@@ -387,6 +390,8 @@ public class SwingSet2 extends JPanel {
                 }
             }
             setLookAndFeel(initLaf);
+            SwingUtilities.updateComponentTreeUI(lafMenu);
+            SwingUtilities.updateComponentTreeUI(fileMenu);
 
             // ***** create themes menu
             themesMenu = new JMenu(getString("ThemesMenu.themes_label"));
@@ -398,7 +403,8 @@ public class SwingSet2 extends JPanel {
             populateThemesMenu();
 
             // ***** create the audio submenu under the theme menu
-            audioMenu = (JMenu) this.themesMenu.add(new JMenu(getString("AudioMenu.audio_label")));
+            audioMenu = (JMenu) this.themesMenu
+                    .add(new JMenu(getString("AudioMenu.audio_label")));
             audioMenu.setMnemonic(getMnemonic("AudioMenu.audio_mnemonic"));
             audioMenu.getAccessibleContext().setAccessibleDescription(
                     getString("AudioMenu.audio_accessible_description"));
@@ -420,7 +426,8 @@ public class SwingSet2 extends JPanel {
                     new OffAudioAction(this));
 
             // ***** create the font submenu under the theme menu
-            JMenu fontMenu = (JMenu) this.themesMenu.add(new JMenu(getString("FontMenu.fonts_label")));
+            JMenu fontMenu = (JMenu) this.themesMenu
+                    .add(new JMenu(getString("FontMenu.fonts_label")));
             fontMenu.setMnemonic(getMnemonic("FontMenu.fonts_mnemonic"));
             fontMenu.getAccessibleContext().setAccessibleDescription(
                     getString("FontMenu.fonts_accessible_description"));
@@ -439,7 +446,8 @@ public class SwingSet2 extends JPanel {
             // ***** create the options menu
             optionsMenu = (JMenu) menuBar.add(
                     new JMenu(getString("OptionsMenu.options_label")));
-            optionsMenu.setMnemonic(getMnemonic("OptionsMenu.options_mnemonic"));
+            optionsMenu
+                    .setMnemonic(getMnemonic("OptionsMenu.options_mnemonic"));
             optionsMenu.getAccessibleContext().setAccessibleDescription(
                     getString("OptionsMenu.options_accessible_description"));
 
@@ -469,7 +477,8 @@ public class SwingSet2 extends JPanel {
                 JMenu multiScreenMenu = (JMenu) menuBar.add(new JMenu(
                         getString("MultiMenu.multi_label")));
 
-                multiScreenMenu.setMnemonic(getMnemonic("MultiMenu.multi_mnemonic"));
+                multiScreenMenu
+                        .setMnemonic(getMnemonic("MultiMenu.multi_mnemonic"));
                 multiScreenMenu.getAccessibleContext().setAccessibleDescription(
                         getString("MultiMenu.multi_accessible_description"));
 
@@ -589,7 +598,8 @@ public class SwingSet2 extends JPanel {
             String mnemonic,
             String accessibleDescription,
             Action action) {
-        JRadioButtonMenuItem mi = (JRadioButtonMenuItem) menu.add(new JRadioButtonMenuItem(getString(label)));
+        JRadioButtonMenuItem mi = (JRadioButtonMenuItem) menu
+                .add(new JRadioButtonMenuItem(getString(label)));
         audioMenuGroup.add(mi);
         mi.setMnemonic(getMnemonic(mnemonic));
         mi.getAccessibleContext()
@@ -638,7 +648,8 @@ public class SwingSet2 extends JPanel {
     public JMenuItem createLafMenuItem(JMenu menu, String label,
             String mnemonic,
             String accessibleDescription, String laf) {
-        JMenuItem mi = (JRadioButtonMenuItem) menu.add(new JRadioButtonMenuItem(getString(label)));
+        JMenuItem mi = (JRadioButtonMenuItem) menu
+                .add(new JRadioButtonMenuItem(getString(label)));
         lafMenuGroup.add(mi);
         mi.setMnemonic(getMnemonic(mnemonic));
         mi.getAccessibleContext()
@@ -654,14 +665,16 @@ public class SwingSet2 extends JPanel {
     public JMenuItem createMultiscreenMenuItem(JMenu menu, int screen) {
         JMenuItem mi = null;
         if (screen == MultiScreenAction.ALL_SCREENS) {
-            mi = (JMenuItem) menu.add(new JMenuItem(getString("MultiMenu.all_label")));
+            mi = (JMenuItem) menu
+                    .add(new JMenuItem(getString("MultiMenu.all_label")));
             mi.setMnemonic(getMnemonic("MultiMenu.all_mnemonic"));
             mi.getAccessibleContext().setAccessibleDescription(getString(
                     "MultiMenu.all_accessible_description"));
         } else {
-            mi = (JMenuItem) menu.add(new JMenuItem(getString("MultiMenu.single_label") +
-                    " " +
-                    screen));
+            mi = (JMenuItem) menu
+                    .add(new JMenuItem(getString("MultiMenu.single_label") +
+                            " " +
+                            screen));
             mi.setMnemonic(KeyEvent.VK_0 + screen);
             mi.getAccessibleContext().setAccessibleDescription(getString(
                     "MultiMenu.single_accessible_description") + " " + screen);
@@ -843,8 +856,10 @@ public class SwingSet2 extends JPanel {
         DemoModule demo = null;
         try {
             Class demoClass = Class.forName(classname);
-            Constructor demoConstructor = demoClass.getConstructor(new Class[] {SwingSet2.class});
-            demo = (DemoModule) demoConstructor.newInstance(new Object[] {this});
+            Constructor demoConstructor = demoClass
+                    .getConstructor(new Class[] {SwingSet2.class});
+            demo = (DemoModule) demoConstructor
+                    .newInstance(new Object[] {this});
             addDemo(demo);
         } catch (Exception e) {
             System.out.println("Error occurred loading demo: " + classname);
@@ -949,8 +964,10 @@ public class SwingSet2 extends JPanel {
         try {
             value = getResourceBundle().getString(key);
         } catch (MissingResourceException e) {
-            System.out.println("java.util.MissingResourceException: Couldn't find value for: " +
-                    key);
+            System.out
+                    .println(
+                            "java.util.MissingResourceException: Couldn't find value for: " +
+                                    key);
         }
         if (value == null) {
             value = "Could not find resource: " + key + "  ";
@@ -1073,7 +1090,8 @@ public class SwingSet2 extends JPanel {
         // do the following on the gui thread
         SwingUtilities.invokeLater(new SwingSetRunnable(this, demo) {
             public void run() {
-                swingset.demoSrcPane.setText(((DemoModule) obj).getSourceCode());
+                swingset.demoSrcPane
+                        .setText(((DemoModule) obj).getSourceCode());
                 swingset.demoSrcPane.setCaretPosition(0);
             }
         });
@@ -1209,8 +1227,8 @@ public class SwingSet2 extends JPanel {
         SwingSet2 swingset;
         JPopupMenu popup;
 
-        protected ActivatePopupMenuAction(SwingSet2 swingset, JPopupMenu popup)
-        {
+        protected ActivatePopupMenuAction(SwingSet2 swingset,
+                JPopupMenu popup) {
             super("ActivatePopupMenu");
             this.swingset = swingset;
             this.popup = popup;
@@ -1290,7 +1308,8 @@ public class SwingSet2 extends JPanel {
         }
 
         public void actionPerformed(ActionEvent e) {
-            boolean dragEnabled = ((JCheckBoxMenuItem) e.getSource()).isSelected();
+            boolean dragEnabled = ((JCheckBoxMenuItem) e.getSource())
+                    .isSelected();
             if (isApplet()) {
                 setDragEnabled(dragEnabled);
             } else {
