@@ -323,12 +323,12 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             }
         };
 
-        Object treeOpenIcon = new UIDefaults.ActiveValue() {
+        Object downArrowIcon = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createArrowIcon(SOUTH, 8);
             }
         };
-        Object treeClosedIcon = new UIDefaults.ActiveValue() {
+        Object rightArrowIcon = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createArrowIcon(EAST, 8);
             }
@@ -358,12 +358,14 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "CheckBoxMenuItem.textIconGap", zero,
             "CheckBoxMenuItem.checkIcon", checkBoxButtonIcon,
 
+            "Menu.arrowIcon", rightArrowIcon,
+
             "OptionPane.messageAreaBorder", null,
 
             "TabbedPane.contentBorderInsets", NapkinBoxBorder.DEFAULT_INSETS,
 
-            "Tree.openIcon", treeOpenIcon,
-            "Tree.closedIcon", treeClosedIcon,
+            "Tree.openIcon", downArrowIcon,
+            "Tree.closedIcon", rightArrowIcon,
             "Tree.leafIcon", null,
             "Tree.selectionBorderColor", null,
 
@@ -396,7 +398,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "FileView.fileIcon", sketchedIcon("File"),
             "FileView.computerIcon", sketchedIcon("Computer"),
             "FileView.hardDriveIcon", sketchedIcon("HardDrive"),
-            "FileView.floppyIcon", sketchedIcon("Floppy"),
+            "FileView.floppyIcon", sketchedIcon("FloppyDrive"),
         };
 
         table.putDefaults(napkinDefaults);
@@ -615,7 +617,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
         // read in from the property file
         InputStream fonts =
-                NapkinLookAndFeel.class.getResourceAsStream("resources/fonts.properties");
+                NapkinLookAndFeel.class
+                        .getResourceAsStream("resources/fonts.properties");
         if (fonts != null) {
             try {
                 Properties props = new Properties();
@@ -660,6 +663,10 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         if (!match)
             return null;
 
+        return extractVal(val, table);
+    }
+
+    private static Object extractVal(Object val, UIDefaults table) {
         if (val instanceof LazyValue) {
             val = ((LazyValue) val).createValue(table);
         } else if (val instanceof ActiveValue) {
