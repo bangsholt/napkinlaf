@@ -69,10 +69,14 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
             contentBorder.shapeUpToDate(calcRect);
         else {
             DrawnTabHolder tab = tabs[selectedIndex];
-            Point2D beg = tab.getBreakBeg();
-            Point2D end = tab.getBreakEnd();
-            contentBorder.shapeUpToDate(calcRect, tabPlacement,
-                    beg.getX(), beg.getY(), end.getX(), end.getY());
+            if (tab == null)
+                contentBorder.shapeUpToDate(calcRect);
+            else {
+                Point2D beg = tab.getBreakBeg();
+                Point2D end = tab.getBreakEnd();
+                contentBorder.shapeUpToDate(calcRect, tabPlacement,
+                        beg.getX(), beg.getY(), end.getX(), end.getY());
+            }
         }
         g.setColor(tabPane.getForeground());
         g.translate(+calcRect.x, +calcRect.y);
