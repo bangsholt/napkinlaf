@@ -140,8 +140,8 @@ public class SwingSet2 extends JPanel {
     private ButtonGroup themesMenuGroup = new ButtonGroup();
     private ButtonGroup audioMenuGroup = new ButtonGroup();
 
-    private Map themesFor = new HashMap();
-    private Map namesFor = new HashMap();
+    private Map<String, String> themesFor = new HashMap<String, String>();
+    private Map<String, String> namesFor = new HashMap<String, String>();
 
     // Popup menu
     private JPopupMenu popupMenu = null;
@@ -244,7 +244,8 @@ public class SwingSet2 extends JPanel {
     // *******************************************************
 
     public void initializeDemo() {
-        setLookAndFeel(initLaf);
+        initLaf = getString("LafMenu.laf_default").trim();
+        setLookAndFeel(getLafClass(initLaf));
 
         JPanel top = new JPanel();
         top.setLayout(new BorderLayout());
@@ -367,19 +368,15 @@ public class SwingSet2 extends JPanel {
             lafMenu.getAccessibleContext().setAccessibleDescription(
                     getString("LafMenu.laf_accessible_description"));
 
-            initLaf = null;
             String[] lafs = split(getString("LafMenu.laf_list"));
-            String defaultLaf = getString("LafMenu.laf_default").trim();
-            currentLookAndFeel = null;
             for (String laf : lafs) {
                 String lafClass = getLafClass(laf);
                 String pref = "LafMenu." + laf + "_";
                 mi = createLafMenuItem(lafMenu, pref + "label",
                         pref + "mnemonic", pref + "accessible_description",
                         lafClass);
-                if (laf.equals(defaultLaf)) {
+                if (laf.equals(initLaf)) {
                     mi.setSelected(true);
-                    initLaf = lafClass;
                 }
                 if (laf.equals("java"))
                     metal = lafClass;
@@ -389,7 +386,6 @@ public class SwingSet2 extends JPanel {
                     namesFor.put(lafClass, laf);
                 }
             }
-            setLookAndFeel(initLaf);
             SwingUtilities.updateComponentTreeUI(lafMenu);
             SwingUtilities.updateComponentTreeUI(fileMenu);
 
@@ -1035,7 +1031,7 @@ public class SwingSet2 extends JPanel {
 
     /** Stores the current L&F, and calls updateLookAndFeel, below */
     public void setLookAndFeel(String laf) {
-        if (currentLookAndFeel != laf) {
+        if (currentLookAndFeel == null || !currentLookAndFeel.equals(laf)) {
             currentLookAndFeel = laf;
             updateLookAndFeel();
         }
