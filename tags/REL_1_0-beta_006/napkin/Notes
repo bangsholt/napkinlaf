@@ -1,0 +1,116 @@
+..... $Id$
+
+Description: The idea is to try to develop a look and feel that can
+be used in Java applications that looks informal and provisional,
+yet be fully functional for development.  Often when people see a
+GUI mock-up, or a complete GUI without full functionality, they
+assume that the code behind it is working.  While this can be used
+to sleazy advantage, it can also convince people who ought to know
+better (like your managers) that you are already done when you have
+just barely begun, or when only parts are complete.  No matter how
+much you speak to their rational side, the emotional response still
+says "Done!", leading to a later question: "That was done months
+ago -- what are they doing, playing Quake?"  A good article on this
+is "Joel on Software"'s "The Iceberg Secret, Revealed";
+http://www.joelonsoftware.com/articles/fog0000000356.html
+
+So the idea is to create a complete look and feel that can be used
+while the thing is not done that conveys the emotional message to
+match the rational one.  As pieces of the work are done, the GUI
+for those pieces can be switched to use the "formal"/final look and
+feel, allowing someone looking at demos over time to see the progress
+of the entire system reflected in the expression of the GUI.
+
+This is all done using the Java Swing pluggable Look & Feel framework.
+
+........................................................................
+We are focusing first on the most common elements.  First goal is
+getting the blammed thing to work.  After that we will (among other
+things) allow more customization of things, like the background,
+various line colors, etc.  But the idea is for this to be a quick-use
+thing, so getting fancy on configuration is not a goal.
+
+........................................................................
+On the other hand, once we can basically do this, we ought to be
+able to configure it enough to allow for other "writing on paper"
+style of UIs, such as a blueprint one (slightly bluish lines on
+blueprint background) or calligraphic.  This is kept in mind as one
+way to answer the question "Should the user be able to play with
+this value."  We may find we want to use a "theme" mechanism like
+Swing, or we may just not have separate values for different things.
+For example, instead of having the font setable for each component
+type, and a way to group the comopnent's uses (like Swing's "control
+font", "user font", etc.) we may just have the components use a
+setting like "basic text" in the first place.  That is, maybe no
+"Button.font" and "CheckBox.font", but have both use the same
+property "Normal.font".
+
+........................................................................
+We should allow configuration of the following UIDefaults properties:
+    background image for application windows [rumpled napkin]
+    background image for dialog boxes [like a postit]
+    background image for menus [like a postit? torn-edged napkin?]
+
+    font for UI text (buttons/fonts/menu items/...)
+    font for normal text (text fields/areas)
+    font for dialog boxes (might be more upper-case and alarmist?)
+
+    drawing implement (pencil, mechanical pencil, felt pen, ...)
+    drawing color (pencil, mechanical pencil, felt pen, ...)
+	for each font distinction
+
+........................................................................
+Prefer ProxyLazyValue to LazyValue
+
+........................................................................
+Popup items (popup menu, tooltips, combo box drop down menu, ...)
+should use a background that looks like a postit, probably a slightly
+soiled one with
+
+Suggestion:
+
+> From: 	  gregorypierce@yahoo.com
+> Subject: 	Napkin Look and Feel
+> Date: 	April 4, 2004 12:58:41 AM EST
+> 
+> [...]
+> 
+> The only suggestion I would make (if its even
+> possible) is that when JInternalFrames are minized,
+> that they look like crumpled up paper :)
+
+My thought is that folded might be better as being more like the
+action one might actually take to put something aside, but I hadn't
+thought of this yet, so Gregory's suggestion at least sparked this
+idea, and his might be better when I try it out -- I'll have to
+play both ways.  Thanks!
+
+........................................................................
+
+Internal Frame (and maybe other things):
+
+    Do custom dragging code that will drag what's inside the drawn border.
+
+    Make the actual frame rectangluar.  Make it look like a separate sheet of
+    paper
+
+	Torn along the edge.  The edge would look rough, but end up being
+	straight (like torn along a ruler or the like).
+
+	Dropped shadow to emphasize the differentness of a separate sheet.
+
+	Get visibly different paper (use a postit?)
+
+........................................................................
+
+From:		twall@oculustech.com
+Subject:	cool napkin LAF!
+Date:		April 6, 2004 10:10:50 AM EDT
+
+> I've been wanting to do something like that since Apple's DrawingBoard
+> LAF got canned.  Now you just need an icon renderer that makes them
+> look more scribbly...
+
+As fleshed out in an email exchange, this included the idea that a filter
+or two could be included that let folks make their images look sketched
+to add to the conditionality of the look.  That would be cool.
