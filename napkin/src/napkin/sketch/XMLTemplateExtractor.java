@@ -16,6 +16,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
+import java.net.URL;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -294,7 +295,8 @@ public class XMLTemplateExtractor extends DefaultHandler {
      */
     public Template createTemplate(String tmplPath)
             throws TemplateReadException, IOException {
-        return createTemplate(new BufferedInputStream(new FileInputStream(tmplPath)));
+        return createTemplate(
+                new BufferedInputStream(new FileInputStream(tmplPath)));
     }
 
     /**
@@ -311,6 +313,8 @@ public class XMLTemplateExtractor extends DefaultHandler {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
             XMLReader reader = parser.getXMLReader();
+            URL schemaURL = getClass()
+                    .getResource("../resources/templates/Template.xsd");
 
             // set parser features
             try {
@@ -324,8 +328,13 @@ public class XMLTemplateExtractor extends DefaultHandler {
                 reader.setFeature(
                         "http://apache.org/xml/features/validation/schema-full-checking",
                         true);
+                reader.setProperty(
+                        "http://apache.org/xml/properties/schema/external-noNamespaceSchemaLocation",
+                        schemaURL.toString());
             } catch (SAXException e) {
-                System.out.println("Warning: Parser does not support schema validation");
+                System.out
+                        .println(
+                                "Warning: Parser does not support schema validation");
                 e.printStackTrace();
             }
 

@@ -1,6 +1,7 @@
 <!-- $Id$ -->
 
 <project name="Napkin Look and Feel" default="all">
+
     <property file="build.properties"/>
     <property file="release.props"/>
     <property name="version" value="${release}_${build}"/>
@@ -10,22 +11,20 @@
 
     <path id="classpath">
         <pathelement path="classes"/>
+        <fileset dir="lib" includes="**/*.jar"/>
     </path>
 
     <target name="all" depends="compile"/>
 
     <target name="compile" description="build classes directory">
-        <mkdir dir="classes"/>
-        <!-- specially handle these because they must use deprecated APIs -->
-        <javac srcdir="src" destdir="classes"
-            classpathref="classpath" includes="napkin/Force*.java"
-            debug="${debug}" deprecation="no"/>
-        <javac srcdir="src" destdir="classes"
-            classpathref="classpath" excludes="java*/**/*.java"
-            debug="${debug}" deprecation="yes"/>
-        <javac srcdir="swingset/src" destdir="classes"
-            classpathref="classpath"
-            debug="${debug}" deprecation="yes"/>
+        <mkdir dir="classes"/><!-- specially handle these because they must use deprecated APIs -->
+        <javac srcdir="src" destdir="classes" classpathref="classpath"
+                includes="napkin/Force*.java" debug="${debug}"
+                deprecation="no"/>
+        <javac srcdir="src" destdir="classes" classpathref="classpath"
+                excludes="java*/**/*.java" debug="${debug}" deprecation="yes"/>
+        <javac srcdir="swingset/src" destdir="classes" classpathref="classpath"
+                debug="${debug}" deprecation="yes"/>
         <copy todir="classes">
             <fileset dir="src">
                 <include name="**/resources/**/*"/>
@@ -49,15 +48,17 @@
             <include name="napkin/**/*"/>
             <manifest>
                 <attribute name="Version" value="${version}"/>
-                <attribute name="Main-Class" value="napkin.examples.NapkinQuickTest"/>
+                <attribute name="Main-Class"
+                        value="napkin.examples.NapkinQuickTest"/>
             </manifest>
         </jar>
-        <jar destfile="jars/napkinlaf-swingset2.jar"
-            basedir="classes" index="true">
+        <jar destfile="jars/napkinlaf-swingset2.jar" basedir="classes"
+                index="true">
             <manifest>
                 <attribute name="Main-Class" value="SwingSet2"/>
                 <attribute name="Version" value="${version}"/>
             </manifest>
+            <zipgroupfileset dir="lib" includes="*.jar"/>
         </jar>
     </target>
 
@@ -65,16 +66,14 @@
         <propertyfile file="release.props" comment="Release properties">
             <entry key="when" type="date" value="now"/>
             <entry key="build" type="int" default="001" operation="+"
-                pattern="000"/>
-        </propertyfile>
-        <!-- we recurse so we'll read the new properties -->
-        <!-- (why doesn't the property tag have an "override" attribute?) -->
+                    pattern="000"/>
+        </propertyfile><!-- we recurse so we'll read the new properties --><!-- (why doesn't the property tag have an "override" attribute?) -->
         <ant target="release" inheritAll="false"/>
     </target>
 
     <target name="release"
-        depends="clean, compile, jars, release.files, release.tag"
-        description="build release files"/>
+            depends="clean, compile, jars, release.files, release.tag"
+            description="build release files"/>
 
     <target name="release.tag">
         <cvs command="tag -F REL_${cvstag}_${build}"/>
@@ -88,12 +87,12 @@
             <fileset dir="jars" includes="*.jar"/>
         </zip>
         <zip basedir="." filesonly="true"
-            destfile="release/napkinlaf-src-${version}.zip">
+                destfile="release/napkinlaf-src-${version}.zip">
             <exclude name="classes/**/*"/>
             <exclude name="jars/**/*"/>
             <exclude name="release/**/*"/>
-            <exclude name="**/?"/>	<!-- I use these for tmp files -->
-            <exclude name="**/.*.swp"/>	<!-- vi tmp files -->
+            <exclude name="**/?"/>        <!-- I use these for tmp files -->
+            <exclude name="**/.*.swp"/>        <!-- vi tmp files -->
         </zip>
     </target>
 
