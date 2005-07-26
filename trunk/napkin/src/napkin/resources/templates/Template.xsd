@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns="http://www.mqp.wpi.edu/napkin/"
+<xs:schema xmlns="http://napkinlaf.sf.net/sketch/"
         xmlns:xs="http://www.w3.org/2001/XMLSchema"
-        targetNamespace="http://www.mqp.wpi.edu/napkin/"
+        targetNamespace="http://napkinlaf.sf.net/sketch/"
         elementFormDefault="qualified" attributeFormDefault="unqualified">
-    <!-- $Id$ -->
-    <!-- Main template definition -->
+    <!-- $Id$ --><!-- Main template definition -->
     <xs:element name="template">
         <xs:annotation>
             <xs:documentation>Describes a NapkinDrawing
