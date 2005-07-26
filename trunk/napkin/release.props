@@ -1,6 +1,6 @@
 #Release properties
-#Thu Sep 16 00:51:40 EDT 2004
+#Tue Jul 26 09:40:31 EDT 2005
+when=2005/07/26 09\:40
 release=1.0-beta
-when=2004/09/16 00\:51
 cvstag=1_0-beta
-build=005
+build=006
