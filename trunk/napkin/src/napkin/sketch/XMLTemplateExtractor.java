@@ -332,9 +332,8 @@ public class XMLTemplateExtractor extends DefaultHandler {
                         "http://apache.org/xml/properties/schema/external-noNamespaceSchemaLocation",
                         schemaURL.toString());
             } catch (SAXException e) {
-                System.out
-                        .println(
-                                "Warning: Parser does not support schema validation");
+                System.out.println(
+                        "Warning: Parser does not support schema validation");
                 e.printStackTrace();
             }
 
