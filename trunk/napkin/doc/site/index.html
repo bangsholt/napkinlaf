@@ -48,30 +48,27 @@
 
 <h4><i>Latest Release: 
 <a href="http://sourceforge.net/project/showfiles.php?group_id=104116&package_id=111904">
-beta-005, 16 September, 2004</i></h4></a>
+beta-006, 26 July, 2005</i></h4></a>
 
 <ul>
-<li>Sliders drag without leaving droplets behind.
-<li>Dragging internal frames and scroll bars no longer leave junk around edges
-    [bug 1007324 and bug 1007327]
-<li>Icons for internal frames now work well enough.
-<li>A completely new, stupider, and hence more reliable model for paper, so
-    the right color scheme should always be used.
-<li>Tweaking with glass panes to get the opacity settings right (very bizarre).
-<li>Make progress bar stop clearing its own background.
-<li>JTree now does something napkin-ish. [fr 1019700]
-<li>Scrolling repaints entire background to keep it correct. [bug 1019688]
-<li>Automatically tag the CVS version.
-<li>Use selection color for selections in JList.
+<li><b>Upgrade to 1.5.</b>
+<ul>
+Several bugs vanished with this upgrade, but it does mean that this will not
+work anymore with earlier Java versions.  So far it has seemed too much work
+to maintain a system that can work on both.
+</ul>
+<li><b>Sketched icons added</b>
+<ul>
+Peter Goodspeed and Justin Crafford created a cool package to take an XML
+description of an icon and randomly perturb it around.  This lets us easily have
+icons for dialog boxes, for example, that look sketched and slightly different
+each time.  This is in the subpackage <tt>napkin.sketch</tt>, and you can use
+it for diagrams as well.  It's still has some tweaking to do, but it's really,
+really cool.
+</ul>
 </ul>
 
-<hr>
-
-<h2>Note on Java 1.5</h2>
-Java 1.5 has a somewhat incompatible framework for pluggable L&F
-implementations.  Not terrible, but enough to cause some starkly
-visible failures.  We are currently examining this and will get a
-1.5 compatible implementation as soon as we can. <i>(12 Feb 2005)</i>
+Note that these two simple bullet items are each damn big.
 
 <h2>Overview</h2>
 The Napkin Look & Feel is a pluggable Java look and feel that looks
