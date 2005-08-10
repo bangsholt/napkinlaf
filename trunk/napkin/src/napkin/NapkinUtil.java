@@ -3,6 +3,7 @@
 package napkin;
 
 import java.awt.*;
+import java.awt.font.*;
 import java.awt.geom.*;
 import java.awt.image.*;
 import java.beans.PropertyChangeEvent;
@@ -469,8 +470,8 @@ public class NapkinUtil implements NapkinConstants {
 
     private static Insets insets(Component c) {
         Insets in;
-        if (c instanceof JComponent)
-            in = ((JComponent) c).getInsets();
+        if (c instanceof Container)
+            in = ((Container) c).getInsets();
         else
             in = NO_INSETS;
         return in;
@@ -534,7 +535,7 @@ public class NapkinUtil implements NapkinConstants {
      * Sigh.
      */
     public static void
-            paintText(Graphics g, JComponent c, Rectangle textRect,
+            paintButtonText(Graphics g, JComponent c, Rectangle textRect,
             String text, int textOffset, DrawnLineHolder line,
             boolean isDefault, NapkinTextPainter helper) {
 
@@ -646,6 +647,23 @@ public class NapkinUtil implements NapkinConstants {
         } catch (IOException e) {
             return e;
         }
+    }
+
+    public static void centerBoldText(Component c, Graphics2D g, float x,
+            float y, float size, String s) {
+
+        Font f = currentTheme(c).getBoldTextFont().deriveFont(Font.BOLD, size);
+        FontRenderContext frc = g.getFontRenderContext();
+        Rectangle2D bounds = f.getStringBounds(s, frc);
+        LineMetrics metrics = f.getLineMetrics(s, frc);
+        float width = (float) bounds.getWidth();     // The width of our text
+        float lineheight = metrics.getHeight();      // Total line height
+        float ascent = metrics.getAscent();          // Top of text to baseline
+
+        Font orig = g.getFont();
+        g.setFont(f);
+        g.drawString(s, x - width / 2, y - lineheight / 2 + ascent);
+        g.setFont(orig);
     }
 }
 
