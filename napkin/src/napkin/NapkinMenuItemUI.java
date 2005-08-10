@@ -31,7 +31,8 @@ public class NapkinMenuItemUI extends BasicMenuItemUI
 
         if (line == null)
             line = new DrawnLineHolder(new DrawnCubicLineGenerator());
-        NapkinUtil.paintText(g, item, textRect, text, 0, line, false, this);
+        NapkinUtil
+                .paintButtonText(g, item, textRect, text, 0, line, false, this);
     }
 
     public void superPaintText(Graphics g, JComponent c, Rectangle textRect,

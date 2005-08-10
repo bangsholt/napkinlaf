@@ -36,8 +36,9 @@ public class NapkinButtonUI extends BasicButtonUI
             line = new DrawnLineHolder(new DrawnCubicLineGenerator());
         boolean isDefault = ((JButton) c).isDefaultButton();
         int offset = getTextShiftOffset();
-        NapkinUtil.paintText(g, c, textRect, text, offset, line, isDefault,
-                this);
+        NapkinUtil
+                .paintButtonText(g, c, textRect, text, offset, line, isDefault,
+                        this);
     }
 
     public void superPaintText(Graphics g, JComponent c, Rectangle textRect,

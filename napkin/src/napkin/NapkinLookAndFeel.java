@@ -344,6 +344,16 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 return NapkinIconFactory.createArrowIcon(SOUTH, 10);
             }
         };
+        Object warnIcon = new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
+                return NapkinIconFactory.createWarnIcon();
+            }
+        };
+        Object errorIcon = new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
+                return NapkinIconFactory.createErrorIcon();
+            }
+        };
 
         setupActions(table);
 
@@ -398,7 +408,12 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "FileView.fileIcon", sketchedIcon("File"),
             "FileView.computerIcon", sketchedIcon("Computer"),
             "FileView.hardDriveIcon", sketchedIcon("HardDrive"),
-            "FileView.floppyIcon", sketchedIcon("FloppyDrive"),
+            "FileView.floppyDriveIcon", sketchedIcon("FloppyDrive"),
+
+            "OptionPane.errorIcon", errorIcon,
+            "OptionPane.informationIcon", sketchedIcon("Inform"),
+            "OptionPane.warningIcon", warnIcon,
+            "OptionPane.questionIcon", sketchedIcon("Question"),
         };
 
         table.putDefaults(napkinDefaults);
