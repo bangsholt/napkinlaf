@@ -8,7 +8,7 @@ import javax.swing.border.*;
 import javax.swing.plaf.*;
 
 public class NapkinBoxBorder extends NapkinBorder implements NapkinConstants {
-    private static final int BORDER = 3;
+    private static final int BORDER = 5;
 
     static final Insets DEFAULT_INSETS =
             new InsetsUIResource(BORDER, BORDER, BORDER, BORDER);
