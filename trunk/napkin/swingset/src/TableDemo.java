@@ -135,7 +135,7 @@ public class TableDemo extends DemoModule {
         JPanel printPanel = new JPanel(new ColumnLayout());
 
 	getDemoPanel().add(controlPanel, BorderLayout.NORTH);
-	Vector relatedComponents = new Vector();
+	Vector<JComponent> relatedComponents = new Vector<JComponent>();
 
 
         // check box panel

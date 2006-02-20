@@ -70,12 +70,12 @@ public class ButtonDemo extends DemoModule implements ChangeListener {
     JPanel radioButtonPanel = new JPanel();
     JPanel toggleButtonPanel = new JPanel();
 
-    Vector buttons = new Vector();
-    Vector checkboxes = new Vector();
-    Vector radiobuttons = new Vector();
-    Vector togglebuttons = new Vector();
+    Vector<Component> buttons = new Vector<Component>();
+    Vector<Component> checkboxes = new Vector<Component>();
+    Vector<Component> radiobuttons = new Vector<Component>();
+    Vector<Component> togglebuttons = new Vector<Component>();
 
-    Vector currentControls = buttons;
+    Vector<Component> currentControls = buttons;
 
     JButton button;
     JCheckBox check;
