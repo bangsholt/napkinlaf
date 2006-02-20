@@ -637,6 +637,9 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         fromName.put("Serif.plain", serifPlain);
         fromName.put("SansSerif.plain", sansSerifPlain);
         fromName.put("MonoSpaced.plain", monospacedPlain);
+        // the problematic ones (Spinner.font, Spinner.font, PasswordField.font)
+        // have the following case instead
+        fromName.put("Monospaced.plain", monospacedPlain);
 
         // read in from the property file
         InputStream fonts =
