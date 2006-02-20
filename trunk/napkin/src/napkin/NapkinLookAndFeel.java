@@ -282,6 +282,10 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             String uiClass = basicPackageName + uiType;
             table.put(uiType, uiClass);
         }
+        
+        // The following line is a hot-fix for non-working FileChooser on Windows
+        table.put("FileChooserUI", "javax.swing.plaf.metal.MetalFileChooserUI");
+        
         Set<Object> keys = new HashSet<Object>(table.keySet());
         keys.removeAll(Arrays.asList(UI_TYPES));
         if (keys.size() != 0)
@@ -344,9 +348,14 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 return NapkinIconFactory.createArrowIcon(SOUTH, 10);
             }
         };
-        Object warnIcon = new UIDefaults.ActiveValue() {
+        Object infoIcon = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
-                return NapkinIconFactory.createWarnIcon();
+                return NapkinIconFactory.createInfoIcon();
+            }
+        };
+        Object questionIcon = new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
+                return NapkinIconFactory.createQuestionIcon();
             }
         };
         Object errorIcon = new UIDefaults.ActiveValue() {
@@ -411,9 +420,9 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "FileView.floppyDriveIcon", sketchedIcon("FloppyDrive"),
 
             "OptionPane.errorIcon", errorIcon,
-            "OptionPane.informationIcon", sketchedIcon("Inform"),
-            "OptionPane.warningIcon", warnIcon,
-            "OptionPane.questionIcon", sketchedIcon("Question"),
+            "OptionPane.informationIcon", infoIcon,
+            "OptionPane.warningIcon", sketchedIcon("Warning"),
+            "OptionPane.questionIcon", questionIcon,
         };
 
         table.putDefaults(napkinDefaults);
@@ -558,9 +567,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
         Color clear = new AlphaColorUIResource(CLEAR);
 
-        for (Object o : table.entrySet()) {
-            Map.Entry<String, Object> entry = (Map.Entry<String, Object>) o;
-            String key = entry.getKey();
+        for (Map.Entry<Object, Object> entry : table.entrySet()) {
+            String key = (String) entry.getKey();
             Object val = entry.getValue();
             Object res;
             if ((res = propVal(key, "font", val, table)) != null) {
