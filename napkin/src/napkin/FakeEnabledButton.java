@@ -74,6 +74,7 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         return new FakeEnabledModel(orig.getModel());
     }
 
+    @Deprecated
     public boolean action(Event evt, Object what) {
         return orig.action(evt, what);
     }
@@ -185,6 +186,7 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         return orig.areFocusTraversalKeysSet(id);
     }
 
+    @Deprecated
     public Rectangle bounds() {
         return orig.bounds();
     }
@@ -210,6 +212,7 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         return orig.contains(x, y);
     }
 
+    @Deprecated
     public int countComponents() {
         return orig.countComponents();
     }
@@ -235,10 +238,12 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         return orig.createVolatileImage(width, height, caps);
     }
 
+    @Deprecated
     public void deliverEvent(Event e) {
         orig.deliverEvent(e);
     }
 
+    @Deprecated
     public void disable() {
         orig.disable();
     }
@@ -255,10 +260,12 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         orig.doLayout();
     }
 
+    @Deprecated
     public void enable() {
         orig.enable();
     }
 
+    @Deprecated
     public void enable(boolean b) {
         orig.enable(b);
     }
@@ -443,7 +450,7 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         return orig.getFocusListeners();
     }
 
-    public Set getFocusTraversalKeys(int id) {
+    public Set<AWTKeyStroke> getFocusTraversalKeys(int id) {
         return orig.getFocusTraversalKeys(id);
     }
 
@@ -539,6 +546,7 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         return orig.getKeyListeners();
     }
 
+    @Deprecated
     public String getLabel() {
         return orig.getLabel();
     }
@@ -603,6 +611,7 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         return orig.getName();
     }
 
+    @Deprecated
     public Component getNextFocusableComponent() {
         return orig.getNextFocusableComponent();
     }
@@ -611,6 +620,7 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         return orig.getParent();
     }
 
+    @Deprecated
     public ComponentPeer getPeer() {
         return orig.getPeer();
     }
@@ -731,6 +741,7 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         return orig.getY();
     }
 
+    @Deprecated
     public boolean gotFocus(Event evt, Object what) {
         return orig.gotFocus(evt, what);
     }
@@ -739,6 +750,7 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         orig.grabFocus();
     }
 
+    @Deprecated
     public boolean handleEvent(Event evt) {
         return orig.handleEvent(evt);
     }
@@ -747,6 +759,7 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         return orig.hasFocus();
     }
 
+    @Deprecated
     public void hide() {
         orig.hide();
     }
@@ -756,10 +769,12 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         return orig.imageUpdate(img, infoflags, x, y, width, height);
     }
 
+    @Deprecated
     public Insets insets() {
         return orig.insets();
     }
 
+    @Deprecated
     public boolean inside(int x, int y) {
         return orig.inside(x, y);
     }
@@ -816,6 +831,7 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         return orig.isFocusPainted();
     }
 
+    @Deprecated
     public boolean isFocusTraversable() {
         return orig.isFocusTraversable();
     }
@@ -836,6 +852,7 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         return orig.isLightweight();
     }
 
+    @Deprecated
     public boolean isManagingFocus() {
         if (orig !=
                 null)   // can be null during construction, and we don't care
@@ -896,14 +913,17 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         return orig.isVisible();
     }
 
+    @Deprecated
     public boolean keyDown(Event evt, int key) {
         return orig.keyDown(evt, key);
     }
 
+    @Deprecated
     public boolean keyUp(Event evt, int key) {
         return orig.keyUp(evt, key);
     }
 
+    @Deprecated
     public void layout() {
         orig.layout();
     }
@@ -928,50 +948,62 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         orig.list(out, indent);
     }
 
+    @Deprecated
     public Component locate(int x, int y) {
         return orig.locate(x, y);
     }
 
+    @Deprecated
     public Point location() {
         return orig.location();
     }
 
+    @Deprecated
     public boolean lostFocus(Event evt, Object what) {
         return orig.lostFocus(evt, what);
     }
 
+    @Deprecated
     public Dimension minimumSize() {
         return orig.minimumSize();
     }
 
+    @Deprecated
     public boolean mouseDown(Event evt, int x, int y) {
         return orig.mouseDown(evt, x, y);
     }
 
+    @Deprecated
     public boolean mouseDrag(Event evt, int x, int y) {
         return orig.mouseDrag(evt, x, y);
     }
 
+    @Deprecated
     public boolean mouseEnter(Event evt, int x, int y) {
         return orig.mouseEnter(evt, x, y);
     }
 
+    @Deprecated
     public boolean mouseExit(Event evt, int x, int y) {
         return orig.mouseExit(evt, x, y);
     }
 
+    @Deprecated
     public boolean mouseMove(Event evt, int x, int y) {
         return orig.mouseMove(evt, x, y);
     }
 
+    @Deprecated
     public boolean mouseUp(Event evt, int x, int y) {
         return orig.mouseUp(evt, x, y);
     }
 
+    @Deprecated
     public void move(int x, int y) {
         orig.move(x, y);
     }
 
+    @Deprecated
     public void nextFocus() {
         orig.nextFocus();
     }
@@ -996,10 +1028,12 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         orig.paintImmediately(x, y, w, h);
     }
 
+    @Deprecated
     public boolean postEvent(Event evt) {
         return orig.postEvent(evt);
     }
 
+    @Deprecated
     public Dimension preferredSize() {
         return orig.preferredSize();
     }
@@ -1136,6 +1170,7 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         orig.repaint(x, y, width, height);
     }
 
+    @Deprecated
     public boolean requestDefaultFocus() {
         return orig.requestDefaultFocus();
     }
@@ -1156,14 +1191,17 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
         orig.resetKeyboardActions();
     }
 
+    @Deprecated
     public void reshape(int x, int y, int width, int height) {
         orig.reshape(x, y, width, height);
     }
 
+    @Deprecated
     public void resize(Dimension d) {
         orig.resize(d);
     }
 
+    @Deprecated
     public void resize(int width, int height) {
         orig.resize(width, height);
     }
@@ -1349,6 +1387,7 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
             orig.setInputVerifier(inputVerifier);
     }
 
+    @Deprecated
     public void setLabel(String label) {
         if (orig != null)
             orig.setLabel(label);
@@ -1414,6 +1453,7 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
             orig.setName(name);
     }
 
+    @Deprecated
     public void setNextFocusableComponent(Component aComponent) {
         if (orig != null)
             orig.setNextFocusableComponent(aComponent);
@@ -1520,14 +1560,17 @@ class FakeEnabledButton extends AbstractButton implements FakeEnabled {
             orig.setVisible(b);
     }
 
+    @Deprecated
     public void show() {
         orig.show();
     }
 
+    @Deprecated
     public void show(boolean b) {
         orig.show(b);
     }
 
+    @Deprecated
     public Dimension size() {
         return orig.size();
     }

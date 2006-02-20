@@ -119,6 +119,7 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
             orig.setUI(ui);
     }
 
+    @Deprecated
     public boolean action(Event evt, Object what) {
         return faked.action(evt, what);
     }
@@ -229,6 +230,7 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         return faked.areFocusTraversalKeysSet(id);
     }
 
+    @Deprecated
     public Rectangle bounds() {
         return faked.bounds();
     }
@@ -254,6 +256,7 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         return faked.contains(x, y);
     }
 
+    @Deprecated
     public int countComponents() {
         return faked.countComponents();
     }
@@ -279,10 +282,12 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         return faked.createVolatileImage(width, height, caps);
     }
 
+    @Deprecated
     public void deliverEvent(Event e) {
         faked.deliverEvent(e);
     }
 
+    @Deprecated
     public void disable() {
         faked.disable();
     }
@@ -299,10 +304,12 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         faked.doLayout();
     }
 
+    @Deprecated
     public void enable() {
         faked.enable();
     }
 
+    @Deprecated
     public void enable(boolean b) {
         faked.enable(b);
     }
@@ -487,7 +494,7 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         return faked.getFocusListeners();
     }
 
-    public Set getFocusTraversalKeys(int id) {
+    public Set<AWTKeyStroke> getFocusTraversalKeys(int id) {
         return faked.getFocusTraversalKeys(id);
     }
 
@@ -583,6 +590,7 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         return faked.getKeyListeners();
     }
 
+    @Deprecated
     public String getLabel() {
         return faked.getLabel();
     }
@@ -651,6 +659,7 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         return faked.getName();
     }
 
+    @Deprecated
     public Component getNextFocusableComponent() {
         return faked.getNextFocusableComponent();
     }
@@ -659,6 +668,7 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         return faked.getParent();
     }
 
+    @Deprecated
     public ComponentPeer getPeer() {
         return faked.getPeer();
     }
@@ -780,6 +790,7 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         return faked.getY();
     }
 
+    @Deprecated
     public boolean gotFocus(Event evt, Object what) {
         return faked.gotFocus(evt, what);
     }
@@ -788,6 +799,7 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         faked.grabFocus();
     }
 
+    @Deprecated
     public boolean handleEvent(Event evt) {
         return faked.handleEvent(evt);
     }
@@ -796,6 +808,7 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         return faked.hasFocus();
     }
 
+    @Deprecated
     public void hide() {
         faked.hide();
     }
@@ -805,10 +818,12 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         return faked.imageUpdate(img, infoflags, x, y, width, height);
     }
 
+    @Deprecated
     public Insets insets() {
         return faked.insets();
     }
 
+    @Deprecated
     public boolean inside(int x, int y) {
         return faked.inside(x, y);
     }
@@ -869,6 +884,7 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         return faked.isFocusPainted();
     }
 
+    @Deprecated
     public boolean isFocusTraversable() {
         return faked.isFocusTraversable();
     }
@@ -889,6 +905,7 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         return faked.isLightweight();
     }
 
+    @Deprecated
     public boolean isManagingFocus() {
         if (faked != null)
             return faked.isManagingFocus();
@@ -948,14 +965,17 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         return faked.isVisible();
     }
 
+    @Deprecated
     public boolean keyDown(Event evt, int key) {
         return faked.keyDown(evt, key);
     }
 
+    @Deprecated
     public boolean keyUp(Event evt, int key) {
         return faked.keyUp(evt, key);
     }
 
+    @Deprecated
     public void layout() {
         faked.layout();
     }
@@ -980,50 +1000,62 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         faked.list(out, indent);
     }
 
+    @Deprecated
     public Component locate(int x, int y) {
         return faked.locate(x, y);
     }
 
+    @Deprecated
     public Point location() {
         return faked.location();
     }
 
+    @Deprecated
     public boolean lostFocus(Event evt, Object what) {
         return faked.lostFocus(evt, what);
     }
 
+    @Deprecated
     public Dimension minimumSize() {
         return faked.minimumSize();
     }
 
+    @Deprecated
     public boolean mouseDown(Event evt, int x, int y) {
         return faked.mouseDown(evt, x, y);
     }
 
+    @Deprecated
     public boolean mouseDrag(Event evt, int x, int y) {
         return faked.mouseDrag(evt, x, y);
     }
 
+    @Deprecated
     public boolean mouseEnter(Event evt, int x, int y) {
         return faked.mouseEnter(evt, x, y);
     }
 
+    @Deprecated
     public boolean mouseExit(Event evt, int x, int y) {
         return faked.mouseExit(evt, x, y);
     }
 
+    @Deprecated
     public boolean mouseMove(Event evt, int x, int y) {
         return faked.mouseMove(evt, x, y);
     }
 
+    @Deprecated
     public boolean mouseUp(Event evt, int x, int y) {
         return faked.mouseUp(evt, x, y);
     }
 
+    @Deprecated
     public void move(int x, int y) {
         faked.move(x, y);
     }
 
+    @Deprecated
     public void nextFocus() {
         faked.nextFocus();
     }
@@ -1048,10 +1080,12 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         faked.paintImmediately(x, y, w, h);
     }
 
+    @Deprecated
     public boolean postEvent(Event evt) {
         return faked.postEvent(evt);
     }
 
+    @Deprecated
     public Dimension preferredSize() {
         return faked.preferredSize();
     }
@@ -1189,6 +1223,7 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         faked.repaint(x, y, width, height);
     }
 
+    @Deprecated
     public boolean requestDefaultFocus() {
         return faked.requestDefaultFocus();
     }
@@ -1209,14 +1244,17 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         faked.resetKeyboardActions();
     }
 
+    @Deprecated
     public void reshape(int x, int y, int width, int height) {
         faked.reshape(x, y, width, height);
     }
 
+    @Deprecated
     public void resize(Dimension d) {
         faked.resize(d);
     }
 
+    @Deprecated
     public void resize(int width, int height) {
         faked.resize(width, height);
     }
@@ -1369,6 +1407,7 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         if (faked != null) faked.setInputVerifier(inputVerifier);
     }
 
+    @Deprecated
     public void setLabel(String label) {
         if (faked != null) faked.setLabel(label);
     }
@@ -1421,6 +1460,7 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         if (faked != null) faked.setName(name);
     }
 
+    @Deprecated
     public void setNextFocusableComponent(Component aComponent) {
         if (faked != null) faked.setNextFocusableComponent(aComponent);
     }
@@ -1506,15 +1546,18 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
     public void setVisible(boolean b) {
         if (faked != null) faked.setVisible(b);
     }
+    @Deprecated
 
     public void show() {
         faked.show();
     }
 
+    @Deprecated
     public void show(boolean b) {
         faked.show(b);
     }
 
+    @Deprecated
     public Dimension size() {
         return faked.size();
     }
