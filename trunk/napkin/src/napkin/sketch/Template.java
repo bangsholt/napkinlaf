@@ -275,6 +275,7 @@ public class Template implements Cloneable {
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     public Template clone() {
         try {
             Template ret = (Template) super.clone();
