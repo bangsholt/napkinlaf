@@ -798,7 +798,7 @@ public class SwingSet2 extends JPanel {
                     screenInsets.top : centerHeight;
 
             f.setLocation(centerWidth, centerHeight);
-            f.show();
+            f.setVisible(true);
             numSSs++;
             swingSets.add(this);
         }
@@ -825,7 +825,7 @@ public class SwingSet2 extends JPanel {
 
     public void showSplashScreen() {
         if (!isApplet()) {
-            splashScreen.show();
+            splashScreen.setVisible(true);
         } else {
             add(splashLabel, BorderLayout.CENTER);
             validate();
@@ -1388,7 +1388,7 @@ public class SwingSet2 extends JPanel {
             aboutBox.pack();
             Point p = swingset.getLocationOnScreen();
             aboutBox.setLocation(p.x + 10, p.y + 10);
-            aboutBox.show();
+            aboutBox.setVisible(true);
         }
     }
 

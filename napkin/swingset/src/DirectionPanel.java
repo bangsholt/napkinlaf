@@ -158,6 +158,7 @@ public class DirectionPanel extends JPanel {
             setSelected(selected);
         }
 
+        @Deprecated
         public boolean isFocusTraversable() {
             return false;
         }

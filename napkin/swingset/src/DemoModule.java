@@ -166,7 +166,8 @@ public class DemoModule extends JApplet {
 
     public void loadSourceCode() {
 	if(getResourceName() != null) {
-	    String filename = "src/" + getResourceName() + ".java";
+	    String filename = getResourceName() + ".java";
+//	    String filename = "src/" + getResourceName() + ".java";
 	    sourceCode = new String("<html><body bgcolor=\"#ffffff\"><pre>");
 	    InputStream is;
 	    InputStreamReader isr;
@@ -211,7 +212,7 @@ public class DemoModule extends JApplet {
 	frame.getContentPane().add(getDemoPanel(), BorderLayout.CENTER);
 	getDemoPanel().setPreferredSize(new Dimension(PREFERRED_WIDTH, PREFERRED_HEIGHT));
 	frame.pack();
-	frame.show();
+	frame.setVisible(true);
     }
 
     public JPanel createHorizontalPanel(boolean threeD) {

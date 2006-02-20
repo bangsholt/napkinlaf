@@ -78,7 +78,7 @@ public class ListDemo extends DemoModule {
 
     GeneratedListModel listModel;
 
-    Vector checkboxes = new Vector();
+    Vector<JCheckBox> checkboxes = new Vector<JCheckBox>();
 
     /**
      * main method allows us to run as a standalone demo.
@@ -299,8 +299,8 @@ public class ListDemo extends DemoModule {
 	ListDemo demo;
 	Permuter permuter;
 
-	public Vector prefix = new Vector();
-	public Vector suffix = new Vector();
+	public Vector<String> prefix = new Vector<String>();
+	public Vector<String> suffix = new Vector<String>();
 
 	public GeneratedListModel (ListDemo demo) {
 	    this.demo = demo;

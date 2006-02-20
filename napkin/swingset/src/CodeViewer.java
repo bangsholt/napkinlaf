@@ -78,7 +78,7 @@ import java.util.*;
  */
 public class CodeViewer {
 
-    private static HashMap reservedWords = new HashMap(); // >= Java2 only (also, not thread-safe)
+    private static HashMap<String, String> reservedWords = new HashMap<String, String>(); // >= Java2 only (also, not thread-safe)
     //private static Hashtable reservedWords = new Hashtable(); // < Java2 (thread-safe)
     private boolean inMultiLineComment = false;
     private String backgroundColor = "#ffffff";
@@ -283,7 +283,7 @@ public class CodeViewer {
             return "";
         }
         StringBuffer buf = new StringBuffer();
-        HashMap usedReservedWords = new HashMap(); // >= Java2 only (not thread-safe)
+        HashMap<String, String> usedReservedWords = new HashMap<String, String>(); // >= Java2 only (not thread-safe)
         //Hashtable usedReservedWords = new Hashtable(); // < Java2 (thread-safe)
         int i=0, startAt=0;
         char ch;
