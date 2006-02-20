@@ -306,6 +306,9 @@ public class XMLTemplateExtractor extends DefaultHandler {
      *
      * @return a Template
      */
+    private static final String schemaURL =
+            ClassLoader.getSystemResource(
+                "napkin/resources/templates/Template.xsd").toString();
     public Template createTemplate(InputStream in)
             throws TemplateReadException {
 
@@ -313,8 +316,6 @@ public class XMLTemplateExtractor extends DefaultHandler {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
             XMLReader reader = parser.getXMLReader();
-            URL schemaURL = getClass()
-                    .getResource("../resources/templates/Template.xsd");
 
             // set parser features
             try {
@@ -330,7 +331,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
                         true);
                 reader.setProperty(
                         "http://apache.org/xml/properties/schema/external-noNamespaceSchemaLocation",
-                        schemaURL.toString());
+                        schemaURL);
             } catch (SAXException e) {
                 System.out.println(
                         "Warning: Parser does not support schema validation");
