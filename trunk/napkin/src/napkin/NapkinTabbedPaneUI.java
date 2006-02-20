@@ -23,7 +23,7 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
         super.installUI(c);
         NapkinUtil.installUI(c);
         origInsets = contentBorderInsets;
-        contentBorderInsets = NapkinBoxBorder.DEFAULT_INSETS;
+        contentBorderInsets = NapkinBoxBorder.LARGE_DEFAULT_INSETS;
     }
 
     public void uninstallUI(JComponent c) {

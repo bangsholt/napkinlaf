@@ -9,9 +9,9 @@ public class NapkinLineBorder extends NapkinBorder {
     private DrawnLineHolder line;
 
     private static final Insets DEFAULT_VERT_INSETS =
-            new Insets(0, 0, 0, NapkinBoxBorder.DEFAULT_INSETS.right);
+            new Insets(0, 0, 0, NapkinBoxBorder.SMALL_DEFAULT_INSETS.right);
     private static final Insets DEFAULT_HORIZ_INSETS =
-            new Insets(0, 0, NapkinBoxBorder.DEFAULT_INSETS.bottom, 0);
+            new Insets(0, 0, NapkinBoxBorder.SMALL_DEFAULT_INSETS.bottom, 0);
 
     public NapkinLineBorder(boolean vertical) {
         super(null);

@@ -381,7 +381,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
             "OptionPane.messageAreaBorder", null,
 
-            "TabbedPane.contentBorderInsets", NapkinBoxBorder.DEFAULT_INSETS,
+            "TabbedPane.contentBorderInsets", NapkinBoxBorder.LARGE_DEFAULT_INSETS,
 
             "Tree.openIcon", downArrowIcon,
             "Tree.closedIcon", rightArrowIcon,

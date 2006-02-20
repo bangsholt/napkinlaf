@@ -23,7 +23,7 @@ public class DrawnScribbleHolder extends DrawnShapeHolder
     boolean shapeUpToDate(Component c, Rectangle sz, int orient, int shn,
             boolean bwrds) {
         Insets in = (c instanceof JComponent ?
-                ((JComponent) c).getInsets() : NapkinBoxBorder.DEFAULT_INSETS);
+                ((JComponent) c).getInsets() : NapkinBoxBorder.getDefaultInsets(c.getBounds()));
 
         if (size != null && bwrds == backwards && insets.equals(in) &&
                 orientation == orient && shown == shn &&
