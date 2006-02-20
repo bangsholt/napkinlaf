@@ -2,15 +2,33 @@
 
 package napkin;
 
-import java.awt.*;
-import java.util.HashMap;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.tree.*;
+import javax.swing.JComponent;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.basic.BasicTreeUI;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.TreePath;
 
 public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
+    
+    // access-order based bounded cache
+    public static class LineCache
+            extends LinkedHashMap<Rectangle, DrawnLineHolder> {
+        private static final int MAX_NUM_OF_LINES = 100;
+        public LineCache() {
+            super(16, 0.75f, true);
+        }
+        protected boolean removeEldestEntry(Map.Entry<Rectangle, DrawnLineHolder> eldest) {
+            return size() > MAX_NUM_OF_LINES;
+        }
+    }
+    
     public static class DefaultNapkinTreeCellRender
             extends DefaultTreeCellRenderer
             implements NapkinPainter {
@@ -35,8 +53,7 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
         }
     }
 
-    private final Map<Rectangle, DrawnLineHolder> linesFor =
-            new HashMap<Rectangle, DrawnLineHolder>();
+    private final LineCache linesFor =new LineCache();
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
@@ -89,7 +106,11 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
         }
         DrawnLineHolder line = holder;
         line.shapeUpToDate(rect, null);
-        NapkinUtil.syncWithTheme((Graphics2D) g, tree);
+/* 
+ * This line (mysteriously) causes "corruption" to paper background painting
+ * when used with NetBean's collapsable tabs.
+ */
+//        NapkinUtil.syncWithTheme((Graphics2D) g, tree);
         line.draw(g);
     }
 
