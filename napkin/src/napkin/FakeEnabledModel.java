@@ -9,13 +9,17 @@ import javax.swing.event.*;
 /**
  * @see FakeEnabledButton
  */
-class FakeEnabledModel implements ButtonModel, FakeEnabled {
+class FakeEnabledModel implements ButtonModel, FakeEnabled<ButtonModel> {
     private final ButtonModel origModel;
 
     FakeEnabledModel(ButtonModel model) {
         if (model == null)
             throw new NullPointerException("model");
         origModel = model;
+    }
+    
+    public ButtonModel getOriginal() {
+        return origModel;
     }
 
     public boolean isEnabled() {
