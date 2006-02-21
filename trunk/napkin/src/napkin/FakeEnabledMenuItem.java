@@ -31,7 +31,7 @@ import javax.swing.plaf.*;
  *
  * @see FakeEnabledButton
  */
-class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
+class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled<JMenuItem> {
     private final FakeEnabledButton faked;
     private final JMenuItem orig;
 
@@ -41,7 +41,11 @@ class FakeEnabledMenuItem extends JMenuItem implements FakeEnabled {
         orig = (JMenuItem) c;
         faked = new FakeEnabledButton(c);
     }
-
+    
+    public JMenuItem getOriginal() {
+        return orig;
+    }
+    
     public void addMenuDragMouseListener(MenuDragMouseListener l) {
         orig.addMenuDragMouseListener(l);
     }

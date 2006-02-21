@@ -2,5 +2,6 @@
 
 package napkin;
 
-interface FakeEnabled {
+interface FakeEnabled<T> {
+    T getOriginal();
 }

@@ -565,8 +565,12 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     private static JComponent wrapIfNeeded(JComponent c) {
-        if (c.isEnabled())
-            return c;
+        if (c.isEnabled()) {
+            if (c instanceof FakeEnabled)
+                return (JComponent) ((FakeEnabled) c).getOriginal();
+            else
+                return c;
+        }
 
         if (!(c instanceof AbstractButton))
             return c;

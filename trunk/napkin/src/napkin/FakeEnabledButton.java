@@ -57,13 +57,17 @@ import javax.swing.plaf.*;
  * not-officially-related {@link FakeEnabledMenuItem} class that delegates to
  * this, but has the same problems during construction.
  */
-class FakeEnabledButton extends AbstractButton implements FakeEnabled {
+class FakeEnabledButton extends AbstractButton implements FakeEnabled<AbstractButton> {
     private final AbstractButton orig;
 
     FakeEnabledButton(JComponent c) {
         if (c == null)
             throw new NullPointerException("c");
         orig = (AbstractButton) c;
+    }
+    
+    public AbstractButton getOriginal() {
+        return orig;
     }
 
     public boolean isEnabled() {
