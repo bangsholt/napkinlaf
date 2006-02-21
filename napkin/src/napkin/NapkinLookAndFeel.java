@@ -357,11 +357,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 return NapkinIconFactory.createInfoIcon();
             }
         };
-        Object questionIcon = new UIDefaults.ActiveValue() {
-            public Object createValue(UIDefaults table) {
-                return NapkinIconFactory.createQuestionIcon();
-            }
-        };
         Object errorIcon = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createErrorIcon();
@@ -433,7 +428,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "OptionPane.errorIcon", errorIcon,
             "OptionPane.informationIcon", infoIcon,
             "OptionPane.warningIcon", sketchedIcon("Warning"),
-            "OptionPane.questionIcon", questionIcon,
+            "OptionPane.questionIcon", sketchedIcon("Question"),
         };
 
         table.putDefaults(napkinDefaults);
