@@ -389,6 +389,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
             "Tree.openIcon", downArrowIcon,
             "Tree.closedIcon", rightArrowIcon,
+            "Tree.collapsedIcon", null,
+            "Tree.expandedIcon", null,
             "Tree.leafIcon", null,
             "Tree.selectionBorderColor", null,
 
@@ -611,6 +613,9 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 if (key.endsWith(".foreground") ||
                         key.endsWith("BorderColor") ||
                         key.endsWith(".caretForeground") ||
+                        key.endsWith(".acceleratorForeground") ||
+                        key.endsWith(".disabledForeground") ||
+                        key.endsWith(".inactiveForeground") ||
                         key.endsWith(".textForeground")) {
                     entry.setValue(theme.getPenColor());
                 } else if (key.endsWith(".background") ||
@@ -625,7 +630,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 //                        key.endsWith(".floatingBackground") ||
                         key.endsWith(".textBackground")) {
                     entry.setValue(clear);
-                } else if (key.endsWith(".selectionForeground")) {
+                } else if (key.endsWith(".selectionForeground") ||
+                        key.endsWith("SelectionForeground")) {
                     entry.setValue(theme.getSelectionColor());
                 }
             }
