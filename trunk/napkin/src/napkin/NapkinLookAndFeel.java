@@ -287,6 +287,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         
         // The following line is a hot-fix for non-working FileChooser on Windows
         table.put("FileChooserUI", "javax.swing.plaf.metal.MetalFileChooserUI");
+        // The following line is a hot-fix for JScrollPanel's paint issue on Windows
+        table.put("ScrollPaneUI", "javax.swing.plaf.basic.BasicScrollPaneUI");
         
         Set<Object> keys = new HashSet<Object>(table.keySet());
         keys.removeAll(Arrays.asList(UI_TYPES));
