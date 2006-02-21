@@ -162,34 +162,6 @@ public class NapkinIconFactory implements NapkinConstants {
         }
     }
 
-    public static class QuestionIcon implements Icon {
-        private final Icon circle1;
-        private final Icon circle2;
-
-        private static final int CIRCLE_SIZE = 30;
-
-        public QuestionIcon() {
-            circle1 = new RadioButtonIcon(NapkinTheme.PEN_COLOR, CIRCLE_SIZE);
-            circle2 = new RadioButtonIcon(NapkinTheme.PEN_COLOR, CIRCLE_SIZE);
-        }
-
-        public int getIconHeight() {
-            return circle1.getIconHeight();
-        }
-
-        public int getIconWidth() {
-            return circle1.getIconWidth();
-        }
-
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            circle1.paintIcon(c, g, x, y);
-            circle2.paintIcon(c, g, x, y);
-            float midX = x + getIconWidth() / 2.0f;
-            float midY = y + 2 * getIconHeight() / 3.0f;
-            NapkinUtil.centerBoldText(c, (Graphics2D) g, midX, midY, 25, "?");
-        }
-    }
-
     public static class ErrorIcon implements Icon {
         private final Icon circle1;
         private final Icon circle2;
@@ -320,10 +292,6 @@ public class NapkinIconFactory implements NapkinConstants {
         return new InfoIcon();
     }
 
-    public static Icon createQuestionIcon() {
-        return new QuestionIcon();
-    }
-
     public static Icon createErrorIcon() {
         return new ErrorIcon();
     }
@@ -338,7 +306,7 @@ public class NapkinIconFactory implements NapkinConstants {
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
         Template template = getTemplate(templatePath);
         if (template == null)
-            return createQuestionIcon();   // just to have *something*
+            return createXIcon(20);   // just to have *something*
         else
             return new SketchedIcon(template, theme.getSketcher());
     }
