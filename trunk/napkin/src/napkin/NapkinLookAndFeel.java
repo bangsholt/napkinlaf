@@ -365,6 +365,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         };
 
         setupActions(table);
+        
+        NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
 
         Object[] napkinDefaults = {
             "RadioButton.textIconGap", zero,
@@ -388,6 +390,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "Tree.leafIcon", null,
             "Tree.selectionBorderColor", null,
 
+            "TextField.caretForeground", theme.getPenColor(),
+            "TextArea.caretForeground", theme.getPenColor(),
             "TextField.border", underlineBorder,
             "PasswordField.border", underlineBorder,
 
