@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicTreeUI;
@@ -50,6 +51,18 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
                     getBackgroundSelectionColor(),
                     theme.getPenColor()));
             super.paint(g);
+        }
+
+        public Icon getOpenIcon() {
+            return getDefaultOpenIcon();
+        }
+
+        public Icon getLeafIcon() {
+            return getDefaultLeafIcon();
+        }
+
+        public Icon getClosedIcon() {
+            return getDefaultClosedIcon();
         }
     }
 
