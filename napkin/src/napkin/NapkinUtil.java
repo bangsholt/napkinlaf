@@ -211,7 +211,7 @@ public class NapkinUtil implements NapkinConstants {
     public static Graphics2D defaultGraphics(Graphics g1, Component c) {
         Graphics2D g = (Graphics2D) g1;
         syncWithTheme(g, c);
-        boolean enabled = c.isEnabled() && !(c instanceof FakeEnabled);
+        boolean enabled = c.isEnabled(); // && !(c instanceof FakeEnabled);
         if (!enabled && c instanceof JComponent && !drawingDisabled) {
             drawingDisabled = true;
             Rectangle r = g.getClipBounds();
@@ -560,26 +560,28 @@ public class NapkinUtil implements NapkinConstants {
                 textColor = currentTheme(c).getSelectionColor();
         }
         g.setColor(textColor);
-        c = wrapIfNeeded(c);
+//        c = wrapIfNeeded(c);
         helper.superPaintText(g, c, textRect, text);
     }
 
-    private static JComponent wrapIfNeeded(JComponent c) {
-        if (c.isEnabled()) {
-            if (c instanceof FakeEnabled)
-                return (JComponent) ((FakeEnabled) c).getOriginal();
-            else
-                return c;
-        }
-
-        if (!(c instanceof AbstractButton))
-            return c;
-
-        if (c instanceof JMenuItem)
-            return new FakeEnabledMenuItem(c);
-        else
-            return new FakeEnabledButton(c);
-    }
+//    private static JComponent wrapIfNeeded(JComponent c) {
+//        if (!(c instanceof AbstractButton))
+//            return c;
+//
+//        if (c.isEnabled()) {
+//            if (c instanceof FakeEnabled)
+//                return (JComponent) ((FakeEnabled) c).getOriginal();
+//            else
+//                return c;
+//        } else {
+//            if (c instanceof FakeEnabled)
+//                return c;
+//            else if (c instanceof JMenuItem)
+//                return new FakeEnabledMenuItem(c);
+//            else
+//                return new FakeEnabledButton(c);
+//        }
+//    }
 
     public static Object
             getProperty(JComponent c, String key, PropertyFactory factory) {
