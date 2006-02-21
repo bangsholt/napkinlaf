@@ -44,8 +44,8 @@ public class NapkinViewportUI extends BasicViewportUI
     }
 
     public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
-        if (viewport.getScrollMode() != JViewport.SIMPLE_SCROLL_MODE)
-            forceScrollMode();
+//        if (viewport.getScrollMode() != JViewport.SIMPLE_SCROLL_MODE)
+//            forceScrollMode();
         super.update(g, c);
     }
 }

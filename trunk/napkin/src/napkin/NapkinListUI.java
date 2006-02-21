@@ -28,9 +28,6 @@ public class NapkinListUI extends BasicListUI implements NapkinPainter {
     }
 
     public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
-//        Color selColor = theme.getSelectionColor();
-//        if (NapkinUtil.replace(list.getSelectionForeground(), selColor))
-//            list.setSelectionForeground(selColor);
         super.update(g, c);
     }
 }

@@ -45,9 +45,6 @@ public class NapkinCheckBoxMenuItemUI extends BasicCheckBoxMenuItemUI
     }
 
     public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
-//        Color selColor = theme.getSelectionColor();
-//        if (NapkinUtil.replace(selectionForeground, selColor))
-//            selectionForeground = selColor;
         super.update(g, c);
     }
 }
