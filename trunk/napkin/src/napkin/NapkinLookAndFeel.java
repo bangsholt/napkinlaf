@@ -352,16 +352,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 return NapkinIconFactory.createArrowIcon(SOUTH, 10);
             }
         };
-        Object infoIcon = new UIDefaults.ActiveValue() {
-            public Object createValue(UIDefaults table) {
-                return NapkinIconFactory.createInfoIcon();
-            }
-        };
-        Object errorIcon = new UIDefaults.ActiveValue() {
-            public Object createValue(UIDefaults table) {
-                return NapkinIconFactory.createErrorIcon();
-            }
-        };
 
         setupActions(table);
         
@@ -425,8 +415,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "FileView.hardDriveIcon", sketchedIcon("HardDrive"),
             "FileView.floppyDriveIcon", sketchedIcon("FloppyDrive"),
 
-            "OptionPane.errorIcon", errorIcon,
-            "OptionPane.informationIcon", infoIcon,
+            "OptionPane.errorIcon", sketchedIcon("Error"),
+            "OptionPane.informationIcon", sketchedIcon("Information"),
             "OptionPane.warningIcon", sketchedIcon("Warning"),
             "OptionPane.questionIcon", sketchedIcon("Question"),
         };

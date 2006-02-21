@@ -136,65 +136,6 @@ public class NapkinIconFactory implements NapkinConstants {
         }
     }
 
-    public static class InfoIcon implements Icon {
-        private final Icon arrow1;
-        private final Icon arrow2;
-
-        public InfoIcon() {
-            arrow1 = createArrowIcon(NORTH, 25);
-            arrow2 = createArrowIcon(NORTH, 25);
-        }
-
-        public int getIconHeight() {
-            return arrow1.getIconHeight();
-        }
-
-        public int getIconWidth() {
-            return arrow1.getIconWidth();
-        }
-
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            arrow1.paintIcon(c, g, x, y);
-            arrow2.paintIcon(c, g, x, y);
-            float midX = x + getIconWidth() / 2.0f;
-            float midY = y + 2 * getIconHeight() / 3.0f;
-            NapkinUtil.centerBoldText(c, (Graphics2D) g, midX, midY, 20, "i");
-        }
-    }
-
-    public static class ErrorIcon implements Icon {
-        private final Icon circle1;
-        private final Icon circle2;
-        private final Icon cross1;
-        private final Icon cross2;
-
-        private static final int CIRCLE_SIZE = 30;
-        private static final int CROSS_SIZE = 20;
-        private static final int CROSS_OFFSET = (CIRCLE_SIZE - CROSS_SIZE) / 2;
-
-        public ErrorIcon() {
-            circle1 = new RadioButtonIcon(NapkinTheme.PEN_COLOR, CIRCLE_SIZE);
-            circle2 = new RadioButtonIcon(NapkinTheme.PEN_COLOR, CIRCLE_SIZE);
-            cross1 = new XIcon(CROSS_SIZE);
-            cross2 = new XIcon(CROSS_SIZE);
-        }
-
-        public int getIconHeight() {
-            return circle1.getIconHeight();
-        }
-
-        public int getIconWidth() {
-            return circle1.getIconWidth();
-        }
-
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            circle1.paintIcon(c, g, x, y);
-            circle2.paintIcon(c, g, x, y);
-            cross1.paintIcon(c, g, x + CROSS_OFFSET, y + CROSS_OFFSET);
-            cross2.paintIcon(c, g, x + CROSS_OFFSET, y + CROSS_OFFSET);
-        }
-    }
-
     public static class ArrowIcon extends NapkinIcon {
         private final int genNum;
         private final int size;
@@ -286,14 +227,6 @@ public class NapkinIconFactory implements NapkinConstants {
 
     public static Icon createXIcon(int size) {
         return new XIcon(size);
-    }
-
-    public static Icon createInfoIcon() {
-        return new InfoIcon();
-    }
-
-    public static Icon createErrorIcon() {
-        return new ErrorIcon();
     }
 
     /**
