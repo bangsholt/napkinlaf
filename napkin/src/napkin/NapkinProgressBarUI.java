@@ -104,12 +104,6 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
     }
 
     public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
-        Color radioColor = theme.getRadioColor();
-        if (NapkinUtil.replace(selectionForeground, radioColor))
-            selectionForeground = radioColor;
-        Color checkColor = theme.getCheckColor();
-        if (NapkinUtil.replace(selectionBackground, checkColor))
-            selectionBackground = theme.getCheckColor();
         super.update(g, c);
     }
 

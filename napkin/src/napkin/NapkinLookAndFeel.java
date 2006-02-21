@@ -388,9 +388,10 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "OptionPane.messageAreaBorder", null,
 
             "TabbedPane.contentBorderInsets", NapkinBoxBorder.LARGE_DEFAULT_INSETS,
-
+            
             "Tree.openIcon", downArrowIcon,
             "Tree.closedIcon", rightArrowIcon,
+            "Tree.hash", theme.getPenColor(),
             "Tree.collapsedIcon", null,
             "Tree.expandedIcon", null,
             "Tree.leafIcon", null,
@@ -618,6 +619,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                         key.endsWith(".acceleratorForeground") ||
                         key.endsWith(".disabledForeground") ||
                         key.endsWith(".inactiveForeground") ||
+                        key.endsWith(".inactiveTitleForeground") ||
                         key.endsWith(".textForeground")) {
                     entry.setValue(theme.getPenColor());
                 } else if (key.endsWith(".background") ||
@@ -633,6 +635,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                         key.endsWith(".textBackground")) {
                     entry.setValue(clear);
                 } else if (key.endsWith(".selectionForeground") ||
+                        key.endsWith(".activeTitleForeground") ||
                         key.endsWith("SelectionForeground")) {
                     entry.setValue(theme.getSelectionColor());
                 }

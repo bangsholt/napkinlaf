@@ -88,7 +88,6 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
     }
 
     public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
-        setHashColor(NapkinUtil.ifReplace(getHashColor(), theme.getPenColor()));
         super.update(g, c);
     }
 

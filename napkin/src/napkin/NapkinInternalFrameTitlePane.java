@@ -112,7 +112,6 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
     }
 
     public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
-        selectedTextColor = notSelectedTextColor = g.getColor();
         super.paint(g);
     }
 
