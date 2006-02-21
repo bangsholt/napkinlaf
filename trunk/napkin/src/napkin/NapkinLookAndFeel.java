@@ -2,6 +2,8 @@
 
 package napkin;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import napkin.ComponentWalker.Visitor;
 
 import java.awt.*;
@@ -608,10 +610,19 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
                 if (key.endsWith(".foreground") ||
                         key.endsWith("BorderColor") ||
+                        key.endsWith(".caretForeground") ||
                         key.endsWith(".textForeground")) {
                     entry.setValue(theme.getPenColor());
                 } else if (key.endsWith(".background") ||
                         key.endsWith(".selectionBackground") ||
+//                        key.endsWith(".buttonBackground") ||
+//                        key.endsWith(".disabledBackground") ||
+//                        key.endsWith(".inactiveBackground") ||
+//                        key.endsWith(".activeTitleBackground") ||
+//                        key.endsWith(".inactiveTitleBackground") ||
+//                        key.endsWith(".focusCellBackground") ||
+//                        key.endsWith(".dockingBackground") ||
+//                        key.endsWith(".floatingBackground") ||
                         key.endsWith(".textBackground")) {
                     entry.setValue(clear);
                 } else if (key.endsWith(".selectionForeground")) {
