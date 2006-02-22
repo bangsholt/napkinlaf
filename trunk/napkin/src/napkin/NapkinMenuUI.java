@@ -3,6 +3,8 @@
 package napkin;
 
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
@@ -10,6 +12,17 @@ import javax.swing.plaf.basic.*;
 public class NapkinMenuUI extends BasicMenuUI
         implements NapkinTextPainter, NapkinPainter {
     private DrawnLineHolder line;
+    private Icon oldArrowIcon;
+    private PropertyChangeListener orientationListener =
+            new PropertyChangeListener() {
+                public void propertyChange(PropertyChangeEvent evt) {
+                    ComponentOrientation orientation =
+                            (ComponentOrientation) evt.getNewValue();
+                    arrowIcon = NapkinIconFactory.createArrowIcon(
+                            orientation.isLeftToRight() ?
+                                NapkinConstants.EAST : NapkinConstants.WEST, 8);
+                }
+            };
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
@@ -18,11 +31,19 @@ public class NapkinMenuUI extends BasicMenuUI
 
     public void installUI(JComponent c) {
         super.installUI(c);
+        oldArrowIcon = arrowIcon;
+        boolean isLeftToRight = c.getComponentOrientation().isLeftToRight();
+        arrowIcon = NapkinIconFactory.createArrowIcon(
+                 isLeftToRight ? NapkinConstants.EAST : NapkinConstants.WEST, 8);
+        c.addPropertyChangeListener("componentOrientation", orientationListener);
         NapkinUtil.installUI(c);
     }
 
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
+        arrowIcon = oldArrowIcon;
+        c.removePropertyChangeListener(
+                "componentOrientation", orientationListener);
         super.uninstallUI(c);
     }
 
