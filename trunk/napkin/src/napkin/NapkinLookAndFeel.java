@@ -344,7 +344,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
         Object closeIcon = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
-                return NapkinIconFactory.createXIcon(10);
+                return NapkinIconFactory.createXIcon(15);
             }
         };
         Object minIcon = new UIDefaults.ActiveValue() {
