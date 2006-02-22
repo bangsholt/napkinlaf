@@ -184,7 +184,7 @@ public class SwingSet2 extends JPanel {
 
     /** SwingSet2 Constructor */
     public SwingSet2(SwingSet2Applet applet, GraphicsConfiguration gc) {
-
+        
         // Note that the applet may null if this is started as an application
         this.applet = applet;
 
@@ -1432,6 +1432,8 @@ public class SwingSet2 extends JPanel {
 
         public void run() {
             swingset.loadDemos();
+            // The following line is useful for testing Right-to-Left display
+            //swingset.frame.applyComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
         }
     }
 
