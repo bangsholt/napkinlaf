@@ -135,7 +135,9 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
         // it will look all choppy.  So we just have to live with redrawing more
         // than we have to so that the line painting stuff knows whether the
         // overall line has changed or not.
-        super.paintVerticalPartOfLeg(g, tree.getBounds(), insets, path);
+        Rectangle rect = tree.getBounds();
+        rect.x = 0; rect.y = 0;
+        super.paintVerticalPartOfLeg(g, rect, insets, path);
     }
 
     protected void paintHorizontalPartOfLeg(Graphics g, Rectangle clipBounds,
@@ -143,7 +145,9 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
             boolean isExpanded, boolean hasBeenExpanded, boolean isLeaf) {
 
         // see comment for paintVerticalPartOfLeg()
-        super.paintHorizontalPartOfLeg(g, tree.getBounds(), insets, bounds,
+        Rectangle rect = tree.getBounds();
+        rect.x = 0; rect.y = 0;
+        super.paintHorizontalPartOfLeg(g, rect, insets, bounds,
                 path, row, isExpanded, hasBeenExpanded, isLeaf);
     }
 
