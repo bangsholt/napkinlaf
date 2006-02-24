@@ -51,19 +51,14 @@ public class NapkinIconFactory implements NapkinConstants {
         }
 
         protected int calcWidth() {
-            RandomValue lx = checkGen.getLeftScale().getX();
-            RandomValue mx = checkGen.getMidScale().getX();
-            RandomValue rx = checkGen.getRightScale().getX();
-            double l = mx.min() - lx.min();
-            double r = mx.max() + rx.max();
-            return (int) Math.round(size * (r - l));
+            return (int) ((size - midInset) * checkGen.getMaxWidth() + 0.5d);
         }
 
         protected int calcHeight() {
             RandomValue my = checkGen.getMidScale().getY();
             RandomValue ry = checkGen.getRightScale().getY();
             // the "2" is for the underline if it loops down a bit
-            return (int) Math.round(size * (my.max() + ry.max()) + 2);
+            return (int) ((size - midInset) * checkGen.getMaxHeight() + 2.5d);
         }
 
         protected void doPaint(Graphics2D placeG, Graphics2D markG, int x,

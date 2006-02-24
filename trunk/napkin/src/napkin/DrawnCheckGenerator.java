@@ -61,7 +61,7 @@ public class DrawnCheckGenerator extends DrawnShapeGenerator {
 
         return check;
     }
-
+    
     public RandomXY getLeftScale() {
         return leftScale;
     }
@@ -73,5 +73,55 @@ public class DrawnCheckGenerator extends DrawnShapeGenerator {
     public RandomXY getMidScale() {
         return midScale;
     }
+
+    private double rootOfSquares(double ... numbers) {
+        double sum = 0d;
+        for (double number : numbers)
+            sum += number * number;
+        return Math.sqrt(sum);
+    }
+
+    public double getMeanWidth() {
+        return getRightScale().getX().getMid() + getLeftScale().getX().getMid();
+    }
+    
+    public double getWidthRange() {
+        // sum of Gaussians is the sum of means and sum of variance (not s.d.)
+        return rootOfSquares(
+                getRightScale().getX().getRange(),
+                getMidScale().getX().getRange(),
+                getMidScale().getX().getRange(),
+                getLeftScale().getX().getRange()
+            );
+    }
+
+    public double getMaxWidth() {
+        return getMeanWidth() + getWidthRange();
+    }
+    
+    public double getMinWidth() {
+        return getMeanWidth() - getWidthRange();
+    }
+    
+    public double getMeanHeight() {
+        return getRightScale().getY().getMid() + getMidScale().getY().getMid();
+    }
+    
+    public double getHeightRange() {
+        // sum of Gaussians is the sum of means and sum of variance (not s.d.)
+        return rootOfSquares(
+                getRightScale().getY().getRange(),
+                getMidScale().getY().getRange()
+            );
+    }
+
+    public double getMaxHeight() {
+        return getMeanHeight() + getHeightRange();
+    }
+    
+    public double getMinHeight() {
+        return getMeanHeight() - getHeightRange();
+    }
+    
 }
 
