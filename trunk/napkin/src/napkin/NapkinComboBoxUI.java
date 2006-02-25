@@ -6,6 +6,10 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
+import napkin.util.NapkinConstants;
+import napkin.util.NapkinPainter;
+import napkin.NapkinTheme;
+import napkin.util.NapkinUtil;
 
 public class NapkinComboBoxUI extends BasicComboBoxUI
         implements NapkinPainter, NapkinConstants {

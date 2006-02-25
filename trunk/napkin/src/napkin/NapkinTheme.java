@@ -2,12 +2,11 @@
 
 package napkin;
 
-import napkin.sketch.Sketcher;
-import napkin.sketch.sketchers.DraftSketcher;
-import napkin.sketch.sketchers.JotSketcher;
-
-import java.awt.*;
-import java.io.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.HashMap;
@@ -15,7 +14,15 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
-import javax.swing.plaf.*;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.plaf.UIResource;
+import napkin.sketch.Sketcher;
+import napkin.sketch.sketchers.DraftSketcher;
+import napkin.sketch.sketchers.JotSketcher;
+import napkin.util.AlphaColorUIResource;
+import napkin.util.NapkinBackground;
+import napkin.util.NapkinFont;
+import static napkin.util.NapkinConstants.RESOURCE_PATH;
 
 public class NapkinTheme {
     private final String name;
@@ -241,9 +248,9 @@ public class NapkinTheme {
                     scrawlBold.deriveFont(Font.BOLD, 15),
                     fixed.deriveFont(Font.PLAIN, 15),
                     new JotSketcher(),
-                    new NapkinBackground("resources/napkin.jpg"),
-                    new NapkinBackground("resources/erasure.png"),
-                    new NapkinBackground("resources/postit01.jpg",
+                    new NapkinBackground(RESOURCE_PATH + "napkin.jpg"),
+                    new NapkinBackground(RESOURCE_PATH + "erasure.png"),
+                    new NapkinBackground(RESOURCE_PATH + "postit01.jpg",
                             15, 15, 38, 32));
             addTheme(def);
 
@@ -253,10 +260,10 @@ public class NapkinTheme {
                     def.getTextFont(), def.getBoldTextFont(),
                     def.getFixedFont(),
                     new JotSketcher(),
-                    new NapkinBackground("resources/testPaper.jpg",
+                    new NapkinBackground(RESOURCE_PATH + "testPaper.jpg",
                             0, 0, 10, 10),
                     def.getErasureMask(), new NapkinBackground(
-                    "resources/testPostit.jpg", 0, 0, 10, 10)));
+                    RESOURCE_PATH + "testPostit.jpg", 0, 0, 10, 10)));
 
             Color blueprintInk = new Color(0xe7edf2);
             Color blueprintHighlight = new Color(0x89b5ed);
@@ -268,7 +275,7 @@ public class NapkinTheme {
                     blueprintInk, blueprintInk, blueprintHighlight,
                     blueprintInk, blueFont, blueFont, def.getFixedFont(),
                     new DraftSketcher(),
-                    new NapkinBackground("resources/blueprint-bg.jpg"),
+                    new NapkinBackground(RESOURCE_PATH + "blueprint-bg.jpg"),
                     def.getErasureMask(), def.getPopupTheme()));
 
             String themeName;
@@ -325,7 +332,7 @@ public class NapkinTheme {
 
         private static Font tryToLoadFont(String fontName) {
             try {
-                String fontRes = "resources/" + fontName;
+                String fontRes = RESOURCE_PATH + fontName;
                 InputStream fontDef;
                 fontDef = NapkinLookAndFeel.class.getResourceAsStream(fontRes);
                 if (fontDef == null) {

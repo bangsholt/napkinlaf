@@ -8,6 +8,11 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import napkin.shapes.DrawnCubicLineGenerator;
 import napkin.shapes.DrawnLineHolder;
+import napkin.util.NapkinConstants;
+import napkin.util.NapkinPainter;
+import napkin.util.NapkinTextPainter;
+import napkin.NapkinTheme;
+import napkin.util.NapkinUtil;
 
 public class NapkinCheckBoxUI extends BasicCheckBoxUI
         implements NapkinPainter, NapkinTextPainter, NapkinConstants {

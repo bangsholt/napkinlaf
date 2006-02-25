@@ -5,7 +5,7 @@ package napkin.shapes;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
-import napkin.NapkinUtil;
+import napkin.util.NapkinUtil;
 
 public abstract class DrawnShapeHolder {
     protected DrawnShapeGenerator gen;

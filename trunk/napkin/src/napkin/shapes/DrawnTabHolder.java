@@ -4,7 +4,7 @@ package napkin.shapes;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import napkin.NapkinConstants;
+import napkin.util.NapkinConstants;
 
 public class DrawnTabHolder extends DrawnShapeHolder
         implements NapkinConstants {

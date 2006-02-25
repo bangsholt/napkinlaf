@@ -16,6 +16,10 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 import napkin.shapes.DrawnLineHolder;
+import napkin.util.NapkinConstants;
+import napkin.util.NapkinPainter;
+import napkin.NapkinTheme;
+import napkin.util.NapkinUtil;
 
 public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
     

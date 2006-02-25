@@ -11,8 +11,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import napkin.NapkinUtil;
-import napkin.RandomXY;
+import napkin.util.NapkinUtil;
+import napkin.util.RandomXY;
 
 public class DrawnCubicLineGenerator extends DrawnShapeGenerator {
 

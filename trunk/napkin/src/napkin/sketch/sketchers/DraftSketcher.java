@@ -2,7 +2,7 @@
 
 package napkin.sketch.sketchers;
 
-import napkin.NapkinRandom;
+import napkin.util.NapkinRandom;
 import napkin.sketch.Sketcher;
 import napkin.sketch.geometry.CubicLine;
 import napkin.sketch.geometry.Path;

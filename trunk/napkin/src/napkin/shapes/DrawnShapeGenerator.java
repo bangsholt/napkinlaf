@@ -6,7 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
-import napkin.NapkinConstants;
+import napkin.util.NapkinConstants;
 
 public abstract class DrawnShapeGenerator implements NapkinConstants {
     public abstract Shape generate(AffineTransform matrix);

@@ -7,7 +7,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import napkin.RandomXY;
+import napkin.util.RandomXY;
 
 public class DrawnCircleGenerator extends DrawnShapeGenerator {
 

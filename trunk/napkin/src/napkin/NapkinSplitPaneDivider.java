@@ -5,6 +5,11 @@ package napkin;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.*;
+import napkin.util.NapkinConstants;
+import napkin.util.NapkinIconFactory;
+import napkin.util.NapkinPainter;
+import napkin.NapkinTheme;
+import napkin.util.NapkinUtil;
 
 public class NapkinSplitPaneDivider extends BasicSplitPaneDivider
         implements NapkinConstants, NapkinPainter {
