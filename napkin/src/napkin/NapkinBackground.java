@@ -3,6 +3,8 @@
 package napkin;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.net.URL;
 import javax.swing.*;
 
@@ -156,5 +158,22 @@ public class NapkinBackground {
                     icon.paintIcon(c, g, area.x, area.y);
             }
         }
+    }
+
+    public Color getMeanColor() {
+        Image iconImg = icon.getImage();
+        int w = iconImg.getWidth(null);
+        int h = iconImg.getHeight(null);
+        BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+        img.createGraphics().drawImage(iconImg, 0, 0, null);
+        int rSum = 0, gSum = 0, bSum = 0;
+        int[] colours = img.getRGB(0, 0, w, h, null, 0, w);
+        for (int i = 0; i < colours.length; i++) {
+            rSum += (colours[i] >> 16) & 0xFF;
+            gSum += (colours[i] >>  8) & 0xFF;
+            bSum += (colours[i]      ) & 0xFF;
+        }
+        return new Color(rSum / colours.length,
+                gSum / colours.length, bSum / colours.length);
     }
 }
