@@ -83,8 +83,7 @@ public class SketchTest implements ActionListener {
     private static File currentDir() {
         File curDir = new File(".");
         try {
-            curDir = curDir.getCanonicalFile();
-            return curDir;
+            return curDir.getCanonicalFile();
         } catch (IOException e) {
             throw new IllegalArgumentException(curDir.getAbsolutePath(), e);
         }
@@ -364,7 +363,7 @@ public class SketchTest implements ActionListener {
             ret = new SketchedIcon(template, sketcher);
         } catch (Exception e) {
             e.printStackTrace();
-            System.exit(1);
+            throw new Error(e);
         }
 
         return ret;

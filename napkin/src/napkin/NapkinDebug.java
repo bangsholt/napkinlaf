@@ -90,9 +90,8 @@ public class NapkinDebug {
             if (border instanceof TitledBorder)
                 desc += ": " + ((TitledBorder) border).getTitle();
         }
-        desc = desc.trim();
+        return desc.trim();
 
-        return desc;
     }
 
     static void dumpTo(String file, JComponent c) {

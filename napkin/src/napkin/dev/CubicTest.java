@@ -87,7 +87,7 @@ class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
         return gen;
     }
 
-    public void rebuild() {
+    public final void rebuild() {
         curve = generate(null);
     }
 

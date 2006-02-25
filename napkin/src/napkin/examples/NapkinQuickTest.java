@@ -21,7 +21,19 @@ public class NapkinQuickTest implements SwingConstants {
      *
      * @throws Exception Exception we don't recover from.
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    createAndShowGUI(args);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+    }
+    
+    private static void createAndShowGUI(String[] args) throws Exception {
         LookAndFeel laf;
         if (args.length == 1) {
             if (!args[0].equals("none"))
@@ -37,6 +49,7 @@ public class NapkinQuickTest implements SwingConstants {
         final Set<JComponent> toDisable = new HashSet<JComponent>();
 
         final JFrame top = new JFrame();
+        top.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         top.setBackground(Color.cyan);
         JTabbedPane tabbed = new JTabbedPane();
         JPanel mainPanel = new JPanel();
