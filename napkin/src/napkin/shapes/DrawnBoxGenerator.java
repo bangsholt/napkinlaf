@@ -1,6 +1,6 @@
 // $Id$
 
-package napkin;
+package napkin.shapes;
 
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
@@ -10,6 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import napkin.NapkinUtil;
+import napkin.RandomValue;
+import napkin.RandomValueSource;
+import napkin.RandomXY;
 
 public class DrawnBoxGenerator extends DrawnShapeGenerator {
     private final RandomXY corner;
@@ -101,27 +105,27 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
         double scale;
 
         scale = (xSize - xCorner) / LENGTH;
-        smat = NapkinUtil.copy(matrix);
+        smat = (AffineTransform) matrix.clone();
         smat.translate(xCorner, 0);
         smat.scale(scale, 1);
         sides[TOP] = addSide(shape, smat, TOP, scale);
 
         scale = xScale;
-        smat = NapkinUtil.copy(matrix);
+        smat = (AffineTransform) matrix.clone();
         smat.translate(xSize, ySize);
         smat.rotate(Math.PI);
         smat.scale(scale, 1);
         sides[BOTTOM] = addSide(shape, smat, BOTTOM, scale);
 
         scale = yScale;
-        smat = NapkinUtil.copy(matrix);
+        smat = (AffineTransform) matrix.clone();
         smat.translate(xSize, 0);
         smat.rotate(Math.PI / 2);
         smat.scale(scale, 1);
         sides[RIGHT] = addSide(shape, smat, RIGHT, scale);
 
         scale = (ySize - yCorner) / LENGTH;
-        smat = NapkinUtil.copy(matrix);
+        smat = (AffineTransform) matrix.clone();
         smat.translate(0, ySize);
         smat.rotate(-Math.PI / 2);
         smat.scale(scale, 1);
@@ -212,7 +216,7 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
                     "addSeg (len " + len + ")", xBeg, yBeg);
         }
         if (len > 0) {
-            AffineTransform mat = NapkinUtil.copy(smat);
+            AffineTransform mat = (AffineTransform) smat.clone();
             mat.translate(xBeg, yBeg);
             mat.scale(len / LENGTH, 1);
             addLine(side, mat, toGenerator(defaultLineType(len)));

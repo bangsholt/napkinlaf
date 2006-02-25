@@ -1,9 +1,12 @@
 // $Id$
 
-package napkin;
+package napkin.shapes;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import napkin.NapkinConstants;
 
 public abstract class DrawnShapeGenerator implements NapkinConstants {
     public abstract Shape generate(AffineTransform matrix);

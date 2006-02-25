@@ -6,6 +6,8 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.plaf.basic.*;
+import napkin.shapes.DrawnCubicLineGenerator;
+import napkin.shapes.DrawnLineHolder;
 
 public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
         implements NapkinConstants, NapkinPainter {

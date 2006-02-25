@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
+import napkin.shapes.DrawnLineHolder;
 
 public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
         NapkinPainter {

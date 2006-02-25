@@ -5,6 +5,7 @@ package napkin;
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
+import napkin.shapes.DrawnShapeGenerator;
 
 public abstract class NapkinIcon implements Icon {
     protected Shape place;

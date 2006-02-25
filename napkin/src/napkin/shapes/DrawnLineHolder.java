@@ -1,11 +1,14 @@
 // $Id$
 
-package napkin;
+package napkin.shapes;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.FontMetrics;
+import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import napkin.NapkinConstants;
+import napkin.NapkinUtil;
 
 public class DrawnLineHolder extends DrawnShapeHolder
         implements NapkinConstants {
@@ -57,7 +60,7 @@ public class DrawnLineHolder extends DrawnShapeHolder
             return new DrawnQuadLineGenerator();
     }
 
-    void shapeUpToDate(Rectangle cRect, FontMetrics cMetrics) {
+    public void shapeUpToDate(Rectangle cRect, FontMetrics cMetrics) {
         boolean sameMetrics = false;
         if ((metrics == null) == (cMetrics == null))
             sameMetrics = true;

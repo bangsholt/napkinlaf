@@ -1,8 +1,10 @@
 // $Id$
 
-package napkin;
+package napkin.shapes;
 
-import java.awt.geom.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import napkin.NapkinConstants;
 
 public class DrawnTabHolder extends DrawnShapeHolder
         implements NapkinConstants {

@@ -2,9 +2,9 @@
 
 package napkin.dev;
 
-import napkin.DrawnBoxGenerator;
-import napkin.DrawnCubicLineGenerator;
-import napkin.DrawnQuadLineGenerator;
+import napkin.shapes.DrawnBoxGenerator;
+import napkin.shapes.DrawnCubicLineGenerator;
+import napkin.shapes.DrawnQuadLineGenerator;
 import napkin.RandomValueSource;
 
 import java.awt.*;

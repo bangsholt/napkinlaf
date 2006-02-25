@@ -1,10 +1,14 @@
 // $Id$
 
-package napkin;
+package napkin.shapes;
 
-import java.awt.*;
-import java.awt.geom.*;
-import javax.swing.*;
+import java.awt.Component;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
+import javax.swing.JComponent;
+import napkin.NapkinBoxBorder;
+import napkin.NapkinConstants;
 
 public class DrawnScribbleHolder extends DrawnShapeHolder
         implements NapkinConstants {
@@ -20,7 +24,7 @@ public class DrawnScribbleHolder extends DrawnShapeHolder
         super(new DrawnScribbleGenerator(LINE_WIDTH), LINE_WIDTH);
     }
 
-    boolean shapeUpToDate(Component c, Rectangle sz, int orient, int shn,
+    public boolean shapeUpToDate(Component c, Rectangle sz, int orient, int shn,
             boolean bwrds) {
         Insets in = (c instanceof JComponent ?
                 ((JComponent) c).getInsets() : NapkinBoxBorder.getDefaultInsets(c.getBounds()));

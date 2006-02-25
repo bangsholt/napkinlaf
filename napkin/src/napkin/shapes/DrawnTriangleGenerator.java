@@ -1,9 +1,14 @@
 // $Id$
 
-package napkin;
+package napkin.shapes;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+import napkin.RandomValue;
+import napkin.RandomValueSource;
+import napkin.RandomXY;
 
 public class DrawnTriangleGenerator extends DrawnShapeGenerator {
     private final RandomXY mid;
@@ -40,11 +45,11 @@ public class DrawnTriangleGenerator extends DrawnShapeGenerator {
         double yV2 = rightAt.getY();
 
         if (rotate != 0) {
-            matrix = NapkinUtil.copy(matrix);
+            matrix = (AffineTransform) matrix.clone();
             matrix.rotate(rotate, 0.5, 0.5);
         }
         double[] points = {xMid, yMid, xV1, yV1, xV2, yV2};
-        NapkinUtil.transform(matrix, points);
+        matrix.transform(points, 0, points, 0, 3);
 
         double minDist = Double.MAX_VALUE;
         int minPoint = 0;

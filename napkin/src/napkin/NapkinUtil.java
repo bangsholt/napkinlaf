@@ -21,6 +21,9 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.plaf.*;
 import javax.swing.text.*;
+import napkin.shapes.DrawnCubicLineGenerator;
+import napkin.shapes.DrawnLineHolder;
+import napkin.shapes.DrawnShapeGenerator;
 
 public class NapkinUtil implements NapkinConstants {
     private static final Map<Float, Stroke> strokes =
@@ -176,13 +179,6 @@ public class NapkinUtil implements NapkinConstants {
 
     public static double leftRight(double x, boolean left) {
         return (left ? x : DrawnShapeGenerator.LENGTH - x);
-    }
-
-    public static AffineTransform copy(AffineTransform matrix) {
-        if (matrix == null)
-            return new AffineTransform();
-        else
-            return (AffineTransform) matrix.clone();
     }
 
     public static Graphics2D copy(Graphics g) {
@@ -356,11 +352,6 @@ public class NapkinUtil implements NapkinConstants {
         AffineTransform mat = new AffineTransform();
         mat.scale(scale, scale);
         return mat;
-    }
-
-    static void transform(AffineTransform matrix, double[] points) {
-        if (matrix != null)
-            matrix.transform(points, 0, points, 0, points.length / 2);
     }
 
     static JButton createArrowButton(int pointTowards) {
@@ -578,11 +569,13 @@ public class NapkinUtil implements NapkinConstants {
     public static void drawStroke(GeneralPath path, AffineTransform matrix,
             double x1, double y1, double x2, double y2,
             double baseAngle, DrawnShapeGenerator lineGen) {
-
+        if (matrix == null)
+            matrix = new AffineTransform();
+        
         double xDelta = x1 - x2;
         double yDelta = y1 - y2;
         double angle = Math.atan2(xDelta, yDelta);
-        AffineTransform mat = copy(matrix);
+        AffineTransform mat = (AffineTransform) matrix.clone();
         mat.translate(x1, y1);
         mat.rotate(baseAngle + angle);
         double len = Math.sqrt(xDelta * xDelta + yDelta * yDelta);
