@@ -112,8 +112,14 @@ public class NapkinTheme {
     private static Font uiResource(Font font) {
         if (font instanceof UIResource)
             return font;
-        else
-            return new FontUIResource(font);
+        else {
+            // refer to NapkinFont for an explanation of the workaround here
+            Font result = new FontUIResource(font);
+            if (!result.getFontName().equals(font.getFontName()))
+                result = new NapkinFont(font);
+            System.out.println(result);
+            return result;
+        }
     }
 
     public String getName() {
