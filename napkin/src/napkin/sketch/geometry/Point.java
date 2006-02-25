@@ -2,7 +2,7 @@
 
 package napkin.sketch.geometry;
 
-import napkin.NapkinRandom;
+import napkin.util.NapkinRandom;
 
 import java.awt.geom.*;
 

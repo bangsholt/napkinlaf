@@ -7,6 +7,9 @@ import javax.swing.*;
 import static javax.swing.JEditorPane.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
+import napkin.util.NapkinPainter;
+import napkin.NapkinTheme;
+import napkin.util.NapkinUtil;
 
 public class NapkinEditorPaneUI extends BasicEditorPaneUI
         implements NapkinPainter {

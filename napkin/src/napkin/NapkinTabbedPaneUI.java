@@ -7,8 +7,12 @@ import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
+import napkin.borders.NapkinBoxBorder;
 import napkin.shapes.DrawnBoxHolder;
 import napkin.shapes.DrawnTabHolder;
+import napkin.util.NapkinPainter;
+import napkin.NapkinTheme;
+import napkin.util.NapkinUtil;
 
 public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
         implements NapkinPainter {
@@ -36,7 +40,9 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
 
     public void paint(Graphics g, JComponent c) {
         int count = ((JTabbedPane) c).getTabCount();
-        tabs = (DrawnTabHolder[]) NapkinUtil.reallocate(tabs, count);
+        DrawnTabHolder[] newTabs = new DrawnTabHolder[count];
+        System.arraycopy(tabs, 0, newTabs, 0, Math.min(tabs.length, newTabs.length));
+        tabs = newTabs;
         super.paint(g, c);
     }
 

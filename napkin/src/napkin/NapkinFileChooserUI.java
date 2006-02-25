@@ -10,6 +10,10 @@ import javax.swing.*;
 import javax.swing.filechooser.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.metal.*;
+import napkin.util.ComponentWalker;
+import napkin.util.NapkinPainter;
+import napkin.NapkinTheme;
+import napkin.util.NapkinUtil;
 
 //!! It seems as if the BasicFileChooserUI is not yet well formed, so we're just
 //!! borrowing the metal chooser for now.

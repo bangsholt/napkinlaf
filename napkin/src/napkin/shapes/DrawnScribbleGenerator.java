@@ -5,7 +5,7 @@ package napkin.shapes;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
-import napkin.RandomValue;
+import napkin.util.RandomValue;
 
 public class DrawnScribbleGenerator extends DrawnShapeGenerator {
     private final RandomValue position;

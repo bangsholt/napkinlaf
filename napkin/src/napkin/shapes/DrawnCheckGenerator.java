@@ -6,9 +6,9 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import napkin.NapkinUtil;
-import napkin.RandomValue;
-import napkin.RandomXY;
+import napkin.util.NapkinUtil;
+import napkin.util.RandomValue;
+import napkin.util.RandomXY;
 
 public class DrawnCheckGenerator extends DrawnShapeGenerator {
     private final RandomXY dim;

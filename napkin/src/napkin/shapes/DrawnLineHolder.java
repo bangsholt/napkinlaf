@@ -7,8 +7,8 @@ import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import napkin.NapkinConstants;
-import napkin.NapkinUtil;
+import napkin.util.NapkinConstants;
+import napkin.util.NapkinUtil;
 
 public class DrawnLineHolder extends DrawnShapeHolder
         implements NapkinConstants {

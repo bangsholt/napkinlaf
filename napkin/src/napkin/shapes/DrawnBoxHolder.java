@@ -6,8 +6,8 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import napkin.NapkinBoxBorder;
-import napkin.NapkinConstants;
+import napkin.borders.NapkinBoxBorder;
+import napkin.util.NapkinConstants;
 
 public class DrawnBoxHolder extends DrawnShapeHolder
         implements NapkinConstants {

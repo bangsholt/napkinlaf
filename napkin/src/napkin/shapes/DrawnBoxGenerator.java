@@ -10,10 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import napkin.NapkinUtil;
-import napkin.RandomValue;
-import napkin.RandomValueSource;
-import napkin.RandomXY;
+import napkin.util.NapkinUtil;
+import napkin.util.RandomValue;
+import napkin.util.RandomValueSource;
+import napkin.util.RandomXY;
 
 public class DrawnBoxGenerator extends DrawnShapeGenerator {
     private final RandomXY corner;

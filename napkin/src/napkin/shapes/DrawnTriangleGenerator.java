@@ -6,9 +6,9 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import napkin.RandomValue;
-import napkin.RandomValueSource;
-import napkin.RandomXY;
+import napkin.util.RandomValue;
+import napkin.util.RandomValueSource;
+import napkin.util.RandomXY;
 
 public class DrawnTriangleGenerator extends DrawnShapeGenerator {
     private final RandomXY mid;
