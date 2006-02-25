@@ -20,7 +20,7 @@ import javax.swing.plaf.*;
 public class NapkinTheme {
     private final String name;
     private final String description;
-    private final Color[] colors = new Color[5];
+    private final Color[] colors = new Color[6];
     private final Font textFont;
     private final Font boldTextFont;
     private final Font fixedFont;
@@ -34,6 +34,7 @@ public class NapkinTheme {
     public static final int RADIO_COLOR = 2;
     public static final int HIGHLIGHT_COLOR = 3;
     public static final int SELECTION_COLOR = 4;
+    public static final int BACKGROUND_COLOR = 5;
 
     public static final int BASIC_THEME = 0;
     public static final int POPUP_THEME = 1;
@@ -88,6 +89,7 @@ public class NapkinTheme {
         colors[RADIO_COLOR] = uiResource(radioColor);
         colors[HIGHLIGHT_COLOR] = uiResource(highlightColor);
         colors[SELECTION_COLOR] = uiResource(selectionColor);
+        colors[BACKGROUND_COLOR] = uiResource(paper.getMeanColor());
         this.textFont = uiResource(textFont);
         this.boldTextFont = uiResource(boldTextFont);
         this.fixedFont = uiResource(fixedFont);
@@ -140,6 +142,10 @@ public class NapkinTheme {
 
     public Color getSelectionColor() {
         return colors[SELECTION_COLOR];
+    }
+
+    public Color getBackgroundColor() {
+        return colors[BACKGROUND_COLOR];
     }
 
     public Color getColor(int which) {
