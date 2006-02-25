@@ -20,6 +20,10 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
     private Rectangle boxRect;
     private DrawnBoxHolder box;
     private Image curImage;
+    /** @noinspection FieldNameHidesFieldInSuperclass */
+    private Color selectionForeground;
+    /** @noinspection FieldNameHidesFieldInSuperclass */
+    private Color selectionBackground;
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
@@ -85,6 +89,8 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
             NapkinTheme theme = NapkinUtil.currentTheme(c);
             curImage = c.createImage(sz.x + sz.width, sz.y + sz.height);
             Graphics2D imgG = (Graphics2D) curImage.getGraphics();
+            selectionForeground = theme.getRadioColor();
+            selectionBackground = theme.getCheckColor();
             imgG.setBackground(theme.getBackgroundColor());
             imgG.clearRect(0, 0, sz.x + sz.width, sz.y + sz.height);
             imgG.setColor(theme.getCheckColor());
@@ -107,5 +113,12 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
         super.update(g, c);
     }
 
+    protected Color getSelectionBackground() {
+        return selectionBackground;
+    }
+
+    protected Color getSelectionForeground() {
+        return selectionForeground;
+    }
 }
 
