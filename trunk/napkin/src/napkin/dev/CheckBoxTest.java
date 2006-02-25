@@ -131,7 +131,7 @@ class CheckBoxTest extends GeneratorTest
         return drawing;
     }
 
-    public void rebuild() {
+    public final void rebuild() {
         box = boxGen.generate(null);
         check = checkGen.generate(null);
     }

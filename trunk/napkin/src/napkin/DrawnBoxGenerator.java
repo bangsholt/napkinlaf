@@ -2,8 +2,10 @@
 
 package napkin;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -25,10 +27,6 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
 
     private static final Logger logger =
             Logger.getLogger(DrawnBoxGenerator.class.getName());
-
-    public static final String[] SIDE_NAMES = {
-        null, "top", "left", "bottom", "right"
-    };
 
     private class SideSize extends RandomValue {
         private final int s1;
@@ -250,7 +248,7 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
         breakSide = NO_SIDE;
     }
 
-    public void setGenerator(int side, Class<?> type) {
+    public final void setGenerator(int side, Class<?> type) {
         gens[side] = toGenerator(type);
     }
 

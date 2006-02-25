@@ -87,6 +87,10 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
         }
     }
 
+    private static final String[] SIDE_NAMES = {
+        null, "top", "left", "bottom", "right"
+    };
+
     BoxTest(DrawnCubicLineGenerator cubic, DrawnQuadLineGenerator quad) {
         gen = new DrawnBoxGenerator(cubic, quad);
 
@@ -104,7 +108,7 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
 
         sides = new Side[4];
         for (int i = 0; i < sides.length; i++) {
-            sides[i] = new Side(DrawnBoxGenerator.SIDE_NAMES[i], i);
+            sides[i] = new Side(SIDE_NAMES[i], i);
             gen.setGenerator(i, DrawnCubicLineGenerator.class);
         }
 
@@ -115,7 +119,7 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
         gen.generate(matrix);
     }
 
-    public void rebuild() {
+    public final void rebuild() {
         generate(null);
     }
 

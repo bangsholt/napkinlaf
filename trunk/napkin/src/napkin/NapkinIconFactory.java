@@ -55,8 +55,6 @@ public class NapkinIconFactory implements NapkinConstants {
         }
 
         protected int calcHeight() {
-            RandomValue my = checkGen.getMidScale().getY();
-            RandomValue ry = checkGen.getRightScale().getY();
             // the "2" is for the underline if it loops down a bit
             return (int) ((size - midInset) * checkGen.getMaxHeight() + 2.5d);
         }

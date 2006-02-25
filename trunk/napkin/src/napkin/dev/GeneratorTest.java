@@ -18,7 +18,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
-public class GeneratorTest extends NapkinUtil implements NapkinConstants {
+public class GeneratorTest extends NapkinUtil {
     private static final double MARK_SIZE = 3;
 
     // Subclass of this that implement Generator will have a symbol conflict

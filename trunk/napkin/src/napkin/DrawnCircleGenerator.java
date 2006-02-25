@@ -5,8 +5,7 @@ package napkin;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class DrawnCircleGenerator extends DrawnShapeGenerator
-        implements NapkinConstants {
+public class DrawnCircleGenerator extends DrawnShapeGenerator {
 
     private final RandomXY start;
     private final RandomXY end;
