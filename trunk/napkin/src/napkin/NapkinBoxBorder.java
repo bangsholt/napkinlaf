@@ -6,6 +6,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.plaf.*;
+import napkin.shapes.DrawnBoxHolder;
 
 public class NapkinBoxBorder extends NapkinBorder implements NapkinConstants {
     private static final int SMALL_BORDER = 3;

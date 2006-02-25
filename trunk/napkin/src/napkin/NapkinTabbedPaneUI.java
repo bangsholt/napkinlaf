@@ -7,6 +7,8 @@ import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
+import napkin.shapes.DrawnBoxHolder;
+import napkin.shapes.DrawnTabHolder;
 
 public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
         implements NapkinPainter {

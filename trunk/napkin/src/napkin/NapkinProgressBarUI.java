@@ -6,6 +6,8 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
+import napkin.shapes.DrawnBoxHolder;
+import napkin.shapes.DrawnScribbleHolder;
 
 public class NapkinProgressBarUI extends BasicProgressBarUI
         implements NapkinPainter {
@@ -45,7 +47,7 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
 
         if (box == null) {
             box = new DrawnBoxHolder();
-            box.width = 2;
+            box.setWidth(2f);
         }
         box.shapeUpToDate(boxRect);
         Graphics2D lineG = NapkinUtil.copy(g);

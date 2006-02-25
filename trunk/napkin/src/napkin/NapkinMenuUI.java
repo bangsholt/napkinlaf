@@ -8,6 +8,8 @@ import java.beans.PropertyChangeListener;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
+import napkin.shapes.DrawnCubicLineGenerator;
+import napkin.shapes.DrawnLineHolder;
 
 public class NapkinMenuUI extends BasicMenuUI
         implements NapkinTextPainter, NapkinPainter {

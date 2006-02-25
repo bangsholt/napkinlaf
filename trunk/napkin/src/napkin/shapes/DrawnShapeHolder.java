@@ -1,8 +1,11 @@
 // $Id$
 
-package napkin;
+package napkin.shapes;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import napkin.NapkinUtil;
 
 public abstract class DrawnShapeHolder {
     protected DrawnShapeGenerator gen;
@@ -26,7 +29,7 @@ public abstract class DrawnShapeHolder {
         this.width = width;
     }
 
-    void draw(Graphics g) {
+    public void draw(Graphics g) {
         Graphics2D lineG = NapkinUtil.lineGraphics(g, width);
         lineG.draw(shape);
     }

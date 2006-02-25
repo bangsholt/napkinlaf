@@ -2,6 +2,13 @@
 
 package napkin;
 
+import napkin.shapes.DrawnBoxGenerator;
+import napkin.shapes.DrawnBoxHolder;
+import napkin.shapes.DrawnCheckGenerator;
+import napkin.shapes.DrawnCircleGenerator;
+import napkin.shapes.DrawnQuadLineGenerator;
+import napkin.shapes.DrawnShapeGenerator;
+import napkin.shapes.DrawnTriangleGenerator;
 import napkin.sketch.SketchedIcon;
 import napkin.sketch.Template;
 import napkin.sketch.TemplateReadException;

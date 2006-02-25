@@ -1,9 +1,13 @@
 // $Id$
 
-package napkin;
+package napkin.shapes;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import napkin.NapkinBoxBorder;
+import napkin.NapkinConstants;
 
 public class DrawnBoxHolder extends DrawnShapeHolder
         implements NapkinConstants {
@@ -24,11 +28,11 @@ public class DrawnBoxHolder extends DrawnShapeHolder
         this(new DrawnBoxGenerator());
     }
 
-    void shapeUpToDate(Rectangle sz) {
+    public void shapeUpToDate(Rectangle sz) {
         shapeUpToDate(sz, -1, 0, 0, 0, 0);
     }
 
-    void shapeUpToDate(Rectangle sz, int bSide, double begX, double begY,
+    public void shapeUpToDate(Rectangle sz, int bSide, double begX, double begY,
             double endX, double endY) {
 
         if (size != null && size.width == sz.width && size.height == sz.height

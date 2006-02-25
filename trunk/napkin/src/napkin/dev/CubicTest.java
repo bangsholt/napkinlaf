@@ -2,8 +2,8 @@
 
 package napkin.dev;
 
-import napkin.DrawnCubicLineGenerator;
-import napkin.DrawnShapeGenerator;
+import napkin.shapes.DrawnCubicLineGenerator;
+import napkin.shapes.DrawnShapeGenerator;
 import napkin.RandomValue;
 import napkin.RandomValueSource;
 

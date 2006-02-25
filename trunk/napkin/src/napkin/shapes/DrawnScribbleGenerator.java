@@ -1,9 +1,11 @@
 // $Id$
 
-package napkin;
+package napkin.shapes;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
+import napkin.RandomValue;
 
 public class DrawnScribbleGenerator extends DrawnShapeGenerator {
     private final RandomValue position;

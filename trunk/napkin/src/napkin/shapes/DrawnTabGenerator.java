@@ -1,9 +1,13 @@
 // $Id$
 
-package napkin;
+package napkin.shapes;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+import napkin.RandomValue;
+import napkin.RandomXY;
 
 public class DrawnTabGenerator extends DrawnShapeGenerator {
     private final RandomXY ul;
@@ -101,7 +105,7 @@ public class DrawnTabGenerator extends DrawnShapeGenerator {
         }
 
         double[] points = {xUL, yUL, xUR, yUR, xLR, yLR, xLL, yLL};
-        NapkinUtil.transform(matrix, points);
+        matrix.transform(points, 0, points, 0, 4);
 
         int start = STARTS[side];
         for (int i = 0; i < 4; i++) {

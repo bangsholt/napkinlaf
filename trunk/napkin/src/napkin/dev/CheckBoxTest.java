@@ -2,8 +2,8 @@
 
 package napkin.dev;
 
-import napkin.DrawnBoxGenerator;
-import napkin.DrawnCheckGenerator;
+import napkin.shapes.DrawnBoxGenerator;
+import napkin.shapes.DrawnCheckGenerator;
 import napkin.RandomValueSource;
 
 import java.awt.*;
