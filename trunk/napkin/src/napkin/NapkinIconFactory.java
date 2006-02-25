@@ -18,22 +18,16 @@ public class NapkinIconFactory implements NapkinConstants {
             new HashMap<String, Template>();
 
     public static class CheckBoxIcon extends NapkinIcon {
+        protected static final double MID_INSET_RATIO = 3d / 13d;
+
         private final int size;
         private final int midInset;
-
-        protected static final int SIZE = 13;
-        protected static final int MID_INSET = 3;
-
-        private static DrawnCheckGenerator checkGen;
-
-        public CheckBoxIcon() {
-            this(SIZE);
-        }
+        private DrawnCheckGenerator checkGen;
 
         public CheckBoxIcon(int size) {
             super(NapkinTheme.CHECK_COLOR, null);
             this.size = size;
-            midInset = size * Math.round(MID_INSET / (float) SIZE);
+            midInset = (int) (size * MID_INSET_RATIO + 0.5d);
             init();
         }
 
@@ -203,7 +197,11 @@ public class NapkinIconFactory implements NapkinConstants {
     }
 
     public static Icon createCheckBoxIcon() {
-        return new CheckBoxIcon();
+        return new CheckBoxIcon(13);
+    }
+
+    public static Icon createCheckedMenuItemIcon() {
+        return new CheckBoxIcon(9);
     }
 
     public static Icon createRadioButtonIcon() {

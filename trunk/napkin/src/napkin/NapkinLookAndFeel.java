@@ -314,6 +314,11 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 return NapkinIconFactory.createCheckBoxIcon();
             }
         };
+        Object checkedMenuItemIcon = new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
+                return NapkinIconFactory.createCheckedMenuItemIcon();
+            }
+        };
         Object radioButtonIcon = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createRadioButtonIcon();
@@ -366,7 +371,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "CheckBox.textIconGap", zero,
             "CheckBox.icon", checkBoxButtonIcon,
             "CheckBoxMenuItem.textIconGap", zero,
-            "CheckBoxMenuItem.checkIcon", checkBoxButtonIcon,
+            "CheckBoxMenuItem.checkIcon", checkedMenuItemIcon,
 
             "Menu.arrowIcon", rightArrowIcon,
 
