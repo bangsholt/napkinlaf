@@ -40,7 +40,7 @@ public class NapkinUtil implements NapkinConstants {
                         return;
                     JComponent c = (JComponent) event.getSource();
                     Boolean val = (Boolean) event.getNewValue();
-                    if (val == Boolean.FALSE)
+                    if (!val.booleanValue())
                         val = null;
                     c.putClientProperty(OPAQUE_KEY, val);
                 }
@@ -211,7 +211,7 @@ public class NapkinUtil implements NapkinConstants {
     public static Graphics2D defaultGraphics(Graphics g1, Component c) {
         Graphics2D g = (Graphics2D) g1;
         syncWithTheme(g, c);
-        boolean enabled = c.isEnabled(); // && !(c instanceof FakeEnabled);
+        boolean enabled = c.isEnabled();
         if (!enabled && c instanceof JComponent && !drawingDisabled) {
             drawingDisabled = true;
             Rectangle r = g.getClipBounds();
@@ -522,18 +522,6 @@ public class NapkinUtil implements NapkinConstants {
         return false;
     }
 
-    /**
-     * This is pretty ugly -- to make this a utility method, I need to be able
-     * to have some way to invoke the paint method of the button's superclass.
-     * To do that, I have to invent a method that will do that.
-     * <p/>
-     * In principle this code could be shared by inheritence, overriding
-     * paintText in BasicButtonUI, but there is no way I could change the actual
-     * behavior of that method so that (say) NapkinCheckBoxUI, which must
-     * inherit from BasicCheckBoxUI (and thus from BasicButtonUI) would change
-     * behavior.  So I need a utility method they share, and thus the hack.
-     * Sigh.
-     */
     public static void
             paintButtonText(Graphics g, JComponent c, Rectangle textRect,
             String text, int textOffset, DrawnLineHolder line,
@@ -560,28 +548,8 @@ public class NapkinUtil implements NapkinConstants {
                 textColor = currentTheme(c).getSelectionColor();
         }
         g.setColor(textColor);
-//        c = wrapIfNeeded(c);
         helper.superPaintText(g, c, textRect, text);
     }
-
-//    private static JComponent wrapIfNeeded(JComponent c) {
-//        if (!(c instanceof AbstractButton))
-//            return c;
-//
-//        if (c.isEnabled()) {
-//            if (c instanceof FakeEnabled)
-//                return (JComponent) ((FakeEnabled) c).getOriginal();
-//            else
-//                return c;
-//        } else {
-//            if (c instanceof FakeEnabled)
-//                return c;
-//            else if (c instanceof JMenuItem)
-//                return new FakeEnabledMenuItem(c);
-//            else
-//                return new FakeEnabledButton(c);
-//        }
-//    }
 
     public static Object
             getProperty(JComponent c, String key, PropertyFactory factory) {
@@ -646,7 +614,7 @@ public class NapkinUtil implements NapkinConstants {
         Logs.paper.log(Level.FINER, dump.toString());
     }
 
-    public static IOException tryClose(InputStream fonts) {
+    public static IOException tryClose(Closeable fonts) {
         try {
             fonts.close();
             return null;
