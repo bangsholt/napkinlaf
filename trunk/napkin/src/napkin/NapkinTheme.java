@@ -117,7 +117,6 @@ public class NapkinTheme {
             Font result = new FontUIResource(font);
             if (!result.getFontName().equals(font.getFontName()))
                 result = new NapkinFont(font);
-            System.out.println(result);
             return result;
         }
     }
