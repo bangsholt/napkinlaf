@@ -2,40 +2,6 @@
 
 package napkin;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Font;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.WeakHashMap;
-import javax.swing.JComponent;
-import javax.swing.JTextField;
-import javax.swing.LookAndFeel;
-import javax.swing.UIDefaults;
-import javax.swing.UIDefaults.ActiveValue;
-import javax.swing.UIDefaults.LazyValue;
-import javax.swing.UIManager;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.plaf.BorderUIResource;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.plaf.UIResource;
-import javax.swing.plaf.basic.BasicBorders;
-import javax.swing.plaf.basic.BasicLookAndFeel;
-import javax.swing.text.DefaultEditorKit;
 import napkin.borders.NapkinBoxBorder;
 import napkin.borders.NapkinLineBorder;
 import napkin.borders.NapkinSelectedBorder;
@@ -46,6 +12,25 @@ import napkin.util.NapkinConstants;
 import napkin.util.NapkinDebug;
 import napkin.util.NapkinIconFactory;
 import napkin.util.NapkinUtil;
+
+import javax.swing.*;
+import javax.swing.UIDefaults.*;
+import javax.swing.border.*;
+import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
+import javax.swing.text.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.WeakHashMap;
 
 public class NapkinLookAndFeel extends BasicLookAndFeel
         implements NapkinConstants {
@@ -102,49 +87,49 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     private static boolean justNapkin = true;
 
     private static final String[] UI_TYPES = {
-        "ButtonUI",
-        "CheckBoxMenuItemUI",
-        "CheckBoxUI",
-        "ColorChooserUI",
-        "ComboBoxUI",
-        "DesktopIconUI",
-        "DesktopPaneUI",
-        "EditorPaneUI",
-        "FileChooserUI",
-        "FormattedTextFieldUI",
-        "InternalFrameUI",
-        "LabelUI",
-        "ListUI",
-        "MenuBarUI",
-        "MenuItemUI",
-        "MenuUI",
-        "OptionPaneUI",
-        "PanelUI",
-        "PasswordFieldUI",
-        "PopupMenuSeparatorUI",
-        "PopupMenuUI",
-        "ProgressBarUI",
-        "RadioButtonMenuItemUI",
-        "RadioButtonUI",
-        "RootPaneUI",
-        "ScrollBarUI",
-        "ScrollPaneUI",
-        "SeparatorUI",
-        "SliderUI",
-        "SpinnerUI",
-        "SplitPaneUI",
-        "TabbedPaneUI",
-        "TableHeaderUI",
-        "TableUI",
-        "TextAreaUI",
-        "TextFieldUI",
-        "TextPaneUI",
-        "ToggleButtonUI",
-        "ToolBarSeparatorUI",
-        "ToolBarUI",
-        "ToolTipUI",
-        "TreeUI",
-        "ViewportUI",
+            "ButtonUI",
+            "CheckBoxMenuItemUI",
+            "CheckBoxUI",
+            "ColorChooserUI",
+            "ComboBoxUI",
+            "DesktopIconUI",
+            "DesktopPaneUI",
+            "EditorPaneUI",
+            "FileChooserUI",
+            "FormattedTextFieldUI",
+            "InternalFrameUI",
+            "LabelUI",
+            "ListUI",
+            "MenuBarUI",
+            "MenuItemUI",
+            "MenuUI",
+            "OptionPaneUI",
+            "PanelUI",
+            "PasswordFieldUI",
+            "PopupMenuSeparatorUI",
+            "PopupMenuUI",
+            "ProgressBarUI",
+            "RadioButtonMenuItemUI",
+            "RadioButtonUI",
+            "RootPaneUI",
+            "ScrollBarUI",
+            "ScrollPaneUI",
+            "SeparatorUI",
+            "SliderUI",
+            "SpinnerUI",
+            "SplitPaneUI",
+            "TabbedPaneUI",
+            "TableHeaderUI",
+            "TableUI",
+            "TextAreaUI",
+            "TextFieldUI",
+            "TextPaneUI",
+            "ToggleButtonUI",
+            "ToolBarSeparatorUI",
+            "ToolBarUI",
+            "ToolTipUI",
+            "TreeUI",
+            "ViewportUI",
     };
 
     class DumpVisitor implements Visitor {
@@ -308,12 +293,12 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             String uiClass = basicPackageName + uiType;
             table.put(uiType, uiClass);
         }
-        
+
         // The following line is a hot-fix for non-working FileChooser on Windows
         table.put("FileChooserUI", "javax.swing.plaf.metal.MetalFileChooserUI");
         // The following line is a hot-fix for JScrollPanel's paint issue on Windows
         table.put("ScrollPaneUI", "javax.swing.plaf.basic.BasicScrollPaneUI");
-        
+
         Set<Object> keys = new HashSet<Object>(table.keySet());
         keys.removeAll(Arrays.asList(UI_TYPES));
         if (keys.size() != 0)
@@ -383,71 +368,71 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         };
 
         setupActions(table);
-        
+
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
 
         Object[] napkinDefaults = {
-            "RadioButton.textIconGap", zero,
-            "RadioButton.icon", radioButtonIcon,
-            "RadioButtonMenuItem.textIconGap", zero,
-            "RadioButtonMenuItem.checkIcon", radioButtonIcon,
+                "RadioButton.textIconGap", zero,
+                "RadioButton.icon", radioButtonIcon,
+                "RadioButtonMenuItem.textIconGap", zero,
+                "RadioButtonMenuItem.checkIcon", radioButtonIcon,
 
-            "CheckBox.textIconGap", zero,
-            "CheckBox.icon", checkBoxButtonIcon,
-            "CheckBoxMenuItem.textIconGap", zero,
-            "CheckBoxMenuItem.checkIcon", checkedMenuItemIcon,
+                "CheckBox.textIconGap", zero,
+                "CheckBox.icon", checkBoxButtonIcon,
+                "CheckBoxMenuItem.textIconGap", zero,
+                "CheckBoxMenuItem.checkIcon", checkedMenuItemIcon,
 
-            "Menu.arrowIcon", rightArrowIcon,
+                "Menu.arrowIcon", rightArrowIcon,
 
-            "OptionPane.messageAreaBorder", null,
+                "OptionPane.messageAreaBorder", null,
 
-            "TabbedPane.contentBorderInsets", NapkinBoxBorder.LARGE_DEFAULT_INSETS,
-            
-            "Tree.openIcon", downArrowIcon,
-            "Tree.closedIcon", rightArrowIcon,
-            "Tree.hash", theme.getPenColor(),
-            "Tree.collapsedIcon", null,
-            "Tree.expandedIcon", null,
-            "Tree.leafIcon", null,
-            "Tree.selectionBorderColor", null,
+                "TabbedPane.contentBorderInsets", NapkinBoxBorder.LARGE_DEFAULT_INSETS,
 
-            "TextField.caretForeground", theme.getPenColor(),
-            "TextArea.caretForeground", theme.getPenColor(),
-            "TextField.border", underlineBorder,
-            "PasswordField.border", underlineBorder,
+                "Tree.openIcon", downArrowIcon,
+                "Tree.closedIcon", rightArrowIcon,
+                "Tree.hash", theme.getPenColor(),
+                "Tree.collapsedIcon", null,
+                "Tree.expandedIcon", null,
+                "Tree.leafIcon", null,
+                "Tree.selectionBorderColor", null,
 
-            "Menu.border", null,
-            "PopupMenu.border", null,
-            "ToolTip.border", null,
-            "DesktopIcon.border", null,
-            "ToggleButton.border", selectBorder,
-            "InternalFrame.border", new BorderUIResource(
+                "TextField.caretForeground", theme.getPenColor(),
+                "TextArea.caretForeground", theme.getPenColor(),
+                "TextField.border", underlineBorder,
+                "PasswordField.border", underlineBorder,
+
+                "Menu.border", null,
+                "PopupMenu.border", null,
+                "ToolTip.border", null,
+                "DesktopIcon.border", null,
+                "ToggleButton.border", selectBorder,
+                "InternalFrame.border", new BorderUIResource(
                 new EmptyBorder(3, 3, 3, 3)),
 
-            "InternalFrame.maximizeIcon", null,
-            "InternalFrame.minimizeIcon", null,
-            "InternalFrame.iconifyIcon", minIcon,
-            "InternalFrame.closeIcon", closeIcon,
+                "InternalFrame.maximizeIcon", null,
+                "InternalFrame.minimizeIcon", null,
+                "InternalFrame.iconifyIcon", minIcon,
+                "InternalFrame.closeIcon", closeIcon,
 
-            "SplitPaneDivider.border", null,
-            "SplitPane.dividerSize", NapkinSplitPaneDivider.SIZE,
+                "SplitPaneDivider.border", null,
+                "SplitPane.dividerSize", NapkinSplitPaneDivider.SIZE,
 
-            "FileChooser.upFolderIcon", sketchedIcon("UpFolder"),
-            "FileChooser.detailsViewIcon", sketchedIcon("DetailsView"),
-            "FileChooser.listViewIcon", sketchedIcon("ListView"),
-            "FileChooser.newFolderIcon", sketchedIcon("NewFolder"),
-            "FileChooser.homeFolderIcon", sketchedIcon("HomeFolder"),
+                "FileChooser.upFolderIcon", sketchedIcon("UpFolder"),
+                "FileChooser.detailsViewIcon", sketchedIcon("DetailsView"),
+                "FileChooser.listViewIcon", sketchedIcon("ListView"),
+                "FileChooser.newFolderIcon", sketchedIcon("NewFolder"),
+                "FileChooser.homeFolderIcon", sketchedIcon("HomeFolder"),
 
-            "FileView.directoryIcon", sketchedIcon("Directory"),
-            "FileView.fileIcon", sketchedIcon("File"),
-            "FileView.computerIcon", sketchedIcon("Computer"),
-            "FileView.hardDriveIcon", sketchedIcon("HardDrive"),
-            "FileView.floppyDriveIcon", sketchedIcon("FloppyDrive"),
+                "FileView.directoryIcon", sketchedIcon("Directory"),
+                "FileView.fileIcon", sketchedIcon("File"),
+                "FileView.computerIcon", sketchedIcon("Computer"),
+                "FileView.hardDriveIcon", sketchedIcon("HardDrive"),
+                "FileView.floppyDriveIcon", sketchedIcon("FloppyDrive"),
 
-            "OptionPane.errorIcon", sketchedIcon("Error"),
-            "OptionPane.informationIcon", sketchedIcon("Information"),
-            "OptionPane.warningIcon", sketchedIcon("Warning"),
-            "OptionPane.questionIcon", sketchedIcon("Question"),
+                "OptionPane.errorIcon", sketchedIcon("Error"),
+                "OptionPane.informationIcon", sketchedIcon("Information"),
+                "OptionPane.warningIcon", sketchedIcon("Warning"),
+                "OptionPane.questionIcon", sketchedIcon("Question"),
         };
 
         table.putDefaults(napkinDefaults);
@@ -464,109 +449,109 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     private static void setupActions(UIDefaults table) {
         //!! These are copied from Metal LookAndFeel, but we should get them
         //!! From the formal L&F, as well as getting *all* behavior.  -arnold
-        Object fieldInputMap = new UIDefaults.LazyInputMap(new Object[] {
-            "ctrl C", DefaultEditorKit.copyAction,
-            "ctrl V", DefaultEditorKit.pasteAction,
-            "ctrl X", DefaultEditorKit.cutAction,
-            "COPY", DefaultEditorKit.copyAction,
-            "PASTE", DefaultEditorKit.pasteAction,
-            "CUT", DefaultEditorKit.cutAction,
-            "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-            "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
-            "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-            "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
-            "ctrl LEFT", DefaultEditorKit.previousWordAction,
-            "ctrl KP_LEFT", DefaultEditorKit.previousWordAction,
-            "ctrl RIGHT", DefaultEditorKit.nextWordAction,
-            "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
-            "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-            "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
-            "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
-            "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
-            "ctrl A", DefaultEditorKit.selectAllAction,
-            "HOME", DefaultEditorKit.beginLineAction,
-            "END", DefaultEditorKit.endLineAction,
-            "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-            "shift END", DefaultEditorKit.selectionEndLineAction,
-            "typed \010", DefaultEditorKit.deletePrevCharAction,
-            "DELETE", DefaultEditorKit.deleteNextCharAction,
-            "RIGHT", DefaultEditorKit.forwardAction,
-            "LEFT", DefaultEditorKit.backwardAction,
-            "KP_RIGHT", DefaultEditorKit.forwardAction,
-            "KP_LEFT", DefaultEditorKit.backwardAction,
-            "ENTER", JTextField.notifyAction,
-            "ctrl BACK_SLASH", "unselect"/*DefaultEditorKit.unselectAction*/,
-            "control shift O", "toggle-componentOrientation"
-            /*DefaultEditorKit.toggleComponentOrientation*/
+        Object fieldInputMap = new UIDefaults.LazyInputMap(new Object[]{
+                "ctrl C", DefaultEditorKit.copyAction,
+                "ctrl V", DefaultEditorKit.pasteAction,
+                "ctrl X", DefaultEditorKit.cutAction,
+                "COPY", DefaultEditorKit.copyAction,
+                "PASTE", DefaultEditorKit.pasteAction,
+                "CUT", DefaultEditorKit.cutAction,
+                "shift LEFT", DefaultEditorKit.selectionBackwardAction,
+                "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
+                "shift RIGHT", DefaultEditorKit.selectionForwardAction,
+                "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
+                "ctrl LEFT", DefaultEditorKit.previousWordAction,
+                "ctrl KP_LEFT", DefaultEditorKit.previousWordAction,
+                "ctrl RIGHT", DefaultEditorKit.nextWordAction,
+                "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
+                "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
+                "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
+                "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
+                "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
+                "ctrl A", DefaultEditorKit.selectAllAction,
+                "HOME", DefaultEditorKit.beginLineAction,
+                "END", DefaultEditorKit.endLineAction,
+                "shift HOME", DefaultEditorKit.selectionBeginLineAction,
+                "shift END", DefaultEditorKit.selectionEndLineAction,
+                "typed \010", DefaultEditorKit.deletePrevCharAction,
+                "DELETE", DefaultEditorKit.deleteNextCharAction,
+                "RIGHT", DefaultEditorKit.forwardAction,
+                "LEFT", DefaultEditorKit.backwardAction,
+                "KP_RIGHT", DefaultEditorKit.forwardAction,
+                "KP_LEFT", DefaultEditorKit.backwardAction,
+                "ENTER", JTextField.notifyAction,
+                "ctrl BACK_SLASH", "unselect"/*DefaultEditorKit.unselectAction*/,
+                "control shift O", "toggle-componentOrientation"
+                /*DefaultEditorKit.toggleComponentOrientation*/
         });
 
-        Object multilineInputMap = new UIDefaults.LazyInputMap(new Object[] {
-            "ctrl C", DefaultEditorKit.copyAction,
-            "ctrl V", DefaultEditorKit.pasteAction,
-            "ctrl X", DefaultEditorKit.cutAction,
-            "COPY", DefaultEditorKit.copyAction,
-            "PASTE", DefaultEditorKit.pasteAction,
-            "CUT", DefaultEditorKit.cutAction,
-            "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-            "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
-            "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-            "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
-            "ctrl LEFT", DefaultEditorKit.previousWordAction,
-            "ctrl KP_LEFT", DefaultEditorKit.previousWordAction,
-            "ctrl RIGHT", DefaultEditorKit.nextWordAction,
-            "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
-            "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-            "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
-            "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
-            "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
-            "ctrl A", DefaultEditorKit.selectAllAction,
-            "HOME", DefaultEditorKit.beginLineAction,
-            "END", DefaultEditorKit.endLineAction,
-            "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-            "shift END", DefaultEditorKit.selectionEndLineAction,
+        Object multilineInputMap = new UIDefaults.LazyInputMap(new Object[]{
+                "ctrl C", DefaultEditorKit.copyAction,
+                "ctrl V", DefaultEditorKit.pasteAction,
+                "ctrl X", DefaultEditorKit.cutAction,
+                "COPY", DefaultEditorKit.copyAction,
+                "PASTE", DefaultEditorKit.pasteAction,
+                "CUT", DefaultEditorKit.cutAction,
+                "shift LEFT", DefaultEditorKit.selectionBackwardAction,
+                "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
+                "shift RIGHT", DefaultEditorKit.selectionForwardAction,
+                "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
+                "ctrl LEFT", DefaultEditorKit.previousWordAction,
+                "ctrl KP_LEFT", DefaultEditorKit.previousWordAction,
+                "ctrl RIGHT", DefaultEditorKit.nextWordAction,
+                "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
+                "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
+                "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
+                "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
+                "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
+                "ctrl A", DefaultEditorKit.selectAllAction,
+                "HOME", DefaultEditorKit.beginLineAction,
+                "END", DefaultEditorKit.endLineAction,
+                "shift HOME", DefaultEditorKit.selectionBeginLineAction,
+                "shift END", DefaultEditorKit.selectionEndLineAction,
 
-            "UP", DefaultEditorKit.upAction,
-            "KP_UP", DefaultEditorKit.upAction,
-            "DOWN", DefaultEditorKit.downAction,
-            "KP_DOWN", DefaultEditorKit.downAction,
-            "PAGE_UP", DefaultEditorKit.pageUpAction,
-            "PAGE_DOWN", DefaultEditorKit.pageDownAction,
-            "shift PAGE_UP", "selection-page-up",
-            "shift PAGE_DOWN", "selection-page-down",
-            "ctrl shift PAGE_UP", "selection-page-left",
-            "ctrl shift PAGE_DOWN", "selection-page-right",
-            "shift UP", DefaultEditorKit.selectionUpAction,
-            "shift KP_UP", DefaultEditorKit.selectionUpAction,
-            "shift DOWN", DefaultEditorKit.selectionDownAction,
-            "shift KP_DOWN", DefaultEditorKit.selectionDownAction,
-            "ENTER", DefaultEditorKit.insertBreakAction,
-            "typed \010", DefaultEditorKit.deletePrevCharAction,
-            "DELETE", DefaultEditorKit.deleteNextCharAction,
-            "RIGHT", DefaultEditorKit.forwardAction,
-            "LEFT", DefaultEditorKit.backwardAction,
-            "KP_RIGHT", DefaultEditorKit.forwardAction,
-            "KP_LEFT", DefaultEditorKit.backwardAction,
-            "TAB", DefaultEditorKit.insertTabAction,
-            "ctrl BACK_SLASH", "unselect"/*DefaultEditorKit.unselectAction*/,
-            "ctrl HOME", DefaultEditorKit.beginAction,
-            "ctrl END", DefaultEditorKit.endAction,
-            "ctrl shift HOME", DefaultEditorKit.selectionBeginAction,
-            "ctrl shift END", DefaultEditorKit.selectionEndAction,
-            "ctrl T", "next-link-action",
-            "ctrl shift T", "previous-link-action",
-            "ctrl SPACE", "activate-link-action",
-            "control shift O", "toggle-componentOrientation"
-            /*DefaultEditorKit.toggleComponentOrientation*/
+                "UP", DefaultEditorKit.upAction,
+                "KP_UP", DefaultEditorKit.upAction,
+                "DOWN", DefaultEditorKit.downAction,
+                "KP_DOWN", DefaultEditorKit.downAction,
+                "PAGE_UP", DefaultEditorKit.pageUpAction,
+                "PAGE_DOWN", DefaultEditorKit.pageDownAction,
+                "shift PAGE_UP", "selection-page-up",
+                "shift PAGE_DOWN", "selection-page-down",
+                "ctrl shift PAGE_UP", "selection-page-left",
+                "ctrl shift PAGE_DOWN", "selection-page-right",
+                "shift UP", DefaultEditorKit.selectionUpAction,
+                "shift KP_UP", DefaultEditorKit.selectionUpAction,
+                "shift DOWN", DefaultEditorKit.selectionDownAction,
+                "shift KP_DOWN", DefaultEditorKit.selectionDownAction,
+                "ENTER", DefaultEditorKit.insertBreakAction,
+                "typed \010", DefaultEditorKit.deletePrevCharAction,
+                "DELETE", DefaultEditorKit.deleteNextCharAction,
+                "RIGHT", DefaultEditorKit.forwardAction,
+                "LEFT", DefaultEditorKit.backwardAction,
+                "KP_RIGHT", DefaultEditorKit.forwardAction,
+                "KP_LEFT", DefaultEditorKit.backwardAction,
+                "TAB", DefaultEditorKit.insertTabAction,
+                "ctrl BACK_SLASH", "unselect"/*DefaultEditorKit.unselectAction*/,
+                "ctrl HOME", DefaultEditorKit.beginAction,
+                "ctrl END", DefaultEditorKit.endAction,
+                "ctrl shift HOME", DefaultEditorKit.selectionBeginAction,
+                "ctrl shift END", DefaultEditorKit.selectionEndAction,
+                "ctrl T", "next-link-action",
+                "ctrl shift T", "previous-link-action",
+                "ctrl SPACE", "activate-link-action",
+                "control shift O", "toggle-componentOrientation"
+                /*DefaultEditorKit.toggleComponentOrientation*/
         });
 
         Object[] actionDefaults = {
-            // these are just copied from Metal L&F -- no values in Basic L&F
-            //!! Should get input maps from the formal L&F for all map defaults
-            "TextField.focusInputMap", fieldInputMap,
-            "PasswordField.focusInputMap", fieldInputMap,
-            "TextArea.focusInputMap", multilineInputMap,
-            "TextPane.focusInputMap", multilineInputMap,
-            "EditorPane.focusInputMap", multilineInputMap,
+                // these are just copied from Metal L&F -- no values in Basic L&F
+                //!! Should get input maps from the formal L&F for all map defaults
+                "TextField.focusInputMap", fieldInputMap,
+                "PasswordField.focusInputMap", fieldInputMap,
+                "TextArea.focusInputMap", multilineInputMap,
+                "TextPane.focusInputMap", multilineInputMap,
+                "EditorPane.focusInputMap", multilineInputMap,
         };
 
         table.putDefaults(actionDefaults);
@@ -693,7 +678,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
                 for (Map.Entry<Object, Object> entry : props.entrySet()) {
                     String fontName = (String) entry.getKey();
-                    Font font = fromName.get(entry.getValue());
+                    Font font = fromName.get((String) entry.getValue());
                     if (font == null)
                         System.err.println("unknown font: " + fontName);
                     else
