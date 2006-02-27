@@ -123,7 +123,7 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
         }
         DrawnLineHolder line = holder;
         line.shapeUpToDate(rect, null);
-/* 
+/* !!
  * This line (mysteriously) causes "corruption" to paper background painting
  * when used with NetBean's collapsable tabs.
  */
