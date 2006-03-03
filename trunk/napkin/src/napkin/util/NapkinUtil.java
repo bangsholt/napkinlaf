@@ -36,6 +36,7 @@ import java.util.Stack;
 import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.AbstractButton;
 import javax.swing.ButtonModel;
 import javax.swing.Icon;
@@ -53,6 +54,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.UIResource;
 import javax.swing.text.JTextComponent;
+
 import napkin.NapkinLookAndFeel;
 import napkin.NapkinTheme;
 import napkin.borders.NapkinBorder;
@@ -71,18 +73,32 @@ public class NapkinUtil implements NapkinConstants {
 
     private static final float FOCUS_MARK_WIDTH = 1.5f;
 
-    private static final PropertyChangeListener PROPERTY_LISTENER =
+    private static final PropertyChangeListener BACKGROUND_LISTENER =
             new PropertyChangeListener() {
                 public void propertyChange(PropertyChangeEvent event) {
-                    String prop = event.getPropertyName();
-                    if (!prop.equals("opaque"))
-                        return;
                     JComponent c = (JComponent) event.getSource();
-                    Boolean val = (Boolean) event.getNewValue();
-                    if (!val.booleanValue())
-                        val = null;
-                    c.putClientProperty(OPAQUE_KEY, val);
+                    // unplug the listener before setting background
+                    // this is to avoid possible infinite loop due to
+                    // another "enforcing" listener
+                    c.removePropertyChangeListener("background", BACKGROUND_LISTENER);
+                    if (replace(event.getNewValue(), CLEAR))
+                        c.setBackground(CLEAR);
+                    c.addPropertyChangeListener("background", BACKGROUND_LISTENER);
+                }
+            };
+
+    private static final PropertyChangeListener OPAQUE_LISTENER =
+            new PropertyChangeListener() {
+                public void propertyChange(PropertyChangeEvent event) {
+                    JComponent c = (JComponent) event.getSource();
+                    boolean val = (Boolean) event.getNewValue();
+                    c.putClientProperty(OPAQUE_KEY, val ? true : null);
+                    // unplug the listener before setting opaqueness
+                    // this is to avoid possible infinite loop due to
+                    // another "enforcing" listener
+                    c.removePropertyChangeListener("opaque", OPAQUE_LISTENER);
                     c.setOpaque(false);
+                    c.addPropertyChangeListener("opaque", OPAQUE_LISTENER);
                 }
             };
 
@@ -181,13 +197,15 @@ public class NapkinUtil implements NapkinConstants {
             c.putClientProperty(OPAQUE_KEY, Boolean.TRUE);
             c.setOpaque(false);
         }
-        c.addPropertyChangeListener(PROPERTY_LISTENER);
+        c.addPropertyChangeListener("opaque", OPAQUE_LISTENER);
         if (replace(c.getBackground(), CLEAR))
             c.setBackground(CLEAR);
+        c.addPropertyChangeListener("background", BACKGROUND_LISTENER);
     }
 
     public static void uninstallUI(JComponent c) {
-        c.removePropertyChangeListener(PROPERTY_LISTENER);
+        c.removePropertyChangeListener("background", BACKGROUND_LISTENER);
+        c.removePropertyChangeListener("opaque", OPAQUE_LISTENER);
         if (shouldMakeOpaque(c))
             c.setOpaque(true);
         unsetupBorder(c);
@@ -233,7 +251,7 @@ public class NapkinUtil implements NapkinConstants {
         if (stroke == null) {
             stroke = new BasicStroke(w, BasicStroke.CAP_ROUND,
                     BasicStroke.JOIN_ROUND);
-            strokes.put((Float) w, stroke);
+            strokes.put(w, stroke);
         }
         lineG.setStroke(stroke);
         lineG.setRenderingHint(RenderingHints.KEY_ANTIALIASING,

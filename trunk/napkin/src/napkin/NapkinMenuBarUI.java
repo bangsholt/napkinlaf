@@ -2,15 +2,21 @@
 
 package napkin;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import napkin.util.NapkinPainter;
+import java.awt.Graphics;
+
+import javax.swing.JComponent;
+import javax.swing.border.Border;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.basic.BasicMenuBarUI;
+
 import napkin.NapkinTheme;
+import napkin.util.NapkinPainter;
 import napkin.util.NapkinUtil;
 
 public class NapkinMenuBarUI extends BasicMenuBarUI implements NapkinPainter {
+
+    private Border oldBorder;
+
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return NapkinUtil.uiFor(c, new NapkinMenuBarUI());
@@ -18,11 +24,14 @@ public class NapkinMenuBarUI extends BasicMenuBarUI implements NapkinPainter {
 
     public void installUI(JComponent c) {
         super.installUI(c);
+        oldBorder = c.getBorder();
+        c.setBorder(null);
         NapkinUtil.installUI(c);
     }
 
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
+        c.setBorder(oldBorder);
         super.uninstallUI(c);
     }
 
