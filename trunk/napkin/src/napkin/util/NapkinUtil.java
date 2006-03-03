@@ -82,6 +82,7 @@ public class NapkinUtil implements NapkinConstants {
                     if (!val.booleanValue())
                         val = null;
                     c.putClientProperty(OPAQUE_KEY, val);
+                    c.setOpaque(false);
                 }
             };
 
