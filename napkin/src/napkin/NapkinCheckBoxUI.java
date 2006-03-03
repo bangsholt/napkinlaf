@@ -17,7 +17,7 @@ import napkin.util.NapkinUtil;
 public class NapkinCheckBoxUI extends BasicCheckBoxUI
         implements NapkinPainter, NapkinTextPainter, NapkinConstants {
     private DrawnLineHolder line;
-    private boolean defaultsInstalled;
+    private boolean defaultsInstalled = false;
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
@@ -65,5 +65,6 @@ public class NapkinCheckBoxUI extends BasicCheckBoxUI
     public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         super.update(g, c);
     }
+    
 }
 

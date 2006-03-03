@@ -2,25 +2,12 @@
 
 package napkin;
 
-import napkin.borders.NapkinBoxBorder;
-import napkin.borders.NapkinLineBorder;
-import napkin.borders.NapkinSelectedBorder;
-import napkin.util.AlphaColorUIResource;
-import napkin.util.ComponentWalker;
-import napkin.util.ComponentWalker.Visitor;
-import napkin.util.NapkinConstants;
-import napkin.util.NapkinDebug;
-import napkin.util.NapkinIconFactory;
-import napkin.util.NapkinUtil;
-
-import javax.swing.*;
-import javax.swing.UIDefaults.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.text.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -31,6 +18,36 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.WeakHashMap;
+
+import javax.swing.JComponent;
+import javax.swing.JTextField;
+import javax.swing.LookAndFeel;
+import javax.swing.UIDefaults;
+import javax.swing.UIDefaults.ActiveValue;
+import javax.swing.UIDefaults.LazyValue;
+import javax.swing.UIManager;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.plaf.BorderUIResource;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.plaf.UIResource;
+import javax.swing.plaf.basic.BasicBorders;
+import javax.swing.plaf.basic.BasicLookAndFeel;
+import javax.swing.text.DefaultEditorKit;
+
+import napkin.borders.NapkinBoxBorder;
+import napkin.borders.NapkinLineBorder;
+import napkin.borders.NapkinSelectedBorder;
+import napkin.util.AlphaColorUIResource;
+import napkin.util.ComponentWalker;
+import napkin.util.ComponentWalker.Visitor;
+import napkin.util.NapkinConstants;
+import napkin.util.NapkinDebug;
+import napkin.util.NapkinIconFactory;
+import napkin.util.NapkinUtil;
 
 public class NapkinLookAndFeel extends BasicLookAndFeel
         implements NapkinConstants {
