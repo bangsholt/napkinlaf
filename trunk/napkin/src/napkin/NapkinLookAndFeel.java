@@ -383,6 +383,11 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         };
         Object minIcon = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
+                return NapkinIconFactory.createArrowIcon(NORTH, 10);
+            }
+        };
+        Object iconIcon = new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createArrowIcon(SOUTH, 10);
             }
         };
@@ -430,8 +435,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 new EmptyBorder(3, 3, 3, 3)),
 
                 "InternalFrame.maximizeIcon", null,
-                "InternalFrame.minimizeIcon", null,
-                "InternalFrame.iconifyIcon", minIcon,
+                "InternalFrame.minimizeIcon", minIcon,
+                "InternalFrame.iconifyIcon", iconIcon,
                 "InternalFrame.closeIcon", closeIcon,
 
                 "SplitPaneDivider.border", null,

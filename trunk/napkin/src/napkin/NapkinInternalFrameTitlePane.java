@@ -2,15 +2,30 @@
 
 package napkin;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.basic.*;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.LayoutManager;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+
+import javax.swing.Icon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JInternalFrame;
+import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.IconifyAction;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.TitlePaneLayout;
+
 import napkin.shapes.DrawnCubicLineGenerator;
 import napkin.shapes.DrawnLineHolder;
 import napkin.util.NapkinConstants;
+import napkin.util.NapkinIconFactory;
 import napkin.util.NapkinPainter;
-import napkin.NapkinTheme;
 import napkin.util.NapkinUtil;
 
 public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
@@ -105,6 +120,11 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
         setupButton(iconButton);
         setupButton(maxButton);
         setupButton(closeButton);
+    }
+
+    protected void setButtonIcons() {
+        super.setButtonIcons();
+        maxButton.setIcon(null);
     }
 
     private void setupButton(JButton button) {
