@@ -26,7 +26,13 @@ public interface NapkinConstants extends SwingConstants {
             )
         );
 
-    Color CLEAR = new AlphaColorUIResource(new Color(255, 255, 255, 0));
+    //!! Since Swing cannot handle alpha correctly / consistently,
+    //!! when things fail we ended up with pitch dark background
+    //!! which is a horrid; however the erasure actually depends
+    //!! on such failure in order to paint, i.e. if set to
+    //!! (0xFF, 0xFF, 0xFF, 0x00) then the erasure mark effectively
+    //!! disappears. So a mid-value is chosen for a quick-fix.
+    Color CLEAR = new AlphaColorUIResource(0x80, 0x80, 0x80, 0x00);
 
     int NO_SIDE = -1;
 
