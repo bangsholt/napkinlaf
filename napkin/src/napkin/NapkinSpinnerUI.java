@@ -13,7 +13,7 @@ import napkin.util.NapkinUtil;
 public class NapkinSpinnerUI extends BasicSpinnerUI implements NapkinPainter {
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinSpinnerUI());
+        return new NapkinSpinnerUI();
     }
 
     public void installUI(JComponent c) {

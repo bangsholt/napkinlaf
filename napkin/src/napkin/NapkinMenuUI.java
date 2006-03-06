@@ -34,7 +34,7 @@ public class NapkinMenuUI extends BasicMenuUI
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinMenuUI());
+        return new NapkinMenuUI();
     }
 
     public void installUI(JComponent c) {

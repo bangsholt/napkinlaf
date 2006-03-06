@@ -15,7 +15,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, napkinRootPaneUI);
+        return napkinRootPaneUI;
     }
 
     public void installUI(JComponent c) {

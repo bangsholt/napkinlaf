@@ -14,7 +14,7 @@ public class NapkinColorChooserUI extends BasicColorChooserUI
         implements NapkinPainter {
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinColorChooserUI());
+        return new NapkinColorChooserUI();
     }
 
     public void installUI(JComponent c) {

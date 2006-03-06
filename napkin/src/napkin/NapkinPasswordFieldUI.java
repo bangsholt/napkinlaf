@@ -14,7 +14,7 @@ public class NapkinPasswordFieldUI extends BasicPasswordFieldUI
         implements NapkinPainter {
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinPasswordFieldUI());
+        return new NapkinPasswordFieldUI();
     }
 
     public void installUI(JComponent c) {

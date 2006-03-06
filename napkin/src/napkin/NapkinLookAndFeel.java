@@ -49,59 +49,14 @@ import napkin.util.NapkinDebug;
 import napkin.util.NapkinIconFactory;
 import napkin.util.NapkinUtil;
 
+/**
+ * This class defines the central behavior for the Napkin look & feel.
+ *
+ * @author Ken Arnold
+ * @author Alex Lam
+ */
 public class NapkinLookAndFeel extends BasicLookAndFeel
         implements NapkinConstants {
-    private LookAndFeel formalLAF;
-    private final Map<Component, FormalityFlags> flags =
-            new WeakHashMap<Component, FormalityFlags>();
-
-    private final Visitor clearKidsVisitor = new Visitor() {
-        public boolean visit(Component c, int depth) {
-            FormalityFlags ff = flags(c);
-            System.out.println(
-                    "clearKidsVisitor " + NapkinDebug.descFor(c) + ": " + ff);
-
-            if (depth == 0) {
-                System.out.println("    depth == 0, return true");
-                return true;
-            }
-
-            ff.known = !ff.inherited;
-            System.out.println("    return " + ff.inherited);
-            return ff.inherited;
-        }
-    };
-
-    private final Visitor updateUIVisitor = new Visitor() {
-        public boolean visit(Component c, int depth) {
-            System.out.println("updateUIVisitor " + NapkinDebug.descFor(c));
-            FormalityFlags ff = flags(c, false);
-            if (depth > 0 && !ff.inherited)
-                return false;
-            if (c instanceof JComponent) {
-                System.out.println("    updateUI");
-                ((JComponent) c).updateUI();
-            }
-            return true;
-        }
-    };
-
-    private final Visitor addListenerVisitor = new Visitor() {
-        public boolean visit(Component c, int depth) {
-            System.out.println("addListenerVisitor " + NapkinDebug.descFor(c));
-            if (!(c instanceof Container) || flags.containsKey(c))
-                return false;
-
-            FormalityFlags ff = flags(c, false);
-            ((Container) c).addContainerListener(ff);
-            System.out.println("adding listener for " + NapkinDebug.descFor(c) +
-                    ", " +
-                    System.identityHashCode(c));
-            return true;
-        }
-    };
-
-    private static boolean justNapkin = true;
 
     private static final String[] UI_TYPES = {
             "ButtonUI",
@@ -157,7 +112,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         }
 
         public boolean visit(Component c, int depth) {
-            FormalityFlags ff = flags(c);
             for (int i = 0; i < depth; i++) {
                 out.print(i % 2 == 0 ? '|' : '.');
                 out.print(' ');
@@ -165,72 +119,21 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             String desc = NapkinDebug.descFor(c);
             out.print(desc);
             out.print(": ");
-            out.print(ff);
-            out.print(", " + c.isOpaque());
+            out.print(c.isOpaque());
             out.println();
             return true;
         }
     }
 
-    private class FormalityFlags implements ContainerListener {
-        boolean known;
-        boolean formal;
-        boolean inherited = true;
-
-        public void componentAdded(ContainerEvent e) {
-            Component child = e.getChild();
-            System.out.println("Added: " + NapkinDebug.descFor(child) + " to " +
-                    e.getComponent());
-            clear(child);
-        }
-
-        public void componentRemoved(ContainerEvent e) {
-            Component child = e.getChild();
-            System.out.println("Removed: " + NapkinDebug.descFor(child) +
-                    " to " +
-                    e.getComponent());
-            clear(child);
-        }
-
-        public String toString() {
-            if (!known)
-                return "???";
-            String desc = (formal ? "formal" : "napkin");
-            if (!inherited)
-                desc = desc.toUpperCase();
-            return desc;
-        }
-
-        private void setFrom(FormalityFlags parentFlags) {
-            if (parentFlags != null && parentFlags.known && inherited) {
-                known = true;
-                formal = parentFlags.formal;
-            }
-        }
-    }
-
-    private NapkinLookAndFeel(LookAndFeel formal) {
-        setFormalLAF(formal);
-    }
-
     public NapkinLookAndFeel() {
-        this(UIManager.getLookAndFeel());
     }
 
     public String getDescription() {
-        //noinspection NonConstantStringShouldBeStringBuffer
-        String desc = "The Napkin Look and Feel";
-        if (formalLAF != null)
-            desc += " [backed by " + formalLAF.getDescription() + "]";
-        return desc;
+        return "The Napkin Look and Feel";
     }
 
     public String getID() {
-        //noinspection NonConstantStringShouldBeStringBuffer
-        String desc = "Napkin";
-        if (formalLAF != null)
-            desc += "[" + formalLAF.getID() + "]";
-        return desc;
+        return "Napkin";
     }
 
     public String getName() {
@@ -243,63 +146,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
     public boolean isSupportedLookAndFeel() {
         return true;
-    }
-
-    public LookAndFeel getFormalLAF() {
-        return formalLAF;
-    }
-
-    private void setFormalLAF(LookAndFeel formalLAF) {
-        if (!justNapkin)
-            this.formalLAF = formalLAF;
-    }
-
-    public void provideErrorFeedback(Component component) {
-        // nothing special needed here -- not a formal/informal thing
-        if (formalLAF != null)
-            formalLAF.provideErrorFeedback(component);
-        else
-            super.provideErrorFeedback(component);
-    }
-
-    public void initialize() {
-        if (formalLAF != null)
-            formalLAF.initialize();
-    }
-
-    public void uninitialize() {
-        if (formalLAF != null)
-            formalLAF.uninitialize();
-    }
-
-    public boolean isFormal(Component c) {
-        if (justNapkin)
-            return false;
-
-        FormalityFlags ff = flags(c);
-        System.out.println("isFormal(" + NapkinDebug.descFor(c) + "): " + ff);
-        if (ff.known)
-            return ff.formal;
-
-        FormalityFlags pff = inheritedFormal(c.getParent());
-        ff.setFrom(pff);
-        return ff.formal;
-    }
-
-    private FormalityFlags inheritedFormal(Container container) {
-        System.out.println(
-                "inheritedFormal(" + NapkinDebug.descFor(container) + ")");
-        if (container == null)
-            return null;
-        FormalityFlags ff = flags(container);
-        System.out.println("    flags = " + ff);
-        if (ff.known)
-            return ff;
-        else {
-            FormalityFlags pff = inheritedFormal(container.getParent());
-            ff.setFrom(pff);
-            return pff;
-        }
     }
 
     protected void initClassDefaults(UIDefaults table) {
@@ -472,8 +318,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
     }
 
     private static void setupActions(UIDefaults table) {
-        //!! These are copied from Metal LookAndFeel, but we should get them
-        //!! From the formal L&F, as well as getting *all* behavior.  -arnold
+        //!! Should get actions from the native L&F for all map defaults
         Object fieldInputMap = new UIDefaults.LazyInputMap(new Object[]{
                 "ctrl C", DefaultEditorKit.copyAction,
                 "ctrl V", DefaultEditorKit.pasteAction,
@@ -571,7 +416,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
         Object[] actionDefaults = {
                 // these are just copied from Metal L&F -- no values in Basic L&F
-                //!! Should get input maps from the formal L&F for all map defaults
+                //!! Should get input maps from the native L&F for all map defaults
                 "TextField.focusInputMap", fieldInputMap,
                 "PasswordField.focusInputMap", fieldInputMap,
                 "TextArea.focusInputMap", multilineInputMap,
@@ -703,7 +548,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
                 for (Map.Entry<Object, Object> entry : props.entrySet()) {
                     String fontName = (String) entry.getKey();
-                    Font font = fromName.get((String) entry.getValue());
+                    //noinspection SuspiciousMethodCalls
+                    Font font = fromName.get(entry.getValue());
                     if (font == null)
                         System.err.println("unknown font: " + fontName);
                     else
@@ -750,52 +596,4 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         }
         return val;
     }
-
-    public void setIsFormal(Component c, boolean isFormal) {
-        if (justNapkin)
-            return;
-        FormalityFlags ff = flags(c);
-        ff.known = true;
-        ff.formal = isFormal;
-        ff.inherited = false;
-        clearKids(c);
-    }
-
-    private void clear(Component c) {
-        System.out.println("clear(" + NapkinDebug.descFor(c) + ")");
-        clearKids(c);
-        FormalityFlags ff = flags(c);
-        ff.known = !ff.inherited;
-    }
-
-    private void clearKids(Component c) {
-        new ComponentWalker(clearKidsVisitor).walk(c);
-        new ComponentWalker(updateUIVisitor).walk(c);
-    }
-
-    private FormalityFlags flags(Component c) {
-        return flags(c, true);
-    }
-
-    private FormalityFlags flags(Component c, boolean recurse) {
-        if (justNapkin)
-            return null;
-        FormalityFlags ff = flags.get(c);
-        if (ff == null) {
-            System.out.println("adding flags: " + NapkinDebug.descFor(c));
-            if (recurse && c instanceof Container) {
-                new ComponentWalker(addListenerVisitor).walk(c);
-                ff = flags.get(c);
-            } else {
-                ff = new FormalityFlags();
-                flags.put(c, ff);
-            }
-        }
-        return ff;
-    }
-
-    public void dumpFormality(Component top, PrintStream out) {
-        new ComponentWalker(new DumpVisitor(out)).walk(top);
-    }
 }
-

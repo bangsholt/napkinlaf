@@ -16,7 +16,7 @@ public class NapkinPopupMenuSeparatorUI extends BasicPopupMenuSeparatorUI
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinPopupMenuSeparatorUI());
+        return new NapkinPopupMenuSeparatorUI();
     }
 
     public void installUI(JComponent c) {

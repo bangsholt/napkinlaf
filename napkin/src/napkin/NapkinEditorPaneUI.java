@@ -17,7 +17,7 @@ public class NapkinEditorPaneUI extends BasicEditorPaneUI
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinEditorPaneUI());
+        return new NapkinEditorPaneUI();
     }
 
     public void installUI(JComponent c) {

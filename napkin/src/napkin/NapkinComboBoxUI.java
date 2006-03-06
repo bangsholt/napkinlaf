@@ -15,7 +15,7 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
         implements NapkinPainter, NapkinConstants {
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinComboBoxUI());
+        return new NapkinComboBoxUI();
     }
 
     public void installUI(JComponent c) {

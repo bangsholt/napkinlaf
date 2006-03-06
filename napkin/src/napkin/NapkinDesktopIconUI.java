@@ -17,7 +17,7 @@ public class NapkinDesktopIconUI extends BasicDesktopIconUI
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinDesktopIconUI());
+        return new NapkinDesktopIconUI();
     }
 
     public void installUI(JComponent c) {

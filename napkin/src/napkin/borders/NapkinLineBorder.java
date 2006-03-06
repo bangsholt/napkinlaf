@@ -3,7 +3,6 @@
 package napkin.borders;
 
 import java.awt.*;
-import napkin.*;
 import napkin.shapes.DrawnCubicLineGenerator;
 import napkin.shapes.DrawnLineHolder;
 
@@ -17,7 +16,7 @@ public class NapkinLineBorder extends NapkinBorder {
             new Insets(0, 0, NapkinBoxBorder.SMALL_DEFAULT_INSETS.bottom, 0);
 
     public NapkinLineBorder(boolean vertical) {
-        super(null);
+        super();
         this.vertical = vertical;
     }
 

@@ -19,7 +19,7 @@ public class NapkinCheckBoxMenuItemUI extends BasicCheckBoxMenuItemUI
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinCheckBoxMenuItemUI());
+        return new NapkinCheckBoxMenuItemUI();
     }
 
     public void installUI(JComponent c) {

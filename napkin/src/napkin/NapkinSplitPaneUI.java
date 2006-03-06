@@ -14,7 +14,7 @@ public class NapkinSplitPaneUI extends BasicSplitPaneUI
         implements NapkinPainter {
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinSplitPaneUI());
+        return new NapkinSplitPaneUI();
     }
 
     public BasicSplitPaneDivider createDefaultDivider() {

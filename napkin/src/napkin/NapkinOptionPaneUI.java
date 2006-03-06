@@ -14,7 +14,7 @@ public class NapkinOptionPaneUI extends BasicOptionPaneUI
         implements NapkinPainter {
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinOptionPaneUI());
+        return new NapkinOptionPaneUI();
     }
 
     public void installUI(JComponent c) {

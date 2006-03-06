@@ -21,7 +21,7 @@ public class NapkinViewportUI extends BasicViewportUI
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, napkinViewportUI);
+        return napkinViewportUI;
     }
 
     public void installUI(JComponent c) {

@@ -17,7 +17,7 @@ public class NapkinToggleButtonUI extends BasicToggleButtonUI
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, napkinToggleButtonUI);
+        return napkinToggleButtonUI;
     }
 
     public void installUI(JComponent c) {
