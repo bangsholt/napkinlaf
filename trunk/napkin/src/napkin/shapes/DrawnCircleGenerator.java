@@ -2,12 +2,10 @@
 
 package napkin.shapes;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.CubicCurve2D;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 import napkin.util.RandomXY;
+
+import java.awt.*;
+import java.awt.geom.*;
 
 public class DrawnCircleGenerator extends DrawnShapeGenerator {
 
@@ -53,11 +51,11 @@ public class DrawnCircleGenerator extends DrawnShapeGenerator {
         double bottomY = yBL + (yBR - yBL) / 2;
 
         double[] coords = {
-            startAt.getX(), startAt.getY(), trAt.getX(), trAt.getY(),
-            xBR, yBR, bottomX, bottomY,
+                startAt.getX(), startAt.getY(), trAt.getX(), trAt.getY(),
+                xBR, yBR, bottomX, bottomY,
 
-            bottomX, bottomY, xBL, yBL, tlAt.getX(),
-            tlAt.getY(), endAt.getX(), endAt.getY(),
+                bottomX, bottomY, xBL, yBL, tlAt.getX(),
+                tlAt.getY(), endAt.getX(), endAt.getY(),
         };
         if (matrix != null)
             matrix.transform(coords, 0, coords, 0, coords.length / 2);

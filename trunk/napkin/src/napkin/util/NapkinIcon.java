@@ -2,14 +2,11 @@
 
 package napkin.util;
 
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import javax.swing.AbstractButton;
-import javax.swing.Icon;
 import napkin.shapes.DrawnShapeGenerator;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.*;
 
 public abstract class NapkinIcon implements Icon {
     protected Shape place;

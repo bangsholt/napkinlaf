@@ -2,13 +2,12 @@
 
 package napkin.shapes;
 
-import java.awt.Component;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
-import javax.swing.JComponent;
 import napkin.borders.NapkinBoxBorder;
 import napkin.util.NapkinConstants;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.*;
 
 public class DrawnScribbleHolder extends DrawnShapeHolder
         implements NapkinConstants {
@@ -27,7 +26,8 @@ public class DrawnScribbleHolder extends DrawnShapeHolder
     public boolean shapeUpToDate(Component c, Rectangle sz, int orient, int shn,
             boolean bwrds) {
         Insets in = (c instanceof JComponent ?
-                ((JComponent) c).getInsets() : NapkinBoxBorder.getDefaultInsets(c.getBounds()));
+                ((JComponent) c).getInsets() : NapkinBoxBorder.getDefaultInsets(
+                c.getBounds()));
 
         if (size != null && bwrds == backwards && insets.equals(in) &&
                 orientation == orient && shown == shn &&

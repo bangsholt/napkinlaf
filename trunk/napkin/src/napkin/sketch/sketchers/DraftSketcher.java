@@ -2,13 +2,13 @@
 
 package napkin.sketch.sketchers;
 
-import napkin.util.NapkinRandom;
 import napkin.sketch.Sketcher;
 import napkin.sketch.geometry.CubicLine;
 import napkin.sketch.geometry.Path;
 import napkin.sketch.geometry.QuadLine;
 import napkin.sketch.geometry.SketchShape;
 import napkin.sketch.geometry.StraightLine;
+import napkin.util.NapkinRandom;
 
 /**
  * DraftSketcher: Sketches like a drafter might: lots of straight lines and

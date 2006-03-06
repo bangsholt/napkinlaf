@@ -2,7 +2,7 @@
 
 package napkin.util;
 
-import java.awt.geom.Point2D;
+import java.awt.geom.*;
 
 public class RandomXY {
     private final RandomValue x, y;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template xmlns="http://napkinlaf.sf.net/sketch/"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://napkinlaf.sf.net/sketch Template.xsd">
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://napkinlaf.sf.net/sketch Template.xsd">
     <!-- $Id$ -->
     <title>DetailsView</title>
     <description>Detailed view in file dialog</description>
@@ -13,10 +13,10 @@
         </dimensions>
     </clippingBounds>
 
-<!--
-       - This is shown as a series of lines that look like a detailed info line:
-       - a jot, a long line, a shorter line
-       -->
+    <!--
+    - This is shown as a series of lines that look like a detailed info line:
+    - a jot, a long line, a shorter line
+    -->
 
     <templateItem>        <!-- top row -->
         <path>

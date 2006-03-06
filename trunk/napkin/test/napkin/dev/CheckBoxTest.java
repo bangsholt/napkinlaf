@@ -6,10 +6,10 @@ import napkin.shapes.DrawnBoxGenerator;
 import napkin.shapes.DrawnCheckGenerator;
 import napkin.util.RandomValueSource;
 
-import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
+import java.awt.*;
 
 class CheckBoxTest extends GeneratorTest
         implements GeneratorTest.Drawer {
@@ -32,7 +32,8 @@ class CheckBoxTest extends GeneratorTest
     private Shape box;
     private Shape check;
 
-    private static final DrawnBoxGenerator DEFAULT_BOX = new DrawnBoxGenerator();
+    private static final DrawnBoxGenerator DEFAULT_BOX =
+            new DrawnBoxGenerator();
 
     static {
         DEFAULT_BOX.getSize().setMid(10, 10);
@@ -108,10 +109,10 @@ class CheckBoxTest extends GeneratorTest
         rightYScaleSpin = new RandomValueSpinner("right y",
                 checkGen.getRightScale().getY(), 0, 2, 100);
         spinners = new RandomValueSource[]{
-            midXScaleSpin, midYScaleSpin,
-            leftXScaleSpin, leftYScaleSpin,
-            rightXScaleSpin, rightYScaleSpin,
-            widthSpin
+                midXScaleSpin, midYScaleSpin,
+                leftXScaleSpin, leftYScaleSpin,
+                rightXScaleSpin, rightYScaleSpin,
+                widthSpin
         };
 
         rebuild();

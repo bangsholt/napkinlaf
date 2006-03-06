@@ -2,10 +2,10 @@
 
 package napkin.borders;
 
-import java.awt.*;
-import javax.swing.*;
-import napkin.*;
 import napkin.util.NapkinUtil;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class NapkinSelectedBorder extends NapkinBoxBorder {
     public void doPaintBorder(Component c, Graphics g, int x, int y,

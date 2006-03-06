@@ -2,9 +2,10 @@
 
 package napkin.util;
 
-import java.awt.Graphics;
-import javax.swing.JComponent;
 import napkin.NapkinTheme;
+
+import javax.swing.*;
+import java.awt.*;
 
 public interface NapkinPainter {
     void superPaint(Graphics g, JComponent c, NapkinTheme theme);

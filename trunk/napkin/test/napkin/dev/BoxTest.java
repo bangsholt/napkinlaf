@@ -7,11 +7,11 @@ import napkin.shapes.DrawnCubicLineGenerator;
 import napkin.shapes.DrawnQuadLineGenerator;
 import napkin.util.RandomValueSource;
 
+import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import javax.swing.*;
-import javax.swing.border.*;
 
 class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
     private final DrawnBoxGenerator gen;
@@ -29,7 +29,7 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
 
     private static final String[] TYPE_NAMES = {"cubic", "quad", "straight"};
     private static final Class[] TYPES = {
-        DrawnCubicLineGenerator.class, DrawnQuadLineGenerator.class, null
+            DrawnCubicLineGenerator.class, DrawnQuadLineGenerator.class, null
     };
 
     private class Side {
@@ -88,7 +88,7 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
     }
 
     private static final String[] SIDE_NAMES = {
-        null, "top", "left", "bottom", "right"
+            null, "top", "left", "bottom", "right"
     };
 
     BoxTest(DrawnCubicLineGenerator cubic, DrawnQuadLineGenerator quad) {
@@ -104,7 +104,7 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
                 LENGTH, 100, false);
         sizeYSpin = new RandomValueSpinner("height", gen.getSize().getY(), 0,
                 LENGTH, 100, false);
-        spinners = new RandomValueSource[] {begXSpin, endYSpin, widthSpin};
+        spinners = new RandomValueSource[]{begXSpin, endYSpin, widthSpin};
 
         sides = new Side[4];
         for (int i = 0; i < sides.length; i++) {

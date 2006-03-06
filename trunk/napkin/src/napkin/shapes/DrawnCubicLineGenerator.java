@@ -2,24 +2,21 @@
 
 package napkin.shapes;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.CubicCurve2D;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import napkin.util.NapkinUtil;
 import napkin.util.RandomXY;
+
+import java.awt.*;
+import java.awt.geom.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DrawnCubicLineGenerator extends DrawnShapeGenerator {
 
     private final RandomXY left;
     private final RandomXY right;
 
-    public static final DrawnCubicLineGenerator INSTANCE = new DrawnCubicLineGenerator();
+    public static final DrawnCubicLineGenerator INSTANCE =
+            new DrawnCubicLineGenerator();
 
     private static final Logger logger = Logger.getLogger(
             DrawnCubicLineGenerator.class.getName());

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template xmlns="http://napkinlaf.sf.net/sketch/"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://napkinlaf.sf.net/sketch Template.xsd">
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://napkinlaf.sf.net/sketch Template.xsd">
     <!-- $Id$ -->
     <title>Warning Icon</title>
     <description>warning icon</description>
@@ -10,7 +10,8 @@
             <width>32</width>
             <height>32</height>
         </dimensions>
-    </clippingBounds>        <!-- grey yield sign shadow -->
+    </clippingBounds>
+    <!-- grey yield sign shadow -->
     <templateItem>
         <drawStroke>false</drawStroke>
         <drawFill>true</drawFill>
@@ -46,7 +47,8 @@
             </lineTo>
             <close/>
         </path>
-    </templateItem>        <!-- green yield sign -->
+    </templateItem>
+    <!-- green yield sign -->
     <templateItem>
         <drawStroke>true</drawStroke>
         <drawFill>true</drawFill>
@@ -87,7 +89,8 @@
             </lineTo>
             <close/>
         </path>
-    </templateItem>        <!-- question mark -->
+    </templateItem>
+    <!-- question mark -->
     <templateItem>
         <drawStroke>true</drawStroke>
         <drawFill>true</drawFill>
@@ -183,7 +186,8 @@
             </cubicTo>
             <close/>
         </path>
-    </templateItem>        <!-- question point dot -->
+    </templateItem>
+    <!-- question point dot -->
     <templateItem>
         <drawStroke>false</drawStroke>
         <drawFill>true</drawFill>

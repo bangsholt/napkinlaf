@@ -9,27 +9,26 @@
 
 package napkin.util;
 
-import java.awt.Font;
+import javax.swing.plaf.*;
+import java.awt.*;
 import java.lang.reflect.Field;
-import javax.swing.plaf.UIResource;
 
 /**
- * Until Mustang there is Bug 6313541 which prevents the bundled
- * fonts to load (because font2DHandle is not transferred when
- * calling FontUIResource)
- *
- * Fixed by a workaround using Reflection - which might not work
- * for applets and Web Start applications, so here I've put in
- * checks so workaround is used only when needed.
+ * Until Mustang there is Bug 6313541 which prevents the bundled fonts to load
+ * (because font2DHandle is not transferred when calling FontUIResource)
+ * <p/>
+ * Fixed by a workaround using Reflection - which might not work for applets and
+ * Web Start applications, so here I've put in checks so workaround is used only
+ * when needed.
  *
  * @author Alex Lam Sze Lok
  */
 public class NapkinFont extends Font implements UIResource {
-    
+
     public NapkinFont(String name, int style, int size) {
-	super(name, style, size);
+        super(name, style, size);
     }
-    
+
     public NapkinFont(Font font) {
         super(font.getAttributes());
         try {
@@ -51,5 +50,4 @@ public class NapkinFont extends Font implements UIResource {
             ex.printStackTrace();
         }
     }
-    
 }

@@ -2,9 +2,9 @@
 
 package napkin.dev;
 
-import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.metal.*;
+import java.awt.*;
 
 public class TestColorUIResource {
     /**

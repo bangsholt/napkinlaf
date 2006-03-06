@@ -2,9 +2,9 @@
 
 package napkin.util;
 
-import java.awt.Color;
-import java.awt.color.ColorSpace;
-import javax.swing.plaf.UIResource;
+import javax.swing.plaf.*;
+import java.awt.*;
+import java.awt.color.*;
 
 /**
  * This is required because <tt>ColorUIResource</tt> discards any alpha

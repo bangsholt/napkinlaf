@@ -2,12 +2,11 @@
 
 package napkin.shapes;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.QuadCurve2D;
 import napkin.util.NapkinUtil;
 import napkin.util.RandomXY;
+
+import java.awt.*;
+import java.awt.geom.*;
 
 public class DrawnQuadLineGenerator extends DrawnShapeGenerator {
     private final RandomXY ctl;

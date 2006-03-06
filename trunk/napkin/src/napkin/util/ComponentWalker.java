@@ -2,8 +2,7 @@
 
 package napkin.util;
 
-import java.awt.Component;
-import java.awt.Container;
+import java.awt.*;
 
 public class ComponentWalker {
 
@@ -33,5 +32,4 @@ public class ComponentWalker {
                 visit(container.getComponent(i), childDepth);
         }
     }
-
 }

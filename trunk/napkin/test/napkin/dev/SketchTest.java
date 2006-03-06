@@ -11,11 +11,12 @@ import napkin.sketch.sketchers.IdealSketcher;
 import napkin.sketch.sketchers.JotSketcher;
 import napkin.sketch.sketchers.LineSketcher;
 
-import java.awt.event.*;
-import java.io.*;
 import javax.swing.*;
 import javax.swing.filechooser.*;
 import javax.swing.plaf.metal.*;
+import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * A test application for loading and displaying XML template files. This
@@ -42,9 +43,8 @@ public class SketchTest implements ActionListener {
     private final JPanel mainPanel;
     private final JPanel selectPanel;
     private final JPanel displayPanel;
-    private JMenuItem openMenuItem
-    ,
-    exitMenuItem;
+    private JMenuItem openMenuItem,
+            exitMenuItem;
     private final JFileChooser fileChooser;
     private JComboBox sketchChoices;
     private JButton sketchButton;

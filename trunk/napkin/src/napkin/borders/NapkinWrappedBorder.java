@@ -2,11 +2,12 @@
 
 package napkin.borders;
 
+import napkin.util.NapkinUtil;
+
+import javax.swing.border.*;
 import java.awt.*;
 import java.util.Map;
 import java.util.WeakHashMap;
-import javax.swing.border.*;
-import napkin.util.NapkinUtil;
 
 public class NapkinWrappedBorder extends NapkinBorder {
     private final Border origBorder;

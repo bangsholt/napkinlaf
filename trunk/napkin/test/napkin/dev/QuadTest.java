@@ -7,10 +7,10 @@ import napkin.shapes.DrawnShapeGenerator;
 import napkin.util.RandomValue;
 import napkin.util.RandomValueSource;
 
-import java.awt.*;
-import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.border.*;
+import java.awt.*;
+import java.awt.geom.*;
 
 class QuadTest extends GeneratorTest implements GeneratorTest.Drawer {
     private final DrawnQuadLineGenerator gen;
@@ -62,7 +62,7 @@ class QuadTest extends GeneratorTest implements GeneratorTest.Drawer {
                 100);
         w = new RandomValue(1, 0);
         widthSpin = new RandomValueSpinner("w", w, 0, 3, 20);
-        spinners = new RandomValueSpinner[] {ctlXSpin, ctlYSpin, widthSpin};
+        spinners = new RandomValueSpinner[]{ctlXSpin, ctlYSpin, widthSpin};
 
         rebuild();
     }
