@@ -2,13 +2,13 @@
 
 package napkin.dev;
 
-import java.text.DecimalFormat;
+import napkin.util.RandomValue;
+import napkin.util.RandomValueSource;
+
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
-
-import napkin.util.RandomValue;
-import napkin.util.RandomValueSource;
+import java.text.DecimalFormat;
 
 class RandomValueSpinner extends JPanel implements RandomValueSource {
 
@@ -17,11 +17,13 @@ class RandomValueSpinner extends JPanel implements RandomValueSource {
     private SpinnerNumberModel rangeModel;
     private JLabel adjustLabel;
 
-    RandomValueSpinner(String name, RandomValue value, double min, double max, int steps) {
+    RandomValueSpinner(String name, RandomValue value, double min, double max,
+            int steps) {
         this(name, value, min, max, steps, true);
     }
 
-    RandomValueSpinner(String name, final RandomValue value, double min, double max,
+    RandomValueSpinner(String name, final RandomValue value, double min,
+            double max,
             int steps, boolean randomized) {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBorder(new TitledBorder(name));

@@ -2,10 +2,10 @@
 
 package napkin.borders;
 
-import java.awt.*;
-import javax.swing.border.*;
-import napkin.*;
 import napkin.util.NapkinUtil;
+
+import javax.swing.border.*;
+import java.awt.*;
 
 public class NapkinBevelBorder extends BevelBorder {
     public NapkinBevelBorder(BevelBorder bb) {

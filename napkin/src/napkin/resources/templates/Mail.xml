@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template xmlns="http://napkinlaf.sf.net/sketch/"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://napkinlaf.sf.net/sketch Template.xsd">
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://napkinlaf.sf.net/sketch Template.xsd">
     <!-- $Id$ -->
     <title>Warning Icon</title>
     <description>warning icon</description>
@@ -10,7 +10,8 @@
             <width>24</width>
             <height>24</height>
         </dimensions>
-    </clippingBounds>        <!-- inside of mail envelope -->
+    </clippingBounds>
+    <!-- inside of mail envelope -->
     <templateItem>
         <drawStroke>true</drawStroke>
         <drawFill>true</drawFill>
@@ -57,7 +58,8 @@
             </lineTo>
             <close/>
         </path>
-    </templateItem>        <!-- letter inside mail envelope -->
+    </templateItem>
+    <!-- letter inside mail envelope -->
     <templateItem>
         <drawStroke>false</drawStroke>
         <drawFill>true</drawFill>
@@ -93,7 +95,8 @@
             </lineTo>
             <close/>
         </path>
-    </templateItem>        <!-- outside sides of mail envelope -->
+    </templateItem>
+    <!-- outside sides of mail envelope -->
     <templateItem>
         <drawStroke>true</drawStroke>
         <drawFill>true</drawFill>
@@ -140,7 +143,8 @@
             </lineTo>
             <close/>
         </path>
-    </templateItem>        <!-- outside front of mail envelope -->
+    </templateItem>
+    <!-- outside front of mail envelope -->
     <templateItem>
         <drawStroke>true</drawStroke>
         <drawFill>true</drawFill>

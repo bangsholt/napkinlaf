@@ -7,10 +7,10 @@ import napkin.shapes.DrawnShapeGenerator;
 import napkin.util.RandomValue;
 import napkin.util.RandomValueSource;
 
-import java.awt.*;
-import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.border.*;
+import java.awt.*;
+import java.awt.geom.*;
 
 class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
     private final DrawnCubicLineGenerator gen;
@@ -76,8 +76,8 @@ class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
                         100);
         width = new RandomValue(1, 0);
         widthSpin = new RandomValueSpinner("w", width, 0, 3, 20);
-        spinners = new RandomValueSpinner[] {
-            leftXSpin, leftYSpin, rightXSpin, rightYSpin, widthSpin
+        spinners = new RandomValueSpinner[]{
+                leftXSpin, leftYSpin, rightXSpin, rightYSpin, widthSpin
         };
 
         rebuild();

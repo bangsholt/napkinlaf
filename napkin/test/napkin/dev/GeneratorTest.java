@@ -5,18 +5,17 @@ package napkin.dev;
 import napkin.shapes.DrawnCubicLineGenerator;
 import napkin.shapes.DrawnQuadLineGenerator;
 import napkin.shapes.DrawnShapeGenerator;
-import napkin.util.NapkinConstants;
 import napkin.util.NapkinUtil;
 import napkin.util.RandomValue;
 import napkin.util.RandomValueSource;
 
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.text.DecimalFormat;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
 
 public class GeneratorTest extends NapkinUtil {
     private static final double MARK_SIZE = 3;
@@ -68,7 +67,7 @@ public class GeneratorTest extends NapkinUtil {
                 (DrawnCubicLineGenerator) cubic.getGenerator(),
                 (DrawnQuadLineGenerator) quad.getGenerator());
         CheckBoxTest checkBox = new CheckBoxTest();
-        drawers = new Drawer[] {cubic, quad, box, checkBox};
+        drawers = new Drawer[]{cubic, quad, box, checkBox};
     }
 
     interface Drawer {
@@ -143,16 +142,16 @@ public class GeneratorTest extends NapkinUtil {
     }
 
     static JPanel controlSet(String label, JComponent v1) {
-        return controlSet(label, new JComponent[] {v1});
+        return controlSet(label, new JComponent[]{v1});
     }
 
     static JPanel controlSet(String label, JComponent v1, JComponent v2) {
-        return controlSet(label, new JComponent[] {v1, v2});
+        return controlSet(label, new JComponent[]{v1, v2});
     }
 
     static JPanel controlSet(String label, JComponent v1, JComponent v2,
             JComponent v3) {
-        return controlSet(label, new JComponent[] {v1, v2, v3});
+        return controlSet(label, new JComponent[]{v1, v2, v3});
     }
 
     private static JPanel controlSet(String label, JComponent[] cs) {

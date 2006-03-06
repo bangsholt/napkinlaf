@@ -2,8 +2,8 @@
 
 package napkin.dev;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 
 // Borrowed from the Swing Tutorial
 
@@ -115,13 +115,15 @@ class SpringUtilities {
             layout = (SpringLayout) parent.getLayout();
         } catch (ClassCastException exc) {
             throw (IllegalArgumentException)
-                    new IllegalArgumentException("First argument to makeGrid must use SpringLayout").initCause(exc);
+                    new IllegalArgumentException(
+                            "First argument to makeGrid must use SpringLayout")
+                            .initCause(exc);
         }
         return layout;
     }
 
     /* Used by makeCompactGrid. */
-            private static SpringLayout.Constraints getConstraintsForCell(int row,
+    private static SpringLayout.Constraints getConstraintsForCell(int row,
             int col,
             Container parent,
             int cols) {

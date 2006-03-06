@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns="http://napkinlaf.sf.net/sketch/"
-        xmlns:xs="http://www.w3.org/2001/XMLSchema"
-        targetNamespace="http://napkinlaf.sf.net/sketch/"
-        elementFormDefault="qualified" attributeFormDefault="unqualified">
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://napkinlaf.sf.net/sketch/"
+           elementFormDefault="qualified" attributeFormDefault="unqualified">
     <!-- $Id$ --><!-- Main template definition -->
     <xs:element name="template">
         <xs:annotation>
@@ -17,7 +17,8 @@
                 <xs:element ref="templateItem" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
-    </xs:element>        <!-- Definition of complex elements -->
+    </xs:element>
+    <!-- Definition of complex elements -->
     <xs:element name="clippingBounds">
         <xs:complexType>
             <xs:sequence>
@@ -40,13 +41,14 @@
                 <xs:element name="drawStroke" type="xs:boolean" default="true"/>
                 <xs:element name="drawFill" type="xs:boolean" default="true"/>
                 <xs:element name="strokeWeight" type="positiveFloat"
-                        minOccurs="0"/>
+                            minOccurs="0"/>
                 <xs:element name="strokeColor" type="color" minOccurs="0"/>
                 <xs:element name="fillColor" type="color" minOccurs="0"/>
                 <xs:group ref="shape"/>
             </xs:sequence>
         </xs:complexType>
-    </xs:element><!-- Definition of shape group and shape group elements -->
+    </xs:element>
+    <!-- Definition of shape group and shape group elements -->
     <xs:group name="shape">
         <xs:choice>
             <xs:element ref="straightLine"/>
@@ -89,7 +91,8 @@
                 <xs:element name="close" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
-    </xs:element>        <!-- Definition of pathData and lineData groups -->
+    </xs:element>
+    <!-- Definition of pathData and lineData groups -->
     <xs:group name="pathData">
         <xs:sequence>
             <xs:element ref="moveTo"/>
@@ -102,7 +105,8 @@
             <xs:element ref="quadTo"/>
             <xs:element ref="cubicTo"/>
         </xs:choice>
-    </xs:group>        <!-- Definition of path elements -->
+    </xs:group>
+    <!-- Definition of path elements -->
     <xs:element name="moveTo">
         <xs:complexType>
             <xs:sequence>
@@ -133,12 +137,14 @@
                 <xs:element ref="point"/>
             </xs:sequence>
         </xs:complexType>
-    </xs:element>        <!-- Definition of simple data types -->
+    </xs:element>
+    <!-- Definition of simple data types -->
     <xs:simpleType name="positiveFloat">
         <xs:restriction base="xs:decimal">
             <xs:minInclusive value="0"/>
         </xs:restriction>
-    </xs:simpleType><!-- Definition of complex data types, point and color -->
+    </xs:simpleType>
+    <!-- Definition of complex data types, point and color -->
     <xs:complexType name="point">
         <xs:sequence>
             <xs:element name="x" type="xs:integer"/>
@@ -151,7 +157,8 @@
             <xs:element name="g" type="xs:unsignedByte"/>
             <xs:element name="b" type="xs:unsignedByte"/>
         </xs:sequence>
-    </xs:complexType>        <!-- Definition of point type elements -->
+    </xs:complexType>
+    <!-- Definition of point type elements -->
     <xs:element name="point" type="point"/>
     <xs:element name="start" type="point"/>
     <xs:element name="control" type="point"/>

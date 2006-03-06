@@ -2,14 +2,14 @@
 
 package napkin;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.plaf.basic.*;
 import napkin.util.NapkinConstants;
 import napkin.util.NapkinIconFactory;
 import napkin.util.NapkinPainter;
-import napkin.NapkinTheme;
 import napkin.util.NapkinUtil;
+
+import javax.swing.*;
+import javax.swing.plaf.basic.*;
+import java.awt.*;
 
 public class NapkinSplitPaneDivider extends BasicSplitPaneDivider
         implements NapkinConstants, NapkinPainter {

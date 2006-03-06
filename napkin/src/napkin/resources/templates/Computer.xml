@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template xmlns="http://napkinlaf.sf.net/sketch/"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://napkinlaf.sf.net/sketch Template.xsd">
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://napkinlaf.sf.net/sketch Template.xsd">
     <!-- $Id$ -->
     <title>Computer</title>
     <description>Saving to (remote) computer</description>
@@ -13,11 +13,11 @@
         </dimensions>
     </clippingBounds>
 
-<!--
-       - "Computer" icon is used for remote computers, so this two-arrow for
-       - network traffic seems reasonable.  The arrows purposefully overlap
-       - a bit vertically.
-       -->
+    <!--
+    - "Computer" icon is used for remote computers, so this two-arrow for
+    - network traffic seems reasonable.  The arrows purposefully overlap
+    - a bit vertically.
+    -->
 
     <templateItem>        <!-- left arrow -->
         <path>

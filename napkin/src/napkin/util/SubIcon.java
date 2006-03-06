@@ -2,11 +2,8 @@
 
 package napkin.util;
 
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Image;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+import javax.swing.*;
+import java.awt.*;
 
 public class SubIcon implements Icon {
     private final Icon icon;

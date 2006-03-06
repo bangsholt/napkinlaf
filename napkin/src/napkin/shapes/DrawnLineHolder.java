@@ -2,13 +2,13 @@
 
 package napkin.shapes;
 
-import java.awt.FontMetrics;
-import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import napkin.util.NapkinConstants;
 import napkin.util.NapkinUtil;
+
+import java.awt.*;
+import java.awt.geom.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DrawnLineHolder extends DrawnShapeHolder
         implements NapkinConstants {

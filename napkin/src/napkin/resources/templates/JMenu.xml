@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template xmlns="http://napkinlaf.sf.net/sketch/"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://napkinlaf.sf.net/sketch Template.xsd">
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://napkinlaf.sf.net/sketch Template.xsd">
     <!-- $Id$ -->
     <title>JMenu</title>
     <description>JMenu Icon</description>
@@ -10,7 +10,8 @@
             <width>32</width>
             <height>32</height>
         </dimensions>
-    </clippingBounds>        <!-- menu list and highlight -->
+    </clippingBounds>
+    <!-- menu list and highlight -->
     <templateItem>
         <drawStroke>true</drawStroke>
         <drawFill>true</drawFill>
@@ -51,7 +52,8 @@
             </lineTo>
             <close/>
         </path>
-    </templateItem>        <!-- menu list line items -->
+    </templateItem>
+    <!-- menu list line items -->
     <templateItem>
         <drawStroke>true</drawStroke>
         <drawFill>false</drawFill>
@@ -99,7 +101,8 @@
                 </point>
             </lineTo>
         </path>
-    </templateItem>        <!-- menu list outline -->
+    </templateItem>
+    <!-- menu list outline -->
     <templateItem>
         <drawStroke>true</drawStroke>
         <drawFill>false</drawFill>
@@ -145,7 +148,8 @@
                 </point>
             </lineTo>
         </path>
-    </templateItem>        <!-- menu button highlight -->
+    </templateItem>
+    <!-- menu button highlight -->
     <templateItem>
         <drawStroke>true</drawStroke>
         <drawFill>false</drawFill>
@@ -164,7 +168,8 @@
                 <y>9</y>
             </end>
         </straightLine>
-    </templateItem>        <!-- menu button -->
+    </templateItem>
+    <!-- menu button -->
     <templateItem>
         <drawStroke>true</drawStroke>
         <drawFill>true</drawFill>
@@ -210,7 +215,8 @@
                 </point>
             </lineTo>
         </path>
-    </templateItem>        <!-- menu button line item -->
+    </templateItem>
+    <!-- menu button line item -->
     <templateItem>
         <drawStroke>true</drawStroke>
         <drawFill>false</drawFill>

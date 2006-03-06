@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template xmlns="http://napkinlaf.sf.net/sketch/"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://napkinlaf.sf.net/sketch Template.xsd">
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://napkinlaf.sf.net/sketch Template.xsd">
     <!-- $Id$ -->
     <title>Tree Closed</title>
     <description>Closed directory folder icon</description>
@@ -10,7 +10,8 @@
             <width>19</width>
             <height>18</height>
         </dimensions>
-    </clippingBounds>        <!-- folder tab -->
+    </clippingBounds>
+    <!-- folder tab -->
     <templateItem>
         <drawStroke>true</drawStroke>
         <drawFill>true</drawFill>
@@ -50,7 +51,8 @@
                 </point>
             </lineTo>
         </path>
-    </templateItem>        <!-- folder front -->
+    </templateItem>
+    <!-- folder front -->
     <templateItem>
         <drawStroke>true</drawStroke>
         <drawFill>true</drawFill>

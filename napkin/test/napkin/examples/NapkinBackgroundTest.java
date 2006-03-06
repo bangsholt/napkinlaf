@@ -2,8 +2,8 @@
 
 package napkin.examples;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 
 public class NapkinBackgroundTest {
     public static void main(String[] args) throws

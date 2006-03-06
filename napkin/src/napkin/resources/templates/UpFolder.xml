@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template xmlns="http://napkinlaf.sf.net/sketch/"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://napkinlaf.sf.net/sketch Template.xsd">
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://napkinlaf.sf.net/sketch Template.xsd">
     <!-- $Id$ -->
     <title>Up Folder</title>
     <description>Move up a folder in the hierarchy</description>
@@ -97,10 +97,12 @@
                     <x>8</x>
                     <y>10</y>
                 </point>
-            </lineTo><!-- <lineTo> <point> <x>4</x> <y>10</y> </point> </lineTo>
-            <close/> -->
+            </lineTo>
+            <!-- <lineTo> <point> <x>4</x> <y>10</y> </point> </lineTo>
+           <close/> -->
         </path>
-    </templateItem>        <!-- arrow tail -->
+    </templateItem>
+    <!-- arrow tail -->
 
     <templateItem>
         <path>

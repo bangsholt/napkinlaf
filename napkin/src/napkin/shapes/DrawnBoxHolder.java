@@ -2,20 +2,18 @@
 
 package napkin.shapes;
 
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import napkin.borders.NapkinBoxBorder;
 import napkin.util.NapkinConstants;
+
+import java.awt.*;
+import java.awt.geom.*;
 
 public class DrawnBoxHolder extends DrawnShapeHolder
         implements NapkinConstants {
     private Rectangle size;
     private int breakSide;
-    private final Point2D begBreak
-    ,
-    endBreak;
+    private final Point2D begBreak,
+            endBreak;
 
     public DrawnBoxHolder(DrawnBoxGenerator gen) {
         super(gen);
@@ -51,7 +49,8 @@ public class DrawnBoxHolder extends DrawnShapeHolder
         Insets in = NapkinBoxBorder.getDefaultInsets(sz);
 
         double borderWidth = sz.getWidth() - NapkinBoxBorder.getWidthDelta(in);
-        double borderHeight = sz.getHeight() - NapkinBoxBorder.getHeightDelta(in);
+        double borderHeight = sz.getHeight() - NapkinBoxBorder.getHeightDelta(
+                in);
 
         int cornerX = NapkinBoxBorder.getDelta(in.left);
         int cornerY = NapkinBoxBorder.getDelta(in.top);

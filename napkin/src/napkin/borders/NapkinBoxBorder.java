@@ -2,12 +2,13 @@
 
 package napkin.borders;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
 import napkin.shapes.DrawnBoxHolder;
 import napkin.util.NapkinConstants;
 import napkin.util.NapkinUtil;
+
+import javax.swing.*;
+import javax.swing.plaf.*;
+import java.awt.*;
 
 public class NapkinBoxBorder extends NapkinBorder implements NapkinConstants {
     private static final int SMALL_BORDER = 3;
@@ -15,10 +16,10 @@ public class NapkinBoxBorder extends NapkinBorder implements NapkinConstants {
 
     public static final Insets SMALL_DEFAULT_INSETS =
             new InsetsUIResource(SMALL_BORDER, SMALL_BORDER,
-                SMALL_BORDER, SMALL_BORDER);
+                    SMALL_BORDER, SMALL_BORDER);
     public static final Insets LARGE_DEFAULT_INSETS =
             new InsetsUIResource(LARGE_BORDER, LARGE_BORDER,
-                LARGE_BORDER, LARGE_BORDER);
+                    LARGE_BORDER, LARGE_BORDER);
 
     public static final NapkinUtil.PropertyFactory BOX_FACTORY =
             new NapkinUtil.PropertyFactory() {

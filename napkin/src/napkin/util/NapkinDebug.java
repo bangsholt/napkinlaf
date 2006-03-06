@@ -2,13 +2,10 @@
 
 package napkin.util;
 
-import java.awt.Button;
-import java.awt.Checkbox;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dialog;
-import java.awt.Frame;
-import java.awt.Label;
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.text.*;
+import java.awt.*;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -27,14 +24,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
-import javax.swing.AbstractButton;
-import javax.swing.JComponent;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JPopupMenu;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import javax.swing.text.JTextComponent;
 
 public class NapkinDebug {
     private static final Map<Class<?>, Field[]> fieldsForType =
@@ -108,7 +97,6 @@ public class NapkinDebug {
                 desc += ": " + ((TitledBorder) border).getTitle();
         }
         return desc.trim();
-
     }
 
     static void dumpTo(String file, JComponent c) {

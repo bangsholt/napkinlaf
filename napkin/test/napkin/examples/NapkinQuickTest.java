@@ -5,13 +5,19 @@ package napkin.examples;
 import napkin.NapkinLookAndFeel;
 import napkin.NapkinTheme;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.StringWriter;
 import java.util.Dictionary;
 import java.util.HashSet;
 import java.util.Set;
-import javax.swing.*;
 
 public class NapkinQuickTest implements SwingConstants {
     /**
