@@ -2,22 +2,19 @@
 
 package napkin;
 
-import java.awt.Graphics;
-
-import javax.swing.JComponent;
-import javax.swing.border.Border;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicMenuBarUI;
-
-import napkin.NapkinTheme;
 import napkin.util.NapkinPainter;
 import napkin.util.NapkinUtil;
 
-public class NapkinMenuBarUI extends BasicMenuBarUI implements NapkinPainter {
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
+import java.awt.*;
 
+public class NapkinMenuBarUI extends BasicMenuBarUI implements NapkinPainter {
     private Border oldBorder;
 
-    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
+    @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinMenuBarUI();
     }

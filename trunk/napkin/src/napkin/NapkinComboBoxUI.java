@@ -2,18 +2,19 @@
 
 package napkin;
 
-import java.awt.*;
+import napkin.util.NapkinConstants;
+import napkin.util.NapkinPainter;
+import napkin.util.NapkinUtil;
+
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
-import napkin.util.NapkinConstants;
-import napkin.util.NapkinPainter;
-import napkin.NapkinTheme;
-import napkin.util.NapkinUtil;
+import java.awt.*;
 
 public class NapkinComboBoxUI extends BasicComboBoxUI
         implements NapkinPainter, NapkinConstants {
-    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
+
+    @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinComboBoxUI();
     }
@@ -32,7 +33,6 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
         return NapkinUtil.createArrowButton(SOUTH);
     }
 
-    /** @noinspection ParameterHidingMemberVariable,ParameterHidesMemberVariable */
     public void paintCurrentValueBackground(Graphics g, Rectangle bounds,
             boolean hasFocus) {
 

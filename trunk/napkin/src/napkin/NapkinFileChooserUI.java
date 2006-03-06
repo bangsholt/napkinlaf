@@ -2,18 +2,18 @@
 
 package napkin;
 
-import java.awt.*;
-import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
+import napkin.util.ComponentWalker;
+import napkin.util.NapkinPainter;
+import napkin.util.NapkinUtil;
+
 import javax.swing.*;
 import javax.swing.filechooser.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.metal.*;
-import napkin.util.ComponentWalker;
-import napkin.util.NapkinPainter;
-import napkin.NapkinTheme;
-import napkin.util.NapkinUtil;
+import java.awt.*;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 //!! It seems as if the BasicFileChooserUI is not yet well formed, so we're just
 //!! borrowing the metal chooser for now.
@@ -82,7 +82,6 @@ public class NapkinFileChooserUI extends MetalFileChooserUI
         }
     }
 
-    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return new NapkinFileChooserUI((JFileChooser) c);
     }

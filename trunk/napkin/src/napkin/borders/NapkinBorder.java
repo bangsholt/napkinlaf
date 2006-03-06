@@ -2,13 +2,13 @@
 
 package napkin.borders;
 
-import java.awt.*;
-import javax.swing.border.*;
-
 import napkin.NapkinTheme;
 import napkin.util.NapkinUtil;
 
-/** Common work for napkin-style borders */
+import javax.swing.border.*;
+import java.awt.*;
+
+/** Common work for napkin-style borders. */
 public abstract class NapkinBorder extends AbstractBorder {
     public NapkinBorder() {
     }

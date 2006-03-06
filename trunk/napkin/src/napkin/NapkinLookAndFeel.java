@@ -2,12 +2,23 @@
 
 package napkin;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Font;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
+import napkin.borders.NapkinBoxBorder;
+import napkin.borders.NapkinLineBorder;
+import napkin.borders.NapkinSelectedBorder;
+import napkin.util.AlphaColorUIResource;
+import napkin.util.ComponentWalker.Visitor;
+import napkin.util.NapkinConstants;
+import napkin.util.NapkinDebug;
+import napkin.util.NapkinIconFactory;
+import napkin.util.NapkinUtil;
+
+import javax.swing.*;
+import javax.swing.UIDefaults.*;
+import javax.swing.border.*;
+import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
+import javax.swing.text.*;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -17,37 +28,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.WeakHashMap;
-
-import javax.swing.JComponent;
-import javax.swing.JTextField;
-import javax.swing.LookAndFeel;
-import javax.swing.UIDefaults;
-import javax.swing.UIDefaults.ActiveValue;
-import javax.swing.UIDefaults.LazyValue;
-import javax.swing.UIManager;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.plaf.BorderUIResource;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.plaf.UIResource;
-import javax.swing.plaf.basic.BasicBorders;
-import javax.swing.plaf.basic.BasicLookAndFeel;
-import javax.swing.text.DefaultEditorKit;
-
-import napkin.borders.NapkinBoxBorder;
-import napkin.borders.NapkinLineBorder;
-import napkin.borders.NapkinSelectedBorder;
-import napkin.util.AlphaColorUIResource;
-import napkin.util.ComponentWalker;
-import napkin.util.ComponentWalker.Visitor;
-import napkin.util.NapkinConstants;
-import napkin.util.NapkinDebug;
-import napkin.util.NapkinIconFactory;
-import napkin.util.NapkinUtil;
 
 /**
  * This class defines the central behavior for the Napkin look & feel.
@@ -257,7 +237,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
 
                 "OptionPane.messageAreaBorder", null,
 
-                "TabbedPane.contentBorderInsets", NapkinBoxBorder.LARGE_DEFAULT_INSETS,
+                "TabbedPane.contentBorderInsets",
+                NapkinBoxBorder.LARGE_DEFAULT_INSETS,
 
                 "Tree.openIcon", downArrowIcon,
                 "Tree.closedIcon", rightArrowIcon,
@@ -335,7 +316,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 "ctrl RIGHT", DefaultEditorKit.nextWordAction,
                 "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
                 "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-                "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
+                "ctrl shift KP_LEFT",
+                DefaultEditorKit.selectionPreviousWordAction,
                 "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
                 "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
                 "ctrl A", DefaultEditorKit.selectAllAction,
@@ -350,7 +332,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 "KP_RIGHT", DefaultEditorKit.forwardAction,
                 "KP_LEFT", DefaultEditorKit.backwardAction,
                 "ENTER", JTextField.notifyAction,
-                "ctrl BACK_SLASH", "unselect"/*DefaultEditorKit.unselectAction*/,
+                "ctrl BACK_SLASH", "unselect"
+/*DefaultEditorKit.unselectAction*/,
                 "control shift O", "toggle-componentOrientation"
                 /*DefaultEditorKit.toggleComponentOrientation*/
         });
@@ -371,7 +354,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 "ctrl RIGHT", DefaultEditorKit.nextWordAction,
                 "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
                 "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-                "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
+                "ctrl shift KP_LEFT",
+                DefaultEditorKit.selectionPreviousWordAction,
                 "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
                 "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
                 "ctrl A", DefaultEditorKit.selectAllAction,
@@ -402,7 +386,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 "KP_RIGHT", DefaultEditorKit.forwardAction,
                 "KP_LEFT", DefaultEditorKit.backwardAction,
                 "TAB", DefaultEditorKit.insertTabAction,
-                "ctrl BACK_SLASH", "unselect"/*DefaultEditorKit.unselectAction*/,
+                "ctrl BACK_SLASH", "unselect"
+/*DefaultEditorKit.unselectAction*/,
                 "ctrl HOME", DefaultEditorKit.beginAction,
                 "ctrl END", DefaultEditorKit.endAction,
                 "ctrl shift HOME", DefaultEditorKit.selectionBeginAction,
@@ -440,7 +425,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         Object compoundBorder = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
                 NapkinBoxBorder outside = new NapkinBoxBorder();
-                BasicBorders.MarginBorder inside = new BasicBorders.MarginBorder();
+                BasicBorders.MarginBorder inside =
+                        new BasicBorders.MarginBorder();
                 return new CompoundBorder(outside, inside);
             }
         };

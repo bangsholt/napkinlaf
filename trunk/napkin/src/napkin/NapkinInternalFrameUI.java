@@ -2,17 +2,17 @@
 
 package napkin;
 
-import java.awt.*;
+import napkin.util.NapkinPainter;
+import napkin.util.NapkinUtil;
+
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
-import napkin.util.NapkinPainter;
-import napkin.NapkinTheme;
-import napkin.util.NapkinUtil;
+import java.awt.*;
 
 public class NapkinInternalFrameUI extends BasicInternalFrameUI
         implements NapkinPainter {
-    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
+
     public static ComponentUI createUI(JComponent c) {
         return new NapkinInternalFrameUI((JInternalFrame) c);
     }

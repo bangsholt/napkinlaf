@@ -2,19 +2,17 @@
 
 package napkin.shapes;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import napkin.util.NapkinConstants;
+
+import java.awt.geom.*;
 
 public class DrawnTabHolder extends DrawnShapeHolder
         implements NapkinConstants {
     private int tabPlacement;
-    private int x
-    ,
-    y;
-    private int w
-    ,
-    h;
+    private int x,
+            y;
+    private int w,
+            h;
     private final Point2D breakBeg;
     private final Point2D breakEnd;
 
@@ -24,7 +22,6 @@ public class DrawnTabHolder extends DrawnShapeHolder
         breakEnd = new Point2D.Double();
     }
 
-    /** @noinspection ParameterHidingMemberVariable,ParameterHidesMemberVariable */
     public void shapeUpToDate(int tabPlacement, int x, int y, int w, int h) {
         if (tabPlacement == this.tabPlacement && w == this.w && h == this.h &&
                 this.x == x && this.y == y) {

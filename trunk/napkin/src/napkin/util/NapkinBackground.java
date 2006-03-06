@@ -2,36 +2,23 @@
 
 package napkin.util;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.*;
 import java.net.URL;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 public class NapkinBackground {
     private final String name;
     private final ImageIcon icon;
-    private final Icon tlCorner
-    ,
-    tSide
-    ,
-    trCorner;
-    private final Icon rSide
-    ,
-    middle
-    ,
-    lSide;
-    private final Icon blCorner
-    ,
-    bSide
-    ,
-    brCorner;
+    private final Icon tlCorner,
+            tSide,
+            trCorner;
+    private final Icon rSide,
+            middle,
+            lSide;
+    private final Icon blCorner,
+            bSide,
+            brCorner;
 
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
 
@@ -174,10 +161,10 @@ public class NapkinBackground {
         img.createGraphics().drawImage(iconImg, 0, 0, null);
         int rSum = 0, gSum = 0, bSum = 0;
         int[] colours = img.getRGB(0, 0, w, h, null, 0, w);
-        for (int i = 0; i < colours.length; i++) {
-            rSum += (colours[i] >> 16) & 0xFF;
-            gSum += (colours[i] >>  8) & 0xFF;
-            bSum += (colours[i]      ) & 0xFF;
+        for (int colour : colours) {
+            rSum += (colour >> 16) & 0xFF;
+            gSum += (colour >> 8) & 0xFF;
+            bSum += (colour) & 0xFF;
         }
         return new Color(rSum / colours.length,
                 gSum / colours.length, bSum / colours.length);

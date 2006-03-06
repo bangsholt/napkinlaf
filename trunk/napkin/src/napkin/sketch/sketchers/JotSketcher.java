@@ -2,7 +2,6 @@
 
 package napkin.sketch.sketchers;
 
-import napkin.util.NapkinRandom;
 import napkin.sketch.Sketcher;
 import napkin.sketch.Template;
 import napkin.sketch.TemplateItem;
@@ -12,6 +11,7 @@ import napkin.sketch.geometry.Point;
 import napkin.sketch.geometry.QuadLine;
 import napkin.sketch.geometry.SketchShape;
 import napkin.sketch.geometry.StraightLine;
+import napkin.util.NapkinRandom;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -66,7 +66,7 @@ public class JotSketcher extends Sketcher {
         }
     }
 
-    private CubicLine deform(CubicLine c) {
+    private static CubicLine deform(CubicLine c) {
         return deform(c, true);
     }
 
@@ -91,7 +91,7 @@ public class JotSketcher extends Sketcher {
      *
      * @see JotSketcher#deform(Path, boolean)
      */
-    private Path deform(Path p) {
+    private static Path deform(Path p) {
         return deform(p, false);
     }
 
@@ -106,7 +106,7 @@ public class JotSketcher extends Sketcher {
      *
      * @see JotSketcher#deform(Path)
      */
-    private Path deform(Path p, boolean close) {
+    private static Path deform(Path p, boolean close) {
         Path ret = new Path();
         Point initial = new Point(0, 0);
         Point current = new Point(0, 0);

@@ -2,13 +2,12 @@
 
 package napkin.shapes;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 import napkin.util.RandomValue;
 import napkin.util.RandomValueSource;
 import napkin.util.RandomXY;
+
+import java.awt.*;
+import java.awt.geom.*;
 
 public class DrawnTriangleGenerator extends DrawnShapeGenerator {
     private final RandomXY mid;
@@ -31,8 +30,8 @@ public class DrawnTriangleGenerator extends DrawnShapeGenerator {
     public Shape generate(AffineTransform matrix) {
         GeneralPath t = new GeneralPath();
 
-        double xScale = (matrix == null ? 1 : matrix.getScaleX());
-        double yScale = (matrix == null ? 1 : matrix.getScaleY());
+        double xScale = matrix.getScaleX();
+        double yScale = matrix.getScaleY();
 
         Point2D midAt = mid.generate();
         Point2D leftAt = l.generate();

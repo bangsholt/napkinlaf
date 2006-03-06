@@ -51,7 +51,7 @@ public abstract class Sketcher {
 
     /**
      * Returns a drawing pen with round caps and ends, and the specified stroke
-     * weight
+     * weight.
      *
      * @param weight The width of the stroke of the pen
      *
@@ -64,7 +64,7 @@ public abstract class Sketcher {
     }
 
     /**
-     * Performs the actual drawing of the template on a Graphics2D object
+     * Performs the actual drawing of the template on a Graphics2D object.
      *
      * @param template the template to sketch
      * @param g2d      the graphics object on which to sketch the image
@@ -81,42 +81,30 @@ public abstract class Sketcher {
     }
 
     /**
-     * @param l
-     *
      * @return a StraightLine which has been deformed in the manner appropriate
-     *         for this sketcher
+     *         for this sketcher.
      */
     public abstract SketchShape deformLine(StraightLine l);
 
     /**
-     * @param q
-     *
      * @return a QuadLine which has been deformed in the manner appropriate for
-     *         this sketcher
+     *         this sketcher.
      */
     public abstract SketchShape deformQuad(QuadLine q);
 
     /**
-     * @param c
-     *
      * @return a CubicLine which has been deformed in the manner appropriate for
-     *         this sketcher
+     *         this sketcher.
      */
     public abstract SketchShape deformCubic(CubicLine c);
 
     /**
-     * @param p
-     *
      * @return a Path which has been deformed in the manner appropriate for this
-     *         sketcher
+     *         sketcher.
      */
     public abstract SketchShape deformPath(Path p);
 
-    /**
-     * @param l
-     *
-     * @return a path which represents the input collection of lines
-     */
+    /** @return a path which represents the input collection of lines. */
     protected static Path formPath(StraightLine[] l) {
         Path ret = new Path();
         Point p = new Point(l[0].getP1());

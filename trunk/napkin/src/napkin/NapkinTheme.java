@@ -2,9 +2,16 @@
 
 package napkin;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontFormatException;
+import napkin.sketch.Sketcher;
+import napkin.sketch.sketchers.DraftSketcher;
+import napkin.sketch.sketchers.JotSketcher;
+import napkin.util.AlphaColorUIResource;
+import napkin.util.NapkinBackground;
+import static napkin.util.NapkinConstants.RESOURCE_PATH;
+import napkin.util.NapkinFont;
+
+import javax.swing.plaf.*;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.AccessController;
@@ -14,15 +21,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.plaf.UIResource;
-import napkin.sketch.Sketcher;
-import napkin.sketch.sketchers.DraftSketcher;
-import napkin.sketch.sketchers.JotSketcher;
-import napkin.util.AlphaColorUIResource;
-import napkin.util.NapkinBackground;
-import napkin.util.NapkinFont;
-import static napkin.util.NapkinConstants.RESOURCE_PATH;
 
 public class NapkinTheme {
     private final String name;
@@ -51,20 +49,6 @@ public class NapkinTheme {
      * but with a different background.  If the name of this them is
      * <tt>"Foo"</tt>, the name of the derived background will be
      * <tt>"FooPopup"</tt>.
-     *
-     * @param name
-     * @param description
-     * @param penColor
-     * @param checkColor
-     * @param radioColor
-     * @param highlightColor
-     * @param selectionColor
-     * @param textFont
-     * @param boldTextFont
-     * @param fixedFont
-     * @param paper
-     * @param erasure
-     * @param popupPaper
      */
     public NapkinTheme(String name, String description, Color penColor,
             Color checkColor, Color radioColor, Color highlightColor,
@@ -231,7 +215,6 @@ public class NapkinTheme {
             });
         }
 
-        /** @noinspection UnusedCatchParameter */
         private static void setup() {
             Color checkGreen = Color.GREEN.darker();
             //!! Make this selectable

@@ -2,30 +2,27 @@
 
 package napkin;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
 import napkin.shapes.DrawnBoxHolder;
 import napkin.shapes.DrawnScribbleHolder;
 import napkin.util.NapkinPainter;
-import napkin.NapkinTheme;
 import napkin.util.NapkinUtil;
+
+import javax.swing.*;
+import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
+import java.awt.*;
 
 public class NapkinProgressBarUI extends BasicProgressBarUI
         implements NapkinPainter {
     private final DrawnScribbleHolder scribble = new DrawnScribbleHolder();
     private final Rectangle sz = new Rectangle(0, 0, 0, 0);
-    /** @noinspection FieldNameHidesFieldInSuperclass */
     private Rectangle boxRect;
     private DrawnBoxHolder box;
     private Image curImage;
-    /** @noinspection FieldNameHidesFieldInSuperclass */
     private Color selectionForeground;
-    /** @noinspection FieldNameHidesFieldInSuperclass */
     private Color selectionBackground;
 
-    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
+    @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinProgressBarUI();
     }

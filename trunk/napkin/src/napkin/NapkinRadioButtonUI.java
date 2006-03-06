@@ -2,27 +2,28 @@
 
 package napkin;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
 import napkin.shapes.DrawnCubicLineGenerator;
 import napkin.shapes.DrawnLineHolder;
 import napkin.util.NapkinConstants;
 import napkin.util.NapkinPainter;
 import napkin.util.NapkinTextPainter;
-import napkin.NapkinTheme;
 import napkin.util.NapkinUtil;
+
+import javax.swing.*;
+import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
+import java.awt.*;
 
 public class NapkinRadioButtonUI extends BasicRadioButtonUI
         implements NapkinTextPainter, NapkinConstants, NapkinPainter {
+
     private DrawnLineHolder line;
     private boolean defaultsInstalled;
 
     private NapkinRadioButtonUI() {
     }
 
-    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
+    @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinRadioButtonUI();
     }

@@ -2,20 +2,20 @@
 
 package napkin;
 
-import java.awt.*;
+import napkin.util.NapkinPainter;
+import napkin.util.NapkinUtil;
+
 import javax.swing.*;
 import static javax.swing.JEditorPane.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
-import napkin.util.NapkinPainter;
-import napkin.NapkinTheme;
-import napkin.util.NapkinUtil;
+import java.awt.*;
 
 public class NapkinEditorPaneUI extends BasicEditorPaneUI
         implements NapkinPainter {
     private Object origHonor;
 
-    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
+    @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinEditorPaneUI();
     }

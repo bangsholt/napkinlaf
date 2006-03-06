@@ -2,12 +2,11 @@
 
 package napkin.shapes;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 import napkin.util.RandomValue;
 import napkin.util.RandomXY;
+
+import java.awt.*;
+import java.awt.geom.*;
 
 public class DrawnTabGenerator extends DrawnShapeGenerator {
     private final RandomXY ul;
@@ -66,9 +65,9 @@ public class DrawnTabGenerator extends DrawnShapeGenerator {
         } else {
             setScales(0.03d, 0.1d);
         }
-        
+
         GeneralPath tab = new GeneralPath();
-        
+
         Point2D ulAt = ul.generate();
         Point2D urAt = ur.generate();
         Point2D llAt = ll.generate();
@@ -82,7 +81,6 @@ public class DrawnTabGenerator extends DrawnShapeGenerator {
         double xLL = llAt.getX();
         double yLL = llAt.getY();
 
-        double swap;
         switch (side) {
         case LEFT:
             yUL += squeeze.generate();
@@ -138,13 +136,13 @@ public class DrawnTabGenerator extends DrawnShapeGenerator {
         return lr;
     }
 
-    private double getXScale(AffineTransform matrix) {
+    private static double getXScale(AffineTransform matrix) {
         Point2D[] points = {
-            new Point2D.Double(0d, 0d), new Point2D.Double(1d, 0d)};
+                new Point2D.Double(0d, 0d), new Point2D.Double(1d, 0d)};
         matrix.transform(points, 0, points, 0, 2);
         return points[0].distance(points[1]);
     }
-    
+
     private void setScales(double shimmy, double meanSqueeze) {
         ul.getY().setRange(shimmy);
         ur.getY().setRange(shimmy);

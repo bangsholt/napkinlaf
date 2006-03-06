@@ -2,19 +2,20 @@
 
 package napkin;
 
-import java.awt.*;
+import napkin.util.NapkinPainter;
+import napkin.util.NapkinUtil;
+
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
-import napkin.util.NapkinPainter;
-import napkin.NapkinTheme;
-import napkin.util.NapkinUtil;
+import java.awt.*;
 
 public class NapkinToolBarSeparatorUI extends BasicToolBarSeparatorUI
         implements NapkinPainter {
-    private final NapkinSeparatorUI.Separator separator = new NapkinSeparatorUI.Separator();
+    private final NapkinSeparatorUI.Separator separator =
+            new NapkinSeparatorUI.Separator();
 
-    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
+    @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinToolBarSeparatorUI();
     }

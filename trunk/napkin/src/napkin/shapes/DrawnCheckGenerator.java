@@ -2,13 +2,12 @@
 
 package napkin.shapes;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 import napkin.util.NapkinUtil;
 import napkin.util.RandomValue;
 import napkin.util.RandomXY;
+
+import java.awt.*;
+import java.awt.geom.*;
 
 public class DrawnCheckGenerator extends DrawnShapeGenerator {
     private final RandomXY dim;
@@ -66,7 +65,7 @@ public class DrawnCheckGenerator extends DrawnShapeGenerator {
 
         return check;
     }
-    
+
     public RandomXY getLeftScale() {
         return leftScale;
     }
@@ -79,7 +78,7 @@ public class DrawnCheckGenerator extends DrawnShapeGenerator {
         return midScale;
     }
 
-    private double rootOfSquares(double ... numbers) {
+    private static double rootOfSquares(double ... numbers) {
         double sum = 0d;
         for (double number : numbers)
             sum += number * number;
@@ -89,7 +88,7 @@ public class DrawnCheckGenerator extends DrawnShapeGenerator {
     public double getMeanWidth() {
         return getRightScale().getX().getMid() + getLeftScale().getX().getMid();
     }
-    
+
     public double getWidthRange() {
         // sum of Gaussians is the sum of means and sum of variance (not s.d.)
         return rootOfSquares(
@@ -97,36 +96,35 @@ public class DrawnCheckGenerator extends DrawnShapeGenerator {
                 getMidScale().getX().getRange(),
                 getMidScale().getX().getRange(),
                 getLeftScale().getX().getRange()
-            );
+        );
     }
 
     public double getMaxWidth() {
         return getMeanWidth() + getWidthRange();
     }
-    
+
     public double getMinWidth() {
         return getMeanWidth() - getWidthRange();
     }
-    
+
     public double getMeanHeight() {
         return getRightScale().getY().getMid() + getMidScale().getY().getMid();
     }
-    
+
     public double getHeightRange() {
         // sum of Gaussians is the sum of means and sum of variance (not s.d.)
         return rootOfSquares(
                 getRightScale().getY().getRange(),
                 getMidScale().getY().getRange()
-            );
+        );
     }
 
     public double getMaxHeight() {
         return getMeanHeight() + getHeightRange();
     }
-    
+
     public double getMinHeight() {
         return getMeanHeight() - getHeightRange();
     }
-    
 }
 

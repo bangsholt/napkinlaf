@@ -2,17 +2,6 @@
 
 package napkin.util;
 
-import java.awt.Component;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import javax.swing.Icon;
 import napkin.NapkinTheme;
 import napkin.shapes.DrawnBoxGenerator;
 import napkin.shapes.DrawnBoxHolder;
@@ -26,6 +15,13 @@ import napkin.sketch.Template;
 import napkin.sketch.TemplateReadException;
 import static napkin.util.NapkinConstants.LENGTH;
 import static napkin.util.NapkinConstants.RESOURCE_PATH;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.*;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NapkinIconFactory {
     private static final Map<String, Template> tmplMap =
@@ -98,13 +94,6 @@ public class NapkinIconFactory {
             init();
         }
 
-        public RadioButtonIcon(int themeColor, double size) {
-            super(themeColor,
-                    NapkinUtil.scaleMat(size / NapkinConstants.LENGTH));
-            scale = size / NapkinConstants.LENGTH;
-            init();
-        }
-
         /** @noinspection AssignmentToStaticFieldFromInstanceMethod */
         protected DrawnShapeGenerator createPlaceGenerator() {
             if (circleGen == null)
@@ -144,10 +133,10 @@ public class NapkinIconFactory {
         public static final int DEFAULT_SIZE = 10;
 
         private static final DrawnTriangleGenerator[] ARROW_GEN = {
-            new DrawnTriangleGenerator(0),
-            new DrawnTriangleGenerator(Math.PI / 2),
-            new DrawnTriangleGenerator(Math.PI),
-            new DrawnTriangleGenerator(-Math.PI / 2),
+                new DrawnTriangleGenerator(0),
+                new DrawnTriangleGenerator(Math.PI / 2),
+                new DrawnTriangleGenerator(Math.PI),
+                new DrawnTriangleGenerator(-Math.PI / 2),
         };
 
         /** @param pointTowards One of NORTH, EAST, WEST, or SOUTH. */
@@ -252,7 +241,8 @@ public class NapkinIconFactory {
     public static Template getTemplate(String templatePath) {
         Template template = tmplMap.get(templatePath);
         if (template == null) {
-            String subpath = RESOURCE_PATH + "templates/" + templatePath + ".xml";
+            String subpath =
+                    RESOURCE_PATH + "templates/" + templatePath + ".xml";
             InputStream in = NapkinIconFactory.class
                     .getResourceAsStream(subpath);
             if (in == null)

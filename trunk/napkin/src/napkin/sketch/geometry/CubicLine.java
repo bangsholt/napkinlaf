@@ -13,16 +13,16 @@ import java.awt.geom.*;
  * @author Justin Crafford
  */
 public class CubicLine extends CubicCurve2D.Double implements SketchShape {
-    /** Constructs a new <tt>CubicLine</tt> object */
+    /** Constructs a new <tt>CubicLine</tt> object. */
     public CubicLine() {
         super();
     }
 
     /**
      * Creates a new <tt>CubicLine</tt> identical to the <tt>CubicCurve2D</tt>
-     * passed into it
+     * passed into it.
      *
-     * @param clone the CubicCurve2D to duplicate
+     * @param clone the CubicCurve2D to duplicate.
      */
     public CubicLine(CubicCurve2D clone) {
         this(clone.getP1(), clone.getCtrlP1(), clone.getCtrlP2(),
@@ -30,14 +30,14 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
     }
 
     /**
-     * @param x1    the x coordinate of the initial point
-     * @param y1    the y coordinate of the initial point
-     * @param ctlx1 the x coordinate of the first control point
-     * @param ctly1 the y coordinate of the first control point
-     * @param ctlx2 the x coordinate of the second control point
-     * @param ctly2 the y coordinate of the second control point
-     * @param x2    the x coordinate of the end point
-     * @param y2    the y coordinate of the end point
+     * @param x1    the x coordinate of the initial point.
+     * @param y1    the y coordinate of the initial point.
+     * @param ctlx1 the x coordinate of the first control point.
+     * @param ctly1 the y coordinate of the first control point.
+     * @param ctlx2 the x coordinate of the second control point.
+     * @param ctly2 the y coordinate of the second control point.
+     * @param x2    the x coordinate of the end point.
+     * @param y2    the y coordinate of the end point.
      */
     public CubicLine(double x1, double y1, double ctlx1, double ctly1,
             double ctlx2, double ctly2, double x2, double y2) {
@@ -45,10 +45,10 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
     }
 
     /**
-     * @param p1   the initial point
-     * @param ctl1 the first control point
-     * @param ctl2 the second control point
-     * @param p2   the end point
+     * @param p1   the initial point.
+     * @param ctl1 the first control point.
+     * @param ctl2 the second control point.
+     * @param p2   the end point.
      */
     public CubicLine(Point2D p1, Point2D ctl1, Point2D ctl2, Point2D p2) {
         super(p1.getX(), p1.getY(), ctl1.getX(), ctl1.getY(), ctl2.getX(), ctl2

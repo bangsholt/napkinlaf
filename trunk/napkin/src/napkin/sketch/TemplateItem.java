@@ -29,7 +29,7 @@ public class TemplateItem implements Cloneable {
     private SketchShape shape; // The geometry that specifies this object's
     // shape
 
-    /** Constructs a new TemplateItem with default values */
+    /** Constructs a new TemplateItem with default values. */
     public TemplateItem() {
         this(true, false, null, 1.0f, null, null);
     }
@@ -145,7 +145,7 @@ public class TemplateItem implements Cloneable {
 
     /**
      * @return an XML representation of the information contained in this
-     *         TemplateItem
+     *         TemplateItem.
      */
     public Element produceXML() {
         if (shape instanceof XMLShape) {
