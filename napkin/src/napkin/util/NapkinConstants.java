@@ -2,11 +2,11 @@
 
 package napkin.util;
 
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import javax.swing.SwingConstants;
 
 public interface NapkinConstants extends SwingConstants {
     int LENGTH = 100;
@@ -16,15 +16,15 @@ public interface NapkinConstants extends SwingConstants {
     String DISABLED_MARK_KEY = "napkin.disabledMark";
     String BORDER_KEY = "napkin.border";
     String OPAQUE_KEY = "napkin.wasOpaque";
-    
+
     String RESOURCE_PATH = "/napkin/resources/";
 
     List<String> CLIENT_PROPERTIES = Collections.unmodifiableList(
             Arrays.asList(
-                THEME_KEY, BACKGROUND_KEY, DISABLED_MARK_KEY,
-                BORDER_KEY, OPAQUE_KEY
+                    THEME_KEY, BACKGROUND_KEY, DISABLED_MARK_KEY,
+                    BORDER_KEY, OPAQUE_KEY
             )
-        );
+    );
 
     //!! Since Swing cannot handle alpha correctly / consistently,
     //!! when things fail we ended up with pitch dark background

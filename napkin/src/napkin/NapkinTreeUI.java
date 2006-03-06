@@ -2,24 +2,18 @@
 
 package napkin;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicTreeUI;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreeCellRenderer;
-import javax.swing.tree.TreePath;
 import napkin.shapes.DrawnLineHolder;
 import napkin.util.NapkinConstants;
 import napkin.util.NapkinPainter;
-import napkin.NapkinTheme;
 import napkin.util.NapkinUtil;
+
+import javax.swing.*;
+import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
+import javax.swing.tree.*;
+import java.awt.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
 
@@ -27,10 +21,13 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
     public static class LineCache
             extends LinkedHashMap<Rectangle, DrawnLineHolder> {
         private static final int MAX_NUM_OF_LINES = 100;
+
         public LineCache() {
             super(16, 0.75f, true);
         }
-        protected boolean removeEldestEntry(Map.Entry<Rectangle, DrawnLineHolder> eldest) {
+
+        protected boolean removeEldestEntry(
+                Map.Entry<Rectangle, DrawnLineHolder> eldest) {
             return size() > MAX_NUM_OF_LINES;
         }
     }
@@ -71,9 +68,9 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
         }
     }
 
-    private final LineCache linesFor =new LineCache();
+    private final LineCache linesFor = new LineCache();
 
-    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
+    @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinTreeUI();
     }
@@ -141,7 +138,8 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
         // than we have to so that the line painting stuff knows whether the
         // overall line has changed or not.
         Rectangle rect = tree.getBounds();
-        rect.x = 0; rect.y = 0;
+        rect.x = 0;
+        rect.y = 0;
         super.paintVerticalPartOfLeg(g, rect, insets, path);
     }
 
@@ -151,7 +149,8 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
 
         // see comment for paintVerticalPartOfLeg()
         Rectangle rect = tree.getBounds();
-        rect.x = 0; rect.y = 0;
+        rect.x = 0;
+        rect.y = 0;
         super.paintHorizontalPartOfLeg(g, rect, insets, bounds,
                 path, row, isExpanded, hasBeenExpanded, isLeaf);
     }

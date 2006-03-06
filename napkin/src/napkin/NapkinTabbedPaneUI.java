@@ -2,17 +2,17 @@
 
 package napkin;
 
-import java.awt.*;
-import java.awt.geom.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
 import napkin.borders.NapkinBoxBorder;
 import napkin.shapes.DrawnBoxHolder;
 import napkin.shapes.DrawnTabHolder;
 import napkin.util.NapkinPainter;
-import napkin.NapkinTheme;
 import napkin.util.NapkinUtil;
+
+import javax.swing.*;
+import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
+import java.awt.*;
+import java.awt.geom.*;
 
 public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
         implements NapkinPainter {
@@ -20,7 +20,7 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
     private final DrawnBoxHolder contentBorder = new DrawnBoxHolder();
     private Insets origInsets;
 
-    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
+    @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinTabbedPaneUI();
     }
@@ -41,7 +41,8 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
     public void paint(Graphics g, JComponent c) {
         int count = ((JTabbedPane) c).getTabCount();
         DrawnTabHolder[] newTabs = new DrawnTabHolder[count];
-        System.arraycopy(tabs, 0, newTabs, 0, Math.min(tabs.length, newTabs.length));
+        System.arraycopy(tabs, 0, newTabs, 0, Math.min(tabs.length,
+                newTabs.length));
         tabs = newTabs;
         super.paint(g, c);
     }
@@ -65,6 +66,8 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
      * and have one actually draw the entire border with the others doing
      * nothing. (It's just a lot easier for me to do my work in one fell swoop
      * than part-by-part).
+     * <p/>
+     * {@inheritDoc}
      */
     protected void paintContentBorderTopEdge(Graphics g, int tabPlacement,
             int selectedIndex, int x, int y, int w, int h) {

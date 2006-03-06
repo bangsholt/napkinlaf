@@ -38,19 +38,19 @@ public interface SketchShape extends Shape {
      */
     SketchShape magnify(double scaleFactor);
 
-    /** @return an approximation of this shape, sketched as a set of Lines */
+    /** @return an approximation of this shape, sketched as a set of Lines. */
     StraightLine[] transformToLine();
 
-    /** @return an approximation of this shape, sketched as a set of Quads */
+    /** @return an approximation of this shape, sketched as a set of Quads. */
     QuadLine[] transformToQuad();
 
-    /** @return a representation of this shape in the form of a CubicLine */
+    /** @return a representation of this shape in the form of a CubicLine. */
     CubicLine transformToCubic();
 
-    /** @return an approximation of this shape, sketched as a set of Cubics */
+    /** @return an approximation of this shape, sketched as a set of Cubics. */
     CubicLine[] transformToCubicList();
 
-    /** @return a representation of this shape in the form of a Path */
+    /** @return a representation of this shape in the form of a Path. */
     Path transformToPath();
 
     /**
@@ -69,7 +69,7 @@ public interface SketchShape extends Shape {
     /**
      * @return the approximate length of this item. This should be optimized for
      *         speed of computation, not accuracy. However, in general it should
-     *         be accurate to within approximately 20%
+     *         be accurate to within approximately 20%.
      */
     double approximateLength();
 }

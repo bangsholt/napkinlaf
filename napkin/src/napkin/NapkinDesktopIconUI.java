@@ -2,20 +2,18 @@
 
 package napkin;
 
-import java.awt.BorderLayout;
-import java.awt.Graphics;
-
-import javax.swing.JComponent;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicDesktopIconUI;
-
 import napkin.util.NapkinPainter;
 import napkin.util.NapkinUtil;
+
+import javax.swing.*;
+import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
+import java.awt.*;
 
 public class NapkinDesktopIconUI extends BasicDesktopIconUI
         implements NapkinPainter {
 
-    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
+    @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinDesktopIconUI();
     }
@@ -44,5 +42,4 @@ public class NapkinDesktopIconUI extends BasicDesktopIconUI
     public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         super.update(g, c);
     }
-
 }

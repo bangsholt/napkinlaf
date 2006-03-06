@@ -15,27 +15,22 @@ import java.awt.geom.*;
  * @author Justin Crafford
  */
 public class StraightLine extends Line2D.Double implements SketchShape {
-    /** Constructs a new <tt>StraightLine</tt> object */
+    /** Constructs a new <tt>StraightLine</tt> object. */
     public StraightLine() {
         super();
     }
 
-    /** @param l  */
     public StraightLine(Line2D l) {
         super(l.getP1(), l.getP2());
     }
 
-    /**
-     * @param p1
-     * @param p2
-     */
     public StraightLine(Point2D p1, Point2D p2) {
         super(p1, p2);
     }
 
     /**
      * Constructs a new StraightLine given a start point, an angle, and a
-     * length
+     * length.
      *
      * @param start  a point
      * @param angle  an angle in radians
@@ -47,14 +42,7 @@ public class StraightLine extends Line2D.Double implements SketchShape {
                 + (length * Math.sin(angle))));
     }
 
-    /**
-     * @param x1
-     * @param y1
-     * @param angle
-     * @param length
-     *
-     * @see StraightLine#StraightLine(Point2D, double, double)
-     */
+    /** @see StraightLine#StraightLine(Point2D, double, double) */
     public StraightLine(double x1, double y1, double angle, double length) {
         this(new Point2D.Double(x1, y1), angle, length);
     }
@@ -65,64 +53,26 @@ public class StraightLine extends Line2D.Double implements SketchShape {
     }
 
     /**
-     * @param l
-     *
-     * @return the length of line l
-     */
-    public static double length(Line2D l) {
-        return new StraightLine(l).length();
-    }
-
-    /**
      * @return the slope of this line in mathematical terms; delta y over delta
-     *         x
+     *         x.
      */
     public double slope() {
         return (x2 - x1 == 0) ? java.lang.Double.POSITIVE_INFINITY
                 : ((y2 - y1) / (x2 - x1));
     }
 
-    /**
-     * @param l
-     *
-     * @return the slope of line l
-     */
-    public static double slope(Line2D l) {
-        return new StraightLine(l).slope();
-    }
-
-    /** @return the y value of this line when x is set to 0 */
+    /** @return the y value of this line when x is set to 0. */
     public double yIntercept() {
         return (slope() == java.lang.Double.POSITIVE_INFINITY) ?
                 java.lang.Double.POSITIVE_INFINITY : (y1 - (slope() * x1));
     }
 
-    /**
-     * @param l
-     *
-     * @return the y intercept of l
-     *
-     * @see StraightLine#yIntercept()
-     */
-    public static double yIntercept(Line2D l) {
-        return new StraightLine(l).yIntercept();
-    }
-
-    /** @return the angle of this line in the range pi/2 to -pi/2 in radians */
+    /** @return the angle of this line in the range pi/2 to -pi/2 in radians. */
     public double angle() {
         return Math.atan(slope());
     }
 
-    /**
-     * @param l
-     *
-     * @return the angle of line l in the range pi/2 to -pi/2 in radians
-     */
-    public static double angle(Line2D l) {
-        return new StraightLine(l).angle();
-    }
-
-    /** @return an XML representation of this element */
+    /** @return an XML representation of this element. */
     public Element produceXML() {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element("straightLine");
@@ -173,10 +123,10 @@ public class StraightLine extends Line2D.Double implements SketchShape {
     }
 
     /**
-     * @param o another StraightLine
+     * @param o another StraightLine.
      *
      * @return the point of intersection of the two lines, or null if they do
-     *         not intersect
+     *         not intersect.
      */
     @SuppressWarnings("MethodOverloadsMethodOfSuperclass")
     public Point intersects(StraightLine o) {
@@ -206,20 +156,7 @@ public class StraightLine extends Line2D.Double implements SketchShape {
         }
     }
 
-    /**
-     * @param l1
-     * @param l2
-     *
-     * @return the point of intersection of the two lines, or null if they do
-     *         not intersect
-     *
-     * @see StraightLine#intersects(StraightLine)
-     */
-    public static Point intersects(Line2D l1, Line2D l2) {
-        return new StraightLine(l1).intersects(new StraightLine(l2));
-    }
-
-    /** @return the midpoint of this StraightLine */
+    /** @return the midpoint of this StraightLine. */
     public Point midpoint() {
         return new Point((x2 + x1) / 2, (y2 + y1) / 2);
     }

@@ -9,6 +9,6 @@ import org.jdom.Element;
  * @author Justin Crafford
  */
 public interface XMLShape extends SketchShape {
-    /** @return the XML representation of this Shape */
+    /** @return the XML representation of this Shape. */
     Element produceXML();
 }

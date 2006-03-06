@@ -9,7 +9,11 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
@@ -66,6 +70,8 @@ public class Template implements Cloneable {
      * @return a Template described by the XML document located at
      *         <tt>path</tt>
      *
+     * @throws TemplateReadException
+     * @throws IOException
      * @see Template#produceXMLString()
      */
     public static Template createFromXML(String path)
@@ -85,8 +91,9 @@ public class Template implements Cloneable {
      * @param in
      *
      * @return a Template described by the XML document located at
-     *         <tt>path</tt>
+     *         <tt>path</tt>.
      *
+     * @throws TemplateReadException
      * @see Template#produceXMLString()
      */
     public static Template createFromXML(InputStream in)
@@ -98,38 +105,15 @@ public class Template implements Cloneable {
      * Adds a template component to the template.
      *
      * @param templateItem The template component to be added.
-     *
-     * @return true (as per the general contract of Collection.add).
      */
-    public boolean add(TemplateItem templateItem) {
-        boolean success = templateItems.add(templateItem);
-        computeWidthAndHeight();
-
-        return success;
-    }
-
-    /**
-     * Adds the new TemplateItem before the specified TemplateItem. If
-     * <tt>before</tt> is not in the template, <tt>add</tt> is added to the end
-     * of the list.
-     *
-     * @param add    the TemplateItem to add
-     * @param before the TemplateItem before which to add <tt>add</tt>
-     */
-    public void addBefore(TemplateItem add, TemplateItem before) {
-        int index = templateItems.indexOf(before);
-        if (index == -1) {
-            add(add);
-        } else {
-            templateItems.add(index, add);
-        }
-
+    public void add(TemplateItem templateItem) {
+        templateItems.add(templateItem);
         computeWidthAndHeight();
     }
 
     /**
      * Computes the width and height of a template using the boundaries of the
-     * template items' shapes
+     * template items' shapes.
      */
     public void computeWidthAndHeight() {
         int minx = 0;
@@ -218,17 +202,6 @@ public class Template implements Cloneable {
     /** @param clippingBounds The clipping bounds to set. */
     public void setClippingBounds(Rectangle clippingBounds) {
         this.clippingBounds = clippingBounds;
-    }
-
-    /**
-     * @param o
-     *
-     * @return true if o is in the list
-     *
-     * @see java.util.List#contains(Object)
-     */
-    public boolean contains(Object o) {
-        return templateItems.contains(o);
     }
 
     /**

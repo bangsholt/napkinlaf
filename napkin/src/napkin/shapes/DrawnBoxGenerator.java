@@ -2,18 +2,17 @@
 
 package napkin.shapes;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import napkin.util.NapkinUtil;
 import napkin.util.RandomValue;
 import napkin.util.RandomValueSource;
 import napkin.util.RandomXY;
+
+import java.awt.*;
+import java.awt.geom.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DrawnBoxGenerator extends DrawnShapeGenerator {
     private final RandomXY corner;
@@ -169,8 +168,8 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
     }
 
     // I wish I could figure out a way to share code here -- one of those
-            // places where the C macro preprocessor would really help.
-            private void addWithYBreak(AffineTransform smat, GeneralPath line,
+    // places where the C macro preprocessor would really help.
+    private void addWithYBreak(AffineTransform smat, GeneralPath line,
             double scale) {
         // Need to transalate the absolute positions into positions on the line
         double yOff = smat.getTranslateY();
@@ -252,7 +251,7 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
         breakSide = NO_SIDE;
     }
 
-    public final void setGenerator(int side, Class<?> type) {
+    public void setGenerator(int side, Class<?> type) {
         gens[side] = toGenerator(type);
     }
 

@@ -15,55 +15,20 @@ import java.util.LinkedList;
  * @author Peter Goodspeed
  */
 public class Path implements SketchShape {
-    private GeneralPath generalPath;
+    private final GeneralPath generalPath;
 
-    /**
-     *
-     */
     public Path() {
         generalPath = new GeneralPath();
     }
 
-    /** @param rule  */
-    public Path(int rule) {
-        generalPath = new GeneralPath(rule);
-    }
-
-    /**
-     * @param rule
-     * @param capacity
-     */
-    public Path(int rule, int capacity) {
-        generalPath = new GeneralPath(rule, capacity);
-    }
-
-    /** @param s  */
     public Path(Shape s) {
         generalPath = new GeneralPath(s);
     }
 
-    /**
-     * @param s
-     * @param connect
-     */
     public void append(Shape s, boolean connect) {
         generalPath.append(s, connect);
     }
 
-    /** {@inheritDoc} */
-    public Object clone() {
-        try {
-            Path clone = (Path) super.clone();
-            clone.generalPath = (GeneralPath) generalPath.clone();
-            return clone;
-        } catch (CloneNotSupportedException e) {
-            throw new IllegalStateException("cannot clone?", e);
-        }
-    }
-
-    /**
-     *
-     */
     public void closePath() {
         generalPath.closePath();
     }
@@ -78,70 +43,21 @@ public class Path implements SketchShape {
         return generalPath.contains(x, y, w, h);
     }
 
-    /**
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
-     * @param x3
-     * @param y3
-     */
     public void curveTo(float x1, float y1, float x2, float y2, float x3,
             float y3) {
         generalPath.curveTo(x1, y1, x2, y2, x3, y3);
     }
 
-    /** @return the current point */
-    public Point2D getCurrentPoint() {
-        return generalPath.getCurrentPoint();
-    }
-
-    /** @return the current winding rule */
-    public int getWindingRule() {
-        return generalPath.getWindingRule();
-    }
-
-    /**
-     * @param x
-     * @param y
-     */
     public void lineTo(float x, float y) {
         generalPath.lineTo(x, y);
     }
 
-    /**
-     * @param x
-     * @param y
-     */
     public void moveTo(float x, float y) {
         generalPath.moveTo(x, y);
     }
 
-    /**
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
-     */
     public void quadTo(float x1, float y1, float x2, float y2) {
         generalPath.quadTo(x1, y1, x2, y2);
-    }
-
-    /**
-     *
-     */
-    public void reset() {
-        generalPath.reset();
-    }
-
-    /** @param rule  */
-    public void setWindingRule(int rule) {
-        generalPath.setWindingRule(rule);
-    }
-
-    /** @param at  */
-    public void transform(AffineTransform at) {
-        generalPath.transform(at);
     }
 
     /** {@inheritDoc} */
@@ -284,7 +200,7 @@ public class Path implements SketchShape {
 
     /**
      * @return An array of UtilityShapes which comprise the elements of this
-     *         Path
+     *         Path.
      */
     public SketchShape[] simplify() {
         //noinspection CollectionDeclaredAsConcreteClass

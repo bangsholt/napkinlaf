@@ -2,9 +2,9 @@
 
 package napkin.sketch;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;
-import javax.swing.*;
 
 /**
  * The <tt>SketchedIcon</tt> class is an implmentation of the <tt>Icon</tt>
@@ -21,23 +21,14 @@ public class SketchedIcon implements Icon {
     private BufferedImage bimage; // The stored image of the final sketch
     private boolean isSketched;   // Has this icon's template has been sketched?
 
-    /**
-     * Creates a new DrawnIcon with specified template and sketch style
-     *
-     * @param template
-     * @param sketcher
-     */
+    /** Creates a new DrawnIcon with specified template and sketch style. */
     public SketchedIcon(Template template, Sketcher sketcher) {
         this.template = template;
         this.sketcher = sketcher;
         isSketched = false;
     }
 
-    /**
-     * Sets the current sketcher to <tt>sketchStyle</tt>
-     *
-     * @param sketchStyle
-     */
+    /** Sets the current sketcher to <tt>sketchStyle</tt>. */
     public void setSketchStyle(Sketcher sketchStyle) {
         sketcher = sketchStyle;
         isSketched = false;
@@ -47,19 +38,17 @@ public class SketchedIcon implements Icon {
      * Set the sketched status of this icon. When the sketched status is false,
      * the next paint command will generate a new sketching according to the
      * sketcher. This mainly matters on non-deterministic underlying sketchers.
-     *
-     * @param isSketched
      */
     public void setSketched(boolean isSketched) {
         this.isSketched = isSketched;
     }
 
-    /** @return the title of the underlying template */
+    /** @return The title of the underlying template. */
     public String getTemplateTitle() {
         return template.getTitle();
     }
 
-    /** @return the internal description of the underlying template. */
+    /** @return The internal description of the underlying template. */
     public String getTemplateDescription() {
         return template.getDescription();
     }

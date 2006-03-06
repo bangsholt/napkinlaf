@@ -2,15 +2,15 @@
 
 package napkin;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
 import napkin.shapes.DrawnBoxHolder;
 import napkin.shapes.DrawnLineHolder;
 import napkin.util.NapkinPainter;
-import napkin.NapkinTheme;
 import napkin.util.NapkinUtil;
+
+import javax.swing.*;
+import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
+import java.awt.*;
 
 public class NapkinScrollBarUI extends BasicScrollBarUI
         implements NapkinPainter {
@@ -22,7 +22,6 @@ public class NapkinScrollBarUI extends BasicScrollBarUI
         vertical = (bar.getOrientation() == VERTICAL);
     }
 
-    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return new NapkinScrollBarUI(((JScrollBar) c));
     }

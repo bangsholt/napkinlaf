@@ -2,24 +2,24 @@
 
 package napkin;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
 import napkin.shapes.DrawnCubicLineGenerator;
 import napkin.shapes.DrawnLineHolder;
 import napkin.util.NapkinConstants;
 import napkin.util.NapkinPainter;
 import napkin.util.NapkinTextPainter;
-import napkin.NapkinTheme;
 import napkin.util.NapkinUtil;
+
+import javax.swing.*;
+import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
+import java.awt.*;
 
 public class NapkinCheckBoxUI extends BasicCheckBoxUI
         implements NapkinPainter, NapkinTextPainter, NapkinConstants {
     private DrawnLineHolder line;
     private boolean defaultsInstalled = false;
 
-    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
+    @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinCheckBoxUI();
     }
@@ -65,6 +65,5 @@ public class NapkinCheckBoxUI extends BasicCheckBoxUI
     public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         super.update(g, c);
     }
-
 }
 

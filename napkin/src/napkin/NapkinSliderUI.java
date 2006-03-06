@@ -2,18 +2,18 @@
 
 package napkin;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
 import napkin.shapes.DrawnLineHolder;
 import napkin.util.NapkinConstants;
 import napkin.util.NapkinIconFactory;
 import napkin.util.NapkinPainter;
-import napkin.NapkinTheme;
 import napkin.util.NapkinUtil;
+
+import javax.swing.*;
+import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
         NapkinPainter {
@@ -27,7 +27,6 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
     private int minorPos;
     private final Rectangle tickBounds;
 
-    /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
         return new NapkinSliderUI((JSlider) c);
     }
@@ -72,6 +71,8 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
      * the clip rectangle -- the slider draws a bit outside of its area because
      * the lines are curved.  I wish there were a better way rather than the
      * copy/paste that caused this, but so far there isn't.
+     * <p/>
+     * {@inheritDoc}
      */
     public void setThumbLocation(int x, int y) {
         Rectangle unionRect = new Rectangle(thumbRect);

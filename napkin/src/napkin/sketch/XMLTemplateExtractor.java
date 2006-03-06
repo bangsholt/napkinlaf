@@ -13,13 +13,13 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.io.*;
-import java.net.URL;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import java.awt.*;
+import java.awt.geom.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * The <tt>XMLTemplateExtractor</tt> class parses an XML document to create a
@@ -65,7 +65,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
     private int currentAction; // Specifies information that needs parsing
     private float curX;
 
-    /** Constructs a new XMLTemplateExtractor */
+    /** Constructs a new XMLTemplateExtractor. */
     public XMLTemplateExtractor() {
         template = new Template();
         i = 0;
@@ -285,30 +285,17 @@ public class XMLTemplateExtractor extends DefaultHandler {
         System.err.flush();
     }
 
-    /**
-     * Creates a Template object from an XML document
-     *
-     * @param tmplPath A string describing the location of the XML document to
-     *                 parse
-     *
-     * @return a Template
-     */
-    public Template createTemplate(String tmplPath)
-            throws TemplateReadException, IOException {
-        return createTemplate(
-                new BufferedInputStream(new FileInputStream(tmplPath)));
-    }
-
-    /**
-     * Creates a Template object from an XML document
-     *
-     * @param in An input stream containing the XML document to parse
-     *
-     * @return a Template
-     */
     private static final String schemaURL =
             ClassLoader.getSystemResource(
-                "napkin/resources/templates/Template.xsd").toString();
+                    "napkin/resources/templates/Template.xsd").toString();
+
+    /**
+     * Creates a Template object from an XML document.
+     *
+     * @param in An input stream containing the XML document to parse.
+     *
+     * @return A Template.
+     */
     public Template createTemplate(InputStream in)
             throws TemplateReadException {
 

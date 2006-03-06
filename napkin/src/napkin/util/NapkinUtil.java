@@ -2,29 +2,20 @@
 
 package napkin.util;
 
-import java.awt.AlphaComposite;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Composite;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
-import java.awt.TexturePaint;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineMetrics;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
+import napkin.NapkinTheme;
+import napkin.borders.NapkinBorder;
+import napkin.borders.NapkinWrappedBorder;
+import napkin.shapes.DrawnCubicLineGenerator;
+import napkin.shapes.DrawnLineHolder;
+import napkin.shapes.DrawnShapeGenerator;
+
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.plaf.*;
+import javax.swing.text.*;
+import java.awt.*;
+import java.awt.geom.*;
+import java.awt.image.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Closeable;
@@ -34,29 +25,6 @@ import java.util.Stack;
 import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.AbstractButton;
-import javax.swing.ButtonModel;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JMenu;
-import javax.swing.JRootPane;
-import javax.swing.JTree;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.UIResource;
-import javax.swing.text.JTextComponent;
-
-import napkin.NapkinTheme;
-import napkin.borders.NapkinBorder;
-import napkin.borders.NapkinWrappedBorder;
-import napkin.shapes.DrawnCubicLineGenerator;
-import napkin.shapes.DrawnLineHolder;
-import napkin.shapes.DrawnShapeGenerator;
 
 public class NapkinUtil implements NapkinConstants {
     private static final Map<Float, Stroke> strokes =
@@ -75,10 +43,12 @@ public class NapkinUtil implements NapkinConstants {
                     // unplug the listener before setting background
                     // this is to avoid possible infinite loop due to
                     // another "enforcing" listener
-                    c.removePropertyChangeListener("background", BACKGROUND_LISTENER);
+                    c.removePropertyChangeListener("background",
+                            BACKGROUND_LISTENER);
                     if (replace(event.getNewValue(), CLEAR))
                         c.setBackground(CLEAR);
-                    c.addPropertyChangeListener("background", BACKGROUND_LISTENER);
+                    c.addPropertyChangeListener("background",
+                            BACKGROUND_LISTENER);
                 }
             };
 
@@ -442,32 +412,6 @@ public class NapkinUtil implements NapkinConstants {
         return new Rectangle(x, y, width, height);
     }
 
-    /**
-     * This is basically meant to help do debugging only inside a certain type
-     * of component.  For example, you might turn on a debugging flag only for
-     * components underneath a <tt>JViewport.class</tt> (inclusive; that is, the
-     * <tt>JViewport</tt> itself would be included as <tt>true</tt>).
-     *
-     * @param c    A component that might be under a component of a given type
-     * @param type The type of component
-     *
-     * @return <tt>true</tt> if this component is of the type or has such a
-     *         component as an ancestor.
-     *
-     * @noinspection TailRecursion
-     */
-    public static boolean within(Component c, Class<?> type) {
-        if (c == null)
-            return false;
-        if (c instanceof JTree)
-            return false;   // just a workaround
-        if (type.isAssignableFrom(c.getClass())) {
-            System.out.println("--");
-            return true;
-        }
-        return within(c.getParent(), type);
-    }
-
     private static Insets insets(Component c) {
         Insets in;
         if (c instanceof Container)
@@ -567,10 +511,6 @@ public class NapkinUtil implements NapkinConstants {
         return !current.equals(candidate) && current instanceof UIResource;
     }
 
-    public static Object ifReplace(Object current, Object candidate) {
-        return (replace(current, candidate) ? candidate : current);
-    }
-
     public static Color ifReplace(Color current, Color candidate) {
         return (replace(current, candidate) ? candidate : current);
     }
@@ -617,6 +557,7 @@ public class NapkinUtil implements NapkinConstants {
         Logs.paper.log(Level.FINER, dump.toString());
     }
 
+    @SuppressWarnings({"UnusedReturnValue"})
     public static IOException tryClose(Closeable fonts) {
         try {
             fonts.close();
@@ -625,22 +566,4 @@ public class NapkinUtil implements NapkinConstants {
             return e;
         }
     }
-
-    public static void centerBoldText(Component c, Graphics2D g, float x,
-            float y, float size, String s) {
-
-        Font f = currentTheme(c).getBoldTextFont().deriveFont(Font.BOLD, size);
-        FontRenderContext frc = g.getFontRenderContext();
-        Rectangle2D bounds = f.getStringBounds(s, frc);
-        LineMetrics metrics = f.getLineMetrics(s, frc);
-        float width = (float) bounds.getWidth();     // The width of our text
-        float lineheight = metrics.getHeight();      // Total line height
-        float ascent = metrics.getAscent();          // Top of text to baseline
-
-        Font orig = g.getFont();
-        g.setFont(f);
-        g.drawString(s, x - width / 2, y - lineheight / 2 + ascent);
-        g.setFont(orig);
-    }
 }
-

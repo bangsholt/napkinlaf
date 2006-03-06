@@ -13,39 +13,22 @@ import java.awt.geom.*;
  * @author Justin Crafford
  */
 public class QuadLine extends QuadCurve2D.Double implements SketchShape {
-    /** Constructs a new <tt>QuadLine</tt> object */
+    /** Constructs a new <tt>QuadLine</tt> object. */
     public QuadLine() {
         super();
     }
 
-    /**
-     * @param x1
-     * @param y1
-     * @param ctrlx
-     * @param ctrly
-     * @param x2
-     * @param y2
-     */
     public QuadLine(double x1, double y1, double ctrlx, double ctrly, double x2,
             double y2) {
         super(x1, y1, ctrlx, ctrly, x2, y2);
     }
 
-    /**
-     * @param p1
-     * @param ctrlpt
-     * @param p2
-     */
     public QuadLine(Point2D p1, Point2D ctrlpt, Point2D p2) {
         super(p1.getX(), p1.getY(), ctrlpt.getX(), ctrlpt.getY(), p2.getX(), p2
                 .getY());
     }
 
-    /**
-     * Creates a QuadLine identical to the QuadCurve2D passed in
-     *
-     * @param q
-     */
+    /** Creates a QuadLine identical to the QuadCurve2D passed in. */
     public QuadLine(QuadCurve2D q) {
         this(q.getP1(), q.getCtrlPt(), q.getP2());
     }
