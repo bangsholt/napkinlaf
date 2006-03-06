@@ -32,7 +32,7 @@ public class NapkinQuickTest implements SwingConstants {
             }
         });
     }
-    
+
     private static void createAndShowGUI(String[] args) throws Exception {
         LookAndFeel laf;
         if (args.length == 1) {
@@ -58,28 +58,9 @@ public class NapkinQuickTest implements SwingConstants {
 
         JLabel label = new JLabel("-- Label --");
 
-        if (napkinLAF != null)
-            napkinLAF.setIsFormal(top, true);
         mainPanel.setLayout(new GridLayout(4, 2));
-        if (napkinLAF != null)
-            napkinLAF.setIsFormal(label, true);
         mainPanel.add(label);
         toDisable.add(label);
-
-        JButton button = new JButton("Button!");
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println();
-                if (napkinLAF != null)
-                    napkinLAF.dumpFormality(top, System.out);
-            }
-        });
-        if (napkinLAF != null)
-            napkinLAF.setIsFormal(button, true);
-        mainPanel.add(button);
-        boolean formal = (napkinLAF != null && napkinLAF.isFormal(label));
-        label.setText(formal ? "formal" : "napkin");
-        toDisable.add(button);
 
         JCheckBox checkBox = new JCheckBox("Check?");
         mainPanel.add(checkBox);
