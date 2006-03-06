@@ -14,7 +14,7 @@ public class NapkinDesktopPaneUI extends BasicDesktopPaneUI
         implements NapkinPainter {
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinDesktopPaneUI());
+        return new NapkinDesktopPaneUI();
     }
 
     public void installUI(JComponent c) {

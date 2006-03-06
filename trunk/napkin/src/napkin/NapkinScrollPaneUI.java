@@ -14,7 +14,7 @@ public class NapkinScrollPaneUI extends BasicScrollPaneUI
         implements NapkinPainter {
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinScrollPaneUI());
+        return new NapkinScrollPaneUI();
     }
 
     public void installUI(JComponent c) {

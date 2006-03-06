@@ -13,7 +13,7 @@ import napkin.util.NapkinUtil;
 public class NapkinTextPaneUI extends BasicTextPaneUI implements NapkinPainter {
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinTextPaneUI());
+        return new NapkinTextPaneUI();
     }
 
     public void installUI(JComponent c) {

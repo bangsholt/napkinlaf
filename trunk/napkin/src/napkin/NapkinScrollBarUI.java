@@ -24,7 +24,7 @@ public class NapkinScrollBarUI extends BasicScrollBarUI
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinScrollBarUI(((JScrollBar) c)));
+        return new NapkinScrollBarUI(((JScrollBar) c));
     }
 
     public void installUI(JComponent c) {

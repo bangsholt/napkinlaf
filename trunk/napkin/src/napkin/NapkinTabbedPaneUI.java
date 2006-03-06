@@ -22,7 +22,7 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinTabbedPaneUI());
+        return new NapkinTabbedPaneUI();
     }
 
     public void installUI(JComponent c) {

@@ -4,12 +4,9 @@ package napkin.borders;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.*;
 import javax.swing.plaf.*;
-import napkin.*;
 import napkin.shapes.DrawnBoxHolder;
 import napkin.util.NapkinConstants;
-import napkin.NapkinTheme;
 import napkin.util.NapkinUtil;
 
 public class NapkinBoxBorder extends NapkinBorder implements NapkinConstants {
@@ -31,8 +28,7 @@ public class NapkinBoxBorder extends NapkinBorder implements NapkinConstants {
             };
 
     public NapkinBoxBorder() {
-        super(new LineBorder(
-                NapkinTheme.Manager.getCurrentTheme().getPenColor()));
+        super();
     }
 
     public void doPaintBorder(Component c, Graphics g1, int x, int y,
@@ -49,22 +45,22 @@ public class NapkinBoxBorder extends NapkinBorder implements NapkinConstants {
         box.draw(g);
         g.translate(-x, -y);
     }
-    
-    public static final Insets getDefaultInsets(Rectangle bounds) {
+
+    public static Insets getDefaultInsets(Rectangle bounds) {
         int wi = bounds.width <= 100 ? SMALL_BORDER : LARGE_BORDER;
         int hi = bounds.height <= 100 ? SMALL_BORDER : LARGE_BORDER;
         return new Insets(hi, wi, hi, wi);
     }
-    
-    public static final int getDelta(int num) {
+
+    public static int getDelta(int num) {
         return num > SMALL_BORDER ? num >> 1 : num;
     }
-    
-    public static final int getWidthDelta(Insets in) {
+
+    public static int getWidthDelta(Insets in) {
         return getDelta(in.left) + getDelta(in.right);
     }
 
-    public static final int getHeightDelta(Insets in) {
+    public static int getHeightDelta(Insets in) {
         return getDelta(in.top) + getDelta(in.bottom);
     }
 

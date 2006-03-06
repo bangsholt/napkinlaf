@@ -15,7 +15,7 @@ public class NapkinToolTipUI extends BasicToolTipUI implements NapkinConstants,
         NapkinPainter {
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinToolTipUI());
+        return new NapkinToolTipUI();
     }
 
     public void installUI(JComponent c) {

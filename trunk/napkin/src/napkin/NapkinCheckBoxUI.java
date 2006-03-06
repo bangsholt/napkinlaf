@@ -21,7 +21,7 @@ public class NapkinCheckBoxUI extends BasicCheckBoxUI
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinCheckBoxUI());
+        return new NapkinCheckBoxUI();
     }
 
     public void installUI(JComponent c) {
@@ -65,6 +65,6 @@ public class NapkinCheckBoxUI extends BasicCheckBoxUI
     public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         super.update(g, c);
     }
-    
+
 }
 

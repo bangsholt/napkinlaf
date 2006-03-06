@@ -14,7 +14,7 @@ public class NapkinTableHeaderUI extends BasicTableHeaderUI
         implements NapkinPainter {
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinTableHeaderUI());
+        return new NapkinTableHeaderUI();
     }
 
     public void installUI(JComponent c) {

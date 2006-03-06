@@ -84,7 +84,7 @@ public class NapkinFileChooserUI extends MetalFileChooserUI
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinFileChooserUI((JFileChooser) c));
+        return new NapkinFileChooserUI((JFileChooser) c);
     }
 
     private NapkinFileChooserUI(JFileChooser c) {

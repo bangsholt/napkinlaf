@@ -27,7 +27,7 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinProgressBarUI());
+        return new NapkinProgressBarUI();
     }
 
     public void installUI(JComponent c) {

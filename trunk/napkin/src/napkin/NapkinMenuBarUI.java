@@ -19,7 +19,7 @@ public class NapkinMenuBarUI extends BasicMenuBarUI implements NapkinPainter {
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinMenuBarUI());
+        return new NapkinMenuBarUI();
     }
 
     public void installUI(JComponent c) {

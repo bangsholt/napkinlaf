@@ -15,12 +15,12 @@ import napkin.util.NapkinUtil;
 
 public class NapkinButtonUI extends BasicButtonUI
         implements NapkinPainter, NapkinTextPainter {
-    
+
     private DrawnLineHolder line;
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinButtonUI());
+        return new NapkinButtonUI();
     }
 
     public NapkinButtonUI() {

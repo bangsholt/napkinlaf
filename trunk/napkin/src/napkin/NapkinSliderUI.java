@@ -29,7 +29,7 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinSliderUI((JSlider) c));
+        return new NapkinSliderUI((JSlider) c);
     }
 
     private NapkinSliderUI(JSlider c) {

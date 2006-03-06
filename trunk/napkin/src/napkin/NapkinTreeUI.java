@@ -22,7 +22,7 @@ import napkin.NapkinTheme;
 import napkin.util.NapkinUtil;
 
 public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
-    
+
     // access-order based bounded cache
     public static class LineCache
             extends LinkedHashMap<Rectangle, DrawnLineHolder> {
@@ -34,7 +34,7 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
             return size() > MAX_NUM_OF_LINES;
         }
     }
-    
+
     public static class DefaultNapkinTreeCellRender
             extends DefaultTreeCellRenderer
             implements NapkinPainter {
@@ -75,7 +75,7 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinTreeUI());
+        return new NapkinTreeUI();
     }
 
     public void installUI(JComponent c) {

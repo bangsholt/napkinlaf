@@ -14,8 +14,7 @@ public class NapkinInternalFrameUI extends BasicInternalFrameUI
         implements NapkinPainter {
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c,
-                new NapkinInternalFrameUI((JInternalFrame) c));
+        return new NapkinInternalFrameUI((JInternalFrame) c);
     }
 
     private NapkinInternalFrameUI(JInternalFrame c) {

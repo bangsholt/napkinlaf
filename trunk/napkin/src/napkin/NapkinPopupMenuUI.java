@@ -15,7 +15,7 @@ public class NapkinPopupMenuUI extends BasicPopupMenuUI
         implements NapkinConstants, NapkinPainter {
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinPopupMenuUI());
+        return new NapkinPopupMenuUI();
     }
 
     public void installUI(JComponent c) {

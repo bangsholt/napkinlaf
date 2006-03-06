@@ -29,9 +29,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.Stack;
 import java.util.WeakHashMap;
 import java.util.logging.Level;
@@ -46,8 +44,6 @@ import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JRootPane;
 import javax.swing.JTree;
-import javax.swing.LookAndFeel;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
@@ -55,7 +51,6 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.UIResource;
 import javax.swing.text.JTextComponent;
 
-import napkin.NapkinLookAndFeel;
 import napkin.NapkinTheme;
 import napkin.borders.NapkinBorder;
 import napkin.borders.NapkinWrappedBorder;
@@ -92,7 +87,7 @@ public class NapkinUtil implements NapkinConstants {
                 public void propertyChange(PropertyChangeEvent event) {
                     JComponent c = (JComponent) event.getSource();
                     boolean val = (Boolean) event.getNewValue();
-                    c.putClientProperty(OPAQUE_KEY, val ? true : null);
+                    c.putClientProperty(OPAQUE_KEY, val ? Boolean.TRUE : null);
                     // unplug the listener before setting opaqueness
                     // this is to avoid possible infinite loop due to
                     // another "enforcing" listener
@@ -106,7 +101,6 @@ public class NapkinUtil implements NapkinConstants {
 
     private static final AlphaComposite ERASURE_COMPOSITE =
             AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.8f);
-    private static final Set<Class<?>> printed = new HashSet<Class<?>>();
     private static final Stack<Object> themeStack = new Stack<Object>();
     private static final Stack<Component> paperStack = new Stack<Component>();
 
@@ -159,37 +153,6 @@ public class NapkinUtil implements NapkinConstants {
         int pos = name.lastIndexOf(base) + base.length();
         String pref = name.substring(pos, name.length() - 2);
         return pref + "." + prop;
-    }
-
-    static boolean isFormal(JComponent l) {
-        NapkinLookAndFeel nlaf = (NapkinLookAndFeel) UIManager.getLookAndFeel();
-        return nlaf.isFormal(l);
-    }
-
-    public static boolean isFormal(Component c) {
-        LookAndFeel laf = UIManager.getLookAndFeel();
-        if (laf instanceof NapkinLookAndFeel) {
-            NapkinLookAndFeel nlaf = (NapkinLookAndFeel) laf;
-            return nlaf.isFormal(c);
-        }
-        return true;
-    }
-
-    public static ComponentUI uiFor(JComponent c, ComponentUI napkinUI) {
-        NapkinLookAndFeel nlaf = (NapkinLookAndFeel) UIManager.getLookAndFeel();
-        ComponentUI ui;
-        if (nlaf.isFormal(c))
-            ui = nlaf.getFormalLAF().getDefaults().getUI(c);
-        else
-            ui = napkinUI;
-        if (Logs.ui.isLoggable(Level.FINER) &&
-                !printed.contains(c.getClass())) {
-
-            Logs.ui.finer(c.getUIClassID() + "\n  " + napkinUI.getClass() +
-                    "\n  " + c.getClass());
-            printed.add(c.getClass());
-        }
-        return ui;
     }
 
     public static void installUI(JComponent c) {
@@ -397,7 +360,7 @@ public class NapkinUtil implements NapkinConstants {
         Border b = c.getBorder();
         if (b instanceof NapkinWrappedBorder) {
             NapkinWrappedBorder nb = (NapkinWrappedBorder) b;
-            c.setBorder(nb.getFormalBorder());
+            c.setBorder(nb.getOrigBorder());
         } else if (b instanceof NapkinBorder) {
             c.setBorder(null);
         }
@@ -617,7 +580,7 @@ public class NapkinUtil implements NapkinConstants {
             double baseAngle, DrawnShapeGenerator lineGen) {
         if (matrix == null)
             matrix = new AffineTransform();
-        
+
         double xDelta = x1 - x2;
         double yDelta = y1 - y2;
         double angle = Math.atan2(xDelta, yDelta);
@@ -644,6 +607,7 @@ public class NapkinUtil implements NapkinConstants {
             System.out.println("!!!");
         StringBuilder dump = new StringBuilder(NapkinDebug.count).append(":\t");
         NapkinDebug.count++;
+        //noinspection ForLoopReplaceableByForEach
         for (int i = 0; i < paperStack.size(); i++)
             dump.append(". ");
         if (!themeStack.isEmpty()) {

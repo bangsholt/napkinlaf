@@ -19,7 +19,7 @@ public class NapkinRadioButtonMenuItemUI extends BasicRadioButtonMenuItemUI
 
     /** @noinspection MethodOverridesStaticMethodOfSuperclass */
     public static ComponentUI createUI(JComponent c) {
-        return NapkinUtil.uiFor(c, new NapkinRadioButtonMenuItemUI());
+        return new NapkinRadioButtonMenuItemUI();
     }
 
     public void installUI(JComponent c) {
