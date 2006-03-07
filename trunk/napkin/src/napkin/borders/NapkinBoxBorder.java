@@ -48,8 +48,8 @@ public class NapkinBoxBorder extends NapkinBorder implements NapkinConstants {
     }
 
     public static Insets getDefaultInsets(Rectangle bounds, Insets insets) {
-        int wi = bounds.width <= 100 ? SMALL_BORDER : LARGE_BORDER;
-        int hi = bounds.height <= 100 ? SMALL_BORDER : LARGE_BORDER;
+        int wi = bounds.height <= 100 ? SMALL_BORDER : LARGE_BORDER;
+        int hi = bounds.width <= 100 ? SMALL_BORDER : LARGE_BORDER;
         insets.set(hi, wi, hi, wi);
         return insets;
     }
