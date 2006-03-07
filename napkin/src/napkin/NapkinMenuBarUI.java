@@ -21,14 +21,14 @@ public class NapkinMenuBarUI extends BasicMenuBarUI implements NapkinPainter {
 
     public void installUI(JComponent c) {
         super.installUI(c);
+        NapkinUtil.installUI(c);
         oldBorder = c.getBorder();
         c.setBorder(null);
-        NapkinUtil.installUI(c);
     }
 
     public void uninstallUI(JComponent c) {
-        NapkinUtil.uninstallUI(c);
         c.setBorder(oldBorder);
+        NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
     }
 
