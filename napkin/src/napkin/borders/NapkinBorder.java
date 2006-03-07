@@ -14,7 +14,7 @@ public abstract class NapkinBorder extends AbstractBorder {
     }
 
     public Insets getBorderInsets(Component c) {
-        return doGetBorderInsets(c);
+        return doGetBorderInsets(c, new Insets(0, 0, 0, 0));
     }
 
     public void paintBorder(Component c, Graphics g, int x, int y, int width,
@@ -27,8 +27,12 @@ public abstract class NapkinBorder extends AbstractBorder {
         doPaintBorder(c, g, x, y, width, height);
     }
 
-    protected abstract Insets doGetBorderInsets(Component c);
+    protected abstract Insets doGetBorderInsets(Component c, Insets insets);
 
     protected abstract void doPaintBorder(Component c, Graphics g, int x, int y,
             int width, int height);
+
+    public Insets getBorderInsets(Component c, Insets insets) {
+        return doGetBorderInsets(c, insets);
+    }
 }

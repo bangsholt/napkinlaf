@@ -52,6 +52,21 @@ public class NapkinUtil implements NapkinConstants {
                 }
             };
 
+    private static final PropertyChangeListener BORDER_LISTENER =
+            new PropertyChangeListener() {
+                public void propertyChange(PropertyChangeEvent event) {
+                    JComponent c = (JComponent) event.getSource();
+                    // unplug the listener before setting border
+                    // this is to avoid possible infinite loop due to
+                    // another "enforcing" listener
+                    c.removePropertyChangeListener("border",
+                            BORDER_LISTENER);
+                    setupBorder(c);
+                    c.addPropertyChangeListener("border",
+                            BORDER_LISTENER);
+                }
+            };
+
     private static final PropertyChangeListener OPAQUE_LISTENER =
             new PropertyChangeListener() {
                 public void propertyChange(PropertyChangeEvent event) {
@@ -134,14 +149,17 @@ public class NapkinUtil implements NapkinConstants {
         if (replace(c.getBackground(), CLEAR))
             c.setBackground(CLEAR);
         c.addPropertyChangeListener("background", BACKGROUND_LISTENER);
+        setupBorder(c);
+        c.addPropertyChangeListener("border", BORDER_LISTENER);
     }
 
     public static void uninstallUI(JComponent c) {
+        c.removePropertyChangeListener("border", BORDER_LISTENER);
+        unsetupBorder(c);
         c.removePropertyChangeListener("background", BACKGROUND_LISTENER);
         c.removePropertyChangeListener("opaque", OPAQUE_LISTENER);
         if (shouldMakeOpaque(c))
             c.setOpaque(true);
-        unsetupBorder(c);
         for (String clientProp : CLIENT_PROPERTIES)
             c.putClientProperty(clientProp, null);
     }
@@ -230,7 +248,6 @@ public class NapkinUtil implements NapkinConstants {
 
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        setupBorder(c);
         return g;
     }
 

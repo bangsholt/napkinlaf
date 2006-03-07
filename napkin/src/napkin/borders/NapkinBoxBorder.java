@@ -47,10 +47,15 @@ public class NapkinBoxBorder extends NapkinBorder implements NapkinConstants {
         g.translate(-x, -y);
     }
 
-    public static Insets getDefaultInsets(Rectangle bounds) {
+    public static Insets getDefaultInsets(Rectangle bounds, Insets insets) {
         int wi = bounds.width <= 100 ? SMALL_BORDER : LARGE_BORDER;
         int hi = bounds.height <= 100 ? SMALL_BORDER : LARGE_BORDER;
-        return new Insets(hi, wi, hi, wi);
+        insets.set(hi, wi, hi, wi);
+        return insets;
+    }
+
+    public static Insets getDefaultInsets(Rectangle bounds) {
+        return getDefaultInsets(bounds, new Insets(0, 0, 0, 0));
     }
 
     public static int getDelta(int num) {
@@ -65,13 +70,8 @@ public class NapkinBoxBorder extends NapkinBorder implements NapkinConstants {
         return getDelta(in.top) + getDelta(in.bottom);
     }
 
-    public Insets doGetBorderInsets(Component c) {
-        return getDefaultInsets(c.getBounds());
+    public Insets doGetBorderInsets(Component c, Insets insets) {
+        return getDefaultInsets(c.getBounds(), insets);
     }
 
-    public Insets getBorderInsets(Component c, Insets insets) {
-        Insets di = doGetBorderInsets(c);
-        insets.set(di.top, di.left, di.bottom, di.right);
-        return insets;
-    }
 }

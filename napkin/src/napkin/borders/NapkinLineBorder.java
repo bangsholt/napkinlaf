@@ -21,8 +21,13 @@ public class NapkinLineBorder extends NapkinBorder {
         this.vertical = vertical;
     }
 
-    protected Insets doGetBorderInsets(Component c) {
-        return (vertical ? DEFAULT_VERT_INSETS : DEFAULT_HORIZ_INSETS);
+    protected Insets doGetBorderInsets(Component c, Insets insets) {
+        if (vertical) {
+            insets.set(0, 0, 0, NapkinBoxBorder.SMALL_DEFAULT_INSETS.right);
+        } else {
+            insets.set(0, 0, NapkinBoxBorder.SMALL_DEFAULT_INSETS.bottom, 0);
+        }
+        return insets;
     }
 
     public void doPaintBorder(Component c, Graphics g1, int x, int y,
@@ -36,7 +41,7 @@ public class NapkinLineBorder extends NapkinBorder {
                             vertical);
         line.shapeUpToDate(passed, null);
 
-        Insets insets = doGetBorderInsets(c);
+        Insets insets = getBorderInsets(c);
         if (insets.bottom != 0)
             y += c.getHeight() - insets.bottom;
         else
