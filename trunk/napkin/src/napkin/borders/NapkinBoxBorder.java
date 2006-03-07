@@ -12,7 +12,7 @@ import java.awt.*;
 
 public class NapkinBoxBorder extends NapkinBorder implements NapkinConstants {
     private static final int SMALL_BORDER = 3;
-    private static final int LARGE_BORDER = 5;
+    private static final int LARGE_BORDER = 4;
 
     public static final Insets SMALL_DEFAULT_INSETS =
             new InsetsUIResource(SMALL_BORDER, SMALL_BORDER,
