@@ -85,7 +85,7 @@ public class NapkinUtil implements NapkinConstants {
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
 
     private static final AlphaComposite ERASURE_COMPOSITE =
-            AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.8f);
+            AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.9f);
     private static final Stack<Object> themeStack = new Stack<Object>();
     private static final Stack<Component> paperStack = new Stack<Component>();
 
