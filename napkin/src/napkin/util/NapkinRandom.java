@@ -22,4 +22,8 @@ public class NapkinRandom {
     public static double triangular(double scale) {
         return scale * (random.nextDouble() - random.nextDouble());
     }
+
+    public static double triCbRt(double scale) {
+        return scale * Math.cbrt(random.nextDouble() - random.nextDouble());
+    }
 }
