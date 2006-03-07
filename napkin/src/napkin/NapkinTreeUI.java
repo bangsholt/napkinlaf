@@ -40,18 +40,6 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
         }
 
         public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
-            setBackgroundNonSelectionColor(NapkinUtil.ifReplace(
-                    getBackgroundSelectionColor(),
-                    NapkinConstants.CLEAR));
-            setBackgroundSelectionColor(NapkinUtil.ifReplace(
-                    getBackgroundSelectionColor(),
-                    theme.getHighlightColor()));
-            setTextSelectionColor(NapkinUtil.ifReplace(
-                    getBackgroundSelectionColor(),
-                    theme.getPenColor()));
-            setTextNonSelectionColor(NapkinUtil.ifReplace(
-                    getBackgroundSelectionColor(),
-                    theme.getPenColor()));
             super.paint(g);
         }
 
@@ -66,6 +54,7 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
         public Icon getClosedIcon() {
             return getDefaultClosedIcon();
         }
+
     }
 
     private final LineCache linesFor = new LineCache();
