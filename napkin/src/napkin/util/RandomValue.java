@@ -21,7 +21,7 @@ public class RandomValue implements RandomValueSource {
         if (factor == 0)
             adjust = 0;
         else
-            adjust = NapkinRandom.gaussian(factor);
+            adjust = NapkinRandom.triangular(1.5d*factor); //gaussian(factor);
     }
 
     public double get() {

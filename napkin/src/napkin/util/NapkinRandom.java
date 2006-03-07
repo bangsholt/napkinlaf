@@ -18,4 +18,8 @@ public class NapkinRandom {
     public static double nextDouble(double scale) {
         return random.nextDouble() * scale;
     }
+
+    public static double triangular(double scale) {
+        return scale * (random.nextDouble() - random.nextDouble());
+    }
 }
