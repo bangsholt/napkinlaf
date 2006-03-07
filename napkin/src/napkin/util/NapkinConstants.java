@@ -16,6 +16,7 @@ public interface NapkinConstants extends SwingConstants {
     String DISABLED_MARK_KEY = "napkin.disabledMark";
     String BORDER_KEY = "napkin.border";
     String OPAQUE_KEY = "napkin.wasOpaque";
+    String NEEDS_REVALIDATION = "napkin.revalidated";
 
     String RESOURCE_PATH = "/napkin/resources/";
 
