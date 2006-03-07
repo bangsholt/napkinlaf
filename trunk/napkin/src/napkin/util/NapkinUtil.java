@@ -550,6 +550,10 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static void update(Graphics g, JComponent c, NapkinPainter painter) {
+        if (!Boolean.FALSE.equals(c.getClientProperty(NEEDS_REVALIDATION))) {
+            c.putClientProperty(NEEDS_REVALIDATION, false);
+            c.revalidate();
+        }
         g = defaultGraphics(g, c);
         NapkinTheme theme = background(g, c);
         painter.superPaint(g, c, theme);
