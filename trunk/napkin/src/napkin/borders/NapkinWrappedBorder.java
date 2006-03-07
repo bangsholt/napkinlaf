@@ -19,8 +19,10 @@ public class NapkinWrappedBorder extends NapkinBorder {
         this.origBorder = origBorder;
     }
 
-    protected Insets doGetBorderInsets(Component c) {
-        return origBorder.getBorderInsets(c);
+    protected Insets doGetBorderInsets(Component c, Insets insets) {
+        Insets result = origBorder.getBorderInsets(c);
+        insets.set(result.top, result.left, result.bottom, result.right);
+        return insets;
     }
 
     public boolean isBorderOpaque() {
