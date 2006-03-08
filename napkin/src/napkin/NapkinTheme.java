@@ -233,8 +233,8 @@ public class NapkinTheme {
                     new JotSketcher(),
                     new NapkinBackground(RESOURCE_PATH + "napkin.jpg"),
                     new NapkinBackground(RESOURCE_PATH + "erasure.png"),
-                    new NapkinBackground(RESOURCE_PATH + "postit01.jpg",
-                            15, 15, 38, 32));
+                    new NapkinBackground(RESOURCE_PATH + "postit.jpg",
+                            80, 80, 50, 40));
             addTheme(def);
 
             addTheme(new NapkinTheme("debug", "Debug theme", def.getPenColor(),
