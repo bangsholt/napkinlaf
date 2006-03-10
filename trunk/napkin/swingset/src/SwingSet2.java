@@ -1450,7 +1450,7 @@ public class SwingSet2 extends JPanel {
 
         public void paint(Graphics g) {
             aboutimage.paintIcon(this, g, 0, 0);
-            super.paint(g);
+            paintChildren(g);
         }
 
         public Dimension getPreferredSize() {
