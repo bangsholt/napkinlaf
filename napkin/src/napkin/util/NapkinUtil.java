@@ -84,7 +84,7 @@ public class NapkinUtil implements NapkinConstants {
 
     private static final AlphaComposite ERASURE_COMPOSITE =
             AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.9f);
-    private static final Stack<Object> themeStack = new Stack<Object>();
+    private static final Stack<NapkinTheme> themeStack = new Stack<NapkinTheme>();
     private static final Stack<Component> paperStack = new Stack<Component>();
 
     static {
@@ -251,7 +251,9 @@ public class NapkinUtil implements NapkinConstants {
     public static void syncWithTheme(Graphics2D g, Component c) {
         if (isPaper(c)) {
             paperStack.push(c);
-            themeStack.push(((JComponent) c).getClientProperty(THEME_KEY));
+            themeStack.push(
+                    (NapkinTheme) ((JComponent) c).getClientProperty(THEME_KEY)
+                );
             dumpStacks();
         }
 
@@ -289,7 +291,7 @@ public class NapkinUtil implements NapkinConstants {
     public static NapkinTheme currentTheme(Component c) {
         if (themeStack.isEmpty())
             return (NapkinTheme) themeTopFor(c).getClientProperty(THEME_KEY);
-        return (NapkinTheme) themeStack.peek();
+        return themeStack.peek();
     }
 
     public static Component currentPaper(Component c) {
@@ -578,4 +580,5 @@ public class NapkinUtil implements NapkinConstants {
             return e;
         }
     }
+
 }
