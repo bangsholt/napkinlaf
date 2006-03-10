@@ -30,8 +30,6 @@ public class NapkinUtil implements NapkinConstants {
     private static final Map<Float, Stroke> strokes =
             new WeakHashMap<Float, Stroke>();
 
-    private static boolean drawingDisabled;
-
     private static final BufferedImage textureImage;
 
     private static final float FOCUS_MARK_WIDTH = 1.5f;
@@ -214,8 +212,7 @@ public class NapkinUtil implements NapkinConstants {
         Graphics2D g = (Graphics2D) g1;
         syncWithTheme(g, c);
         boolean enabled = c.isEnabled();
-        if (!enabled && c instanceof JComponent && !drawingDisabled) {
-            drawingDisabled = true;
+        if (!enabled && c instanceof JComponent) {
             Rectangle r = g.getClipBounds();
             int w = r.width;
             int h = r.height;
@@ -319,7 +316,6 @@ public class NapkinUtil implements NapkinConstants {
         if (mark == null)
             return;
 
-        drawingDisabled = false;
         jc.putClientProperty(DISABLED_MARK_KEY, null);
         Graphics2D tg = (Graphics2D) g1;
         tg.setComposite(ERASURE_COMPOSITE);
@@ -430,12 +426,7 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     private static Insets insets(Component c) {
-        Insets in;
-        if (c instanceof Container)
-            in = ((Container) c).getInsets();
-        else
-            in = NO_INSETS;
-        return in;
+        return c instanceof Container ? ((Container) c).getInsets() : NO_INSETS;
     }
 
     /** @noinspection TailRecursion */
