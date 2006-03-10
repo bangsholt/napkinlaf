@@ -10,15 +10,9 @@ import java.net.URL;
 public class NapkinBackground {
     private final String name;
     private final ImageIcon icon;
-    private final Icon tlCorner,
-            tSide,
-            trCorner;
-    private final Icon rSide,
-            middle,
-            lSide;
-    private final Icon blCorner,
-            bSide,
-            brCorner;
+    private final Icon tlCorner, tSide, trCorner;
+    private final Icon rSide, middle, lSide;
+    private final Icon blCorner, bSide, brCorner;
 
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
 
@@ -96,8 +90,7 @@ public class NapkinBackground {
     /** @noinspection UnnecessaryLocalVariable */
     private static void paintSliceAcross(Component c, Graphics g,
             Rectangle paper, Rectangle comp, Insets cInsets, int bandY,
-            int bandH,
-            Icon lftIcon, Icon midIcon, Icon rgtIcon) {
+            int bandH, Icon lftIcon, Icon midIcon, Icon rgtIcon) {
 
         if (bandH == 0)
             return;
@@ -166,7 +159,7 @@ public class NapkinBackground {
             gSum += (colour >> 8) & 0xFF;
             bSum += (colour) & 0xFF;
         }
-        return new Color(rSum / colours.length,
-                gSum / colours.length, bSum / colours.length);
+        return new Color(rSum / colours.length, gSum / colours.length,
+                bSum / colours.length);
     }
 }
