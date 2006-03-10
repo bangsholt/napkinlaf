@@ -76,28 +76,33 @@ public class NapkinBackground {
     /** @noinspection UnnecessaryLocalVariable */
     public void paint(Component c, Graphics g, Rectangle paper, Rectangle comp,
             Insets cInsets) {
+        paint(c, g, paper, new Rectangle(comp.x - cInsets.left,
+                comp.y - cInsets.top, comp.width + cInsets.left + cInsets.right,
+                comp.height + cInsets.top + cInsets.bottom));
+    }
+
+    public void paint(Component c, Graphics g, Rectangle paper, Rectangle comp) {
         int topH = tlCorner.getIconHeight();
         int topY = 0;
-
+        
         int botH = blCorner.getIconHeight();
         int botY = paper.height - botH;
-
+        
         int midH = paper.height - (topH + botH);
         int midY = topH;
-
-        paintSliceAcross(c, g, paper, comp, cInsets, topY, topH, tlCorner,
+        
+        paintSliceAcross(c, g, paper, comp, topY, topH, tlCorner,
                 tSide, trCorner);
-        paintSliceAcross(c, g, paper, comp, cInsets, midY, midH, lSide, middle,
+        paintSliceAcross(c, g, paper, comp, midY, midH, lSide, middle,
                 rSide);
-        paintSliceAcross(c, g, paper, comp, cInsets, botY, botH, blCorner,
+        paintSliceAcross(c, g, paper, comp, botY, botH, blCorner,
                 bSide, brCorner);
     }
 
     /** @noinspection UnnecessaryLocalVariable */
     private static void paintSliceAcross(Component c, Graphics g,
-            Rectangle paper, Rectangle comp, Insets cInsets, int bandY,
-            int bandH,
-            Icon lftIcon, Icon midIcon, Icon rgtIcon) {
+            Rectangle paper, Rectangle comp, int bandY,
+            int bandH, Icon lftIcon, Icon midIcon, Icon rgtIcon) {
 
         if (bandH == 0)
             return;
@@ -115,13 +120,13 @@ public class NapkinBackground {
         int rgtW = rgtIcon.getIconWidth();
         int rgtX = paper.width - rgtW;
 
-        paintArea(c, g, comp, lftX, bandY, lftW, bandH, lftIcon, cInsets);
-        paintArea(c, g, comp, midX, bandY, midW, bandH, midIcon, cInsets);
-        paintArea(c, g, comp, rgtX, bandY, rgtW, bandH, rgtIcon, cInsets);
+        paintArea(c, g, comp, lftX, bandY, lftW, bandH, lftIcon);
+        paintArea(c, g, comp, midX, bandY, midW, bandH, midIcon);
+        paintArea(c, g, comp, rgtX, bandY, rgtW, bandH, rgtIcon);
     }
 
     private static void paintArea(Component c, Graphics g, Rectangle comp,
-            int atX, int atY, int w, int h, Icon icon, Insets cInsets) {
+            int atX, int atY, int w, int h, Icon icon) {
 
         if (w == 0 || h == 0)
             return;
@@ -132,9 +137,9 @@ public class NapkinBackground {
 
         // at this point we deal with the fact that the Graphics object is
         // translated to the origin of the component, with insets outside
-        atX -= comp.x + cInsets.left;
-        atY -= comp.y + cInsets.top;
-        Rectangle cZeroed = new Rectangle(-cInsets.left, -cInsets.top,
+        atX -= comp.x;
+        atY -= comp.y;
+        Rectangle cZeroed = new Rectangle(0, 0,
                 comp.width, comp.height);
 
         int endX = atX + w;
