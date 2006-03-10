@@ -137,14 +137,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             table.put(uiType, uiClass);
         }
 
-        //!! The following line is a hot-fix for non-working FileChooser on
-        //!! Windows - NPE while installUI(Component)
-        table.put("FileChooserUI", "javax.swing.plaf.metal.MetalFileChooserUI");
-        //!! The following line is a hot-fix for JScrollPanel's paint issue on
-        //!! Windows - background paper of "collapsable" tab windows are drawn
-        //!! incorrectly.
-        table.put("ScrollPaneUI", "javax.swing.plaf.basic.BasicScrollPaneUI");
-
         Set<Object> keys = new HashSet<Object>(table.keySet());
         keys.removeAll(Arrays.asList(UI_TYPES));
         if (keys.size() != 0)

@@ -2,38 +2,27 @@
 
 package napkin;
 
-import napkin.util.ComponentWalker;
 import napkin.util.NapkinPainter;
 import napkin.util.NapkinUtil;
 
 import javax.swing.*;
 import javax.swing.filechooser.*;
 import javax.swing.plaf.*;
-import javax.swing.plaf.metal.*;
 import java.awt.*;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.plaf.metal.MetalFileChooserUI;
 
 //!! It seems as if the BasicFileChooserUI is not yet well formed, so we're just
 //!! borrowing the metal chooser for now.
 
 public class NapkinFileChooserUI extends MetalFileChooserUI
         implements NapkinPainter {
-    private BasicFileView fileView;
 
-    private static final ComponentWalker.Visitor NO_BORDER_VISITOR =
-            new ComponentWalker.Visitor() {
-                public boolean visit(Component c, int depth) {
-                    if (c instanceof JButton) {
-                        JButton button = (JButton) c;
-                        button.setBorderPainted(false);
-                    }
-                    return true;
-                }
-            };
+    private final NapkinFileView fileView = new NapkinFileView();
 
-    public class NapkinFileView extends BasicFileView {
+    private class NapkinFileView extends BasicFileView {
         private final Map<String, Icon> pathIconCache =
                 new HashMap<String, Icon>();
 
@@ -42,16 +31,11 @@ public class NapkinFileChooserUI extends MetalFileChooserUI
         }
 
         public Icon getIcon(File f) {
-            Icon icon;
-            if ((icon = getCachedIcon(f)) != null)
+            Icon icon = getCachedIcon(f);
+            if (icon != null)
                 return icon;
 
-            FileSystemView fsv = getFileChooser().getFileSystemView();
-            icon = fsv.getSystemIcon(f);
-
-            if (icon == null)
-                icon = getDefaultIcon(f);
-
+            icon = getDefaultIcon(f);
             cacheIcon(f, icon);
             return icon;
         }
@@ -76,7 +60,9 @@ public class NapkinFileChooserUI extends MetalFileChooserUI
             } else if (f.isDirectory()) {
                 icon = UIManager.getIcon("FileView.directoryIcon");
             } else {
-                icon = UIManager.getIcon("FileView.fileIcon");
+                icon = fsv.getSystemIcon(f);
+                if (icon == null)
+                    icon = UIManager.getIcon("FileView.fileIcon");
             }
             return icon;
         }
@@ -93,20 +79,11 @@ public class NapkinFileChooserUI extends MetalFileChooserUI
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
-        fileView = new NapkinFileView();
     }
 
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
-        fileView = null;
-    }
-
-    public void installComponents(JFileChooser fc) {
-        super.installComponents(fc);
-        Component[] comps = fc.getComponents();
-        JPanel topPanel = (JPanel) comps[0];
-        new ComponentWalker(NO_BORDER_VISITOR).walk(topPanel);
     }
 
     public void update(Graphics g, JComponent c) {
@@ -120,5 +97,5 @@ public class NapkinFileChooserUI extends MetalFileChooserUI
     public FileView getFileView(JFileChooser fc) {
         return fileView;
     }
-}
 
+}
