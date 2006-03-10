@@ -257,6 +257,10 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 "InternalFrame.minimizeIcon", minIcon,
                 "InternalFrame.iconifyIcon", iconIcon,
                 "InternalFrame.closeIcon", closeIcon,
+                "InternalFrame.closeButtonToolTip", "Close",
+                "InternalFrame.iconButtonToolTip", "Minimise",
+                "InternalFrame.restoreButtonToolTip", "Restore",
+                "InternalFrame.maxButtonToolTip", "Maximise",
 
                 "SplitPaneDivider.border", null,
                 "SplitPane.dividerSize", NapkinSplitPaneDivider.SIZE,
