@@ -2,6 +2,7 @@
 
 package napkin.sketch;
 
+import napkin.NapkinLookAndFeel;
 import napkin.sketch.geometry.CubicLine;
 import napkin.sketch.geometry.Path;
 import napkin.sketch.geometry.QuadLine;
@@ -58,7 +59,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
 
     // Data-related objects
     private Point2D point; // Holds point information
-    private final Point2D.Float[] points; // Holds all points for a particular line
+    private final Point2D.Float[] points; // Holds points for a particular line
     private int i; // Used to iterate through all the points
     private int[] rgb; // Holds r, g, b color information
 
@@ -243,8 +244,8 @@ public class XMLTemplateExtractor extends DefaultHandler {
             i = 0;
         } else if (localName.equals("close")) {
             path.closePath();
-        } else if (localName.equals("start") || localName.equals("point")
-                || localName.equals("control") || localName.equals("end")) {
+        } else if (localName.equals("start") || localName.equals("point") ||
+                localName.equals("control") || localName.equals("end")) {
             points[i++] = (Point2D.Float) point.clone();
         }
         currentAction = NO_ACTION;
@@ -285,9 +286,8 @@ public class XMLTemplateExtractor extends DefaultHandler {
         System.err.flush();
     }
 
-    private static final String schemaURL =
-            ClassLoader.getSystemResource(
-                    "napkin/resources/templates/Template.xsd").toString();
+    private static final String schemaURL = NapkinLookAndFeel.class.getResource(
+            "resources/templates/Template.xsd").toString();
 
     /**
      * Creates a Template object from an XML document.
