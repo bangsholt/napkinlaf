@@ -44,8 +44,14 @@
 
     <target name="jars" depends="compile" description="build jar files">
         <mkdir dir="jars"/>
+	<unjar src="lib/jdom-1.0.jar" dest="classes">
+	    <patternset>
+		<include name="org/jdom/**/*.class"/>
+	    </patternset>
+	</unjar>
         <jar destfile="jars/napkinlaf.jar" basedir="classes" index="true">
             <include name="napkin/**/*"/>
+            <include name="org/jdom/**/*"/>
             <manifest>
                 <attribute name="Version" value="${version}"/>
                 <attribute name="Main-Class"
@@ -60,6 +66,7 @@
             </manifest>
             <zipgroupfileset dir="lib" includes="*.jar"/>
         </jar>
+        <delete dir="classes/org/jdom"/>
     </target>
 
     <target name="release.new" description="build new release">
