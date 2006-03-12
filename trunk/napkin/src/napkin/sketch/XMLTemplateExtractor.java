@@ -286,8 +286,8 @@ public class XMLTemplateExtractor extends DefaultHandler {
         System.err.flush();
     }
 
-    private static final String schemaURL = NapkinLookAndFeel.class.getResource(
-            "resources/templates/Template.xsd").toString();
+    private static final String schemaURL = ClassLoader.getSystemResource(
+                    "napkin/resources/templates/Template.xsd").toString();
 
     /**
      * Creates a Template object from an XML document.
