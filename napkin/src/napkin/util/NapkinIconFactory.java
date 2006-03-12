@@ -257,6 +257,6 @@ public class NapkinIconFactory {
                 return null;
             }
         }
-        return template.clone();
+        return template;
     }
 }

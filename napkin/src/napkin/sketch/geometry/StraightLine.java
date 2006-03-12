@@ -177,4 +177,8 @@ public class StraightLine extends Line2D.Double implements SketchShape {
         ret[0] = transformToCubic();
         return ret;
     }
+
+    public StraightLine clone() {
+        return new StraightLine(this);
+    }
 }

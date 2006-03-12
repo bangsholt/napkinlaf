@@ -21,7 +21,7 @@ import java.awt.*;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-public interface SketchShape extends Shape {
+public interface SketchShape extends Shape, Cloneable {
     /**
      * Returns a shape geometrically similar to this, magnified by the scale
      * factor. This transformation does not affect this shape; only the returned
@@ -72,4 +72,6 @@ public interface SketchShape extends Shape {
      *         be accurate to within approximately 20%.
      */
     double approximateLength();
+
+    SketchShape clone();
 }

@@ -95,4 +95,9 @@ public class QuadLine extends QuadCurve2D.Double implements SketchShape {
         ret[0] = transformToCubic();
         return ret;
     }
+
+    public QuadLine clone() {
+        return new QuadLine(this);
+    }
+
 }
