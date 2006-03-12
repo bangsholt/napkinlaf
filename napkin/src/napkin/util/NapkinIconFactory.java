@@ -238,17 +238,8 @@ public class NapkinIconFactory {
             return new SketchedIcon(template, theme.getSketcher());
     }
 
-    //!! The sketcher with BluePrint Theme cannot withstand multiple sketches.
-    //!! Short term solution for now is to turn off the Template cache so that
-    //!! every icon load gets a fresh copy of the unaltered version.
-    //!!
-    //!! Personally I never thought continuous deformation was the right thing
-    //!! to do anyway - what if the distorting algorithm reaches equilibrium or
-    //!! is unstable? And do we really want to go through the maths for this?
-    //!! Supporting evidence comes from the fact that the folder icons in both
-    //!! themes look more randomised now.
     public static Template getTemplate(String templatePath) {
-        Template template = null; //tmplMap.get(templatePath);
+        Template template = tmplMap.get(templatePath);
         if (template == null) {
             String subpath =
                     RESOURCE_PATH + "templates/" + templatePath + ".xml";
@@ -260,12 +251,12 @@ public class NapkinIconFactory {
 
             try {
                 template = Template.createFromXML(in);
-                //tmplMap.put(templatePath, template);
+                tmplMap.put(templatePath, template);
             } catch (TemplateReadException e) {
                 e.printStackTrace();
                 return null;
             }
         }
-        return template;
+        return template.clone();
     }
 }
