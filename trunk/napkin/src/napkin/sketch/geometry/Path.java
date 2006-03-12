@@ -278,4 +278,9 @@ public class Path implements SketchShape {
 
         return ret.toArray(new CubicLine[ret.size()]);
     }
+
+    public Path clone() {
+        return new Path(this);
+    }
+
 }

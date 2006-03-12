@@ -175,9 +175,17 @@ public class TemplateItem implements Cloneable {
     }
 
     /** {@inheritDoc} */
-    public Object clone() {
+    @SuppressWarnings("unchecked")
+    public TemplateItem clone() {
         try {
-            return super.clone();
+            TemplateItem item = (TemplateItem) super.clone();
+            item.drawFill = drawFill;
+            item.drawStroke = drawStroke;
+            item.fillColor = fillColor;
+            item.shape = shape.clone();
+            item.strokeColor = strokeColor;
+            item.strokeWeight = strokeWeight;
+            return item;
         } catch (CloneNotSupportedException e) {
             throw new IllegalStateException("cannot clone/", e);
         }

@@ -177,4 +177,9 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
         ret[0] = transformToCubic();
         return ret;
     }
+
+    public CubicLine clone() {
+        return new CubicLine(this);
+    }
+
 }

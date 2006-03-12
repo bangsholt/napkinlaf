@@ -252,8 +252,9 @@ public class Template implements Cloneable {
     public Template clone() {
         try {
             Template ret = (Template) super.clone();
-            ret.templateItems = (LinkedList<TemplateItem>)
-                    templateItems.clone();
+            ret.templateItems = new LinkedList<TemplateItem>();
+            for (TemplateItem item : templateItems)
+                ret.templateItems.add(item.clone());
             ret.clippingBounds = (Rectangle) clippingBounds.clone();
             return ret;
         } catch (CloneNotSupportedException e) {
