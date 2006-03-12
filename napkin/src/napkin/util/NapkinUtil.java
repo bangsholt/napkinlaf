@@ -203,6 +203,8 @@ public class NapkinUtil implements NapkinConstants {
             strokes.put(w, stroke);
         }
         lineG.setStroke(stroke);
+        lineG.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         lineG.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
         return lineG;
@@ -243,6 +245,8 @@ public class NapkinUtil implements NapkinConstants {
             g = tg;
         }
 
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
         return g;
