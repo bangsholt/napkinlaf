@@ -547,7 +547,8 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static void update(Graphics g, JComponent c, NapkinPainter painter) {
-        if (!Boolean.FALSE.equals(c.getClientProperty(NEEDS_REVALIDATION))) {
+        if ((c instanceof JButton || c instanceof JLabel) &&
+               !Boolean.FALSE.equals(c.getClientProperty(NEEDS_REVALIDATION))) {
             c.putClientProperty(NEEDS_REVALIDATION, false);
             c.revalidate();
         }
