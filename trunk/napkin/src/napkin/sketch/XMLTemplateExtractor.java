@@ -2,7 +2,6 @@
 
 package napkin.sketch;
 
-import napkin.NapkinLookAndFeel;
 import napkin.sketch.geometry.CubicLine;
 import napkin.sketch.geometry.Path;
 import napkin.sketch.geometry.QuadLine;
