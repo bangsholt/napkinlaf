@@ -7,11 +7,11 @@ import napkin.util.NapkinConstants;
 import java.awt.*;
 import java.awt.geom.*;
 
-public abstract class DrawnShapeGenerator implements NapkinConstants {
+public abstract class AbstractDrawnGenerator implements NapkinConstants {
     public abstract Shape generate(AffineTransform matrix);
 
     public static Shape addLine(GeneralPath path, AffineTransform matrix,
-            DrawnShapeGenerator gen) {
+            AbstractDrawnGenerator gen) {
 
         Shape shape;
         if (gen != null)

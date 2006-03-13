@@ -11,11 +11,11 @@ import javax.swing.plaf.basic.*;
 import java.awt.*;
 
 public class NapkinLabelUI extends BasicLabelUI implements NapkinPainter {
-    private static final NapkinLabelUI napkinLabelUI = new NapkinLabelUI();
+    private static final NapkinLabelUI ui = new NapkinLabelUI();
 
     @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
-        return napkinLabelUI;
+        return ui;
     }
 
     public void installUI(JComponent c) {

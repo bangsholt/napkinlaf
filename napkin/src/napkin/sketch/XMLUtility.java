@@ -16,6 +16,10 @@ import java.awt.geom.*;
  * @author Justin Crafford
  */
 public class XMLUtility {
+
+    private XMLUtility() {
+    }
+
     /**
      * @param c
      * @param name

@@ -135,13 +135,13 @@ public class Template implements Cloneable {
             tmaxy = s.getBounds2D().getMaxY();
 
             if (tminx < minx)
-                minx = new Long(Math.round(Math.floor(tminx))).intValue();
+                minx = (int) Math.floor(tminx);
             if (tminy < miny)
-                miny = new Long(Math.round(Math.floor(tminy))).intValue();
+                miny = (int) Math.floor(tminy);
             if (tmaxx > maxx)
-                maxx = new Long(Math.round(Math.ceil(tmaxx))).intValue();
+                maxx = (int) Math.ceil(tmaxx);
             if (tmaxy > maxy)
-                maxy = new Long(Math.round(Math.ceil(tmaxy))).intValue();
+                maxy = (int) Math.ceil(tmaxy);
         }
 
         width = maxx - minx;

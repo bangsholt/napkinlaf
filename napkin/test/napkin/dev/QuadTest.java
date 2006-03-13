@@ -3,7 +3,7 @@
 package napkin.dev;
 
 import napkin.shapes.DrawnQuadLineGenerator;
-import napkin.shapes.DrawnShapeGenerator;
+import napkin.shapes.AbstractDrawnGenerator;
 import napkin.util.RandomValue;
 import napkin.util.RandomValueSource;
 
@@ -71,7 +71,7 @@ class QuadTest extends GeneratorTest implements GeneratorTest.Drawer {
         return gen.generate(matrix);
     }
 
-    public DrawnShapeGenerator getGenerator() {
+    public AbstractDrawnGenerator getGenerator() {
         return gen;
     }
 

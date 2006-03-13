@@ -31,7 +31,10 @@ public class NapkinDebug {
     /** @noinspection MismatchedQueryAndUpdateOfCollection */
     private static final Set<String> skip = new HashSet<String>();
 
-    static int count;
+    protected static int count;
+
+    private NapkinDebug() {
+    }
 
     public static void dumpObject(Object obj, String fileName) {
         PrintStream out = null;
@@ -66,37 +69,38 @@ public class NapkinDebug {
         int dot = desc.lastIndexOf('.');
         if (dot > 0)
             desc = desc.substring(dot + 1);
-        desc += idStr;
+        StringBuilder descStr = new StringBuilder(desc);
+        descStr.append(idStr);
 
         if (c instanceof JLabel)
-            desc += ": " + ((JLabel) c).getText();
+            descStr.append(": ").append(((JLabel) c).getText());
         else if (c instanceof AbstractButton)
-            desc += ": " + ((AbstractButton) c).getText();
+            descStr.append(": ").append(((AbstractButton) c).getText());
         else if (c instanceof JTextComponent)
-            desc += ": " + ((JTextComponent) c).getText();
+            descStr.append(": ").append(((JTextComponent) c).getText());
         else if (c instanceof JPopupMenu)
-            desc += ": " + ((JPopupMenu) c).getLabel();
+            descStr.append(": ").append(((JPopupMenu) c).getLabel());
         else if (c instanceof Label)
-            desc += ": " + ((Label) c).getText();
+            descStr.append(": ").append(((Label) c).getText());
         else if (c instanceof Button)
-            desc += ": " + ((Button) c).getLabel();
+            descStr.append(": ").append(((Button) c).getLabel());
         else if (c instanceof Checkbox)
-            desc += ": " + ((Checkbox) c).getLabel();
+            descStr.append(": ").append(((Checkbox) c).getLabel());
         else if (c instanceof Dialog)
-            desc += ": " + ((Dialog) c).getTitle();
+            descStr.append(": ").append(((Dialog) c).getTitle());
         else if (c instanceof Frame)
-            desc += ": " + ((Frame) c).getTitle();
+            descStr.append(": ").append(((Frame) c).getTitle());
         else if (c instanceof JInternalFrame)
-            desc += ": " + ((JInternalFrame) c).getTitle();
-        desc = desc.trim();
+            descStr.append(": ").append(((JInternalFrame) c).getTitle());
+        descStr = new StringBuilder(descStr.toString().trim());
 
         if (c instanceof JComponent) {
             JComponent jc = (JComponent) c;
             Border border = jc.getBorder();
             if (border instanceof TitledBorder)
-                desc += ": " + ((TitledBorder) border).getTitle();
+                descStr.append(": ").append(((TitledBorder) border).getTitle());
         }
-        return desc.trim();
+        return descStr.toString().trim();
     }
 
     static void dumpTo(String file, JComponent c) {

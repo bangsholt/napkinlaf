@@ -9,13 +9,14 @@ import java.awt.*;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-public class NapkinWrappedBorder extends NapkinBorder {
+public class NapkinWrappedBorder extends AbstractNapkinBorder {
     private final Border origBorder;
 
     private static final Map<Border, Border> borders =
             new WeakHashMap<Border, Border>(3);
 
     public NapkinWrappedBorder(Border origBorder) {
+        super();
         this.origBorder = origBorder;
     }
 

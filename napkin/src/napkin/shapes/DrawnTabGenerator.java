@@ -8,7 +8,7 @@ import napkin.util.RandomXY;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class DrawnTabGenerator extends DrawnShapeGenerator {
+public class DrawnTabGenerator extends AbstractDrawnGenerator {
     private final RandomXY ul;
     private final RandomXY ur;
     private final RandomXY lr;
@@ -50,6 +50,7 @@ public class DrawnTabGenerator extends DrawnShapeGenerator {
     }
 
     private DrawnTabGenerator(int side) {
+        super();
         this.side = side;
         float shimmy = 0.03f;
         ul = new RandomXY(0, shimmy, 0, shimmy);

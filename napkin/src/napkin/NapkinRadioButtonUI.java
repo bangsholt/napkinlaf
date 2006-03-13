@@ -20,9 +20,6 @@ public class NapkinRadioButtonUI extends BasicRadioButtonUI
     private DrawnLineHolder line;
     private boolean defaultsInstalled;
 
-    private NapkinRadioButtonUI() {
-    }
-
     @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinRadioButtonUI();

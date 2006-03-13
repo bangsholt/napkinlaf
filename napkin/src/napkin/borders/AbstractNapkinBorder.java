@@ -9,9 +9,7 @@ import javax.swing.border.*;
 import java.awt.*;
 
 /** Common work for napkin-style borders. */
-public abstract class NapkinBorder extends AbstractBorder {
-    public NapkinBorder() {
-    }
+public abstract class AbstractNapkinBorder extends AbstractBorder {
 
     public Insets getBorderInsets(Component c) {
         return doGetBorderInsets(c, new Insets(0, 0, 0, 0));

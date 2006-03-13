@@ -10,7 +10,7 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import java.awt.*;
 
-public class NapkinBoxBorder extends NapkinBorder implements NapkinConstants {
+public class NapkinBoxBorder extends AbstractNapkinBorder implements NapkinConstants {
     private static final int SMALL_BORDER = 3;
     private static final int LARGE_BORDER = 4;
 
@@ -27,10 +27,6 @@ public class NapkinBoxBorder extends NapkinBorder implements NapkinConstants {
                     return new DrawnBoxHolder();
                 }
             };
-
-    public NapkinBoxBorder() {
-        super();
-    }
 
     public void doPaintBorder(Component c, Graphics g1, int x, int y,
             int width, int height) {

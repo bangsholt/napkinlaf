@@ -15,13 +15,13 @@ public class NapkinViewportUI extends BasicViewportUI
         implements NapkinConstants, NapkinPainter {
     private int revertScrollMode;
 
-    private static final NapkinViewportUI napkinViewportUI =
+    private static final NapkinViewportUI ui =
             new NapkinViewportUI();
     private JViewport viewport;
 
     @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
-        return napkinViewportUI;
+        return ui;
     }
 
     public void installUI(JComponent c) {

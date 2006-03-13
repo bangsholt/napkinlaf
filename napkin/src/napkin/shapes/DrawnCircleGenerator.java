@@ -7,7 +7,7 @@ import napkin.util.RandomXY;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class DrawnCircleGenerator extends DrawnShapeGenerator {
+public class DrawnCircleGenerator extends AbstractDrawnGenerator {
 
     private final RandomXY start;
     private final RandomXY end;
@@ -22,6 +22,8 @@ public class DrawnCircleGenerator extends DrawnShapeGenerator {
     }
 
     public DrawnCircleGenerator(boolean forFill) {
+        super();
+        
         this.forFill = forFill;
 
         start = new RandomXY(LENGTH / 2.0, 2, 0, 20);

@@ -9,7 +9,7 @@ import napkin.util.RandomXY;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class DrawnCheckGenerator extends DrawnShapeGenerator {
+public class DrawnCheckGenerator extends AbstractDrawnGenerator {
     private final RandomXY dim;
     private final DrawnQuadLineGenerator leftLineGen;
     private final DrawnQuadLineGenerator rightLineGen;
@@ -27,6 +27,8 @@ public class DrawnCheckGenerator extends DrawnShapeGenerator {
     }
 
     public DrawnCheckGenerator(RandomValue widthVal, RandomValue heightVal) {
+        super();
+        
         dim = new RandomXY(widthVal, heightVal);
 
         leftLineGen = new DrawnQuadLineGenerator();

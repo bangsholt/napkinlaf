@@ -7,7 +7,7 @@ import napkin.util.RandomValue;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class DrawnScribbleGenerator extends DrawnShapeGenerator {
+public class DrawnScribbleGenerator extends AbstractDrawnGenerator {
     private final RandomValue position;
     private final RandomValue side;
     private final float[] point;
@@ -22,6 +22,7 @@ public class DrawnScribbleGenerator extends DrawnShapeGenerator {
     private static final float PER_STROKE = 1.5f;
 
     DrawnScribbleGenerator(float minShow) {
+        super();
         this.minShow = minShow;
         position = new RandomValue(0, 0.4);
         side = new RandomValue(0, 0.4);

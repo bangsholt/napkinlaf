@@ -13,7 +13,7 @@ import java.awt.*;
 import java.util.Iterator;
 
 /**
- * The <tt>Sketcher<tt> class uses the graphical information contained in a
+ * The <tt>AbstractSketcher<tt> class uses the graphical information contained in a
  * Template to produce an image. The Sketcher is responsible for such things as
  * deforming shapes and changing stroke widths. The altered graphic elements are
  * then rasterized to create an icon's final image.
@@ -26,7 +26,7 @@ import java.util.Iterator;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-public abstract class Sketcher {
+public abstract class AbstractSketcher {
     /**
      * Sketches a TemplateItem exactly as specified by the TemplateItem itself.
      * Usually only useful for sketching items which have been deformed by other

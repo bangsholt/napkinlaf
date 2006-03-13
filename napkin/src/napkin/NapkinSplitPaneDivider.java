@@ -20,7 +20,7 @@ public class NapkinSplitPaneDivider extends BasicSplitPaneDivider
     public static final int ARROW_SIZE = 5;
     public static final int SIZE = ARROW_SIZE + 4;
 
-    static final Cursor DEFAULT_CURSOR =
+    private static final Cursor DEFAULT_CURSOR =
             Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 
     public NapkinSplitPaneDivider(NapkinSplitPaneUI ui) {

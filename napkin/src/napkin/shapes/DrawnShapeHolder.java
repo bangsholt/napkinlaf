@@ -6,16 +6,16 @@ import napkin.util.NapkinUtil;
 
 import java.awt.*;
 
-public abstract class DrawnShapeHolder {
-    protected DrawnShapeGenerator gen;
+class DrawnShapeHolder {
+    protected AbstractDrawnGenerator gen;
     protected Shape shape;
     protected float width;
 
-    public DrawnShapeHolder(DrawnShapeGenerator gen) {
+    public DrawnShapeHolder(AbstractDrawnGenerator gen) {
         this(gen, 1);
     }
 
-    public DrawnShapeHolder(DrawnShapeGenerator gen, float width) {
+    public DrawnShapeHolder(AbstractDrawnGenerator gen, float width) {
         this.gen = gen;
         this.width = width;
     }

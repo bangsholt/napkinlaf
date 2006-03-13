@@ -2,7 +2,7 @@
 
 package napkin;
 
-import napkin.sketch.Sketcher;
+import napkin.sketch.AbstractSketcher;
 import napkin.sketch.sketchers.DraftSketcher;
 import napkin.sketch.sketchers.JotSketcher;
 import napkin.util.AlphaColorUIResource;
@@ -29,7 +29,7 @@ public class NapkinTheme {
     private final Font textFont;
     private final Font boldTextFont;
     private final Font fixedFont;
-    private final Sketcher sketcher;
+    private final AbstractSketcher sketcher;
     private final NapkinBackground paper;
     private final NapkinBackground erasure;
     private NapkinTheme[] variants = new NapkinTheme[2];
@@ -53,7 +53,7 @@ public class NapkinTheme {
     public NapkinTheme(String name, String description, Color penColor,
             Color checkColor, Color radioColor, Color highlightColor,
             Color selectionColor, Font textFont, Font boldTextFont,
-            Font fixedFont, Sketcher sketcher,
+            Font fixedFont, AbstractSketcher sketcher,
             NapkinBackground paper, NapkinBackground erasure,
             NapkinBackground popupPaper) {
 
@@ -70,9 +70,8 @@ public class NapkinTheme {
     public NapkinTheme(String name, String description, Color penColor,
             Color checkColor, Color radioColor, Color highlightColor,
             Color selectionColor, Font textFont, Font boldTextFont,
-            Font fixedFont, Sketcher sketcher, NapkinBackground paper,
+            Font fixedFont, AbstractSketcher sketcher, NapkinBackground paper,
             NapkinBackground erasure, NapkinTheme popupTheme) {
-
         this.name = name;
         this.description = description;
         colors[PEN_COLOR] = uiResource(penColor);
@@ -160,7 +159,7 @@ public class NapkinTheme {
         return fixedFont;
     }
 
-    public Sketcher getSketcher() {
+    public AbstractSketcher getSketcher() {
         return sketcher;
     }
 
@@ -200,11 +199,11 @@ public class NapkinTheme {
         private static final Logger LOG =
                 LogManager.getLogManager().getLogger(THIS_CLASS.getName());
 
-        static Font scrawl;
-        static Font scrawlBold;
-        static Font fixed;
-        static Font augie;
-        static NapkinTheme def;
+        private static Font scrawl;
+        private static Font scrawlBold;
+        private static Font fixed;
+        private static Font augie;
+        private static NapkinTheme def;
 
         static {
             AccessController.doPrivileged(new PrivilegedAction<Object>() {

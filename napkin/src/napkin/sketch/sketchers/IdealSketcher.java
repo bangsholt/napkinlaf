@@ -2,7 +2,7 @@
 
 package napkin.sketch.sketchers;
 
-import napkin.sketch.Sketcher;
+import napkin.sketch.AbstractSketcher;
 import napkin.sketch.geometry.CubicLine;
 import napkin.sketch.geometry.Path;
 import napkin.sketch.geometry.QuadLine;
@@ -16,7 +16,7 @@ import napkin.sketch.geometry.StraightLine;
  * @author Peter Goodpseed
  * @author Justin Crafford
  */
-public class IdealSketcher extends Sketcher {
+public class IdealSketcher extends AbstractSketcher {
     /** {@inheritDoc} */
     public SketchShape deformLine(StraightLine l) {
         return l;

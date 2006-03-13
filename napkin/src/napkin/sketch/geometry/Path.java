@@ -2,7 +2,7 @@
 
 package napkin.sketch.geometry;
 
-import napkin.sketch.Sketcher;
+import napkin.sketch.AbstractSketcher;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -194,7 +194,7 @@ public class Path implements SketchShape {
     }
 
     /** {@inheritDoc} */
-    public SketchShape deform(Sketcher r) {
+    public SketchShape deform(AbstractSketcher r) {
         return r.deformPath(this);
     }
 

@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DrawnBoxGenerator extends DrawnShapeGenerator {
+public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     private final RandomXY corner;
     private double adjustmentX;
     private double adjustmentY;
@@ -24,8 +24,8 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
     private final Point2D breakBeg;
     private final Point2D breakEnd;
     private final Shape[] sides;
-    private final DrawnShapeGenerator[] gens;
-    private final Map<Class<?>, DrawnShapeGenerator> generators;
+    private final AbstractDrawnGenerator[] gens;
+    private final Map<Class<?>, AbstractDrawnGenerator> generators;
     private boolean asX;
 
     private static final Logger logger =
@@ -60,13 +60,15 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
 
     public DrawnBoxGenerator(DrawnCubicLineGenerator cubic,
             DrawnQuadLineGenerator quad) {
-        generators = new HashMap<Class<?>, DrawnShapeGenerator>(3);
+        super();
+
+        generators = new HashMap<Class<?>, AbstractDrawnGenerator>(3);
         generators.put(DrawnCubicLineGenerator.class, cubic);
         generators.put(DrawnQuadLineGenerator.class, quad);
 
         // TOP ... BOTTOM runs from 1 to 4
         sides = new Shape[5];
-        gens = new DrawnShapeGenerator[5];
+        gens = new AbstractDrawnGenerator[5];
         for (int i = 1; i < 5; i++)
             setGenerator(i, DrawnCubicLineGenerator.class);
 
@@ -251,7 +253,7 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
         breakSide = NO_SIDE;
     }
 
-    public void setGenerator(int side, Class<?> type) {
+    public final void setGenerator(int side, Class<?> type) {
         gens[side] = toGenerator(type);
     }
 
@@ -259,16 +261,16 @@ public class DrawnBoxGenerator extends DrawnShapeGenerator {
         return fromGenerator(gens[side]);
     }
 
-    private static Class fromGenerator(DrawnShapeGenerator gen) {
+    private static Class fromGenerator(AbstractDrawnGenerator gen) {
         if (gen == null)
             return null;
         return gen.getClass();
     }
 
-    private DrawnShapeGenerator toGenerator(Class<?> type) {
+    private AbstractDrawnGenerator toGenerator(Class<?> type) {
         if (type == null)
             return null;
-        DrawnShapeGenerator gen = generators.get(type);
+        AbstractDrawnGenerator gen = generators.get(type);
         if (gen == null)
             throw new IllegalArgumentException("Unknown type: " + type);
         return gen;
