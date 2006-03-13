@@ -4,7 +4,7 @@ package napkin.dev;
 
 import napkin.NapkinLookAndFeel;
 import napkin.sketch.SketchedIcon;
-import napkin.sketch.Sketcher;
+import napkin.sketch.AbstractSketcher;
 import napkin.sketch.Template;
 import napkin.sketch.sketchers.DraftSketcher;
 import napkin.sketch.sketchers.IdealSketcher;
@@ -355,7 +355,7 @@ public class SketchTest implements ActionListener {
     private static SketchedIcon
             createDrawnIcon(String templatePath, int sketchStyle) {
 
-        Sketcher sketcher = getSketchStyle(sketchStyle);
+        AbstractSketcher sketcher = getSketchStyle(sketchStyle);
         SketchedIcon ret = null;
 
         try {
@@ -369,8 +369,8 @@ public class SketchTest implements ActionListener {
         return ret;
     }
 
-    private static Sketcher getSketchStyle(int sketchStyle) {
-        Sketcher sketcher;
+    private static AbstractSketcher getSketchStyle(int sketchStyle) {
+        AbstractSketcher sketcher;
 
         // Selects the sketching style to use
         switch (sketchStyle) {

@@ -7,14 +7,9 @@ import napkin.shapes.DrawnLineHolder;
 
 import java.awt.*;
 
-public class NapkinLineBorder extends NapkinBorder {
+public class NapkinLineBorder extends AbstractNapkinBorder {
     private final boolean vertical;
     private DrawnLineHolder line;
-
-    private static final Insets DEFAULT_VERT_INSETS =
-            new Insets(0, 0, 0, NapkinBoxBorder.SMALL_DEFAULT_INSETS.right);
-    private static final Insets DEFAULT_HORIZ_INSETS =
-            new Insets(0, 0, NapkinBoxBorder.SMALL_DEFAULT_INSETS.bottom, 0);
 
     public NapkinLineBorder(boolean vertical) {
         super();

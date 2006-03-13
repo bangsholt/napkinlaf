@@ -3,7 +3,6 @@
 package napkin;
 
 import napkin.shapes.DrawnLineHolder;
-import napkin.util.NapkinConstants;
 import napkin.util.NapkinPainter;
 import napkin.util.NapkinUtil;
 
@@ -145,8 +144,7 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
     }
 
     protected Color getHashColor() {
-        NapkinTheme theme = NapkinUtil.currentTheme(tree);
-        return theme.getPenColor();
+        return NapkinUtil.currentTheme(tree).getPenColor();
     }
 
     protected TreeCellRenderer createDefaultCellRenderer() {

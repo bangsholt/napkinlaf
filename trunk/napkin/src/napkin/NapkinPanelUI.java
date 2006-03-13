@@ -11,11 +11,11 @@ import javax.swing.plaf.basic.*;
 import java.awt.*;
 
 public class NapkinPanelUI extends BasicPanelUI implements NapkinPainter {
-    private static final NapkinPanelUI napkinPanelUI = new NapkinPanelUI();
+    private static final NapkinPanelUI ui = new NapkinPanelUI();
 
     @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
-        return napkinPanelUI;
+        return ui;
     }
 
     public void installUI(JComponent c) {

@@ -12,12 +12,12 @@ import java.awt.*;
 
 public class NapkinToggleButtonUI extends BasicToggleButtonUI
         implements NapkinPainter {
-    private static final NapkinToggleButtonUI napkinToggleButtonUI =
+    private static final NapkinToggleButtonUI ui =
             new NapkinToggleButtonUI();
 
     @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
-        return napkinToggleButtonUI;
+        return ui;
     }
 
     public void installUI(JComponent c) {

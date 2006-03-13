@@ -16,12 +16,12 @@ public class DrawnLineHolder extends DrawnShapeHolder
     private FontMetrics metrics;
     private final Endpoints endpoints;
 
-    static final Endpoints HORIZ_LINE = new Endpoints() {
+    private static final Endpoints HORIZ_LINE = new Endpoints() {
         public Rectangle getEndpoints(Rectangle bounds) {
             return new Rectangle(bounds.x, bounds.y, bounds.width, 0);
         }
     };
-    static final Endpoints VERTICAL_LINE = new Endpoints() {
+    private static final Endpoints VERTICAL_LINE = new Endpoints() {
         public Rectangle getEndpoints(Rectangle bounds) {
             return new Rectangle(bounds.x, bounds.y, 0, bounds.height);
         }
@@ -34,15 +34,15 @@ public class DrawnLineHolder extends DrawnShapeHolder
         Rectangle getEndpoints(Rectangle bounds);
     }
 
-    public DrawnLineHolder(DrawnShapeGenerator gen) {
+    public DrawnLineHolder(AbstractDrawnGenerator gen) {
         this(gen, false);
     }
 
-    public DrawnLineHolder(DrawnShapeGenerator gen, boolean vertical) {
+    public DrawnLineHolder(AbstractDrawnGenerator gen, boolean vertical) {
         this(gen, vertical ? VERTICAL_LINE : HORIZ_LINE);
     }
 
-    public DrawnLineHolder(DrawnShapeGenerator gen, Endpoints endpoints) {
+    public DrawnLineHolder(AbstractDrawnGenerator gen, Endpoints endpoints) {
         super(gen);
         this.endpoints = endpoints;
     }
@@ -51,8 +51,8 @@ public class DrawnLineHolder extends DrawnShapeHolder
         this(generatorFor(len), vertical);
     }
 
-    private static DrawnShapeGenerator generatorFor(double len) {
-        Class<?> type = DrawnShapeGenerator.defaultLineType(len);
+    private static AbstractDrawnGenerator generatorFor(double len) {
+        Class<?> type = AbstractDrawnGenerator.defaultLineType(len);
 
         if (type == DrawnCubicLineGenerator.class)
             return new DrawnCubicLineGenerator();
@@ -106,7 +106,7 @@ public class DrawnLineHolder extends DrawnShapeHolder
             logger.log(Level.FINE, "angle = " + angle);
             logger.log(Level.FINE, "len = " + len);
         }
-        double xScale = len / DrawnShapeGenerator.LENGTH;
+        double xScale = len / AbstractDrawnGenerator.LENGTH;
         matrix.scale(xScale, 1);
         shape = gen.generate(matrix);
     }

@@ -9,7 +9,7 @@ import napkin.util.RandomXY;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class DrawnTriangleGenerator extends DrawnShapeGenerator {
+public class DrawnTriangleGenerator extends AbstractDrawnGenerator {
     private final RandomXY mid;
     private final RandomXY l;
     private final RandomXY r;
@@ -17,6 +17,8 @@ public class DrawnTriangleGenerator extends DrawnShapeGenerator {
     private final double rotate;
 
     public DrawnTriangleGenerator(double rotate) {
+        super();
+        
         this.rotate = rotate;
 
         double shimmy = 0.05;

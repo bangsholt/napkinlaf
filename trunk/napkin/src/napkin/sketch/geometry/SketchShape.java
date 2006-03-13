@@ -2,7 +2,7 @@
 
 package napkin.sketch.geometry;
 
-import napkin.sketch.Sketcher;
+import napkin.sketch.AbstractSketcher;
 
 import java.awt.*;
 
@@ -64,7 +64,7 @@ public interface SketchShape extends Shape, Cloneable {
      * @return this shape, deformed by the appropriate method within the
      *         sketcher
      */
-    SketchShape deform(Sketcher sketcher);
+    SketchShape deform(AbstractSketcher sketcher);
 
     /**
      * @return the approximate length of this item. This should be optimized for

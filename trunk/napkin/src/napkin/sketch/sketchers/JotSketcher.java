@@ -2,7 +2,7 @@
 
 package napkin.sketch.sketchers;
 
-import napkin.sketch.Sketcher;
+import napkin.sketch.AbstractSketcher;
 import napkin.sketch.Template;
 import napkin.sketch.TemplateItem;
 import napkin.sketch.geometry.CubicLine;
@@ -26,7 +26,7 @@ import java.util.Iterator;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-public class JotSketcher extends Sketcher {
+public class JotSketcher extends AbstractSketcher {
     private static final double DEFORM_FACTOR = 0.2;
 
     /** {@inheritDoc} */

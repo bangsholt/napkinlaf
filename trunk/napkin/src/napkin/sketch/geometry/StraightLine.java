@@ -2,7 +2,7 @@
 
 package napkin.sketch.geometry;
 
-import napkin.sketch.Sketcher;
+import napkin.sketch.AbstractSketcher;
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Element;
 
@@ -162,7 +162,7 @@ public class StraightLine extends Line2D.Double implements SketchShape {
     }
 
     /** {@inheritDoc} */
-    public SketchShape deform(Sketcher r) {
+    public SketchShape deform(AbstractSketcher r) {
         return r.deformLine(this);
     }
 

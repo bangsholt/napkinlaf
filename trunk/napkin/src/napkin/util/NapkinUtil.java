@@ -3,11 +3,11 @@
 package napkin.util;
 
 import napkin.NapkinTheme;
-import napkin.borders.NapkinBorder;
+import napkin.borders.AbstractNapkinBorder;
 import napkin.borders.NapkinWrappedBorder;
 import napkin.shapes.DrawnCubicLineGenerator;
 import napkin.shapes.DrawnLineHolder;
-import napkin.shapes.DrawnShapeGenerator;
+import napkin.shapes.AbstractDrawnGenerator;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -34,6 +34,10 @@ public class NapkinUtil implements NapkinConstants {
 
     private static final float FOCUS_MARK_WIDTH = 1.5f;
 
+    private static final String BACKGROUND = "background";
+    private static final String BORDER = "border";
+    private static final String OPAQUE = "opaque";
+
     private static final PropertyChangeListener BACKGROUND_LISTENER =
             new PropertyChangeListener() {
                 public void propertyChange(PropertyChangeEvent event) {
@@ -41,11 +45,11 @@ public class NapkinUtil implements NapkinConstants {
                     // unplug the listener before setting background
                     // this is to avoid possible infinite loop due to
                     // another "enforcing" listener
-                    c.removePropertyChangeListener("background",
+                    c.removePropertyChangeListener(BACKGROUND,
                             BACKGROUND_LISTENER);
                     if (replace(event.getNewValue(), CLEAR))
                         c.setBackground(CLEAR);
-                    c.addPropertyChangeListener("background",
+                    c.addPropertyChangeListener(BACKGROUND,
                             BACKGROUND_LISTENER);
                 }
             };
@@ -57,10 +61,10 @@ public class NapkinUtil implements NapkinConstants {
                     // unplug the listener before setting border
                     // this is to avoid possible infinite loop due to
                     // another "enforcing" listener
-                    c.removePropertyChangeListener("border",
+                    c.removePropertyChangeListener(BORDER,
                             BORDER_LISTENER);
                     setupBorder(c);
-                    c.addPropertyChangeListener("border",
+                    c.addPropertyChangeListener(BORDER,
                             BORDER_LISTENER);
                 }
             };
@@ -74,9 +78,9 @@ public class NapkinUtil implements NapkinConstants {
                     // unplug the listener before setting opaqueness
                     // this is to avoid possible infinite loop due to
                     // another "enforcing" listener
-                    c.removePropertyChangeListener("opaque", OPAQUE_LISTENER);
+                    c.removePropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
                     c.setOpaque(false);
-                    c.addPropertyChangeListener("opaque", OPAQUE_LISTENER);
+                    c.addPropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
                 }
             };
 
@@ -143,19 +147,19 @@ public class NapkinUtil implements NapkinConstants {
             c.putClientProperty(OPAQUE_KEY, Boolean.TRUE);
             c.setOpaque(false);
         }
-        c.addPropertyChangeListener("opaque", OPAQUE_LISTENER);
+        c.addPropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
         if (replace(c.getBackground(), CLEAR))
             c.setBackground(CLEAR);
-        c.addPropertyChangeListener("background", BACKGROUND_LISTENER);
+        c.addPropertyChangeListener(BACKGROUND, BACKGROUND_LISTENER);
         setupBorder(c);
-        c.addPropertyChangeListener("border", BORDER_LISTENER);
+        c.addPropertyChangeListener(BORDER, BORDER_LISTENER);
     }
 
     public static void uninstallUI(JComponent c) {
-        c.removePropertyChangeListener("border", BORDER_LISTENER);
+        c.removePropertyChangeListener(BORDER, BORDER_LISTENER);
         unsetupBorder(c);
-        c.removePropertyChangeListener("background", BACKGROUND_LISTENER);
-        c.removePropertyChangeListener("opaque", OPAQUE_LISTENER);
+        c.removePropertyChangeListener(BACKGROUND, BACKGROUND_LISTENER);
+        c.removePropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
         if (shouldMakeOpaque(c))
             c.setOpaque(true);
         for (String clientProp : CLIENT_PROPERTIES)
@@ -182,7 +186,7 @@ public class NapkinUtil implements NapkinConstants {
     }
 
     public static double leftRight(double x, boolean left) {
-        return (left ? x : DrawnShapeGenerator.LENGTH - x);
+        return (left ? x : AbstractDrawnGenerator.LENGTH - x);
     }
 
     public static Graphics2D copy(Graphics g) {
@@ -340,7 +344,7 @@ public class NapkinUtil implements NapkinConstants {
         if (c instanceof JComponent) {
             JComponent jc = (JComponent) c;
             Border b = jc.getBorder();
-            if (b != null && !(b instanceof NapkinBorder))
+            if (b != null && !(b instanceof AbstractNapkinBorder))
                 jc.setBorder(NapkinWrappedBorder.wrap(b));
         }
     }
@@ -350,7 +354,7 @@ public class NapkinUtil implements NapkinConstants {
         if (b instanceof NapkinWrappedBorder) {
             NapkinWrappedBorder nb = (NapkinWrappedBorder) b;
             c.setBorder(nb.getOrigBorder());
-        } else if (b instanceof NapkinBorder) {
+        } else if (b instanceof AbstractNapkinBorder) {
             c.setBorder(null);
         }
     }
@@ -406,7 +410,7 @@ public class NapkinUtil implements NapkinConstants {
         c.putClientProperty(THEME_KEY, baseTheme.getTheme(theme));
     }
 
-    public static NapkinTheme background(Graphics g1, Component c) {
+    public static NapkinTheme paintBackground(Graphics g1, Component c) {
         if (isGlassPane(c))
             return null;
 
@@ -531,7 +535,7 @@ public class NapkinUtil implements NapkinConstants {
 
     public static void drawStroke(GeneralPath path, AffineTransform matrix,
             double x1, double y1, double x2, double y2,
-            double baseAngle, DrawnShapeGenerator lineGen) {
+            double baseAngle, AbstractDrawnGenerator lineGen) {
         if (matrix == null)
             matrix = new AffineTransform();
 
@@ -543,7 +547,7 @@ public class NapkinUtil implements NapkinConstants {
         mat.rotate(baseAngle + angle);
         double len = Math.sqrt(xDelta * xDelta + yDelta * yDelta);
         mat.scale(len / LENGTH, 1);
-        DrawnShapeGenerator.addLine(path, mat, lineGen);
+        AbstractDrawnGenerator.addLine(path, mat, lineGen);
     }
 
     public static void update(Graphics g, JComponent c, NapkinPainter painter) {
@@ -553,7 +557,7 @@ public class NapkinUtil implements NapkinConstants {
             c.revalidate();
         }
         g = defaultGraphics(g, c);
-        NapkinTheme theme = background(g, c);
+        NapkinTheme theme = paintBackground(g, c);
         painter.superPaint(g, c, theme);
         finishGraphics(g, c);
     }

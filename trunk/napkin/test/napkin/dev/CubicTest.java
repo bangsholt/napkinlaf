@@ -3,7 +3,7 @@
 package napkin.dev;
 
 import napkin.shapes.DrawnCubicLineGenerator;
-import napkin.shapes.DrawnShapeGenerator;
+import napkin.shapes.AbstractDrawnGenerator;
 import napkin.util.RandomValue;
 import napkin.util.RandomValueSource;
 
@@ -83,7 +83,7 @@ class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
         rebuild();
     }
 
-    public DrawnShapeGenerator getGenerator() {
+    public AbstractDrawnGenerator getGenerator() {
         return gen;
     }
 

@@ -17,19 +17,19 @@ import java.awt.image.*;
  */
 public class SketchedIcon implements Icon {
     private final Template template;    // The template object to sketch
-    private Sketcher sketcher;    // The sketcher used to create icon's image
+    private AbstractSketcher sketcher;    // The sketcher used to create icon's image
     private BufferedImage bimage; // The stored image of the final sketch
     private boolean isSketched;   // Has this icon's template has been sketched?
 
     /** Creates a new DrawnIcon with specified template and sketch style. */
-    public SketchedIcon(Template template, Sketcher sketcher) {
+    public SketchedIcon(Template template, AbstractSketcher sketcher) {
         this.template = template;
         this.sketcher = sketcher;
         isSketched = false;
     }
 
     /** Sets the current sketcher to <tt>sketchStyle</tt>. */
-    public void setSketchStyle(Sketcher sketchStyle) {
+    public void setSketchStyle(AbstractSketcher sketchStyle) {
         sketcher = sketchStyle;
         isSketched = false;
     }

@@ -7,6 +7,9 @@ import java.util.Random;
 public class NapkinRandom {
     public static final Random random = new Random();
 
+    private NapkinRandom() {
+    }
+
     public static double gaussian(double scale) {
         return gaussian() * scale;
     }

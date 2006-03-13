@@ -68,6 +68,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
 
     /** Constructs a new XMLTemplateExtractor. */
     public XMLTemplateExtractor() {
+        super();
         template = new Template();
         i = 0;
         point = new Point2D.Float();
@@ -87,55 +88,55 @@ public class XMLTemplateExtractor extends DefaultHandler {
             String qualifiedName, Attributes attribs) {
         // Extract data from all leaf elements or set currentAction so
         // that the characters method can extract the data
-        if (localName.equals("title")) {
+        if ("title".equals(localName)) {
             currentAction = GET_TEMPLATE_TITLE;
-        } else if (localName.equals("description")) {
+        } else if ("description".equals(localName)) {
             currentAction = GET_TEMPLATE_DESCRIPTION;
-        } else if (localName.equals("clippingBounds")) {
+        } else if ("clippingBounds".equals(localName)) {
             dimensions = new Dimension();
-        } else if (localName.equals("width")) {
+        } else if ("width".equals(localName)) {
             currentAction = GET_TEMPLATE_CLIP_WIDTH;
-        } else if (localName.equals("height")) {
+        } else if ("height".equals(localName)) {
             currentAction = GET_TEMPLATE_CLIP_HEIGHT;
-        } else if (localName.equals("templateItem")) {
+        } else if ("templateItem".equals(localName)) {
             templateItem = new TemplateItem();
-        } else if (localName.equals("drawStroke")) {
+        } else if ("drawStroke".equals(localName)) {
             currentAction = GET_DRAW_STROKE;
-        } else if (localName.equals("drawFill")) {
+        } else if ("drawFill".equals(localName)) {
             currentAction = GET_DRAW_FILL;
-        } else if (localName.equals("strokeWeight")) {
+        } else if ("strokeWeight".equals(localName)) {
             currentAction = GET_STROKE_WEIGHT;
-        } else if (localName.equals("strokeColor")) {
+        } else if ("strokeColor".equals(localName)) {
             rgb = new int[3];
-        } else if (localName.equals("fillColor")) {
+        } else if ("fillColor".equals(localName)) {
             rgb = new int[3];
-        } else if (localName.equals("straightLine")) {
+        } else if ("straightLine".equals(localName)) {
             i = 0;
             straightLine = new StraightLine();
-        } else if (localName.equals("quadLine")) {
+        } else if ("quadLine".equals(localName)) {
             i = 0;
             quadLine = new QuadLine();
-        } else if (localName.equals("cubicLine")) {
+        } else if ("cubicLine".equals(localName)) {
             i = 0;
             cubicLine = new CubicLine();
-        } else if (localName.equals("path")) {
+        } else if ("path".equals(localName)) {
             i = 0;
             path = new Path();
-        } else if (localName.equals("moveTo")) {
+        } else if ("moveTo".equals(localName)) {
             i = 0;
-        } else if (localName.equals("quadTo")) {
+        } else if ("quadTo".equals(localName)) {
             i = 0;
-        } else if (localName.equals("cubicTo")) {
+        } else if ("cubicTo".equals(localName)) {
             i = 0;
-        } else if (localName.equals("r")) {
+        } else if ("r".equals(localName)) {
             currentAction = GET_R_VALUE;
-        } else if (localName.equals("g")) {
+        } else if ("g".equals(localName)) {
             currentAction = GET_G_VALUE;
-        } else if (localName.equals("b")) {
+        } else if ("b".equals(localName)) {
             currentAction = GET_B_VALUE;
-        } else if (localName.equals("x")) {
+        } else if ("x".equals(localName)) {
             currentAction = GET_X_VALUE;
-        } else if (localName.equals("y")) {
+        } else if ("y".equals(localName)) {
             currentAction = GET_Y_VALUE;
         }
     }
@@ -193,23 +194,23 @@ public class XMLTemplateExtractor extends DefaultHandler {
     /** SAX event that indicates that the end of an element has been reached. */
     public void endElement(String namespaceURI, String localName,
             String qualifiedName) {
-        if (localName.equals("clippingBounds")) {
+        if ("clippingBounds".equals(localName)) {
             Rectangle clippingBounds = new Rectangle(dimensions);
             template.setClippingBounds(clippingBounds);
-        } else if (localName.equals("templateItem")) {
+        } else if ("templateItem".equals(localName)) {
             templateItem.setShape(shape);
             template.add(templateItem);
-        } else if (localName.equals("strokeColor")) {
+        } else if ("strokeColor".equals(localName)) {
             templateItem.setStrokeColor(new Color(rgb[0], rgb[1], rgb[2]));
-        } else if (localName.equals("fillColor")) {
+        } else if ("fillColor".equals(localName)) {
             templateItem.setFillColor(new Color(rgb[0], rgb[1], rgb[2]));
-        } else if (localName.equals("straightLine")) {
+        } else if ("straightLine".equals(localName)) {
             straightLine.x1 = points[0].x;
             straightLine.y1 = points[0].y;
             straightLine.x2 = points[1].x;
             straightLine.y2 = points[1].y;
             shape = straightLine;
-        } else if (localName.equals("quadLine")) {
+        } else if ("quadLine".equals(localName)) {
             quadLine.x1 = points[0].x;
             quadLine.y1 = points[0].y;
             quadLine.ctrlx = points[1].x;
@@ -217,7 +218,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
             quadLine.x2 = points[2].x;
             quadLine.y2 = points[2].y;
             shape = quadLine;
-        } else if (localName.equals("cubicLine")) {
+        } else if ("cubicLine".equals(localName)) {
             cubicLine.x1 = points[0].x;
             cubicLine.y1 = points[0].y;
             cubicLine.ctrlx1 = points[1].x;
@@ -227,25 +228,25 @@ public class XMLTemplateExtractor extends DefaultHandler {
             cubicLine.x2 = points[3].x;
             cubicLine.y2 = points[3].y;
             shape = cubicLine;
-        } else if (localName.equals("path")) {
+        } else if ("path".equals(localName)) {
             shape = path;
-        } else if (localName.equals("moveTo")) {
+        } else if ("moveTo".equals(localName)) {
             path.moveTo(points[0].x, points[0].y);
             i = 0;
-        } else if (localName.equals("lineTo")) {
+        } else if ("lineTo".equals(localName)) {
             path.lineTo(points[0].x, points[0].y);
             i = 0;
-        } else if (localName.equals("quadTo")) {
+        } else if ("quadTo".equals(localName)) {
             path.quadTo(points[0].x, points[0].y, points[1].x, points[1].y);
             i = 0;
-        } else if (localName.equals("cubicTo")) {
+        } else if ("cubicTo".equals(localName)) {
             path.curveTo(points[0].x, points[0].y, points[1].x, points[1].y,
                     points[2].x, points[2].y);
             i = 0;
-        } else if (localName.equals("close")) {
+        } else if ("close".equals(localName)) {
             path.closePath();
-        } else if (localName.equals("start") || localName.equals("point") ||
-                localName.equals("control") || localName.equals("end")) {
+        } else if ("start".equals(localName) || "point".equals(localName) ||
+                "control".equals(localName) || "end".equals(localName)) {
             points[i++] = (Point2D.Float) point.clone();
         }
         currentAction = NO_ACTION;

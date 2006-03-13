@@ -8,7 +8,7 @@ public class ComponentWalker {
 
     private final Visitor visitor;
 
-    public static interface Visitor {
+    public interface Visitor {
         boolean visit(Component c, int depth);
     }
 

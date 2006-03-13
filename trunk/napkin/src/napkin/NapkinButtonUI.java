@@ -23,9 +23,6 @@ public class NapkinButtonUI extends BasicButtonUI
         return new NapkinButtonUI();
     }
 
-    public NapkinButtonUI() {
-    }
-
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);

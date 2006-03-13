@@ -8,7 +8,7 @@ import napkin.shapes.DrawnBoxHolder;
 import napkin.shapes.DrawnCheckGenerator;
 import napkin.shapes.DrawnCircleGenerator;
 import napkin.shapes.DrawnQuadLineGenerator;
-import napkin.shapes.DrawnShapeGenerator;
+import napkin.shapes.AbstractDrawnGenerator;
 import napkin.shapes.DrawnTriangleGenerator;
 import napkin.sketch.SketchedIcon;
 import napkin.sketch.Template;
@@ -27,7 +27,7 @@ public class NapkinIconFactory {
     private static final Map<String, Template> tmplMap =
             new HashMap<String, Template>();
 
-    public static class CheckBoxIcon extends NapkinIcon {
+    public static class CheckBoxIcon extends AbstractNapkinIcon {
         protected static final double MID_INSET_RATIO = 3d / 13d;
 
         private final int size;
@@ -41,14 +41,14 @@ public class NapkinIconFactory {
             init();
         }
 
-        protected DrawnShapeGenerator createPlaceGenerator() {
+        protected AbstractDrawnGenerator createPlaceGenerator() {
             DrawnQuadLineGenerator gen = new DrawnQuadLineGenerator();
             gen.getCtl().getY().setMid(1);
             return gen;
         }
 
         /** @noinspection AssignmentToStaticFieldFromInstanceMethod */
-        protected DrawnShapeGenerator createMarkGenerator() {
+        protected AbstractDrawnGenerator createMarkGenerator() {
             if (checkGen == null)
                 checkGen = new DrawnCheckGenerator(size - midInset);
             return checkGen;
@@ -78,7 +78,7 @@ public class NapkinIconFactory {
         }
     }
 
-    public static class RadioButtonIcon extends NapkinIcon {
+    public static class RadioButtonIcon extends AbstractNapkinIcon {
         private final double scale;
 
         private static final int DEF_SIZE = 13;
@@ -95,13 +95,13 @@ public class NapkinIconFactory {
         }
 
         /** @noinspection AssignmentToStaticFieldFromInstanceMethod */
-        protected DrawnShapeGenerator createPlaceGenerator() {
+        protected AbstractDrawnGenerator createPlaceGenerator() {
             if (circleGen == null)
                 circleGen = new DrawnCircleGenerator();
             return circleGen;
         }
 
-        protected DrawnShapeGenerator createMarkGenerator() {
+        protected AbstractDrawnGenerator createMarkGenerator() {
             DrawnCircleGenerator gen = new DrawnCircleGenerator(true);
             double skew = LENGTH / 3.0;
             RandomXY tl = gen.getTL();
@@ -126,7 +126,7 @@ public class NapkinIconFactory {
         }
     }
 
-    public static class ArrowIcon extends NapkinIcon {
+    public static class ArrowIcon extends AbstractNapkinIcon {
         private final int genNum;
         private final int size;
 
@@ -147,11 +147,11 @@ public class NapkinIconFactory {
             init();
         }
 
-        protected DrawnShapeGenerator createPlaceGenerator() {
+        protected AbstractDrawnGenerator createPlaceGenerator() {
             return ARROW_GEN[genNum];
         }
 
-        protected DrawnShapeGenerator createMarkGenerator() {
+        protected AbstractDrawnGenerator createMarkGenerator() {
             return ARROW_GEN[genNum];
         }
 

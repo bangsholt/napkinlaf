@@ -10,7 +10,7 @@ import java.awt.geom.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DrawnCubicLineGenerator extends DrawnShapeGenerator {
+public class DrawnCubicLineGenerator extends AbstractDrawnGenerator {
 
     private final RandomXY left;
     private final RandomXY right;
@@ -22,6 +22,8 @@ public class DrawnCubicLineGenerator extends DrawnShapeGenerator {
             DrawnCubicLineGenerator.class.getName());
 
     public DrawnCubicLineGenerator() {
+        super();
+        
         left = new RandomXY(10, 4, -0.7, 1.5);
         right = new RandomXY(20, 8, -1.3, 2);
     }

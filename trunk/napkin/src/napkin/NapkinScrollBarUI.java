@@ -19,6 +19,7 @@ public class NapkinScrollBarUI extends BasicScrollBarUI
     private DrawnBoxHolder thumb;
 
     public NapkinScrollBarUI(JScrollBar bar) {
+        super();
         vertical = (bar.getOrientation() == VERTICAL);
     }
 

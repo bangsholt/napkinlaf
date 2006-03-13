@@ -2,7 +2,7 @@
 
 package napkin.sketch.sketchers;
 
-import napkin.sketch.Sketcher;
+import napkin.sketch.AbstractSketcher;
 import napkin.sketch.geometry.CubicLine;
 import napkin.sketch.geometry.Path;
 import napkin.sketch.geometry.QuadLine;
@@ -18,7 +18,7 @@ import napkin.util.NapkinRandom;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-public class DraftSketcher extends Sketcher {
+public class DraftSketcher extends AbstractSketcher {
     private static final double DEFORM_FACTOR = 0.05;
 
     /** {@inheritDoc} */

@@ -2,13 +2,13 @@
 
 package napkin.util;
 
-import napkin.shapes.DrawnShapeGenerator;
+import napkin.shapes.AbstractDrawnGenerator;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 
-public abstract class NapkinIcon implements Icon {
+public abstract class AbstractNapkinIcon implements Icon {
     protected Shape place;
     protected Shape mark;
 
@@ -17,10 +17,10 @@ public abstract class NapkinIcon implements Icon {
     private int width;
     private int height;
 
-    protected DrawnShapeGenerator placeGen;
-    protected DrawnShapeGenerator markGen;
+    protected AbstractDrawnGenerator placeGen;
+    protected AbstractDrawnGenerator markGen;
 
-    public NapkinIcon(int markColor, AffineTransform scaleMat) {
+    public AbstractNapkinIcon(int markColor, AffineTransform scaleMat) {
         this.markColor = markColor;
         this.scaleMat = scaleMat;
     }
@@ -87,7 +87,7 @@ public abstract class NapkinIcon implements Icon {
 
     protected abstract int calcHeight();
 
-    protected abstract DrawnShapeGenerator createPlaceGenerator();
+    protected abstract AbstractDrawnGenerator createPlaceGenerator();
 
-    protected abstract DrawnShapeGenerator createMarkGenerator();
+    protected abstract AbstractDrawnGenerator createMarkGenerator();
 }
