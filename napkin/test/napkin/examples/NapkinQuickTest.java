@@ -7,14 +7,9 @@ import napkin.NapkinTheme;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.StringWriter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
 import java.util.Dictionary;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,7 +19,6 @@ public class NapkinQuickTest implements SwingConstants {
      * Run this class as a program
      *
      * @param args The command line arguments.
-     *
      * @throws Exception Exception we don't recover from.
      */
     public static void main(final String[] args) throws Exception {
@@ -44,13 +38,10 @@ public class NapkinQuickTest implements SwingConstants {
         if (args.length == 1) {
             if (!args[0].equals("none"))
                 UIManager.setLookAndFeel(args[0]);
-            laf = null;
         } else {
             laf = new NapkinLookAndFeel();
             UIManager.setLookAndFeel(laf);
         }
-
-        final NapkinLookAndFeel napkinLAF = (NapkinLookAndFeel) laf;
 
         final Set<JComponent> toDisable = new HashSet<JComponent>();
 
@@ -197,7 +188,7 @@ public class NapkinQuickTest implements SwingConstants {
     }
 
     private static void addCtrl(final JTabbedPane tabs, Container ctrls,
-            ButtonGroup grp, String lab, final int side, boolean on) {
+                                ButtonGroup grp, String lab, final int side, boolean on) {
         JRadioButton button = new JRadioButton(lab, on);
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
