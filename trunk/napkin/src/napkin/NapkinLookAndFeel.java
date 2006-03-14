@@ -5,29 +5,24 @@ package napkin;
 import napkin.borders.NapkinBoxBorder;
 import napkin.borders.NapkinLineBorder;
 import napkin.borders.NapkinSelectedBorder;
-import napkin.util.AlphaColorUIResource;
+import napkin.util.*;
 import napkin.util.ComponentWalker.Visitor;
-import napkin.util.NapkinConstants;
-import napkin.util.NapkinDebug;
-import napkin.util.NapkinIconFactory;
-import napkin.util.NapkinUtil;
 
 import javax.swing.*;
-import javax.swing.UIDefaults.*;
+import javax.swing.UIDefaults.ActiveValue;
+import javax.swing.UIDefaults.LazyValue;
 import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.text.*;
+import javax.swing.plaf.BorderUIResource;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.plaf.UIResource;
+import javax.swing.plaf.basic.BasicBorders;
+import javax.swing.plaf.basic.BasicLookAndFeel;
+import javax.swing.text.DefaultEditorKit;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class defines the central behavior for the Napkin look & feel.
@@ -471,7 +466,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 }
             } else {
                 // We set things up right for these ones manually
-                if (key.indexOf("Text") >= 0 || key.startsWith("Password") ||
+                if (key.contains("Text") || key.startsWith("Password") ||
                         key.startsWith("Editor"))
                     continue;
 
