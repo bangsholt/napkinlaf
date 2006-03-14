@@ -47,8 +47,10 @@ public class NapkinUtil implements NapkinConstants {
                     // another "enforcing" listener
                     c.removePropertyChangeListener(BACKGROUND,
                             BACKGROUND_LISTENER);
-                    if (replace(event.getNewValue(), CLEAR))
+                    Color newColor = (Color) event.getNewValue();
+                    if (replaceBackground(newColor)) {
                         c.setBackground(CLEAR);
+                    }
                     c.addPropertyChangeListener(BACKGROUND,
                             BACKGROUND_LISTENER);
                 }
@@ -79,7 +81,7 @@ public class NapkinUtil implements NapkinConstants {
                     // this is to avoid possible infinite loop due to
                     // another "enforcing" listener
                     c.removePropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
-                    c.setOpaque(false);
+                    c.setOpaque(c.getBackground() != CLEAR);
                     c.addPropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
                 }
             };
@@ -142,13 +144,19 @@ public class NapkinUtil implements NapkinConstants {
         return pref + "." + prop;
     }
 
+    private static boolean replaceBackground(Color bgColor) {
+        return bgColor == null || (bgColor != CLEAR
+                && bgColor.getRed() == bgColor.getGreen()
+                && bgColor.getGreen() == bgColor.getBlue());
+    }
+
     public static void installUI(JComponent c) {
         if (c.isOpaque()) {
             c.putClientProperty(OPAQUE_KEY, Boolean.TRUE);
             c.setOpaque(false);
         }
         c.addPropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
-        if (replace(c.getBackground(), CLEAR))
+        if (replaceBackground(c.getBackground()))
             c.setBackground(CLEAR);
         c.addPropertyChangeListener(BACKGROUND, BACKGROUND_LISTENER);
         setupBorder(c);
