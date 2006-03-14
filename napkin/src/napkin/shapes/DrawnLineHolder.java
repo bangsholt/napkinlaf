@@ -106,7 +106,7 @@ public class DrawnLineHolder extends DrawnShapeHolder
             logger.log(Level.FINE, "angle = " + angle);
             logger.log(Level.FINE, "len = " + len);
         }
-        double xScale = len / AbstractDrawnGenerator.LENGTH;
+        double xScale = len / LENGTH;
         matrix.scale(xScale, 1);
         shape = gen.generate(matrix);
     }

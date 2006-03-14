@@ -30,4 +30,9 @@ public abstract class AbstractDrawnGenerator implements NapkinConstants {
         return (len < 10 ?
                 DrawnQuadLineGenerator.class : DrawnCubicLineGenerator.class);
     }
+
+    public static AbstractDrawnGenerator defaultLineGenerator(double len) {
+        return defaultLineType(len) == DrawnQuadLineGenerator.class ?
+                new DrawnQuadLineGenerator() : new DrawnCubicLineGenerator();
+    }
 }
