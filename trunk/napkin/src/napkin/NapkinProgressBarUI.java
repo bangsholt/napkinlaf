@@ -2,6 +2,7 @@
 
 package napkin;
 
+import java.awt.image.BufferedImage;
 import napkin.shapes.DrawnBoxHolder;
 import napkin.shapes.DrawnScribbleHolder;
 import napkin.util.NapkinPainter;
@@ -16,7 +17,6 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
         implements NapkinPainter {
     private final DrawnScribbleHolder scribble = new DrawnScribbleHolder();
     private final Rectangle sz = new Rectangle(0, 0, 0, 0);
-    private Rectangle boxRect;
     private DrawnBoxHolder box;
     private Image curImage;
     private Color selectionForeground;
@@ -84,12 +84,11 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
         boolean backwards = !NapkinUtil.isLeftToRight(c);
         if (scribble.shapeUpToDate(c, sz, orientation, amountFull, backwards)) {
             NapkinTheme theme = NapkinUtil.currentTheme(c);
-            curImage = c.createImage(sz.x + sz.width, sz.y + sz.height);
+            curImage = new BufferedImage(sz.x + sz.width, sz.y + sz.height,
+                    BufferedImage.TYPE_INT_ARGB);
             Graphics2D imgG = (Graphics2D) curImage.getGraphics();
             selectionForeground = theme.getRadioColor();
             selectionBackground = theme.getCheckColor();
-            imgG.setBackground(theme.getBackgroundColor());
-            imgG.clearRect(0, 0, sz.x + sz.width, sz.y + sz.height);
             imgG.setColor(theme.getCheckColor());
             scribble.draw(imgG);
         }
