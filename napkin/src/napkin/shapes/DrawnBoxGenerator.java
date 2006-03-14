@@ -8,7 +8,9 @@ import napkin.util.RandomValueSource;
 import napkin.util.RandomXY;
 
 import java.awt.*;
-import java.awt.geom.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -59,7 +61,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     }
 
     public DrawnBoxGenerator(DrawnCubicLineGenerator cubic,
-            DrawnQuadLineGenerator quad) {
+                             DrawnQuadLineGenerator quad) {
         super();
 
         generators = new HashMap<Class<?>, AbstractDrawnGenerator>(3);
@@ -136,7 +138,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     }
 
     private Shape addSide(GeneralPath shape, AffineTransform smat, int side,
-            double scale) {
+                          double scale) {
         if (side != breakSide)
             return addLine(shape, smat, gens[side]);
 
@@ -153,7 +155,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     }
 
     private void addWithXBreak(AffineTransform smat, GeneralPath line,
-            double scale) {
+                               double scale) {
         // Need to transalate the absolute positions into positions on the line
         double xOff = smat.getTranslateX();
         double xSize = size.getX().get() -
@@ -172,7 +174,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     // I wish I could figure out a way to share code here -- one of those
     // places where the C macro preprocessor would really help.
     private void addWithYBreak(AffineTransform smat, GeneralPath line,
-            double scale) {
+                               double scale) {
         // Need to transalate the absolute positions into positions on the line
         double yOff = smat.getTranslateY();
         double ySize = size.getY().get() -
@@ -210,7 +212,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     }
 
     private void addSegment(GeneralPath side, AffineTransform smat, double xBeg,
-            double yBeg, double len) {
+                            double yBeg, double len) {
 
         if (logger.isLoggable(Level.FINE)) {
             NapkinUtil.printPair(logger, Level.FINE,
@@ -243,7 +245,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     }
 
     public void setBreak(int side, double begX, double begY, double endX,
-            double endY) {
+                         double endY) {
         breakSide = side;
         breakBeg.setLocation(begX, begY);
         breakEnd.setLocation(endX, endY);
@@ -253,15 +255,17 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
         breakSide = NO_SIDE;
     }
 
-    public final void setGenerator(int side, Class<?> type) {
+    public void setGenerator(int side, Class<?> type) {
         gens[side] = toGenerator(type);
     }
 
-    public Class getGenerator(int side) {
+    public Class<? extends AbstractDrawnGenerator> getGenerator(int side) {
         return fromGenerator(gens[side]);
     }
 
-    private static Class fromGenerator(AbstractDrawnGenerator gen) {
+    private static Class<? extends AbstractDrawnGenerator>
+            fromGenerator(AbstractDrawnGenerator gen) {
+
         if (gen == null)
             return null;
         return gen.getClass();

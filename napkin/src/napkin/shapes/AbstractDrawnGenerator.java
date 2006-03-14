@@ -5,13 +5,15 @@ package napkin.shapes;
 import napkin.util.NapkinConstants;
 
 import java.awt.*;
-import java.awt.geom.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 
 public abstract class AbstractDrawnGenerator implements NapkinConstants {
     public abstract Shape generate(AffineTransform matrix);
 
     public static Shape addLine(GeneralPath path, AffineTransform matrix,
-            AbstractDrawnGenerator gen) {
+                                AbstractDrawnGenerator gen) {
 
         Shape shape;
         if (gen != null)
@@ -26,7 +28,7 @@ public abstract class AbstractDrawnGenerator implements NapkinConstants {
         return shape;
     }
 
-    public static Class defaultLineType(double len) {
+    public static Class<? extends AbstractDrawnGenerator> defaultLineType(double len) {
         return (len < 10 ?
                 DrawnQuadLineGenerator.class : DrawnCubicLineGenerator.class);
     }
