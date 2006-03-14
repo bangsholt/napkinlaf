@@ -22,7 +22,7 @@ public class NapkinToolTipUI extends BasicToolTipUI implements NapkinConstants,
     public void installUI(JComponent c) {
         NapkinUtil.installUI(c);
         super.installUI(c);
-        NapkinUtil.setupPaper(c, NapkinTheme.POPUP_THEME);
+        NapkinUtil.setupPaper(c, NapkinKnownTheme.POPUP_THEME);
     }
 
     public void uninstallUI(JComponent c) {

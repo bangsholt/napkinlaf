@@ -21,7 +21,7 @@ public class NapkinDesktopIconUI extends BasicDesktopIconUI
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
-        NapkinUtil.setupPaper(c, NapkinTheme.POPUP_THEME);
+        NapkinUtil.setupPaper(c, NapkinKnownTheme.POPUP_THEME);
     }
 
     protected void installComponents() {                            // PASTED
