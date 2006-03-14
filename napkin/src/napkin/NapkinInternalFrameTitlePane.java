@@ -16,7 +16,7 @@ import java.awt.*;
 public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
         implements NapkinConstants, NapkinPainter {
 
-    private DrawnLineHolder line;
+    private transient DrawnLineHolder line;
     private Rectangle bounds;
 
     private static final Dimension NO_SIZE = new Dimension(0, 0);

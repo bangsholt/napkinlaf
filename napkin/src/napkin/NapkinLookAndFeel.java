@@ -84,7 +84,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             "ViewportUI",
     };
 
-    class DumpVisitor implements Visitor {
+    static class DumpVisitor implements Visitor {
         private final PrintStream out;
 
         DumpVisitor(PrintStream out) {
