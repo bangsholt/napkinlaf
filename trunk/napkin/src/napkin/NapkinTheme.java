@@ -2,6 +2,9 @@
 
 package napkin;
 
+import static napkin.NapkinKnownTheme.BASIC_THEME;
+import static napkin.NapkinKnownTheme.POPUP_THEME;
+import static napkin.NapkinThemeColor.*;
 import napkin.sketch.AbstractSketcher;
 import napkin.sketch.sketchers.DraftSketcher;
 import napkin.sketch.sketchers.JotSketcher;
@@ -16,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -25,24 +29,16 @@ import java.util.logging.Logger;
 public class NapkinTheme {
     private final String name;
     private final String description;
-    private final Color[] colors = new Color[6];
+    private final Map<NapkinThemeColor, Color> colors =
+            new EnumMap<NapkinThemeColor, Color>(NapkinThemeColor.class);
     private final Font textFont;
     private final Font boldTextFont;
     private final Font fixedFont;
     private final AbstractSketcher sketcher;
     private final NapkinBackground paper;
     private final NapkinBackground erasure;
-    private NapkinTheme[] variants = new NapkinTheme[2];
-
-    public static final int PEN_COLOR = 0;
-    public static final int CHECK_COLOR = 1;
-    public static final int RADIO_COLOR = 2;
-    public static final int HIGHLIGHT_COLOR = 3;
-    public static final int SELECTION_COLOR = 4;
-    public static final int BACKGROUND_COLOR = 5;
-
-    public static final int BASIC_THEME = 0;
-    public static final int POPUP_THEME = 1;
+    private Map<NapkinKnownTheme, NapkinTheme> variants =
+            new EnumMap<NapkinKnownTheme, NapkinTheme>(NapkinKnownTheme.class);
 
     /**
      * Creates a new theme with a popup theme derived from the specified one,
@@ -74,20 +70,21 @@ public class NapkinTheme {
             NapkinBackground erasure, NapkinTheme popupTheme) {
         this.name = name;
         this.description = description;
-        colors[PEN_COLOR] = uiResource(penColor);
-        colors[CHECK_COLOR] = uiResource(checkColor);
-        colors[RADIO_COLOR] = uiResource(radioColor);
-        colors[HIGHLIGHT_COLOR] = uiResource(highlightColor);
-        colors[SELECTION_COLOR] = uiResource(selectionColor);
-        colors[BACKGROUND_COLOR] = uiResource(paper.getMeanColor());
+        colors.put(PEN_COLOR, uiResource(penColor));
+        colors.put(CHECK_COLOR, uiResource(checkColor));
+        colors.put(RADIO_COLOR, uiResource(radioColor));
+        colors.put(HIGHLIGHT_COLOR, uiResource(highlightColor));
+        colors.put(SELECTION_COLOR, uiResource(selectionColor));
+        colors.put(BACKGROUND_COLOR,
+                uiResource(paper.getMeanColor()));
         this.textFont = uiResource(textFont);
         this.boldTextFont = uiResource(boldTextFont);
         this.fixedFont = uiResource(fixedFont);
         this.sketcher = sketcher;
         this.paper = paper;
         this.erasure = erasure;
-        variants[BASIC_THEME] = this;
-        variants[POPUP_THEME] = popupTheme;
+        variants.put(BASIC_THEME, this);
+        variants.put(POPUP_THEME, popupTheme);
         if (popupTheme != null)
             popupTheme.variants = variants;
     }
@@ -120,31 +117,31 @@ public class NapkinTheme {
     }
 
     public Color getPenColor() {
-        return colors[PEN_COLOR];
+        return colors.get(PEN_COLOR);
     }
 
     public Color getCheckColor() {
-        return colors[CHECK_COLOR];
+        return colors.get(CHECK_COLOR);
     }
 
     public Color getRadioColor() {
-        return colors[RADIO_COLOR];
+        return colors.get(RADIO_COLOR);
     }
 
     public Color getHighlightColor() {
-        return colors[HIGHLIGHT_COLOR];
+        return colors.get(HIGHLIGHT_COLOR);
     }
 
     public Color getSelectionColor() {
-        return colors[SELECTION_COLOR];
+        return colors.get(SELECTION_COLOR);
     }
 
     public Color getBackgroundColor() {
-        return colors[BACKGROUND_COLOR];
+        return colors.get(BACKGROUND_COLOR);
     }
 
-    public Color getColor(int which) {
-        return colors[which];
+    public Color getColor(NapkinThemeColor which) {
+        return colors.get(which);
     }
 
     public Font getTextFont() {
@@ -179,8 +176,8 @@ public class NapkinTheme {
         return getTheme(BASIC_THEME);
     }
 
-    public NapkinTheme getTheme(int which) {
-        return variants[which];
+    public NapkinTheme getTheme(NapkinKnownTheme which) {
+        return variants.get(which);
     }
 
     public String toString() {

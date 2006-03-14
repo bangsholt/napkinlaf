@@ -3,12 +3,13 @@
 package napkin.util;
 
 import napkin.NapkinTheme;
+import napkin.NapkinThemeColor;
+import napkin.shapes.AbstractDrawnGenerator;
 import napkin.shapes.DrawnBoxGenerator;
 import napkin.shapes.DrawnBoxHolder;
 import napkin.shapes.DrawnCheckGenerator;
 import napkin.shapes.DrawnCircleGenerator;
 import napkin.shapes.DrawnQuadLineGenerator;
-import napkin.shapes.AbstractDrawnGenerator;
 import napkin.shapes.DrawnTriangleGenerator;
 import napkin.sketch.SketchedIcon;
 import napkin.sketch.Template;
@@ -35,7 +36,7 @@ public class NapkinIconFactory {
         private DrawnCheckGenerator checkGen;
 
         public CheckBoxIcon(int size) {
-            super(NapkinTheme.CHECK_COLOR, null);
+            super(NapkinThemeColor.CHECK_COLOR, null);
             this.size = size;
             midInset = (int) (size * MID_INSET_RATIO + 0.5d);
             init();
@@ -89,7 +90,7 @@ public class NapkinIconFactory {
         private static DrawnCircleGenerator circleGen;
 
         public RadioButtonIcon() {
-            super(NapkinTheme.RADIO_COLOR, DEF_SCALE_MAT);
+            super(NapkinThemeColor.RADIO_COLOR, DEF_SCALE_MAT);
             scale = DEF_SCALE;
             init();
         }
@@ -141,7 +142,7 @@ public class NapkinIconFactory {
 
         /** @param pointTowards One of NORTH, EAST, WEST, or SOUTH. */
         public ArrowIcon(int pointTowards, int size) {
-            super(NapkinTheme.CHECK_COLOR, NapkinUtil.scaleMat(size));
+            super(NapkinThemeColor.CHECK_COLOR, NapkinUtil.scaleMat(size));
             genNum = pointTowards / 2;
             this.size = size;
             init();

@@ -2,12 +2,13 @@
 
 package napkin.util;
 
+import napkin.NapkinKnownTheme;
 import napkin.NapkinTheme;
 import napkin.borders.AbstractNapkinBorder;
 import napkin.borders.NapkinWrappedBorder;
+import napkin.shapes.AbstractDrawnGenerator;
 import napkin.shapes.DrawnCubicLineGenerator;
 import napkin.shapes.DrawnLineHolder;
-import napkin.shapes.AbstractDrawnGenerator;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -90,7 +91,8 @@ public class NapkinUtil implements NapkinConstants {
 
     private static final AlphaComposite ERASURE_COMPOSITE =
             AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.9f);
-    private static final Stack<NapkinTheme> themeStack = new Stack<NapkinTheme>();
+    private static final Stack<NapkinTheme> themeStack =
+            new Stack<NapkinTheme>();
     private static final Stack<Component> paperStack = new Stack<Component>();
 
     static {
@@ -269,7 +271,7 @@ public class NapkinUtil implements NapkinConstants {
             paperStack.push(c);
             themeStack.push(
                     (NapkinTheme) ((JComponent) c).getClientProperty(THEME_KEY)
-                );
+            );
             dumpStacks();
         }
 
@@ -412,7 +414,7 @@ public class NapkinUtil implements NapkinConstants {
         logger.log(level, label + ": " + x + ", " + y);
     }
 
-    public static void setupPaper(JComponent c, int theme) {
+    public static void setupPaper(JComponent c, NapkinKnownTheme theme) {
         c.setOpaque(true);
         NapkinTheme baseTheme = NapkinTheme.Manager.getCurrentTheme();
         c.putClientProperty(THEME_KEY, baseTheme.getTheme(theme));
@@ -467,7 +469,7 @@ public class NapkinUtil implements NapkinConstants {
             // and have no UI classes.  So this is what you get for any regular
             // top-level window we haven't overridden.  I wonder why JFrame and
             // friends are like this.
-            setupPaper(jc, NapkinTheme.BASIC_THEME);
+            setupPaper(jc, NapkinKnownTheme.BASIC_THEME);
             return jc;
         }
         return themeTop;
@@ -560,7 +562,8 @@ public class NapkinUtil implements NapkinConstants {
 
     public static void update(Graphics g, JComponent c, NapkinPainter painter) {
         if ((c instanceof JButton || c instanceof JLabel) &&
-               !Boolean.FALSE.equals(c.getClientProperty(NEEDS_REVALIDATION))) {
+                !Boolean.FALSE.equals(c.getClientProperty(NEEDS_REVALIDATION)))
+        {
             c.putClientProperty(NEEDS_REVALIDATION, false);
             c.revalidate();
         }
@@ -597,5 +600,4 @@ public class NapkinUtil implements NapkinConstants {
             return e;
         }
     }
-
 }

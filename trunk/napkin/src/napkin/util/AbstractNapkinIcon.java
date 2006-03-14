@@ -2,6 +2,7 @@
 
 package napkin.util;
 
+import napkin.NapkinThemeColor;
 import napkin.shapes.AbstractDrawnGenerator;
 
 import javax.swing.*;
@@ -12,7 +13,7 @@ public abstract class AbstractNapkinIcon implements Icon {
     protected Shape place;
     protected Shape mark;
 
-    private final int markColor;
+    private final NapkinThemeColor markColor;
     private final AffineTransform scaleMat;
     private int width;
     private int height;
@@ -20,9 +21,11 @@ public abstract class AbstractNapkinIcon implements Icon {
     protected AbstractDrawnGenerator placeGen;
     protected AbstractDrawnGenerator markGen;
 
-    public AbstractNapkinIcon(int markColor, AffineTransform scaleMat) {
+    public AbstractNapkinIcon(NapkinThemeColor markColor,
+            AffineTransform scale) {
+
         this.markColor = markColor;
-        this.scaleMat = scaleMat;
+        scaleMat = scale;
     }
 
     protected void init() {

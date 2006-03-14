@@ -3,6 +3,7 @@
 package napkin.sketch;
 
 import napkin.NapkinLookAndFeel;
+import static napkin.sketch.XMLActions.*;
 import napkin.sketch.geometry.CubicLine;
 import napkin.sketch.geometry.Path;
 import napkin.sketch.geometry.QuadLine;
@@ -30,20 +31,6 @@ import java.io.InputStream;
  * @author Peter Goodspeed
  */
 public class XMLTemplateExtractor extends DefaultHandler {
-    // Constants indicating what data needs to be extracted
-    private static final int NO_ACTION = 0;
-    private static final int GET_TEMPLATE_TITLE = 1;
-    private static final int GET_TEMPLATE_DESCRIPTION = 2;
-    private static final int GET_TEMPLATE_CLIP_WIDTH = 3;
-    private static final int GET_TEMPLATE_CLIP_HEIGHT = 4;
-    private static final int GET_DRAW_STROKE = 5;
-    private static final int GET_DRAW_FILL = 6;
-    private static final int GET_STROKE_WEIGHT = 7;
-    private static final int GET_R_VALUE = 8;
-    private static final int GET_G_VALUE = 9;
-    private static final int GET_B_VALUE = 10;
-    private static final int GET_X_VALUE = 11;
-    private static final int GET_Y_VALUE = 12;
 
     // Template-related objects
     private final Template template;
@@ -63,7 +50,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
     private int i; // Used to iterate through all the points
     private int[] rgb; // Holds r, g, b color information
 
-    private int currentAction; // Specifies information that needs parsing
+    private XMLActions currentAction; // Specifies information that needs parsing
     private float curX;
 
     /** Constructs a new XMLTemplateExtractor. */
@@ -77,7 +64,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
         points[1] = new Point2D.Float();
         points[2] = new Point2D.Float();
         points[3] = new Point2D.Float();
-        currentAction = NO_ACTION;
+        currentAction = XMLActions.NO_ACTION;
     }
 
     /**
@@ -288,7 +275,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
     }
 
     private static final String schemaURL = NapkinLookAndFeel.class.getResource(
-                    "resources/templates/Template.xsd").toString();
+            "resources/templates/Template.xsd").toString();
 
     /**
      * Creates a Template object from an XML document.
