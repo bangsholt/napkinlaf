@@ -562,6 +562,7 @@ public class TableDemo extends DemoModule {
 	    public void setValue(Object value) {
 	        if (value instanceof NamedColor) {
 		    NamedColor c = (NamedColor) value;
+                    setOpaque(true);
 	            setBackground(c);
 	            setForeground(c.getTextColor());
 	            setText(c.toString());
