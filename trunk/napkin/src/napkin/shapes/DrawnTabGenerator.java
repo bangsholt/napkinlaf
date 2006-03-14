@@ -107,18 +107,31 @@ public class DrawnTabGenerator extends AbstractDrawnGenerator {
         matrix.transform(points, 0, points, 0, 4);
 
         int start = STARTS[side];
-        for (int i = 0; i < 4; i++) {
-            if (start >= points.length)
-                start = 0;
-            float x = (float) points[start++];
-            float y = (float) points[start++];
-            if (i == 0)
-                tab.moveTo(x, y);
-            else
-                tab.lineTo(x, y);
+        double prevX = points[start++];
+        double prevY = points[start++];
+        double x, y;
+        for (int i = 0; i < 3; i++) {
+            start %= points.length;
+            x = points[start++];
+            y = points[start++];
+            tab.append(fromPts(prevX, prevY, x, y), false);
+            prevX = x;
+            prevY = y;
         }
 
         return tab;
+    }
+
+    private static final Shape fromPts(double x0, double y0,
+            double x1, double y1) {
+        AffineTransform matrix = new AffineTransform();
+        double dx = x1 - x0;
+        double dy = y1 - y0;
+        double len = Math.sqrt(dx*dx + dy*dy);
+        matrix.translate(x0, y0);
+        matrix.rotate(Math.atan2(dy, dx));
+        matrix.scale(len / LENGTH, 1d);
+        return defaultLineGenerator(len).generate(matrix);
     }
 
     public RandomXY getUL() {
