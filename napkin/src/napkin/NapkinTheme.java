@@ -225,7 +225,7 @@ public class NapkinTheme {
 
             def = new NapkinTheme(DEFAULT_THEME, "Default theme",
                     Color.BLACK, checkGreen, new Color(0xf50000),
-                    new Color(0x00, 0xff, 0xff, 0xff / 2), checkGreen,
+                    new Color(0x00, 0xff, 0xff, 0x80), checkGreen,
                     scrawl.deriveFont(Font.PLAIN, 15),
                     scrawlBold.deriveFont(Font.BOLD, 15),
                     fixed.deriveFont(Font.PLAIN, 15),
