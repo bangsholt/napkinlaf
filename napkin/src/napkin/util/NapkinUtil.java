@@ -78,12 +78,14 @@ public class NapkinUtil implements NapkinConstants {
                     JComponent c = (JComponent) event.getSource();
                     boolean val = (Boolean) event.getNewValue();
                     c.putClientProperty(OPAQUE_KEY, val ? Boolean.TRUE : null);
-                    // unplug the listener before setting opaqueness
-                    // this is to avoid possible infinite loop due to
-                    // another "enforcing" listener
-                    c.removePropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
-                    c.setOpaque(c.getBackground() != CLEAR);
-                    c.addPropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
+                    if (val && c.getBackground() == CLEAR) {
+                        // unplug the listener before setting opaqueness
+                        // this is to avoid possible infinite loop due to
+                        // another "enforcing" listener
+                        c.removePropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
+                        c.setOpaque(false);
+                        c.addPropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
+                    }
                 }
             };
 
