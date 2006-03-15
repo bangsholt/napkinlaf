@@ -12,7 +12,6 @@ import javax.swing.plaf.basic.*;
 import java.awt.*;
 
 public class NapkinMenuBarUI extends BasicMenuBarUI implements NapkinPainter {
-    private Border oldBorder;
 
     @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
@@ -22,12 +21,9 @@ public class NapkinMenuBarUI extends BasicMenuBarUI implements NapkinPainter {
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
-        oldBorder = c.getBorder();
-        c.setBorder(null);
     }
 
     public void uninstallUI(JComponent c) {
-        c.setBorder(oldBorder);
         NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
     }

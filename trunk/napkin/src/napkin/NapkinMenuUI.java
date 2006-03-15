@@ -71,6 +71,26 @@ public class NapkinMenuUI extends BasicMenuUI
         super.paintText(g, (JMenuItem) c, textRect, text);
     }
 
+    //!! JMenu can either be on JMenuBar or within another JMenu and it
+    //!! could well be changed throughout the life-time of the component,
+    //!! so we have to work out the selectionForeground every time.
+    private void updateDefaultSelectionColor(JComponent c) {
+        selectionForeground = NapkinUtil.currentTheme(c).getSelectionColor();
+    }
+
+    protected PropertyChangeListener createPropertyChangeListener(JComponent c) {
+        final PropertyChangeListener listener =
+                super.createPropertyChangeListener(c);
+        return new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                listener.propertyChange(evt);
+                if (evt.getPropertyName().equals("ancestor")) {
+		    updateDefaultSelectionColor((JComponent) evt.getSource());
+	        }
+            }
+        };
+    }
+
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }
