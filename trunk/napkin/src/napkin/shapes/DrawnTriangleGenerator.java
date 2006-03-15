@@ -18,7 +18,7 @@ public class DrawnTriangleGenerator extends AbstractDrawnGenerator {
 
     public DrawnTriangleGenerator(double rotate) {
         super();
-        
+
         this.rotate = rotate;
 
         double shimmy = 0.05;
@@ -29,6 +29,7 @@ public class DrawnTriangleGenerator extends AbstractDrawnGenerator {
         startAdjust = new RandomValue(0.07);
     }
 
+    @Override
     public Shape generate(AffineTransform matrix) {
         GeneralPath t = new GeneralPath();
 

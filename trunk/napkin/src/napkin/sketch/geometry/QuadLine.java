@@ -28,11 +28,6 @@ public class QuadLine extends QuadCurve2D.Double implements SketchShape {
                 .getY());
     }
 
-    /** Creates a QuadLine identical to the QuadCurve2D passed in. */
-    public QuadLine(QuadCurve2D q) {
-        this(q.getP1(), q.getCtrlPt(), q.getP2());
-    }
-
     /** {@inheritDoc} */
     public SketchShape magnify(double scaleFactor) {
         return new XMLQuadLine(x1 * scaleFactor, y1 * scaleFactor,
@@ -45,7 +40,8 @@ public class QuadLine extends QuadCurve2D.Double implements SketchShape {
         Point base = Point.midpoint(getP1(), getP2());
         StraightLine span = new StraightLine(base, getCtrlPt());
         double lenMultiplier = 0.6;
-        if (span.x2 < span.x1) lenMultiplier *= -1;
+        if (span.x2 < span.x1)
+            lenMultiplier *= -1;
         Point2D reach = new StraightLine(base, span.angle(),
                 span.length() * lenMultiplier).getP2();
         return new CubicLine(getP1(), reach, reach, getP2());
@@ -59,8 +55,8 @@ public class QuadLine extends QuadCurve2D.Double implements SketchShape {
         Point c = new Point(getCtrlPt());
         Point f = new Point(getP2());
 
-        ret.moveTo(s.fX(), s.fY());
-        ret.quadTo(c.fX(), c.fY(), f.fX(), f.fY());
+        ret.moveTo(s.floatX(), s.floatY());
+        ret.quadTo(c.floatX(), c.floatY(), f.floatX(), f.floatY());
 
         return ret;
     }
@@ -73,9 +69,7 @@ public class QuadLine extends QuadCurve2D.Double implements SketchShape {
     /** {@inheritDoc} */
     public QuadLine[] transformToQuad() {
         QuadLine[] ret = new QuadLine[1];
-
-        ret[0] = new QuadLine(this);
-
+        ret[0] = clone();
         return ret;
     }
 
@@ -96,8 +90,8 @@ public class QuadLine extends QuadCurve2D.Double implements SketchShape {
         return ret;
     }
 
+    @Override
     public QuadLine clone() {
-        return new QuadLine(this);
+        return (QuadLine) super.clone();
     }
-
 }

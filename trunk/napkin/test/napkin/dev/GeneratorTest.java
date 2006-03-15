@@ -4,7 +4,7 @@ package napkin.dev;
 
 import napkin.shapes.DrawnCubicLineGenerator;
 import napkin.shapes.DrawnQuadLineGenerator;
-import napkin.shapes.AbstractDrawnGenerator;
+import static napkin.util.NapkinConstants.LENGTH;
 import napkin.util.NapkinUtil;
 import napkin.util.RandomValue;
 import napkin.util.RandomValueSource;
@@ -22,7 +22,7 @@ public class GeneratorTest extends NapkinUtil {
 
     // Subclass of this that implement Generator will have a symbol conflict
     // if we just call this "length"
-    private static final int STD_LENGTH = AbstractDrawnGenerator.LENGTH;
+    private static final int STD_LENGTH = LENGTH;
     static final int SPACE = STD_LENGTH / 2;
     static final int MIN_HEIGHT = STD_LENGTH * 2;
 
@@ -129,8 +129,8 @@ public class GeneratorTest extends NapkinUtil {
             public void actionPerformed(ActionEvent e) {
                 if (currentDrawer != null) {
                     RandomValueSource[] sources = currentDrawer.getSpinners();
-                    for (int i = 0; i < sources.length; i++) {
-                        sources[i].randomize();
+                    for (RandomValueSource source : sources) {
+                        source.randomize();
                     }
                     currentDrawer.rebuild();
                 }

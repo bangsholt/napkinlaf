@@ -4,7 +4,6 @@ package napkin;
 
 import napkin.shapes.DrawnCubicLineGenerator;
 import napkin.shapes.DrawnLineHolder;
-import napkin.util.NapkinConstants;
 import napkin.util.NapkinPainter;
 import napkin.util.NapkinUtil;
 
@@ -14,7 +13,7 @@ import javax.swing.plaf.basic.*;
 import java.awt.*;
 
 public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
-        implements NapkinConstants, NapkinPainter {
+        implements NapkinPainter {
 
     private transient DrawnLineHolder line;
     private Rectangle bounds;
@@ -22,10 +21,12 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
     private static final Dimension NO_SIZE = new Dimension(0, 0);
 
     public class NapkinTitlePaneLayout extends TitlePaneLayout {
+        @Override
         public Dimension preferredLayoutSize(Container c) {
             return calcSize(c, true, 15);
         }
 
+        @Override
         public Dimension minimumLayoutSize(Container c) {
             return calcSize(c, false, 3);
         }
@@ -90,16 +91,18 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
         super(f);
     }
 
+    @Override
     protected LayoutManager createLayout() {
         return new NapkinTitlePaneLayout();
     }
 
-    private Dimension sizeFor(boolean is, boolean pref, JButton button) {
+    private static Dimension sizeFor(boolean is, boolean pref, JButton button) {
         if (!is)
             return NO_SIZE;
         return (pref ? button.getPreferredSize() : button.getMinimumSize());
     }
 
+    @Override
     protected void createButtons() {
         super.createButtons();
         setupButton(iconButton);
@@ -107,17 +110,19 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
         setupButton(closeButton);
     }
 
+    @Override
     protected void setButtonIcons() {
         super.setButtonIcons();
         maxButton.setIcon(null);
     }
 
     private void setupButton(JButton button) {
-        if (button != maxButton)
+        if (!button.equals(maxButton))
             button.setBorder(new EmptyBorder(1, 1, 1, 1));
         button.setOpaque(false);
     }
 
+    @Override
     public void paint(Graphics g) {
         NapkinUtil.update(g, this, this);
     }
@@ -126,6 +131,7 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
         super.paint(g);
     }
 
+    @Override
     protected void paintTitleBackground(Graphics g) {
         if (line == null)
             line = new DrawnLineHolder(new DrawnCubicLineGenerator());
@@ -136,5 +142,4 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
         ulG.translate(0, bounds.height - 2);
         line.draw(ulG);
     }
-
 }

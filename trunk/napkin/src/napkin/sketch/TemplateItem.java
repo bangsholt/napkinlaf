@@ -19,40 +19,21 @@ import java.awt.*;
  * @author Peter Goodspeed
  */
 public class TemplateItem implements Cloneable {
-    private boolean drawStroke = true; // Determines if the shape's stroke is
-    // drawn
-    private boolean drawFill = true; // Determines if the shape's fill is drawn
-    private Color strokeColor; // The color of this object's boundary line
-    private float strokeWeight = 1; // The thickness of this object's boundary
-    // line
-    private Color fillColor; // The color of this object's internal fill
-    private SketchShape shape; // The geometry that specifies this object's
-    // shape
+    private boolean drawStroke = true; // Is the shape's stroke is drawn?
+    private boolean drawFill = true; // Is the shape's fill is drawn?
+    private Color strokeColor; // Color of this object's boundary line
+    private float strokeWeight = 1; // Thickness of this object's boundary line
+    private Color fillColor; // Color of this object's internal fill
+    private SketchShape shape; // Geometry that specifies this object's shape
 
     /** Constructs a new TemplateItem with default values. */
     public TemplateItem() {
-        this(true, false, null, 1.0f, null, null);
-    }
-
-    /**
-     * Produces a new TemplateItem with the specified values.
-     *
-     * @param drawStroke   Determines whether the shape's stroke is drawn
-     * @param drawFill     Determines whether the shape's fill is drawn
-     * @param strokeColor  The color of the shape's stroked lines
-     * @param strokeWeight The thickness of the shape's stroked lines
-     * @param fillColor    The color of the shape's filled areas
-     * @param shape        The geometry that specifies this object's shape
-     */
-    public TemplateItem(boolean drawStroke, boolean drawFill,
-            Color strokeColor, float strokeWeight, Color fillColor,
-            SketchShape shape) {
-        this.drawStroke = drawStroke;
-        this.drawFill = drawFill;
-        this.strokeColor = strokeColor;
-        this.strokeWeight = strokeWeight;
-        this.fillColor = fillColor;
-        this.shape = shape;
+        drawStroke = true;
+        drawFill = false;
+        strokeColor = null;
+        strokeWeight = 1;
+        fillColor = null;
+        shape = null;
     }
 
     /**
@@ -175,6 +156,7 @@ public class TemplateItem implements Cloneable {
     }
 
     /** {@inheritDoc} */
+    @Override
     @SuppressWarnings("unchecked")
     public TemplateItem clone() {
         try {
@@ -187,7 +169,7 @@ public class TemplateItem implements Cloneable {
             item.strokeWeight = strokeWeight;
             return item;
         } catch (CloneNotSupportedException e) {
-            throw new IllegalStateException("cannot clone/", e);
+            throw new IllegalStateException("cannot clone?", e);
         }
     }
 }

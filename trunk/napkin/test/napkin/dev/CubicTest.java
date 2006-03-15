@@ -2,8 +2,9 @@
 
 package napkin.dev;
 
-import napkin.shapes.DrawnCubicLineGenerator;
 import napkin.shapes.AbstractDrawnGenerator;
+import napkin.shapes.DrawnCubicLineGenerator;
+import static napkin.util.NapkinConstants.LENGTH;
 import napkin.util.RandomValue;
 import napkin.util.RandomValueSource;
 
@@ -87,7 +88,7 @@ class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
         return gen;
     }
 
-    public final void rebuild() {
+    public void rebuild() {
         curve = generate(null);
     }
 

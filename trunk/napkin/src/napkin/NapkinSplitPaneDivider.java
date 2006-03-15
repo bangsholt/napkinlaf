@@ -2,7 +2,7 @@
 
 package napkin;
 
-import napkin.util.NapkinConstants;
+import static napkin.util.NapkinConstants.*;
 import napkin.util.NapkinIconFactory;
 import napkin.util.NapkinPainter;
 import napkin.util.NapkinUtil;
@@ -12,13 +12,13 @@ import javax.swing.plaf.basic.*;
 import java.awt.*;
 
 public class NapkinSplitPaneDivider extends BasicSplitPaneDivider
-        implements NapkinConstants, NapkinPainter {
+        implements NapkinPainter {
 
     private JButton left;
     private JButton right;
 
-    public static final int ARROW_SIZE = 5;
-    public static final int SIZE = ARROW_SIZE + 4;
+    private static final int ARROW_SIZE = 5;
+    static final int SIZE = ARROW_SIZE + 4;
 
     private static final Cursor DEFAULT_CURSOR =
             Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
@@ -27,6 +27,7 @@ public class NapkinSplitPaneDivider extends BasicSplitPaneDivider
         super(ui);
     }
 
+    @Override
     public void update(Graphics g) {
         NapkinUtil.update(g, splitPane, this);
     }
@@ -36,16 +37,19 @@ public class NapkinSplitPaneDivider extends BasicSplitPaneDivider
     }
 
     // largely copied from superclass
+    @Override
     protected JButton createLeftOneTouchButton() {
         int dir = (orientation == JSplitPane.HORIZONTAL_SPLIT ? WEST : NORTH);
         return (left = createOneTouchButton(dir));
     }
 
+    @Override
     protected JButton createRightOneTouchButton() {
         int dir = (orientation == JSplitPane.HORIZONTAL_SPLIT ? EAST : SOUTH);
         return (right = createOneTouchButton(dir));
     }
 
+    @SuppressWarnings({"MethodMayBeStatic"})
     protected JButton createOneTouchButton(int dir) {
         JButton b = NapkinUtil.createArrowButton(dir, ARROW_SIZE);
         b.setFocusable(false);

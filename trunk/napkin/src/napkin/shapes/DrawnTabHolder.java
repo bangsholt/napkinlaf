@@ -2,17 +2,14 @@
 
 package napkin.shapes;
 
-import napkin.util.NapkinConstants;
+import static napkin.util.NapkinConstants.*;
 
 import java.awt.geom.*;
 
-public class DrawnTabHolder extends DrawnShapeHolder
-        implements NapkinConstants {
+public class DrawnTabHolder extends DrawnShapeHolder {
     private int tabPlacement;
-    private int x,
-            y;
-    private int w,
-            h;
+    private int x, y;
+    private int w, h;
     private final Point2D breakBeg;
     private final Point2D breakEnd;
 

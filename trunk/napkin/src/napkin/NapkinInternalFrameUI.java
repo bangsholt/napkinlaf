@@ -21,17 +21,20 @@ public class NapkinInternalFrameUI extends BasicInternalFrameUI
         super(c);
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
         NapkinUtil.setupPaper(c, NapkinKnownTheme.POPUP_THEME);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
     }
 
+    @Override
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }
@@ -40,6 +43,7 @@ public class NapkinInternalFrameUI extends BasicInternalFrameUI
         super.update(g, c);
     }
 
+    @Override
     protected JComponent createNorthPane(JInternalFrame w) {
         titlePane = new NapkinInternalFrameTitlePane(w);
         return titlePane;

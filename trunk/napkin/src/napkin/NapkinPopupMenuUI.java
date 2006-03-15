@@ -2,7 +2,6 @@
 
 package napkin;
 
-import napkin.util.NapkinConstants;
 import napkin.util.NapkinPainter;
 import napkin.util.NapkinUtil;
 
@@ -12,24 +11,27 @@ import javax.swing.plaf.basic.*;
 import java.awt.*;
 
 public class NapkinPopupMenuUI extends BasicPopupMenuUI
-        implements NapkinConstants, NapkinPainter {
+        implements NapkinPainter {
 
     @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinPopupMenuUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
         NapkinUtil.setupPaper(c, NapkinKnownTheme.POPUP_THEME);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
     }
 
+    @Override
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }

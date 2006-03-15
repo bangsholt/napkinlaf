@@ -70,12 +70,12 @@ public class Point extends Point2D.Double {
     }
 
     /** @return the float value of the x coordinate. */
-    public float fX() {
+    public float floatX() {
         return (float) x;
     }
 
     /** @return the float value of the y coordinate. */
-    public float fY() {
+    public float floatY() {
         return (float) y;
     }
 

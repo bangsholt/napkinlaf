@@ -13,10 +13,10 @@ import java.awt.*;
 import java.util.Iterator;
 
 /**
- * The <tt>AbstractSketcher<tt> class uses the graphical information contained in a
- * Template to produce an image. The Sketcher is responsible for such things as
- * deforming shapes and changing stroke widths. The altered graphic elements are
- * then rasterized to create an icon's final image.
+ * The <tt>AbstractSketcher<tt> class uses the graphical information contained
+ * in a Template to produce an image. The Sketcher is responsible for such
+ * things as deforming shapes and changing stroke widths. The altered graphic
+ * elements are then rasterized to create an icon's final image.
  * <p/>
  * A developer wishing to create a new sketching style needs only implement the
  * abstract methods specifying the deformations that need to be applied to each
@@ -70,11 +70,9 @@ public abstract class AbstractSketcher {
      * @param g2d      the graphics object on which to sketch the image
      */
     public void sketch(Template template, Graphics2D g2d) {
-        TemplateItem current;
-
         Iterator<TemplateItem> i = template.getListIterator();
         while (i.hasNext()) {
-            current = i.next();
+            TemplateItem current = i.next();
             current.setShape(current.getShape().deform(this));
             cleanSketch(current, g2d);
         }
@@ -108,11 +106,11 @@ public abstract class AbstractSketcher {
     protected static Path formPath(StraightLine[] l) {
         Path ret = new Path();
         Point p = new Point(l[0].getP1());
-        ret.moveTo(p.fX(), p.fY());
+        ret.moveTo(p.floatX(), p.floatY());
 
         for (StraightLine line : l) {
             p = new Point(line.getP2());
-            ret.lineTo(p.fX(), p.fY());
+            ret.lineTo(p.floatX(), p.floatY());
         }
 
         return ret;

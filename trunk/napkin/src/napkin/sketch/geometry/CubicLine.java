@@ -19,17 +19,6 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
     }
 
     /**
-     * Creates a new <tt>CubicLine</tt> identical to the <tt>CubicCurve2D</tt>
-     * passed into it.
-     *
-     * @param clone the CubicCurve2D to duplicate.
-     */
-    public CubicLine(CubicCurve2D clone) {
-        this(clone.getP1(), clone.getCtrlP1(), clone.getCtrlP2(),
-                clone.getP2());
-    }
-
-    /**
      * @param x1    the x coordinate of the initial point.
      * @param y1    the y coordinate of the initial point.
      * @param ctlx1 the x coordinate of the first control point.
@@ -96,8 +85,9 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
         Point c2 = new Point(getCtrlP2());
         Point f = new Point(getP2());
 
-        ret.moveTo(s.fX(), s.fY());
-        ret.curveTo(c1.fX(), c1.fY(), c2.fX(), c2.fY(), f.fX(), f.fY());
+        ret.moveTo(s.floatX(), s.floatY());
+        ret.curveTo(c1.floatX(), c1.floatY(), c2.floatX(), c2.floatY(),
+                f.floatX(), f.floatY());
 
         return ret;
     }
@@ -178,8 +168,8 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
         return ret;
     }
 
+    @Override
     public CubicLine clone() {
-        return new CubicLine(this);
+        return (CubicLine) super.clone();
     }
-
 }

@@ -28,7 +28,7 @@ public class DrawnCheckGenerator extends AbstractDrawnGenerator {
 
     public DrawnCheckGenerator(RandomValue widthVal, RandomValue heightVal) {
         super();
-        
+
         dim = new RandomXY(widthVal, heightVal);
 
         leftLineGen = new DrawnQuadLineGenerator();
@@ -44,6 +44,7 @@ public class DrawnCheckGenerator extends AbstractDrawnGenerator {
         rightScale = new RandomXY(1.1, 0.1, 0.9, 0.1);
     }
 
+    @Override
     public Shape generate(AffineTransform matrix) {
         GeneralPath check = new GeneralPath();
 
@@ -81,7 +82,7 @@ public class DrawnCheckGenerator extends AbstractDrawnGenerator {
     }
 
     private static double rootOfSquares(double ... numbers) {
-        double sum = 0d;
+        double sum = 0.0;
         for (double number : numbers)
             sum += number * number;
         return Math.sqrt(sum);

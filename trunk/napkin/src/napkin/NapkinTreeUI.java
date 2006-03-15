@@ -25,6 +25,7 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
             super(16, 0.75f, true);
         }
 
+        @Override
         protected boolean removeEldestEntry(
                 Map.Entry<Rectangle, DrawnLineHolder> eldest) {
             return size() > MAX_NUM_OF_LINES;
@@ -34,6 +35,7 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
     public static class DefaultNapkinTreeCellRender
             extends DefaultTreeCellRenderer
             implements NapkinPainter {
+        @Override
         public void paint(Graphics g) {
             NapkinUtil.update(g, this, this);
         }
@@ -42,18 +44,20 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
             super.paint(g);
         }
 
+        @Override
         public Icon getOpenIcon() {
             return getDefaultOpenIcon();
         }
 
+        @Override
         public Icon getLeafIcon() {
             return getDefaultLeafIcon();
         }
 
+        @Override
         public Icon getClosedIcon() {
             return getDefaultClosedIcon();
         }
-
     }
 
     private final LineCache linesFor = new LineCache();
@@ -63,16 +67,19 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
         return new NapkinTreeUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
     }
 
+    @Override
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }
@@ -81,11 +88,13 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
         super.update(g, c);
     }
 
+    @Override
     protected void paintVerticalLine(Graphics g, JComponent c, int x, int top,
             int bottom) {
         paintLine(g, x, top, x, bottom);
     }
 
+    @Override
     protected void paintHorizontalLine(Graphics g, JComponent c, int y,
             int left, int right) {
         paintLine(g, left, y, right, y);
@@ -116,6 +125,7 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
         line.draw(g);
     }
 
+    @Override
     protected void paintVerticalPartOfLeg(Graphics g, Rectangle clipBounds,
             Insets insets, TreePath path) {
         // if we restrict to the actual clip bounds then we will be trying to
@@ -131,6 +141,7 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
         super.paintVerticalPartOfLeg(g, rect, insets, path);
     }
 
+    @Override
     protected void paintHorizontalPartOfLeg(Graphics g, Rectangle clipBounds,
             Insets insets, Rectangle bounds, TreePath path, int row,
             boolean isExpanded, boolean hasBeenExpanded, boolean isLeaf) {
@@ -143,10 +154,12 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
                 path, row, isExpanded, hasBeenExpanded, isLeaf);
     }
 
+    @Override
     protected Color getHashColor() {
         return NapkinUtil.currentTheme(tree).getPenColor();
     }
 
+    @Override
     protected TreeCellRenderer createDefaultCellRenderer() {
         return new DefaultNapkinTreeCellRender();
     }

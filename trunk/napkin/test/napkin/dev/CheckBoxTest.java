@@ -4,6 +4,7 @@ package napkin.dev;
 
 import napkin.shapes.DrawnBoxGenerator;
 import napkin.shapes.DrawnCheckGenerator;
+import static napkin.util.NapkinConstants.LENGTH;
 import napkin.util.RandomValueSource;
 
 import javax.swing.*;
@@ -54,7 +55,7 @@ class CheckBoxTest extends GeneratorTest
             if (useBox.isSelected())
                 boxG.draw(box);
             else
-                boxG.draw(boxGen.getSide(DrawnBoxGenerator.BOTTOM));
+                boxG.draw(boxGen.getSide(BOTTOM));
 
             if (isSelected.isSelected()) {
                 Graphics2D checkG = lineGraphics(g, (float) widthSpin.get());
@@ -132,7 +133,7 @@ class CheckBoxTest extends GeneratorTest
         return drawing;
     }
 
-    public final void rebuild() {
+    public void rebuild() {
         box = boxGen.generate(null);
         check = checkGen.generate(null);
     }

@@ -9,6 +9,7 @@ import napkin.borders.NapkinWrappedBorder;
 import napkin.shapes.AbstractDrawnGenerator;
 import napkin.shapes.DrawnCubicLineGenerator;
 import napkin.shapes.DrawnLineHolder;
+import static napkin.util.NapkinConstants.*;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -27,7 +28,7 @@ import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class NapkinUtil implements NapkinConstants {
+public class NapkinUtil {
     private static final Map<Float, Stroke> strokes =
             new WeakHashMap<Float, Stroke>();
 
@@ -72,6 +73,7 @@ public class NapkinUtil implements NapkinConstants {
                 }
             };
 
+    @SuppressWarnings({"ObjectEquality"})
     private static final PropertyChangeListener OPAQUE_LISTENER =
             new PropertyChangeListener() {
                 public void propertyChange(PropertyChangeEvent event) {
@@ -140,6 +142,7 @@ public class NapkinUtil implements NapkinConstants {
         Logger paper = Logger.getLogger("napkin.paper");
     }
 
+    @SuppressWarnings({"SameParameterValue"})
     public static Object property(ComponentUI ui, String prop) {
         String name = ui.getClass().getName();
         String base = ".Napkin";
@@ -148,6 +151,7 @@ public class NapkinUtil implements NapkinConstants {
         return pref + "." + prop;
     }
 
+    @SuppressWarnings({"ObjectEquality"})
     private static boolean replaceBackground(Color bgColor) {
         return bgColor == null || (bgColor != CLEAR
                 && bgColor.getRed() == bgColor.getGreen()
@@ -192,13 +196,14 @@ public class NapkinUtil implements NapkinConstants {
             return false;
     }
 
+    @SuppressWarnings({"ObjectEquality"})
     private static boolean isGlassPane(JComponent c) {
         JRootPane rootPane = c.getRootPane();
         return (rootPane != null && rootPane.getGlassPane() == c);
     }
 
     public static double leftRight(double x, boolean left) {
-        return (left ? x : AbstractDrawnGenerator.LENGTH - x);
+        return (left ? x : LENGTH - x);
     }
 
     public static Graphics2D copy(Graphics g) {
@@ -320,6 +325,7 @@ public class NapkinUtil implements NapkinConstants {
         return paperStack.peek();
     }
 
+    @SuppressWarnings({"ObjectEquality"})
     public static void finishGraphics(Graphics g1, Component c) {
         if (c == currentPaper(c)) {
             if (!paperStack.isEmpty())
@@ -411,6 +417,7 @@ public class NapkinUtil implements NapkinConstants {
         return holder;
     }
 
+    @SuppressWarnings({"SameParameterValue"})
     public static void printPair(Logger logger, Level level, String label,
             double x, double y) {
         logger.log(level, label + ": " + x + ", " + y);
@@ -477,6 +484,7 @@ public class NapkinUtil implements NapkinConstants {
         return themeTop;
     }
 
+    @SuppressWarnings({"ObjectEquality"})
     private static Point getStart(Component c, Insets insets) {
         Point start = new Point();
         if (insets != null)
@@ -496,6 +504,7 @@ public class NapkinUtil implements NapkinConstants {
         return false;
     }
 
+    @SuppressWarnings({"TooBroadScope"})
     public static void
             paintButtonText(Graphics g, JComponent c, Rectangle textRect,
             String text, int textOffset, DrawnLineHolder line,
@@ -525,6 +534,7 @@ public class NapkinUtil implements NapkinConstants {
         helper.superPaintText(g, c, textRect, text);
     }
 
+    @SuppressWarnings({"SameParameterValue"})
     public static Object
             getProperty(JComponent c, String key, PropertyFactory factory) {
         Object value = c.getClientProperty(key);
@@ -575,6 +585,7 @@ public class NapkinUtil implements NapkinConstants {
         finishGraphics(g, c);
     }
 
+    @SuppressWarnings({"UseOfSystemOutOrSystemErr", "HardcodedFileSeparator"})
     private static void dumpStacks() {
         if (!Logs.paper.isLoggable(Level.FINER))
             return;

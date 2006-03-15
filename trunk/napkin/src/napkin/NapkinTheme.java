@@ -180,6 +180,7 @@ public class NapkinTheme {
         return variants.get(which);
     }
 
+    @Override
     public String toString() {
         return name;
     }
@@ -196,12 +197,6 @@ public class NapkinTheme {
         private static final Logger LOG =
                 LogManager.getLogManager().getLogger(THIS_CLASS.getName());
 
-        private static Font scrawl;
-        private static Font scrawlBold;
-        private static Font fixed;
-        private static Font augie;
-        private static NapkinTheme def;
-
         static {
             AccessController.doPrivileged(new PrivilegedAction<Object>() {
                 public Object run() {
@@ -211,16 +206,18 @@ public class NapkinTheme {
             });
         }
 
+        @SuppressWarnings(
+                {"NonThreadSafeLazyInitialization", "AccessOfSystemProperties"})
         private static void setup() {
             Color checkGreen = Color.GREEN.darker();
             //!! Make this selectable
             //            scrawl = tryToLoadFont("aescr5b.ttf");
-            scrawl = tryToLoadFont("FeltTipRoman.ttf");
-            scrawlBold = tryToLoadFont("FeltTipRoman-Bold.ttf");
-            fixed = tryToLoadFont("1942.ttf");
-            augie = tryToLoadFont("augie.ttf");
+            Font scrawl = tryToLoadFont("FeltTipRoman.ttf");
+            Font scrawlBold = tryToLoadFont("FeltTipRoman-Bold.ttf");
+            Font fixed = tryToLoadFont("1942.ttf");
+            Font augie = tryToLoadFont("augie.ttf");
 
-            def = new NapkinTheme(DEFAULT_THEME, "Default theme",
+            NapkinTheme def = new NapkinTheme(DEFAULT_THEME, "Default theme",
                     Color.BLACK, checkGreen, new Color(0xf50000),
                     new Color(0x00, 0xff, 0xff, 0x80), checkGreen,
                     scrawl.deriveFont(Font.PLAIN, 15),
@@ -267,6 +264,7 @@ public class NapkinTheme {
                             }
                         });
             } catch (SecurityException e) {
+                e.printStackTrace();
                 themeName = null;
             }
             if (themeName == null)
@@ -312,8 +310,8 @@ public class NapkinTheme {
         private static Font tryToLoadFont(String fontName) {
             try {
                 String fontRes = RESOURCE_PATH + fontName;
-                InputStream fontDef;
-                fontDef = NapkinLookAndFeel.class.getResourceAsStream(fontRes);
+                InputStream fontDef =
+                        NapkinLookAndFeel.class.getResourceAsStream(fontRes);
                 if (fontDef == null) {
                     throw new NullPointerException(
                             "Could not find font resource \"" + fontName +

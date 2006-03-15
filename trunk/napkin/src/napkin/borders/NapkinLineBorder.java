@@ -11,11 +11,13 @@ public class NapkinLineBorder extends AbstractNapkinBorder {
     private final boolean vertical;
     private DrawnLineHolder line;
 
+    @SuppressWarnings({"SameParameterValue"})
     public NapkinLineBorder(boolean vertical) {
         super();
         this.vertical = vertical;
     }
 
+    @Override
     protected Insets doGetBorderInsets(Component c, Insets insets) {
         if (vertical) {
             insets.set(0, 0, 0, NapkinBoxBorder.SMALL_DEFAULT_INSETS.right);
@@ -25,6 +27,7 @@ public class NapkinLineBorder extends AbstractNapkinBorder {
         return insets;
     }
 
+    @Override
     public void doPaintBorder(Component c, Graphics g1, int x, int y,
             int width, int height) {
 

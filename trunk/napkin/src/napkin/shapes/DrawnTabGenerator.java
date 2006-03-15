@@ -2,6 +2,7 @@
 
 package napkin.shapes;
 
+import static napkin.util.NapkinConstants.*;
 import napkin.util.RandomValue;
 import napkin.util.RandomXY;
 
@@ -16,13 +17,14 @@ public class DrawnTabGenerator extends AbstractDrawnGenerator {
     private final RandomValue squeeze;
     private final int side;
 
-    public static final DrawnTabGenerator LEFT_TAB = new DrawnTabGenerator(
-            LEFT);
-    public static final DrawnTabGenerator RIGHT_TAB = new DrawnTabGenerator(
-            RIGHT);
-    public static final DrawnTabGenerator TOP_TAB = new DrawnTabGenerator(TOP);
-    public static final DrawnTabGenerator BOTTOM_TAB = new DrawnTabGenerator(
-            BOTTOM);
+    public static final DrawnTabGenerator LEFT_TAB =
+            new DrawnTabGenerator(LEFT);
+    public static final DrawnTabGenerator RIGHT_TAB =
+            new DrawnTabGenerator(RIGHT);
+    public static final DrawnTabGenerator TOP_TAB =
+            new DrawnTabGenerator(TOP);
+    public static final DrawnTabGenerator BOTTOM_TAB =
+            new DrawnTabGenerator(BOTTOM);
 
     private static final int[] STARTS;
     private static final DrawnTabGenerator[] SIDES;
@@ -60,11 +62,12 @@ public class DrawnTabGenerator extends AbstractDrawnGenerator {
         squeeze = new RandomValue(0.09, 0.001);
     }
 
+    @Override
     public Shape generate(AffineTransform matrix) {
-        if (getXScale(matrix) > 100d) {
-            setScales(0.008d, 0.03d);
+        if (getXScale(matrix) > 100.0) {
+            setScales(0.008, 0.03);
         } else {
-            setScales(0.03d, 0.1d);
+            setScales(0.03, 0.1);
         }
 
         GeneralPath tab = new GeneralPath();
@@ -109,11 +112,10 @@ public class DrawnTabGenerator extends AbstractDrawnGenerator {
         int start = STARTS[side];
         double prevX = points[start++];
         double prevY = points[start++];
-        double x, y;
         for (int i = 0; i < 3; i++) {
             start %= points.length;
-            x = points[start++];
-            y = points[start++];
+            double x = points[start++];
+            double y = points[start++];
             tab.append(fromPts(prevX, prevY, x, y), false);
             prevX = x;
             prevY = y;
@@ -122,15 +124,14 @@ public class DrawnTabGenerator extends AbstractDrawnGenerator {
         return tab;
     }
 
-    private static final Shape fromPts(double x0, double y0,
-            double x1, double y1) {
+    private static Shape fromPts(double x0, double y0, double x1, double y1) {
         AffineTransform matrix = new AffineTransform();
         double dx = x1 - x0;
         double dy = y1 - y0;
-        double len = Math.sqrt(dx*dx + dy*dy);
+        double len = Math.sqrt(dx * dx + dy * dy);
         matrix.translate(x0, y0);
         matrix.rotate(Math.atan2(dy, dx));
-        matrix.scale(len / LENGTH, 1d);
+        matrix.scale(len / LENGTH, 1.0);
         return defaultLineGenerator(len).generate(matrix);
     }
 
@@ -152,7 +153,7 @@ public class DrawnTabGenerator extends AbstractDrawnGenerator {
 
     private static double getXScale(AffineTransform matrix) {
         Point2D[] points = {
-                new Point2D.Double(0d, 0d), new Point2D.Double(1d, 0d)};
+                new Point2D.Double(0, 0), new Point2D.Double(1, 0)};
         matrix.transform(points, 0, points, 0, 2);
         return points[0].distance(points[1]);
     }
@@ -164,7 +165,7 @@ public class DrawnTabGenerator extends AbstractDrawnGenerator {
         ll.getY().setRange(shimmy);
         // when this gets exagerated to stretch out the line it's too much
         if (side == LEFT || side == RIGHT)
-            shimmy /= 10d;
+            shimmy /= 10;
         ul.getX().setRange(shimmy);
         ur.getX().setRange(shimmy);
         ll.getX().setRange(shimmy);

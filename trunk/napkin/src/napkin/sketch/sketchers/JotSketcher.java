@@ -30,6 +30,7 @@ public class JotSketcher extends AbstractSketcher {
     private static final double DEFORM_FACTOR = 0.2;
 
     /** {@inheritDoc} */
+    @Override
     public void sketch(Template template, Graphics2D g2d) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
@@ -37,7 +38,7 @@ public class JotSketcher extends AbstractSketcher {
         Iterator<TemplateItem> iter = template.getListIterator();
         while (iter.hasNext()) {
             TemplateItem current = iter.next();
-            TemplateItem draw = (TemplateItem) current.clone();
+            TemplateItem draw = current.clone();
             if (current.isDrawFill()) {
                 draw.setDrawStroke(false);
                 draw.setDrawFill(true);
@@ -106,6 +107,7 @@ public class JotSketcher extends AbstractSketcher {
      *
      * @see JotSketcher#deform(Path)
      */
+    @SuppressWarnings({"TooBroadScope"})
     private static Path deform(Path p, boolean close) {
         Path ret = new Path();
         Point initial = new Point(0, 0);
@@ -116,12 +118,11 @@ public class JotSketcher extends AbstractSketcher {
         SketchShape seg;
         CubicLine draw;
 
-        int segType;
         double[] coords = new double[6];
 
         PathIterator pi = p.getPathIterator(new AffineTransform());
         while (!pi.isDone()) {
-            segType = pi.currentSegment(coords);
+            int segType = pi.currentSegment(coords);
             pi.next();
 
             // Do we need to keep creating new points or can we set coordinates
@@ -129,7 +130,7 @@ public class JotSketcher extends AbstractSketcher {
             case PathIterator.SEG_MOVETO:
                 current = new Point(coords[0], coords[1]);
                 initial = new Point(current);
-                ret.moveTo(current.fX(), current.fY());
+                ret.moveTo(current.floatX(), current.floatY());
                 seg = null;
                 break;
             case PathIterator.SEG_LINETO:
@@ -162,8 +163,9 @@ public class JotSketcher extends AbstractSketcher {
                 ctrl1 = new Point(draw.getCtrlP1());
                 ctrl2 = new Point(draw.getCtrlP2());
                 far = new Point(draw.getP2());
-                ret.curveTo(ctrl1.fX(), ctrl1.fY(), ctrl2.fX(), ctrl2.fY(),
-                        far.fX(), far.fY());
+                ret.curveTo(ctrl1.floatX(), ctrl1.floatY(), ctrl2.floatX(),
+                        ctrl2.floatY(),
+                        far.floatX(), far.floatY());
             }
         }
 
@@ -173,9 +175,10 @@ public class JotSketcher extends AbstractSketcher {
             ctrl1 = new Point(draw.getCtrlP1());
             ctrl2 = new Point(draw.getCtrlP2());
             far = new Point(draw.getP2());
-            ret.curveTo(ctrl1.fX(), ctrl1.fY(), ctrl2.fX(), ctrl2.fY(),
-                    far.fX(),
-                    far.fY());
+            ret.curveTo(ctrl1.floatX(), ctrl1.floatY(), ctrl2.floatX(),
+                    ctrl2.floatY(),
+                    far.floatX(),
+                    far.floatY());
             ret.closePath();
         }
 
@@ -196,21 +199,25 @@ public class JotSketcher extends AbstractSketcher {
     }
 
     /** {@inheritDoc} */
+    @Override
     public SketchShape deformLine(StraightLine l) {
         return l.transformToCubic().deform(this);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SketchShape deformQuad(QuadLine q) {
         return q.transformToCubic().deform(this);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SketchShape deformCubic(CubicLine c) {
         return deform(c);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SketchShape deformPath(Path p) {
         return deform(p);
     }

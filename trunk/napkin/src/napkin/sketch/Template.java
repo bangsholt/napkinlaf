@@ -2,6 +2,7 @@
 
 package napkin.sketch;
 
+import napkin.util.NapkinUtil;
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -38,24 +39,20 @@ public class Template implements Cloneable {
     /**
      * Constructs a new template with the given values.
      *
-     * @param title       The title of the template
-     * @param description A description of the template
-     * @param origin      The upper-left corner of the rectangle specifying the
-     *                    clipping bounds
-     * @param dimensions  The width and height of the rectangle specifying the
-     *                    clipping bounds
+     * @param origin     The upper-left corner of the rectangle specifying the
+     *                   clipping bounds
+     * @param dimensions The width and height of the rectangle specifying the
      */
-    public Template(String title, String description, Point origin,
-            Dimension dimensions) {
-        this.title = title;
-        this.description = description;
+    public Template(Point origin, Dimension dimensions) {
+        title = "";
+        description = "";
         templateItems = new LinkedList<TemplateItem>();
         clippingBounds = new Rectangle(origin, dimensions);
     }
 
     /** Constructs a new Template with default values. */
     public Template() {
-        this("", "", new Point(), new Dimension());
+        this(new Point(), new Dimension());
     }
 
     /**
@@ -74,11 +71,17 @@ public class Template implements Cloneable {
      * @throws IOException
      * @see Template#produceXMLString()
      */
+    @SuppressWarnings({"IOResourceOpenedButNotSafelyClosed"})
     public static Template createFromXML(String path)
             throws TemplateReadException, IOException {
 
-        return createFromXML(
-                new BufferedInputStream(new FileInputStream(path)));
+        BufferedInputStream in = null;
+        try {
+            in = new BufferedInputStream(new FileInputStream(path));
+            return createFromXML(in);
+        } finally {
+            NapkinUtil.tryClose(in);
+        }
     }
 
     /**
@@ -121,18 +124,13 @@ public class Template implements Cloneable {
         int miny = 0;
         int maxy = 0;
 
-        double tminx;
-        double tmaxx;
-        double tminy;
-        double tmaxy;
-
         for (TemplateItem t : templateItems) {
             Shape s = t.getShape();
 
-            tminx = s.getBounds2D().getMinX();
-            tmaxx = s.getBounds2D().getMaxX();
-            tminy = s.getBounds2D().getMinY();
-            tmaxy = s.getBounds2D().getMaxY();
+            double tminx = s.getBounds2D().getMinX();
+            double tmaxx = s.getBounds2D().getMaxX();
+            double tminy = s.getBounds2D().getMinY();
+            double tmaxy = s.getBounds2D().getMaxY();
 
             if (tminx < minx)
                 minx = (int) Math.floor(tminx);
@@ -224,7 +222,6 @@ public class Template implements Cloneable {
         } catch (IOException e) {
             // There was an error creating the XML output
             e.printStackTrace();
-            System.err.println("Writing XML: " + e.getMessage());
         }
 
         return stringWriter.toString();
@@ -248,11 +245,15 @@ public class Template implements Cloneable {
     }
 
     /** {@inheritDoc} */
+    @Override
     @SuppressWarnings("unchecked")
     public Template clone() {
         try {
             Template ret = (Template) super.clone();
-            ret.templateItems = new LinkedList<TemplateItem>();
+            ret.templateItems =
+                    (LinkedList<TemplateItem>) templateItems.clone();
+            // make it a deep copy
+            ret.templateItems.clear();
             for (TemplateItem item : templateItems)
                 ret.templateItems.add(item.clone());
             ret.clippingBounds = (Rectangle) clippingBounds.clone();

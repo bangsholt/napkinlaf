@@ -25,6 +25,7 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
         return new NapkinTabbedPaneUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
@@ -32,12 +33,14 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
         contentBorderInsets = NapkinBoxBorder.LARGE_DEFAULT_INSETS;
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         contentBorderInsets = origInsets;
         super.uninstallUI(c);
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         int count = ((JTabbedPane) c).getTabCount();
         DrawnTabHolder[] newTabs = new DrawnTabHolder[count];
@@ -47,6 +50,7 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
         super.paint(g, c);
     }
 
+    @Override
     protected void paintTabBorder(Graphics g, int tabPlacement, int tabIndex,
             int x, int y, int w, int h, boolean isSelected) {
 
@@ -69,6 +73,7 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
      * <p/>
      * {@inheritDoc}
      */
+    @Override
     protected void paintContentBorderTopEdge(Graphics g, int tabPlacement,
             int selectedIndex, int x, int y, int w, int h) {
 
@@ -95,21 +100,25 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
         g.translate(-calcRect.x, -calcRect.y);
     }
 
+    @Override
     protected void paintContentBorderLeftEdge(Graphics g, int tabPlacement,
             int selectedIndex, int x, int y, int w, int h) {
         // see comment for paintContentBorderBottomEdge
     }
 
+    @Override
     protected void paintContentBorderRightEdge(Graphics g, int tabPlacement,
             int selectedIndex, int x, int y, int w, int h) {
         // see comment for paintContentBorderBottomEdge
     }
 
+    @Override
     protected void paintContentBorderBottomEdge(Graphics g, int tabPlacement,
             int selectedIndex, int x, int y, int w, int h) {
         // see comment for paintContentBorderBottomEdge
     }
 
+    @Override
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }

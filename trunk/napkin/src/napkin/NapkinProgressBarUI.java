@@ -2,7 +2,6 @@
 
 package napkin;
 
-import java.awt.image.BufferedImage;
 import napkin.shapes.DrawnBoxHolder;
 import napkin.shapes.DrawnScribbleHolder;
 import napkin.util.NapkinPainter;
@@ -12,6 +11,7 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import java.awt.*;
+import java.awt.image.*;
 
 public class NapkinProgressBarUI extends BasicProgressBarUI
         implements NapkinPainter {
@@ -27,16 +27,19 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
         return new NapkinProgressBarUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
     }
 
+    @Override
     protected void paintIndeterminate(Graphics g1, JComponent c) {
         Insets b = progressBar.getInsets(); // area for border
         int barRectWidth = progressBar.getWidth() - (b.right + b.left);
@@ -51,7 +54,7 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
 
         if (box == null) {
             box = new DrawnBoxHolder();
-            box.setWidth(2f);
+            box.setWidth(2.0f);
         }
         box.shapeUpToDate(boxRect);
         Graphics2D lineG = NapkinUtil.copy(g);
@@ -61,7 +64,7 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
 
         // Deal with possible text painting
         if (progressBar.isStringPainted()) {
-            if (progressBar.getOrientation() == JProgressBar.HORIZONTAL) {
+            if (progressBar.getOrientation() == SwingConstants.HORIZONTAL) {
                 paintString(g, b.left, b.top, barRectWidth, barRectHeight,
                         boxRect.width, b);
             } else {
@@ -71,6 +74,7 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
         }
     }
 
+    @Override
     protected void paintDeterminate(Graphics g, JComponent c) {
         Insets b = progressBar.getInsets(); // area for border
         int barRectWidth = progressBar.getWidth() - (b.right + b.left);
@@ -101,6 +105,7 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
         }
     }
 
+    @Override
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }
@@ -109,10 +114,12 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
         super.update(g, c);
     }
 
+    @Override
     protected Color getSelectionBackground() {
         return selectionBackground;
     }
 
+    @Override
     protected Color getSelectionForeground() {
         return selectionForeground;
     }

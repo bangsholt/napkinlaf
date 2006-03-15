@@ -23,7 +23,7 @@ public class XMLCubicLine extends CubicLine implements XMLShape {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element("cubicLine");
 
-        ret.addContent(napkin.sketch.XMLUtility.pointToXML(getP1(), "start"));
+        ret.addContent(XMLUtility.pointToXML(getP1(), "start"));
         ret.addContent(XMLUtility.pointToXML(getCtrlP1(), "control"));
         ret.addContent(XMLUtility.pointToXML(getCtrlP2(), "control"));
         ret.addContent(XMLUtility.pointToXML(getP2(), "end"));

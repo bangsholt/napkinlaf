@@ -8,11 +8,11 @@ import napkin.util.NapkinUtil;
 import javax.swing.*;
 import javax.swing.filechooser.*;
 import javax.swing.plaf.*;
+import javax.swing.plaf.metal.*;
 import java.awt.*;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.plaf.metal.MetalFileChooserUI;
 
 //!! It seems as if the BasicFileChooserUI is not yet well formed, so we're just
 //!! borrowing the metal chooser for now.
@@ -26,10 +26,12 @@ public class NapkinFileChooserUI extends MetalFileChooserUI
         private final Map<String, Icon> pathIconCache =
                 new HashMap<String, Icon>();
 
+        @Override
         public Icon getCachedIcon(File f) {
             return pathIconCache.get(f.getPath());
         }
 
+        @Override
         public Icon getIcon(File f) {
             Icon icon = getCachedIcon(f);
             if (icon != null)
@@ -40,10 +42,12 @@ public class NapkinFileChooserUI extends MetalFileChooserUI
             return icon;
         }
 
+        @Override
         public void cacheIcon(File f, Icon icon) {
             pathIconCache.put(f.getPath(), icon);
         }
 
+        @Override
         public void clearIconCache() {
             pathIconCache.clear();
         }
@@ -76,16 +80,19 @@ public class NapkinFileChooserUI extends MetalFileChooserUI
         super(c);
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
     }
 
+    @Override
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }
@@ -94,8 +101,8 @@ public class NapkinFileChooserUI extends MetalFileChooserUI
         super.update(g, c);
     }
 
+    @Override
     public FileView getFileView(JFileChooser fc) {
         return fileView;
     }
-
 }

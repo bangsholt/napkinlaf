@@ -5,24 +5,29 @@ package napkin;
 import napkin.borders.NapkinBoxBorder;
 import napkin.borders.NapkinLineBorder;
 import napkin.borders.NapkinSelectedBorder;
-import napkin.util.*;
+import napkin.util.AlphaColorUIResource;
 import napkin.util.ComponentWalker.Visitor;
+import static napkin.util.NapkinConstants.*;
+import napkin.util.NapkinDebug;
+import napkin.util.NapkinIconFactory;
+import napkin.util.NapkinUtil;
 
 import javax.swing.*;
-import javax.swing.UIDefaults.ActiveValue;
-import javax.swing.UIDefaults.LazyValue;
+import javax.swing.UIDefaults.*;
 import javax.swing.border.*;
-import javax.swing.plaf.BorderUIResource;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.plaf.UIResource;
-import javax.swing.plaf.basic.BasicBorders;
-import javax.swing.plaf.basic.BasicLookAndFeel;
-import javax.swing.text.DefaultEditorKit;
+import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
+import javax.swing.text.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * This class defines the central behavior for the Napkin look & feel.
@@ -30,9 +35,7 @@ import java.util.*;
  * @author Ken Arnold
  * @author Alex Lam
  */
-public class NapkinLookAndFeel extends BasicLookAndFeel
-        implements NapkinConstants {
-
+public class NapkinLookAndFeel extends BasicLookAndFeel {
     private static final String[] UI_TYPES = {
             "ButtonUI",
             "CheckBoxMenuItemUI",
@@ -100,26 +103,32 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         }
     }
 
+    @Override
     public String getDescription() {
         return "The Napkin Look and Feel";
     }
 
+    @Override
     public String getID() {
         return "Napkin";
     }
 
+    @Override
     public String getName() {
         return getID();
     }
 
+    @Override
     public boolean isNativeLookAndFeel() {
         return false;
     }
 
+    @Override
     public boolean isSupportedLookAndFeel() {
         return true;
     }
 
+    @Override
     protected void initClassDefaults(UIDefaults table) {
         super.initClassDefaults(table);
         String cName = NapkinLookAndFeel.class.getName();
@@ -135,6 +144,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
             System.out.println("keys we didn't overwrite: " + keys);
     }
 
+    @Override
     protected void initSystemColorDefaults(UIDefaults table) {
         super.initSystemColorDefaults(table);
         // make a copy so we can modify the table as we read the key set
@@ -142,12 +152,12 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         table.put("textHighlight", theme.getHighlightColor());
     }
 
+    @Override
     protected void initComponentDefaults(UIDefaults table) {
         super.initComponentDefaults(table);
 
         overrideComponentDefaults(table);
 
-        Integer zero = 0;
         Object checkBoxButtonIcon = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createCheckBoxIcon();
@@ -208,14 +218,14 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         NapkinTheme popupTheme = theme.getPopupTheme();
 
         Object[] napkinDefaults = {
-                "RadioButton.textIconGap", zero,
+                "RadioButton.textIconGap", 0,
                 "RadioButton.icon", radioButtonIcon,
-                "RadioButtonMenuItem.textIconGap", zero,
+                "RadioButtonMenuItem.textIconGap", 0,
                 "RadioButtonMenuItem.checkIcon", radioButtonIcon,
 
-                "CheckBox.textIconGap", zero,
+                "CheckBox.textIconGap", 0,
                 "CheckBox.icon", checkBoxButtonIcon,
-                "CheckBoxMenuItem.textIconGap", zero,
+                "CheckBoxMenuItem.textIconGap", 0,
                 "CheckBoxMenuItem.checkIcon", checkedMenuItemIcon,
 
                 "Menu.arrowIcon", rightArrowIcon,
@@ -515,6 +525,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         }
     }
 
+    @SuppressWarnings({"HardcodedFileSeparator"})
     private static Map<String, Font> fontNameMap(NapkinTheme theme) {
         Font dialogPlain = theme.getTextFont();
         Font dialogBold = theme.getBoldTextFont();

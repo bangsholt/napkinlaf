@@ -2,6 +2,7 @@
 
 package napkin.shapes;
 
+import static napkin.util.NapkinConstants.LENGTH;
 import napkin.util.NapkinUtil;
 import napkin.util.RandomXY;
 
@@ -23,11 +24,12 @@ public class DrawnCubicLineGenerator extends AbstractDrawnGenerator {
 
     public DrawnCubicLineGenerator() {
         super();
-        
+
         left = new RandomXY(10, 4, -0.7, 1.5);
         right = new RandomXY(20, 8, -1.3, 2);
     }
 
+    @Override
     public Shape generate(AffineTransform matrix) {
         Point2D leftAt = left.generate();
         Point2D rightAt = right.generate();

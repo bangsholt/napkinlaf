@@ -22,6 +22,7 @@ public class DraftSketcher extends AbstractSketcher {
     private static final double DEFORM_FACTOR = 0.05;
 
     /** {@inheritDoc} */
+    @Override
     public SketchShape deformLine(StraightLine l) {
         StraightLine ret = new StraightLine(l);
 
@@ -50,6 +51,7 @@ public class DraftSketcher extends AbstractSketcher {
     }
 
     /** {@inheritDoc} */
+    @Override
     public SketchShape deformQuad(QuadLine q) {
         if (q.getFlatness() < q.approximateLength() * DEFORM_FACTOR) {
             return new StraightLine(q.getP1(), q.getP2()).deform(this);
@@ -59,6 +61,7 @@ public class DraftSketcher extends AbstractSketcher {
     }
 
     /** {@inheritDoc} */
+    @Override
     public SketchShape deformCubic(CubicLine c) {
         if (c.getFlatness() < c.approximateLength() * DEFORM_FACTOR * 0.5) {
             return new StraightLine(c.getP1(), c.getP2()).deform(this);
@@ -68,6 +71,7 @@ public class DraftSketcher extends AbstractSketcher {
     }
 
     /** {@inheritDoc} */
+    @Override
     public SketchShape deformPath(Path p) {
         Path ret = new Path();
         SketchShape[] elements = p.simplify();

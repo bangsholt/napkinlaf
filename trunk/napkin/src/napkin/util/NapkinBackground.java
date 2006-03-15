@@ -26,17 +26,14 @@ public class NapkinBackground {
     }
 
     public NapkinBackground(String name, Insets insets) {
-        int iconW;
-        int iconH;
-        Image image;
         this.name = name;
         URL resource = NapkinBackground.class.getResource(name);
         if (resource == null)
             throw new NullPointerException("no resource found for: " + name);
-        image = Toolkit.getDefaultToolkit().getImage(resource);
+        Image image = Toolkit.getDefaultToolkit().getImage(resource);
         icon = new ImageIcon(image);
-        iconW = icon.getIconWidth();
-        iconH = icon.getIconHeight();
+        int iconW = icon.getIconWidth();
+        int iconH = icon.getIconHeight();
 
         if (insets == null)
             insets = NO_INSETS;
@@ -63,6 +60,7 @@ public class NapkinBackground {
         return icon;
     }
 
+    @Override
     public String toString() {
         return "NapkinBackground(\"" + name + "\")";
     }

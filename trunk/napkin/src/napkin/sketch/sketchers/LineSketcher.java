@@ -17,21 +17,25 @@ import napkin.sketch.geometry.StraightLine;
  */
 public class LineSketcher extends AbstractSketcher {
     /** {@inheritDoc} */
+    @Override
     public SketchShape deformLine(StraightLine l) {
         return l;
     }
 
     /** {@inheritDoc} */
+    @Override
     public SketchShape deformQuad(QuadLine q) {
         return formPath(q.transformToLine());
     }
 
     /** {@inheritDoc} */
+    @Override
     public SketchShape deformCubic(CubicLine c) {
         return formPath(c.transformToLine());
     }
 
     /** {@inheritDoc} */
+    @Override
     public SketchShape deformPath(Path p) {
         Path ret = new Path();
         SketchShape[] elements = p.simplify();

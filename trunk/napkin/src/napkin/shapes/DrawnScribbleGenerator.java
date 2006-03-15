@@ -2,6 +2,7 @@
 
 package napkin.shapes;
 
+import static napkin.util.NapkinConstants.HORIZONTAL;
 import napkin.util.RandomValue;
 
 import java.awt.*;
@@ -21,7 +22,8 @@ public class DrawnScribbleGenerator extends AbstractDrawnGenerator {
 
     private static final float PER_STROKE = 1.5f;
 
-    DrawnScribbleGenerator(float minShow) {
+    @SuppressWarnings({"SameParameterValue"})
+            DrawnScribbleGenerator(float minShow) {
         super();
         this.minShow = minShow;
         position = new RandomValue(0, 0.4);
@@ -29,6 +31,7 @@ public class DrawnScribbleGenerator extends AbstractDrawnGenerator {
         point = new float[2];
     }
 
+    @Override
     public Shape generate(AffineTransform matrix) {
         boolean first = (shape == null);
         if (first) {

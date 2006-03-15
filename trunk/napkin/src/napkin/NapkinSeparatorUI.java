@@ -21,7 +21,8 @@ public class NapkinSeparatorUI extends BasicSeparatorUI
 
         public void paint(Graphics g, JComponent c) {
             JSeparator sep = (JSeparator) c;
-            boolean isVertical = sep.getOrientation() == JSeparator.VERTICAL;
+            boolean isVertical =
+                    sep.getOrientation() == SwingConstants.VERTICAL;
             doPaint(g, sep, isVertical);
         }
 
@@ -42,8 +43,9 @@ public class NapkinSeparatorUI extends BasicSeparatorUI
             line.draw(g);
         }
 
+        @SuppressWarnings({"MethodMayBeStatic"})
         public Dimension getPreferredSize(JComponent c) {
-            if (((JSeparator) c).getOrientation() == JSeparator.VERTICAL)
+            if (((JSeparator) c).getOrientation() == SwingConstants.VERTICAL)
                 return new Dimension(5, 0);
             else
                 return new Dimension(0, 5);
@@ -55,24 +57,29 @@ public class NapkinSeparatorUI extends BasicSeparatorUI
         return new NapkinSeparatorUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         separator.paint(g, c);
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         return separator.getPreferredSize(c);
     }
 
+    @Override
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }

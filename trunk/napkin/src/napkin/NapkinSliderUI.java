@@ -3,7 +3,7 @@
 package napkin;
 
 import napkin.shapes.DrawnLineHolder;
-import napkin.util.NapkinConstants;
+import static napkin.util.NapkinConstants.*;
 import napkin.util.NapkinIconFactory;
 import napkin.util.NapkinPainter;
 import napkin.util.NapkinUtil;
@@ -15,8 +15,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
-        NapkinPainter {
+public class NapkinSliderUI extends BasicSliderUI implements NapkinPainter {
     private Icon thumb;
     private DrawnLineHolder track;
     private final Rectangle trackBounds;
@@ -33,7 +32,7 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
 
     private NapkinSliderUI(JSlider c) {
         super(c);
-        vertical = (c.getOrientation() == JSlider.VERTICAL);
+        vertical = (c.getOrientation() == SwingConstants.VERTICAL);
         trackBounds = new Rectangle();
 
         tickBounds = new Rectangle();
@@ -41,21 +40,25 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
         minor = new ArrayList<DrawnLineHolder>(0);
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         majorPos = minorPos = 0;
         super.paint(g, c);
     }
 
+    @Override
     protected Dimension getThumbSize() {
         if (thumb == null) {
             int dir = SOUTH;
@@ -74,6 +77,7 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
      * <p/>
      * {@inheritDoc}
      */
+    @Override
     public void setThumbLocation(int x, int y) {
         Rectangle unionRect = new Rectangle(thumbRect);
 
@@ -85,10 +89,12 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
                 unionRect.height + 6);
     }
 
+    @Override
     public void paintThumb(Graphics g) {
         thumb.paintIcon(slider, g, thumbRect.x, thumbRect.y);
     }
 
+    @Override
     public void paintTrack(Graphics g) {
         trackBounds.width = trackRect.width;
         trackBounds.height = trackRect.height;
@@ -99,25 +105,30 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
         track = NapkinUtil.paintLine(g, vertical, track, trackBounds);
     }
 
+    @Override
     public void paintFocus(Graphics g) {
         // do nothing here -- we show focus by color on slider
     }
 
+    @Override
     protected void paintMinorTickForHorizSlider(Graphics g,
             Rectangle tick, int x) {
         paintTick(minor, minorPos++, g, x, 0, x, tick.height / 2 - 1);
     }
 
+    @Override
     protected void paintMajorTickForHorizSlider(Graphics g,
             Rectangle tick, int x) {
         paintTick(major, majorPos++, g, x, 0, x, tick.height - 2);
     }
 
+    @Override
     protected void paintMinorTickForVertSlider(Graphics g,
             Rectangle tick, int y) {
         paintTick(minor, minorPos++, g, 0, y, tick.width / 2 - 1, y);
     }
 
+    @Override
     protected void paintMajorTickForVertSlider(Graphics g,
             Rectangle tick, int y) {
         paintTick(major, majorPos++, g, 0, y, tick.width - 2, y);
@@ -139,13 +150,15 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinConstants,
         else
             tickBounds.y /= 4;
 
-        while (pos >= ticks.size()) ticks.add(null);
+        while (pos >= ticks.size())
+            ticks.add(null);
         DrawnLineHolder holder = ticks.get(pos);
         g.setColor(slider.getForeground());
         holder = NapkinUtil.paintLine(g, vertTicks, holder, tickBounds);
         ticks.set(pos, holder);
     }
 
+    @Override
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }

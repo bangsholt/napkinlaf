@@ -11,10 +11,12 @@ import java.awt.*;
 /** Common work for napkin-style borders. */
 public abstract class AbstractNapkinBorder extends AbstractBorder {
 
+    @Override
     public Insets getBorderInsets(Component c) {
         return doGetBorderInsets(c, new Insets(0, 0, 0, 0));
     }
 
+    @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width,
             int height) {
 
@@ -30,6 +32,7 @@ public abstract class AbstractNapkinBorder extends AbstractBorder {
     protected abstract void doPaintBorder(Component c, Graphics g, int x, int y,
             int width, int height);
 
+    @Override
     public Insets getBorderInsets(Component c, Insets insets) {
         return doGetBorderInsets(c, insets);
     }

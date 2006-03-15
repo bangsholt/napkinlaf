@@ -2,7 +2,7 @@
 
 package napkin.shapes;
 
-import napkin.util.NapkinConstants;
+import static napkin.util.NapkinConstants.LENGTH;
 import napkin.util.NapkinUtil;
 
 import java.awt.*;
@@ -10,8 +10,7 @@ import java.awt.geom.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DrawnLineHolder extends DrawnShapeHolder
-        implements NapkinConstants {
+public class DrawnLineHolder extends DrawnShapeHolder {
     private Rectangle rect;
     private FontMetrics metrics;
     private final Endpoints endpoints;

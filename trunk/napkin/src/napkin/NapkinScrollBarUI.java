@@ -12,6 +12,7 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import java.awt.*;
 
+@SuppressWarnings({"QuestionableName"})
 public class NapkinScrollBarUI extends BasicScrollBarUI
         implements NapkinPainter {
     private DrawnLineHolder track;
@@ -27,29 +28,35 @@ public class NapkinScrollBarUI extends BasicScrollBarUI
         return new NapkinScrollBarUI(((JScrollBar) c));
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
     }
 
+    @Override
     protected JButton createDecreaseButton(int orientation) {
         return NapkinUtil.createArrowButton(orientation);
     }
 
+    @Override
     protected JButton createIncreaseButton(int orientation) {
         return NapkinUtil.createArrowButton(orientation);
     }
 
+    @Override
     protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
         g.setColor(c.getForeground());
         track = NapkinUtil.paintLine(g, vertical, track, trackBounds);
     }
 
+    @Override
     protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
         if (thumb == null)
             thumb = new DrawnBoxHolder();
@@ -60,6 +67,7 @@ public class NapkinScrollBarUI extends BasicScrollBarUI
         thumb.draw(lineG);
     }
 
+    @Override
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }
