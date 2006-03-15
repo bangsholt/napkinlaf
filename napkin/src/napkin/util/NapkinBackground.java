@@ -153,13 +153,13 @@ public class NapkinBackground {
         BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
         img.createGraphics().drawImage(iconImg, 0, 0, null);
         int rSum = 0, gSum = 0, bSum = 0;
-        int[] colours = img.getRGB(0, 0, w, h, null, 0, w);
-        for (int colour : colours) {
-            rSum += (colour >> 16) & 0xFF;
-            gSum += (colour >> 8) & 0xFF;
-            bSum += (colour) & 0xFF;
+        int[] colors = img.getRGB(0, 0, w, h, null, 0, w);
+        for (int color : colors) {
+            rSum += (color >> 16) & 0xFF;
+            gSum += (color >> 8) & 0xFF;
+            bSum += (color) & 0xFF;
         }
-        return new Color(rSum / colours.length, gSum / colours.length,
-                bSum / colours.length);
+        return new Color(rSum / colors.length, gSum / colors.length,
+                bSum / colors.length);
     }
 }
