@@ -22,11 +22,12 @@
         Feel framework overall. And there is a lack of specification of what
         each L&amp;Fs is responsible for doing when it is installed or
         uninstalled. And because Napkin pushes the envelope of the Swing
-        framework pretty hard, this is nearly impossible to make work in the
+        framework pretty hard, this is nearly impossible to make it work in the
         general case. In other words, switching from Napkin to another L&amp;F
-        probably won't work seamlessly.
+        probably won't work seamlessly; though at most fairly minor issues are
+        found when switching between Napkin and standard L&amp;Fs in Java SE.
 
-    <li>Component custom don't always work so well with Napkin. Even simple
+    <li>Custom components don't always work so well with Napkin. Even simple
         things like changing the color of the text can look poor (in this case
         because we override the background, which is unexpected). So if you set
         Napkin as the L&amp;F for an application you got from someone, some
@@ -114,8 +115,6 @@
 
 <ul>
     <li>Fixed fonts so they work under 1.5 (Thanks to Mark Fairchild!)
-
-    <li>Selected text use the correct pen color.
 
     <li>Selected text use the correct pen color.
 
