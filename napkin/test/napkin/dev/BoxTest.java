@@ -5,6 +5,7 @@ package napkin.dev;
 import napkin.shapes.DrawnBoxGenerator;
 import napkin.shapes.DrawnCubicLineGenerator;
 import napkin.shapes.DrawnQuadLineGenerator;
+import static napkin.util.NapkinConstants.LENGTH;
 import napkin.util.RandomValueSource;
 
 import javax.swing.*;
@@ -119,7 +120,7 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
         gen.generate(matrix);
     }
 
-    public final void rebuild() {
+    public void rebuild() {
         generate(null);
     }
 

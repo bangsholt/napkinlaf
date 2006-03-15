@@ -17,16 +17,19 @@ public class NapkinListUI extends BasicListUI implements NapkinPainter {
         return new NapkinListUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
     }
 
+    @Override
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }

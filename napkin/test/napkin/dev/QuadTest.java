@@ -2,8 +2,9 @@
 
 package napkin.dev;
 
-import napkin.shapes.DrawnQuadLineGenerator;
 import napkin.shapes.AbstractDrawnGenerator;
+import napkin.shapes.DrawnQuadLineGenerator;
+import static napkin.util.NapkinConstants.LENGTH;
 import napkin.util.RandomValue;
 import napkin.util.RandomValueSource;
 
@@ -75,7 +76,7 @@ class QuadTest extends GeneratorTest implements GeneratorTest.Drawer {
         return gen;
     }
 
-    public final void rebuild() {
+    public void rebuild() {
         curve = generate(null);
     }
 

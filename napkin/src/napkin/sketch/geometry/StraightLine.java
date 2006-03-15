@@ -3,6 +3,7 @@
 package napkin.sketch.geometry;
 
 import napkin.sketch.AbstractSketcher;
+import napkin.sketch.XMLUtility;
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Element;
 
@@ -77,8 +78,8 @@ public class StraightLine extends Line2D.Double implements SketchShape {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element("straightLine");
 
-        ret.addContent(napkin.sketch.XMLUtility.pointToXML(getP1(), "start"));
-        ret.addContent(napkin.sketch.XMLUtility.pointToXML(getP2(), "end"));
+        ret.addContent(XMLUtility.pointToXML(getP1(), "start"));
+        ret.addContent(XMLUtility.pointToXML(getP2(), "end"));
 
         return ret;
     }
@@ -102,8 +103,8 @@ public class StraightLine extends Line2D.Double implements SketchShape {
         Point s = new Point(getP1());
         Point f = new Point(getP2());
 
-        ret.moveTo(s.fX(), s.fY());
-        ret.lineTo(f.fX(), f.fY());
+        ret.moveTo(s.floatX(), s.floatY());
+        ret.lineTo(f.floatX(), f.floatY());
 
         return ret;
     }
@@ -178,7 +179,8 @@ public class StraightLine extends Line2D.Double implements SketchShape {
         return ret;
     }
 
+    @Override
     public StraightLine clone() {
-        return new StraightLine(this);
+        return (StraightLine) super.clone();
     }
 }

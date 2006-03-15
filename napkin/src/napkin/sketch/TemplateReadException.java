@@ -3,13 +3,12 @@
 package napkin.sketch;
 
 /**
- * TemplateReadException: Thrown when there is an exception while trying to read
- * a Template.
+ * Thrown when there is an exception while trying to read a <tt>Template</tt>.
  *
  * @author Peter Goodspeed
  */
 public class TemplateReadException extends Exception {
-    public TemplateReadException(String message, Throwable cause) {
-        super(message, cause);
+    public TemplateReadException(Throwable cause) {
+        super(cause);
     }
 }

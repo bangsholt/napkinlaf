@@ -2,15 +2,14 @@
 
 package napkin.shapes;
 
+import static napkin.util.NapkinConstants.*;
 import napkin.util.NapkinUtil;
 import napkin.util.RandomValue;
 import napkin.util.RandomValueSource;
 import napkin.util.RandomXY;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
+import java.awt.geom.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -44,6 +43,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
             setSideType(val);
         }
 
+        @Override
         public void setMid(double mid) {
             super.setMid(mid);
             setSideType(mid);
@@ -61,7 +61,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     }
 
     public DrawnBoxGenerator(DrawnCubicLineGenerator cubic,
-                             DrawnQuadLineGenerator quad) {
+            DrawnQuadLineGenerator quad) {
         super();
 
         generators = new HashMap<Class<?>, AbstractDrawnGenerator>(3);
@@ -83,6 +83,8 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
         breakEnd = new Point2D.Double(0, 0);
     }
 
+    @SuppressWarnings({"TooBroadScope"})
+    @Override
     public Shape generate(AffineTransform matrix) {
         GeneralPath shape = new GeneralPath();
 
@@ -138,7 +140,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     }
 
     private Shape addSide(GeneralPath shape, AffineTransform smat, int side,
-                          double scale) {
+            double scale) {
         if (side != breakSide)
             return addLine(shape, smat, gens[side]);
 
@@ -155,7 +157,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     }
 
     private void addWithXBreak(AffineTransform smat, GeneralPath line,
-                               double scale) {
+            double scale) {
         // Need to transalate the absolute positions into positions on the line
         double xOff = smat.getTranslateX();
         double xSize = size.getX().get() -
@@ -174,7 +176,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     // I wish I could figure out a way to share code here -- one of those
     // places where the C macro preprocessor would really help.
     private void addWithYBreak(AffineTransform smat, GeneralPath line,
-                               double scale) {
+            double scale) {
         // Need to transalate the absolute positions into positions on the line
         double yOff = smat.getTranslateY();
         double ySize = size.getY().get() -
@@ -190,6 +192,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
         addSegment(line, smat, yEnd / scale, 0, (ySize - yEnd) / scale);
     }
 
+    @SuppressWarnings({"HardcodedFileSeparator"})
     private void dumpValues(AffineTransform smat, double beg, double end) {
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, "");
@@ -211,8 +214,9 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
         }
     }
 
+    @SuppressWarnings({"SameParameterValue"})
     private void addSegment(GeneralPath side, AffineTransform smat, double xBeg,
-                            double yBeg, double len) {
+            double yBeg, double len) {
 
         if (logger.isLoggable(Level.FINE)) {
             NapkinUtil.printPair(logger, Level.FINE,
@@ -245,7 +249,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     }
 
     public void setBreak(int side, double begX, double begY, double endX,
-                         double endY) {
+            double endY) {
         breakSide = side;
         breakBeg.setLocation(begX, begY);
         breakEnd.setLocation(endX, endY);
@@ -290,6 +294,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
                 DrawnCubicLineGenerator.class);
     }
 
+    @SuppressWarnings({"SameParameterValue"})
     public void setAsX(boolean asX) {
         this.asX = asX;
     }

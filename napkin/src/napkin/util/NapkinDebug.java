@@ -57,6 +57,7 @@ public class NapkinDebug {
             return obj.getClass().getName();
     }
 
+    @SuppressWarnings({"HardcodedFileSeparator"})
     public static String descFor(Component c) {
         if (c == null)
             return "[null]";
@@ -244,6 +245,7 @@ public class NapkinDebug {
         return fields;
     }
 
+    @SuppressWarnings({"HardcodedFileSeparator"})
     public static String toString(Color c) {
         return "#" + Integer.toHexString(c.getRGB()) + "/" +
                 Integer.toHexString(c.getAlpha());

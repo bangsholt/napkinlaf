@@ -12,6 +12,7 @@ public class NapkinEtchedBorder extends EtchedBorder {
         super(eb.getEtchType(), eb.getHighlightColor(), eb.getShadowColor());
     }
 
+    @Override
     public Color getHighlightColor(Component c) {
         if (highlight != null)
             return highlight;
@@ -19,6 +20,7 @@ public class NapkinEtchedBorder extends EtchedBorder {
             return NapkinUtil.currentTheme(c).getPenColor();
     }
 
+    @Override
     public Color getShadowColor(Component c) {
         if (shadow != null)
             return shadow;

@@ -20,6 +20,7 @@ public class NapkinEditorPaneUI extends BasicEditorPaneUI
         return new NapkinEditorPaneUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
@@ -27,12 +28,14 @@ public class NapkinEditorPaneUI extends BasicEditorPaneUI
         c.putClientProperty(HONOR_DISPLAY_PROPERTIES, Boolean.TRUE);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         c.putClientProperty(HONOR_DISPLAY_PROPERTIES, origHonor);
         NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
     }
 
+    @Override
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }

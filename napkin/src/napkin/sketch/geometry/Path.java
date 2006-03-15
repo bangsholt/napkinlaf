@@ -15,7 +15,7 @@ import java.util.LinkedList;
  * @author Peter Goodspeed
  */
 public class Path implements SketchShape {
-    private final GeneralPath generalPath;
+    private GeneralPath generalPath;
 
     public Path() {
         generalPath = new GeneralPath();
@@ -25,6 +25,7 @@ public class Path implements SketchShape {
         generalPath = new GeneralPath(s);
     }
 
+    @SuppressWarnings({"SameParameterValue"})
     public void append(Shape s, boolean connect) {
         generalPath.append(s, connect);
     }
@@ -101,6 +102,7 @@ public class Path implements SketchShape {
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings({"TooBroadScope"})
     public SketchShape magnify(double scaleFactor) {
         Path ret = new Path();
         Point current;
@@ -117,24 +119,26 @@ public class Path implements SketchShape {
             switch (type) {
             case PathIterator.SEG_MOVETO:
                 current = new Point(points[0], points[1]).magnify(scaleFactor);
-                ret.moveTo(current.fX(), current.fY());
+                ret.moveTo(current.floatX(), current.floatY());
                 break;
             case PathIterator.SEG_LINETO:
                 current = new Point(points[0], points[1]).magnify(scaleFactor);
-                ret.lineTo(current.fX(), current.fY());
+                ret.lineTo(current.floatX(), current.floatY());
                 break;
             case PathIterator.SEG_QUADTO:
                 control1 = new Point(points[0], points[1]).magnify(scaleFactor);
                 current = new Point(points[2], points[3]).magnify(scaleFactor);
-                ret.quadTo(control1.fX(), control1.fY(), current.fX(), current
-                        .fY());
+                ret.quadTo(control1.floatX(), control1.floatY(),
+                        current.floatX(), current
+                        .floatY());
                 break;
             case PathIterator.SEG_CUBICTO:
                 control1 = new Point(points[0], points[1]).magnify(scaleFactor);
                 control2 = new Point(points[2], points[3]).magnify(scaleFactor);
                 current = new Point(points[4], points[5]).magnify(scaleFactor);
-                ret.curveTo(control1.fX(), control1.fY(), control2.fX(),
-                        control2.fY(), current.fX(), current.fY());
+                ret.curveTo(control1.floatX(), control1.floatY(),
+                        control2.floatX(),
+                        control2.floatY(), current.floatX(), current.floatY());
                 break;
             case PathIterator.SEG_CLOSE:
                 ret.closePath();
@@ -163,10 +167,9 @@ public class Path implements SketchShape {
         LinkedList<StraightLine> ret = new LinkedList<StraightLine>();
 
         SketchShape[] elements = simplify();
-        StraightLine[] temp;
 
         for (SketchShape element : elements) {
-            temp = element.transformToLine();
+            StraightLine[] temp = element.transformToLine();
             for (StraightLine line : temp) {
                 ret.addLast(line);
             }
@@ -181,10 +184,9 @@ public class Path implements SketchShape {
         LinkedList<QuadLine> ret = new LinkedList<QuadLine>();
 
         SketchShape[] elements = simplify();
-        QuadLine[] temp;
 
         for (SketchShape element : elements) {
-            temp = element.transformToQuad();
+            QuadLine[] temp = element.transformToQuad();
             for (QuadLine line : temp) {
                 ret.addLast(line);
             }
@@ -202,6 +204,7 @@ public class Path implements SketchShape {
      * @return An array of UtilityShapes which comprise the elements of this
      *         Path.
      */
+    @SuppressWarnings({"TooBroadScope"})
     public SketchShape[] simplify() {
         //noinspection CollectionDeclaredAsConcreteClass
         LinkedList<SketchShape> ret = new LinkedList<SketchShape>();
@@ -212,12 +215,11 @@ public class Path implements SketchShape {
         Point control2;
         Point far;
 
-        int curseg;
         double[] coords = new double[6];
 
         PathIterator iter = getPathIterator(new AffineTransform());
         while (!iter.isDone()) {
-            curseg = iter.currentSegment(coords);
+            int curseg = iter.currentSegment(coords);
             iter.next();
 
             switch (curseg) {
@@ -279,8 +281,14 @@ public class Path implements SketchShape {
         return ret.toArray(new CubicLine[ret.size()]);
     }
 
+    @Override
     public Path clone() {
-        return new Path(this);
+        try {
+            Path clone = (Path) super.clone();
+            clone.generalPath = (GeneralPath) generalPath.clone();
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new IllegalStateException("cannot clone?", e);
+        }
     }
-
 }

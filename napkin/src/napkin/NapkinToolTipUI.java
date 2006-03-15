@@ -2,7 +2,6 @@
 
 package napkin;
 
-import napkin.util.NapkinConstants;
 import napkin.util.NapkinPainter;
 import napkin.util.NapkinUtil;
 
@@ -11,25 +10,27 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import java.awt.*;
 
-public class NapkinToolTipUI extends BasicToolTipUI implements NapkinConstants,
-        NapkinPainter {
+public class NapkinToolTipUI extends BasicToolTipUI implements NapkinPainter {
 
     @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinToolTipUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         NapkinUtil.installUI(c);
         super.installUI(c);
         NapkinUtil.setupPaper(c, NapkinKnownTheme.POPUP_THEME);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
     }
 
+    @Override
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }

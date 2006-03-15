@@ -2,6 +2,7 @@
 
 package napkin.shapes;
 
+import static napkin.util.NapkinConstants.LENGTH;
 import napkin.util.RandomXY;
 
 import java.awt.*;
@@ -23,7 +24,7 @@ public class DrawnCircleGenerator extends AbstractDrawnGenerator {
 
     public DrawnCircleGenerator(boolean forFill) {
         super();
-        
+
         this.forFill = forFill;
 
         start = new RandomXY(LENGTH / 2.0, 2, 0, 20);
@@ -34,6 +35,7 @@ public class DrawnCircleGenerator extends AbstractDrawnGenerator {
         bl = new RandomXY(0, LENGTH);
     }
 
+    @Override
     public Shape generate(AffineTransform matrix) {
         GeneralPath circle = new GeneralPath();
 

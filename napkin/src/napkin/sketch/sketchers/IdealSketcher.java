@@ -18,21 +18,25 @@ import napkin.sketch.geometry.StraightLine;
  */
 public class IdealSketcher extends AbstractSketcher {
     /** {@inheritDoc} */
+    @Override
     public SketchShape deformLine(StraightLine l) {
         return l;
     }
 
     /** {@inheritDoc} */
+    @Override
     public SketchShape deformQuad(QuadLine q) {
         return q;
     }
 
     /** {@inheritDoc} */
+    @Override
     public SketchShape deformCubic(CubicLine c) {
         return c;
     }
 
     /** {@inheritDoc} */
+    @Override
     public SketchShape deformPath(Path p) {
         return p;
     }

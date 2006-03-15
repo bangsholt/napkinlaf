@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class NapkinSelectedBorder extends NapkinBoxBorder {
+    @Override
     public void doPaintBorder(Component c, Graphics g, int x, int y,
             int width, int height) {
 

@@ -7,15 +7,15 @@ import napkin.util.NapkinUtil;
 import java.awt.*;
 
 class DrawnShapeHolder {
-    protected AbstractDrawnGenerator gen;
-    protected Shape shape;
-    protected float width;
+    AbstractDrawnGenerator gen;
+    Shape shape;
+    float width;
 
-    public DrawnShapeHolder(AbstractDrawnGenerator gen) {
+    DrawnShapeHolder(AbstractDrawnGenerator gen) {
         this(gen, 1);
     }
 
-    public DrawnShapeHolder(AbstractDrawnGenerator gen, float width) {
+    DrawnShapeHolder(AbstractDrawnGenerator gen, float width) {
         this.gen = gen;
         this.width = width;
     }

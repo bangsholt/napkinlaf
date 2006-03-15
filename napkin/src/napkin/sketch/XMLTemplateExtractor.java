@@ -30,6 +30,7 @@ import java.io.InputStream;
  * @author Justin Crafford
  * @author Peter Goodspeed
  */
+@SuppressWarnings({"WeakerAccess"})
 public class XMLTemplateExtractor extends DefaultHandler {
 
     // Template-related objects
@@ -71,6 +72,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
      * SAX event that provides the namespace, name, and all attributes
      * associated with the Element.
      */
+    @Override
     public void startElement(String namespace, String localName,
             String qualifiedName, Attributes attribs) {
         // Extract data from all leaf elements or set currentAction so
@@ -129,6 +131,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
     }
 
     /** SAX event that provides the content of Elements. */
+    @Override
     public void characters(char[] ch, int start, int length) {
         if (currentAction != NO_ACTION) {
             // Create a string from the character data
@@ -172,6 +175,8 @@ public class XMLTemplateExtractor extends DefaultHandler {
             case GET_Y_VALUE:
                 point = new Point2D.Float(curX, Float.parseFloat(value));
                 break;
+            case NO_ACTION:
+                break;
             default:
                 throw new IllegalStateException(currentAction + ": unknown");
             }
@@ -179,6 +184,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
     }
 
     /** SAX event that indicates that the end of an element has been reached. */
+    @Override
     public void endElement(String namespaceURI, String localName,
             String qualifiedName) {
         if ("clippingBounds".equals(localName)) {
@@ -240,19 +246,24 @@ public class XMLTemplateExtractor extends DefaultHandler {
     }
 
     // The three methods of the ErrorHandler interface
+    @Override
     public void error(SAXParseException e) {
         printError("Error", e);
     }
 
+    @Override
     public void warning(SAXParseException e) {
         printError("Warning", e);
     }
 
+    @Override
     public void fatalError(SAXParseException e) {
         printError("Fatal Error", e);
     }
 
     /** Prints a detailed error message. */
+    @SuppressWarnings(
+            {"WeakerAccess", "UseOfSystemOutOrSystemErr", "HardcodedFileSeparator"})
     protected static void printError(String type, SAXParseException e) {
         System.err.print("[");
         System.err.print(type);
@@ -274,8 +285,9 @@ public class XMLTemplateExtractor extends DefaultHandler {
         System.err.flush();
     }
 
-    private static final String schemaURL = NapkinLookAndFeel.class.getResource(
-            "resources/templates/Template.xsd").toString();
+    @SuppressWarnings({"HardcodedFileSeparator"})
+    private static final String SCHEMA_URL = NapkinLookAndFeel.class.
+            getResource("resources/templates/Template.xsd").toString();
 
     /**
      * Creates a Template object from an XML document.
@@ -306,22 +318,20 @@ public class XMLTemplateExtractor extends DefaultHandler {
                         true);
                 reader.setProperty(
                         "http://apache.org/xml/properties/schema/external-noNamespaceSchemaLocation",
-                        schemaURL);
+                        SCHEMA_URL);
             } catch (SAXException e) {
+                e.printStackTrace();
                 System.out.println(
                         "Warning: Parser does not support schema validation");
-                e.printStackTrace();
             }
 
             parser.parse(in, this);
         } catch (ParserConfigurationException e) {
-            System.out.println("Parser configuration error: " + e);
+            throw new TemplateReadException(e);
         } catch (SAXException e) {
-            System.out.println("Parsing error: " + e);
-            throw new TemplateReadException("Parsing Exception", e);
+            throw new TemplateReadException(e);
         } catch (IOException e) {
-            System.out.println("I/O error: " + e);
-            throw new TemplateReadException("I/O Exception", e);
+            throw new TemplateReadException(e);
         }
 
         return template;

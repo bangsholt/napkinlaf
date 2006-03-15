@@ -73,5 +73,6 @@ public interface SketchShape extends Shape, Cloneable {
      */
     double approximateLength();
 
+    @SuppressWarnings({"override"})
     SketchShape clone();
 }

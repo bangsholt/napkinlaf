@@ -20,16 +20,19 @@ public class NapkinWrappedBorder extends AbstractNapkinBorder {
         this.origBorder = origBorder;
     }
 
+    @Override
     protected Insets doGetBorderInsets(Component c, Insets insets) {
         Insets result = origBorder.getBorderInsets(c);
         insets.set(result.top, result.left, result.bottom, result.right);
         return insets;
     }
 
+    @Override
     public boolean isBorderOpaque() {
         return origBorder.isBorderOpaque();
     }
 
+    @Override
     protected void doPaintBorder(Component c, Graphics g, int x, int y,
             int width, int height) {
 

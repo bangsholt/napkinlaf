@@ -18,6 +18,7 @@ public class NapkinRandom {
         return random.nextGaussian();
     }
 
+    @SuppressWarnings({"SameParameterValue"})
     public static double nextDouble(double scale) {
         return random.nextDouble() * scale;
     }

@@ -18,16 +18,19 @@ public class NapkinFormattedTextFieldUI extends BasicFormattedTextFieldUI
         return new NapkinFormattedTextFieldUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
     }
 
+    @Override
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }

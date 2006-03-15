@@ -29,7 +29,7 @@ public class NapkinIconFactory {
             new HashMap<String, Template>();
 
     public static class CheckBoxIcon extends AbstractNapkinIcon {
-        protected static final double MID_INSET_RATIO = 3d / 13d;
+        protected static final double MID_INSET_RATIO = 3.0 / 13.0;
 
         private final int size;
         private final int midInset;
@@ -42,6 +42,7 @@ public class NapkinIconFactory {
             init();
         }
 
+        @Override
         protected AbstractDrawnGenerator createPlaceGenerator() {
             DrawnQuadLineGenerator gen = new DrawnQuadLineGenerator();
             gen.getCtl().getY().setMid(1);
@@ -49,21 +50,25 @@ public class NapkinIconFactory {
         }
 
         /** @noinspection AssignmentToStaticFieldFromInstanceMethod */
+        @Override
         protected AbstractDrawnGenerator createMarkGenerator() {
             if (checkGen == null)
                 checkGen = new DrawnCheckGenerator(size - midInset);
             return checkGen;
         }
 
+        @Override
         protected int calcWidth() {
             return (int) ((size - midInset) * checkGen.getMaxWidth() + 0.5d);
         }
 
+        @Override
         protected int calcHeight() {
             // the "2" is for the underline if it loops down a bit
             return (int) ((size - midInset) * checkGen.getMaxHeight() + 2.5d);
         }
 
+        @Override
         protected void doPaint(Graphics2D placeG, Graphics2D markG, int x,
                 int y) {
             FontMetrics fm = placeG.getFontMetrics();
@@ -87,7 +92,8 @@ public class NapkinIconFactory {
                 (double) DEF_SIZE / NapkinConstants.LENGTH;
         private static final AffineTransform DEF_SCALE_MAT =
                 NapkinUtil.scaleMat(DEF_SCALE);
-        private static DrawnCircleGenerator circleGen;
+        private static final DrawnCircleGenerator CIRCLE_GEN =
+                new DrawnCircleGenerator();
 
         public RadioButtonIcon() {
             super(NapkinThemeColor.RADIO_COLOR, DEF_SCALE_MAT);
@@ -96,12 +102,12 @@ public class NapkinIconFactory {
         }
 
         /** @noinspection AssignmentToStaticFieldFromInstanceMethod */
+        @Override
         protected AbstractDrawnGenerator createPlaceGenerator() {
-            if (circleGen == null)
-                circleGen = new DrawnCircleGenerator();
-            return circleGen;
+            return CIRCLE_GEN;
         }
 
+        @Override
         protected AbstractDrawnGenerator createMarkGenerator() {
             DrawnCircleGenerator gen = new DrawnCircleGenerator(true);
             double skew = LENGTH / 3.0;
@@ -114,15 +120,17 @@ public class NapkinIconFactory {
             return gen;
         }
 
+        @Override
         public int calcWidth() {
-            double max = circleGen.getBR().max().getX();
-            double min = circleGen.getBL().min().getX();
+            double max = CIRCLE_GEN.getBR().max().getX();
+            double min = CIRCLE_GEN.getBL().min().getX();
             return (int) Math.ceil(scale * (max - min));
         }
 
+        @Override
         public int calcHeight() {
-            double max = circleGen.getBR().max().getY();
-            double min = circleGen.getTR().min().getY();
+            double max = CIRCLE_GEN.getBR().max().getY();
+            double min = CIRCLE_GEN.getTR().min().getY();
             return (int) Math.ceil(scale * (max - min));
         }
     }
@@ -148,22 +156,27 @@ public class NapkinIconFactory {
             init();
         }
 
+        @Override
         protected AbstractDrawnGenerator createPlaceGenerator() {
             return ARROW_GEN[genNum];
         }
 
+        @Override
         protected AbstractDrawnGenerator createMarkGenerator() {
             return ARROW_GEN[genNum];
         }
 
+        @Override
         protected int calcHeight() {
             return size;
         }
 
+        @Override
         protected int calcWidth() {
             return size;
         }
 
+        @Override
         protected boolean shouldUseMark(Component c) {
             if (super.shouldUseMark(c))
                 return true;
@@ -239,6 +252,7 @@ public class NapkinIconFactory {
             return new SketchedIcon(template, theme.getSketcher());
     }
 
+    @SuppressWarnings({"HardcodedFileSeparator"})
     public static Template getTemplate(String templatePath) {
         Template template = tmplMap.get(templatePath);
         if (template == null) {

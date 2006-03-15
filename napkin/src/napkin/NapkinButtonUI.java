@@ -23,16 +23,19 @@ public class NapkinButtonUI extends BasicButtonUI
         return new NapkinButtonUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
     }
 
+    @Override
     protected void paintText(Graphics g, JComponent c, Rectangle textRect,
             String text) {
 
@@ -50,12 +53,14 @@ public class NapkinButtonUI extends BasicButtonUI
         super.paintText(g, c, textRect, text);
     }
 
+    @Override
     protected void paintText(Graphics g, AbstractButton b, Rectangle textRect,
             String text) {
 
         paintText(g, (JComponent) b, textRect, text);
     }
 
+    @Override
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }

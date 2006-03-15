@@ -22,16 +22,19 @@ public class NapkinMenuItemUI extends BasicMenuItemUI
         return new NapkinMenuItemUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
     }
 
+    @Override
     protected void paintText(Graphics g, JMenuItem item, Rectangle textRect,
             String text) {
 
@@ -46,6 +49,7 @@ public class NapkinMenuItemUI extends BasicMenuItemUI
         super.paintText(g, (JMenuItem) c, textRect, text);
     }
 
+    @Override
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }

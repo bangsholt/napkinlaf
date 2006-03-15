@@ -4,7 +4,8 @@ package napkin;
 
 import napkin.shapes.DrawnCubicLineGenerator;
 import napkin.shapes.DrawnLineHolder;
-import napkin.util.NapkinConstants;
+import static napkin.util.NapkinConstants.EAST;
+import static napkin.util.NapkinConstants.WEST;
 import napkin.util.NapkinIconFactory;
 import napkin.util.NapkinPainter;
 import napkin.util.NapkinTextPainter;
@@ -27,9 +28,7 @@ public class NapkinMenuUI extends BasicMenuUI
                     ComponentOrientation orientation =
                             (ComponentOrientation) evt.getNewValue();
                     arrowIcon = NapkinIconFactory.createArrowIcon(
-                            orientation.isLeftToRight() ?
-                                    NapkinConstants.EAST : NapkinConstants.WEST,
-                            8);
+                            (orientation.isLeftToRight() ? EAST : WEST), 8);
                 }
             };
 
@@ -38,17 +37,19 @@ public class NapkinMenuUI extends BasicMenuUI
         return new NapkinMenuUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         oldArrowIcon = arrowIcon;
         boolean isLeftToRight = c.getComponentOrientation().isLeftToRight();
         arrowIcon = NapkinIconFactory.createArrowIcon(
-                isLeftToRight ? NapkinConstants.EAST : NapkinConstants.WEST, 8);
+                (isLeftToRight ? EAST : WEST), 8);
         c.addPropertyChangeListener("componentOrientation",
                 orientationListener);
         NapkinUtil.installUI(c);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         arrowIcon = oldArrowIcon;
@@ -57,6 +58,7 @@ public class NapkinMenuUI extends BasicMenuUI
         super.uninstallUI(c);
     }
 
+    @Override
     protected void paintText(Graphics g, JMenuItem item, Rectangle textRect,
             String text) {
 
@@ -71,26 +73,31 @@ public class NapkinMenuUI extends BasicMenuUI
         super.paintText(g, (JMenuItem) c, textRect, text);
     }
 
-    //!! JMenu can either be on JMenuBar or within another JMenu and it
-    //!! could well be changed throughout the life-time of the component,
-    //!! so we have to work out the selectionForeground every time.
+    /**
+     * JMenu can either be on JMenuBar or within another JMenu and it could well
+     * be changed throughout the life-time of the component, so we have to work
+     * out the selectionForeground every time.
+     */
     private void updateDefaultSelectionColor(JComponent c) {
         selectionForeground = NapkinUtil.currentTheme(c).getSelectionColor();
     }
 
-    protected PropertyChangeListener createPropertyChangeListener(JComponent c) {
+    @Override
+    protected PropertyChangeListener createPropertyChangeListener(
+            JComponent c) {
         final PropertyChangeListener listener =
                 super.createPropertyChangeListener(c);
         return new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 listener.propertyChange(evt);
                 if (evt.getPropertyName().equals("ancestor")) {
-		    updateDefaultSelectionColor((JComponent) evt.getSource());
-	        }
+                    updateDefaultSelectionColor((JComponent) evt.getSource());
+                }
             }
         };
     }
 
+    @Override
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }

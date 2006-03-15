@@ -3,14 +3,14 @@
 package napkin.borders;
 
 import napkin.shapes.DrawnBoxHolder;
-import napkin.util.NapkinConstants;
+import static napkin.util.NapkinConstants.BORDER_KEY;
 import napkin.util.NapkinUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.*;
 import java.awt.*;
 
-public class NapkinBoxBorder extends AbstractNapkinBorder implements NapkinConstants {
+public class NapkinBoxBorder extends AbstractNapkinBorder {
     private static final int SMALL_BORDER = 3;
     private static final int LARGE_BORDER = 4;
 
@@ -21,14 +21,15 @@ public class NapkinBoxBorder extends AbstractNapkinBorder implements NapkinConst
             new InsetsUIResource(LARGE_BORDER, LARGE_BORDER,
                     LARGE_BORDER, LARGE_BORDER);
 
-    public static final NapkinUtil.PropertyFactory BOX_FACTORY =
+    private static final NapkinUtil.PropertyFactory BOX_FACTORY =
             new NapkinUtil.PropertyFactory() {
                 public Object createPropertyValue() {
                     return new DrawnBoxHolder();
                 }
             };
 
-    public void doPaintBorder(Component c, Graphics g1, int x, int y,
+    @Override
+    protected void doPaintBorder(Component c, Graphics g1, int x, int y,
             int width, int height) {
 
         DrawnBoxHolder box = (DrawnBoxHolder)
@@ -66,8 +67,8 @@ public class NapkinBoxBorder extends AbstractNapkinBorder implements NapkinConst
         return getDelta(in.top) + getDelta(in.bottom);
     }
 
+    @Override
     public Insets doGetBorderInsets(Component c, Insets insets) {
         return getDefaultInsets(c.getBounds(), insets);
     }
-
 }

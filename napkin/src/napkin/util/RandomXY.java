@@ -11,6 +11,7 @@ public class RandomXY {
     private Point2D min;
     private Point2D max;
 
+    @SuppressWarnings({"SameParameterValue"})
     public RandomXY(double xMid, double yMid) {
         this(xMid, 0, yMid, 0);
     }

@@ -18,20 +18,24 @@ public class NapkinSplitPaneUI extends BasicSplitPaneUI
         return new NapkinSplitPaneUI();
     }
 
+    @Override
     public BasicSplitPaneDivider createDefaultDivider() {
         return new NapkinSplitPaneDivider(this);
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         super.uninstallUI(c);
     }
 
+    @Override
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }
@@ -40,6 +44,7 @@ public class NapkinSplitPaneUI extends BasicSplitPaneUI
         super.update(g, c);
     }
 
+    @Override
     protected void resetLayoutManager() {
         super.resetLayoutManager();
         int orientation = splitPane.getOrientation();

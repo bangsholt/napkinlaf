@@ -2,6 +2,7 @@
 
 package napkin.shapes;
 
+import static napkin.util.NapkinConstants.LENGTH;
 import napkin.util.NapkinUtil;
 import napkin.util.RandomXY;
 
@@ -19,6 +20,7 @@ public class DrawnQuadLineGenerator extends AbstractDrawnGenerator {
         ctl = new RandomXY(60, 3, 0, 0.5);
     }
 
+    @Override
     public Shape generate(AffineTransform matrix) {
         Point2D ctlAt = ctl.generate();
         double lx = NapkinUtil.leftRight(ctlAt.getX(), true);

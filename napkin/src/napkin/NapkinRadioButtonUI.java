@@ -4,7 +4,6 @@ package napkin;
 
 import napkin.shapes.DrawnCubicLineGenerator;
 import napkin.shapes.DrawnLineHolder;
-import napkin.util.NapkinConstants;
 import napkin.util.NapkinPainter;
 import napkin.util.NapkinTextPainter;
 import napkin.util.NapkinUtil;
@@ -15,7 +14,7 @@ import javax.swing.plaf.basic.*;
 import java.awt.*;
 
 public class NapkinRadioButtonUI extends BasicRadioButtonUI
-        implements NapkinTextPainter, NapkinConstants, NapkinPainter {
+        implements NapkinTextPainter, NapkinPainter {
 
     private DrawnLineHolder line;
     private boolean defaultsInstalled;
@@ -25,17 +24,20 @@ public class NapkinRadioButtonUI extends BasicRadioButtonUI
         return new NapkinRadioButtonUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         NapkinUtil.installUI(c);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         icon = null;
         super.uninstallUI(c);
     }
 
+    @Override
     protected void installDefaults(AbstractButton b) {
         super.installDefaults(b);
         if (!defaultsInstalled) {
@@ -44,6 +46,7 @@ public class NapkinRadioButtonUI extends BasicRadioButtonUI
         }
     }
 
+    @Override
     protected void paintText(Graphics g, JComponent c, Rectangle textRect,
             String text) {
 
@@ -60,6 +63,7 @@ public class NapkinRadioButtonUI extends BasicRadioButtonUI
         super.paintText(g, c, textRect, text);
     }
 
+    @Override
     public void update(Graphics g, JComponent c) {
         NapkinUtil.update(g, c, this);
     }

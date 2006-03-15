@@ -3,13 +3,12 @@
 package napkin.shapes;
 
 import napkin.borders.NapkinBoxBorder;
-import napkin.util.NapkinConstants;
+import static napkin.util.NapkinConstants.NO_SIDE;
 
 import java.awt.*;
 import java.awt.geom.*;
 
-public class DrawnBoxHolder extends DrawnShapeHolder
-        implements NapkinConstants {
+public class DrawnBoxHolder extends DrawnShapeHolder {
     private Rectangle size;
     private int breakSide;
     private final Point2D begBreak,
