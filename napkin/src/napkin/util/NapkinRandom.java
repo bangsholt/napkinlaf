@@ -1,3 +1,5 @@
+// $Id$
+
 // $Header$
 
 package napkin.util;
