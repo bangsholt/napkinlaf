@@ -137,10 +137,4 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
         line.draw(ulG);
     }
 
-    protected void installDefaults() {
-        super.installDefaults();
-        NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme().getPopupTheme();
-	selectedTextColor = theme.getSelectionColor();
-	notSelectedTextColor = theme.getPenColor();
-    }
 }

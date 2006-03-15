@@ -205,6 +205,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
         setupActions(table);
 
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
+        NapkinTheme popupTheme = theme.getPopupTheme();
 
         Object[] napkinDefaults = {
                 "RadioButton.textIconGap", zero,
@@ -238,12 +239,27 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 "PasswordField.border", underlineBorder,
 
                 "Menu.border", null,
+                "MenuBar.border", null,
                 "PopupMenu.border", null,
                 "ToolTip.border", null,
                 "DesktopIcon.border", null,
                 "ToggleButton.border", selectBorder,
                 "InternalFrame.border", new BorderUIResource(
                 new EmptyBorder(3, 3, 3, 3)),
+
+                "PopupMenu.foreground", popupTheme.getPenColor(),
+                "ToolTip.foreground", popupTheme.getPenColor(),
+
+                "CheckBoxMenuItem.foreground", popupTheme.getPenColor(),
+                "CheckBoxMenuItem.selectionForeground",
+                popupTheme.getSelectionColor(),
+
+                "RadioButtonMenuItem.foreground", popupTheme.getPenColor(),
+                "RadioButtonMenuItem.selectionForeground",
+                popupTheme.getSelectionColor(),
+
+                "MenuItem.foreground", popupTheme.getPenColor(),
+                "MenuItem.selectionForeground", popupTheme.getSelectionColor(),
 
                 "InternalFrame.maximizeIcon", null,
                 "InternalFrame.minimizeIcon", minIcon,
@@ -253,6 +269,10 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 "InternalFrame.iconButtonToolTip", "Minimise",
                 "InternalFrame.restoreButtonToolTip", "Restore",
                 "InternalFrame.maxButtonToolTip", "Maximise",
+                "InternalFrame.activeTitleForeground",
+                popupTheme.getSelectionColor(),
+                "InternalFrame.inactiveTitleForeground",
+                popupTheme.getPenColor(),
 
                 "SplitPaneDivider.border", null,
                 "SplitPane.dividerSize", NapkinSplitPaneDivider.SIZE,
@@ -267,15 +287,10 @@ public class NapkinLookAndFeel extends BasicLookAndFeel
                 "FileChooser.fileNameLabelText", "File Name(s):",
                 "FileChooser.filesOfTypeLabelText", "Of Type(s):",
                 "FileChooser.upFolderToolTipText", "Up One Level",
-                "FileChooser.upFolderAccessibleName", "",
                 "FileChooser.homeFolderToolTipText", "Home Folder",
-                "FileChooser.homeFolderAccessibleName", "",
                 "FileChooser.newFolderToolTipText", "New Folder",
-                "FileChooser.newFolderAccessibleName", "",
                 "FileChooser.listViewButtonToolTipText", "List View",
-                "FileChooser.listViewButtonAccessibleName", "",
                 "FileChooser.detailsViewButtonToolTipText", "Details View",
-                "FileChooser.detailsViewButtonAccessibleName", "",
 
                 "FileView.directoryIcon", sketchedIcon("Directory"),
                 "FileView.fileIcon", sketchedIcon("File"),
