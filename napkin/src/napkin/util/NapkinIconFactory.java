@@ -74,7 +74,7 @@ public class NapkinIconFactory {
             FontMetrics fm = placeG.getFontMetrics();
             int ypos = y + fm.getAscent();
             placeG.translate(x, ypos);
-            placeG.scale((double) size / NapkinConstants.LENGTH, 1);
+            placeG.scale(size / (double) NapkinConstants.LENGTH, 1);
             placeG.draw(place);
 
             if (markG != null) {
@@ -89,7 +89,7 @@ public class NapkinIconFactory {
 
         private static final int DEF_SIZE = 13;
         private static final double DEF_SCALE =
-                (double) DEF_SIZE / NapkinConstants.LENGTH;
+                DEF_SIZE / (double) NapkinConstants.LENGTH;
         private static final AffineTransform DEF_SCALE_MAT =
                 NapkinUtil.scaleMat(DEF_SCALE);
         private static final DrawnCircleGenerator CIRCLE_GEN =
