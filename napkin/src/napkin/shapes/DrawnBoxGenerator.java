@@ -87,55 +87,46 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     @Override
     public Shape generate(AffineTransform matrix) {
         GeneralPath shape = new GeneralPath();
-
         double xSize = size.getX().generate();
         double ySize = size.getY().generate();
         double xScale = xSize / LENGTH;
         double yScale = ySize / LENGTH;
-
         double xCorner = adjustStartOffset(corner.getX(), xScale);
         double yCorner = adjustStartOffset(corner.getY(), yScale);
+
         adjustmentX = xCorner - corner.getX().get();
         adjustmentY = yCorner - corner.getY().get();
-
         if (asX) {
             NapkinUtil.drawStroke(shape, matrix, xCorner, 0, xSize, ySize,
-                    Math.PI, gens[0]);
+                                  Math.PI, gens[0]);
             NapkinUtil.drawStroke(shape, matrix, 0, ySize, xSize, yCorner, 0,
-                    gens[0]);
+                                  gens[0]);
             return shape;
         }
+        double scale = (xSize - xCorner) / LENGTH;
+        AffineTransform smat = (AffineTransform) matrix.clone();
 
-        AffineTransform smat;
-        double scale;
-
-        scale = (xSize - xCorner) / LENGTH;
-        smat = (AffineTransform) matrix.clone();
         smat.translate(xCorner, 0);
         smat.scale(scale, 1);
         sides[TOP] = addSide(shape, smat, TOP, scale);
-
         scale = xScale;
         smat = (AffineTransform) matrix.clone();
         smat.translate(xSize, ySize);
         smat.rotate(Math.PI);
         smat.scale(scale, 1);
         sides[BOTTOM] = addSide(shape, smat, BOTTOM, scale);
-
         scale = yScale;
         smat = (AffineTransform) matrix.clone();
         smat.translate(xSize, 0);
         smat.rotate(Math.PI / 2);
         smat.scale(scale, 1);
         sides[RIGHT] = addSide(shape, smat, RIGHT, scale);
-
         scale = (ySize - yCorner) / LENGTH;
         smat = (AffineTransform) matrix.clone();
         smat.translate(0, ySize);
         smat.rotate(-Math.PI / 2);
         smat.scale(scale, 1);
         sides[LEFT] = addSide(shape, smat, LEFT, scale);
-
         return shape;
     }
 
