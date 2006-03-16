@@ -1,15 +1,15 @@
 // $Id$
 
-package napkin.util;
+package net.sourceforge.napkinlaf.util;
 
-import napkin.NapkinKnownTheme;
-import napkin.NapkinTheme;
-import napkin.borders.AbstractNapkinBorder;
-import napkin.borders.NapkinWrappedBorder;
-import napkin.shapes.AbstractDrawnGenerator;
-import napkin.shapes.DrawnCubicLineGenerator;
-import napkin.shapes.DrawnLineHolder;
-import static napkin.util.NapkinConstants.*;
+import net.sourceforge.napkinlaf.NapkinKnownTheme;
+import net.sourceforge.napkinlaf.NapkinTheme;
+import net.sourceforge.napkinlaf.borders.AbstractNapkinBorder;
+import net.sourceforge.napkinlaf.borders.NapkinWrappedBorder;
+import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
+import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
+import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
 
 import javax.swing.*;
 import javax.swing.border.*;

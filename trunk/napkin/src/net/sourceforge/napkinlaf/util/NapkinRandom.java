@@ -2,7 +2,7 @@
 
 // $Header$
 
-package napkin.util;
+package net.sourceforge.napkinlaf.util;
 
 import java.util.Random;
 

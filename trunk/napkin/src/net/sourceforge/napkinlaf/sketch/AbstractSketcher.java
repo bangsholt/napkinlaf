@@ -1,13 +1,13 @@
 // $Id$
 
-package napkin.sketch;
+package net.sourceforge.napkinlaf.sketch;
 
-import napkin.sketch.geometry.CubicLine;
-import napkin.sketch.geometry.Path;
-import napkin.sketch.geometry.Point;
-import napkin.sketch.geometry.QuadLine;
-import napkin.sketch.geometry.SketchShape;
-import napkin.sketch.geometry.StraightLine;
+import net.sourceforge.napkinlaf.sketch.geometry.CubicLine;
+import net.sourceforge.napkinlaf.sketch.geometry.Path;
+import net.sourceforge.napkinlaf.sketch.geometry.Point;
+import net.sourceforge.napkinlaf.sketch.geometry.QuadLine;
+import net.sourceforge.napkinlaf.sketch.geometry.SketchShape;
+import net.sourceforge.napkinlaf.sketch.geometry.StraightLine;
 
 import java.awt.*;
 import java.util.Iterator;

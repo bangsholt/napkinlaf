@@ -1,9 +1,9 @@
 // $Id$
 
-package napkin.shapes;
+package net.sourceforge.napkinlaf.shapes;
 
-import napkin.borders.NapkinBoxBorder;
-import static napkin.util.NapkinConstants.HORIZONTAL;
+import net.sourceforge.napkinlaf.borders.NapkinBoxBorder;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.HORIZONTAL;
 
 import java.awt.*;
 import java.awt.geom.*;

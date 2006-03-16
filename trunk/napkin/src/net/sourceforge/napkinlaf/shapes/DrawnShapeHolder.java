@@ -1,8 +1,8 @@
 // $Id$
 
-package napkin.shapes;
+package net.sourceforge.napkinlaf.shapes;
 
-import napkin.util.NapkinUtil;
+import net.sourceforge.napkinlaf.util.NapkinUtil;
 
 import java.awt.*;
 

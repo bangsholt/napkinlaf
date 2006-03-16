@@ -1,10 +1,10 @@
 // $Id$
 
-package napkin.sketch;
+package net.sourceforge.napkinlaf.sketch;
 
-import napkin.NapkinTheme;
-import napkin.sketch.geometry.SketchShape;
-import napkin.sketch.geometry.XMLShape;
+import net.sourceforge.napkinlaf.NapkinTheme;
+import net.sourceforge.napkinlaf.sketch.geometry.SketchShape;
+import net.sourceforge.napkinlaf.sketch.geometry.XMLShape;
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Element;
 

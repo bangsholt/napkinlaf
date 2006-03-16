@@ -1,17 +1,17 @@
 // $Id$
 
-package napkin;
+package net.sourceforge.napkinlaf;
 
-import static napkin.NapkinKnownTheme.BASIC_THEME;
-import static napkin.NapkinKnownTheme.POPUP_THEME;
-import static napkin.NapkinThemeColor.*;
-import napkin.sketch.AbstractSketcher;
-import napkin.sketch.sketchers.DraftSketcher;
-import napkin.sketch.sketchers.JotSketcher;
-import napkin.util.AlphaColorUIResource;
-import napkin.util.NapkinBackground;
-import static napkin.util.NapkinConstants.RESOURCE_PATH;
-import napkin.util.NapkinFont;
+import static net.sourceforge.napkinlaf.NapkinKnownTheme.BASIC_THEME;
+import static net.sourceforge.napkinlaf.NapkinKnownTheme.POPUP_THEME;
+import static net.sourceforge.napkinlaf.NapkinThemeColor.*;
+import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
+import net.sourceforge.napkinlaf.sketch.sketchers.DraftSketcher;
+import net.sourceforge.napkinlaf.sketch.sketchers.JotSketcher;
+import net.sourceforge.napkinlaf.util.AlphaColorUIResource;
+import net.sourceforge.napkinlaf.util.NapkinBackground;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.RESOURCE_PATH;
+import net.sourceforge.napkinlaf.util.NapkinFont;
 
 import javax.swing.plaf.*;
 import java.awt.*;

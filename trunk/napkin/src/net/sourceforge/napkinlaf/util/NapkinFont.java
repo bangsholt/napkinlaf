@@ -9,7 +9,7 @@
  * and open the template in the editor.
  */
 
-package napkin.util;
+package net.sourceforge.napkinlaf.util;
 
 import javax.swing.plaf.*;
 import java.awt.*;

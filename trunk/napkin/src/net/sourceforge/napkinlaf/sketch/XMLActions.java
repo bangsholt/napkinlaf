@@ -1,6 +1,6 @@
 // $Id$
 
-package napkin.sketch;
+package net.sourceforge.napkinlaf.sketch;
 
 // Constants indicating what data needs to be extracted
 enum XMLActions {

@@ -1,6 +1,6 @@
 // $Id$
 
-package napkin.util;
+package net.sourceforge.napkinlaf.util;
 
 import javax.swing.*;
 import javax.swing.border.*;

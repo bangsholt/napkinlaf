@@ -1,10 +1,10 @@
 // $Id$
 
-package napkin;
+package net.sourceforge.napkinlaf;
 
-import static napkin.util.NapkinConstants.SOUTH;
-import napkin.util.NapkinPainter;
-import napkin.util.NapkinUtil;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.SOUTH;
+import net.sourceforge.napkinlaf.util.NapkinPainter;
+import net.sourceforge.napkinlaf.util.NapkinUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.*;

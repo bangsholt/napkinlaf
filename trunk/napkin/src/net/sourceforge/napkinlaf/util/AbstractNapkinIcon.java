@@ -1,9 +1,9 @@
 // $Id$
 
-package napkin.util;
+package net.sourceforge.napkinlaf.util;
 
-import napkin.NapkinThemeColor;
-import napkin.shapes.AbstractDrawnGenerator;
+import net.sourceforge.napkinlaf.NapkinThemeColor;
+import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
 
 import javax.swing.*;
 import java.awt.*;

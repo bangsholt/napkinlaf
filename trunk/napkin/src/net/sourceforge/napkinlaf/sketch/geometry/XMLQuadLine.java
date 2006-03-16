@@ -1,8 +1,8 @@
 // $Id$
 
-package napkin.sketch.geometry;
+package net.sourceforge.napkinlaf.sketch.geometry;
 
-import napkin.sketch.XMLUtility;
+import net.sourceforge.napkinlaf.sketch.XMLUtility;
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Element;
 

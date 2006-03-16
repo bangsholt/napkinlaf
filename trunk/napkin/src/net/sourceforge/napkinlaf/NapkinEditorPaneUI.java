@@ -1,9 +1,9 @@
 // $Id$
 
-package napkin;
+package net.sourceforge.napkinlaf;
 
-import napkin.util.NapkinPainter;
-import napkin.util.NapkinUtil;
+import net.sourceforge.napkinlaf.util.NapkinPainter;
+import net.sourceforge.napkinlaf.util.NapkinUtil;
 
 import javax.swing.*;
 import static javax.swing.JEditorPane.*;

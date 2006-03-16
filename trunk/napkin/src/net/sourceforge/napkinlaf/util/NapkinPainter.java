@@ -1,8 +1,8 @@
 // $Id$
 
-package napkin.util;
+package net.sourceforge.napkinlaf.util;
 
-import napkin.NapkinTheme;
+import net.sourceforge.napkinlaf.NapkinTheme;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,6 @@
 // $Id$
 
-package napkin.sketch.geometry;
+package net.sourceforge.napkinlaf.sketch.geometry;
 
 import org.jdom.Element;
 
