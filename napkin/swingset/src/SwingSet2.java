@@ -38,7 +38,7 @@
  * @(#)SwingSet2.java	1.50 04/07/26
  */
 
-import napkin.NapkinTheme;
+import net.sourceforge.napkinlaf.NapkinTheme;
 
 import java.awt.*;
 import java.awt.event.*;
