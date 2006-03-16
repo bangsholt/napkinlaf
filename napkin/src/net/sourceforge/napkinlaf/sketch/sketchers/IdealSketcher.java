@@ -1,13 +1,13 @@
 // $Id$
 
-package napkin.sketch.sketchers;
+package net.sourceforge.napkinlaf.sketch.sketchers;
 
-import napkin.sketch.AbstractSketcher;
-import napkin.sketch.geometry.CubicLine;
-import napkin.sketch.geometry.Path;
-import napkin.sketch.geometry.QuadLine;
-import napkin.sketch.geometry.SketchShape;
-import napkin.sketch.geometry.StraightLine;
+import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
+import net.sourceforge.napkinlaf.sketch.geometry.CubicLine;
+import net.sourceforge.napkinlaf.sketch.geometry.Path;
+import net.sourceforge.napkinlaf.sketch.geometry.QuadLine;
+import net.sourceforge.napkinlaf.sketch.geometry.SketchShape;
+import net.sourceforge.napkinlaf.sketch.geometry.StraightLine;
 
 /**
  * IdealSketcher: Sketches a template without performing any deformations or

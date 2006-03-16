@@ -1,16 +1,16 @@
 // $Id$
 
-package napkin;
+package net.sourceforge.napkinlaf;
 
-import napkin.borders.NapkinBoxBorder;
-import napkin.borders.NapkinLineBorder;
-import napkin.borders.NapkinSelectedBorder;
-import napkin.util.AlphaColorUIResource;
-import napkin.util.ComponentWalker.Visitor;
-import static napkin.util.NapkinConstants.*;
-import napkin.util.NapkinDebug;
-import napkin.util.NapkinIconFactory;
-import napkin.util.NapkinUtil;
+import net.sourceforge.napkinlaf.borders.NapkinBoxBorder;
+import net.sourceforge.napkinlaf.borders.NapkinLineBorder;
+import net.sourceforge.napkinlaf.borders.NapkinSelectedBorder;
+import net.sourceforge.napkinlaf.util.AlphaColorUIResource;
+import net.sourceforge.napkinlaf.util.ComponentWalker.Visitor;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
+import net.sourceforge.napkinlaf.util.NapkinDebug;
+import net.sourceforge.napkinlaf.util.NapkinIconFactory;
+import net.sourceforge.napkinlaf.util.NapkinUtil;
 
 import javax.swing.*;
 import javax.swing.UIDefaults.*;

@@ -1,21 +1,21 @@
 // $Id$
 
-package napkin.util;
+package net.sourceforge.napkinlaf.util;
 
-import napkin.NapkinTheme;
-import napkin.NapkinThemeColor;
-import napkin.shapes.AbstractDrawnGenerator;
-import napkin.shapes.DrawnBoxGenerator;
-import napkin.shapes.DrawnBoxHolder;
-import napkin.shapes.DrawnCheckGenerator;
-import napkin.shapes.DrawnCircleGenerator;
-import napkin.shapes.DrawnQuadLineGenerator;
-import napkin.shapes.DrawnTriangleGenerator;
-import napkin.sketch.SketchedIcon;
-import napkin.sketch.Template;
-import napkin.sketch.TemplateReadException;
-import static napkin.util.NapkinConstants.LENGTH;
-import static napkin.util.NapkinConstants.RESOURCE_PATH;
+import net.sourceforge.napkinlaf.NapkinTheme;
+import net.sourceforge.napkinlaf.NapkinThemeColor;
+import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
+import net.sourceforge.napkinlaf.shapes.DrawnBoxGenerator;
+import net.sourceforge.napkinlaf.shapes.DrawnBoxHolder;
+import net.sourceforge.napkinlaf.shapes.DrawnCheckGenerator;
+import net.sourceforge.napkinlaf.shapes.DrawnCircleGenerator;
+import net.sourceforge.napkinlaf.shapes.DrawnQuadLineGenerator;
+import net.sourceforge.napkinlaf.shapes.DrawnTriangleGenerator;
+import net.sourceforge.napkinlaf.sketch.SketchedIcon;
+import net.sourceforge.napkinlaf.sketch.Template;
+import net.sourceforge.napkinlaf.sketch.TemplateReadException;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.LENGTH;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.RESOURCE_PATH;
 
 import javax.swing.*;
 import java.awt.*;

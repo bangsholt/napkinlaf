@@ -1,6 +1,6 @@
 // $Id$
 
-package napkin.util;
+package net.sourceforge.napkinlaf.util;
 
 public class RandomValue implements RandomValueSource {
     private double adjust;

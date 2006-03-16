@@ -1,6 +1,6 @@
 // $Id$
 
-package napkin.sketch;
+package net.sourceforge.napkinlaf.sketch;
 
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Element;

@@ -1,6 +1,6 @@
 // $Id$
 
-package napkin.sketch;
+package net.sourceforge.napkinlaf.sketch;
 
 import javax.swing.*;
 import java.awt.*;

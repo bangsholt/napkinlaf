@@ -1,6 +1,6 @@
 // $Id$
 
-package napkin.util;
+package net.sourceforge.napkinlaf.util;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +19,7 @@ public interface NapkinConstants extends SwingConstants {
     String NEEDS_REVALIDATION = "napkin.revalidated";
 
     @SuppressWarnings({"HardcodedFileSeparator"})
-    String RESOURCE_PATH = "/napkin/resources/";
+    String RESOURCE_PATH = "/net/sourceforge/napkinlaf/resources/";
 
     List<String> CLIENT_PROPERTIES = Collections.unmodifiableList(
             Arrays.asList(

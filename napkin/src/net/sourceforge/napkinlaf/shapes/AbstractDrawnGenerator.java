@@ -1,8 +1,8 @@
 // $Id$
 
-package napkin.shapes;
+package net.sourceforge.napkinlaf.shapes;
 
-import static napkin.util.NapkinConstants.LENGTH;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.LENGTH;
 
 import java.awt.*;
 import java.awt.geom.*;

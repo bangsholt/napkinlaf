@@ -1,8 +1,8 @@
 // $Id$
 
-package napkin.sketch.geometry;
+package net.sourceforge.napkinlaf.sketch.geometry;
 
-import napkin.sketch.AbstractSketcher;
+import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
 
 import java.awt.geom.*;
 

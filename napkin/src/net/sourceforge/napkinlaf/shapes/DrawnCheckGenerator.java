@@ -1,10 +1,10 @@
 // $Id$
 
-package napkin.shapes;
+package net.sourceforge.napkinlaf.shapes;
 
-import napkin.util.NapkinUtil;
-import napkin.util.RandomValue;
-import napkin.util.RandomXY;
+import net.sourceforge.napkinlaf.util.NapkinUtil;
+import net.sourceforge.napkinlaf.util.RandomValue;
+import net.sourceforge.napkinlaf.util.RandomXY;
 
 import java.awt.*;
 import java.awt.geom.*;

@@ -1,9 +1,9 @@
 // $Id$
 
-package napkin.borders;
+package net.sourceforge.napkinlaf.borders;
 
-import napkin.shapes.DrawnCubicLineGenerator;
-import napkin.shapes.DrawnLineHolder;
+import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
+import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
 
 import java.awt.*;
 

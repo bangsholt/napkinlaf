@@ -1,10 +1,10 @@
 // $Id$
 
-package napkin.borders;
+package net.sourceforge.napkinlaf.borders;
 
-import napkin.shapes.DrawnBoxHolder;
-import static napkin.util.NapkinConstants.BORDER_KEY;
-import napkin.util.NapkinUtil;
+import net.sourceforge.napkinlaf.shapes.DrawnBoxHolder;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.BORDER_KEY;
+import net.sourceforge.napkinlaf.util.NapkinUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.*;

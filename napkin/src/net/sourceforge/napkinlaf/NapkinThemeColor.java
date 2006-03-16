@@ -1,6 +1,6 @@
 // $Id$
 
-package napkin;
+package net.sourceforge.napkinlaf;
 
 public enum NapkinThemeColor {
     PEN_COLOR,

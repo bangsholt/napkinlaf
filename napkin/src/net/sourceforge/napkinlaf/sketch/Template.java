@@ -1,8 +1,8 @@
 // $Id$
 
-package napkin.sketch;
+package net.sourceforge.napkinlaf.sketch;
 
-import napkin.util.NapkinUtil;
+import net.sourceforge.napkinlaf.util.NapkinUtil;
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -59,8 +59,8 @@ public class Template implements Cloneable {
      * Reads an XML file located at the path indicated, and returns a Template
      * object which instantiates the object represented in that document, so
      * long as the document is in fact an XML document which is valid according
-     * to the schema napkin.icon.resources.Template.xsd. This is useful to
-     * retrieve a Template from long-term storage.
+     * to the schema net.sourceforge.napkinlaf.resources.Template.xsd. This is
+     * useful to retrieve a Template from long-term storage.
      *
      * @param path
      *
@@ -88,8 +88,8 @@ public class Template implements Cloneable {
      * Reads an XML file located at the path indicated, and returns a Template
      * object which instantiates the object represented in that document, so
      * long as the document is in fact an XML document which is valid according
-     * to the schema napkin.icon.resources.Template.xsd. This is useful to
-     * retrieve a Template from long-term storage.
+     * to the schema net.sourceforge.napkinlaf.resources.Template.xsd. This is
+     * useful to retrieve a Template from long-term storage.
      *
      * @param in
      *

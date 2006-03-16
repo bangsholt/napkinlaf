@@ -1,12 +1,12 @@
 // $Id$
 
-package napkin;
+package net.sourceforge.napkinlaf;
 
-import napkin.borders.NapkinBoxBorder;
-import napkin.shapes.DrawnBoxHolder;
-import napkin.shapes.DrawnTabHolder;
-import napkin.util.NapkinPainter;
-import napkin.util.NapkinUtil;
+import net.sourceforge.napkinlaf.borders.NapkinBoxBorder;
+import net.sourceforge.napkinlaf.shapes.DrawnBoxHolder;
+import net.sourceforge.napkinlaf.shapes.DrawnTabHolder;
+import net.sourceforge.napkinlaf.util.NapkinPainter;
+import net.sourceforge.napkinlaf.util.NapkinUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.*;

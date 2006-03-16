@@ -1,6 +1,6 @@
 // $Id$
 
-package napkin.sketch;
+package net.sourceforge.napkinlaf.sketch;
 
 /**
  * Thrown when there is an exception while trying to read a <tt>Template</tt>.
