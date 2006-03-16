@@ -138,7 +138,6 @@ public class NapkinUtil {
     }
 
     public interface Logs {
-        Logger ui = Logger.getLogger("napkin.util");
         Logger paper = Logger.getLogger("napkin.paper");
     }
 
