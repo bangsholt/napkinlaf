@@ -70,6 +70,9 @@ public abstract class AbstractSketcher {
      * @param g2d      the graphics object on which to sketch the image
      */
     public void sketch(Template template, Graphics2D g2d) {
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        
         Iterator<TemplateItem> i = template.getListIterator();
         while (i.hasNext()) {
             TemplateItem current = i.next();
