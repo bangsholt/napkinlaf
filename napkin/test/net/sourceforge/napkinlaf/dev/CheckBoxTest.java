@@ -1,11 +1,11 @@
-// $Id$
+// $Id: CheckBoxTest.java 355 2006-03-15 04:15:55 -0500 (Wed, 15 Mar 2006) kcrca $
 
-package napkin.dev;
+package net.sourceforge.napkinlaf.dev;
 
-import napkin.shapes.DrawnBoxGenerator;
-import napkin.shapes.DrawnCheckGenerator;
-import static napkin.util.NapkinConstants.LENGTH;
-import napkin.util.RandomValueSource;
+import net.sourceforge.napkinlaf.shapes.DrawnBoxGenerator;
+import net.sourceforge.napkinlaf.shapes.DrawnCheckGenerator;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.LENGTH;
+import net.sourceforge.napkinlaf.util.RandomValueSource;
 
 import javax.swing.*;
 import javax.swing.border.*;

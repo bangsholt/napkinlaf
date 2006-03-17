@@ -1,9 +1,9 @@
-// $Id$
+// $Id: RandomValueSpinner.java 293 2006-03-06 09:18:49 -0500 (Mon, 06 Mar 2006) kcrca $
 
-package napkin.dev;
+package net.sourceforge.napkinlaf.dev;
 
-import napkin.util.RandomValue;
-import napkin.util.RandomValueSource;
+import net.sourceforge.napkinlaf.util.RandomValue;
+import net.sourceforge.napkinlaf.util.RandomValueSource;
 
 import javax.swing.*;
 import javax.swing.border.*;

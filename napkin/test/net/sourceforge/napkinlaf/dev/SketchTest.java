@@ -1,15 +1,15 @@
-// $Id$
+// $Id: SketchTest.java 339 2006-03-13 18:11:32 -0500 (Mon, 13 Mar 2006) alexlamsl $
 
-package napkin.dev;
+package net.sourceforge.napkinlaf.dev;
 
-import napkin.NapkinLookAndFeel;
-import napkin.sketch.SketchedIcon;
-import napkin.sketch.AbstractSketcher;
-import napkin.sketch.Template;
-import napkin.sketch.sketchers.DraftSketcher;
-import napkin.sketch.sketchers.IdealSketcher;
-import napkin.sketch.sketchers.JotSketcher;
-import napkin.sketch.sketchers.LineSketcher;
+import net.sourceforge.napkinlaf.NapkinLookAndFeel;
+import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
+import net.sourceforge.napkinlaf.sketch.SketchedIcon;
+import net.sourceforge.napkinlaf.sketch.Template;
+import net.sourceforge.napkinlaf.sketch.sketchers.DraftSketcher;
+import net.sourceforge.napkinlaf.sketch.sketchers.IdealSketcher;
+import net.sourceforge.napkinlaf.sketch.sketchers.JotSketcher;
+import net.sourceforge.napkinlaf.sketch.sketchers.LineSketcher;
 
 import javax.swing.*;
 import javax.swing.filechooser.*;

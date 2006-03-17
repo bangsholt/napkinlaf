@@ -1,6 +1,6 @@
-// $Id$
+// $Id: NapkinBackgroundTest.java 293 2006-03-06 09:18:49 -0500 (Mon, 06 Mar 2006) kcrca $
 
-package napkin.examples;
+package net.sourceforge.napkinlaf.examples;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,7 @@ public class NapkinBackgroundTest {
     public static void main(String[] args) throws
             Exception {
 
-        UIManager.setLookAndFeel("napkin.NapkinLookAndFeel");
+        UIManager.setLookAndFeel("net.sourceforge.napkinlaf.NapkinLookAndFeel");
         JFrame frame = new JFrame("Napkin Test");
 
         JMenuBar mb = new JMenuBar();
