@@ -63,6 +63,23 @@ import java.awt.event.*;
  */
 class BezierAnimationPanel extends JPanel implements Runnable {
 
+    final Object lock = new Object();
+    final Runnable timer = new Runnable() {
+        public void run() {
+            try {
+                while (running.get()) {
+                    repainted = false;
+                    SwingUtilities.invokeLater(BezierAnimationPanel.this);
+                    Thread.sleep(10);
+                    while (!repainted)
+                        Thread.sleep(20);
+                }
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+    };
+
     Color backgroundColor =  new Color(0,     0, 153);
     Color outerColor      =  new Color(255, 255, 255);
     Color gradientColorA  =  new Color(255,   0, 101);
@@ -93,7 +110,8 @@ class BezierAnimationPanel extends JPanel implements Runnable {
 
     Rectangle bounds = null;
     
-    AtomicBoolean running = new AtomicBoolean(false);
+    final AtomicBoolean running = new AtomicBoolean(false);
+    boolean repainted = true;
 
     final BasicStroke solid = new BasicStroke(9.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 9.0f);
     final int rule = AlphaComposite.SRC_OVER;
@@ -182,7 +200,7 @@ class BezierAnimationPanel extends JPanel implements Runnable {
 		deltas[i + 1] = -deltas[i + 1];
 	    }
 	}
-        SwingUtilities.invokeLater(this);
+        new Thread(timer).start();
         System.out.println("Animation Started.");
     }
 
@@ -207,8 +225,7 @@ class BezierAnimationPanel extends JPanel implements Runnable {
     public void run() {
 	if (getSize().width > 0)
             repaint();
-        if (running.get())
-            SwingUtilities.invokeLater(this);
+        repainted = true;
     }
 
     public void paint(Graphics g) {
