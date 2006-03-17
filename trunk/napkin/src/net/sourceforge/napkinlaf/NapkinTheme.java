@@ -196,6 +196,8 @@ public class NapkinTheme {
                 NapkinLookAndFeel.class;
         private static final Logger LOG =
                 LogManager.getLogManager().getLogger(THIS_CLASS.getName());
+        private static final String THEME_PROP =
+                "net.sourceforge.napkinlaf.theme";
 
         static {
             AccessController.doPrivileged(new PrivilegedAction<Object>() {
@@ -259,8 +261,8 @@ public class NapkinTheme {
                 themeName = AccessController.doPrivileged(
                         new PrivilegedAction<String>() {
                             public String run() {
-                                return System.getProperty("napkin.theme",
-                                        DEFAULT_THEME);
+                                return System.getProperty(
+                                        THEME_PROP, DEFAULT_THEME);
                             }
                         });
             } catch (SecurityException e) {
@@ -320,7 +322,6 @@ public class NapkinTheme {
                                     .getName() +
                                     "\"\n\t\ttry: " + NapkinLookAndFeel.class
                                     .getResource(fontRes));
-                    //                    return new Font( "serif", Font.PLAIN, 12 );
                 } else
                     return Font.createFont(Font.TRUETYPE_FONT, fontDef);
             } catch (FontFormatException e) {

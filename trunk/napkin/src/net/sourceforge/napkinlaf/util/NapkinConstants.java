@@ -11,12 +11,12 @@ import java.util.List;
 public interface NapkinConstants extends SwingConstants {
     int LENGTH = 100;
 
-    String THEME_KEY = "napkin.theme";
-    String BACKGROUND_KEY = "napkin.background";
-    String DISABLED_MARK_KEY = "napkin.disabledMark";
-    String BORDER_KEY = "napkin.border";
-    String OPAQUE_KEY = "napkin.wasOpaque";
-    String NEEDS_REVALIDATION = "napkin.revalidated";
+    String THEME_KEY = "net.sourceforge.napkinlaf.theme";
+    String BACKGROUND_KEY = "net.sourceforge.napkinlaf.background";
+    String DISABLED_MARK_KEY = "net.sourceforge.napkinlaf.disabledMark";
+    String BORDER_KEY = "net.sourceforge.napkinlaf.border";
+    String OPAQUE_KEY = "net.sourceforge.napkinlaf.wasOpaque";
+    String NEEDS_REVALIDATION = "net.sourceforge.napkinlaf.revalidated";
 
     @SuppressWarnings({"HardcodedFileSeparator"})
     String RESOURCE_PATH = "/net/sourceforge/napkinlaf/resources/";

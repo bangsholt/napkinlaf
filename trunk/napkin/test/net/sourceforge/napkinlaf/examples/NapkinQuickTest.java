@@ -1,15 +1,20 @@
-// $Id$
+// $Id: NapkinQuickTest.java 345 2006-03-14 08:06:43 -0500 (Tue, 14 Mar 2006) kcrca $
 
-package napkin.examples;
+package net.sourceforge.napkinlaf.examples;
 
-import napkin.NapkinLookAndFeel;
-import napkin.NapkinTheme;
+import net.sourceforge.napkinlaf.NapkinLookAndFeel;
+import net.sourceforge.napkinlaf.NapkinTheme;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
+import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.StringWriter;
 import java.util.Dictionary;
 import java.util.HashSet;
 import java.util.Set;

@@ -138,7 +138,7 @@ public class NapkinUtil {
     }
 
     public interface Logs {
-        Logger paper = Logger.getLogger("napkin.paper");
+        Logger paper = Logger.getLogger("net.sourceforge.napkinlaf.paper");
     }
 
     @SuppressWarnings({"SameParameterValue"})
