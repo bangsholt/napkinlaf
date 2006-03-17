@@ -29,10 +29,12 @@
             <fileset dir="src">
                 <include name="**/resources/**/*"/>
                 <include name="**/icons/**/*"/>
+                <exclude name="**/Thumbs.db"/>        <!-- WinXP thumbs files -->
             </fileset>
             <fileset dir="swingset/src">
                 <include name="**/resources/**/*"/>
                 <include name="**/icons/**/*"/>
+                <exclude name="**/Thumbs.db"/>        <!-- WinXP thumbs files -->
             </fileset>
         </copy>
         <copy todir="classes/src">
@@ -98,6 +100,7 @@
             <exclude name="release/**/*"/>
             <exclude name="**/?"/>        <!-- I use these for tmp files -->
             <exclude name="**/.*.swp"/>        <!-- vi tmp files -->
+            <exclude name="**/Thumbs.db"/>        <!-- WinXP thumbs files -->
         </zip>
     </target>
 
