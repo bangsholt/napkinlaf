@@ -17,24 +17,31 @@
     <target name="all" depends="compile"/>
 
     <target name="compile" description="build classes directory">
-        <mkdir dir="classes"/><!-- specially handle these because they must use deprecated APIs -->
+        <mkdir dir="classes"/>
+
+	<!-- specially handle these because they must use deprecated APIs -->
         <javac srcdir="src" destdir="classes" classpathref="classpath"
-                includes="net/sourceforge/napkinlaf/Force*.java" debug="${debug}"
-                deprecation="no"/>
+                target="1.5" source="1.5"
+		includes="net/sourceforge/napkinlaf/Force*.java"
+		debug="${debug}" deprecation="no"/>
+
         <javac srcdir="src" destdir="classes" classpathref="classpath"
-                excludes="java*/**/*.java" debug="${debug}" deprecation="yes"/>
+                target="1.5" source="1.5" excludes="java*/**/*.java"
+		debug="${debug}" deprecation="yes"/>
+
         <javac srcdir="swingset/src" destdir="classes" classpathref="classpath"
                 debug="${debug}" deprecation="yes"/>
+
         <copy todir="classes">
             <fileset dir="src">
                 <include name="**/resources/**/*"/>
                 <include name="**/icons/**/*"/>
-                <exclude name="**/Thumbs.db"/>        <!-- WinXP thumbs files -->
+                <exclude name="**/Thumbs.db"/> <!-- WinXP thumbs files -->
             </fileset>
             <fileset dir="swingset/src">
                 <include name="**/resources/**/*"/>
                 <include name="**/icons/**/*"/>
-                <exclude name="**/Thumbs.db"/>        <!-- WinXP thumbs files -->
+                <exclude name="**/Thumbs.db"/> <!-- WinXP thumbs files -->
             </fileset>
         </copy>
         <copy todir="classes/src">
@@ -74,7 +81,10 @@
             <entry key="when" type="date" value="now"/>
             <entry key="build" type="int" default="001" operation="+"
                     pattern="000"/>
-        </propertyfile><!-- we recurse so we'll read the new properties --><!-- (why doesn't the property tag have an "override" attribute?) -->
+        </propertyfile>
+
+	<!-- we recurse so we'll read the new properties -->
+	<!-- (why doesn't the property tag have an "override" attribute?) -->
         <ant target="release" inheritAll="false"/>
     </target>
 
@@ -83,7 +93,12 @@
             description="build release files"/>
 
     <target name="release.tag">
-        <cvs command="tag -F REL_${cvstag}_${build}"/>
+	<echo>
+	    Should tag SVN repositor with REL_${cvstag}_${build}
+	</echo>
+	<!--
+	    <cvs command="tag -F REL_${cvstag}_${build}"/>
+	-->
     </target>
 
     <target name="release.files">
@@ -98,9 +113,13 @@
             <exclude name="classes/**/*"/>
             <exclude name="jars/**/*"/>
             <exclude name="release/**/*"/>
-            <exclude name="**/?"/>        <!-- I use these for tmp files -->
-            <exclude name="**/.*.swp"/>        <!-- vi tmp files -->
-            <exclude name="**/Thumbs.db"/>        <!-- WinXP thumbs files -->
+            <exclude name="**/*.bak"/>
+            <exclude name="**/?"/>           <!-- I use these for tmp files -->
+            <exclude name="**/.*.swp"/>      <!-- vi tmp files -->
+            <exclude name="**/Thumbs.db"/>   <!-- WinXP thumbs files -->
+            <exclude name="*.iml"/>          <!-- IntelliJ config file -->
+            <exclude name="**/.classpath"/>  <!-- eclipse annotation -->
+            <exclude name="**/.project"/>    <!-- eclipse annotation -->
         </zip>
     </target>
 
