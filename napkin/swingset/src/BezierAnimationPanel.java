@@ -72,7 +72,7 @@ class BezierAnimationPanel extends JPanel implements Runnable {
                     SwingUtilities.invokeLater(BezierAnimationPanel.this);
                     Thread.sleep(10);
                     while (!repainted)
-                        Thread.sleep(20);
+                        Thread.sleep(50);
                 }
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
