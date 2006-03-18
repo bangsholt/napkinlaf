@@ -6,8 +6,8 @@
     <!-- $Id$ --><!-- Main template definition -->
     <xs:element name="template">
         <xs:annotation>
-            <xs:documentation>Describes a NapkinDrawing
-                imagetemplate</xs:documentation>
+            <xs:documentation>Describes a NapkinSketch image
+		template</xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:sequence>
@@ -38,8 +38,10 @@
     <xs:element name="templateItem">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="drawStroke" type="xs:boolean" default="true"/>
-                <xs:element name="drawFill" type="xs:boolean" default="true"/>
+                <xs:element name="drawStroke" type="xs:boolean" default="true"
+                            minOccurs="0"/>
+                <xs:element name="drawFill" type="xs:boolean" default="true"
+                            minOccurs="0"/>
                 <xs:element name="strokeWeight" type="positiveFloat"
                             minOccurs="0"/>
                 <xs:element name="strokeColor" type="color" minOccurs="0"/>
