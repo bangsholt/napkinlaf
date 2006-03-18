@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template xmlns="http://napkinlaf.sf.net/sketch/"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://napkinlaf.sf.net/sketch Template.xsd">
+	      xsi:schemaLocation="http://napkinlaf.sf.net/sketch/ Template.xsd">
     <!-- $Id$ -->
     <title>ListView</title>
     <description>For a listing of a folder</description>
