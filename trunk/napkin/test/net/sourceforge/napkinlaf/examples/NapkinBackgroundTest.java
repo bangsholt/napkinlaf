@@ -2,6 +2,8 @@
 
 package net.sourceforge.napkinlaf.examples;
 
+import net.sourceforge.napkinlaf.NapkinLookAndFeel;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,7 +11,7 @@ public class NapkinBackgroundTest {
     public static void main(String[] args) throws
             Exception {
 
-        UIManager.setLookAndFeel("net.sourceforge.napkinlaf.NapkinLookAndFeel");
+        UIManager.setLookAndFeel(NapkinLookAndFeel.class.getName());
         JFrame frame = new JFrame("Napkin Test");
 
         JMenuBar mb = new JMenuBar();
