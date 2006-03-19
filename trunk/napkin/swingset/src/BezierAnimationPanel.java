@@ -41,15 +41,8 @@
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
-import javax.swing.border.*;
-import javax.swing.colorchooser.*;
-import javax.swing.filechooser.*;
-import javax.accessibility.*;
  
 import java.awt.*;
-import java.awt.font.*;
 import java.awt.geom.*;
 import java.awt.image.*;
 import java.awt.event.*;
@@ -63,16 +56,16 @@ import java.awt.event.*;
  */
 class BezierAnimationPanel extends JPanel implements Runnable {
 
-    final Object lock = new Object();
     final Runnable timer = new Runnable() {
         public void run() {
+            Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
             try {
                 while (running.get()) {
-                    repainted = false;
-                    SwingUtilities.invokeLater(BezierAnimationPanel.this);
+                    if (getSize().width > 0) {
+                        prePaint();
+                        SwingUtilities.invokeLater(BezierAnimationPanel.this);
+                    }
                     Thread.sleep(10);
-                    while (!repainted)
-                        Thread.sleep(50);
                 }
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
@@ -111,7 +104,6 @@ class BezierAnimationPanel extends JPanel implements Runnable {
     Rectangle bounds = null;
     
     final AtomicBoolean running = new AtomicBoolean(false);
-    boolean repainted = true;
 
     final BasicStroke solid = new BasicStroke(9.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 9.0f);
     final int rule = AlphaComposite.SRC_OVER;
@@ -223,12 +215,10 @@ class BezierAnimationPanel extends JPanel implements Runnable {
     }
 
     public void run() {
-	if (getSize().width > 0)
-            repaint();
-        repainted = true;
+        repaint();
     }
 
-    public void paint(Graphics g) {
+    public void prePaint() {
 	Graphics2D g2d = null;
 	Graphics2D BufferG2D = null;
 	Graphics2D ScreenG2D = null;
@@ -331,8 +321,10 @@ class BezierAnimationPanel extends JPanel implements Runnable {
         g2d.setComposite(blend);
         g2d.fill(gp);
         g2d.dispose();
+    }
         
-        g2d = (Graphics2D) g;
+    public void paint(Graphics g) {
+	Graphics2D g2d = (Graphics2D) g;
         int imgw = img.getWidth();
         int imgh = img.getHeight();
         g2d.setComposite(AlphaComposite.Src);
