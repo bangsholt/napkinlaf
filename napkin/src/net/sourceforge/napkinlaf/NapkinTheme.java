@@ -10,6 +10,7 @@ import net.sourceforge.napkinlaf.sketch.sketchers.DraftSketcher;
 import net.sourceforge.napkinlaf.sketch.sketchers.JotSketcher;
 import net.sourceforge.napkinlaf.util.AlphaColorUIResource;
 import net.sourceforge.napkinlaf.util.NapkinBackground;
+import net.sourceforge.napkinlaf.util.NapkinConstants;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.RESOURCE_PATH;
 import net.sourceforge.napkinlaf.util.NapkinFont;
 
@@ -196,8 +197,6 @@ public class NapkinTheme {
                 NapkinLookAndFeel.class;
         private static final Logger LOG =
                 LogManager.getLogManager().getLogger(THIS_CLASS.getName());
-        private static final String THEME_PROP =
-                "net.sourceforge.napkinlaf.theme";
 
         static {
             AccessController.doPrivileged(new PrivilegedAction<Object>() {
@@ -262,7 +261,8 @@ public class NapkinTheme {
                         new PrivilegedAction<String>() {
                             public String run() {
                                 return System.getProperty(
-                                        THEME_PROP, DEFAULT_THEME);
+                                        NapkinConstants.THEME_KEY,
+                                        DEFAULT_THEME);
                             }
                         });
             } catch (SecurityException e) {

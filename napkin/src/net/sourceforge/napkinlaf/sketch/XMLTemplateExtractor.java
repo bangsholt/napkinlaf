@@ -22,6 +22,8 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 
 /**
  * The <tt>XMLTemplateExtractor</tt> class parses an XML document to create a
@@ -53,6 +55,25 @@ public class XMLTemplateExtractor extends DefaultHandler {
 
     private XMLActions currentAction; // Specifies information that needs parsing
     private float curX;
+
+    private static final String VALIDATE_PROP =
+            "net.sourceforge.napkinlaf.validate";
+    private static final boolean VALIDATE;
+
+    static {
+        boolean v;
+        try {
+            v = AccessController
+                    .doPrivileged(new PrivilegedAction<Boolean>() {
+                        public Boolean run() {
+                            return Boolean.getBoolean(VALIDATE_PROP);
+                        }
+                    });
+        } catch (SecurityException e) {
+            v = false;
+        }
+        VALIDATE = v;
+    }
 
     /** Constructs a new XMLTemplateExtractor. */
     public XMLTemplateExtractor() {
@@ -308,20 +329,22 @@ public class XMLTemplateExtractor extends DefaultHandler {
             try {
                 reader.setFeature("http://xml.org/sax/features/namespaces",
                         true);
-                reader.setFeature("http://xml.org/sax/features/validation",
-                        true);
-                reader.setFeature(
-                        "http://apache.org/xml/features/validation/schema",
-                        true);
-                reader.setFeature(
-                        "http://apache.org/xml/features/validation/schema-full-checking",
-                        true);
-                reader.setProperty(
-                        "http://apache.org/xml/properties/schema/external-noNamespaceSchemaLocation",
-                        SCHEMA_URL);
+                if (VALIDATE) {
+                    reader.setFeature("http://xml.org/sax/features/validation",
+                            true);
+                    reader.setFeature(
+                            "http://apache.org/xml/features/validation/schema",
+                            true);
+                    reader.setFeature(
+                            "http://apache.org/xml/features/validation/schema-full-checking",
+                            true);
+                    reader.setProperty(
+                            "http://apache.org/xml/properties/schema/external-noNamespaceSchemaLocation",
+                            SCHEMA_URL);
+                }
             } catch (SAXException e) {
                 e.printStackTrace();
-                System.out.println(
+                System.err.println(
                         "Warning: Parser does not support schema validation");
             }
 
