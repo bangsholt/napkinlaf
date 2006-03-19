@@ -1,0 +1,19 @@
+<!-- $Id$ -->
+
+<jnlp codebase="http://napkinlaf.sourceforge.net/" href="napkin.jnlp">
+
+    <information>
+        <title>Napkin Look and Feel Demo</title>
+        <vendor>Napkin Look and Feel Project</vendor>
+        <description>Napkin Look and Feel Demo</description>
+        <homepage>http://napkinlaf.sourceforge.net</homepage>
+        <offline-allowed/>
+    </information>
+
+    <resources>
+        <j2se version="1.5+"/>
+        <jar href="napkinlaf-swingset2.jar"/>
+    </resources>
+
+    <application-desc main-class="SwingSet2"/>
+</jnlp>
