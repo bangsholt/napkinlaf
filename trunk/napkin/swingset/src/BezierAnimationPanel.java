@@ -39,6 +39,7 @@
  */
 
 
+import java.lang.reflect.InvocationTargetException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -60,13 +61,15 @@ class BezierAnimationPanel extends JPanel implements Runnable {
             Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
             try {
                 while (running.get()) {
-                    if (getSize().width > 0) {
+                    if (getSize().width > 0 && getSize().height > 0) {
                         prePaint();
-                        SwingUtilities.invokeLater(BezierAnimationPanel.this);
+                        SwingUtilities.invokeAndWait(BezierAnimationPanel.this);
                     }
                     Thread.sleep(10);
                 }
             } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            } catch (InvocationTargetException ex) {
                 ex.printStackTrace();
             }
         }
@@ -76,10 +79,6 @@ class BezierAnimationPanel extends JPanel implements Runnable {
     Color outerColor      =  new Color(255, 255, 255);
     Color gradientColorA  =  new Color(255,   0, 101);
     Color gradientColorB  =  new Color(255, 255,   0);
-
-    boolean bgChanged = false;
-
-    GradientPaint gradient = null;
 
     public final int NUMPTS = 6;
 
@@ -98,9 +97,8 @@ class BezierAnimationPanel extends JPanel implements Runnable {
 
     float movepts[] = new float[staticpts.length];
 
-    BufferedImage img;
-
-    Rectangle bounds = null;
+    BufferedImage img = null;
+    Dimension oldSize = null;
 
     final AtomicBoolean running = new AtomicBoolean(false);
 
@@ -171,7 +169,6 @@ class BezierAnimationPanel extends JPanel implements Runnable {
 	if(c != null) {
 	    backgroundColor = c;
 	    setBackground(c);
-	    bgChanged = true;
 	}
     }
 
@@ -218,97 +215,78 @@ class BezierAnimationPanel extends JPanel implements Runnable {
     }
 
     public void prePaint() {
-	GeneralPath gp = new GeneralPath(GeneralPath.WIND_NON_ZERO);
-	Dimension oldSize = getSize();
-	Shape clippath = null;
-        Dimension size = getSize();
-        if (size.width != oldSize.width || size.height != oldSize.height) {
-            img = null;
-            clippath = null;
-        }
+	final GeneralPath gp = new GeneralPath(GeneralPath.WIND_NON_ZERO);
 
-        if (img == null) {
-            img = (BufferedImage) createImage(size.width, size.height);
+        final Dimension size = getSize();
+        BufferedImage img = this.img;
+        if (img == null || !size.equals(oldSize)) {
+            img = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
+            oldSize = size;
         }
-
-        Graphics2D bufferG2D = img.createGraphics();
-        bufferG2D.setRenderingHint(RenderingHints.KEY_RENDERING,
+        final Graphics2D g2d = img.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_DEFAULT);
-        bufferG2D.setClip(clippath);
-
-        for (int i = 0; i < animpts.length; i += 2) {
+        
+        int i;
+        for (i = 0; i < animpts.length; i += 2) {
             animate(animpts, deltas, i + 0, size.width);
             animate(animpts, deltas, i + 1, size.height);
         }
-        float[] ctrlpts = animpts;
-        int len = ctrlpts.length;
-        gp.reset();
+        final float[] ctrlpts = animpts;
+        final int len = ctrlpts.length;
+
         float prevx = ctrlpts[len - 2];
         float prevy = ctrlpts[len - 1];
         float curx = ctrlpts[0];
         float cury = ctrlpts[1];
-        float midx = (curx + prevx) / 2.0f;
-        float midy = (cury + prevy) / 2.0f;
+        float midx = 0.5f * (curx + prevx);
+        float midy = 0.5f * (cury + prevy);
         gp.moveTo(midx, midy);
-        for (int i = 2; i <= ctrlpts.length; i += 2) {
-            float x1 = (midx + curx) / 2.0f;
-            float y1 = (midy + cury) / 2.0f;
+        float x1, y1, x2, y2;
+        for (i = 2; i <= len; i += 2) {
+            x1 = 0.5f * (midx + curx);
+            y1 = 0.5f * (midy + cury);
             prevx = curx;
             prevy = cury;
-            if (i < ctrlpts.length) {
+            if (i < len) {
                 curx = ctrlpts[i + 0];
                 cury = ctrlpts[i + 1];
             } else {
                 curx = ctrlpts[0];
                 cury = ctrlpts[1];
             }
-            midx = (curx + prevx) / 2.0f;
-            midy = (cury + prevy) / 2.0f;
-            float x2 = (prevx + midx) / 2.0f;
-            float y2 = (prevy + midy) / 2.0f;
+            midx = 0.5f * (curx + prevx);
+            midy = 0.5f * (cury + prevy);
+            x2 = 0.5f * (prevx + midx);
+            y2 = 0.5f * (prevy + midy);
             gp.curveTo(x1, y1, x2, y2, midx, midy);
         }
         gp.closePath();
-
-        bufferG2D.setComposite(set);
-        bufferG2D.setBackground(backgroundColor);
-        bufferG2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_OFF);
-
-        if(bgChanged || bounds == null) {
-            bounds = new Rectangle(0, 0, getWidth(), getHeight());
-            bgChanged = false;
-        }
-        // g2d.clearRect(bounds.x-5, bounds.y-5, bounds.x + bounds.width + 5, bounds.y + bounds.height + 5);
-        bufferG2D.clearRect(0, 0, getWidth(), getHeight());
-
-        bufferG2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+        
+        g2d.setComposite(set);
+        g2d.setBackground(backgroundColor);
+        g2d.clearRect(0, 0, size.width, size.height);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        bufferG2D.setColor(outerColor);
-        bufferG2D.setComposite(opaque);
-        bufferG2D.setStroke(solid);
-        bufferG2D.draw(gp);
-        bufferG2D.setPaint(gradient);
+        g2d.setColor(outerColor);
+        g2d.setComposite(opaque);
+        g2d.setStroke(solid);
+        g2d.draw(gp);
 
-        if(!bgChanged) {
-            bounds = gp.getBounds();
-        } else {
-            bounds = new Rectangle(0, 0, getWidth(), getHeight());
-            bgChanged = false;
-        }
-        gradient = new GradientPaint(bounds.x, bounds.y, gradientColorA,
-                bounds.x + bounds.width, bounds.y + bounds.height,
-                gradientColorB, true);
+        Rectangle bounds = gp.getBounds();
+        GradientPaint gradient = new GradientPaint(bounds.x, bounds.y,
+                gradientColorA, bounds.x + bounds.width,
+                bounds.y + bounds.height, gradientColorB, true);
+        g2d.setPaint(gradient);
         bufferG2D.setComposite(blend);
         bufferG2D.fill(gp);
         bufferG2D.dispose();
+
+        this.img = img;
     }
 
     public void paint(Graphics g) {
 	Graphics2D g2d = (Graphics2D) g;
-        if (img == null)
-            return;
-        g2d.setComposite(AlphaComposite.Src);
-        g2d.drawImage(img, null, 0, 0);
+        g2d.drawImage(img, 0, 0, null);
     }
 }
