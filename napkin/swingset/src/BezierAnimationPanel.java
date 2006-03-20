@@ -81,12 +81,9 @@ class BezierAnimationPanel extends JPanel implements Runnable {
     Color gradientColorB  =  new Color(255, 255,   0);
 
     public final int NUMPTS = 6;
-
-    float animpts[] = new float[NUMPTS * 2];
-
-    float deltas[] = new float[NUMPTS * 2];
-
-    float staticpts[] = {
+    final float animpts[] = new float[NUMPTS * 2];
+    final float deltas[] = new float[NUMPTS * 2];
+    final float staticpts[] = {
 	 50.0f,   0.0f,
 	150.0f,   0.0f,
 	200.0f,  75.0f,
@@ -94,8 +91,7 @@ class BezierAnimationPanel extends JPanel implements Runnable {
 	 50.0f, 150.0f,
 	  0.0f,  75.0f,
     };
-
-    float movepts[] = new float[staticpts.length];
+    final float movepts[] = new float[staticpts.length];
 
     BufferedImage img = null;
     Dimension oldSize = null;
@@ -228,12 +224,12 @@ class BezierAnimationPanel extends JPanel implements Runnable {
                 RenderingHints.VALUE_RENDER_DEFAULT);
         
         int i;
-        for (i = 0; i < animpts.length; i += 2) {
-            animate(animpts, deltas, i + 0, size.width);
-            animate(animpts, deltas, i + 1, size.height);
-        }
         final float[] ctrlpts = animpts;
         final int len = ctrlpts.length;
+        for (i = 0; i < len; i += 2) {
+            animate(ctrlpts, deltas, i + 0, size.width);
+            animate(ctrlpts, deltas, i + 1, size.height);
+        }
 
         float prevx = ctrlpts[len - 2];
         float prevy = ctrlpts[len - 1];
@@ -278,9 +274,9 @@ class BezierAnimationPanel extends JPanel implements Runnable {
                 gradientColorA, bounds.x + bounds.width,
                 bounds.y + bounds.height, gradientColorB, true);
         g2d.setPaint(gradient);
-        bufferG2D.setComposite(blend);
-        bufferG2D.fill(gp);
-        bufferG2D.dispose();
+        g2d.setComposite(blend);
+        g2d.fill(gp);
+        g2d.dispose();
 
         this.img = img;
     }
