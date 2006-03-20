@@ -39,12 +39,12 @@
  */
 
 
-import java.lang.reflect.InvocationTargetException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.image.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -211,30 +211,30 @@ class BezierAnimationPanel extends JPanel implements Runnable {
     }
 
     public void prePaint() {
-	final GeneralPath gp = new GeneralPath(GeneralPath.WIND_NON_ZERO);
+	GeneralPath gp = new GeneralPath(GeneralPath.WIND_NON_ZERO);
 
-        final Dimension size = getSize();
+        Dimension size = getSize();
         BufferedImage img = this.img;
         if (img == null || !size.equals(oldSize)) {
-            img = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
+            img = new BufferedImage(size.width, size.height,
+                    BufferedImage.TYPE_INT_RGB);
             oldSize = size;
         }
-        final Graphics2D g2d = img.createGraphics();
+        Graphics2D g2d = img.createGraphics();
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_DEFAULT);
-        
+
         int i;
-        final float[] ctrlpts = animpts;
-        final int len = ctrlpts.length;
+        int len = animpts.length;
         for (i = 0; i < len; i += 2) {
-            animate(ctrlpts, deltas, i + 0, size.width);
-            animate(ctrlpts, deltas, i + 1, size.height);
+            animate(animpts, deltas, i + 0, size.width);
+            animate(animpts, deltas, i + 1, size.height);
         }
 
-        float prevx = ctrlpts[len - 2];
-        float prevy = ctrlpts[len - 1];
-        float curx = ctrlpts[0];
-        float cury = ctrlpts[1];
+        float prevx = animpts[len - 2];
+        float prevy = animpts[len - 1];
+        float curx = animpts[0];
+        float cury = animpts[1];
         float midx = 0.5f * (curx + prevx);
         float midy = 0.5f * (cury + prevy);
         gp.moveTo(midx, midy);
@@ -245,11 +245,11 @@ class BezierAnimationPanel extends JPanel implements Runnable {
             prevx = curx;
             prevy = cury;
             if (i < len) {
-                curx = ctrlpts[i + 0];
-                cury = ctrlpts[i + 1];
+                curx = animpts[i + 0];
+                cury = animpts[i + 1];
             } else {
-                curx = ctrlpts[0];
-                cury = ctrlpts[1];
+                curx = animpts[0];
+                cury = animpts[1];
             }
             midx = 0.5f * (curx + prevx);
             midy = 0.5f * (cury + prevy);
@@ -258,7 +258,7 @@ class BezierAnimationPanel extends JPanel implements Runnable {
             gp.curveTo(x1, y1, x2, y2, midx, midy);
         }
         gp.closePath();
-        
+
         g2d.setComposite(set);
         g2d.setBackground(backgroundColor);
         g2d.clearRect(0, 0, size.width, size.height);
