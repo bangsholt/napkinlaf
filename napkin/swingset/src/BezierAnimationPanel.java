@@ -1,34 +1,34 @@
 /*
  * @(#)BezierAnimationPanel.java	1.14 04/07/26
- * 
+ *
  * Copyright (c) 2004 Sun Microsystems, Inc. All Rights Reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * -Redistribution of source code must retain the above copyright notice, this
  *  list of conditions and the following disclaimer.
- * 
- * -Redistribution in binary form must reproduce the above copyright notice, 
+ *
+ * -Redistribution in binary form must reproduce the above copyright notice,
  *  this list of conditions and the following disclaimer in the documentation
  *  and/or other materials provided with the distribution.
- * 
- * Neither the name of Sun Microsystems, Inc. or the names of contributors may 
- * be used to endorse or promote products derived from this software without 
+ *
+ * Neither the name of Sun Microsystems, Inc. or the names of contributors may
+ * be used to endorse or promote products derived from this software without
  * specific prior written permission.
- * 
- * This software is provided "AS IS," without a warranty of any kind. ALL 
+ *
+ * This software is provided "AS IS," without a warranty of any kind. ALL
  * EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING
  * ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
  * OR NON-INFRINGEMENT, ARE HEREBY EXCLUDED. SUN MIDROSYSTEMS, INC. ("SUN")
  * AND ITS LICENSORS SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY LICENSEE
  * AS A RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
- * DERIVATIVES. IN NO EVENT WILL SUN OR ITS LICENSORS BE LIABLE FOR ANY LOST 
- * REVENUE, PROFIT OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL, 
- * INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE THEORY 
- * OF LIABILITY, ARISING OUT OF THE USE OF OR INABILITY TO USE THIS SOFTWARE, 
+ * DERIVATIVES. IN NO EVENT WILL SUN OR ITS LICENSORS BE LIABLE FOR ANY LOST
+ * REVENUE, PROFIT OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL,
+ * INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE THEORY
+ * OF LIABILITY, ARISING OUT OF THE USE OF OR INABILITY TO USE THIS SOFTWARE,
  * EVEN IF SUN HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * 
+ *
  * You acknowledge that this software is not designed, licensed or intended
  * for use in the design, construction, operation or maintenance of any
  * nuclear facility.
@@ -39,13 +39,12 @@
  */
 
 
-import java.util.concurrent.atomic.AtomicBoolean;
 import javax.swing.*;
- 
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.image.*;
-import java.awt.event.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * BezierAnimationPanel
@@ -81,7 +80,7 @@ class BezierAnimationPanel extends JPanel implements Runnable {
     boolean bgChanged = false;
 
     GradientPaint gradient = null;
-    
+
     public final int NUMPTS = 6;
 
     float animpts[] = new float[NUMPTS * 2];
@@ -102,7 +101,7 @@ class BezierAnimationPanel extends JPanel implements Runnable {
     BufferedImage img;
 
     Rectangle bounds = null;
-    
+
     final AtomicBoolean running = new AtomicBoolean(false);
 
     final BasicStroke solid = new BasicStroke(9.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 9.0f);
@@ -110,7 +109,7 @@ class BezierAnimationPanel extends JPanel implements Runnable {
     final AlphaComposite opaque = AlphaComposite.SrcOver;
     final AlphaComposite blend = AlphaComposite.getInstance(rule, 0.9f);
     final AlphaComposite set = AlphaComposite.Src;
-    
+
     /**
      * BezierAnimationPanel Constructor
      */
@@ -219,49 +218,31 @@ class BezierAnimationPanel extends JPanel implements Runnable {
     }
 
     public void prePaint() {
-	Graphics2D g2d = null;
-	Graphics2D BufferG2D = null;
-	Graphics2D ScreenG2D = null;
-	final GeneralPath gp = new GeneralPath(GeneralPath.WIND_NON_ZERO);
-	int frametmp = 0;
+	GeneralPath gp = new GeneralPath(GeneralPath.WIND_NON_ZERO);
 	Dimension oldSize = getSize();
 	Shape clippath = null;
         Dimension size = getSize();
         if (size.width != oldSize.width || size.height != oldSize.height) {
             img = null;
             clippath = null;
-            if (BufferG2D != null) {
-                BufferG2D.dispose();
-                BufferG2D = null;
-            }
-            if (ScreenG2D != null) {
-                ScreenG2D.dispose();
-                ScreenG2D = null;
-            }
         }
-        oldSize = size;
-        
+
         if (img == null) {
             img = (BufferedImage) createImage(size.width, size.height);
         }
-        
-        if (BufferG2D == null) {
-            BufferG2D = img.createGraphics();
-            BufferG2D.setRenderingHint(RenderingHints.KEY_RENDERING,
-                    RenderingHints.VALUE_RENDER_DEFAULT);
-            BufferG2D.setClip(clippath);
-        }
-        g2d = BufferG2D;
-        
-        float[] ctrlpts;
+
+        Graphics2D bufferG2D = img.createGraphics();
+        bufferG2D.setRenderingHint(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_DEFAULT);
+        bufferG2D.setClip(clippath);
+
         for (int i = 0; i < animpts.length; i += 2) {
             animate(animpts, deltas, i + 0, size.width);
             animate(animpts, deltas, i + 1, size.height);
         }
-        ctrlpts = animpts;
+        float[] ctrlpts = animpts;
         int len = ctrlpts.length;
         gp.reset();
-        int dir = 0;
         float prevx = ctrlpts[len - 2];
         float prevy = ctrlpts[len - 1];
         float curx = ctrlpts[0];
@@ -288,27 +269,27 @@ class BezierAnimationPanel extends JPanel implements Runnable {
             gp.curveTo(x1, y1, x2, y2, midx, midy);
         }
         gp.closePath();
-        
-        g2d.setComposite(set);
-        g2d.setBackground(backgroundColor);
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+
+        bufferG2D.setComposite(set);
+        bufferG2D.setBackground(backgroundColor);
+        bufferG2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_OFF);
-        
+
         if(bgChanged || bounds == null) {
             bounds = new Rectangle(0, 0, getWidth(), getHeight());
             bgChanged = false;
         }
         // g2d.clearRect(bounds.x-5, bounds.y-5, bounds.x + bounds.width + 5, bounds.y + bounds.height + 5);
-        g2d.clearRect(0, 0, getWidth(), getHeight());
-        
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+        bufferG2D.clearRect(0, 0, getWidth(), getHeight());
+
+        bufferG2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setColor(outerColor);
-        g2d.setComposite(opaque);
-        g2d.setStroke(solid);
-        g2d.draw(gp);
-        g2d.setPaint(gradient);
-        
+        bufferG2D.setColor(outerColor);
+        bufferG2D.setComposite(opaque);
+        bufferG2D.setStroke(solid);
+        bufferG2D.draw(gp);
+        bufferG2D.setPaint(gradient);
+
         if(!bgChanged) {
             bounds = gp.getBounds();
         } else {
@@ -318,15 +299,15 @@ class BezierAnimationPanel extends JPanel implements Runnable {
         gradient = new GradientPaint(bounds.x, bounds.y, gradientColorA,
                 bounds.x + bounds.width, bounds.y + bounds.height,
                 gradientColorB, true);
-        g2d.setComposite(blend);
-        g2d.fill(gp);
-        g2d.dispose();
+        bufferG2D.setComposite(blend);
+        bufferG2D.fill(gp);
+        bufferG2D.dispose();
     }
-        
+
     public void paint(Graphics g) {
 	Graphics2D g2d = (Graphics2D) g;
-        int imgw = img.getWidth();
-        int imgh = img.getHeight();
+        if (img == null)
+            return;
         g2d.setComposite(AlphaComposite.Src);
         g2d.drawImage(img, null, 0, 0);
     }
