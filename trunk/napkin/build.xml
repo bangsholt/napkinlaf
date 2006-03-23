@@ -1,0 +1,131 @@
+<!-- $Id$ -->
+
+<project name="Napkin Look and Feel" default="all">
+
+    <property file="build.properties"/>
+    <property file="release.props"/>
+    <property name="version" value="${release}_${build}"/>
+
+    <!-- Default value for the properties -->
+    <property name="debug" value="yes"/>
+
+    <path id="classpath">
+        <pathelement path="classes"/>
+        <fileset dir="lib" includes="**/*.jar"/>
+    </path>
+
+    <target name="all" depends="compile"/>
+
+    <target name="compile" description="build classes directory">
+        <mkdir dir="classes"/>
+
+	<!-- specially handle these because they must use deprecated APIs -->
+        <javac srcdir="src" destdir="classes" classpathref="classpath"
+                target="1.5" source="1.5"
+		includes="net/sourceforge/napkinlaf/Force*.java"
+		debug="${debug}" deprecation="no"/>
+
+        <javac srcdir="src" destdir="classes" classpathref="classpath"
+                target="1.5" source="1.5" excludes="java*/**/*.java"
+		debug="${debug}" deprecation="yes"/>
+
+        <javac srcdir="swingset/src" destdir="classes" classpathref="classpath"
+                debug="${debug}" deprecation="yes"/>
+
+        <copy todir="classes">
+            <fileset dir="src">
+                <include name="**/resources/**/*"/>
+                <include name="**/icons/**/*"/>
+                <exclude name="**/Thumbs.db"/> <!-- WinXP thumbs files -->
+            </fileset>
+            <fileset dir="swingset/src">
+                <include name="**/resources/**/*"/>
+                <include name="**/icons/**/*"/>
+                <exclude name="**/Thumbs.db"/> <!-- WinXP thumbs files -->
+            </fileset>
+        </copy>
+        <copy todir="classes/src">
+            <fileset dir="swingset/src">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="jars" depends="compile" description="build jar files">
+        <mkdir dir="jars"/>
+	<unjar src="lib/jdom-1.0.jar" dest="classes">
+	    <patternset>
+		<include name="org/jdom/**/*.class"/>
+	    </patternset>
+	</unjar>
+        <jar destfile="jars/napkinlaf.jar" basedir="classes" index="true">
+            <include name="net/sourceforge/napkinlaf/**/*"/>
+            <include name="org/jdom/**/*"/>
+            <manifest>
+                <attribute name="Version" value="${version}"/>
+            </manifest>
+        </jar>
+        <jar destfile="jars/napkinlaf-swingset2.jar" basedir="classes"
+                index="true">
+            <manifest>
+                <attribute name="Main-Class" value="SwingSet2"/>
+                <attribute name="Version" value="${version}"/>
+            </manifest>
+            <!-- <zipgroupfileset dir="lib" includes="*.jar"/> -->
+        </jar>
+        <delete dir="classes/org/jdom"/>
+    </target>
+
+    <target name="release.new" description="build new release">
+        <propertyfile file="release.props" comment="Release properties">
+            <entry key="when" type="date" value="now"/>
+            <entry key="build" type="int" default="001" operation="+"
+                    pattern="000"/>
+        </propertyfile>
+
+	<!-- we recurse so we'll read the new properties -->
+	<!-- (why doesn't the property tag have an "override" attribute?) -->
+        <ant target="release" inheritAll="false"/>
+    </target>
+
+    <target name="release"
+            depends="clean, compile, jars, release.files, release.tag"
+            description="build release files"/>
+
+    <target name="release.tag">
+	<echo>
+	    Should tag SVN repositor with REL_${cvstag}_${build}
+	</echo>
+	<!--
+	    <cvs command="tag -F REL_${cvstag}_${build}"/>
+	-->
+    </target>
+
+    <target name="release.files">
+        <delete dir="release"/>
+        <mkdir dir="release"/>
+        <zip filesonly="true" destfile="release/napkinlaf-jars-${version}.zip">
+            <fileset dir="." includes="README"/>
+            <fileset dir="jars" includes="*.jar"/>
+        </zip>
+        <zip basedir="." filesonly="true"
+                destfile="release/napkinlaf-src-${version}.zip">
+            <exclude name="classes/**/*"/>
+            <exclude name="jars/**/*"/>
+            <exclude name="release/**/*"/>
+            <exclude name="**/*.bak"/>
+            <exclude name="**/?"/>           <!-- I use these for tmp files -->
+            <exclude name="**/.*.swp"/>      <!-- vi tmp files -->
+            <exclude name="**/Thumbs.db"/>   <!-- WinXP thumbs files -->
+            <exclude name="*.iml"/>          <!-- IntelliJ config file -->
+            <exclude name="**/.classpath"/>  <!-- eclipse annotation -->
+            <exclude name="**/.project"/>    <!-- eclipse annotation -->
+        </zip>
+    </target>
+
+    <target name="clean" description="remove buildable files">
+        <delete dir="classes"/>
+        <delete dir="jars"/>
+        <delete dir="release"/>
+    </target>
+</project>
