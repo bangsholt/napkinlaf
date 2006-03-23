@@ -2,6 +2,8 @@
 
 package net.sourceforge.napkinlaf.util;
 
+import net.sourceforge.napkinlaf.NapkinLookAndFeel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;
@@ -27,7 +29,7 @@ public class NapkinBackground {
 
     public NapkinBackground(String name, Insets insets) {
         this.name = name;
-        URL resource = NapkinBackground.class.getResource(name);
+        URL resource = NapkinLookAndFeel.class.getResource(name);
         if (resource == null)
             throw new NullPointerException("no resource found for: " + name);
         Image image = Toolkit.getDefaultToolkit().getImage(resource);

@@ -2,6 +2,7 @@
 
 package net.sourceforge.napkinlaf.util;
 
+import net.sourceforge.napkinlaf.NapkinLookAndFeel;
 import net.sourceforge.napkinlaf.NapkinTheme;
 import net.sourceforge.napkinlaf.NapkinThemeColor;
 import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
@@ -15,7 +16,6 @@ import net.sourceforge.napkinlaf.sketch.SketchedIcon;
 import net.sourceforge.napkinlaf.sketch.Template;
 import net.sourceforge.napkinlaf.sketch.TemplateReadException;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.LENGTH;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.RESOURCE_PATH;
 
 import javax.swing.*;
 import java.awt.*;
@@ -256,9 +256,8 @@ public class NapkinIconFactory {
     public static Template getTemplate(String templatePath) {
         Template template = tmplMap.get(templatePath);
         if (template == null) {
-            String subpath =
-                    RESOURCE_PATH + "templates/" + templatePath + ".xml";
-            InputStream in = NapkinIconFactory.class
+            String subpath = "resources/templates/" + templatePath + ".xml";
+            InputStream in = NapkinLookAndFeel.class
                     .getResourceAsStream(subpath);
             if (in == null)
                 throw new IllegalArgumentException(
