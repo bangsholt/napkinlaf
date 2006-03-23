@@ -18,9 +18,6 @@ public interface NapkinConstants extends SwingConstants {
     String OPAQUE_KEY = "net.sourceforge.napkinlaf.wasOpaque";
     String NEEDS_REVALIDATION = "net.sourceforge.napkinlaf.revalidated";
 
-    @SuppressWarnings({"HardcodedFileSeparator"})
-    String RESOURCE_PATH = "/net/sourceforge/napkinlaf/resources/";
-
     List<String> CLIENT_PROPERTIES = Collections.unmodifiableList(
             Arrays.asList(
                     THEME_KEY, BACKGROUND_KEY, DISABLED_MARK_KEY,

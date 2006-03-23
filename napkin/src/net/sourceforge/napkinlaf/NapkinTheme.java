@@ -11,7 +11,6 @@ import net.sourceforge.napkinlaf.sketch.sketchers.JotSketcher;
 import net.sourceforge.napkinlaf.util.AlphaColorUIResource;
 import net.sourceforge.napkinlaf.util.NapkinBackground;
 import net.sourceforge.napkinlaf.util.NapkinConstants;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.RESOURCE_PATH;
 import net.sourceforge.napkinlaf.util.NapkinFont;
 
 import javax.swing.plaf.*;
@@ -192,6 +191,7 @@ public class NapkinTheme {
         private static NapkinTheme currentTheme;
 
         private static final String DEFAULT_THEME = "napkin";
+        private static final String RESOURCE_PATH = "resources/";
 
         private static final Class<NapkinLookAndFeel> THIS_CLASS =
                 NapkinLookAndFeel.class;
