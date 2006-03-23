@@ -71,7 +71,7 @@
                 <attribute name="Main-Class" value="SwingSet2"/>
                 <attribute name="Version" value="${version}"/>
             </manifest>
-            <!-- <zipgroupfileset dir="lib" includes="*.jar"/> -->
+            <zipgroupfileset dir="lib" includes="*.jar"/>
         </jar>
         <delete dir="classes/org/jdom"/>
     </target>
