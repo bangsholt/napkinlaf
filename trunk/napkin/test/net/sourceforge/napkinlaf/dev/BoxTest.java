@@ -66,7 +66,7 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
 
             mark(markG, ZERO, ZERO, sizeXSpin, sizeYSpin);
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 1; i < sides.length; i++)
                 showSide(lineG, sides[i], gen.getSide(i));
 
             mark(markG, begXSpin, ZERO, true);
