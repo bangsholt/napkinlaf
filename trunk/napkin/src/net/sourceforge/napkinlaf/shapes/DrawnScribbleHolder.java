@@ -40,8 +40,8 @@ public class DrawnScribbleHolder extends DrawnShapeHolder {
         shown = shn;
         backwards = bwrds;
 
-        int cornerX = in.top / 2 + 1;
-        int cornerY = in.left / 2 + 1;
+        int cornerX = in.top;
+        int cornerY = in.left;
 
         double innerWidth = sz.getWidth() - (in.left + in.right);
         double innerHeight = sz.getHeight() - (in.top + in.bottom);
