@@ -68,7 +68,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
         generators.put(DrawnCubicLineGenerator.class, cubic);
         generators.put(DrawnQuadLineGenerator.class, quad);
 
-        // TOP ... BOTTOM runs from 1 to 4
+        // TOP ... RIGHT runs from 1 to 4
         sides = new Shape[5];
         gens = new AbstractDrawnGenerator[5];
         for (int i = 1; i < 5; i++)
@@ -86,6 +86,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     @SuppressWarnings({"TooBroadScope"})
     @Override
     public Shape generate(AffineTransform matrix) {
+        matrix = (matrix != null ? matrix : new AffineTransform());
         GeneralPath shape = new GeneralPath();
         double xSize = size.getX().generate();
         double ySize = size.getY().generate();
