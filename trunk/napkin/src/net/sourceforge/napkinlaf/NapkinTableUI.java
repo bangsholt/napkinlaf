@@ -2,6 +2,7 @@
 
 package net.sourceforge.napkinlaf;
 
+import java.util.WeakHashMap;
 import net.sourceforge.napkinlaf.util.NapkinPainter;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 
@@ -35,12 +36,6 @@ public class NapkinTableUI extends BasicTableUI implements NapkinPainter {
     }
 
     public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
-        Color highlightColor = theme.getHighlightColor();
-        if (NapkinUtil.replace(table.getSelectionBackground(), highlightColor))
-            table.setSelectionBackground(highlightColor);
-        Color penColor = theme.getPenColor();
-        if (NapkinUtil.replace(table.getSelectionForeground(), penColor))
-            table.setSelectionForeground(penColor);
         super.update(g, c);
     }
 }
