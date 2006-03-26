@@ -10,6 +10,8 @@ class DrawnShapeHolder {
     AbstractDrawnGenerator gen;
     Shape shape;
     float width;
+    int cap;
+    int join;
 
     DrawnShapeHolder(AbstractDrawnGenerator gen) {
         this(gen, 1);
@@ -18,6 +20,8 @@ class DrawnShapeHolder {
     DrawnShapeHolder(AbstractDrawnGenerator gen, float width) {
         this.gen = gen;
         this.width = width;
+        cap = BasicStroke.CAP_ROUND;
+        join = BasicStroke.JOIN_ROUND;
     }
 
     public float getWidth() {
@@ -28,8 +32,24 @@ class DrawnShapeHolder {
         this.width = width;
     }
 
+    public int getJoin() {
+        return join;
+    }
+
+    public void setJoin(int join) {
+        this.join = join;
+    }
+
+    public int getCap() {
+        return cap;
+    }
+
+    public void setCap(int cap) {
+        this.cap = cap;
+    }
+
     public void draw(Graphics g) {
-        Graphics2D lineG = NapkinUtil.lineGraphics(g, width);
+        Graphics2D lineG = NapkinUtil.lineGraphics(g, width, cap, join);
         lineG.draw(shape);
     }
 

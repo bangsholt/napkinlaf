@@ -16,6 +16,7 @@ public interface NapkinConstants extends SwingConstants {
     String DISABLED_MARK_KEY = "net.sourceforge.napkinlaf.disabledMark";
     String BORDER_KEY = "net.sourceforge.napkinlaf.border";
     String OPAQUE_KEY = "net.sourceforge.napkinlaf.wasOpaque";
+    String HIGHLIGHT_KEY = "net.sourceforge.napkinlaf.highlighted";
     String NEEDS_REVALIDATION = "net.sourceforge.napkinlaf.revalidated";
 
     List<String> CLIENT_PROPERTIES = Collections.unmodifiableList(
