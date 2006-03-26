@@ -119,9 +119,9 @@ public class NapkinUtil {
     static {
         DrawnCubicLineGenerator lineGen = new DrawnCubicLineGenerator();
         RandomValue rVal = lineGen.getLeft().getY();
-        rVal.setRange(rVal.getRange() * 2d);
+        rVal.setRange(rVal.getRange() * 2.5d);
         rVal = lineGen.getRight().getY();
-        rVal.setRange(rVal.getRange() * 2d);
+        rVal.setRange(rVal.getRange() * 2.5d);
         highLightLine = new DrawnLineHolder(lineGen);
     }
 
@@ -475,8 +475,12 @@ public class NapkinUtil {
                     rect.width -= NapkinRandom.nextDouble(10d);
                 }
                 highLightLine.shapeUpToDate(rect, null);
-                highLightLine.setWidth(rect.height
-                        * (0.5f + (float) NapkinRandom.triCbRt(0.1d)));
+                float lineWidth = rect.height;
+                if (lineWidth > 10f) {
+                    lineWidth *= 0.5f;
+                    lineWidth += NapkinRandom.nextDouble(4d) - 2d;
+                }
+                highLightLine.setWidth(lineWidth);
                 highLightLine.setCap(BasicStroke.CAP_BUTT);
                 Color fColor = g.getColor();
                 g.setColor(theme.getHighlightColor());
