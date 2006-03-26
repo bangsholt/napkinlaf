@@ -464,7 +464,6 @@ public class NapkinUtil {
 
         if (c instanceof JComponent) {
             JComponent jc = (JComponent) c;
-            Color bgColor = (Color) jc.getClientProperty(BACKGROUND_KEY);
             Boolean shouldHighlight =
                     (Boolean) jc.getClientProperty(HIGHLIGHT_KEY);
             if (shouldHighlight != null && shouldHighlight) {
