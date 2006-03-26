@@ -9,7 +9,6 @@ import net.sourceforge.napkinlaf.borders.NapkinWrappedBorder;
 import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
-import net.sourceforge.napkinlaf.shapes.DrawnQuadLineGenerator;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
 
 import javax.swing.*;
