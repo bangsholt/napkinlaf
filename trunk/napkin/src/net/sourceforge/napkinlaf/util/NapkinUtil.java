@@ -9,6 +9,7 @@ import net.sourceforge.napkinlaf.borders.NapkinWrappedBorder;
 import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
+import net.sourceforge.napkinlaf.shapes.DrawnQuadLineGenerator;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
 
 import javax.swing.*;
@@ -101,8 +102,8 @@ public class NapkinUtil {
 
     static {
         /*
-        * This is a test
-        */
+         * This is a test (but we are actually using it!)
+         */
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
         ImageIcon icon = theme.getErasureMask().getIcon();
         int w = icon.getIconWidth();
@@ -112,6 +113,17 @@ public class NapkinUtil {
         gi.setColor(new Color(0, 0, 0, 0));
         gi.fillRect(0, 0, w, h);
         gi.drawImage(icon.getImage(), 0, 0, icon.getImageObserver());
+    }
+
+    private static final DrawnLineHolder highLightLine;
+
+    static {
+        DrawnCubicLineGenerator lineGen = new DrawnCubicLineGenerator();
+        RandomValue rVal = lineGen.getLeft().getY();
+        rVal.setRange(rVal.getRange() * 2d);
+        rVal = lineGen.getRight().getY();
+        rVal.setRange(rVal.getRange() * 2d);
+        highLightLine = new DrawnLineHolder(lineGen);
     }
 
     public interface PropertyFactory {
@@ -213,13 +225,23 @@ public class NapkinUtil {
         return lineGraphics((Graphics2D) orig, w);
     }
 
+    public static Graphics2D lineGraphics(
+            Graphics orig, float w, int cap, int join) {
+        return lineGraphics((Graphics2D) orig, w, cap, join);
+    }
+
     public static Graphics2D lineGraphics(Graphics2D orig, float w) {
+        return lineGraphics(
+                orig, w, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+    }
+
+    public static Graphics2D lineGraphics(
+            Graphics2D orig, float w, int cap, int join) {
         Graphics2D lineG = copy(orig);
 
         Stroke stroke = strokes.get(w);
         if (stroke == null) {
-            stroke = new BasicStroke(w, BasicStroke.CAP_ROUND,
-                    BasicStroke.JOIN_ROUND);
+            stroke = new BasicStroke(w, cap, join);
             strokes.put(w, stroke);
         }
         lineG.setStroke(stroke);
@@ -440,6 +462,30 @@ public class NapkinUtil {
         Rectangle cRect = bounds(c);
 
         bg.paint(c, g, pRect, cRect, insets(c));
+
+        if (c instanceof JComponent) {
+            JComponent jc = (JComponent) c;
+            Color bgColor = (Color) jc.getClientProperty(BACKGROUND_KEY);
+            Boolean shouldHighlight =
+                    (Boolean) jc.getClientProperty(HIGHLIGHT_KEY);
+            if (shouldHighlight != null && shouldHighlight) {
+                Rectangle rect = g.getClipBounds();
+                rect.y += rect.height * 0.6f;
+                if (rect.width > 20f) {
+                    rect.x += NapkinRandom.nextDouble(5d);
+                    rect.width -= NapkinRandom.nextDouble(10d);
+                }
+                highLightLine.shapeUpToDate(rect, null);
+                highLightLine.setWidth(rect.height
+                        * (0.5f + (float) NapkinRandom.triCbRt(0.1d)));
+                highLightLine.setCap(BasicStroke.CAP_BUTT);
+                Color fColor = g.getColor();
+                g.setColor(theme.getHighlightColor());
+                highLightLine.draw(g);
+                g.setColor(fColor);
+            }
+        }
+
         return theme;
     }
 
@@ -612,4 +658,5 @@ public class NapkinUtil {
             return e;
         }
     }
+
 }

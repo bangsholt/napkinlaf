@@ -5,6 +5,7 @@ package net.sourceforge.napkinlaf;
 import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
 import net.sourceforge.napkinlaf.util.NapkinPainter;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.HIGHLIGHT_KEY;
 
 import javax.swing.*;
 import javax.swing.plaf.*;
@@ -37,6 +38,7 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
             implements NapkinPainter {
         @Override
         public void paint(Graphics g) {
+            this.putClientProperty(HIGHLIGHT_KEY, selected);
             NapkinUtil.update(g, this, this);
         }
 
