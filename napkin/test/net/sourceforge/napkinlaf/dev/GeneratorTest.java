@@ -114,6 +114,7 @@ public class GeneratorTest extends NapkinUtil {
         tabs.setSelectedIndex(0);
 
         JFrame top = new JFrame("Drawing Test");
+        top.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         top.getContentPane().add(tabs, BorderLayout.CENTER);
         top.getContentPane().add(displayControls(), BorderLayout.SOUTH);
 

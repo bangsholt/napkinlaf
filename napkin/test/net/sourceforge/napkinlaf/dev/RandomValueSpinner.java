@@ -22,7 +22,7 @@ class RandomValueSpinner extends JPanel implements RandomValueSource {
         this(name, value, min, max, steps, true);
     }
 
-    RandomValueSpinner(String name, final RandomValue value, double min,
+    RandomValueSpinner(String name, RandomValue value, double min,
             double max,
             int steps, boolean randomized) {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -30,15 +30,15 @@ class RandomValueSpinner extends JPanel implements RandomValueSource {
 
         this.value = value;
 
-        double range = value.getRange();
-        double init = value.getMid();
-        double stepSize = (max - min) / steps;
+        final double range = value.getRange();
+        final double init = value.getMid();
+        final double stepSize = (max - min) / steps;
         midModel = new SpinnerNumberModel(init, min, max, stepSize);
         add(new JLabel(randomized ? "mid" : "val"));
         add(makeSpinner(midModel, "#0.00"));
         midModel.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                value.setMid(midModel.getNumber().doubleValue());
+                RandomValueSpinner.this.value.setMid(midModel.getNumber().doubleValue());
             }
         });
 
@@ -54,13 +54,13 @@ class RandomValueSpinner extends JPanel implements RandomValueSource {
     }
 
     private JSpinner makeRandomizer(double range) {
-        rangeModel = new SpinnerNumberModel(range, 0, 20, 0.1);
+        rangeModel = new SpinnerNumberModel(range, 0d, 100d, 0.5d);
         rangeModel.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                value.setRange(rangeModel.getNumber().doubleValue());
+                RandomValueSpinner.this.value.setRange(rangeModel.getNumber().doubleValue());
             }
         });
-        return makeSpinner(rangeModel, GeneratorTest.DECIMAL.toPattern());
+        return makeSpinner(rangeModel, "#0.00");
     }
 
     private void showAdjust() {

@@ -75,8 +75,8 @@ class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
         rightYSpin =
                 new RandomValueSpinner("y", gen.getRight().getY(), -20, +20,
                         100);
-        width = new RandomValue(1, 0);
-        widthSpin = new RandomValueSpinner("w", width, 0, 3, 20);
+        width = new RandomValue(5, 1);
+        widthSpin = new RandomValueSpinner("w", width, 0, 100, 100);
         spinners = new RandomValueSpinner[]{
                 leftXSpin, leftYSpin, rightXSpin, rightYSpin, widthSpin
         };
