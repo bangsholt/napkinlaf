@@ -35,10 +35,6 @@ public class NapkinLabelUI extends BasicLabelUI implements NapkinPainter {
 
     @Override
     public void update(Graphics g, JComponent c) {
-        if (c instanceof DefaultTableCellRenderer) {
-            c.putClientProperty(HIGHLIGHT_KEY,
-                    c.getBackground().equals(HIGHLIGHT_CLEAR));
-        }
         NapkinUtil.update(g, c, this);
     }
 
