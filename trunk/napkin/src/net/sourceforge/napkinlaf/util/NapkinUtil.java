@@ -365,6 +365,7 @@ public class NapkinUtil {
         if (mark == null) {
             Color bgColor = (Color) jc.getClientProperty(BACKGROUND_KEY);
             if (bgColor != null) {
+                jc.putClientProperty(BACKGROUND_KEY, null);
                 jc.setBackground(bgColor);
             }
             return;
@@ -372,8 +373,10 @@ public class NapkinUtil {
 
         jc.putClientProperty(DISABLED_MARK_KEY, null);
         Color bgColor = jc.getBackground();
-        jc.putClientProperty(BACKGROUND_KEY, bgColor == null ? CLEAR : bgColor);
-        jc.setBackground(ERASURE_CLEAR);
+        if (bgColor != ERASURE_CLEAR) {
+            jc.putClientProperty(BACKGROUND_KEY, bgColor == null ? CLEAR : bgColor);
+            jc.setBackground(ERASURE_CLEAR);
+        }
 
         Graphics2D tg = (Graphics2D) g1;
         tg.setComposite(ERASURE_COMPOSITE);
