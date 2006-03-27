@@ -485,8 +485,7 @@ public class NapkinUtil {
                 highLightLine.shapeUpToDate(rect, null);
                 float lineWidth = rect.height;
                 if (lineWidth > 10f) {
-                    lineWidth *= 0.5f;
-                    lineWidth += NapkinRandom.nextDouble(4d) - 2d;
+                    lineWidth *= 0.8f;
                 }
                 highLightLine.setWidth(lineWidth);
                 highLightLine.setCap(BasicStroke.CAP_BUTT);
