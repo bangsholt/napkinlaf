@@ -478,7 +478,8 @@ public class NapkinUtil {
             JComponent jc = (JComponent) c;
             Boolean shouldHighlight =
                     (Boolean) jc.getClientProperty(HIGHLIGHT_KEY);
-            if (shouldHighlight != null && shouldHighlight) {
+            if (jc.getBackground() == HIGHLIGHT_CLEAR
+                    || (shouldHighlight != null && shouldHighlight)) {
                 Rectangle rect = g.getClipBounds();
                 rect.y += rect.height * 0.6f;
                 if (rect.width > 20f) {
