@@ -243,8 +243,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                 "Tree.leafIcon", null,
                 "Tree.selectionBorderColor", null,
 
-                "Table.selectionBackground", HIGHLIGHT_CLEAR,
-
                 "TextField.caretForeground", theme.getPenColor(),
                 "TextArea.caretForeground", theme.getPenColor(),
                 "TextField.border", underlineBorder,
