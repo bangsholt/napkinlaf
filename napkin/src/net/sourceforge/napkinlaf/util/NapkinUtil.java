@@ -363,11 +363,16 @@ public class NapkinUtil {
         DisabledMark mark = (DisabledMark) jc.getClientProperty(
                 DISABLED_MARK_KEY);
         if (mark == null) {
-            jc.setBackground(CLEAR);
+            Color bgColor = (Color) jc.getClientProperty(BACKGROUND_KEY);
+            if (bgColor != null) {
+                jc.setBackground(bgColor);
+            }
             return;
         }
 
         jc.putClientProperty(DISABLED_MARK_KEY, null);
+        Color bgColor = jc.getBackground();
+        jc.putClientProperty(BACKGROUND_KEY, bgColor == null ? CLEAR : bgColor);
         jc.setBackground(ERASURE_CLEAR);
 
         Graphics2D tg = (Graphics2D) g1;
