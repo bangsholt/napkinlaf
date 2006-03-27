@@ -2,9 +2,10 @@
 
 package net.sourceforge.napkinlaf;
 
-import net.sourceforge.napkinlaf.util.NapkinConstants;
 import net.sourceforge.napkinlaf.util.NapkinPainter;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.HIGHLIGHT_CLEAR;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.HIGHLIGHT_KEY;
 
 import javax.swing.*;
 import javax.swing.plaf.*;
@@ -35,9 +36,8 @@ public class NapkinLabelUI extends BasicLabelUI implements NapkinPainter {
     @Override
     public void update(Graphics g, JComponent c) {
         if (c instanceof DefaultTableCellRenderer) {
-            c.putClientProperty(NapkinConstants.HIGHLIGHT_KEY,
-                    c.getBackground().equals(
-                    NapkinUtil.currentTheme(c).getHighlightColor()));
+            c.putClientProperty(HIGHLIGHT_KEY,
+                    c.getBackground().equals(HIGHLIGHT_CLEAR));
         }
         NapkinUtil.update(g, c, this);
     }

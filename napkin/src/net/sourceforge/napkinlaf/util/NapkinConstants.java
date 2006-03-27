@@ -32,9 +32,11 @@ public interface NapkinConstants extends SwingConstants {
      * erasure actually depends on such failure in order to paint, so if set to
      * (0xFF, 0xFF, 0xFF, 0x00) then the erasure mark effectively disappears.
      * <p/>
-     * !! So a mid-value is chosen for a quick-fix.
+     * !! Seperated the cases into 3 constants
      */
-    Color CLEAR = new AlphaColorUIResource(0x80, 0x80, 0x80, 0x00);
+    Color CLEAR = new AlphaColorUIResource(0xFF, 0xFF, 0xFF, 0x00);
+    Color ERASURE_CLEAR = new AlphaColorUIResource(0x00, 0x00, 0x00, 0x00);
+    Color HIGHLIGHT_CLEAR = new AlphaColorUIResource(0x12, 0x34, 0x56, 0x00);
 
     int NO_SIDE = -1;
 

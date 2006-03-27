@@ -164,6 +164,7 @@ public class NapkinUtil {
     @SuppressWarnings({"ObjectEquality"})
     private static boolean replaceBackground(Color bgColor) {
         return bgColor == null || (bgColor != CLEAR
+                && bgColor != ERASURE_CLEAR && bgColor != HIGHLIGHT_CLEAR
                 && bgColor.getRed() == bgColor.getGreen()
                 && bgColor.getGreen() == bgColor.getBlue());
     }
@@ -361,10 +362,14 @@ public class NapkinUtil {
         JComponent jc = (JComponent) c;
         DisabledMark mark = (DisabledMark) jc.getClientProperty(
                 DISABLED_MARK_KEY);
-        if (mark == null)
+        if (mark == null) {
+            jc.setBackground(CLEAR);
             return;
+        }
 
         jc.putClientProperty(DISABLED_MARK_KEY, null);
+        jc.setBackground(ERASURE_CLEAR);
+
         Graphics2D tg = (Graphics2D) g1;
         tg.setComposite(ERASURE_COMPOSITE);
         Point start = getStart(jc, null);
@@ -374,8 +379,7 @@ public class NapkinUtil {
         tg.setPaint(new TexturePaint(textureImage, anchor));
         tg.fillRect(0, 0, mark.image.getWidth(), mark.image.getHeight());
 
-        Graphics2D g = mark.graphics;
-        g.drawImage(mark.image, -mark.offX, -mark.offY, jc);
+        mark.graphics.drawImage(mark.image, -mark.offX, -mark.offY, jc);
     }
 
     private static void setupBorder(Component c) {
