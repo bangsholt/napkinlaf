@@ -4,13 +4,10 @@ package net.sourceforge.napkinlaf;
 
 import net.sourceforge.napkinlaf.util.NapkinPainter;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.HIGHLIGHT_CLEAR;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.HIGHLIGHT_KEY;
 
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
-import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 
 public class NapkinLabelUI extends BasicLabelUI implements NapkinPainter {

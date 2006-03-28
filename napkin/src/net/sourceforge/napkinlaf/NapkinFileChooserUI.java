@@ -34,11 +34,10 @@ public class NapkinFileChooserUI extends MetalFileChooserUI
         @Override
         public Icon getIcon(File f) {
             Icon icon = getCachedIcon(f);
-            if (icon != null)
-                return icon;
-
-            icon = getDefaultIcon(f);
-            cacheIcon(f, icon);
+            if (icon == null) {
+                icon = getDefaultIcon(f);
+                cacheIcon(f, icon);
+            }
             return icon;
         }
 
@@ -65,8 +64,9 @@ public class NapkinFileChooserUI extends MetalFileChooserUI
                 icon = UIManager.getIcon("FileView.directoryIcon");
             } else {
                 icon = fsv.getSystemIcon(f);
-                if (icon == null)
+                if (icon == null) {
                     icon = UIManager.getIcon("FileView.fileIcon");
+                }
             }
             return icon;
         }
