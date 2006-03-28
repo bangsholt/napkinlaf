@@ -97,8 +97,9 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
     }
 
     private static Dimension sizeFor(boolean is, boolean pref, JButton button) {
-        if (!is)
+        if (!is) {
             return NO_SIZE;
+        }
         return (pref ? button.getPreferredSize() : button.getMinimumSize());
     }
 
@@ -117,8 +118,9 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
     }
 
     private void setupButton(JButton button) {
-        if (!button.equals(maxButton))
+        if (!button.equals(maxButton)) {
             button.setBorder(new EmptyBorder(1, 1, 1, 1));
+        }
         button.setOpaque(false);
     }
 
@@ -133,8 +135,9 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
 
     @Override
     protected void paintTitleBackground(Graphics g) {
-        if (line == null)
+        if (line == null) {
             line = new DrawnLineHolder(new DrawnCubicLineGenerator());
+        }
         Graphics2D ulG = NapkinUtil.copy(g);
         bounds = getBounds(bounds);
         bounds.x = bounds.y = 0;

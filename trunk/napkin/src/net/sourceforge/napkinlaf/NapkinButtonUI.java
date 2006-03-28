@@ -39,8 +39,9 @@ public class NapkinButtonUI extends BasicButtonUI
     protected void paintText(Graphics g, JComponent c, Rectangle textRect,
             String text) {
 
-        if (line == null)
+        if (line == null) {
             line = new DrawnLineHolder(new DrawnCubicLineGenerator());
+        }
         boolean isDefault = ((JButton) c).isDefaultButton();
         int offset = getTextShiftOffset();
         NapkinUtil

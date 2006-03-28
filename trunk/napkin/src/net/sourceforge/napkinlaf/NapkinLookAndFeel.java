@@ -140,8 +140,9 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
 
         Set<Object> keys = new HashSet<Object>(table.keySet());
         keys.removeAll(Arrays.asList(UI_TYPES));
-        if (keys.size() != 0)
+        if (keys.size() != 0) {
             System.out.println("keys we didn't overwrite: " + keys);
+        }
     }
 
     @Override
@@ -491,9 +492,10 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                 }
             } else {
                 // We set things up right for these ones manually
-                if (key.contains("Text") || key.startsWith("Password") ||
-                        key.startsWith("Editor"))
+                if (key.contains("Text") || key.startsWith("Password")
+                        || key.startsWith("Editor")) {
                     continue;
+                }
 
                 if (key.endsWith(".foreground") ||
                         key.endsWith("BorderColor") ||
@@ -586,21 +588,14 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         int keyLen = key.length();
         int propLen = prop.length();
         int prePos = keyLen - propLen - 1;
-        if (prePos <= 0)
+
+        if (prePos > 0 && ((key.endsWith(prop) && key.charAt(prePos) == '.')
+                || (key.endsWith(prop.substring(1)) && key.charAt(prePos + 1)
+                == Character.toUpperCase(prop.charAt(0))))) {
+            return extractVal(val, table);
+        } else {
             return null;
-
-        boolean match = false;
-        if (key.endsWith(prop) && key.charAt(prePos) == '.')
-            match = true;
-        else if (key.endsWith(prop.substring(1)) &&
-                key.charAt(prePos + 1) ==
-                        Character.toUpperCase(prop.charAt(0)))
-            match = true;
-
-        if (!match)
-            return null;
-
-        return extractVal(val, table);
+        }
     }
 
     private static Object extractVal(Object val, UIDefaults table) {

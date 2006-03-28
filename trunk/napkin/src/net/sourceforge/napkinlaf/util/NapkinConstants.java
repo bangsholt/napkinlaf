@@ -34,7 +34,7 @@ public interface NapkinConstants extends SwingConstants {
      * <p/>
      * !! Seperated the cases into 3 constants
      */
-    Color CLEAR = new AlphaColorUIResource(0xFF, 0xFF, 0xFF, 0x00);
+    Color CLEAR = new AlphaColorUIResource(0xD0, 0xD0, 0xD0, 0x00);
     Color ERASURE_CLEAR = new AlphaColorUIResource(0x00, 0x00, 0x00, 0x00);
     Color HIGHLIGHT_CLEAR = new AlphaColorUIResource(0x12, 0x34, 0x56, 0x00);
 
