@@ -114,7 +114,8 @@ public class NapkinUtil {
         gi.drawImage(icon.getImage(), 0, 0, icon.getImageObserver());
     }
 
-    private static final DrawnLineHolder highLightLine;
+    private static final DrawnLineHolder highLightLongLine;
+    private static final DrawnLineHolder highLightShortLine;
 
     static {
         DrawnCubicLineGenerator lineGen = new DrawnCubicLineGenerator();
@@ -122,7 +123,10 @@ public class NapkinUtil {
         rVal.setRange(rVal.getRange() * 2.5d);
         rVal = lineGen.getRight().getY();
         rVal.setRange(rVal.getRange() * 2.5d);
-        highLightLine = new DrawnLineHolder(lineGen);
+        highLightLongLine = new DrawnLineHolder(lineGen);
+
+        lineGen = new DrawnCubicLineGenerator();
+        highLightShortLine = new DrawnLineHolder(lineGen);
     }
 
     public interface PropertyFactory {
@@ -486,6 +490,8 @@ public class NapkinUtil {
                     rect.x += NapkinRandom.nextDouble(5d);
                     rect.width -= NapkinRandom.nextDouble(10d);
                 }
+                DrawnLineHolder highLightLine = rect.width > 50f ?
+                    highLightLongLine : highLightShortLine;
                 highLightLine.shapeUpToDate(rect, null);
                 float lineWidth = rect.height;
                 if (lineWidth > 10f) {
