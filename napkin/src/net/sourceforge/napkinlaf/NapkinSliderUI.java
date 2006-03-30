@@ -2,6 +2,7 @@
 
 package net.sourceforge.napkinlaf;
 
+import java.awt.font.FontRenderContext;
 import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
 import net.sourceforge.napkinlaf.util.NapkinIconFactory;
@@ -25,6 +26,7 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinPainter {
     private final List<DrawnLineHolder> minor;
     private int minorPos;
     private final Rectangle tickBounds;
+    private int textHeight;
 
     public static ComponentUI createUI(JComponent c) {
         return new NapkinSliderUI((JSlider) c);
@@ -165,6 +167,31 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinPainter {
 
     public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         super.update(g, c);
+    }
+
+    @Override
+    protected void paintHorizontalLabel(Graphics g, int value, Component label) {
+        int labelCenter = xPositionForValue(value);
+        int labelLeft = labelCenter - (label.getPreferredSize().width / 2);
+        g.drawString(((JLabel) label).getText(), labelLeft, textHeight);
+    }
+
+    @Override
+    protected void paintVerticalLabel(Graphics g, int value, Component label) {
+        int labelCenter = yPositionForValue(value);
+        int labelTop = labelCenter - (label.getPreferredSize().height / 2);
+        g.drawString(((JLabel) label).getText(), 0, labelTop + textHeight);
+    }
+
+    @Override
+    public void paintLabels(Graphics g) {
+        Font oldFont = g.getFont();
+        Font font = NapkinUtil.currentTheme(slider).getTextFont();
+        g.setFont(font);
+        textHeight = (int) (0.5f * font.getLineMetrics("0123456789",
+                ((Graphics2D) g).getFontRenderContext()).getHeight() + 0.5f);
+        super.paintLabels(g);
+        g.setFont(oldFont);
     }
 }
 
