@@ -101,10 +101,7 @@ public class NapkinTheme {
             return font;
         else {
             // refer to NapkinFont for an explanation of the workaround here
-            Font result = new FontUIResource(font);
-            if (!result.getFontName().equals(font.getFontName()))
-                result = new NapkinFont(font);
-            return result;
+            return new NapkinFont(font);
         }
     }
 

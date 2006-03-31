@@ -9,6 +9,7 @@ import net.sourceforge.napkinlaf.util.AlphaColorUIResource;
 import net.sourceforge.napkinlaf.util.ComponentWalker.Visitor;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
 import net.sourceforge.napkinlaf.util.NapkinDebug;
+import net.sourceforge.napkinlaf.util.NapkinFont;
 import net.sourceforge.napkinlaf.util.NapkinIconFactory;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 
@@ -466,12 +467,12 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
             Object val = entry.getValue();
             Object res;
             if ((res = propVal(key, "font", val, table)) != null) {
-                if (res instanceof FontUIResource) {
-                    FontUIResource resource = (FontUIResource) res;
+                if (res instanceof Font && res instanceof UIResource) {
+                    Font resource = (Font) res;
                     String name = resource.getFontName();
                     Font font = fontMap.get(name);
                     if (font != null)
-                        entry.setValue(font);
+                        entry.setValue(new NapkinFont(font, resource));
                     else {
                         System.err.println(
                                 "unknown font: " + name + " for " + key);

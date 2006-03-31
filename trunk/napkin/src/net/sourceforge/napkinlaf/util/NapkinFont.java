@@ -11,6 +11,18 @@
 
 package net.sourceforge.napkinlaf.util;
 
+import java.awt.font.FontRenderContext;
+import java.awt.font.GlyphJustificationInfo;
+import java.awt.font.GlyphMetrics;
+import java.awt.font.GlyphVector;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.text.CharacterIterator;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.swing.plaf.*;
 import java.awt.*;
 import java.lang.reflect.Field;
@@ -27,29 +39,288 @@ import java.lang.reflect.Field;
  */
 public class NapkinFont extends Font implements UIResource {
 
+    private static class CompositeGlyphVector extends GlyphVector {
+        private static class GlyphInfo {
+            public final int code;
+            public final Shape outline;
+            public Point2D position;
+            public AffineTransform transform;
+            public final Shape logicalBounds;
+            public final Shape visualBounds;
+            public final GlyphMetrics metrics;
+            public final GlyphJustificationInfo info;
+            public GlyphInfo(int code, Shape outline, Point2D position,
+                    AffineTransform transform, Shape logicalBounds,
+                    Shape visualBounds, GlyphMetrics metrics,
+                    GlyphJustificationInfo info) {
+                this.code = code;
+                this.outline = outline;
+                this.position = position;
+                this.transform = transform;
+                this.logicalBounds = logicalBounds;
+                this.visualBounds = visualBounds;
+                this.metrics = metrics;
+                this.info = info;
+            }
+        }
+
+        private final Font font;
+        private final FontRenderContext frc;
+        private final List<GlyphInfo> glyphs = new ArrayList<GlyphInfo>();
+
+        public CompositeGlyphVector(Font font, FontRenderContext frc) {
+            this.font = font;
+            this.frc = frc;
+        }
+
+        public Font getFont() {
+            return font;
+        }
+
+        public FontRenderContext getFontRenderContext() {
+            return frc;
+        }
+
+        public void performDefaultLayout() {
+        }
+
+        public int getNumGlyphs() {
+            return glyphs.size();
+        }
+
+        public int getGlyphCode(int glyphIndex) {
+            return glyphs.get(glyphIndex).code;
+        }
+
+        public int[] getGlyphCodes(int beginGlyphIndex, int numEntries,
+                int[] codeReturn) {
+            int[] result = codeReturn == null ?
+                    new int[numEntries] : codeReturn;
+            for (int i = 0; i < numEntries; i++) {
+                result[i] = getGlyphCode(beginGlyphIndex + i);
+            }
+            return result;
+        }
+
+        public Rectangle2D getLogicalBounds() {
+            if (getNumGlyphs() == 0)
+                return new Rectangle();
+            return getGlyphLogicalBounds(0).getBounds2D().createUnion(
+                    getGlyphLogicalBounds(getNumGlyphs() - 1).getBounds2D());
+        }
+
+        public Rectangle2D getVisualBounds() {
+            if (getNumGlyphs() == 0)
+                return new Rectangle();
+            return getGlyphVisualBounds(0).getBounds2D().createUnion(
+                    getGlyphVisualBounds(getNumGlyphs() - 1).getBounds2D());
+        }
+
+        public Shape getOutline() {
+            return getOutline(0f, 0f);
+        }
+
+        public Shape getOutline(float x, float y) {
+            GeneralPath result = new GeneralPath();
+            Point2D point;
+            for (int i = 0, n = getNumGlyphs(); i < n; i++) {
+                point = getGlyphPosition(i);
+                result.append(getGlyphOutline(i, x, y), false);
+            }
+            return result;
+        }
+
+        public Shape getGlyphOutline(int glyphIndex) {
+            return glyphs.get(glyphIndex).outline;
+        }
+
+        public Point2D getGlyphPosition(int glyphIndex) {
+            return glyphs.get(glyphIndex).position;
+        }
+
+        public void setGlyphPosition(int glyphIndex, Point2D newPos) {
+            glyphs.get(glyphIndex).position = newPos;
+        }
+
+        public AffineTransform getGlyphTransform(int glyphIndex) {
+            return glyphs.get(glyphIndex).transform;
+        }
+
+        public void setGlyphTransform(int glyphIndex, AffineTransform newTX) {
+            glyphs.get(glyphIndex).transform = newTX;
+        }
+
+        public float[] getGlyphPositions(int beginGlyphIndex, int numEntries,
+                float[] positionReturn) {
+            float[] result = positionReturn == null ?
+                    new float[numEntries * 2] : positionReturn;
+            Point2D point;
+            for (int i = 0; i < numEntries; i++) {
+                point = getGlyphPosition(beginGlyphIndex + i);
+                result[i*2] = (float) point.getX();
+                result[i*2 + 1] = (float) point.getY();
+            }
+            return result;
+        }
+
+        public Shape getGlyphLogicalBounds(int glyphIndex) {
+            return glyphs.get(glyphIndex).logicalBounds;
+        }
+
+        public Shape getGlyphVisualBounds(int glyphIndex) {
+            return glyphs.get(glyphIndex).visualBounds;
+        }
+
+        public GlyphMetrics getGlyphMetrics(int glyphIndex) {
+            return glyphs.get(glyphIndex).metrics;
+        }
+
+        public GlyphJustificationInfo getGlyphJustificationInfo(int glyphIndex) {
+            return glyphs.get(glyphIndex).info;
+        }
+
+        public boolean equals(GlyphVector set) {
+            for (int i = 0, n = getNumGlyphs(); i < n; i++) {
+                if (getGlyphCode(i) != set.getGlyphCode(i))
+                    return false;
+            }
+            return true;
+        }
+
+        public void appendGlyph(int code, Shape outline, Point2D position,
+                AffineTransform transform, Shape logicalBounds,
+                Shape visualBounds, GlyphMetrics metrics,
+                GlyphJustificationInfo info) {
+            GlyphInfo glyph = new GlyphInfo(code, outline, position, transform,
+                    logicalBounds, visualBounds, metrics, info);
+            glyphs.add(glyph);
+        }
+    }
+
+    private final List<Font> fonts = new ArrayList<Font>();
+
     public NapkinFont(String name, int style, int size) {
         super(name, style, size);
     }
 
     public NapkinFont(Font font) {
         super(font.getAttributes());
-        try {
-            Field field = Font.class.getDeclaredField("font2DHandle");
-            field.setAccessible(true);
-            field.set(this, field.get(font));
-            field.setAccessible(false);
-            field = Font.class.getDeclaredField("createdFont");
-            field.setAccessible(true);
-            field.set(this, field.get(font));
-            field.setAccessible(false);
-        } catch (IllegalArgumentException ex) {
-            ex.printStackTrace();
-        } catch (SecurityException ex) {
-            ex.printStackTrace();
-        } catch (NoSuchFieldException ex) {
-            ex.printStackTrace();
-        } catch (IllegalAccessException ex) {
-            ex.printStackTrace();
+        if (!getFontName().equals(font.getFontName())) {
+            try {
+                Field field = Font.class.getDeclaredField("font2DHandle");
+                field.setAccessible(true);
+                field.set(this, field.get(font));
+                field.setAccessible(false);
+                field = Font.class.getDeclaredField("createdFont");
+                field.setAccessible(true);
+                field.set(this, field.get(font));
+                field.setAccessible(false);
+            } catch (IllegalArgumentException ex) {
+                ex.printStackTrace();
+            } catch (SecurityException ex) {
+                ex.printStackTrace();
+            } catch (NoSuchFieldException ex) {
+                ex.printStackTrace();
+            } catch (IllegalAccessException ex) {
+                ex.printStackTrace();
+            }
         }
     }
+
+    public NapkinFont(Font font, Font ... fonts) {
+        this(font);
+        this.fonts.addAll(Arrays.asList(fonts));
+    }
+
+    @Override
+    public GlyphVector createGlyphVector(FontRenderContext frc, char[] chars) {
+        GlyphVector gVector = super.createGlyphVector(frc, chars);
+        int n = fonts.size();
+        GlyphVector[] gVectors = new GlyphVector[n];
+        for (int i = 0; i < n; i++) {
+            gVectors[i] = fonts.get(i).createGlyphVector(frc, chars);
+        }
+        return processGlyphVector(frc, gVector, gVectors);
+    }
+
+    @Override
+    public GlyphVector createGlyphVector(FontRenderContext frc, String str) {
+        GlyphVector gVector = super.createGlyphVector(frc, str);
+        int n = fonts.size();
+        GlyphVector[] gVectors = new GlyphVector[n];
+        for (int i = 0; i < n; i++) {
+            gVectors[i] = fonts.get(i).createGlyphVector(frc, str);
+        }
+        return processGlyphVector(frc, gVector, gVectors);
+    }
+
+    @Override
+    public GlyphVector createGlyphVector(FontRenderContext frc,
+            CharacterIterator ci) {
+        GlyphVector gVector = super.createGlyphVector(frc, ci);
+        int n = fonts.size();
+        GlyphVector[] gVectors = new GlyphVector[n];
+        for (int i = 0; i < n; i++) {
+            gVectors[i] = fonts.get(i).createGlyphVector(frc, ci);
+        }
+        return processGlyphVector(frc, gVector, gVectors);
+    }
+
+    @Override
+    public GlyphVector createGlyphVector(FontRenderContext frc,
+            int[] glyphCodes) {
+        GlyphVector gVector = super.createGlyphVector(frc, glyphCodes);
+        int n = fonts.size();
+        GlyphVector[] gVectors = new GlyphVector[n];
+        for (int i = 0; i < n; i++) {
+            gVectors[i] = fonts.get(i).createGlyphVector(frc, glyphCodes);
+        }
+        return processGlyphVector(frc, gVector, gVectors);
+    }
+
+    private GlyphVector processGlyphVector(FontRenderContext frc,
+            GlyphVector gVector, GlyphVector[] gVectors) {
+        int i, j;
+        final int l = gVector.getNumGlyphs(), n = fonts.size();
+        if (l == 0 || n == 0) {
+            return gVector;
+        }
+        int badCode = getMissingGlyphCode();
+        int[] badCodes = new int[n];
+        for (j = 0; j < n; j++) {
+            badCodes[j] = fonts.get(j).getMissingGlyphCode();
+        }
+        CompositeGlyphVector result = new CompositeGlyphVector(this, frc);
+        Point2D curPos = gVector.getGlyphPosition(0);
+        Point2D pos, nextPos;
+        GlyphVector curGVector;
+        for (i = 0; i < l; i++) {
+            curGVector = gVector;
+            if (gVector.getGlyphCode(i) == badCode) {
+                for (j = 0; j < n; j++) {
+                    if (gVectors[j].getGlyphCode(i) != badCodes[j]) {
+                        curGVector = gVectors[j];
+                        break;
+                    }
+                }
+            }
+            result.appendGlyph(curGVector.getGlyphCode(i),
+                    curGVector.getGlyphOutline(i),
+                    curPos,
+                    curGVector.getGlyphTransform(i),
+                    curGVector.getGlyphLogicalBounds(i),
+                    curGVector.getGlyphVisualBounds(i),
+                    curGVector.getGlyphMetrics(i),
+                    curGVector.getGlyphJustificationInfo(i));
+            if (i + 1 < l) {
+                pos = curGVector.getGlyphPosition(i);
+                nextPos = curGVector.getGlyphPosition(i + 1);
+                curPos = new Point2D.Double(
+                        curPos.getX() + nextPos.getX() - pos.getX(),
+                        curPos.getY() + nextPos.getY() - pos.getY());
+            }
+        }
+        return result;
+    }
+
 }
