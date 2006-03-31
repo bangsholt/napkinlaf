@@ -232,52 +232,6 @@ public class NapkinFont extends Font implements UIResource {
         this.fonts.addAll(Arrays.asList(fonts));
     }
 
-    @Override
-    public GlyphVector createGlyphVector(FontRenderContext frc, char[] chars) {
-        GlyphVector gVector = super.createGlyphVector(frc, chars);
-        int n = fonts.size();
-        GlyphVector[] gVectors = new GlyphVector[n];
-        for (int i = 0; i < n; i++) {
-            gVectors[i] = fonts.get(i).createGlyphVector(frc, chars);
-        }
-        return processGlyphVector(frc, gVector, gVectors);
-    }
-
-    @Override
-    public GlyphVector createGlyphVector(FontRenderContext frc, String str) {
-        GlyphVector gVector = super.createGlyphVector(frc, str);
-        int n = fonts.size();
-        GlyphVector[] gVectors = new GlyphVector[n];
-        for (int i = 0; i < n; i++) {
-            gVectors[i] = fonts.get(i).createGlyphVector(frc, str);
-        }
-        return processGlyphVector(frc, gVector, gVectors);
-    }
-
-    @Override
-    public GlyphVector createGlyphVector(FontRenderContext frc,
-            CharacterIterator ci) {
-        GlyphVector gVector = super.createGlyphVector(frc, ci);
-        int n = fonts.size();
-        GlyphVector[] gVectors = new GlyphVector[n];
-        for (int i = 0; i < n; i++) {
-            gVectors[i] = fonts.get(i).createGlyphVector(frc, ci);
-        }
-        return processGlyphVector(frc, gVector, gVectors);
-    }
-
-    @Override
-    public GlyphVector createGlyphVector(FontRenderContext frc,
-            int[] glyphCodes) {
-        GlyphVector gVector = super.createGlyphVector(frc, glyphCodes);
-        int n = fonts.size();
-        GlyphVector[] gVectors = new GlyphVector[n];
-        for (int i = 0; i < n; i++) {
-            gVectors[i] = fonts.get(i).createGlyphVector(frc, glyphCodes);
-        }
-        return processGlyphVector(frc, gVector, gVectors);
-    }
-
     private GlyphVector processGlyphVector(FontRenderContext frc,
             GlyphVector gVector, GlyphVector[] gVectors) {
         int i, j;
@@ -296,7 +250,7 @@ public class NapkinFont extends Font implements UIResource {
         if (i == l) {
             return gVector;
         }
-
+        
         // we do have bad glyphs; scan through the font chain for replacement
         int[] badCodes = new int[n];
         for (j = 0; j < n; j++) {
@@ -348,6 +302,66 @@ public class NapkinFont extends Font implements UIResource {
                     curGVector.getGlyphJustificationInfo(i));
         }
         return replaced ? result : gVector;
+    }
+    
+    @Override
+    public GlyphVector createGlyphVector(FontRenderContext frc, char[] chars) {
+        GlyphVector gVector = super.createGlyphVector(frc, chars);
+        int n = fonts.size();
+        GlyphVector[] gVectors = new GlyphVector[n];
+        for (int i = 0; i < n; i++) {
+            gVectors[i] = fonts.get(i).createGlyphVector(frc, chars);
+        }
+        return processGlyphVector(frc, gVector, gVectors);
+    }
+
+    @Override
+    public GlyphVector createGlyphVector(FontRenderContext frc, String str) {
+        GlyphVector gVector = super.createGlyphVector(frc, str);
+        int n = fonts.size();
+        GlyphVector[] gVectors = new GlyphVector[n];
+        for (int i = 0; i < n; i++) {
+            gVectors[i] = fonts.get(i).createGlyphVector(frc, str);
+        }
+        return processGlyphVector(frc, gVector, gVectors);
+    }
+
+    @Override
+    public GlyphVector createGlyphVector(FontRenderContext frc,
+            CharacterIterator ci) {
+        GlyphVector gVector = super.createGlyphVector(frc, ci);
+        int n = fonts.size();
+        GlyphVector[] gVectors = new GlyphVector[n];
+        for (int i = 0; i < n; i++) {
+            gVectors[i] = fonts.get(i).createGlyphVector(frc, ci);
+        }
+        return processGlyphVector(frc, gVector, gVectors);
+    }
+
+    @Override
+    public GlyphVector createGlyphVector(FontRenderContext frc,
+            int[] glyphCodes) {
+        GlyphVector gVector = super.createGlyphVector(frc, glyphCodes);
+        int n = fonts.size();
+        GlyphVector[] gVectors = new GlyphVector[n];
+        for (int i = 0; i < n; i++) {
+            gVectors[i] = fonts.get(i).createGlyphVector(frc, glyphCodes);
+        }
+        return processGlyphVector(frc, gVector, gVectors);
+    }
+
+    @Override
+    public GlyphVector layoutGlyphVector(FontRenderContext frc,
+            char[] text, int start, int limit, int flags) {
+        GlyphVector gVector = super.layoutGlyphVector(
+                frc, text, start, limit, flags);
+        int n = fonts.size();
+        GlyphVector[] gVectors = new GlyphVector[n];
+        for (int i = 0; i < n; i++) {
+            gVectors[i] = fonts.get(i).layoutGlyphVector(
+                    frc, text, start, limit, flags);
+        }
+        return processGlyphVector(frc, gVector, gVectors);
     }
 
 }
