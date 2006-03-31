@@ -31,6 +31,10 @@ public class NapkinGraphics2D extends Graphics2D {
         this.g2d = g2d;
     }
 
+    public Graphics2D getGraphics2D() {
+        return g2d;
+    }
+
     public void draw(Shape s) {
         g2d.draw(s);
     }
@@ -59,7 +63,7 @@ public class NapkinGraphics2D extends Graphics2D {
         Font font = getFont();
         FontRenderContext frc = getFontRenderContext();
         GlyphVector gVector = font.createGlyphVector(frc, s);
-        g2d.drawGlyphVector(gVector, x, y);
+        drawGlyphVector(gVector, x, y);
     }
 
     public void drawString(AttributedCharacterIterator iterator, int x, int y) {
@@ -70,11 +74,15 @@ public class NapkinGraphics2D extends Graphics2D {
         Font font = getFont();
         FontRenderContext frc = getFontRenderContext();
         GlyphVector gVector = font.createGlyphVector(frc, iterator);
-        g2d.drawGlyphVector(gVector, x, y);
+        drawGlyphVector(gVector, x, y);
     }
 
     public void drawGlyphVector(GlyphVector g, float x, float y) {
-        g2d.fill(g.getOutline(x, y));
+        if (g instanceof NapkinFont.CompositeGlyphVector) {
+            fill(g.getOutline(x, y));
+        } else {
+            g2d.drawGlyphVector(g, x, y);
+        }
     }
 
     public void fill(Shape s) {

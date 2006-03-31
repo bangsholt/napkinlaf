@@ -644,8 +644,11 @@ public class NapkinUtil {
             c.putClientProperty(NEEDS_REVALIDATION, false);
             c.revalidate();
         }
-        g = new NapkinGraphics2D(defaultGraphics(g, c));
+        g = defaultGraphics(g, c);
         NapkinTheme theme = paintBackground(g, c);
+        if (!(g instanceof NapkinGraphics2D)) {
+            g = new NapkinGraphics2D((Graphics2D) g);
+        }
         painter.superPaint(g, c, theme);
         finishGraphics(g, c);
     }
