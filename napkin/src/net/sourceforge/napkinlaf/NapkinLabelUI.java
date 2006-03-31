@@ -2,10 +2,9 @@
 
 package net.sourceforge.napkinlaf;
 
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
 import net.sourceforge.napkinlaf.util.NapkinPainter;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
+import net.sourceforge.napkinlaf.util.NapkinGraphics2D;
 
 import javax.swing.*;
 import javax.swing.plaf.*;
@@ -39,14 +38,6 @@ public class NapkinLabelUI extends BasicLabelUI implements NapkinPainter {
 
     public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         super.update(g, c);
-    }
-
-    @Override
-    protected void paintEnabledText(JLabel l, Graphics g, String s, int textX, int textY)
-    {
-        int mnemIndex = l.getDisplayedMnemonicIndex();
-        g.setColor(l.getForeground());
-        new net.sourceforge.napkinlaf.util.NapkinGraphics2D((Graphics2D) g).drawString(s, textX, textY);
     }
 
     @Override

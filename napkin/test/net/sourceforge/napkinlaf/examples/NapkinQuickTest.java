@@ -58,7 +58,7 @@ public class NapkinQuickTest implements SwingConstants {
         tabbed.addTab("Main Stuff", mainPanel);
         top.getContentPane().add(tabbed);
 
-        JLabel label = new JLabel("-- Label --");
+        JLabel label = new JLabel("-- Label \u0110 --");
 
         mainPanel.setLayout(new GridLayout(4, 2));
         mainPanel.add(label);

@@ -39,7 +39,7 @@ import java.lang.reflect.Field;
  */
 public class NapkinFont extends Font implements UIResource {
 
-    private static class CompositeGlyphVector extends GlyphVector {
+    static class CompositeGlyphVector extends GlyphVector {
         private static class GlyphInfo {
             public final int code;
             public final Shape outline;
@@ -282,10 +282,22 @@ public class NapkinFont extends Font implements UIResource {
             GlyphVector gVector, GlyphVector[] gVectors) {
         int i, j;
         final int l = gVector.getNumGlyphs(), n = fonts.size();
+        // if no glyphs or we only have a single font, just return
         if (l == 0 || n == 0) {
             return gVector;
         }
         int badCode = getMissingGlyphCode();
+        for (i = 0; i < l; i++) {
+            if (gVector.getGlyphCode(i) == badCode) {
+                break;
+            }
+        }
+        // if we don't have any bad glyphs, just return
+        if (i == l) {
+            return gVector;
+        }
+
+        // we do have bad glyphs; scan through the font chain for replacement
         int[] badCodes = new int[n];
         for (j = 0; j < n; j++) {
             badCodes[j] = fonts.get(j).getMissingGlyphCode();
@@ -294,33 +306,52 @@ public class NapkinFont extends Font implements UIResource {
         Point2D curPos = gVector.getGlyphPosition(0);
         Point2D pos, nextPos;
         GlyphVector curGVector;
+        boolean replaced = false;
         for (i = 0; i < l; i++) {
             curGVector = gVector;
             if (gVector.getGlyphCode(i) == badCode) {
                 for (j = 0; j < n; j++) {
                     if (gVectors[j].getGlyphCode(i) != badCodes[j]) {
                         curGVector = gVectors[j];
+                        replaced = true;
                         break;
                     }
                 }
             }
+
+            pos = curGVector.getGlyphPosition(i);
+            AffineTransform matrix = AffineTransform.getTranslateInstance(
+                    curPos.getX() - pos.getX(), curPos.getY() - pos.getY());
+
+            Shape outline = curGVector.getGlyphOutline(i);
+            Shape logicalBounds = curGVector.getGlyphLogicalBounds(i);
+            Shape visualBounds = curGVector.getGlyphVisualBounds(i);
+            outline = matrix.createTransformedShape(outline);
+            logicalBounds = matrix.createTransformedShape(logicalBounds);
+            visualBounds = matrix.createTransformedShape(visualBounds);
+            
+            GlyphMetrics metrics = curGVector.getGlyphMetrics(i);
+//            float advanceX = metrics.getAdvanceX();
+//            float advanceY = metrics.getAdvanceY();
+//            Rectangle2D metricsBounds = metrics.getBounds2D();
+//            metricsBounds.setRect(curPos.getX(), curPos.getY(),
+//                    metricsBounds.getWidth(), metricsBounds.getHeight());
+//            metrics = new GlyphMetrics(metrics.getAdvance() == advanceX,
+//                    advanceX, metrics.getAdvanceY(), metricsBounds,
+//                    (byte) metrics.getType());
+
             result.appendGlyph(curGVector.getGlyphCode(i),
-                    curGVector.getGlyphOutline(i),
-                    curPos,
-                    curGVector.getGlyphTransform(i),
-                    curGVector.getGlyphLogicalBounds(i),
-                    curGVector.getGlyphVisualBounds(i),
-                    curGVector.getGlyphMetrics(i),
+                    outline, curPos, curGVector.getGlyphTransform(i),
+                    logicalBounds, visualBounds, metrics,
                     curGVector.getGlyphJustificationInfo(i));
             if (i + 1 < l) {
-                pos = curGVector.getGlyphPosition(i);
                 nextPos = curGVector.getGlyphPosition(i + 1);
                 curPos = new Point2D.Double(
                         curPos.getX() + nextPos.getX() - pos.getX(),
                         curPos.getY() + nextPos.getY() - pos.getY());
             }
         }
-        return result;
+        return replaced ? result : gVector;
     }
 
 }
