@@ -303,11 +303,12 @@ public class NapkinFont extends Font implements UIResource {
             badCodes[j] = fonts.get(j).getMissingGlyphCode();
         }
         CompositeGlyphVector result = new CompositeGlyphVector(this, frc);
-        Point2D curPos = gVector.getGlyphPosition(0);
-        Point2D pos, nextPos;
+        Point2D curPos, origPos;
         GlyphVector curGVector;
         boolean replaced = false;
         for (i = 0; i < l; i++) {
+            // look for the GlyphVector with non-bad glyph
+            // fall back to top font's bad glyph if failed
             curGVector = gVector;
             if (gVector.getGlyphCode(i) == badCode) {
                 for (j = 0; j < n; j++) {
@@ -318,38 +319,33 @@ public class NapkinFont extends Font implements UIResource {
                     }
                 }
             }
-
-            pos = curGVector.getGlyphPosition(i);
+            // prepare matrix for glyph paremater transformation
+            origPos = curGVector.getGlyphPosition(i);
+            curPos = gVector.getGlyphPosition(i);
             AffineTransform matrix = AffineTransform.getTranslateInstance(
-                    curPos.getX() - pos.getX(), curPos.getY() - pos.getY());
-
+                    curPos.getX() - origPos.getX(), curPos.getY() - origPos.getY());
+            // transform glyph parameters to its designated position
             Shape outline = curGVector.getGlyphOutline(i);
             Shape logicalBounds = curGVector.getGlyphLogicalBounds(i);
             Shape visualBounds = curGVector.getGlyphVisualBounds(i);
             outline = matrix.createTransformedShape(outline);
             logicalBounds = matrix.createTransformedShape(logicalBounds);
             visualBounds = matrix.createTransformedShape(visualBounds);
-            
+            // transform GlyphMetrics
             GlyphMetrics metrics = curGVector.getGlyphMetrics(i);
-//            float advanceX = metrics.getAdvanceX();
-//            float advanceY = metrics.getAdvanceY();
-//            Rectangle2D metricsBounds = metrics.getBounds2D();
-//            metricsBounds.setRect(curPos.getX(), curPos.getY(),
-//                    metricsBounds.getWidth(), metricsBounds.getHeight());
-//            metrics = new GlyphMetrics(metrics.getAdvance() == advanceX,
-//                    advanceX, metrics.getAdvanceY(), metricsBounds,
-//                    (byte) metrics.getType());
-
+            float advanceX = metrics.getAdvanceX();
+            float advanceY = metrics.getAdvanceY();
+            Rectangle2D metricsBounds = metrics.getBounds2D();
+            metricsBounds.setRect(curPos.getX(), curPos.getY(),
+                    metricsBounds.getWidth(), metricsBounds.getHeight());
+            metrics = new GlyphMetrics(metrics.getAdvance() == advanceX,
+                    advanceX, metrics.getAdvanceY(), metricsBounds,
+                    (byte) metrics.getType());
+            // add transformed glyph into our GlyphVector
             result.appendGlyph(curGVector.getGlyphCode(i),
                     outline, curPos, curGVector.getGlyphTransform(i),
                     logicalBounds, visualBounds, metrics,
                     curGVector.getGlyphJustificationInfo(i));
-            if (i + 1 < l) {
-                nextPos = curGVector.getGlyphPosition(i + 1);
-                curPos = new Point2D.Double(
-                        curPos.getX() + nextPos.getX() - pos.getX(),
-                        curPos.getY() + nextPos.getY() - pos.getY());
-            }
         }
         return replaced ? result : gVector;
     }
