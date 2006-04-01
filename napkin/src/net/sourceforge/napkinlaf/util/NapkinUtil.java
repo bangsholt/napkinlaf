@@ -258,6 +258,9 @@ public class NapkinUtil {
 
     public static Graphics2D defaultGraphics(Graphics g1, Component c) {
         Graphics2D g = (Graphics2D) g1;
+        if (!(g instanceof NapkinGraphics2D)) {
+            g = new NapkinGraphics2D((Graphics2D) g);
+        }
         syncWithTheme(g, c);
         boolean enabled = c.isEnabled();
         if (!enabled && c instanceof JComponent) {
@@ -646,9 +649,6 @@ public class NapkinUtil {
         }
         g = defaultGraphics(g, c);
         NapkinTheme theme = paintBackground(g, c);
-        if (!(g instanceof NapkinGraphics2D)) {
-            g = new NapkinGraphics2D((Graphics2D) g);
-        }
         painter.superPaint(g, c, theme);
         finishGraphics(g, c);
     }
