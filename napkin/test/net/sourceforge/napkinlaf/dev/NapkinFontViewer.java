@@ -15,13 +15,15 @@ import java.util.BitSet;
 import java.util.Comparator;
 import java.util.List;
 
+/** This is a component that lets the user select a character subset to display. */
+@SuppressWarnings({"WeakerAccess"})
 public class NapkinFontViewer extends JPanel {
     private Character.Subset curSubset;
 
     private static final Character.Subset[] SUBSETS;
-    private static final NapkinLookAndFeel laf = new NapkinLookAndFeel();
-    private static final int NUM_LEN = (int) Math.round(Math.log10(
-            Character.MAX_CODE_POINT)) + 1;
+    private static final NapkinLookAndFeel LAF = new NapkinLookAndFeel();
+    private static final int NUM_LEN = (int)
+            Math.round(Math.log10(Character.MAX_CODE_POINT)) + 1;
 
     static {
         try {
@@ -47,29 +49,6 @@ public class NapkinFontViewer extends JPanel {
         }
     }
 
-    public NapkinFontViewer() {
-        setLayout(new BorderLayout());
-
-        final Display display = new Display();
-        add(display, BorderLayout.CENTER);
-
-        JPanel controls = new JPanel();
-        controls.setLayout(new FlowLayout());
-
-        final JComboBox sublistBox = new JComboBox(SUBSETS);
-        curSubset = Character.UnicodeBlock.BASIC_LATIN;
-        sublistBox.setSelectedItem(curSubset);
-        sublistBox.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                curSubset = (Character.Subset) sublistBox.getSelectedItem();
-                display.repaint();
-            }
-        });
-        controls.add(sublistBox);
-
-        add(controls, BorderLayout.NORTH);
-    }
-
     private class Display extends JComponent {
         private Character.Subset last = null;
         private final String[] strings = new String[256];
@@ -83,16 +62,15 @@ public class NapkinFontViewer extends JPanel {
 
         @Override
         public Dimension getPreferredSize() {
-            System.out.println("NapkinFontViewer$Display.getPreferredSize");
             return new Dimension(400, 400);
         }
 
         @Override
         public Dimension getMinimumSize() {
-            System.out.println("NapkinFontViewer$Display.getMinimumSize");
             return getPreferredSize();
         }
 
+        @SuppressWarnings({"ObjectEquality"})
         @Override
         protected void paintComponent(Graphics g1) {
             Graphics2D g = NapkinUtil.defaultGraphics(g1, this);
@@ -133,6 +111,7 @@ public class NapkinFontViewer extends JPanel {
             }
         }
 
+        @SuppressWarnings({"ObjectEquality"})
         private void setStrings() {
             Arrays.fill(strings, null);
             chars.clear();
@@ -165,6 +144,30 @@ getChars:
         }
     }
 
+    /** Creates a new <tt>NapkinFontViewer</tt>. */
+    public NapkinFontViewer() {
+        setLayout(new BorderLayout());
+
+        final Display display = new Display();
+        add(display, BorderLayout.CENTER);
+
+        JPanel controls = new JPanel();
+        controls.setLayout(new FlowLayout());
+
+        final JComboBox sublistBox = new JComboBox(SUBSETS);
+        curSubset = Character.UnicodeBlock.BASIC_LATIN;
+        sublistBox.setSelectedItem(curSubset);
+        sublistBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                curSubset = (Character.Subset) sublistBox.getSelectedItem();
+                display.repaint();
+            }
+        });
+        controls.add(sublistBox);
+
+        add(controls, BorderLayout.NORTH);
+    }
+
     /**
      * Run this class as a program.
      *
@@ -173,7 +176,7 @@ getChars:
      * @throws Exception Exception we don't recover from.
      */
     public static void main(String[] args) throws Exception {
-        UIManager.setLookAndFeel(laf);
+        UIManager.setLookAndFeel(LAF);
 
         JFrame frame = new JFrame("Napkin Font Viewer");
         frame.add(new NapkinFontViewer(), BorderLayout.CENTER);
