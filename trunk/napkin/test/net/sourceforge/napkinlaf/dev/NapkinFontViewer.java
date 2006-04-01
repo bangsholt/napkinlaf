@@ -57,21 +57,15 @@ public class NapkinFontViewer extends JPanel {
         private int numStrings;
 
         private NapkinTheme theme;
-        private Font substituteFont;
+        private Font fixedFont;
 
         Display() {
             theme = NapkinTheme.Manager.getCurrentTheme();
             Color color = theme.getPenColor();
             setBorder(BorderFactory.createLineBorder(color));
-            Font fixedFont = theme.getFixedFont();
+            fixedFont = theme.getFixedFont();
             float smallSize = fixedFont.getSize2D() * 0.8f;
-            Font defaultFont = fixedFont.deriveFont(Font.ITALIC, smallSize);
-            Font[] fonts = GraphicsEnvironment
-                    .getLocalGraphicsEnvironment().getAllFonts();
-            for (int i = fonts.length; --i >= 0;) {
-                fonts[i] = fonts[i].deriveFont(Font.ITALIC, smallSize);
-            }
-            substituteFont = new NapkinFont(defaultFont, fonts);
+            fixedFont = fixedFont.deriveFont(Font.ITALIC, smallSize);
         }
 
         @Override
@@ -94,7 +88,7 @@ public class NapkinFontViewer extends JPanel {
             }
 
             Graphics numG = g.create();
-            numG.setFont(substituteFont);
+            numG.setFont(fixedFont);
             numG.setColor(theme.getCheckColor());
             FontMetrics fixed = numG.getFontMetrics();
 
