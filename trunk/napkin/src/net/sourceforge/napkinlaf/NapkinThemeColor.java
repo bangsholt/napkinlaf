@@ -9,4 +9,5 @@ public enum NapkinThemeColor {
     HIGHLIGHT_COLOR,
     SELECTION_COLOR,
     BACKGROUND_COLOR,
+    ROLLOVER_COLOR,
 }

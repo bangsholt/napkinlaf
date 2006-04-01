@@ -2,6 +2,8 @@
 
 package net.sourceforge.napkinlaf.util;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import net.sourceforge.napkinlaf.NapkinKnownTheme;
 import net.sourceforge.napkinlaf.NapkinTheme;
 import net.sourceforge.napkinlaf.borders.AbstractNapkinBorder;
@@ -178,6 +180,11 @@ public class NapkinUtil {
             c.putClientProperty(OPAQUE_KEY, Boolean.TRUE);
             c.setOpaque(false);
         }
+        if (c instanceof AbstractButton) {
+            AbstractButton button = (AbstractButton) c;
+            c.putClientProperty(ROLL_OVER_ENABLED, button.isRolloverEnabled());
+            button.setRolloverEnabled(true);
+        }
         c.addPropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
         if (replaceBackground(c.getBackground()))
             c.setBackground(CLEAR);
@@ -191,6 +198,10 @@ public class NapkinUtil {
         unsetupBorder(c);
         c.removePropertyChangeListener(BACKGROUND, BACKGROUND_LISTENER);
         c.removePropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
+        if (c instanceof AbstractButton) {
+            ((AbstractButton) c).setRolloverEnabled(
+                    (Boolean) c.getClientProperty(ROLL_OVER_ENABLED));
+        }
         if (shouldMakeOpaque(c))
             c.setOpaque(true);
         for (String clientProp : CLIENT_PROPERTIES)
@@ -483,28 +494,44 @@ public class NapkinUtil {
 
         if (c instanceof JComponent) {
             JComponent jc = (JComponent) c;
-            Boolean shouldHighlight =
-                    (Boolean) jc.getClientProperty(HIGHLIGHT_KEY);
-            if (jc.getBackground() == HIGHLIGHT_CLEAR
-                    || (shouldHighlight != null && shouldHighlight)) {
+            Boolean tempBool = (Boolean) jc.getClientProperty(HIGHLIGHT_KEY);
+            boolean shouldHighlight = (jc.getBackground() == HIGHLIGHT_CLEAR)
+                    || (tempBool != null && tempBool);
+            tempBool = (Boolean) jc.getClientProperty(ROLL_OVER_KEY);
+            boolean isRolledOver = (tempBool != null && tempBool);
+            if (shouldHighlight || isRolledOver) {
                 Rectangle rect = g.getClipBounds();
-                rect.y += rect.height * 0.6f;
                 if (rect.width > 20f) {
                     rect.x += NapkinRandom.nextDouble(5d);
                     rect.width -= NapkinRandom.nextDouble(10d);
                 }
                 DrawnLineHolder highLightLine = rect.width > 50f ?
                     highLightLongLine : highLightShortLine;
-                highLightLine.shapeUpToDate(rect, null);
+                highLightLine.setCap(BasicStroke.CAP_BUTT);
                 float lineWidth = rect.height;
                 if (lineWidth > 10f) {
                     lineWidth *= 0.8f;
                 }
-                highLightLine.setWidth(lineWidth);
-                highLightLine.setCap(BasicStroke.CAP_BUTT);
                 Color fColor = g.getColor();
-                g.setColor(theme.getHighlightColor());
-                highLightLine.draw(g);
+                if (shouldHighlight && isRolledOver) {
+                    lineWidth *= 0.5f;
+                    highLightLine.setWidth(lineWidth);
+                    rect.y += rect.height * 0.3f;
+                    highLightLine.shapeUpToDate(rect, null);
+                    g.setColor(theme.getHighlightColor());
+                    highLightLine.draw(g);
+                    rect.y += rect.height * 0.5f;
+                    highLightLine.shapeUpToDate(rect, null);
+                    g.setColor(theme.getRollOverColor());
+                    highLightLine.draw(g);
+                } else {
+                    highLightLine.setWidth(lineWidth);
+                    rect.y += rect.height * 0.6f;
+                    highLightLine.shapeUpToDate(rect, null);
+                    g.setColor(isRolledOver ? theme.getRollOverColor()
+                            : theme.getHighlightColor());
+                    highLightLine.draw(g);
+                }
                 g.setColor(fColor);
             }
         }
@@ -646,6 +673,12 @@ public class NapkinUtil {
         {
             c.putClientProperty(NEEDS_REVALIDATION, false);
             c.revalidate();
+        }
+        if (c instanceof AbstractButton) {
+            AbstractButton button = (AbstractButton) c;
+            ButtonModel model = button.getModel();
+            button.putClientProperty(ROLL_OVER_KEY,
+                    button.isRolloverEnabled() && model.isRollover());
         }
         g = defaultGraphics(g, c);
         NapkinTheme theme = paintBackground(g, c);

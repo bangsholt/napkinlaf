@@ -48,26 +48,27 @@ public class NapkinTheme {
      */
     public NapkinTheme(String name, String description, Color penColor,
             Color checkColor, Color radioColor, Color highlightColor,
-            Color selectionColor, Font textFont, Font boldTextFont,
-            Font fixedFont, AbstractSketcher sketcher,
+            Color selectionColor, Color rollOverColor, Font textFont,
+            Font boldTextFont, Font fixedFont, AbstractSketcher sketcher,
             NapkinBackground paper, NapkinBackground erasure,
             NapkinBackground popupPaper) {
 
         this(name, description, penColor, checkColor, radioColor,
-                highlightColor, selectionColor, textFont, boldTextFont,
-                fixedFont, sketcher, paper,
+                highlightColor, selectionColor, rollOverColor, textFont,
+                boldTextFont, fixedFont, sketcher, paper,
                 erasure, new NapkinTheme(name + "Popup",
                 description + " (popup)", penColor, checkColor,
-                radioColor, highlightColor, selectionColor, textFont,
-                boldTextFont,
-                fixedFont, sketcher, popupPaper, erasure, (NapkinTheme) null));
+                radioColor, highlightColor, selectionColor, rollOverColor,
+                textFont, boldTextFont, fixedFont, sketcher, popupPaper,
+                erasure, (NapkinTheme) null));
     }
 
     public NapkinTheme(String name, String description, Color penColor,
             Color checkColor, Color radioColor, Color highlightColor,
-            Color selectionColor, Font textFont, Font boldTextFont,
-            Font fixedFont, AbstractSketcher sketcher, NapkinBackground paper,
-            NapkinBackground erasure, NapkinTheme popupTheme) {
+            Color selectionColor, Color rollOverColor, Font textFont,
+            Font boldTextFont, Font fixedFont, AbstractSketcher sketcher,
+            NapkinBackground paper, NapkinBackground erasure,
+            NapkinTheme popupTheme) {
         this.name = name;
         this.description = description;
         colors.put(PEN_COLOR, uiResource(penColor));
@@ -77,6 +78,7 @@ public class NapkinTheme {
         colors.put(SELECTION_COLOR, uiResource(selectionColor));
         colors.put(BACKGROUND_COLOR,
                 uiResource(paper.getMeanColor()));
+        colors.put(ROLLOVER_COLOR, uiResource(rollOverColor));
         this.textFont = uiResource(textFont);
         this.boldTextFont = uiResource(boldTextFont);
         this.fixedFont = uiResource(fixedFont);
@@ -137,6 +139,10 @@ public class NapkinTheme {
         return colors.get(BACKGROUND_COLOR);
     }
 
+    public Color getRollOverColor() {
+        return colors.get(ROLLOVER_COLOR);
+    }
+    
     public Color getColor(NapkinThemeColor which) {
         return colors.get(which);
     }
@@ -218,6 +224,7 @@ public class NapkinTheme {
             NapkinTheme def = new NapkinTheme(DEFAULT_THEME, "Default theme",
                     Color.BLACK, checkGreen, new Color(0xf50000),
                     new Color(0x00, 0xff, 0xff, 0x80), checkGreen,
+                    new Color(0xff, 0xff, 0x00, 0x80),
                     scrawl.deriveFont(Font.PLAIN, 15),
                     scrawlBold.deriveFont(Font.BOLD, 15),
                     fixed.deriveFont(Font.PLAIN, 15),
@@ -231,8 +238,8 @@ public class NapkinTheme {
             addTheme(new NapkinTheme("debug", "Debug theme", def.getPenColor(),
                     def.getCheckColor(), def.getRadioColor(),
                     def.getHighlightColor(), def.getSelectionColor(),
-                    def.getTextFont(), def.getBoldTextFont(),
-                    def.getFixedFont(),
+                    def.getRollOverColor(), def.getTextFont(),
+                    def.getBoldTextFont(), def.getFixedFont(),
                     new JotSketcher(),
                     new NapkinBackground(RESOURCE_PATH + "testPaper.jpg",
                             0, 0, 10, 10),
@@ -247,8 +254,8 @@ public class NapkinTheme {
             Font blueFont = augie.deriveFont(Font.PLAIN, 13);
             addTheme(new NapkinTheme("blueprint", "Blueprint", Color.white,
                     blueprintInk, blueprintInk, blueprintHighlight,
-                    blueprintInk, blueFont, blueFont, def.getFixedFont(),
-                    new DraftSketcher(),
+                    blueprintInk, blueprintHighlight, blueFont, blueFont,
+                    def.getFixedFont(), new DraftSketcher(),
                     new NapkinBackground(RESOURCE_PATH + "blueprint-bg.jpg"),
                     def.getErasureMask(), def.getPopupTheme()));
 
