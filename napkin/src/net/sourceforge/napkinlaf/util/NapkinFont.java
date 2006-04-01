@@ -364,4 +364,39 @@ public class NapkinFont extends Font implements UIResource {
         return processGlyphVector(frc, gVector, gVectors);
     }
 
+    public boolean canDisplay(char c) {
+        if (super.canDisplay(c)) {
+            return true;
+        }
+        for (Font font : fonts) {
+            if (font.canDisplay(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean canDisplay(int codePoint) {
+        if (super.canDisplay(codePoint)) {
+            return true;
+        }
+        for (Font font : fonts) {
+            if (font.canDisplay(codePoint)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String toString() {
+        if (fonts.size() == 0)
+            return super.toString();
+        StringBuilder result = new StringBuilder("CompositeFont{");
+        result.append(super.toString());
+        for (Font font : fonts) {
+            result.append("; ").append(font.toString());
+        }
+        return result.append("}").toString();
+    }
+
 }
