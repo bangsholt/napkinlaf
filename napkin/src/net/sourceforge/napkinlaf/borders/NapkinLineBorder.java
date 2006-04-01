@@ -34,9 +34,8 @@ public class NapkinLineBorder extends AbstractNapkinBorder {
         Graphics2D g = (Graphics2D) g1;
         Rectangle passed = new Rectangle(x, y, width, height);
         if (line == null)
-            line =
-                    new DrawnLineHolder(DrawnCubicLineGenerator.INSTANCE,
-                            vertical);
+            line = new DrawnLineHolder(
+                    DrawnCubicLineGenerator.INSTANCE, vertical);
         line.shapeUpToDate(passed, null);
 
         Insets insets = getBorderInsets(c);
