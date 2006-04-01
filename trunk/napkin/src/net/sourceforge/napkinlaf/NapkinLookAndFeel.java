@@ -250,6 +250,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                 "TextField.border", underlineBorder,
                 "PasswordField.border", underlineBorder,
 
+                "List.focusCellHighlightBorder", null,
                 "Menu.border", null,
                 "MenuBar.border", null,
                 "PopupMenu.border", null,
