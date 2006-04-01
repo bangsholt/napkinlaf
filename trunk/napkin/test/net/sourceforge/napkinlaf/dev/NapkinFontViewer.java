@@ -2,6 +2,7 @@ package net.sourceforge.napkinlaf.dev;
 
 import net.sourceforge.napkinlaf.NapkinLookAndFeel;
 import net.sourceforge.napkinlaf.NapkinTheme;
+import net.sourceforge.napkinlaf.util.NapkinFont;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 
 import javax.swing.*;
@@ -55,9 +56,22 @@ public class NapkinFontViewer extends JPanel {
         private final BitSet chars = new BitSet(strings.length);
         private int numStrings;
 
+        private NapkinTheme theme;
+        private Font substituteFont;
+
         Display() {
-            Color color = NapkinTheme.Manager.getCurrentTheme().getPenColor();
+            theme = NapkinTheme.Manager.getCurrentTheme();
+            Color color = theme.getPenColor();
             setBorder(BorderFactory.createLineBorder(color));
+            Font fixedFont = theme.getFixedFont();
+            float smallSize = fixedFont.getSize2D() * 0.8f;
+            Font defaultFont = fixedFont.deriveFont(Font.ITALIC, smallSize);
+            Font[] fonts = GraphicsEnvironment
+                    .getLocalGraphicsEnvironment().getAllFonts();
+            for (int i = fonts.length; --i >= 0;) {
+                fonts[i] = fonts[i].deriveFont(Font.ITALIC, smallSize);
+            }
+            substituteFont = new NapkinFont(defaultFont, fonts);
         }
 
         @Override
@@ -80,10 +94,7 @@ public class NapkinFontViewer extends JPanel {
             }
 
             Graphics numG = g.create();
-            NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
-            Font fixedFont = theme.getFixedFont();
-            float smallSize = fixedFont.getSize2D() * 0.8f;
-            numG.setFont(fixedFont.deriveFont(Font.ITALIC, smallSize));
+            numG.setFont(substituteFont);
             numG.setColor(theme.getCheckColor());
             FontMetrics fixed = numG.getFontMetrics();
 
@@ -179,6 +190,7 @@ getChars:
         UIManager.setLookAndFeel(LAF);
 
         JFrame frame = new JFrame("Napkin Font Viewer");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(new NapkinFontViewer(), BorderLayout.CENTER);
         frame.setSize(800, 600);
         frame.setVisible(true);
