@@ -20,6 +20,8 @@ public class NapkinFontViewer extends JPanel {
 
     private static final Character.Subset[] SUBSETS;
     private static final NapkinLookAndFeel laf = new NapkinLookAndFeel();
+    private static final int NUM_LEN = (int) Math.round(Math.log10(
+            Character.MAX_CODE_POINT)) + 1;
 
     static {
         try {
@@ -93,7 +95,7 @@ public class NapkinFontViewer extends JPanel {
 
         @Override
         protected void paintComponent(Graphics g1) {
-            Graphics g = NapkinUtil.defaultGraphics(g1, this);
+            Graphics2D g = NapkinUtil.defaultGraphics(g1, this);
             if (curSubset != last) {
                 setStrings();
                 last = curSubset;
@@ -111,22 +113,23 @@ public class NapkinFontViewer extends JPanel {
                     fixed.getStringBounds(" ", numG).getWidth());
 
             int perColl = (int) Math.round(Math.ceil(numStrings / 8.0));
-            char[] ch = new char[]{(char) chars.nextSetBit(0)};
+            int[] ch = new int[]{chars.nextSetBit(0)};
             for (int i = 0; i < strings.length; i++) {
-                String str = strings[i];
-                if (str == null)
+                String num = strings[i];
+                if (num == null)
                     break;
 
                 int x = getX() + (i / perColl) * 75;
                 int y = getY() + (i % perColl) * 16;
-                numG.drawString(str, x, y);
-                double w = fixed.getStringBounds(str, numG).getWidth();
-                g.drawChars(ch, 0, 1, x + (int) Math.round(w) + space, y);
+                numG.drawString(num, x, y);
+                double w = fixed.getStringBounds(num, numG).getWidth();
+                String str = new String(ch, 0, 1);
+                g.drawString(str, x + (int) Math.round(w) + space, y);
 
                 int nextCh = chars.nextSetBit(ch[0] + 1);
                 if (nextCh < 0)
                     break;
-                ch[0] = (char) nextCh;
+                ch[0] = nextCh;
             }
         }
 
@@ -134,12 +137,12 @@ public class NapkinFontViewer extends JPanel {
             Arrays.fill(strings, null);
             chars.clear();
 
-            char c = Character.MIN_VALUE;
+            int c = Character.MIN_CODE_POINT;
 getChars:
             for (int i = 0; i < strings.length; i++) {
                 while (Character.UnicodeBlock.of(c) != curSubset ||
-                        !Character.isDefined(c)) {
-                    if (c >= Character.MAX_VALUE)
+                        !displayChar(c)) {
+                    if (c >= Character.MAX_CODE_POINT)
                         break getChars;
                     c++;
                 }
@@ -150,9 +153,13 @@ getChars:
             numStrings = chars.cardinality();
         }
 
-        private String numString(char c) {
-            StringBuilder sb = new StringBuilder(Integer.toHexString((int) c));
-            while (sb.length() < 4)
+        private boolean displayChar(int c) {
+            return Character.isDefined(c) && !Character.isISOControl(c);
+        }
+
+        private String numString(int c) {
+            StringBuilder sb = new StringBuilder(Integer.toHexString(c));
+            while (sb.length() < NUM_LEN)
                 sb.insert(0, ' ');
             return sb.toString();
         }
