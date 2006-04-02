@@ -32,14 +32,13 @@ public interface NapkinConstants extends SwingConstants {
 
     /**
      * Since Swing cannot handle alpha correctly/consistently, when things fail
-     * we ended up with pitch dark background which is a horrid. However the
-     * erasure actually depends on such failure in order to paint, so if set to
-     * (0xFF, 0xFF, 0xFF, 0x00) then the erasure mark effectively disappears.
-     * <p/>
-     * !! Seperated the cases into 3 constants
+     * we ended up with pitch dark background which is a horrid.
      */
     Color CLEAR = new AlphaColorUIResource(0xD0, 0xD0, 0xD0, 0x00);
-    Color ERASURE_CLEAR = new AlphaColorUIResource(0x00, 0x00, 0x00, 0x00);
+    /**
+     * Identification token for highlight-style selections, in cases where we
+     * can't reach though the proper ComponentUI mechanism
+     */
     Color HIGHLIGHT_CLEAR = new AlphaColorUIResource(0x12, 0x34, 0x56, 0x00);
 
     int NO_SIDE = -1;
