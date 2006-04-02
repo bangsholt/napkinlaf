@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <template xmlns="http://napkinlaf.sf.net/sketch/"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <!-- $Id$ -->
     <title>Test Template</title>
     <description>Describes a template used for testing</description>
     <clippingBounds>

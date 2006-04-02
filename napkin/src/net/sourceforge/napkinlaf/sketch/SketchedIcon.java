@@ -1,5 +1,3 @@
-// $Id$
-
 package net.sourceforge.napkinlaf.sketch;
 
 import javax.swing.*;

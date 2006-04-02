@@ -1,5 +1,3 @@
-// $Id$
-
 package net.sourceforge.napkinlaf.shapes;
 
 import static net.sourceforge.napkinlaf.util.NapkinConstants.LENGTH;

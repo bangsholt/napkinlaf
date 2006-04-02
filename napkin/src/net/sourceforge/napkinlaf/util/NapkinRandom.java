@@ -1,5 +1,3 @@
-// $Id$
-
 // $Header$
 
 package net.sourceforge.napkinlaf.util;

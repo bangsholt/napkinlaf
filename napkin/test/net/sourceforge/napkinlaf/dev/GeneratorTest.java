@@ -1,5 +1,3 @@
-// $Id: GeneratorTest.java 355 2006-03-15 04:15:55 -0500 (Wed, 15 Mar 2006) kcrca $
-
 package net.sourceforge.napkinlaf.dev;
 
 import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;

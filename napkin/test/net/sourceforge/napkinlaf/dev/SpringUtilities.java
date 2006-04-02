@@ -1,5 +1,3 @@
-// $Id: SpringUtilities.java 293 2006-03-06 09:18:49 -0500 (Mon, 06 Mar 2006) kcrca $
-
 package net.sourceforge.napkinlaf.dev;
 
 import javax.swing.*;

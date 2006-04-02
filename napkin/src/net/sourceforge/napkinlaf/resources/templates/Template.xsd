@@ -3,11 +3,10 @@
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            targetNamespace="http://napkinlaf.sf.net/sketch/"
            elementFormDefault="qualified" attributeFormDefault="unqualified">
-    <!-- $Id$ --><!-- Main template definition -->
     <xs:element name="template">
         <xs:annotation>
             <xs:documentation>Describes a NapkinSketch image
-		template</xs:documentation>
+                template</xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:sequence>

@@ -1,5 +1,3 @@
-// $Id: NapkinQuickTest.java 345 2006-03-14 08:06:43 -0500 (Tue, 14 Mar 2006) kcrca $
-
 package net.sourceforge.napkinlaf.examples;
 
 import net.sourceforge.napkinlaf.NapkinLookAndFeel;
@@ -24,6 +22,7 @@ public class NapkinQuickTest implements SwingConstants {
      * Run this class as a program
      *
      * @param args The command line arguments.
+     *
      * @throws Exception Exception we don't recover from.
      */
     public static void main(final String[] args) throws Exception {
@@ -193,7 +192,7 @@ public class NapkinQuickTest implements SwingConstants {
     }
 
     private static void addCtrl(final JTabbedPane tabs, Container ctrls,
-                                ButtonGroup grp, String lab, final int side, boolean on) {
+            ButtonGroup grp, String lab, final int side, boolean on) {
         JRadioButton button = new JRadioButton(lab, on);
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

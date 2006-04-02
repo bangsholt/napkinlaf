@@ -1,5 +1,3 @@
-// $Id$
-
 package net.sourceforge.napkinlaf;
 
 import static net.sourceforge.napkinlaf.util.NapkinConstants.*;

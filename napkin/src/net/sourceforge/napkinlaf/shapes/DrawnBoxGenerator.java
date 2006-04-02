@@ -1,5 +1,3 @@
-// $Id$
-
 package net.sourceforge.napkinlaf.shapes;
 
 import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
@@ -99,9 +97,9 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
         adjustmentY = yCorner - corner.getY().get();
         if (asX) {
             NapkinUtil.drawStroke(shape, matrix, xCorner, 0, xSize, ySize,
-                                  Math.PI, gens[0]);
+                    Math.PI, gens[0]);
             NapkinUtil.drawStroke(shape, matrix, 0, ySize, xSize, yCorner, 0,
-                                  gens[0]);
+                    gens[0]);
             return shape;
         }
         double scale = (xSize - xCorner) / LENGTH;

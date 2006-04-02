@@ -1,8 +1,5 @@
-// $Id$
-
 package net.sourceforge.napkinlaf;
 
-import java.util.WeakHashMap;
 import net.sourceforge.napkinlaf.util.NapkinPainter;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 

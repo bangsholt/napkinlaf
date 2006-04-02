@@ -1,5 +1,3 @@
-// $Id: SketchTest.java 339 2006-03-13 18:11:32 -0500 (Mon, 13 Mar 2006) alexlamsl $
-
 package net.sourceforge.napkinlaf.dev;
 
 import net.sourceforge.napkinlaf.NapkinLookAndFeel;

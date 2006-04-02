@@ -1,9 +1,5 @@
-// $Id$
-
 package net.sourceforge.napkinlaf.util;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import net.sourceforge.napkinlaf.NapkinKnownTheme;
 import net.sourceforge.napkinlaf.NapkinTheme;
 import net.sourceforge.napkinlaf.borders.AbstractNapkinBorder;
@@ -388,7 +384,8 @@ public class NapkinUtil {
         jc.putClientProperty(DISABLED_MARK_KEY, null);
         Color bgColor = jc.getBackground();
         if (jc.getClientProperty(BACKGROUND_KEY) == null) {
-            jc.putClientProperty(BACKGROUND_KEY, bgColor == null ? CLEAR : bgColor);
+            jc.putClientProperty(BACKGROUND_KEY,
+                    bgColor == null ? CLEAR : bgColor);
             jc.setBackground(new AlphaColorUIResource(
                     jc.getForeground().getRGB() & 0x00FFFFFF));
         }
@@ -514,7 +511,7 @@ public class NapkinUtil {
                 rect.width -= NapkinRandom.nextDouble(10d);
             }
             DrawnLineHolder highLightLine = rect.width > 50f ?
-                highLightLongLine : highLightShortLine;
+                    highLightLongLine : highLightShortLine;
             highLightLine.setCap(BasicStroke.CAP_BUTT);
             float lineWidth = rect.height;
             if (lineWidth > 10f) {
@@ -680,7 +677,7 @@ public class NapkinUtil {
             c.revalidate();
         }
         if (c instanceof AbstractButton) {
-            if(!Boolean.TRUE.equals(c.getClientProperty(NO_ROLL_OVER_KEY))) {
+            if (!Boolean.TRUE.equals(c.getClientProperty(NO_ROLL_OVER_KEY))) {
                 AbstractButton button = (AbstractButton) c;
                 ButtonModel model = button.getModel();
                 button.putClientProperty(ROLL_OVER_KEY,
@@ -727,5 +724,4 @@ public class NapkinUtil {
             return e;
         }
     }
-
 }

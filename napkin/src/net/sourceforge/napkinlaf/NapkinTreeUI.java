@@ -1,11 +1,9 @@
-// $Id$
-
 package net.sourceforge.napkinlaf;
 
 import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.HIGHLIGHT_KEY;
 import net.sourceforge.napkinlaf.util.NapkinPainter;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.HIGHLIGHT_KEY;
 
 import javax.swing.*;
 import javax.swing.plaf.*;
