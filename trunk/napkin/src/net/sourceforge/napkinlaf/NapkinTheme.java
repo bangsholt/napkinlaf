@@ -313,12 +313,14 @@ public class NapkinTheme {
             themes.put(theme.getName(), theme);
         }
 
-        private static Font tryToLoadFont(String fontName) {
+        static Font tryToLoadFont(String fontName) {
             try {
                 String fontRes = RESOURCE_PATH + fontName;
                 InputStream fontDef =
                         NapkinLookAndFeel.class.getResourceAsStream(fontRes);
-                if (fontDef == null) {
+                if (fontDef != null) {
+                    return Font.createFont(Font.TRUETYPE_FONT, fontDef);
+                } else {
                     throw new NullPointerException(
                             "Could not find font resource \"" + fontName +
                                     "\"\n\t\tin \"" + fontRes +
@@ -326,8 +328,7 @@ public class NapkinTheme {
                                     .getName() +
                                     "\"\n\t\ttry: " + NapkinLookAndFeel.class
                                     .getResource(fontRes));
-                } else
-                    return Font.createFont(Font.TRUETYPE_FONT, fontDef);
+                }
             } catch (FontFormatException e) {
                 LOG.log(Level.WARNING, "getting font " + fontName, e);
             } catch (IOException e) {

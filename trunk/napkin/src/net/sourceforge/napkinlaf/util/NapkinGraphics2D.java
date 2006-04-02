@@ -10,11 +10,10 @@
 package net.sourceforge.napkinlaf.util;
 
 import java.awt.*;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.geom.AffineTransform;
+import java.awt.font.*;
+import java.awt.geom.*;
 import java.awt.image.*;
-import java.awt.image.renderable.RenderableImage;
+import java.awt.image.renderable.*;
 import java.text.AttributedCharacterIterator;
 import java.util.Map;
 
@@ -25,7 +24,7 @@ import java.util.Map;
 public class NapkinGraphics2D extends Graphics2D {
 
     private final Graphics2D g2d;
-    
+
     /** Creates a new instance of NapkinGraphics2D */
     public NapkinGraphics2D(Graphics2D g2d) {
         this.g2d = g2d;
@@ -78,7 +77,7 @@ public class NapkinGraphics2D extends Graphics2D {
     }
 
     public void drawGlyphVector(GlyphVector g, float x, float y) {
-        if (g instanceof NapkinFont.CompositeGlyphVector) {
+        if (g instanceof NapkinGlyphVector) {
             fill(g.getOutline(x, y));
         } else {
             g2d.drawGlyphVector(g, x, y);
@@ -407,5 +406,5 @@ public class NapkinGraphics2D extends Graphics2D {
         g2d.finalize();
         super.finalize();
     }
-    
+
 }
