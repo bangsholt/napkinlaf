@@ -1,4 +1,4 @@
-package net.sourceforge.napkinlaf.util;
+package net.sourceforge.napkinlaf.fonts;
 
 import javax.swing.plaf.*;
 import java.awt.*;
