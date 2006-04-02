@@ -9,7 +9,7 @@ import net.sourceforge.napkinlaf.sketch.sketchers.JotSketcher;
 import net.sourceforge.napkinlaf.util.AlphaColorUIResource;
 import net.sourceforge.napkinlaf.util.NapkinBackground;
 import net.sourceforge.napkinlaf.util.NapkinConstants;
-import net.sourceforge.napkinlaf.fonts.NapkinFont;
+import net.sourceforge.napkinlaf.fonts.CompositeFont;
 
 import javax.swing.plaf.*;
 import java.awt.*;
@@ -100,8 +100,8 @@ public class NapkinTheme {
         if (font instanceof UIResource)
             return font;
         else {
-            // refer to NapkinFont for an explanation of the workaround here
-            return new NapkinFont(font);
+            // refer to CompositeFont for an explanation of the workaround here
+            return new CompositeFont(font);
         }
     }
 

@@ -4,7 +4,7 @@ import net.sourceforge.napkinlaf.NapkinKnownTheme;
 import net.sourceforge.napkinlaf.NapkinTheme;
 import net.sourceforge.napkinlaf.borders.AbstractNapkinBorder;
 import net.sourceforge.napkinlaf.borders.NapkinWrappedBorder;
-import net.sourceforge.napkinlaf.fonts.NapkinGraphics2D;
+import net.sourceforge.napkinlaf.fonts.GlyphGraphics2D;
 import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
@@ -687,12 +687,12 @@ public class NapkinUtil {
         }
         g = defaultGraphics(g, c);
         NapkinTheme theme = paintBackground(g, c);
-        if (!(g instanceof NapkinGraphics2D)) {
-            g = new NapkinGraphics2D((Graphics2D) g);
+        if (!(g instanceof GlyphGraphics2D)) {
+            g = new GlyphGraphics2D((Graphics2D) g);
         }
         painter.superPaint(g, c, theme);
-        if (g instanceof NapkinGraphics2D) {
-            g = ((NapkinGraphics2D) g).getGraphics2D();
+        if (g instanceof GlyphGraphics2D) {
+            g = ((GlyphGraphics2D) g).getGraphics2D();
         }
         finishGraphics(g, c);
     }
