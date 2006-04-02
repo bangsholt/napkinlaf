@@ -3,6 +3,7 @@ package net.sourceforge.napkinlaf.dev;
 import net.sourceforge.napkinlaf.NapkinLookAndFeel;
 import net.sourceforge.napkinlaf.NapkinTheme;
 import net.sourceforge.napkinlaf.util.NapkinFont;
+import net.sourceforge.napkinlaf.util.NapkinGraphics2D;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 
 import javax.swing.*;
@@ -64,7 +65,7 @@ public class NapkinFontViewer extends JPanel {
             Color color = theme.getPenColor();
             setBorder(BorderFactory.createLineBorder(color));
             fixedFont = theme.getFixedFont();
-            float smallSize = fixedFont.getSize2D() * 0.8f;
+            float smallSize = fixedFont.getSize2D() * 1.0f;
             fixedFont = fixedFont.deriveFont(Font.ITALIC, smallSize);
         }
 
@@ -81,7 +82,8 @@ public class NapkinFontViewer extends JPanel {
         @SuppressWarnings({"ObjectEquality"})
         @Override
         protected void paintComponent(Graphics g1) {
-            Graphics2D g = NapkinUtil.defaultGraphics(g1, this);
+            NapkinGraphics2D g = new NapkinGraphics2D(
+                    NapkinUtil.defaultGraphics(g1, this));
             if (curSubset != last) {
                 setStrings();
                 last = curSubset;

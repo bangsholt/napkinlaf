@@ -237,7 +237,7 @@ public class NapkinFont extends Font implements UIResource {
         int i, j;
         final int l = gVector.getNumGlyphs(), n = fonts.size();
         // if no glyphs or we only have a single font, just return
-        if (l == 0 || n == 0) {
+        if (l == 0 || n == 0) { // (n == 0) is not strictly necessary
             return gVector;
         }
         int badCode = getMissingGlyphCode();
@@ -308,6 +308,9 @@ public class NapkinFont extends Font implements UIResource {
     public GlyphVector createGlyphVector(FontRenderContext frc, char[] chars) {
         GlyphVector gVector = super.createGlyphVector(frc, chars);
         int n = fonts.size();
+        if (n == 0) {
+            return gVector;
+        }
         GlyphVector[] gVectors = new GlyphVector[n];
         for (int i = 0; i < n; i++) {
             gVectors[i] = fonts.get(i).createGlyphVector(frc, chars);
@@ -319,6 +322,9 @@ public class NapkinFont extends Font implements UIResource {
     public GlyphVector createGlyphVector(FontRenderContext frc, String str) {
         GlyphVector gVector = super.createGlyphVector(frc, str);
         int n = fonts.size();
+        if (n == 0) {
+            return gVector;
+        }
         GlyphVector[] gVectors = new GlyphVector[n];
         for (int i = 0; i < n; i++) {
             gVectors[i] = fonts.get(i).createGlyphVector(frc, str);
@@ -331,6 +337,9 @@ public class NapkinFont extends Font implements UIResource {
             CharacterIterator ci) {
         GlyphVector gVector = super.createGlyphVector(frc, ci);
         int n = fonts.size();
+        if (n == 0) {
+            return gVector;
+        }
         GlyphVector[] gVectors = new GlyphVector[n];
         for (int i = 0; i < n; i++) {
             gVectors[i] = fonts.get(i).createGlyphVector(frc, ci);
@@ -343,6 +352,9 @@ public class NapkinFont extends Font implements UIResource {
             int[] glyphCodes) {
         GlyphVector gVector = super.createGlyphVector(frc, glyphCodes);
         int n = fonts.size();
+        if (n == 0) {
+            return gVector;
+        }
         GlyphVector[] gVectors = new GlyphVector[n];
         for (int i = 0; i < n; i++) {
             gVectors[i] = fonts.get(i).createGlyphVector(frc, glyphCodes);
@@ -356,6 +368,9 @@ public class NapkinFont extends Font implements UIResource {
         GlyphVector gVector = super.layoutGlyphVector(
                 frc, text, start, limit, flags);
         int n = fonts.size();
+        if (n == 0) {
+            return gVector;
+        }
         GlyphVector[] gVectors = new GlyphVector[n];
         for (int i = 0; i < n; i++) {
             gVectors[i] = fonts.get(i).layoutGlyphVector(
@@ -389,7 +404,7 @@ public class NapkinFont extends Font implements UIResource {
     }
 
     public String toString() {
-        if (fonts.size() == 0)
+        if (!isComposite())
             return super.toString();
         StringBuilder result = new StringBuilder("CompositeFont{");
         result.append(super.toString());
@@ -397,6 +412,10 @@ public class NapkinFont extends Font implements UIResource {
             result.append("; ").append(font.toString());
         }
         return result.append("}").toString();
+    }
+
+    public boolean isComposite() {
+        return !fonts.isEmpty();
     }
 
 }

@@ -6,6 +6,7 @@ import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
 import net.sourceforge.napkinlaf.util.NapkinPainter;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.NO_ROLL_OVER_KEY;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -121,7 +122,8 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
         if (!button.equals(maxButton)) {
             button.setBorder(new EmptyBorder(1, 1, 1, 1));
         }
-        button.setOpaque(false);
+        //button.setOpaque(false);
+        button.putClientProperty(NO_ROLL_OVER_KEY, Boolean.TRUE);
     }
 
     @Override
