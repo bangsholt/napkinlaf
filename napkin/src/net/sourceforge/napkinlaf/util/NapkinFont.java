@@ -1,12 +1,12 @@
 package net.sourceforge.napkinlaf.util;
 
-import java.util.Arrays;
 import javax.swing.plaf.*;
 import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
 import java.lang.reflect.Field;
 import java.text.CharacterIterator;
+import java.util.Arrays;
 
 /**
  * This class defines a psuedo font that satisfies glyphs along a search path
@@ -18,7 +18,7 @@ import java.text.CharacterIterator;
  * We use this because handwritten fonts are rarely complete, so when people use
  * Napkin for text it is easy to find characters that are missing from the
  * fonts. Rather than look illegible, we can use one or more similar fonts as
- * suppliment, or let a complete but possibly non-handwritten font to back up
+ * supplement, or let a complete but possibly non-handwritten font to back up
  * the handwritten one.
  *
  * @author Alex Lam Sze Lok
@@ -66,7 +66,7 @@ public class NapkinFont extends Font implements UIResource {
 
     public NapkinFont(Font font, Font ... fonts) {
         this(font);
-        if (fonts != null && fonts.length > 0)
+        if (fonts.length > 0)
             this.fonts = fonts.clone();
     }
 
@@ -267,11 +267,6 @@ public class NapkinFont extends Font implements UIResource {
         return super.hashCode() ^ Arrays.deepHashCode(fonts);
     }
 
-    protected void finalize() throws Throwable {
-        super.finalize();
-        fonts = null;
-    }
-
     public byte getBaselineFor(char c) {
         if (!super.canDisplay(c)) {
             for (Font font : fonts) {
@@ -293,5 +288,4 @@ public class NapkinFont extends Font implements UIResource {
         }
         return retValue;
     }
-
 }
