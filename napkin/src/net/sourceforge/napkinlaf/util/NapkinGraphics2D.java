@@ -324,5 +324,88 @@ public class NapkinGraphics2D extends Graphics2D {
     public void dispose() {
         g2d.dispose();
     }
+
+    @Override
+    public void drawBytes(byte[] data, int offset, int length, int x, int y) {
+        g2d.drawBytes(data, offset, length, x, y);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return g2d.equals(obj);
+    }
+
+    @Override
+    public void drawPolygon(Polygon p) {
+        g2d.drawPolygon(p);
+    }
+
+    @Override
+    public void fillPolygon(Polygon p) {
+        g2d.fillPolygon(p);
+    }
+
+    @Override
+    public Rectangle getClipBounds(Rectangle r) {
+        return g2d.getClipBounds(r);
+    }
+
+    @Override
+    public void drawChars(char[] data, int offset, int length, int x, int y) {
+        g2d.drawChars(data, offset, length, x, y);
+    }
+
+    @Override
+    public void fill3DRect(int x, int y, int width, int height, boolean raised) {
+        g2d.fill3DRect(x, y, width, height, raised);
+    }
+
+    @Override
+    public void draw3DRect(int x, int y, int width, int height, boolean raised) {
+        g2d.draw3DRect(x, y, width, height, raised);
+    }
+
+    @Override
+    public int hashCode() {
+        return g2d.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return g2d.toString();
+    }
+
+    @Override
+    public void drawRect(int x, int y, int width, int height) {
+        g2d.drawRect(x, y, width, height);
+    }
+
+    @Override
+    public Graphics create(int x, int y, int width, int height) {
+        return new NapkinGraphics2D(
+                (Graphics2D) g2d.create(x, y, width, height));
+    }
+
+    @Override
+    public boolean hitClip(int x, int y, int width, int height) {
+        return g2d.hitClip(x, y, width, height);
+    }
+
+    @Override
+    public FontMetrics getFontMetrics() {
+        return g2d.getFontMetrics();
+    }
+
+    @Override
+    @Deprecated
+    public Rectangle getClipRect() {
+        return g2d.getClipRect();
+    }
+
+    @Override
+    public void finalize() {
+        g2d.finalize();
+        super.finalize();
+    }
     
 }

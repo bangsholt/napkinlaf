@@ -269,9 +269,6 @@ public class NapkinUtil {
 
     public static Graphics2D defaultGraphics(Graphics g1, Component c) {
         Graphics2D g = (Graphics2D) g1;
-        if (!(g instanceof NapkinGraphics2D)) {
-            g = new NapkinGraphics2D((Graphics2D) g);
-        }
         syncWithTheme(g, c);
         boolean enabled = c.isEnabled();
         if (!enabled && c instanceof JComponent) {
@@ -445,6 +442,7 @@ public class NapkinUtil {
         Dimension dim = new Dimension(size + 3, size + 3);
         button.setPreferredSize(dim);
         button.setMinimumSize(dim);
+        button.putClientProperty(NO_ROLL_OVER_KEY, Boolean.TRUE);
         return button;
     }
 
@@ -494,49 +492,56 @@ public class NapkinUtil {
 
         if (c instanceof JComponent) {
             JComponent jc = (JComponent) c;
-            Boolean tempBool = (Boolean) jc.getClientProperty(HIGHLIGHT_KEY);
-            boolean shouldHighlight = (jc.getBackground() == HIGHLIGHT_CLEAR)
-                    || (tempBool != null && tempBool);
-            tempBool = (Boolean) jc.getClientProperty(ROLL_OVER_KEY);
-            boolean isRolledOver = (tempBool != null && tempBool);
-            if (shouldHighlight || isRolledOver) {
-                Rectangle rect = g.getClipBounds();
-                if (rect.width > 20f) {
-                    rect.x += NapkinRandom.nextDouble(5d);
-                    rect.width -= NapkinRandom.nextDouble(10d);
-                }
-                DrawnLineHolder highLightLine = rect.width > 50f ?
-                    highLightLongLine : highLightShortLine;
-                highLightLine.setCap(BasicStroke.CAP_BUTT);
-                float lineWidth = rect.height;
-                if (lineWidth > 10f) {
-                    lineWidth *= 0.8f;
-                }
-                Color fColor = g.getColor();
-                if (shouldHighlight && isRolledOver) {
-                    lineWidth *= 0.5f;
-                    highLightLine.setWidth(lineWidth);
-                    rect.y += rect.height * 0.3f;
-                    highLightLine.shapeUpToDate(rect, null);
-                    g.setColor(theme.getHighlightColor());
-                    highLightLine.draw(g);
-                    rect.y += rect.height * 0.5f;
-                    highLightLine.shapeUpToDate(rect, null);
-                    g.setColor(theme.getRollOverColor());
-                    highLightLine.draw(g);
-                } else {
-                    highLightLine.setWidth(lineWidth);
-                    rect.y += rect.height * 0.6f;
-                    highLightLine.shapeUpToDate(rect, null);
-                    g.setColor(isRolledOver ? theme.getRollOverColor()
-                            : theme.getHighlightColor());
-                    highLightLine.draw(g);
-                }
-                g.setColor(fColor);
-            }
+            paintHighlights(g, theme, jc);
         }
 
         return theme;
+    }
+
+    private static void paintHighlights(final Graphics2D g,
+            final NapkinTheme theme, final JComponent jc) {
+        Boolean tempBool = (Boolean) jc.getClientProperty(HIGHLIGHT_KEY);
+        boolean shouldHighlight = (jc.getBackground() == HIGHLIGHT_CLEAR)
+                || (tempBool != null && tempBool);
+        tempBool = (Boolean) jc.getClientProperty(ROLL_OVER_KEY);
+        boolean isRolledOver = (tempBool != null && tempBool);
+        if (shouldHighlight || isRolledOver) {
+            if (jc.getClientProperty(NO_ROLL_OVER_KEY) != null)
+                throw new NullPointerException("NO_ROLL_OVER_KEY set");
+            Rectangle rect = g.getClipBounds();
+            if (rect.width > 20f) {
+                rect.x += NapkinRandom.nextDouble(5d);
+                rect.width -= NapkinRandom.nextDouble(10d);
+            }
+            DrawnLineHolder highLightLine = rect.width > 50f ?
+                highLightLongLine : highLightShortLine;
+            highLightLine.setCap(BasicStroke.CAP_BUTT);
+            float lineWidth = rect.height;
+            if (lineWidth > 10f) {
+                lineWidth *= 0.8f;
+            }
+            Color fColor = g.getColor();
+            if (shouldHighlight && isRolledOver) {
+                lineWidth *= 0.5f;
+                highLightLine.setWidth(lineWidth);
+                rect.y += rect.height * 0.3f;
+                highLightLine.shapeUpToDate(rect, null);
+                g.setColor(theme.getHighlightColor());
+                highLightLine.draw(g);
+                rect.y += rect.height * 0.5f;
+                highLightLine.shapeUpToDate(rect, null);
+                g.setColor(theme.getRollOverColor());
+                highLightLine.draw(g);
+            } else {
+                highLightLine.setWidth(lineWidth);
+                rect.y += rect.height * 0.6f;
+                highLightLine.shapeUpToDate(rect, null);
+                g.setColor(isRolledOver ? theme.getRollOverColor()
+                        : theme.getHighlightColor());
+                highLightLine.draw(g);
+            }
+            g.setColor(fColor);
+        }
     }
 
     private static Rectangle bounds(Component c) {
@@ -675,14 +680,22 @@ public class NapkinUtil {
             c.revalidate();
         }
         if (c instanceof AbstractButton) {
-            AbstractButton button = (AbstractButton) c;
-            ButtonModel model = button.getModel();
-            button.putClientProperty(ROLL_OVER_KEY,
-                    button.isRolloverEnabled() && model.isRollover());
+            if(!Boolean.TRUE.equals(c.getClientProperty(NO_ROLL_OVER_KEY))) {
+                AbstractButton button = (AbstractButton) c;
+                ButtonModel model = button.getModel();
+                button.putClientProperty(ROLL_OVER_KEY,
+                        button.isRolloverEnabled() && model.isRollover());
+            }
         }
         g = defaultGraphics(g, c);
         NapkinTheme theme = paintBackground(g, c);
+        if (!(g instanceof NapkinGraphics2D)) {
+            g = new NapkinGraphics2D((Graphics2D) g);
+        }
         painter.superPaint(g, c, theme);
+        if (g instanceof NapkinGraphics2D) {
+            g = ((NapkinGraphics2D) g).getGraphics2D();
+        }
         finishGraphics(g, c);
     }
 
