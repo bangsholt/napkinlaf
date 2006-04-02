@@ -23,31 +23,33 @@ import java.util.Arrays;
  *
  * @author Alex Lam Sze Lok
  */
-public class NapkinFont extends Font implements UIResource {
-    private static Font[] NO_ADDED_FONTS = new Font[0];
+public class CompositeFont extends Font implements UIResource {
+    private static final Font[] NO_ADDED_FONTS = new Font[0];
 
     private Font[] fonts = NO_ADDED_FONTS;
 
-    public NapkinFont(String name, int style, int size) {
+    public CompositeFont(String name, int style, int size) {
         super(name, style, size);
     }
 
-    public NapkinFont(Font font) {
+    public CompositeFont(Font font) {
         super(font.getAttributes());
 
         /*
          * Bug 6313541 (fixed in Mustang) prevents the bundled fonts loading
          * (because the font2DHandle field is not transferred when calling
-         * FontUIResource.  The workaround uses reflection, which might not work
-         * for applets and Web Start applications, so here I've put in checks so
-         * the workaround is used only when needed.
+         * FontUIResource).  The workaround uses reflection, which might not
+         * work for applets and Web Start applications, so here I've put in
+         * checks so the workaround is used only when needed.
          */
         if (!getFontName().equals(font.getFontName())) {
             try {
+                // transfer private field font2DHandle
                 Field field = Font.class.getDeclaredField("font2DHandle");
                 field.setAccessible(true);
                 field.set(this, field.get(font));
                 field.setAccessible(false);
+                // transfer private field createdFont
                 field = Font.class.getDeclaredField("createdFont");
                 field.setAccessible(true);
                 field.set(this, field.get(font));
@@ -64,7 +66,7 @@ public class NapkinFont extends Font implements UIResource {
         }
     }
 
-    public NapkinFont(Font font, Font ... fonts) {
+    public CompositeFont(Font font, Font ... fonts) {
         this(font);
         if (fonts.length > 0)
             this.fonts = fonts.clone();
@@ -76,7 +78,7 @@ public class NapkinFont extends Font implements UIResource {
         int glyphCount = gVector.getNumGlyphs();
         int fontCount = fonts.length;
         // if no glyphs or we only have a single font, just return
-        // (fontCount == 0) is not strictly necessary
+        // the (fontCount == 0) check is not strictly necessary
         if (glyphCount == 0 || fontCount == 0) {
             return gVector;
         }
@@ -97,7 +99,7 @@ public class NapkinFont extends Font implements UIResource {
         for (int j = 0; j < fontCount; j++) {
             badCodes[j] = fonts[j].getMissingGlyphCode();
         }
-        NapkinGlyphVector result = new NapkinGlyphVector(this, frc);
+        CompositeGlyphVector result = new CompositeGlyphVector(this, frc);
         Point2D curPos, origPos;
         GlyphVector curGVector;
         boolean replaced = false;
@@ -260,7 +262,7 @@ public class NapkinFont extends Font implements UIResource {
         if (!super.equals(obj)) {
             return false;
         }
-        return Arrays.deepEquals(fonts, ((NapkinFont) obj).fonts);
+        return Arrays.deepEquals(fonts, ((CompositeFont) obj).fonts);
     }
 
     public int hashCode() {

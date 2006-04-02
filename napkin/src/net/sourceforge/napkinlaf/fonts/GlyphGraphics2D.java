@@ -15,11 +15,13 @@ import java.util.Map;
  *
  * @author Alex Lam Sze Lok
  */
-public class NapkinGraphics2D extends Graphics2D {
+public class GlyphGraphics2D extends Graphics2D {
     private final Graphics2D g2d;
 
-    /** Creates a new instance of NapkinGraphics2D */
-    public NapkinGraphics2D(Graphics2D g2d) {
+    /**
+     * Creates a new instance of GlyphGraphics2D
+     */
+    public GlyphGraphics2D(Graphics2D g2d) {
         this.g2d = g2d;
     }
 
@@ -51,7 +53,7 @@ public class NapkinGraphics2D extends Graphics2D {
     }
 
     public void drawGlyphVector(GlyphVector g, float x, float y) {
-        if (g instanceof NapkinGlyphVector) {
+        if (g instanceof CompositeGlyphVector) {
             fill(g.getOutline(x, y));
         } else {
             g2d.drawGlyphVector(g, x, y);
@@ -64,7 +66,7 @@ public class NapkinGraphics2D extends Graphics2D {
 
     @Override
     public Graphics create(int x, int y, int width, int height) {
-        return new NapkinGraphics2D(
+        return new GlyphGraphics2D(
                 (Graphics2D) g2d.create(x, y, width, height));
     }
 
@@ -205,7 +207,7 @@ public class NapkinGraphics2D extends Graphics2D {
     }
 
     public Graphics create() {
-        return new NapkinGraphics2D((Graphics2D) g2d.create());
+        return new GlyphGraphics2D((Graphics2D) g2d.create());
     }
 
     public Color getColor() {
