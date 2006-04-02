@@ -58,6 +58,22 @@ public class NapkinGraphics2D extends Graphics2D {
         }
     }
 
+    public void dispose() {
+        g2d.dispose();
+    }
+
+    @Override
+    public Graphics create(int x, int y, int width, int height) {
+        return new NapkinGraphics2D(
+                (Graphics2D) g2d.create(x, y, width, height));
+    }
+
+    @Override
+    public void finalize() {
+        g2d.finalize();
+        super.finalize();
+    }
+    
     public void draw(Shape s) {
         g2d.draw(s);
     }
@@ -328,10 +344,6 @@ public class NapkinGraphics2D extends Graphics2D {
                 bgcolor, observer);
     }
 
-    public void dispose() {
-        g2d.dispose();
-    }
-
     @Override
     public void drawBytes(byte[] data, int offset, int length, int x, int y) {
         g2d.drawBytes(data, offset, length, x, y);
@@ -390,12 +402,6 @@ public class NapkinGraphics2D extends Graphics2D {
     }
 
     @Override
-    public Graphics create(int x, int y, int width, int height) {
-        return new NapkinGraphics2D(
-                (Graphics2D) g2d.create(x, y, width, height));
-    }
-
-    @Override
     public boolean hitClip(int x, int y, int width, int height) {
         return g2d.hitClip(x, y, width, height);
     }
@@ -411,9 +417,4 @@ public class NapkinGraphics2D extends Graphics2D {
         return g2d.getClipRect();
     }
 
-    @Override
-    public void finalize() {
-        g2d.finalize();
-        super.finalize();
-    }
 }
