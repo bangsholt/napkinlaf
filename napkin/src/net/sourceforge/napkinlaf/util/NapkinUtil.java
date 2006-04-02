@@ -180,12 +180,12 @@ public class NapkinUtil {
             c.putClientProperty(OPAQUE_KEY, Boolean.TRUE);
             c.setOpaque(false);
         }
+        c.addPropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
         if (c instanceof AbstractButton) {
             AbstractButton button = (AbstractButton) c;
             c.putClientProperty(ROLL_OVER_ENABLED, button.isRolloverEnabled());
             button.setRolloverEnabled(true);
         }
-        c.addPropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
         if (replaceBackground(c.getBackground()))
             c.setBackground(CLEAR);
         c.addPropertyChangeListener(BACKGROUND, BACKGROUND_LISTENER);
@@ -197,11 +197,11 @@ public class NapkinUtil {
         c.removePropertyChangeListener(BORDER, BORDER_LISTENER);
         unsetupBorder(c);
         c.removePropertyChangeListener(BACKGROUND, BACKGROUND_LISTENER);
-        c.removePropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
         if (c instanceof AbstractButton) {
             ((AbstractButton) c).setRolloverEnabled(
                     (Boolean) c.getClientProperty(ROLL_OVER_ENABLED));
         }
+        c.removePropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
         if (shouldMakeOpaque(c))
             c.setOpaque(true);
         for (String clientProp : CLIENT_PROPERTIES)
