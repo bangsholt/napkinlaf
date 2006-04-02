@@ -7,7 +7,7 @@ import net.sourceforge.napkinlaf.util.AlphaColorUIResource;
 import net.sourceforge.napkinlaf.util.ComponentWalker.Visitor;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
 import net.sourceforge.napkinlaf.util.NapkinDebug;
-import net.sourceforge.napkinlaf.util.NapkinFont;
+import net.sourceforge.napkinlaf.fonts.NapkinFont;
 import net.sourceforge.napkinlaf.util.NapkinIconFactory;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 

@@ -4,6 +4,7 @@ import net.sourceforge.napkinlaf.NapkinKnownTheme;
 import net.sourceforge.napkinlaf.NapkinTheme;
 import net.sourceforge.napkinlaf.borders.AbstractNapkinBorder;
 import net.sourceforge.napkinlaf.borders.NapkinWrappedBorder;
+import net.sourceforge.napkinlaf.fonts.NapkinGraphics2D;
 import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
