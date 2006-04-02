@@ -492,7 +492,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                     if (res instanceof CompoundBorder) {
                         entry.setValue(compoundBorder);
                     } else if (res instanceof EmptyBorder) {
-                        // keep it as it is, i.e. empty
+                        // keep it as it is, i.e. EmptyBorder
                     } else {
                         entry.setValue(drawnBorder);
                     }
@@ -514,15 +514,19 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                         key.endsWith(".textForeground")) {
                     entry.setValue(theme.getPenColor());
                 } else if (key.endsWith(".background") ||
-//                        key.endsWith(".buttonBackground") ||
-//                        key.endsWith(".disabledBackground") ||
-//                        key.endsWith(".inactiveBackground") ||
-//                        key.endsWith(".activeTitleBackground") ||
-//                        key.endsWith(".inactiveTitleBackground") ||
-//                        key.endsWith(".focusCellBackground") ||
-//                        key.endsWith(".dockingBackground") ||
-//                        key.endsWith(".floatingBackground") ||
                         key.endsWith(".textBackground")) {
+                    /**
+                     * Other potential candidates includes:
+                     *
+                     * .buttonBackground
+                     * .disabledBackground
+                     * .inactiveBackground
+                     * .activeTitleBackground
+                     * .inactiveTitleBackground
+                     * .focusCellBackground
+                     * .dockingBackground
+                     * .floatingBackground
+                     */
                     entry.setValue(clear);
                 } else if (key.endsWith(".selectionBackground")) {
                     entry.setValue(HIGHLIGHT_CLEAR);
