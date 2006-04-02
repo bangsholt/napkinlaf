@@ -232,10 +232,12 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
 
                 "Menu.arrowIcon", rightArrowIcon,
 
-                "OptionPane.messageAreaBorder", null,
-
                 "TabbedPane.contentBorderInsets",
                 NapkinBoxBorder.LARGE_DEFAULT_INSETS,
+                "TabbedPane.tabsOverlapBorder", null,
+
+                "Table.focusCellHighlightBorder", null,
+                "Table.scrollPaneBorder", null,
 
                 "Tree.openIcon", downArrowIcon,
                 "Tree.closedIcon", rightArrowIcon,
@@ -251,14 +253,14 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                 "PasswordField.border", underlineBorder,
 
                 "List.focusCellHighlightBorder", null,
+
                 "Menu.border", null,
                 "MenuBar.border", null,
                 "PopupMenu.border", null,
                 "ToolTip.border", null,
                 "DesktopIcon.border", null,
                 "ToggleButton.border", selectBorder,
-                "InternalFrame.border", new BorderUIResource(
-                new EmptyBorder(3, 3, 3, 3)),
+                "InternalFrame.border", null,
 
                 "PopupMenu.foreground", popupTheme.getPenColor(),
                 "ToolTip.foreground", popupTheme.getPenColor(),
@@ -311,6 +313,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                 "FileView.hardDriveIcon", sketchedIcon("HardDrive"),
                 "FileView.floppyDriveIcon", sketchedIcon("FloppyDrive"),
 
+                "OptionPane.buttonAreaBorder", null,
+                "OptionPane.messageAreaBorder", null,
                 "OptionPane.errorIcon", sketchedIcon("Error"),
                 "OptionPane.informationIcon", sketchedIcon("Information"),
                 "OptionPane.warningIcon", sketchedIcon("Warning"),
@@ -487,10 +491,13 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                                 res instanceof CompoundBorder))
                         ) {
                     // we override manually later
-                    if (!(res instanceof CompoundBorder))
-                        entry.setValue(drawnBorder);
-                    else
+                    if (res instanceof CompoundBorder) {
                         entry.setValue(compoundBorder);
+                    } else if (res instanceof EmptyBorder) {
+                        // keep it as it is, i.e. empty
+                    } else {
+                        entry.setValue(drawnBorder);
+                    }
                 }
             } else {
                 // We set things up right for these ones manually
