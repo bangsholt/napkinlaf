@@ -1,5 +1,6 @@
 package net.sourceforge.napkinlaf.util;
 
+import java.util.Arrays;
 import javax.swing.plaf.*;
 import java.awt.*;
 import java.awt.font.*;
@@ -16,8 +17,9 @@ import java.text.CharacterIterator;
  * <p/>
  * We use this because handwritten fonts are rarely complete, so when people use
  * Napkin for text it is easy to find characters that are missing from the
- * fonts. Rather than look illegible, we let a complete but possibly
- * non-handwritten font to back up the handwritten one.
+ * fonts. Rather than look illegible, we can use one or more similar fonts as
+ * suppliment, or let a complete but possibly non-handwritten font to back up
+ * the handwritten one.
  *
  * @author Alex Lam Sze Lok
  */
@@ -64,7 +66,8 @@ public class NapkinFont extends Font implements UIResource {
 
     public NapkinFont(Font font, Font ... fonts) {
         this(font);
-        this.fonts = fonts.clone();
+        if (fonts != null && fonts.length > 0)
+            this.fonts = fonts.clone();
     }
 
     private GlyphVector processGlyphVector(FontRenderContext frc,
@@ -252,4 +255,43 @@ public class NapkinFont extends Font implements UIResource {
     public boolean isComposite() {
         return fonts.length != 0;
     }
+
+    public boolean equals(Object obj) {
+        if (!super.equals(obj)) {
+            return false;
+        }
+        return Arrays.deepEquals(fonts, ((NapkinFont) obj).fonts);
+    }
+
+    public int hashCode() {
+        return super.hashCode() ^ Arrays.deepHashCode(fonts);
+    }
+
+    protected void finalize() throws Throwable {
+        super.finalize();
+        fonts = null;
+    }
+
+    public byte getBaselineFor(char c) {
+        if (!super.canDisplay(c)) {
+            for (Font font : fonts) {
+                if (font.canDisplay(c)) {
+                    return font.getBaselineFor(c);
+                }
+            }
+        }
+        return super.getBaselineFor(c);
+    }
+
+    public int getNumGlyphs() {
+        int num, retValue = super.getNumGlyphs();
+        for (Font font : fonts) {
+            num = font.getNumGlyphs();
+            if (retValue < num) {
+                retValue = num;
+            }
+        }
+        return retValue;
+    }
+
 }
