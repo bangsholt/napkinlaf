@@ -1,12 +1,3 @@
-/*
- * NapkinGraphics2D.java
- *
- * Created on 31 March 2006, 00:46
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package net.sourceforge.napkinlaf.util;
 
 import java.awt.*;
@@ -18,11 +9,13 @@ import java.text.AttributedCharacterIterator;
 import java.util.Map;
 
 /**
+ * This class is a delegator to an underlying {@link Graphics2D} object that
+ * works with {@link NapkinFont}.  Almost all methods just forward to the
+ * underlying object.
  *
  * @author Alex Lam Sze Lok
  */
 public class NapkinGraphics2D extends Graphics2D {
-
     private final Graphics2D g2d;
 
     /** Creates a new instance of NapkinGraphics2D */
@@ -32,26 +25,6 @@ public class NapkinGraphics2D extends Graphics2D {
 
     public Graphics2D getGraphics2D() {
         return g2d;
-    }
-
-    public void draw(Shape s) {
-        g2d.draw(s);
-    }
-
-    public boolean drawImage(Image img, AffineTransform xform, ImageObserver obs) {
-        return g2d.drawImage(img, xform, obs);
-    }
-
-    public void drawImage(BufferedImage img, BufferedImageOp op, int x, int y) {
-        g2d.drawImage(img, op, x, y);
-    }
-
-    public void drawRenderedImage(RenderedImage img, AffineTransform xform) {
-        g2d.drawRenderedImage(img, xform);
-    }
-
-    public void drawRenderableImage(RenderableImage img, AffineTransform xform) {
-        g2d.drawRenderableImage(img, xform);
     }
 
     public void drawString(String str, int x, int y) {
@@ -69,7 +42,8 @@ public class NapkinGraphics2D extends Graphics2D {
         drawString(iterator, (float) x, (float) y);
     }
 
-    public void drawString(AttributedCharacterIterator iterator, float x, float y) {
+    public void
+            drawString(AttributedCharacterIterator iterator, float x, float y) {
         Font font = getFont();
         FontRenderContext frc = getFontRenderContext();
         GlyphVector gVector = font.createGlyphVector(frc, iterator);
@@ -82,6 +56,28 @@ public class NapkinGraphics2D extends Graphics2D {
         } else {
             g2d.drawGlyphVector(g, x, y);
         }
+    }
+
+    public void draw(Shape s) {
+        g2d.draw(s);
+    }
+
+    public boolean
+            drawImage(Image img, AffineTransform xform, ImageObserver obs) {
+        return g2d.drawImage(img, xform, obs);
+    }
+
+    public void drawImage(BufferedImage img, BufferedImageOp op, int x, int y) {
+        g2d.drawImage(img, op, x, y);
+    }
+
+    public void drawRenderedImage(RenderedImage img, AffineTransform xform) {
+        g2d.drawRenderedImage(img, xform);
+    }
+
+    public void
+            drawRenderableImage(RenderableImage img, AffineTransform xform) {
+        g2d.drawRenderableImage(img, xform);
     }
 
     public void fill(Shape s) {
@@ -260,11 +256,13 @@ public class NapkinGraphics2D extends Graphics2D {
         g2d.clearRect(x, y, width, height);
     }
 
-    public void drawRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight) {
+    public void drawRoundRect(int x, int y, int width, int height, int arcWidth,
+            int arcHeight) {
         g2d.drawRoundRect(x, y, width, height, arcWidth, arcHeight);
     }
 
-    public void fillRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight) {
+    public void fillRoundRect(int x, int y, int width, int height, int arcWidth,
+            int arcHeight) {
         g2d.fillRoundRect(x, y, width, height, arcWidth, arcHeight);
     }
 
@@ -276,11 +274,13 @@ public class NapkinGraphics2D extends Graphics2D {
         g2d.fillOval(x, y, width, height);
     }
 
-    public void drawArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
+    public void drawArc(int x, int y, int width, int height, int startAngle,
+            int arcAngle) {
         g2d.drawArc(x, y, width, height, startAngle, arcAngle);
     }
 
-    public void fillArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
+    public void fillArc(int x, int y, int width, int height, int startAngle,
+            int arcAngle) {
         g2d.fillArc(x, y, width, height, startAngle, arcAngle);
     }
 
@@ -300,24 +300,32 @@ public class NapkinGraphics2D extends Graphics2D {
         return g2d.drawImage(img, x, y, observer);
     }
 
-    public boolean drawImage(Image img, int x, int y, int width, int height, ImageObserver observer) {
+    public boolean drawImage(Image img, int x, int y, int width, int height,
+            ImageObserver observer) {
         return g2d.drawImage(img, x, y, width, height, observer);
     }
 
-    public boolean drawImage(Image img, int x, int y, Color bgcolor, ImageObserver observer) {
+    public boolean drawImage(Image img, int x, int y, Color bgcolor,
+            ImageObserver observer) {
         return g2d.drawImage(img, x, y, bgcolor, observer);
     }
 
-    public boolean drawImage(Image img, int x, int y, int width, int height, Color bgcolor, ImageObserver observer) {
+    public boolean drawImage(Image img, int x, int y, int width, int height,
+            Color bgcolor, ImageObserver observer) {
         return g2d.drawImage(img, x, y, width, height, bgcolor, observer);
     }
 
-    public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1, int sx2, int sy2, ImageObserver observer) {
-        return g2d.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, observer);
+    public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2,
+            int sx1, int sy1, int sx2, int sy2, ImageObserver observer) {
+        return g2d.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
+                observer);
     }
 
-    public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1, int sx2, int sy2, Color bgcolor, ImageObserver observer) {
-        return g2d.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, bgcolor, observer);
+    public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2,
+            int sx1, int sy1, int sx2, int sy2, Color bgcolor,
+            ImageObserver observer) {
+        return g2d.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
+                bgcolor, observer);
     }
 
     public void dispose() {
@@ -355,12 +363,14 @@ public class NapkinGraphics2D extends Graphics2D {
     }
 
     @Override
-    public void fill3DRect(int x, int y, int width, int height, boolean raised) {
+    public void
+            fill3DRect(int x, int y, int width, int height, boolean raised) {
         g2d.fill3DRect(x, y, width, height, raised);
     }
 
     @Override
-    public void draw3DRect(int x, int y, int width, int height, boolean raised) {
+    public void
+            draw3DRect(int x, int y, int width, int height, boolean raised) {
         g2d.draw3DRect(x, y, width, height, raised);
     }
 
@@ -406,5 +416,4 @@ public class NapkinGraphics2D extends Graphics2D {
         g2d.finalize();
         super.finalize();
     }
-
 }
