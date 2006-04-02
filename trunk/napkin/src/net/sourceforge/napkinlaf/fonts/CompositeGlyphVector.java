@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * @see NapkinFont
  */
-class NapkinGlyphVector extends GlyphVector {
+class CompositeGlyphVector extends GlyphVector {
     private final Font font;
     private final FontRenderContext frc;
     private final java.util.List<GlyphInfo> glyphs = new ArrayList<GlyphInfo>();
@@ -41,7 +41,7 @@ class NapkinGlyphVector extends GlyphVector {
         }
     }
 
-    public NapkinGlyphVector(Font font, FontRenderContext frc) {
+    public CompositeGlyphVector(Font font, FontRenderContext frc) {
         this.font = font;
         this.frc = frc;
     }
