@@ -9,7 +9,7 @@ import net.sourceforge.napkinlaf.sketch.sketchers.JotSketcher;
 import net.sourceforge.napkinlaf.util.AlphaColorUIResource;
 import net.sourceforge.napkinlaf.util.NapkinBackground;
 import net.sourceforge.napkinlaf.util.NapkinConstants;
-import net.sourceforge.napkinlaf.util.NapkinFont;
+import net.sourceforge.napkinlaf.fonts.NapkinFont;
 
 import javax.swing.plaf.*;
 import java.awt.*;
