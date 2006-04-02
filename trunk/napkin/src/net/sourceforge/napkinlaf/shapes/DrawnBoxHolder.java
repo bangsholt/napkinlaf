@@ -1,5 +1,3 @@
-// $Id$
-
 package net.sourceforge.napkinlaf.shapes;
 
 import net.sourceforge.napkinlaf.borders.NapkinBoxBorder;

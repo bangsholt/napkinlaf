@@ -1,5 +1,3 @@
-// $Id$
-
 package net.sourceforge.napkinlaf;
 
 import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
@@ -52,7 +50,7 @@ public class NapkinCheckBoxUI extends BasicCheckBoxUI
             line = new DrawnLineHolder(new DrawnCubicLineGenerator());
         }
         NapkinUtil.paintButtonText(g, c, textRect, text, getTextShiftOffset(),
-                        line, c.isFocusOwner(), this);
+                line, c.isFocusOwner(), this);
     }
 
     public void superPaintText(Graphics g, JComponent c, Rectangle textRect,

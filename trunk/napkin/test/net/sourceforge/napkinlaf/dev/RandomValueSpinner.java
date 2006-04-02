@@ -1,5 +1,3 @@
-// $Id: RandomValueSpinner.java 293 2006-03-06 09:18:49 -0500 (Mon, 06 Mar 2006) kcrca $
-
 package net.sourceforge.napkinlaf.dev;
 
 import net.sourceforge.napkinlaf.util.RandomValue;
@@ -38,7 +36,8 @@ class RandomValueSpinner extends JPanel implements RandomValueSource {
         add(makeSpinner(midModel, "#0.00"));
         midModel.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                RandomValueSpinner.this.value.setMid(midModel.getNumber().doubleValue());
+                RandomValueSpinner.this.value.setMid(
+                        midModel.getNumber().doubleValue());
             }
         });
 
@@ -57,7 +56,8 @@ class RandomValueSpinner extends JPanel implements RandomValueSource {
         rangeModel = new SpinnerNumberModel(range, 0d, 100d, 0.5d);
         rangeModel.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                RandomValueSpinner.this.value.setRange(rangeModel.getNumber().doubleValue());
+                RandomValueSpinner.this.value.setRange(
+                        rangeModel.getNumber().doubleValue());
             }
         });
         return makeSpinner(rangeModel, "#0.00");

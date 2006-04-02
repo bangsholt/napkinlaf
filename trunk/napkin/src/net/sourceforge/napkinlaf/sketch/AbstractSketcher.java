@@ -1,5 +1,3 @@
-// $Id$
-
 package net.sourceforge.napkinlaf.sketch;
 
 import net.sourceforge.napkinlaf.sketch.geometry.CubicLine;
@@ -72,7 +70,7 @@ public abstract class AbstractSketcher {
     public void sketch(Template template, Graphics2D g2d) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        
+
         Iterator<TemplateItem> i = template.getListIterator();
         while (i.hasNext()) {
             TemplateItem current = i.next();

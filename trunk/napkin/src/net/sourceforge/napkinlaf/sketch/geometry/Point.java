@@ -1,5 +1,3 @@
-// $Id$
-
 package net.sourceforge.napkinlaf.sketch.geometry;
 
 import net.sourceforge.napkinlaf.util.NapkinRandom;

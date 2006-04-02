@@ -1,5 +1,3 @@
-// $Id$
-
 package net.sourceforge.napkinlaf.borders;
 
 import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;

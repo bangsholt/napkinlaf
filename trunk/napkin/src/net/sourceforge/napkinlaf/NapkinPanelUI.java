@@ -1,5 +1,3 @@
-// $Id$
-
 package net.sourceforge.napkinlaf;
 
 import net.sourceforge.napkinlaf.util.NapkinPainter;

@@ -1,10 +1,7 @@
-// $Id$
-
 package net.sourceforge.napkinlaf;
 
 import net.sourceforge.napkinlaf.util.NapkinPainter;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
-import net.sourceforge.napkinlaf.util.NapkinGraphics2D;
 
 import javax.swing.*;
 import javax.swing.plaf.*;

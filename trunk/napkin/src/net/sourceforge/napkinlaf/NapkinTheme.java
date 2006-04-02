@@ -1,5 +1,3 @@
-// $Id$
-
 package net.sourceforge.napkinlaf;
 
 import static net.sourceforge.napkinlaf.NapkinKnownTheme.BASIC_THEME;
@@ -142,7 +140,7 @@ public class NapkinTheme {
     public Color getRollOverColor() {
         return colors.get(ROLLOVER_COLOR);
     }
-    
+
     public Color getColor(NapkinThemeColor which) {
         return colors.get(which);
     }

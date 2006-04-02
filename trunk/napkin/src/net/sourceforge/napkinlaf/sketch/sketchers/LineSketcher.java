@@ -1,5 +1,3 @@
-// $Id$
-
 package net.sourceforge.napkinlaf.sketch.sketchers;
 
 import net.sourceforge.napkinlaf.sketch.AbstractSketcher;

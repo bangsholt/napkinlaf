@@ -1,8 +1,5 @@
-// $Id$
-
 package net.sourceforge.napkinlaf;
 
-import java.awt.font.FontRenderContext;
 import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
 import net.sourceforge.napkinlaf.util.NapkinIconFactory;
@@ -170,7 +167,8 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinPainter {
     }
 
     @Override
-    protected void paintHorizontalLabel(Graphics g, int value, Component label) {
+    protected void paintHorizontalLabel(Graphics g, int value,
+            Component label) {
         int labelCenter = xPositionForValue(value);
         int labelLeft = labelCenter - (label.getPreferredSize().width / 2);
         g.drawString(((JLabel) label).getText(), labelLeft, textHeight);

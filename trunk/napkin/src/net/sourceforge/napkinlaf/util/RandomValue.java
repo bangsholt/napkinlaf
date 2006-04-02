@@ -1,5 +1,3 @@
-// $Id$
-
 package net.sourceforge.napkinlaf.util;
 
 public class RandomValue implements RandomValueSource {
@@ -21,7 +19,7 @@ public class RandomValue implements RandomValueSource {
         if (factor == 0)
             adjust = 0;
         else
-            adjust = NapkinRandom.triCbRt(0.9d*factor); //gaussian(factor);
+            adjust = NapkinRandom.triCbRt(0.9d * factor); //gaussian(factor);
     }
 
     public double get() {
