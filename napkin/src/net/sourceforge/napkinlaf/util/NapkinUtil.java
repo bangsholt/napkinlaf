@@ -169,8 +169,7 @@ public class NapkinUtil {
 
     @SuppressWarnings({"ObjectEquality"})
     private static boolean replaceBackground(Color bgColor) {
-        return bgColor == null || (bgColor != CLEAR
-                && bgColor != ERASURE_CLEAR && bgColor != HIGHLIGHT_CLEAR
+        return bgColor == null || (!(bgColor instanceof AlphaColorUIResource)
                 && bgColor.getRed() == bgColor.getGreen()
                 && bgColor.getGreen() == bgColor.getBlue());
     }
@@ -388,9 +387,10 @@ public class NapkinUtil {
 
         jc.putClientProperty(DISABLED_MARK_KEY, null);
         Color bgColor = jc.getBackground();
-        if (bgColor != ERASURE_CLEAR) {
+        if (jc.getClientProperty(BACKGROUND_KEY) == null) {
             jc.putClientProperty(BACKGROUND_KEY, bgColor == null ? CLEAR : bgColor);
-            jc.setBackground(ERASURE_CLEAR);
+            jc.setBackground(new AlphaColorUIResource(
+                    jc.getForeground().getRGB() & 0x00FFFFFF));
         }
 
         Graphics2D tg = (Graphics2D) g1;
