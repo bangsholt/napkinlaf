@@ -672,9 +672,9 @@ public class NapkinUtil {
 
     public static void update(Graphics g, JComponent c, NapkinPainter painter) {
         if ((c instanceof JButton || c instanceof JLabel) &&
-                !Boolean.FALSE.equals(c.getClientProperty(NEEDS_REVALIDATION)))
+                !Boolean.TRUE.equals(c.getClientProperty(REVALIDATE_KEY)))
         {
-            c.putClientProperty(NEEDS_REVALIDATION, false);
+            c.putClientProperty(REVALIDATE_KEY, true);
             c.revalidate();
         }
         if (c instanceof AbstractButton) {
