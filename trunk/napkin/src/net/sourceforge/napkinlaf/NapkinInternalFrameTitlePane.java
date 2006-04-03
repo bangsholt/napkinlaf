@@ -120,8 +120,14 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
         if (!button.equals(maxButton)) {
             button.setBorder(new EmptyBorder(1, 1, 1, 1));
         }
-        //button.setOpaque(false);
         button.putClientProperty(NO_ROLL_OVER_KEY, Boolean.TRUE);
+        /**!!
+         * this is to fix the issue with invisible Close button
+         * Steps to reproduce:
+         * 1) goto swingset2 internal frame demo
+         * 2) click on any button to create a new internal frame
+         */
+        button.setOpaque(false);
     }
 
     @Override
