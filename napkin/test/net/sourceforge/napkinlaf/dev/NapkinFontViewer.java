@@ -2,8 +2,7 @@ package net.sourceforge.napkinlaf.dev;
 
 import net.sourceforge.napkinlaf.NapkinLookAndFeel;
 import net.sourceforge.napkinlaf.NapkinTheme;
-import net.sourceforge.napkinlaf.util.NapkinFont;
-import net.sourceforge.napkinlaf.util.NapkinGraphics2D;
+import net.sourceforge.napkinlaf.fonts.GlyphGraphics2D;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 
 import javax.swing.*;
@@ -82,7 +81,7 @@ public class NapkinFontViewer extends JPanel {
         @SuppressWarnings({"ObjectEquality"})
         @Override
         protected void paintComponent(Graphics g1) {
-            NapkinGraphics2D g = new NapkinGraphics2D(
+            GlyphGraphics2D g = new GlyphGraphics2D(
                     NapkinUtil.defaultGraphics(g1, this));
             if (curSubset != last) {
                 setStrings();
