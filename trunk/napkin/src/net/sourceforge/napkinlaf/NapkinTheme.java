@@ -46,17 +46,17 @@ public class NapkinTheme {
      */
     public NapkinTheme(String name, String description, Color penColor,
             Color checkColor, Color radioColor, Color highlightColor,
-            Color selectionColor, Color rollOverColor, Font textFont,
-            Font boldTextFont, Font fixedFont, AbstractSketcher sketcher,
-            NapkinBackground paper, NapkinBackground erasure,
-            NapkinBackground popupPaper) {
+            Color selectionColor, Color rollOverColor, Color popupRollOverColor,
+            Font textFont, Font boldTextFont, Font fixedFont,
+            AbstractSketcher sketcher, NapkinBackground paper,
+            NapkinBackground erasure, NapkinBackground popupPaper) {
 
         this(name, description, penColor, checkColor, radioColor,
                 highlightColor, selectionColor, rollOverColor, textFont,
                 boldTextFont, fixedFont, sketcher, paper,
                 erasure, new NapkinTheme(name + "Popup",
                 description + " (popup)", penColor, checkColor,
-                radioColor, highlightColor, selectionColor, rollOverColor,
+                radioColor, highlightColor, selectionColor, popupRollOverColor,
                 textFont, boldTextFont, fixedFont, sketcher, popupPaper,
                 erasure, (NapkinTheme) null));
     }
@@ -223,6 +223,7 @@ public class NapkinTheme {
                     Color.BLACK, checkGreen, new Color(0xf50000),
                     new Color(0x00, 0xff, 0xff, 0x80), checkGreen,
                     new Color(0xff, 0xff, 0x00, 0x80),
+                    new Color(0xff, 0x00, 0xff, 0x80),
                     scrawl.deriveFont(Font.PLAIN, 15),
                     scrawlBold.deriveFont(Font.BOLD, 15),
                     fixed.deriveFont(Font.PLAIN, 15),
@@ -235,10 +236,11 @@ public class NapkinTheme {
 
             addTheme(new NapkinTheme("debug", "Debug theme", def.getPenColor(),
                     def.getCheckColor(), def.getRadioColor(),
-                    def.getHighlightColor(), def.getSelectionColor(),
-                    def.getRollOverColor(), def.getTextFont(),
-                    def.getBoldTextFont(), def.getFixedFont(),
-                    new JotSketcher(),
+                    def.getHighlightColor(),
+                    def.getPopupTheme().getHighlightColor(),
+                    def.getSelectionColor(), def.getRollOverColor(),
+                    def.getTextFont(), def.getBoldTextFont(),
+                    def.getFixedFont(), new JotSketcher(),
                     new NapkinBackground(RESOURCE_PATH + "testPaper.jpg",
                             0, 0, 10, 10),
                     def.getErasureMask(), new NapkinBackground(
