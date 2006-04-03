@@ -1,5 +1,7 @@
 package net.sourceforge.napkinlaf;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.SOUTH;
 import net.sourceforge.napkinlaf.util.NapkinPainter;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
@@ -15,6 +17,15 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
     @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinComboBoxUI();
+    }
+
+    /**
+     * The default focus listener does not behave correctly.
+     * And the solution is to simply get rid of it.
+     */
+    @Override
+    protected FocusListener createFocusListener() {
+        return null;
     }
 
     @Override
@@ -49,5 +60,6 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
     public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
         super.update(g, c);
     }
+
 }
 
