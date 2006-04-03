@@ -14,17 +14,19 @@ public interface NapkinConstants extends SwingConstants {
     String DISABLED_MARK_KEY = "net.sourceforge.napkinlaf.disabledMark";
     String BORDER_KEY = "net.sourceforge.napkinlaf.border";
     String OPAQUE_KEY = "net.sourceforge.napkinlaf.wasOpaque";
+    // this key persists between LAF switches
     String HIGHLIGHT_KEY = "net.sourceforge.napkinlaf.highlighted";
-    String NEEDS_REVALIDATION = "net.sourceforge.napkinlaf.revalidated";
+    String REVALIDATE_KEY = "net.sourceforge.napkinlaf.revalidated";
+    // this key persists between LAF switches
     String ROLL_OVER_KEY = "net.sourceforge.napkinlaf.rolledOver";
     String ROLL_OVER_ENABLED = "net.sourceforge.napkinlaf.wasRollOverEnabled";
+    // this key persists between LAF switches
     String NO_ROLL_OVER_KEY = "net.sourceforge.napkinlaf.noRollOver";
 
     List<String> CLIENT_PROPERTIES = Collections.unmodifiableList(
             Arrays.asList(
-                    THEME_KEY, BACKGROUND_KEY, DISABLED_MARK_KEY,
-                    BORDER_KEY, OPAQUE_KEY, HIGHLIGHT_KEY, NEEDS_REVALIDATION,
-                    ROLL_OVER_KEY, ROLL_OVER_ENABLED, NO_ROLL_OVER_KEY
+                    THEME_KEY, BACKGROUND_KEY, DISABLED_MARK_KEY, BORDER_KEY,
+                    OPAQUE_KEY, REVALIDATE_KEY, ROLL_OVER_ENABLED
             )
     );
 
