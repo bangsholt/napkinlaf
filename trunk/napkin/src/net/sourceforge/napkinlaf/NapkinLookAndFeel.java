@@ -1,22 +1,17 @@
 package net.sourceforge.napkinlaf;
 
+import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
+
 import net.sourceforge.napkinlaf.borders.NapkinBoxBorder;
 import net.sourceforge.napkinlaf.borders.NapkinLineBorder;
 import net.sourceforge.napkinlaf.borders.NapkinSelectedBorder;
+import net.sourceforge.napkinlaf.fonts.CompositeFont;
 import net.sourceforge.napkinlaf.util.AlphaColorUIResource;
 import net.sourceforge.napkinlaf.util.ComponentWalker.Visitor;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
 import net.sourceforge.napkinlaf.util.NapkinDebug;
-import net.sourceforge.napkinlaf.fonts.CompositeFont;
 import net.sourceforge.napkinlaf.util.NapkinIconFactory;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 
-import javax.swing.*;
-import javax.swing.UIDefaults.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.text.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +22,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+
+import javax.swing.*;
+import javax.swing.UIDefaults.*;
+import javax.swing.border.*;
+import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
+import javax.swing.text.*;
 
 /**
  * This class defines the central behavior for the Napkin look & feel.
@@ -218,105 +220,106 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         NapkinTheme popupTheme = theme.getPopupTheme();
 
         Object[] napkinDefaults = {
-                "RadioButton.textIconGap", 0,
-                "RadioButton.icon", radioButtonIcon,
-                "RadioButtonMenuItem.textIconGap", 0,
-                "RadioButtonMenuItem.checkIcon", radioButtonIcon,
-
-                "CheckBox.textIconGap", 0,
                 "CheckBox.icon", checkBoxButtonIcon,
-                "CheckBoxMenuItem.textIconGap", 0,
+                "CheckBox.textIconGap", 0,
+
                 "CheckBoxMenuItem.checkIcon", checkedMenuItemIcon,
+                "CheckBoxMenuItem.foreground", popupTheme.getPenColor(),
+                "CheckBoxMenuItem.selectionForeground", popupTheme.getSelectionColor(),
+                "CheckBoxMenuItem.textIconGap", 0,
+
+                "DesktopIcon.border", null,
+
+                "FileChooser.detailsViewButtonToolTipText", "Details View",
+                "FileChooser.detailsViewIcon", sketchedIcon("DetailsView"),
+                "FileChooser.fileNameLabelText", "File Name(s):",
+                "FileChooser.filesOfTypeLabelText", "Of Type(s):",
+                "FileChooser.homeFolderIcon", sketchedIcon("HomeFolder"),
+                "FileChooser.homeFolderToolTipText", "Home Folder",
+                "FileChooser.listViewButtonToolTipText", "List View",
+                "FileChooser.listViewIcon", sketchedIcon("ListView"),
+                "FileChooser.lookInLabelText", "Look in:",
+                "FileChooser.newFolderIcon", sketchedIcon("NewFolder"),
+                "FileChooser.newFolderToolTipText", "New Folder",
+                "FileChooser.saveInLabelText", "Save in:",
+                "FileChooser.upFolderIcon", sketchedIcon("UpFolder"),
+                "FileChooser.upFolderToolTipText", "Up One Level",
+
+                "FileView.computerIcon", sketchedIcon("Computer"),
+                "FileView.directoryIcon", sketchedIcon("Directory"),
+                "FileView.fileIcon", sketchedIcon("File"),
+                "FileView.floppyDriveIcon", sketchedIcon("FloppyDrive"),
+                "FileView.hardDriveIcon", sketchedIcon("HardDrive"),
+
+                "InternalFrame.activeTitleForeground", popupTheme.getSelectionColor(),
+                "InternalFrame.border", null,
+                "InternalFrame.closeButtonToolTip", "Close",
+                "InternalFrame.closeIcon", closeIcon,
+                "InternalFrame.iconButtonToolTip", "Minimise",
+                "InternalFrame.iconifyIcon", iconIcon,
+                "InternalFrame.inactiveTitleForeground", popupTheme.getPenColor(),
+                "InternalFrame.maxButtonToolTip", "Maximise",
+                "InternalFrame.maximizeIcon", null,
+                "InternalFrame.minimizeIcon", minIcon,
+                "InternalFrame.restoreButtonToolTip", "Restore",
+
+                "List.focusCellHighlightBorder", null,
 
                 "Menu.arrowIcon", rightArrowIcon,
+                "Menu.border", null,
 
-                "TabbedPane.contentBorderInsets",
-                NapkinBoxBorder.LARGE_DEFAULT_INSETS,
+                "MenuBar.border", null,
+
+                "MenuItem.foreground", popupTheme.getPenColor(),
+                "MenuItem.selectionForeground", popupTheme.getSelectionColor(),
+
+                "OptionPane.buttonAreaBorder", null,
+                "OptionPane.errorIcon", sketchedIcon("Error"),
+                "OptionPane.informationIcon", sketchedIcon("Information"),
+                "OptionPane.messageAreaBorder", null,
+                "OptionPane.questionIcon", sketchedIcon("Question"),
+                "OptionPane.warningIcon", sketchedIcon("Warning"),
+
+                "RadioButton.icon", radioButtonIcon,
+                "RadioButton.textIconGap", 0,
+
+                "PasswordField.border", underlineBorder,
+
+                "PopupMenu.border", null,
+                "PopupMenu.foreground", popupTheme.getPenColor(),
+
+                "RadioButtonMenuItem.checkIcon", radioButtonIcon,
+                "RadioButtonMenuItem.foreground", popupTheme.getPenColor(),
+                "RadioButtonMenuItem.selectionForeground", popupTheme.getSelectionColor(),
+                "RadioButtonMenuItem.textIconGap", 0,
+
+                "SplitPane.dividerSize", NapkinSplitPaneDivider.SIZE,
+                
+                "SplitPaneDivider.border", null,
+
+                "TabbedPane.contentBorderInsets", NapkinBoxBorder.LARGE_DEFAULT_INSETS,
                 "TabbedPane.tabsOverlapBorder", null,
 
                 "Table.focusCellHighlightBorder", null,
                 "Table.scrollPaneBorder", null,
 
-                "Tree.openIcon", downArrowIcon,
-                "Tree.closedIcon", rightArrowIcon,
-                "Tree.hash", theme.getPenColor(),
-                "Tree.collapsedIcon", null,
-                "Tree.expandedIcon", null,
-                "Tree.leafIcon", null,
-                "Tree.selectionBorderColor", null,
-
-                "TextField.caretForeground", theme.getPenColor(),
                 "TextArea.caretForeground", theme.getPenColor(),
+
                 "TextField.border", underlineBorder,
-                "PasswordField.border", underlineBorder,
+                "TextField.caretForeground", theme.getPenColor(),
 
-                "List.focusCellHighlightBorder", null,
-
-                "Menu.border", null,
-                "MenuBar.border", null,
-                "PopupMenu.border", null,
-                "ToolTip.border", null,
-                "DesktopIcon.border", null,
                 "ToggleButton.border", selectBorder,
-                "InternalFrame.border", null,
 
-                "PopupMenu.foreground", popupTheme.getPenColor(),
+                "ToolTip.border", null,
                 "ToolTip.foreground", popupTheme.getPenColor(),
 
-                "CheckBoxMenuItem.foreground", popupTheme.getPenColor(),
-                "CheckBoxMenuItem.selectionForeground",
-                popupTheme.getSelectionColor(),
-
-                "RadioButtonMenuItem.foreground", popupTheme.getPenColor(),
-                "RadioButtonMenuItem.selectionForeground",
-                popupTheme.getSelectionColor(),
-
-                "MenuItem.foreground", popupTheme.getPenColor(),
-                "MenuItem.selectionForeground", popupTheme.getSelectionColor(),
-
-                "InternalFrame.maximizeIcon", null,
-                "InternalFrame.minimizeIcon", minIcon,
-                "InternalFrame.iconifyIcon", iconIcon,
-                "InternalFrame.closeIcon", closeIcon,
-                "InternalFrame.closeButtonToolTip", "Close",
-                "InternalFrame.iconButtonToolTip", "Minimise",
-                "InternalFrame.restoreButtonToolTip", "Restore",
-                "InternalFrame.maxButtonToolTip", "Maximise",
-                "InternalFrame.activeTitleForeground",
-                popupTheme.getSelectionColor(),
-                "InternalFrame.inactiveTitleForeground",
-                popupTheme.getPenColor(),
-
-                "SplitPaneDivider.border", null,
-                "SplitPane.dividerSize", NapkinSplitPaneDivider.SIZE,
-
-                "FileChooser.upFolderIcon", sketchedIcon("UpFolder"),
-                "FileChooser.detailsViewIcon", sketchedIcon("DetailsView"),
-                "FileChooser.listViewIcon", sketchedIcon("ListView"),
-                "FileChooser.newFolderIcon", sketchedIcon("NewFolder"),
-                "FileChooser.homeFolderIcon", sketchedIcon("HomeFolder"),
-                "FileChooser.lookInLabelText", "Look in:",
-                "FileChooser.saveInLabelText", "Save in:",
-                "FileChooser.fileNameLabelText", "File Name(s):",
-                "FileChooser.filesOfTypeLabelText", "Of Type(s):",
-                "FileChooser.upFolderToolTipText", "Up One Level",
-                "FileChooser.homeFolderToolTipText", "Home Folder",
-                "FileChooser.newFolderToolTipText", "New Folder",
-                "FileChooser.listViewButtonToolTipText", "List View",
-                "FileChooser.detailsViewButtonToolTipText", "Details View",
-
-                "FileView.directoryIcon", sketchedIcon("Directory"),
-                "FileView.fileIcon", sketchedIcon("File"),
-                "FileView.computerIcon", sketchedIcon("Computer"),
-                "FileView.hardDriveIcon", sketchedIcon("HardDrive"),
-                "FileView.floppyDriveIcon", sketchedIcon("FloppyDrive"),
-
-                "OptionPane.buttonAreaBorder", null,
-                "OptionPane.messageAreaBorder", null,
-                "OptionPane.errorIcon", sketchedIcon("Error"),
-                "OptionPane.informationIcon", sketchedIcon("Information"),
-                "OptionPane.warningIcon", sketchedIcon("Warning"),
-                "OptionPane.questionIcon", sketchedIcon("Question"),
+                "Tree.closedIcon", rightArrowIcon,
+                "Tree.collapsedIcon", null,
+                "Tree.expandedIcon", null,
+                "Tree.hash", theme.getPenColor(),
+                "Tree.leafIcon", null,
+                "Tree.openIcon", downArrowIcon,
+                "Tree.selectionBorderColor", null,
         };
 
         table.putDefaults(napkinDefaults);
@@ -348,8 +351,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                 "ctrl RIGHT", DefaultEditorKit.nextWordAction,
                 "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
                 "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-                "ctrl shift KP_LEFT",
-                DefaultEditorKit.selectionPreviousWordAction,
+                "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
                 "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
                 "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
                 "ctrl A", DefaultEditorKit.selectAllAction,
