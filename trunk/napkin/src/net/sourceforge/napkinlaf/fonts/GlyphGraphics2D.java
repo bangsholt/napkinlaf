@@ -20,9 +20,11 @@ public class GlyphGraphics2D extends Graphics2D {
 
     /**
      * Creates a new instance of GlyphGraphics2D
+     * Prevents GlyphGraphics2D wrapping another GlyphGraphics2D
      */
     public GlyphGraphics2D(Graphics2D g2d) {
-        this.g2d = g2d;
+        this.g2d = g2d instanceof GlyphGraphics2D ?
+            ((GlyphGraphics2D) g2d).getGraphics2D() : g2d;
     }
 
     public Graphics2D getGraphics2D() {
@@ -85,6 +87,80 @@ public class GlyphGraphics2D extends Graphics2D {
         g2d.finalize();
         super.finalize();
     }
+
+    /**
+     * Since it is possible for the Graphics2D we are wrapping to override the
+     * default Graphics2D behaviours, we need to override and delegate all the
+     * below methods as well
+     */
+
+    @Override
+    public boolean equals(Object obj) {
+        return g2d.equals(obj);
+    }
+
+    @Override
+    public void drawPolygon(Polygon p) {
+        g2d.drawPolygon(p);
+    }
+
+    @Override
+    public void fillPolygon(Polygon p) {
+        g2d.fillPolygon(p);
+    }
+
+    @Override
+    public Rectangle getClipBounds(Rectangle r) {
+        return g2d.getClipBounds(r);
+    }
+
+    @Override
+    public void
+            fill3DRect(int x, int y, int width, int height, boolean raised) {
+        g2d.fill3DRect(x, y, width, height, raised);
+    }
+
+    @Override
+    public void
+            draw3DRect(int x, int y, int width, int height, boolean raised) {
+        g2d.draw3DRect(x, y, width, height, raised);
+    }
+
+    @Override
+    public int hashCode() {
+        return g2d.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return g2d.toString();
+    }
+
+    @Override
+    public void drawRect(int x, int y, int width, int height) {
+        g2d.drawRect(x, y, width, height);
+    }
+
+    @Override
+    public boolean hitClip(int x, int y, int width, int height) {
+        return g2d.hitClip(x, y, width, height);
+    }
+
+    @Override
+    public FontMetrics getFontMetrics() {
+        return g2d.getFontMetrics();
+    }
+
+    @Override
+    @Deprecated
+    public Rectangle getClipRect() {
+        return g2d.getClipRect();
+    }
+
+    /**
+     * All these implementation methods below are just simple delegation to the
+     * wrapped Graphics2D
+     */
     
     public void draw(Shape s) {
         g2d.draw(s);
@@ -354,69 +430,6 @@ public class GlyphGraphics2D extends Graphics2D {
             ImageObserver observer) {
         return g2d.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
                 bgcolor, observer);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return g2d.equals(obj);
-    }
-
-    @Override
-    public void drawPolygon(Polygon p) {
-        g2d.drawPolygon(p);
-    }
-
-    @Override
-    public void fillPolygon(Polygon p) {
-        g2d.fillPolygon(p);
-    }
-
-    @Override
-    public Rectangle getClipBounds(Rectangle r) {
-        return g2d.getClipBounds(r);
-    }
-
-    @Override
-    public void
-            fill3DRect(int x, int y, int width, int height, boolean raised) {
-        g2d.fill3DRect(x, y, width, height, raised);
-    }
-
-    @Override
-    public void
-            draw3DRect(int x, int y, int width, int height, boolean raised) {
-        g2d.draw3DRect(x, y, width, height, raised);
-    }
-
-    @Override
-    public int hashCode() {
-        return g2d.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return g2d.toString();
-    }
-
-    @Override
-    public void drawRect(int x, int y, int width, int height) {
-        g2d.drawRect(x, y, width, height);
-    }
-
-    @Override
-    public boolean hitClip(int x, int y, int width, int height) {
-        return g2d.hitClip(x, y, width, height);
-    }
-
-    @Override
-    public FontMetrics getFontMetrics() {
-        return g2d.getFontMetrics();
-    }
-
-    @Override
-    @Deprecated
-    public Rectangle getClipRect() {
-        return g2d.getClipRect();
     }
 
 }
