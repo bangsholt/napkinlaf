@@ -81,7 +81,7 @@ public class NapkinFontViewer extends JPanel {
         @SuppressWarnings({"ObjectEquality"})
         @Override
         protected void paintComponent(Graphics g1) {
-            GlyphGraphics2D g = new GlyphGraphics2D(
+            GlyphGraphics2D g = GlyphGraphics2D.wrap(
                     NapkinUtil.defaultGraphics(g1, this));
             if (curSubset != last) {
                 setStrings();
