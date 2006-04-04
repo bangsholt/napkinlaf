@@ -52,6 +52,16 @@ public class GlyphGraphics2D extends Graphics2D {
         drawGlyphVector(gVector, x, y);
     }
 
+    @Override
+    public void drawBytes(byte[] data, int offset, int length, int x, int y) {
+        drawString(new String(data, offset, length), x, y);
+    }
+
+    @Override
+    public void drawChars(char[] data, int offset, int length, int x, int y) {
+        drawString(new String(data, offset, length), x, y);
+    }
+
     public void drawGlyphVector(GlyphVector g, float x, float y) {
         if (g instanceof CompositeGlyphVector) {
             fill(g.getOutline(x, y));
@@ -347,11 +357,6 @@ public class GlyphGraphics2D extends Graphics2D {
     }
 
     @Override
-    public void drawBytes(byte[] data, int offset, int length, int x, int y) {
-        g2d.drawBytes(data, offset, length, x, y);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         return g2d.equals(obj);
     }
@@ -369,11 +374,6 @@ public class GlyphGraphics2D extends Graphics2D {
     @Override
     public Rectangle getClipBounds(Rectangle r) {
         return g2d.getClipBounds(r);
-    }
-
-    @Override
-    public void drawChars(char[] data, int offset, int length, int x, int y) {
-        g2d.drawChars(data, offset, length, x, y);
     }
 
     @Override
