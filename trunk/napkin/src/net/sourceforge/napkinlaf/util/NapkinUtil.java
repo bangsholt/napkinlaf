@@ -687,10 +687,7 @@ public class NapkinUtil {
         }
         g = defaultGraphics(g, c);
         NapkinTheme theme = paintBackground(g, c);
-        if (!(g instanceof GlyphGraphics2D)) {
-            g = new GlyphGraphics2D((Graphics2D) g);
-        }
-        painter.superPaint(g, c, theme);
+        painter.superPaint(GlyphGraphics2D.wrap((Graphics2D) g), c, theme);
         if (g instanceof GlyphGraphics2D) {
             g = ((GlyphGraphics2D) g).getGraphics2D();
         }
