@@ -139,11 +139,15 @@ public class CompositeFont extends Font implements UIResource {
             metrics = new GlyphMetrics(metrics.getAdvance() == advanceX,
                     advanceX, metrics.getAdvanceY(), metricsBounds,
                     (byte) metrics.getType());
+            // get the font of this particular glyph
+            Font glyphFont = curGVector instanceof CompositeGlyphVector ?
+                ((CompositeGlyphVector) curGVector).getGlyphFont(i)
+                : curGVector.getFont();
             // add transformed glyph into our GlyphVector
             result.appendGlyph(curGVector.getGlyphCode(i),
                     outline, curPos, curGVector.getGlyphTransform(i),
                     logicalBounds, visualBounds, metrics,
-                    curGVector.getGlyphJustificationInfo(i));
+                    curGVector.getGlyphJustificationInfo(i), glyphFont);
         }
         /**
          * if no replacements were done, i.e. the backing font does not have

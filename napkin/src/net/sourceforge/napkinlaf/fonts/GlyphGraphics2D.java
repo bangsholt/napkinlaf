@@ -18,9 +18,19 @@ import java.util.Map;
 public class GlyphGraphics2D extends Graphics2D {
     private final Graphics2D g2d;
 
+    private boolean isCompositeFont;
+
     private GlyphGraphics2D(Graphics2D g2d) {
         assert !(g2d instanceof GlyphGraphics2D) : "double delegation";
         this.g2d = g2d;
+        // setFont so as to set the intial state of isCompositeFont
+        setFont(g2d.getFont());
+    }
+
+    public void setFont(Font font) {
+        isCompositeFont = font instanceof CompositeFont
+                && ((CompositeFont) font).isComposite();
+        g2d.setFont(font);
     }
 
     public static GlyphGraphics2D wrap(Graphics2D g2d) {
@@ -33,46 +43,79 @@ public class GlyphGraphics2D extends Graphics2D {
     }
 
     public void drawString(String str, int x, int y) {
-        drawString(str, (float) x, (float) y);
+        if (isCompositeFont) {
+            drawString(str, (float) x, (float) y);
+        } else {
+            g2d.drawString(str, x, y);
+        }
     }
 
     public void drawString(String s, float x, float y) {
-        Font font = getFont();
-        FontRenderContext frc = getFontRenderContext();
-        GlyphVector gVector = font.createGlyphVector(frc, s);
-        drawGlyphVector(gVector, x, y);
+        if (isCompositeFont) {
+            Font font = getFont();
+            FontRenderContext frc = getFontRenderContext();
+            GlyphVector gVector = font.createGlyphVector(frc, s);
+            drawGlyphVector(gVector, x, y);
+        } else {
+            g2d.drawString(s, x, y);
+        }
     }
 
     public void drawString(AttributedCharacterIterator iterator, int x, int y) {
-        drawString(iterator, (float) x, (float) y);
+        if (isCompositeFont) {
+            drawString(iterator, (float) x, (float) y);
+        } else {
+            g2d.drawString(iterator, x, y);
+        }
     }
 
     public void
             drawString(AttributedCharacterIterator iterator, float x, float y) {
-        Font font = getFont();
-        FontRenderContext frc = getFontRenderContext();
-        GlyphVector gVector = font.createGlyphVector(frc, iterator);
-        drawGlyphVector(gVector, x, y);
+        if (isCompositeFont) {
+            Font font = getFont();
+            FontRenderContext frc = getFontRenderContext();
+            GlyphVector gVector = font.createGlyphVector(frc, iterator);
+            drawGlyphVector(gVector, x, y);
+        } else {
+            g2d.drawString(iterator, x, y);
+        }
     }
 
     @Override
     public void drawBytes(byte[] data, int offset, int length, int x, int y) {
-        drawString(new String(data, offset, length), x, y);
+        if (isCompositeFont) {
+            drawString(new String(data, offset, length), x, y);
+        } else {
+            g2d.drawBytes(data, offset, length, x, y);
+        }
     }
 
     @Override
     public void drawChars(char[] data, int offset, int length, int x, int y) {
-        drawString(new String(data, offset, length), x, y);
+        if (isCompositeFont) {
+            drawString(new String(data, offset, length), x, y);
+        } else {
+            g2d.drawChars(data, offset, length, x, y);
+        }
     }
 
     public void drawGlyphVector(GlyphVector g, float x, float y) {
         if (g instanceof CompositeGlyphVector) {
-            fill(g.getOutline(x, y));
+            CompositeGlyphVector cgv = (CompositeGlyphVector) g;
+            int glyphIndex = 0;
+            for (GlyphVector g2 : cgv.split()) {
+                Point2D glyphPos = cgv.getGlyphPosition(glyphIndex);
+                g2d.drawGlyphVector(g2, (float) (x + glyphPos.getX()), (float) (y + glyphPos.getY()));
+                glyphIndex += g2.getNumGlyphs();
+            }
         } else {
             g2d.drawGlyphVector(g, x, y);
         }
     }
 
+    /**
+     * Wrap the newly created instance of Graphics2D
+     */
     @Override
     public Graphics create(int x, int y, int width, int height) {
         return new GlyphGraphics2D(
@@ -317,10 +360,6 @@ public class GlyphGraphics2D extends Graphics2D {
 
     public Font getFont() {
         return g2d.getFont();
-    }
-
-    public void setFont(Font font) {
-        g2d.setFont(font);
     }
 
     public FontMetrics getFontMetrics(Font f) {

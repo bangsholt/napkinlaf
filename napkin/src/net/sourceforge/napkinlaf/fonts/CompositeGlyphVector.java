@@ -24,11 +24,12 @@ class CompositeGlyphVector extends GlyphVector {
         public final Shape visualBounds;
         public final GlyphMetrics metrics;
         public final GlyphJustificationInfo info;
+        public final Font font;
 
         public GlyphInfo(int code, Shape outline, Point2D position,
                 AffineTransform transform, Shape logicalBounds,
                 Shape visualBounds, GlyphMetrics metrics,
-                GlyphJustificationInfo info) {
+                GlyphJustificationInfo info, Font font) {
 
             this.code = code;
             this.outline = outline;
@@ -38,6 +39,7 @@ class CompositeGlyphVector extends GlyphVector {
             this.visualBounds = visualBounds;
             this.metrics = metrics;
             this.info = info;
+            this.font = font;
         }
     }
 
@@ -161,12 +163,48 @@ class CompositeGlyphVector extends GlyphVector {
         return true;
     }
 
+    public Font getGlyphFont(int glyphIndex) {
+        return glyphs.get(glyphIndex).font;
+    }
+
     public void appendGlyph(int code, Shape outline, Point2D position,
             AffineTransform transform, Shape logicalBounds,
             Shape visualBounds, GlyphMetrics metrics,
-            GlyphJustificationInfo info) {
+            GlyphJustificationInfo info, Font font) {
         GlyphInfo glyph = new GlyphInfo(code, outline, position, transform,
-                logicalBounds, visualBounds, metrics, info);
+                logicalBounds, visualBounds, metrics, info, font);
         glyphs.add(glyph);
     }
+
+    public java.util.List<CompositeGlyphVector> split() {
+        java.util.List<CompositeGlyphVector> list =
+                new ArrayList<CompositeGlyphVector>();
+        final int glyphCount = glyphs.size();
+        if (glyphCount > 0) {
+            int topStartIndex = 0;
+            for (int i = 0; i < glyphCount; i++) {
+                GlyphInfo info = glyphs.get(i);
+                if (!font.equals(info.font)) {
+                    if (topStartIndex < i) {
+                        CompositeGlyphVector cgv =
+                                new CompositeGlyphVector(font, frc);
+                        cgv.glyphs.addAll(glyphs.subList(topStartIndex, i));
+                        list.add(cgv);
+                    }
+                    CompositeGlyphVector cgv =
+                            new CompositeGlyphVector(info.font, frc);
+                    cgv.glyphs.add(glyphs.get(i));
+                    list.add(cgv);
+                    topStartIndex = i + 1;
+                }
+            }
+            if (topStartIndex < glyphCount) {
+                CompositeGlyphVector cgv = new CompositeGlyphVector(font, frc);
+                cgv.glyphs.addAll(glyphs.subList(topStartIndex, glyphCount));
+                list.add(cgv);
+            }
+        }
+        return list;
+    }
+
 }
