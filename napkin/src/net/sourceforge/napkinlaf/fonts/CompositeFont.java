@@ -24,16 +24,21 @@ import java.util.Arrays;
  * @author Alex Lam Sze Lok
  */
 public class CompositeFont extends Font implements UIResource {
-    private static final Font[] NO_ADDED_FONTS = new Font[0];
 
-    private Font[] fonts = NO_ADDED_FONTS;
+    private final Font backingFont;
 
     public CompositeFont(String name, int style, int size) {
         super(name, style, size);
+        backingFont = null;
     }
 
     public CompositeFont(Font font) {
-        super(font.getAttributes());
+        this(font, null);
+    }
+
+    public CompositeFont(Font topFont, Font backingFont) {
+        super(topFont.getAttributes());
+        this.backingFont = backingFont;
 
         /*
          * Bug 6313541 (fixed in Mustang) prevents the bundled fonts loading
@@ -42,17 +47,17 @@ public class CompositeFont extends Font implements UIResource {
          * work for applets and Web Start applications, so here I've put in
          * checks so the workaround is used only when needed.
          */
-        if (!getFontName().equals(font.getFontName())) {
+        if (!getFontName().equals(topFont.getFontName())) {
             try {
                 // transfer private field font2DHandle
                 Field field = Font.class.getDeclaredField("font2DHandle");
                 field.setAccessible(true);
-                field.set(this, field.get(font));
+                field.set(this, field.get(topFont));
                 field.setAccessible(false);
                 // transfer private field createdFont
                 field = Font.class.getDeclaredField("createdFont");
                 field.setAccessible(true);
-                field.set(this, field.get(font));
+                field.set(this, field.get(topFont));
                 field.setAccessible(false);
             } catch (IllegalArgumentException ex) {
                 ex.printStackTrace();
@@ -66,55 +71,49 @@ public class CompositeFont extends Font implements UIResource {
         }
     }
 
-    public CompositeFont(Font font, Font ... fonts) {
-        this(font);
-        if (fonts.length > 0)
-            this.fonts = fonts.clone();
+    public static CompositeFont
+            newInstance(Font topFont, Font ... backingFonts) {
+        CompositeFont cFont = null;
+        for (int i = backingFonts.length; --i >= 0;) {
+            cFont = new CompositeFont(backingFonts[i], cFont);
+        }
+        return new CompositeFont(topFont, cFont);
+    }
+
+    public boolean isComposite() {
+        return backingFont != null;
+    }
+
+    public Font getBackingFont() {
+        return backingFont;
     }
 
     private GlyphVector processGlyphVector(FontRenderContext frc,
-            GlyphVector gVector, GlyphVector[] gVectors) {
+            GlyphVector gVector, GlyphVector gVector2) {
 
         int glyphCount = gVector.getNumGlyphs();
-        int fontCount = fonts.length;
         // if no glyphs or we only have a single font, just return
-        // the (fontCount == 0) check is not strictly necessary
-        if (glyphCount == 0 || fontCount == 0) {
-            return gVector;
-        }
-        int badCode = getMissingGlyphCode();
-        int pos;
-        for (pos = 0; pos < glyphCount; pos++) {
-            if (gVector.getGlyphCode(pos) == badCode) {
-                break;
-            }
-        }
-        // if we don't have any bad glyphs, just return
-        if (pos == glyphCount) {
+        if (glyphCount == 0) {
             return gVector;
         }
 
         // we do have bad glyphs; scan through the font chain for replacement
-        int[] badCodes = new int[fontCount];
-        for (int j = 0; j < fontCount; j++) {
-            badCodes[j] = fonts[j].getMissingGlyphCode();
-        }
+        int badCode = getMissingGlyphCode();
+        int badCode2 = backingFont.getMissingGlyphCode();
         CompositeGlyphVector result = new CompositeGlyphVector(this, frc);
         Point2D curPos, origPos;
         GlyphVector curGVector;
         boolean replaced = false;
         for (int i = 0; i < glyphCount; i++) {
-            // look for the GlyphVector with non-bad glyph
-            // fall back to top font's bad glyph if failed
+            /**
+             * Look for the GlyphVector with non-bad glyph.
+             * Fall back to top font's bad glyph if failed.
+             */
             curGVector = gVector;
-            if (gVector.getGlyphCode(i) == badCode) {
-                for (int j = 0; j < fontCount; j++) {
-                    if (gVectors[j].getGlyphCode(i) != badCodes[j]) {
-                        curGVector = gVectors[j];
-                        replaced = true;
-                        break;
-                    }
-                }
+            if (gVector.getGlyphCode(i) == badCode
+                    && gVector2.getGlyphCode(i) != badCode2) {
+                curGVector = gVector2;
+                replaced = true;
             }
             // prepare matrix for glyph paremater transformation
             origPos = curGVector.getGlyphPosition(i);
@@ -144,63 +143,89 @@ public class CompositeFont extends Font implements UIResource {
                     logicalBounds, visualBounds, metrics,
                     curGVector.getGlyphJustificationInfo(i));
         }
+        /**
+         * if no replacements were done, i.e. the backing font does not have
+         * the missing glyphs as well, the original GlyphVector is returned.
+         */
         return replaced ? result : gVector;
+    }
+
+    private boolean isTopFontSufficient(String str) {
+        int i, n = str.length();
+        for (i = 0; i < n && super.canDisplay(str.charAt(i)); i++) {
+        }
+        return i == n;
+    }
+
+    private boolean isTopFontSufficient(char[] text, int start, int limit) {
+        int i;
+        for (i = start; i < limit && super.canDisplay(text[i]); i++) {
+        }
+        return i == limit;
+    }
+
+    private boolean isTopFontSufficient(CharacterIterator iter) {
+        int limit = iter.getEndIndex();
+        for (char c = iter.setIndex(iter.getBeginIndex());
+                iter.getIndex() < limit && super.canDisplay(c);
+                c = iter.next()) {
+        }
+        return iter.getIndex() == limit;
     }
 
     @Override
     public GlyphVector createGlyphVector(FontRenderContext frc, char[] chars) {
         GlyphVector gVector = super.createGlyphVector(frc, chars);
-        if (fonts.length == 0) {
+        /**
+         * if this is not a composite font or if we don't have any bad glyphs,
+         * just return the simple result.
+         */
+        if (!isComposite() || isTopFontSufficient(chars, 0, chars.length)) {
             return gVector;
         }
-        GlyphVector[] gVectors = new GlyphVector[fonts.length];
-        for (int i = 0; i < fonts.length; i++) {
-            gVectors[i] = fonts[i].createGlyphVector(frc, chars);
-        }
-        return processGlyphVector(frc, gVector, gVectors);
+        return processGlyphVector(frc, gVector,
+                backingFont.createGlyphVector(frc, chars));
     }
 
     @Override
     public GlyphVector createGlyphVector(FontRenderContext frc, String str) {
         GlyphVector gVector = super.createGlyphVector(frc, str);
-        if (fonts.length == 0) {
+        /**
+         * if this is not a composite font or if we don't have any bad glyphs,
+         * just return the simple result.
+         */
+        if (!isComposite() || isTopFontSufficient(str)) {
             return gVector;
         }
-        GlyphVector[] gVectors = new GlyphVector[fonts.length];
-        for (int i = 0; i < fonts.length; i++) {
-            gVectors[i] = fonts[i].createGlyphVector(frc, str);
-        }
-        return processGlyphVector(frc, gVector, gVectors);
+        return processGlyphVector(frc, gVector,
+                backingFont.createGlyphVector(frc, str));
     }
 
     @Override
     public GlyphVector
             createGlyphVector(FontRenderContext frc, CharacterIterator ci) {
-
         GlyphVector gVector = super.createGlyphVector(frc, ci);
-        if (fonts.length == 0) {
+        /**
+         * if this is not a composite font or if we don't have any bad glyphs,
+         * just return the simple result.
+         */
+        if (!isComposite() || isTopFontSufficient(ci)) {
             return gVector;
         }
-        GlyphVector[] gVectors = new GlyphVector[fonts.length];
-        for (int i = 0; i < fonts.length; i++) {
-            gVectors[i] = fonts[i].createGlyphVector(frc, ci);
-        }
-        return processGlyphVector(frc, gVector, gVectors);
+        return processGlyphVector(frc, gVector,
+                backingFont.createGlyphVector(frc, ci));
     }
 
     @Override
     public GlyphVector
             createGlyphVector(FontRenderContext frc, int[] glyphCodes) {
-
         GlyphVector gVector = super.createGlyphVector(frc, glyphCodes);
-        if (fonts.length == 0) {
+        // if this is not a composite font just return the simple result.
+        if (!isComposite()) {
             return gVector;
         }
-        GlyphVector[] gVectors = new GlyphVector[fonts.length];
-        for (int i = 0; i < fonts.length; i++) {
-            gVectors[i] = fonts[i].createGlyphVector(frc, glyphCodes);
-        }
-        return processGlyphVector(frc, gVector, gVectors);
+        return processGlyphVector(frc, gVector,
+                backingFont.createGlyphVector(frc, glyphCodes));
     }
 
     @Override
@@ -208,86 +233,78 @@ public class CompositeFont extends Font implements UIResource {
             char[] text, int start, int limit, int flags) {
         GlyphVector gVector = super.layoutGlyphVector(
                 frc, text, start, limit, flags);
-        if (fonts.length == 0) {
+        /**
+         * if this is not a composite font or if we don't have any bad glyphs,
+         * just return the simple result.
+         */
+        if (!isComposite() || isTopFontSufficient(text, start, limit)) {
             return gVector;
         }
-        GlyphVector[] gVectors = new GlyphVector[fonts.length];
-        for (int i = 0; i < fonts.length; i++) {
-            gVectors[i] = fonts[i].layoutGlyphVector(
-                    frc, text, start, limit, flags);
-        }
-        return processGlyphVector(frc, gVector, gVectors);
+        return processGlyphVector(frc, gVector,
+                backingFont.layoutGlyphVector(frc, text, start, limit, flags));
     }
 
+    @Override
     public boolean canDisplay(char c) {
-        if (super.canDisplay(c)) {
-            return true;
-        }
-        for (Font font : fonts) {
-            if (font.canDisplay(c)) {
-                return true;
-            }
-        }
-        return false;
+        return super.canDisplay(c) || backingFont.canDisplay(c);
     }
 
+    @Override
     public boolean canDisplay(int codePoint) {
-        if (super.canDisplay(codePoint)) {
-            return true;
-        }
-        for (Font font : fonts) {
-            if (font.canDisplay(codePoint)) {
-                return true;
-            }
-        }
-        return false;
+        return super.canDisplay(codePoint) || backingFont.canDisplay(codePoint);
     }
 
+    @Override
     public String toString() {
         if (!isComposite())
             return super.toString();
         StringBuilder result = new StringBuilder("CompositeFont{");
         result.append(super.toString());
-        for (Font font : fonts) {
+        Font font = backingFont;
+        do {
             result.append("; ").append(font.toString());
-        }
+            if (font instanceof CompositeFont) {
+                font = ((CompositeFont) font).getBackingFont();
+            } else {
+                break;
+            }
+        } while (font != null);
         return result.append("}").toString();
     }
 
-    public boolean isComposite() {
-        return fonts.length != 0;
-    }
-
+    @Override
     public boolean equals(Object obj) {
         if (!super.equals(obj)) {
             return false;
         }
-        return Arrays.deepEquals(fonts, ((CompositeFont) obj).fonts);
+        if (isComposite()) {
+            return obj instanceof CompositeFont &&
+                    backingFont.equals(((CompositeFont) obj).getBackingFont());
+        } else {
+            return true;
+        }
     }
 
+    @Override
     public int hashCode() {
-        return super.hashCode() ^ Arrays.deepHashCode(fonts);
+        return super.hashCode() ^ (isComposite() ? backingFont.hashCode() : 0);
     }
 
+    @Override
     public byte getBaselineFor(char c) {
-        if (!super.canDisplay(c)) {
-            for (Font font : fonts) {
-                if (font.canDisplay(c)) {
-                    return font.getBaselineFor(c);
-                }
-            }
+        if (isComposite() && !super.canDisplay(c) && canDisplay(c)) {
+            return backingFont.getBaselineFor(c);
+        } else {
+            return super.getBaselineFor(c);
         }
-        return super.getBaselineFor(c);
     }
 
+    @Override
     public int getNumGlyphs() {
-        int num, retValue = super.getNumGlyphs();
-        for (Font font : fonts) {
-            num = font.getNumGlyphs();
-            if (retValue < num) {
-                retValue = num;
-            }
+        if (isComposite()) {
+            return Math.max(super.getNumGlyphs(), backingFont.getNumGlyphs());
+        } else {
+            return super.getNumGlyphs();
         }
-        return retValue;
     }
 }
