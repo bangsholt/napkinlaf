@@ -18,13 +18,14 @@ import java.util.Map;
 public class GlyphGraphics2D extends Graphics2D {
     private final Graphics2D g2d;
 
-    /**
-     * Creates a new instance of GlyphGraphics2D
-     * Prevents GlyphGraphics2D wrapping another GlyphGraphics2D
-     */
-    public GlyphGraphics2D(Graphics2D g2d) {
-        this.g2d = g2d instanceof GlyphGraphics2D ?
-            ((GlyphGraphics2D) g2d).getGraphics2D() : g2d;
+    private GlyphGraphics2D(Graphics2D g2d) {
+        assert !(g2d instanceof GlyphGraphics2D) : "double delegation";
+        this.g2d = g2d;
+    }
+
+    public static GlyphGraphics2D wrap(Graphics2D g2d) {
+        return g2d instanceof GlyphGraphics2D ?
+            (GlyphGraphics2D) g2d : new GlyphGraphics2D(g2d);
     }
 
     public Graphics2D getGraphics2D() {
@@ -72,20 +73,22 @@ public class GlyphGraphics2D extends Graphics2D {
         }
     }
 
-    public void dispose() {
-        g2d.dispose();
-    }
-
     @Override
     public Graphics create(int x, int y, int width, int height) {
         return new GlyphGraphics2D(
                 (Graphics2D) g2d.create(x, y, width, height));
     }
 
-    @Override
-    public void finalize() {
-        g2d.finalize();
-        super.finalize();
+    /**
+     * Graphics.finalize() just calls Graphics.dispose() - Graphics2D does not
+     * override any of the two methods.
+     */
+    public void dispose() {
+        /**
+         * We should not dispose of Graphics2D that we have wrapped, because a
+         * possible case is when GlyphGraphics2D is no long being referenced but
+         * the Graphics2D instance that it is wrapped is still in use.
+         */
     }
 
     /**
