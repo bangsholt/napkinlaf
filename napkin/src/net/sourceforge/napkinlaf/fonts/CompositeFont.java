@@ -1,5 +1,7 @@
 package net.sourceforge.napkinlaf.fonts;
 
+import java.text.AttributedCharacterIterator.Attribute;
+import java.util.Map;
 import javax.swing.plaf.*;
 import java.awt.*;
 import java.awt.font.*;
@@ -307,4 +309,98 @@ public class CompositeFont extends Font implements UIResource {
             return super.getNumGlyphs();
         }
     }
+
+    /**!!
+     * Here comes the difficult part of the game - backing font does not
+     * necessarily share the same properties with the top font, i.e. you can
+     * have a plain, 16pt, hand-written top font backed by an italic, 14.5pt,
+     * unicode font.
+     *
+     * So the challenge with deriveFont()s is to find out how to maintain these
+     * invisible links; the approach that I take for now is to:
+     * 1) change in sizes in the top font will lead to proportional scaling in
+     *    the backing font.
+     * 2) any changes in other attribute in the top font will simply write
+     *    through to the backing font.
+     */
+
+    @Override
+    public Font deriveFont(float size) {
+        Font topFont = super.deriveFont(size);
+        if (isComposite()) {
+            float backSize = size * backingFont.getSize2D() / getSize2D();
+            return new CompositeFont(topFont, backingFont.deriveFont(backSize));
+        } else {
+            return topFont;
+        }
+    }
+
+    @Override
+    public Font deriveFont(int style) {
+        Font topFont = super.deriveFont(style);
+        if (isComposite()) {
+            // find the differing bits, i.e. the styles which will be overriden
+            int styleMask = getStyle() ^ style;
+            // prepare the overriding bits (styles)
+            int overridingStyles = style & styleMask;
+            // prepare to calculate for the new backing font's styles
+            int backStyle = backingFont.getStyle();
+            // clears away the fields we are going to write in
+            backStyle &= ~styleMask;
+            // write in the fields
+            backStyle |= overridingStyles;
+            return new CompositeFont(topFont, backingFont.deriveFont(backStyle));
+        } else {
+            return topFont;
+        }
+    }
+
+    @Override
+    public Font deriveFont(AffineTransform trans) {
+        Font topFont = super.deriveFont(trans);
+        if (isComposite()) {
+            AffineTransform topTrans = getTransform();
+            if (trans == topTrans
+                    || (trans != null && trans.equals(topTrans))) {
+                return this;
+            } else {
+                return new CompositeFont(
+                        topFont, backingFont.deriveFont(trans));
+            }
+        } else {
+            return topFont;
+        }
+    }
+
+    @Override
+    public Font deriveFont(Map<? extends Attribute, ?> attributes) {
+        Font topFont = super.deriveFont(attributes);
+        if (isComposite()) {
+            Map<? extends Attribute, ?> topAttributes = getAttributes();
+            if (attributes == topAttributes ||
+                    (attributes != null && attributes.equals(topAttributes))) {
+                return this;
+            } else {
+                return new CompositeFont(
+                        topFont, backingFont.deriveFont(attributes));
+            }
+        } else {
+            return topFont;
+        }
+    }
+
+    /**!!
+     * These are simply divided into seperate stages
+     */
+
+    @Override
+    public Font deriveFont(int style, AffineTransform trans) {
+        return deriveFont(style).deriveFont(trans);
+    }
+
+    @Override
+    public Font deriveFont(int style, float size) {
+        return deriveFont(size).deriveFont(style);
+    }
+
 }
