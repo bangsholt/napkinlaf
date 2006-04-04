@@ -450,6 +450,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
 
         Map<String, Font> fontMap = fontNameMap(theme);
+        Map<CompositeFont, CompositeFont> fontCache =
+                new HashMap<CompositeFont, CompositeFont>();
 
         Object drawnBorder = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
@@ -476,9 +478,15 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                     Font resource = (Font) res;
                     String name = resource.getFontName();
                     Font font = fontMap.get(name);
-                    if (font != null)
-                        entry.setValue(new CompositeFont(font, resource));
-                    else {
+                    if (font != null) {
+                        CompositeFont cFont = new CompositeFont(font, resource);
+                        if (fontCache.containsKey(cFont)) {
+                            cFont = fontCache.get(cFont);
+                        } else {
+                            fontCache.put(cFont, cFont);
+                        }
+                        entry.setValue(cFont);
+                    } else {
                         System.err.println(
                                 "unknown font: " + name + " for " + key);
                     }
