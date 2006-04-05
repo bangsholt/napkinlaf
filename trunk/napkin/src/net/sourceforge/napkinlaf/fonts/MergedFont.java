@@ -370,10 +370,14 @@ public class MergedFont extends Font implements UIResource {
     /** {@inheritDoc} */
     @Override
     public Font deriveFont(AffineTransform trans) {
-        AffineTransform topTrans = getTransform();
-        if (trans == topTrans || (trans != null && trans.equals(topTrans))) {
-            return this;
-        } else {
+        try {
+            AffineTransform temp = getTransform().createInverse();
+            temp.concatenate(backingFont.getTransform());
+            AffineTransform backingTrans = (AffineTransform) trans.clone();
+            backingTrans.concatenate(temp);
+            return new MergedFont(super.deriveFont(trans),
+                    backingFont.deriveFont(backingTrans));
+        } catch (NoninvertibleTransformException ex) {
             return new MergedFont(super.deriveFont(trans),
                     backingFont.deriveFont(trans));
         }
