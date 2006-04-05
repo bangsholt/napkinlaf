@@ -38,6 +38,8 @@ public class NapkinUtil {
     private static final String BACKGROUND = "background";
     private static final String BORDER = "border";
     private static final String OPAQUE = "opaque";
+    private static final String ROLL_OVER =
+            AbstractButton.ROLLOVER_ENABLED_CHANGED_PROPERTY;
 
     private static final PropertyChangeListener BACKGROUND_LISTENER =
             new PropertyChangeListener() {
@@ -86,6 +88,25 @@ public class NapkinUtil {
                         c.removePropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
                         c.setOpaque(false);
                         c.addPropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
+                    }
+                }
+            };
+
+    private static final PropertyChangeListener ROLL_OVER_LISTENER =
+            new PropertyChangeListener() {
+                public void propertyChange(PropertyChangeEvent event) {
+                    AbstractButton button = (AbstractButton) event.getSource();
+                    boolean val = (Boolean) event.getNewValue();
+                    button.putClientProperty(ROLL_OVER_ENABLED, val);
+                    if (!val) {
+                        // unplug the listener before enabling roll over
+                        // this is to avoid possible infinite loop due to
+                        // another "enforcing" listener
+                        button.removePropertyChangeListener(
+                                ROLL_OVER, ROLL_OVER_LISTENER);
+                        button.setRolloverEnabled(true);
+                        button.addPropertyChangeListener(
+                                ROLL_OVER, ROLL_OVER_LISTENER);
                     }
                 }
             };
@@ -181,6 +202,7 @@ public class NapkinUtil {
             AbstractButton button = (AbstractButton) c;
             c.putClientProperty(ROLL_OVER_ENABLED, button.isRolloverEnabled());
             button.setRolloverEnabled(true);
+            c.addPropertyChangeListener(ROLL_OVER, ROLL_OVER_LISTENER);
         }
         if (replaceBackground(c.getBackground()))
             c.setBackground(CLEAR);
@@ -194,6 +216,7 @@ public class NapkinUtil {
         unsetupBorder(c);
         c.removePropertyChangeListener(BACKGROUND, BACKGROUND_LISTENER);
         if (c instanceof AbstractButton) {
+            c.removePropertyChangeListener(ROLL_OVER, ROLL_OVER_LISTENER);
             ((AbstractButton) c).setRolloverEnabled(
                     (Boolean) c.getClientProperty(ROLL_OVER_ENABLED));
         }
