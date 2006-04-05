@@ -707,10 +707,9 @@ public class NapkinUtil {
         }
         g = defaultGraphics(g, c);
         NapkinTheme theme = paintBackground(g, c);
-        painter.superPaint(MergedFontGraphics2D.wrap((Graphics2D) g), c, theme);
-        if (g instanceof MergedFontGraphics2D) {
-            g = ((MergedFontGraphics2D) g).getGraphics2D();
-        }
+        MergedFontGraphics2D mfg = MergedFontGraphics2D.wrap((Graphics2D) g);
+        painter.superPaint(mfg, c, theme);
+        mfg.dispose();
         finishGraphics(g, c);
     }
 

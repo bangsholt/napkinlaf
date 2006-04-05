@@ -100,8 +100,7 @@ public class NapkinTheme {
         if (font instanceof UIResource)
             return font;
         else {
-            // refer to MergedFont for an explanation of the workaround here
-            return new MergedFont(font, font);
+            return new net.sourceforge.napkinlaf.fonts.FontUIResource(font);
         }
     }
 

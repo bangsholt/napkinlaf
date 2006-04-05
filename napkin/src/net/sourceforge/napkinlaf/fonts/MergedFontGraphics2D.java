@@ -144,7 +144,7 @@ public class MergedFontGraphics2D extends Graphics2D {
 
     /** Invokes {@link Graphics2D#dispose()} on the underlying object. */
     public void dispose() {
-        g2d.dispose();
+        //g2d.dispose();
     }
 
     @Override
