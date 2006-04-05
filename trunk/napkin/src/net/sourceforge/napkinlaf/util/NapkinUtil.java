@@ -538,6 +538,8 @@ public class NapkinUtil {
             float lineWidth = rect.height;
             if (lineWidth > 10f) {
                 lineWidth *= 0.8f;
+            } else if (lineWidth < 0f) {
+                return;
             }
             Color fColor = g.getColor();
             if (shouldHighlight && isRolledOver) {
