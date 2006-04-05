@@ -504,8 +504,6 @@ public class NapkinUtil {
         tempBool = (Boolean) jc.getClientProperty(ROLL_OVER_KEY);
         boolean isRolledOver = (tempBool != null && tempBool);
         if (shouldHighlight || isRolledOver) {
-            if (jc.getClientProperty(NO_ROLL_OVER_KEY) != null)
-                throw new NullPointerException("NO_ROLL_OVER_KEY set");
             Rectangle rect = g.getClipBounds();
             if (rect.width > 20f) {
                 rect.x += NapkinRandom.nextDouble(5d);
