@@ -45,32 +45,8 @@ import java.util.Map;
  *
  * @author Alex Lam Sze Lok
  */
-public class MergedFont extends Font implements UIResource {
+public class MergedFont extends PatchedFontUIResource {
     private final Font backingFont;
-
-    private static final Field font2DHandleField;
-    private static final Field createdFontField;
-
-    static {
-        Field fField = null;
-        Field cField = null;
-        try {
-            // transfer private field font2DHandle
-            fField = Font.class.getDeclaredField("font2DHandle");
-            fField.setAccessible(true);
-            // transfer private field createdFont
-            cField = Font.class.getDeclaredField("createdFont");
-            cField.setAccessible(true);
-        } catch (IllegalArgumentException ex) {
-            ex.printStackTrace();
-        } catch (SecurityException ex) {
-            ex.printStackTrace();
-        } catch (NoSuchFieldException ex) {
-            ex.printStackTrace();
-        }
-        font2DHandleField = fField;
-        createdFontField = cField;
-    }
 
     /**
      * Creates a new merged font with the given primary and backing fonts.
@@ -79,41 +55,10 @@ public class MergedFont extends Font implements UIResource {
      * @param backingFont The backing font for the merge.
      */
     public MergedFont(Font primaryFont, Font backingFont) {
-        super(primaryFont.getAttributes());
+        super(primaryFont);
         if (backingFont == null)
             throw new NullPointerException("backingFont");
         this.backingFont = backingFont;
-
-        workaround6313541(primaryFont, this);
-    }
-
-    /**
-     * Bug 6313541 (fixed in the Mustang (1.6) release) prevents the bundled
-     * fonts loading, because the <tt>font2DHandle</tt> field is not transferred
-     * when calling <tt>Font(attributes)</tt>.  The workaround uses reflection,
-     * which might not work for applets and Web Start applications, so I've put
-     * in checks so the workaround is used only when needed.
-     *
-     * @param src The font being copied.
-     * @param dst The font that has been copied and may need to be patched.
-     */
-    public static void workaround6313541(Font src, Font dst) {
-        if (font2DHandleField == null) // we couldn't do the reflection
-            return;
-
-        // check for the effect of the bug -- don't do it if it's not needed
-        if (!dst.getFontName().equals(src.getFontName())) {
-            try {
-                font2DHandleField.set(dst, font2DHandleField.get(src));
-                createdFontField.set(dst, createdFontField.get(src));
-            } catch (IllegalArgumentException ex) {
-                ex.printStackTrace();
-            } catch (SecurityException ex) {
-                ex.printStackTrace();
-            } catch (IllegalAccessException ex) {
-                ex.printStackTrace();
-            }
-        }
     }
 
     /**
@@ -126,21 +71,21 @@ public class MergedFont extends Font implements UIResource {
      *
      * @return A font that is the merger of the given fonts.
      */
-    public static Font mergedFonts(Font primaryFont, Font... backingFonts) {
-        if (backingFonts.length == 0)
+    public static Font mergeFonts(Font primaryFont, Font... backingFonts) {
+        if (backingFonts == null || backingFonts.length == 0)
             return primaryFont;
         else if (backingFonts.length == 1)
             return new MergedFont(primaryFont, backingFonts[0]);
         else
-            return new MergedFont(primaryFont, mergedFonts(backingFonts, 0));
+            return new MergedFont(primaryFont, mergeFonts(backingFonts, 0));
     }
 
-    private static Font mergedFonts(Font[] backingFonts, int pos) {
+    private static Font mergeFonts(Font[] backingFonts, int pos) {
         Font first = backingFonts[pos];
         if (pos == backingFonts.length - 1)
             return first;
         else
-            return new MergedFont(first, mergedFonts(backingFonts, pos + 1));
+            return new MergedFont(first, mergeFonts(backingFonts, pos + 1));
     }
 
     /** @return The backing font for this font. */

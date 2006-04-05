@@ -1,5 +1,6 @@
 package net.sourceforge.napkinlaf.fonts;
 
+import java.lang.reflect.Field;
 import javax.swing.plaf.*;
 import java.awt.*;
 
@@ -8,17 +9,42 @@ import java.awt.*;
  * releases.
  *
  * @author Alex Lam Sze Lok
- * @see MergedFont#workaround6313541(Font, Font)
+ * @see PatchedFontUIResource#workaround6313541(Font, Font)
  */
-public class PatchedFontUIResource extends FontUIResource {
+public class PatchedFontUIResource extends Font implements UIResource {
+
+    private static final Field font2DHandleField;
+    private static final Field createdFontField;
+
+    static {
+        Field fField = null;
+        Field cField = null;
+        try {
+            // transfer private field font2DHandle
+            fField = Font.class.getDeclaredField("font2DHandle");
+            fField.setAccessible(true);
+            // transfer private field createdFont
+            cField = Font.class.getDeclaredField("createdFont");
+            cField.setAccessible(true);
+        } catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
+        } catch (SecurityException ex) {
+            ex.printStackTrace();
+        } catch (NoSuchFieldException ex) {
+            ex.printStackTrace();
+        }
+        font2DHandleField = fField;
+        createdFontField = cField;
+    }
+
     /**
      * Creates a new instance of {@link PatchedFontUIResource}.
      *
      * @param font The font for the resource.
      */
     public PatchedFontUIResource(Font font) {
-        super(font);
-        MergedFont.workaround6313541(font, this);
+        super(font.getAttributes());
+        workaround6313541(font, this);
     }
 
     /**
@@ -31,4 +57,34 @@ public class PatchedFontUIResource extends FontUIResource {
     public PatchedFontUIResource(String name, int style, int size) {
         super(name, style, size);
     }
+
+    /**
+     * Bug 6313541 (fixed in the Mustang (1.6) release) prevents the bundled
+     * fonts loading, because the <tt>font2DHandle</tt> field is not transferred
+     * when calling <tt>Font(attributes)</tt>.  The workaround uses reflection,
+     * which might not work for applets and Web Start applications, so I've put
+     * in checks so the workaround is used only when needed.
+     *
+     * @param src The font being copied.
+     * @param dst The font that has been copied and may need to be patched.
+     */
+    protected static void workaround6313541(Font src, Font dst) {
+        if (font2DHandleField == null) // we couldn't do the reflection
+            return;
+
+        // check for the effect of the bug -- don't do it if it's not needed
+        if (!dst.getFontName().equals(src.getFontName())) {
+            try {
+                font2DHandleField.set(dst, font2DHandleField.get(src));
+                createdFontField.set(dst, createdFontField.get(src));
+            } catch (IllegalArgumentException ex) {
+                ex.printStackTrace();
+            } catch (SecurityException ex) {
+                ex.printStackTrace();
+            } catch (IllegalAccessException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
 }
