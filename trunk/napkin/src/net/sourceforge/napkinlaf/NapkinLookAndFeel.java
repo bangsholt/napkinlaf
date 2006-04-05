@@ -102,6 +102,10 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         }
     }
 
+    public NapkinLookAndFeel() {
+        new JLabel();
+    }
+
     @Override
     public String getDescription() {
         return "The Napkin Look and Feel";
@@ -631,4 +635,5 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         }
         return val;
     }
+
 }
