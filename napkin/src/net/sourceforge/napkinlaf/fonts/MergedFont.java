@@ -48,6 +48,30 @@ import java.util.Map;
 public class MergedFont extends Font implements UIResource {
     private final Font backingFont;
 
+    private static final Field font2DHandleField;
+    private static final Field createdFontField;
+
+    static {
+        Field fField = null;
+        Field cField = null;
+        try {
+            // transfer private field font2DHandle
+            fField = Font.class.getDeclaredField("font2DHandle");
+            fField.setAccessible(true);
+            // transfer private field createdFont
+            cField = Font.class.getDeclaredField("createdFont");
+            cField.setAccessible(true);
+        } catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
+        } catch (SecurityException ex) {
+            ex.printStackTrace();
+        } catch (NoSuchFieldException ex) {
+            ex.printStackTrace();
+        }
+        font2DHandleField = fField;
+        createdFontField = cField;
+    }
+
     /**
      * Creates a new merged font with the given primary and backing fonts.
      *
@@ -60,30 +84,31 @@ public class MergedFont extends Font implements UIResource {
             throw new NullPointerException("backingFont");
         this.backingFont = backingFont;
 
-        /*
-         * Bug 6313541 (fixed in Mustang) prevents the bundled fonts loading
-         * (because the font2DHandle field is not transferred when calling
-         * FontUIResource).  The workaround uses reflection, which might not
-         * work for applets and Web Start applications, so here I've put in
-         * checks so the workaround is used only when needed.
-         */
-        if (!getFontName().equals(primaryFont.getFontName())) {
+        workaround6313541(primaryFont, this);
+    }
+
+    /**
+     * Bug 6313541 (fixed in the Mustang (1.6) release) prevents the bundled
+     * fonts loading, because the <tt>font2DHandle</tt> field is not transferred
+     * when calling <tt>Font(attributes)</tt>.  The workaround uses reflection,
+     * which might not work for applets and Web Start applications, so I've put
+     * in checks so the workaround is used only when needed.
+     *
+     * @param src The font being copied.
+     * @param dst The font that has been copied and may need to be patched.
+     */
+    public static void workaround6313541(Font src, Font dst) {
+        if (font2DHandleField == null) // we couldn't do the reflection
+            return;
+
+        // check for the effect of the bug -- don't do it if it's not needed
+        if (!dst.getFontName().equals(src.getFontName())) {
             try {
-                // transfer private field font2DHandle
-                Field field = Font.class.getDeclaredField("font2DHandle");
-                field.setAccessible(true);
-                field.set(this, field.get(primaryFont));
-                field.setAccessible(false);
-                // transfer private field createdFont
-                field = Font.class.getDeclaredField("createdFont");
-                field.setAccessible(true);
-                field.set(this, field.get(primaryFont));
-                field.setAccessible(false);
+                font2DHandleField.set(dst, font2DHandleField.get(src));
+                createdFontField.set(dst, createdFontField.get(src));
             } catch (IllegalArgumentException ex) {
                 ex.printStackTrace();
             } catch (SecurityException ex) {
-                ex.printStackTrace();
-            } catch (NoSuchFieldException ex) {
                 ex.printStackTrace();
             } catch (IllegalAccessException ex) {
                 ex.printStackTrace();
@@ -136,23 +161,21 @@ public class MergedFont extends Font implements UIResource {
         int badCode = getMissingGlyphCode();
         int badCode2 = backingFont.getMissingGlyphCode();
         MergedGlyphVector result = new MergedGlyphVector(this, frc);
-        Point2D curPos, origPos;
-        GlyphVector curGVector;
         boolean replaced = false;
         for (int i = 0; i < glyphCount; i++) {
             /*
              * Look for the GlyphVector with non-bad glyph.
              * Fall back to top font's bad glyph if failed.
              */
-            curGVector = gVector;
+            GlyphVector curGVector = gVector;
             if (gVector.getGlyphCode(i) == badCode
                     && gVector2.getGlyphCode(i) != badCode2) {
                 curGVector = gVector2;
                 replaced = true;
             }
             // prepare matrix for glyph paremater transformation
-            origPos = curGVector.getGlyphPosition(i);
-            curPos = gVector.getGlyphPosition(i);
+            Point2D origPos = curGVector.getGlyphPosition(i);
+            Point2D curPos = gVector.getGlyphPosition(i);
             AffineTransform matrix = AffineTransform.getTranslateInstance(
                     curPos.getX() - origPos.getX(),
                     curPos.getY() - origPos.getY());
@@ -368,6 +391,7 @@ public class MergedFont extends Font implements UIResource {
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings({"UnusedCatchParameter"})
     @Override
     public Font deriveFont(AffineTransform trans) {
         try {
@@ -384,6 +408,7 @@ public class MergedFont extends Font implements UIResource {
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings({"ObjectEquality"})
     @Override
     public Font deriveFont(Map<? extends Attribute, ?> attributes) {
         Map<? extends Attribute, ?> topAttributes = getAttributes();
