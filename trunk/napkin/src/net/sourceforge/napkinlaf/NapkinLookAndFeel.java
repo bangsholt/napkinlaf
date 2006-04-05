@@ -1,17 +1,22 @@
 package net.sourceforge.napkinlaf;
 
-import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
-
 import net.sourceforge.napkinlaf.borders.NapkinBoxBorder;
 import net.sourceforge.napkinlaf.borders.NapkinLineBorder;
 import net.sourceforge.napkinlaf.borders.NapkinSelectedBorder;
-import net.sourceforge.napkinlaf.fonts.CompositeFont;
+import net.sourceforge.napkinlaf.fonts.MergedFont;
 import net.sourceforge.napkinlaf.util.AlphaColorUIResource;
 import net.sourceforge.napkinlaf.util.ComponentWalker.Visitor;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
 import net.sourceforge.napkinlaf.util.NapkinDebug;
 import net.sourceforge.napkinlaf.util.NapkinIconFactory;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 
+import javax.swing.*;
+import javax.swing.UIDefaults.*;
+import javax.swing.border.*;
+import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
+import javax.swing.text.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,13 +27,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-
-import javax.swing.*;
-import javax.swing.UIDefaults.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.text.*;
 
 /**
  * This class defines the central behavior for the Napkin look & feel.
@@ -225,7 +223,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
 
                 "CheckBoxMenuItem.checkIcon", checkedMenuItemIcon,
                 "CheckBoxMenuItem.foreground", popupTheme.getPenColor(),
-                "CheckBoxMenuItem.selectionForeground", popupTheme.getSelectionColor(),
+                "CheckBoxMenuItem.selectionForeground",
+                popupTheme.getSelectionColor(),
                 "CheckBoxMenuItem.textIconGap", 0,
 
                 "DesktopIcon.border", null,
@@ -251,13 +250,15 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                 "FileView.floppyDriveIcon", sketchedIcon("FloppyDrive"),
                 "FileView.hardDriveIcon", sketchedIcon("HardDrive"),
 
-                "InternalFrame.activeTitleForeground", popupTheme.getSelectionColor(),
+                "InternalFrame.activeTitleForeground",
+                popupTheme.getSelectionColor(),
                 "InternalFrame.border", null,
                 "InternalFrame.closeButtonToolTip", "Close",
                 "InternalFrame.closeIcon", closeIcon,
                 "InternalFrame.iconButtonToolTip", "Minimise",
                 "InternalFrame.iconifyIcon", iconIcon,
-                "InternalFrame.inactiveTitleForeground", popupTheme.getPenColor(),
+                "InternalFrame.inactiveTitleForeground",
+                popupTheme.getPenColor(),
                 "InternalFrame.maxButtonToolTip", "Maximise",
                 "InternalFrame.maximizeIcon", null,
                 "InternalFrame.minimizeIcon", minIcon,
@@ -290,14 +291,16 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
 
                 "RadioButtonMenuItem.checkIcon", radioButtonIcon,
                 "RadioButtonMenuItem.foreground", popupTheme.getPenColor(),
-                "RadioButtonMenuItem.selectionForeground", popupTheme.getSelectionColor(),
+                "RadioButtonMenuItem.selectionForeground",
+                popupTheme.getSelectionColor(),
                 "RadioButtonMenuItem.textIconGap", 0,
 
                 "SplitPane.dividerSize", NapkinSplitPaneDivider.SIZE,
-                
+
                 "SplitPaneDivider.border", null,
 
-                "TabbedPane.contentBorderInsets", NapkinBoxBorder.LARGE_DEFAULT_INSETS,
+                "TabbedPane.contentBorderInsets",
+                NapkinBoxBorder.LARGE_DEFAULT_INSETS,
                 "TabbedPane.tabsOverlapBorder", null,
 
                 "Table.focusCellHighlightBorder", null,
@@ -351,7 +354,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                 "ctrl RIGHT", DefaultEditorKit.nextWordAction,
                 "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
                 "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-                "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
+                "ctrl shift KP_LEFT",
+                DefaultEditorKit.selectionPreviousWordAction,
                 "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
                 "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
                 "ctrl A", DefaultEditorKit.selectAllAction,
@@ -450,8 +454,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
 
         Map<String, Font> fontMap = fontNameMap(theme);
-        Map<CompositeFont, CompositeFont> fontCache =
-                new HashMap<CompositeFont, CompositeFont>();
+        Map<MergedFont, MergedFont> fontCache =
+                new HashMap<MergedFont, MergedFont>();
 
         Object drawnBorder = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
@@ -479,7 +483,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                     String name = resource.getFontName();
                     Font font = fontMap.get(name);
                     if (font != null) {
-                        CompositeFont cFont = new CompositeFont(font, resource);
+                        MergedFont cFont = new MergedFont(font, resource);
                         if (fontCache.containsKey(cFont)) {
                             cFont = fontCache.get(cFont);
                         } else {

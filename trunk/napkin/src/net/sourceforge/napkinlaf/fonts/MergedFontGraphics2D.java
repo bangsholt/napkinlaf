@@ -15,27 +15,27 @@ import java.util.Map;
  *
  * @author Alex Lam Sze Lok
  */
-public class GlyphGraphics2D extends Graphics2D {
+public class MergedFontGraphics2D extends Graphics2D {
     private final Graphics2D g2d;
 
     private boolean isCompositeFont;
 
-    private GlyphGraphics2D(Graphics2D g2d) {
-        assert !(g2d instanceof GlyphGraphics2D) : "double delegation";
+    private MergedFontGraphics2D(Graphics2D g2d) {
+        assert !(g2d instanceof MergedFontGraphics2D) : "double delegation";
         this.g2d = g2d;
         // setFont so as to set the intial state of isCompositeFont
         setFont(g2d.getFont());
     }
 
     public void setFont(Font font) {
-        isCompositeFont = font instanceof CompositeFont
-                && ((CompositeFont) font).isComposite();
+        isCompositeFont = font instanceof MergedFont
+                && ((MergedFont) font).isComposite();
         g2d.setFont(font);
     }
 
-    public static GlyphGraphics2D wrap(Graphics2D g2d) {
-        return g2d instanceof GlyphGraphics2D ?
-            (GlyphGraphics2D) g2d : new GlyphGraphics2D(g2d);
+    public static MergedFontGraphics2D wrap(Graphics2D g2d) {
+        return g2d instanceof MergedFontGraphics2D ?
+                (MergedFontGraphics2D) g2d : new MergedFontGraphics2D(g2d);
     }
 
     public Graphics2D getGraphics2D() {
@@ -100,12 +100,13 @@ public class GlyphGraphics2D extends Graphics2D {
     }
 
     public void drawGlyphVector(GlyphVector g, float x, float y) {
-        if (g instanceof CompositeGlyphVector) {
-            CompositeGlyphVector cgv = (CompositeGlyphVector) g;
+        if (g instanceof MergedGlyphVector) {
+            MergedGlyphVector cgv = (MergedGlyphVector) g;
             int glyphIndex = 0;
             for (GlyphVector g2 : cgv.split()) {
                 Point2D glyphPos = cgv.getGlyphPosition(glyphIndex);
-                g2d.drawGlyphVector(g2, (float) (x + glyphPos.getX()), (float) (y + glyphPos.getY()));
+                g2d.drawGlyphVector(g2, (float) (x + glyphPos.getX()),
+                        (float) (y + glyphPos.getY()));
                 glyphIndex += g2.getNumGlyphs();
             }
         } else {
@@ -113,12 +114,10 @@ public class GlyphGraphics2D extends Graphics2D {
         }
     }
 
-    /**
-     * Wrap the newly created instance of Graphics2D
-     */
+    /** Wrap the newly created instance of Graphics2D */
     @Override
     public Graphics create(int x, int y, int width, int height) {
-        return new GlyphGraphics2D(
+        return new MergedFontGraphics2D(
                 (Graphics2D) g2d.create(x, y, width, height));
     }
 
@@ -129,7 +128,7 @@ public class GlyphGraphics2D extends Graphics2D {
     public void dispose() {
         /**
          * We should not dispose of Graphics2D that we have wrapped, because a
-         * possible case is when GlyphGraphics2D is no long being referenced but
+         * possible case is when MergedFontGraphics2D is no long being referenced but
          * the Graphics2D instance that it is wrapped is still in use.
          */
     }
@@ -207,7 +206,7 @@ public class GlyphGraphics2D extends Graphics2D {
      * All these implementation methods below are just simple delegation to the
      * wrapped Graphics2D
      */
-    
+
     public void draw(Shape s) {
         g2d.draw(s);
     }
@@ -339,7 +338,7 @@ public class GlyphGraphics2D extends Graphics2D {
     }
 
     public Graphics create() {
-        return new GlyphGraphics2D((Graphics2D) g2d.create());
+        return new MergedFontGraphics2D((Graphics2D) g2d.create());
     }
 
     public Color getColor() {
@@ -473,5 +472,4 @@ public class GlyphGraphics2D extends Graphics2D {
         return g2d.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
                 bgcolor, observer);
     }
-
 }

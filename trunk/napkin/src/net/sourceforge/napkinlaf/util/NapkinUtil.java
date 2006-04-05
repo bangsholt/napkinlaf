@@ -4,7 +4,7 @@ import net.sourceforge.napkinlaf.NapkinKnownTheme;
 import net.sourceforge.napkinlaf.NapkinTheme;
 import net.sourceforge.napkinlaf.borders.AbstractNapkinBorder;
 import net.sourceforge.napkinlaf.borders.NapkinWrappedBorder;
-import net.sourceforge.napkinlaf.fonts.GlyphGraphics2D;
+import net.sourceforge.napkinlaf.fonts.MergedFontGraphics2D;
 import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
@@ -670,8 +670,7 @@ public class NapkinUtil {
 
     public static void update(Graphics g, JComponent c, NapkinPainter painter) {
         if ((c instanceof JButton || c instanceof JLabel) &&
-                !Boolean.TRUE.equals(c.getClientProperty(REVALIDATE_KEY)))
-        {
+                !Boolean.TRUE.equals(c.getClientProperty(REVALIDATE_KEY))) {
             c.putClientProperty(REVALIDATE_KEY, true);
             c.revalidate();
         }
@@ -685,9 +684,9 @@ public class NapkinUtil {
         }
         g = defaultGraphics(g, c);
         NapkinTheme theme = paintBackground(g, c);
-        painter.superPaint(GlyphGraphics2D.wrap((Graphics2D) g), c, theme);
-        if (g instanceof GlyphGraphics2D) {
-            g = ((GlyphGraphics2D) g).getGraphics2D();
+        painter.superPaint(MergedFontGraphics2D.wrap((Graphics2D) g), c, theme);
+        if (g instanceof MergedFontGraphics2D) {
+            g = ((MergedFontGraphics2D) g).getGraphics2D();
         }
         finishGraphics(g, c);
     }
