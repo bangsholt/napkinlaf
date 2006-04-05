@@ -101,7 +101,7 @@ public class NapkinTheme {
             return font;
         else {
             // refer to MergedFont for an explanation of the workaround here
-            return new MergedFont(font);
+            return new MergedFont(font, font);
         }
     }
 

@@ -6,9 +6,9 @@ import java.awt.geom.*;
 import java.util.ArrayList;
 
 /**
- * This is used in the implementation of {@link NapkinFont}.
+ * This is used in the implementation of {@link MergedFont}.
  *
- * @see NapkinFont
+ * @see MergedFont
  */
 class MergedGlyphVector extends GlyphVector {
     private final Font font;
