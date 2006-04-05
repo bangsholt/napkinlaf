@@ -1,14 +1,13 @@
 package net.sourceforge.napkinlaf.fonts;
 
-import java.text.AttributedCharacterIterator.Attribute;
-import java.util.Map;
 import javax.swing.plaf.*;
 import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
 import java.lang.reflect.Field;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.text.CharacterIterator;
-import java.util.Arrays;
+import java.util.Map;
 
 /**
  * This class defines a psuedo font that satisfies glyphs along a search path
@@ -25,20 +24,20 @@ import java.util.Arrays;
  *
  * @author Alex Lam Sze Lok
  */
-public class CompositeFont extends Font implements UIResource {
+public class MergedFont extends Font implements UIResource {
 
     private final Font backingFont;
 
-    public CompositeFont(String name, int style, int size) {
+    public MergedFont(String name, int style, int size) {
         super(name, style, size);
         backingFont = null;
     }
 
-    public CompositeFont(Font font) {
+    public MergedFont(Font font) {
         this(font, null);
     }
 
-    public CompositeFont(Font topFont, Font backingFont) {
+    public MergedFont(Font topFont, Font backingFont) {
         super(topFont.getAttributes());
         this.backingFont = backingFont;
 
@@ -73,13 +72,13 @@ public class CompositeFont extends Font implements UIResource {
         }
     }
 
-    public static CompositeFont
+    public static MergedFont
             newInstance(Font topFont, Font ... backingFonts) {
-        CompositeFont cFont = null;
+        MergedFont cFont = null;
         for (int i = backingFonts.length; --i >= 0;) {
-            cFont = new CompositeFont(backingFonts[i], cFont);
+            cFont = new MergedFont(backingFonts[i], cFont);
         }
-        return new CompositeFont(topFont, cFont);
+        return new MergedFont(topFont, cFont);
     }
 
     public boolean isComposite() {
@@ -102,7 +101,7 @@ public class CompositeFont extends Font implements UIResource {
         // we do have bad glyphs; scan through the font chain for replacement
         int badCode = getMissingGlyphCode();
         int badCode2 = backingFont.getMissingGlyphCode();
-        CompositeGlyphVector result = new CompositeGlyphVector(this, frc);
+        MergedGlyphVector result = new MergedGlyphVector(this, frc);
         Point2D curPos, origPos;
         GlyphVector curGVector;
         boolean replaced = false;
@@ -140,9 +139,9 @@ public class CompositeFont extends Font implements UIResource {
                     advanceX, metrics.getAdvanceY(), metricsBounds,
                     (byte) metrics.getType());
             // get the font of this particular glyph
-            Font glyphFont = curGVector instanceof CompositeGlyphVector ?
-                ((CompositeGlyphVector) curGVector).getGlyphFont(i)
-                : curGVector.getFont();
+            Font glyphFont = curGVector instanceof MergedGlyphVector ?
+                    ((MergedGlyphVector) curGVector).getGlyphFont(i)
+                    : curGVector.getFont();
             // add transformed glyph into our GlyphVector
             result.appendGlyph(curGVector.getGlyphCode(i),
                     outline, curPos, curGVector.getGlyphTransform(i),
@@ -173,8 +172,8 @@ public class CompositeFont extends Font implements UIResource {
     private boolean isTopFontSufficient(CharacterIterator iter) {
         int limit = iter.getEndIndex();
         for (char c = iter.setIndex(iter.getBeginIndex());
-                iter.getIndex() < limit && super.canDisplay(c);
-                c = iter.next()) {
+             iter.getIndex() < limit && super.canDisplay(c);
+             c = iter.next()) {
         }
         return iter.getIndex() == limit;
     }
@@ -264,13 +263,13 @@ public class CompositeFont extends Font implements UIResource {
     public String toString() {
         if (!isComposite())
             return super.toString();
-        StringBuilder result = new StringBuilder("CompositeFont{");
+        StringBuilder result = new StringBuilder("MergedFont{");
         result.append(super.toString());
         Font font = backingFont;
         do {
             result.append("; ").append(font.toString());
-            if (font instanceof CompositeFont) {
-                font = ((CompositeFont) font).getBackingFont();
+            if (font instanceof MergedFont) {
+                font = ((MergedFont) font).getBackingFont();
             } else {
                 break;
             }
@@ -284,8 +283,8 @@ public class CompositeFont extends Font implements UIResource {
             return false;
         }
         if (isComposite()) {
-            return obj instanceof CompositeFont &&
-                    backingFont.equals(((CompositeFont) obj).getBackingFont());
+            return obj instanceof MergedFont &&
+                    backingFont.equals(((MergedFont) obj).getBackingFont());
         } else {
             return true;
         }
@@ -314,18 +313,17 @@ public class CompositeFont extends Font implements UIResource {
         }
     }
 
-    /**!!
-     * Here comes the difficult part of the game - backing font does not
+    /**
+     * !! Here comes the difficult part of the game - backing font does not
      * necessarily share the same properties with the top font, i.e. you can
      * have a plain, 16pt, hand-written top font backed by an italic, 14.5pt,
      * unicode font.
-     *
+     * <p/>
      * So the challenge with deriveFont()s is to find out how to maintain these
-     * invisible links; the approach that I take for now is to:
-     * 1) change in sizes in the top font will lead to proportional scaling in
-     *    the backing font.
-     * 2) any changes in other attribute in the top font will simply write
-     *    through to the backing font.
+     * invisible links; the approach that I take for now is to: 1) change in
+     * sizes in the top font will lead to proportional scaling in the backing
+     * font. 2) any changes in other attribute in the top font will simply write
+     * through to the backing font.
      */
 
     @Override
@@ -333,7 +331,7 @@ public class CompositeFont extends Font implements UIResource {
         Font topFont = super.deriveFont(size);
         if (isComposite()) {
             float backSize = size * backingFont.getSize2D() / getSize2D();
-            return new CompositeFont(topFont, backingFont.deriveFont(backSize));
+            return new MergedFont(topFont, backingFont.deriveFont(backSize));
         } else {
             return topFont;
         }
@@ -353,7 +351,7 @@ public class CompositeFont extends Font implements UIResource {
             backStyle &= ~styleMask;
             // write in the fields
             backStyle |= overridingStyles;
-            return new CompositeFont(topFont, backingFont.deriveFont(backStyle));
+            return new MergedFont(topFont, backingFont.deriveFont(backStyle));
         } else {
             return topFont;
         }
@@ -368,7 +366,7 @@ public class CompositeFont extends Font implements UIResource {
                     || (trans != null && trans.equals(topTrans))) {
                 return this;
             } else {
-                return new CompositeFont(
+                return new MergedFont(
                         topFont, backingFont.deriveFont(trans));
             }
         } else {
@@ -385,7 +383,7 @@ public class CompositeFont extends Font implements UIResource {
                     (attributes != null && attributes.equals(topAttributes))) {
                 return this;
             } else {
-                return new CompositeFont(
+                return new MergedFont(
                         topFont, backingFont.deriveFont(attributes));
             }
         } else {
@@ -393,9 +391,7 @@ public class CompositeFont extends Font implements UIResource {
         }
     }
 
-    /**!!
-     * These are simply divided into seperate stages
-     */
+    /** !! These are simply divided into seperate stages */
 
     @Override
     public Font deriveFont(int style, AffineTransform trans) {
@@ -406,5 +402,4 @@ public class CompositeFont extends Font implements UIResource {
     public Font deriveFont(int style, float size) {
         return deriveFont(size).deriveFont(style);
     }
-
 }

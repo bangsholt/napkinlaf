@@ -3,13 +3,13 @@ package net.sourceforge.napkinlaf;
 import static net.sourceforge.napkinlaf.NapkinKnownTheme.BASIC_THEME;
 import static net.sourceforge.napkinlaf.NapkinKnownTheme.POPUP_THEME;
 import static net.sourceforge.napkinlaf.NapkinThemeColor.*;
+import net.sourceforge.napkinlaf.fonts.MergedFont;
 import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
 import net.sourceforge.napkinlaf.sketch.sketchers.DraftSketcher;
 import net.sourceforge.napkinlaf.sketch.sketchers.JotSketcher;
 import net.sourceforge.napkinlaf.util.AlphaColorUIResource;
 import net.sourceforge.napkinlaf.util.NapkinBackground;
 import net.sourceforge.napkinlaf.util.NapkinConstants;
-import net.sourceforge.napkinlaf.fonts.CompositeFont;
 
 import javax.swing.plaf.*;
 import java.awt.*;
@@ -100,8 +100,8 @@ public class NapkinTheme {
         if (font instanceof UIResource)
             return font;
         else {
-            // refer to CompositeFont for an explanation of the workaround here
-            return new CompositeFont(font);
+            // refer to MergedFont for an explanation of the workaround here
+            return new MergedFont(font);
         }
     }
 

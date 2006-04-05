@@ -1,14 +1,14 @@
 package net.sourceforge.napkinlaf;
 
 import junit.framework.TestCase;
-import net.sourceforge.napkinlaf.util.NapkinFont;
+import net.sourceforge.napkinlaf.fonts.MergedFont;
 
 import java.awt.*;
 
-public class NapkinFontTest extends TestCase {
+public class MergedFontTest extends TestCase {
     public void testOneFont() {
         Font fixedFont = getFixedFont();
-        Font napkinFont = new NapkinFont(fixedFont);
+        Font napkinFont = new MergedFont(fixedFont);
         for (int i = Character.MIN_CODE_POINT;
              i <= Character.MAX_CODE_POINT;
              i += 16) {
@@ -30,7 +30,7 @@ public class NapkinFontTest extends TestCase {
     public void testTwoFonts() {
         Font fixedFont = getFixedFont();
         Font serifFont = new Font("serif", Font.PLAIN, 10);
-        Font napkinFont = new NapkinFont(fixedFont, serifFont);
+        Font napkinFont = new MergedFont(fixedFont, serifFont);
         boolean hasDifferences = false;
         for (int i = Character.MIN_CODE_POINT;
              i <= Character.MAX_CODE_POINT;

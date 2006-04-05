@@ -2,7 +2,7 @@ package net.sourceforge.napkinlaf.dev;
 
 import net.sourceforge.napkinlaf.NapkinLookAndFeel;
 import net.sourceforge.napkinlaf.NapkinTheme;
-import net.sourceforge.napkinlaf.fonts.GlyphGraphics2D;
+import net.sourceforge.napkinlaf.fonts.MergedFontGraphics2D;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 
 import javax.swing.*;
@@ -18,7 +18,7 @@ import java.util.List;
 
 /** This is a component that lets the user select a character subset to display. */
 @SuppressWarnings({"WeakerAccess"})
-public class NapkinFontViewer extends JPanel {
+public class MergedFontViewer extends JPanel {
     private Character.Subset curSubset;
 
     private static final Character.Subset[] SUBSETS;
@@ -81,7 +81,7 @@ public class NapkinFontViewer extends JPanel {
         @SuppressWarnings({"ObjectEquality"})
         @Override
         protected void paintComponent(Graphics g1) {
-            GlyphGraphics2D g = GlyphGraphics2D.wrap(
+            MergedFontGraphics2D g = MergedFontGraphics2D.wrap(
                     NapkinUtil.defaultGraphics(g1, this));
             if (curSubset != last) {
                 setStrings();
@@ -150,8 +150,8 @@ getChars:
         }
     }
 
-    /** Creates a new <tt>NapkinFontViewer</tt>. */
-    public NapkinFontViewer() {
+    /** Creates a new <tt>MergedFontViewer</tt>. */
+    public MergedFontViewer() {
         setLayout(new BorderLayout());
 
         final Display display = new Display();
@@ -186,7 +186,7 @@ getChars:
 
         JFrame frame = new JFrame("Napkin Font Viewer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new NapkinFontViewer(), BorderLayout.CENTER);
+        frame.add(new MergedFontViewer(), BorderLayout.CENTER);
         frame.setSize(800, 600);
         frame.setVisible(true);
     }
