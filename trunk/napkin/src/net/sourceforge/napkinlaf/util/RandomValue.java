@@ -51,10 +51,12 @@ public class RandomValue implements RandomValueSource {
         return adjust;
     }
 
+    /** @return The minimum normative value (mid point minus range). */
     public double min() {
         return mid - range;
     }
 
+    /** @return The maximum normative value (mid point plus range). */
     public double max() {
         return mid + range;
     }
