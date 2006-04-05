@@ -3,7 +3,7 @@ package net.sourceforge.napkinlaf;
 import static net.sourceforge.napkinlaf.NapkinKnownTheme.BASIC_THEME;
 import static net.sourceforge.napkinlaf.NapkinKnownTheme.POPUP_THEME;
 import static net.sourceforge.napkinlaf.NapkinThemeColor.*;
-import net.sourceforge.napkinlaf.fonts.MergedFont;
+import net.sourceforge.napkinlaf.fonts.PatchedFontUIResource;
 import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
 import net.sourceforge.napkinlaf.sketch.sketchers.DraftSketcher;
 import net.sourceforge.napkinlaf.sketch.sketchers.JotSketcher;
@@ -58,7 +58,7 @@ public class NapkinTheme {
                 description + " (popup)", penColor, checkColor,
                 radioColor, highlightColor, selectionColor, popupRollOverColor,
                 textFont, boldTextFont, fixedFont, sketcher, popupPaper,
-                erasure, (NapkinTheme) null));
+                erasure, null));
     }
 
     public NapkinTheme(String name, String description, Color penColor,
@@ -100,7 +100,7 @@ public class NapkinTheme {
         if (font instanceof UIResource)
             return font;
         else {
-            return new net.sourceforge.napkinlaf.fonts.FontUIResource(font);
+            return new PatchedFontUIResource(font);
         }
     }
 
