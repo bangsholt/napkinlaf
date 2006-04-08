@@ -102,15 +102,15 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         }
     }
 
-    /**!!
-     * Default values are not initialised properly before the first JComponent
-     * is created in the application environment - so if Napkin is employed by
-     * UIManager before that its overrideComponentDefaults() will not work as
-     * expected.
-     *
-     * Solution: create a JComponent to buy us security ;-)
-     */
     public NapkinLookAndFeel() {
+        /*
+         * Default values are not initialised properly before the first
+         * JComponent is created in the application environment -- so if Napkin
+         * is employed by UIManager before that its overrideComponentDefaults()
+         * will not work as expected.
+         *
+         * Solution: create a JComponent to buy us security ;-)
+         */
         new JLabel();
     }
 
@@ -643,5 +643,4 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         }
         return val;
     }
-
 }
