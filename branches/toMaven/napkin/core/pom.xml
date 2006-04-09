@@ -6,13 +6,12 @@
     <parent>
         <groupId>net.sourceforge.napkinlaf</groupId>
         <artifactId>overall</artifactId>
-        <version>1.0.SNAPSHOT</version>
+        <version>1.1.SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>napkinlaf</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.002</version>
     <name>Napkin Look and Feel Jar</name>
 
     <dependencies>
