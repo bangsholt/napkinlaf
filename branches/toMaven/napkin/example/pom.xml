@@ -10,10 +10,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>napkinlaf</artifactId>
+    <artifactId>example</artifactId>
     <packaging>jar</packaging>
     <version>1.0.002</version>
-    <name>Napkin Look and Feel Jar</name>
+    <name>Napkin Look and Feel Examples</name>
 
     <dependencies>
         <dependency>
@@ -21,6 +21,11 @@
             <artifactId>jdom</artifactId>
             <version>1.0</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.napkinlaf</groupId>
+            <artifactId>napkinlaf</artifactId>
+            <version>1.0.SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
