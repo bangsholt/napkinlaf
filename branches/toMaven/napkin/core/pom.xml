@@ -14,6 +14,31 @@
     <packaging>jar</packaging>
     <name>Napkin Look and Feel Jar</name>
 
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <unjar src="../lib/jdom-1.0.jar" dest="target/classes">
+                                    <patternset>
+                                        <include name="org/jdom/**/*.class"/>
+                                    </patternset>
+                                </unjar>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>jdom</groupId>

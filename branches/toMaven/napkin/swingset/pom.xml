@@ -27,6 +27,26 @@
                     </archive>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <unjar src="../core/target/napkinlaf-1.1.SNAPSHOT.jar" dest="target/classes">
+                                    <patternset>
+                                        <include name="**/*"/>
+                                    </patternset>
+                                </unjar>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
