@@ -644,15 +644,26 @@ public class NapkinUtil {
             line.draw(ulG);
         }
 
+        Color oldColor = g.getColor();
         Color textColor = c.getForeground();
         if (c instanceof AbstractButton) {
             AbstractButton button = (AbstractButton) c;
             ButtonModel model = button.getModel();
             if (model.isArmed() || (c instanceof JMenu && model.isSelected()))
                 textColor = currentTheme(c).getSelectionColor();
+            g.setColor(textColor);
+            if (!model.isEnabled()) {
+                model.setEnabled(true);
+                helper.superPaintText(g, c, textRect, text);
+                model.setEnabled(false);
+            } else {
+                helper.superPaintText(g, c, textRect, text);
+            }
+        } else {
+            g.setColor(textColor);
+            helper.superPaintText(g, c, textRect, text);
         }
-        g.setColor(textColor);
-        helper.superPaintText(g, c, textRect, text);
+        g.setColor(oldColor);
     }
 
     @SuppressWarnings({"SameParameterValue"})

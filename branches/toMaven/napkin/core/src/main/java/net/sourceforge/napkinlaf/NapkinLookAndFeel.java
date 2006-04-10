@@ -283,6 +283,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
 
                 "MenuBar.border", null,
 
+                "MenuItem.disabledForeground", popupTheme.getPenColor(),
                 "MenuItem.foreground", popupTheme.getPenColor(),
                 "MenuItem.selectionForeground", popupTheme.getSelectionColor(),
 
