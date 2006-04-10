@@ -43,6 +43,46 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>webstart-maven-plugin</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <configuration>
+                            <!-- transitive dependencies filter -->
+                            <dependencies>
+                                <!-- Note that only groupId and artifactId must be specified here. because of a limitation of the Include/ExcludesArtifactFilter -->
+                                <includes>
+                                </includes>
+                                <excludes>
+                                    <exclude>jdom:jdom</exclude>
+                                    <exclude>net.sourceforge.napkinlaf:napkinlaf</exclude>
+                                </excludes>
+                            </dependencies>
+
+                            <!-- JNLP generation -->
+                            <jnlp>
+                                <outputFile>napkinlaf.jnlp</outputFile> <!-- defaults to launch.jnlp -->
+                                <!-- used to automatically identify the jar containing the dependency. (note: slightly broken today) -->
+                                <!-- this is going to change -->
+                                <mainClass>SwingSet2</mainClass>
+                            </jnlp>
+
+                            <!-- should we have some more configurations here? E.g. compression level (aka packing effort) -->
+                            <!-- not yet implemented -->
+                            <pack200>true</pack200>
+                            <gzip>true</gzip> <!-- default force when pack200 false, true when pack200 selected ?? -->
+
+                            <verbose>true</verbose>
+                        </configuration>
+                        <goals>
+                            <goal>jnlp</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 

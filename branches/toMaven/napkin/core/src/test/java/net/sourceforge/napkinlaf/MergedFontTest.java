@@ -4,6 +4,8 @@ import junit.framework.TestCase;
 import net.sourceforge.napkinlaf.fonts.MergedFont;
 
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MergedFontTest extends TestCase {
     public void testTwoFonts() {
@@ -45,6 +47,35 @@ public class MergedFontTest extends TestCase {
     }
 
     private static Font getFixedFont() {
-        return NapkinTheme.Manager.tryToLoadFont("FeltTipRoman.ttf");
+        try {
+            return NapkinTheme.Manager.tryToLoadFont("FeltTipRoman.ttf");
+        } catch (Throwable ex) {
+            ex.printStackTrace();
+        }
+        return tryToLoadFont("FeltTipRoman.ttf");
+    }
+
+    private static final String RESOURCE_PATH = "resources/";
+    static Font tryToLoadFont(String fontName) {
+        NapkinTheme.Manager.getTheme("Default theme");
+        try {
+            String fontRes = RESOURCE_PATH + fontName;
+            InputStream fontDef =
+                    NapkinLookAndFeel.class.getResourceAsStream(fontRes);
+            if (fontDef != null) {
+                return Font.createFont(Font.TRUETYPE_FONT, fontDef);
+            } else {
+                throw new NullPointerException(
+                        "Could not find font resource \"" + fontName +
+                        "\"\n\t\tin \"" + fontRes +
+                        "\"\n\t\tfor \"" + NapkinLookAndFeel.class
+                        .getName() +
+                        "\"\n\t\ttry: " + NapkinLookAndFeel.class
+                        .getResource(fontRes));
+            }
+        } catch (FontFormatException e) {
+        } catch (IOException e) {
+        }
+        return null;
     }
 }
