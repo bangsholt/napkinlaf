@@ -17,22 +17,18 @@
     <build>
         <plugins>
             <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>dependency-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <tasks>
-                                <unjar src="../lib/jdom-1.0.jar" dest="target/classes">
-                                    <patternset>
-                                        <include name="org/jdom/**/*.class"/>
-                                    </patternset>
-                                </unjar>
-                            </tasks>
-                        </configuration>
+                        <id>unpack-dependencies</id>
+                        <phase>generate-sources</phase>
                         <goals>
-                            <goal>run</goal>
+                            <goal>unpack-dependencies</goal>
                         </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
