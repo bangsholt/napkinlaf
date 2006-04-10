@@ -1,7 +1,7 @@
 <project name="Napkin Look and Feel" default="all">
 
     <property file="build.properties"/>
-    <property file="release.props"/>
+    <property file="release.properties"/>
     <property name="version" value="${release}_${build}"/>
 
     <!-- Default value for the properties -->
@@ -77,7 +77,7 @@
     </target>
 
     <target name="release.new" description="build new release">
-        <propertyfile file="release.props" comment="Release properties">
+        <propertyfile file="release.properties" comment="Release properties">
             <entry key="when" type="date" value="now"/>
             <entry key="build" type="int" default="001" operation="+"
                    pattern="000"/>
