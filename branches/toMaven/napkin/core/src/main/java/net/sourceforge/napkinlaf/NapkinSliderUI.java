@@ -61,8 +61,9 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinPainter {
     protected Dimension getThumbSize() {
         if (thumb == null) {
             int dir = SOUTH;
-            if (vertical)
+            if (vertical) {
                 dir = (NapkinUtil.isLeftToRight(slider) ? EAST : WEST);
+            }
             thumb = NapkinIconFactory.createArrowIcon(dir);
         }
         return new Dimension(thumb.getIconWidth(), thumb.getIconHeight());

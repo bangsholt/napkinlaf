@@ -36,16 +36,17 @@ public class DrawnCubicLineGenerator extends AbstractDrawnGenerator {
         double rx = NapkinUtil.leftRight(rightAt.getX(), false);
         double ry = rightAt.getY();
         double[] coords = {0, 0, lx, ly, rx, ry, LENGTH, 0};
-        if (matrix != null)
+        if (matrix != null) {
             matrix.transform(coords, 0, coords, 0, 4);
+        }
 
         CubicCurve2D.Double line = new CubicCurve2D.Double(coords[0], coords[1],
                 coords[2], coords[3],
                 coords[4], coords[5],
                 coords[6], coords[7]);
-        if (!logger.isLoggable(Level.FINE))
-            return line;
-        else {
+        
+        Shape result;
+        if (logger.isLoggable(Level.FINE)) {
             GeneralPath shape = new GeneralPath(
                     new Rectangle2D.Double(coords[0] - 2, coords[1] - 2, 4, 4));
             shape.append(line, false);
@@ -55,8 +56,11 @@ public class DrawnCubicLineGenerator extends AbstractDrawnGenerator {
             shape.append(new Line2D.Double(coords[6] + 2, coords[7] - 2,
                     coords[6] - 2, coords[7] + 2),
                     false);
-            return shape;
+            result = shape;
+        } else {
+            result = line;
         }
+        return result;
     }
 
     public RandomXY getLeft() {

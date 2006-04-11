@@ -14,33 +14,25 @@ public class NapkinBevelBorder extends BevelBorder {
 
     @Override
     public Color getHighlightInnerColor(Component c) {
-        if (highlightInner != null)
-            return highlightInner;
-        else
-            return NapkinUtil.currentTheme(c).getPenColor();
+        return highlightInner == null ?
+            NapkinUtil.currentTheme(c).getPenColor() : highlightInner;
     }
 
     @Override
     public Color getHighlightOuterColor(Component c) {
-        if (highlightOuter != null)
-            return highlightOuter;
-        else
-            return NapkinUtil.currentTheme(c).getPenColor();
+        return highlightOuter == null ?
+            NapkinUtil.currentTheme(c).getPenColor() : highlightOuter;
     }
 
     @Override
     public Color getShadowInnerColor(Component c) {
-        if (shadowInner != null)
-            return shadowInner;
-        else
-            return NapkinUtil.currentTheme(c).getPenColor();
+        return shadowInner == null ?
+            NapkinUtil.currentTheme(c).getPenColor() : shadowInner;
     }
 
     @Override
     public Color getShadowOuterColor(Component c) {
-        if (shadowOuter != null)
-            return shadowOuter;
-        else
-            return NapkinUtil.currentTheme(c).getPenColor();
+        return shadowOuter == null ?
+            NapkinUtil.currentTheme(c).getPenColor() : shadowOuter;
     }
 }

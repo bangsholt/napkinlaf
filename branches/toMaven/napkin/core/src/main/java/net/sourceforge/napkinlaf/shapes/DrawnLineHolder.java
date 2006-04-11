@@ -50,61 +50,54 @@ public class DrawnLineHolder extends DrawnShapeHolder {
 
     private static AbstractDrawnGenerator generatorFor(double len) {
         Class<?> type = AbstractDrawnGenerator.defaultLineType(len);
-
-        if (type == DrawnCubicLineGenerator.class)
-            return new DrawnCubicLineGenerator();
-        else
-            return new DrawnQuadLineGenerator();
+        return type == DrawnCubicLineGenerator.class ?
+            new DrawnCubicLineGenerator() : new DrawnQuadLineGenerator();
     }
 
     public void shapeUpToDate(Rectangle cRect, FontMetrics cMetrics) {
-        boolean sameMetrics = false;
-        if ((metrics == null) == (cMetrics == null))
-            sameMetrics = true;
-        else if (metrics != null && metrics.equals(cMetrics))
-            sameMetrics = true;
-        if (sameMetrics && rect != null && rect.equals(cRect))
-            return;
+        boolean sameMetrics = (metrics == null) == (cMetrics == null) ||
+                (metrics != null && metrics.equals(cMetrics));
+        if (!sameMetrics || rect == null || !rect.equals(cRect)) {
+            rect = (Rectangle) cRect.clone();
+            metrics = cMetrics;
 
-        rect = (Rectangle) cRect.clone();
-        metrics = cMetrics;
+            Rectangle ends = endpoints.getEndpoints(rect);
 
-        Rectangle ends = endpoints.getEndpoints(rect);
+            double x1 = ends.getX();
+            double y1 = ends.getY();
+            double x2 = x1 + ends.getWidth();
+            double y2 = y1 + ends.getHeight();
+            if (cMetrics != null) {
+                double below = Math.max(cMetrics.getDescent() / 10.0, 2);
+                double yAdj = cRect.y + cMetrics.getAscent() + below;
+                y1 += yAdj;
+                y2 += yAdj;
+                x1 -= below;
+                x2 += below;
+            }
 
-        double x1 = ends.getX();
-        double y1 = ends.getY();
-        double x2 = x1 + ends.getWidth();
-        double y2 = y1 + ends.getHeight();
-        if (cMetrics != null) {
-            double below = Math.max(cMetrics.getDescent() / 10.0, 2);
-            double yAdj = cRect.y + cMetrics.getAscent() + below;
-            y1 += yAdj;
-            y2 += yAdj;
-            x1 -= below;
-            x2 += below;
+            double xDelta = x2 - x1;
+            double yDelta = y2 - y1;
+            double len = Math.sqrt(xDelta * xDelta + yDelta * yDelta);
+
+            double angle = Math.atan2(yDelta, xDelta);  // y before x (it's sin/cos)
+
+            AffineTransform matrix = new AffineTransform();
+            matrix.translate(x1, y1);
+            matrix.rotate(angle);
+            if (logger.isLoggable(Level.FINE)) {
+                logger.log(Level.FINE, "");
+                NapkinUtil.printPair(logger, Level.FINE, "1: ", x1, y1);
+                NapkinUtil.printPair(logger, Level.FINE, "2: ", x2, y2);
+                NapkinUtil.printPair(logger, Level.FINE, "delta = ", xDelta,
+                        yDelta);
+                logger.log(Level.FINE, "rot = " + angle);
+                logger.log(Level.FINE, "angle = " + angle);
+                logger.log(Level.FINE, "len = " + len);
+            }
+            double xScale = len / LENGTH;
+            matrix.scale(xScale, 1);
+            shape = gen.generate(matrix);
         }
-
-        double xDelta = x2 - x1;
-        double yDelta = y2 - y1;
-        double len = Math.sqrt(xDelta * xDelta + yDelta * yDelta);
-
-        double angle = Math.atan2(yDelta, xDelta);  // y before x (it's sin/cos)
-
-        AffineTransform matrix = new AffineTransform();
-        matrix.translate(x1, y1);
-        matrix.rotate(angle);
-        if (logger.isLoggable(Level.FINE)) {
-            logger.log(Level.FINE, "");
-            NapkinUtil.printPair(logger, Level.FINE, "1: ", x1, y1);
-            NapkinUtil.printPair(logger, Level.FINE, "2: ", x2, y2);
-            NapkinUtil.printPair(logger, Level.FINE, "delta = ", xDelta,
-                    yDelta);
-            logger.log(Level.FINE, "rot = " + angle);
-            logger.log(Level.FINE, "angle = " + angle);
-            logger.log(Level.FINE, "len = " + len);
-        }
-        double xScale = len / LENGTH;
-        matrix.scale(xScale, 1);
-        shape = gen.generate(matrix);
     }
 }

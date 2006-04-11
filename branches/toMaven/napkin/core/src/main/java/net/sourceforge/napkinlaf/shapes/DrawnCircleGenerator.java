@@ -59,8 +59,9 @@ public class DrawnCircleGenerator extends AbstractDrawnGenerator {
                 bottomX, bottomY, xBL, yBL, tlAt.getX(),
                 tlAt.getY(), endAt.getX(), endAt.getY(),
         };
-        if (matrix != null)
+        if (matrix != null) {
             matrix.transform(coords, 0, coords, 0, coords.length / 2);
+        }
 
         CubicCurve2D left = new CubicCurve2D.Double(coords[0], coords[1],
                 coords[2], coords[3],

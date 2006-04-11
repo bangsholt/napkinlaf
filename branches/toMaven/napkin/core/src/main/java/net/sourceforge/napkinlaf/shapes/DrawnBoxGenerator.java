@@ -129,21 +129,27 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
         return shape;
     }
 
-    private Shape addSide(GeneralPath shape, AffineTransform smat, int side,
-            double scale) {
-        if (side != breakSide)
-            return addLine(shape, smat, gens[side]);
+    private Shape addSide
+            (GeneralPath shape, AffineTransform smat, int side, double scale) {
 
-        GeneralPath line = new GeneralPath();
-        if (side == BOTTOM || side == LEFT)
-            scale = -scale; // this ones are drawn backwards
-        if (side == TOP || side == BOTTOM)
-            addWithXBreak(smat, line, scale);
-        else
-            addWithYBreak(smat, line, scale);
+        Shape result;
+        if (side == breakSide) {
+            GeneralPath line = new GeneralPath();
+            if (side == BOTTOM || side == LEFT) {
+                scale = -scale; // this ones are drawn backwards
+            }
+            if (side == TOP || side == BOTTOM) {
+                addWithXBreak(smat, line, scale);
+            } else {
+                addWithYBreak(smat, line, scale);
+            }
 
-        shape.append(line, false);
-        return line;
+            shape.append(line, false);
+            result = line;
+        } else {
+            result = addLine(shape, smat, gens[side]);
+        }
+        return result;
     }
 
     private void addWithXBreak(AffineTransform smat, GeneralPath line,
@@ -152,8 +158,9 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
         double xOff = smat.getTranslateX();
         double xSize = size.getX().get() -
                 (corner.getX().get() + adjustmentX);
-        if (scale < 0)
+        if (scale < 0) {
             xSize = -xSize;
+        }
         double xBeg = breakBeg.getX() - xOff;
         double xEnd = breakEnd.getX() - xOff;
 
@@ -171,8 +178,9 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
         double yOff = smat.getTranslateY();
         double ySize = size.getY().get() -
                 (corner.getY().get() + adjustmentY);
-        if (scale < 0)
+        if (scale < 0) {
             ySize = -ySize;
+        }
         double yBeg = breakBeg.getY() - yOff;
         double yEnd = breakEnd.getY() - yOff;
 
@@ -221,13 +229,15 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     }
 
     private double adjustStartOffset(RandomValueSource off, double scale) {
-        if (scale >= 1)
-            return off.generate();
-        double delta = 1 - scale;
-        double exp = startAdjust.generate();
-        double adjusted = Math.pow(delta, exp);
-        double startScale = 1 - adjusted;
-        return off.generate() * startScale;
+        double result = off.generate();
+        if (scale < 1d) {
+            double delta = 1 - scale;
+            double exp = startAdjust.generate();
+            double adjusted = Math.pow(delta, exp);
+            double startScale = 1 - adjusted;
+            result *= startScale;
+        }
+        return result;
     }
 
     public RandomValue getStartAdjust() {
@@ -260,28 +270,28 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     private static Class<? extends AbstractDrawnGenerator>
             fromGenerator(AbstractDrawnGenerator gen) {
 
-        if (gen == null)
-            return null;
-        return gen.getClass();
+        return gen == null ? null : gen.getClass();
     }
 
     private AbstractDrawnGenerator toGenerator(Class<?> type) {
-        if (type == null)
-            return null;
-        AbstractDrawnGenerator gen = generators.get(type);
-        if (gen == null)
-            throw new IllegalArgumentException("Unknown type: " + type);
-        return gen;
+        AbstractDrawnGenerator result = null;
+        if (type != null) {
+            result = generators.get(type);
+            if (result == null) {
+                throw new IllegalArgumentException("Unknown type: " + type);
+            }
+        }
+        return result;
     }
 
     public DrawnQuadLineGenerator getQuadGenerator() {
-        return (DrawnQuadLineGenerator) generators.get(
-                DrawnQuadLineGenerator.class);
+        return (DrawnQuadLineGenerator)
+                generators.get(DrawnQuadLineGenerator.class);
     }
 
     public DrawnCubicLineGenerator getCubicGenerator() {
-        return (DrawnCubicLineGenerator) generators.get(
-                DrawnCubicLineGenerator.class);
+        return (DrawnCubicLineGenerator)
+                generators.get(DrawnCubicLineGenerator.class);
     }
 
     @SuppressWarnings({"SameParameterValue"})

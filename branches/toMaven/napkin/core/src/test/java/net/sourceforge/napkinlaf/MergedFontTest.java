@@ -20,8 +20,10 @@ public class MergedFontTest extends TestCase {
             boolean serif = serifFont.canDisplay(i);
             boolean napkin = mergedFont.canDisplay(i);
             boolean merged = fixed || serif;
-            if (merged != napkin) // avoid building the string unless we need it
-                assertEquals(stringFor(i), merged, napkin);
+            // avoid building the string unless we need it
+            if (merged != napkin) {
+                assertEquals(stringFromCode(i), merged, napkin);
+            }
             hasDifferences |= (fixed != serif);
 
             if (i <= Character.MAX_VALUE) {
@@ -30,40 +32,43 @@ public class MergedFontTest extends TestCase {
                 serif = serifFont.canDisplay(ch);
                 napkin = mergedFont.canDisplay(ch);
                 merged = fixed || serif;
-                if (merged != napkin)
-                    assertEquals(stringFor(ch), merged, napkin);
+                if (merged != napkin) {
+                    assertEquals(stringFromChar(ch), merged, napkin);
+                }
             }
         }
         assertTrue("No differences in fonts", hasDifferences);
     }
 
-    private String stringFor(char ch) {
+    private String stringFromChar(char ch) {
         return "char 0x" + Integer.toHexString((int) ch) + ": " + ch;
     }
 
-    private String stringFor(int codePoint) {
+    private String stringFromCode(int codePoint) {
         return "char 0x" + Integer.toHexString(codePoint) + ": " +
                 new String(new int[]{codePoint}, 0, 1);
     }
 
     private static Font getFixedFont() {
+        Font result = null;
         try {
-            return NapkinTheme.Manager.tryToLoadFont("FeltTipRoman.ttf");
+            result = NapkinTheme.Manager.tryToLoadFont("FeltTipRoman.ttf");
         } catch (Throwable ex) {
             ex.printStackTrace();
         }
-        return tryToLoadFont("FeltTipRoman.ttf");
+        return result == null ? tryToLoadFont("FeltTipRoman.ttf") : result;
     }
 
     private static final String RESOURCE_PATH = "resources/";
     static Font tryToLoadFont(String fontName) {
         NapkinTheme.Manager.getTheme("Default theme");
+        Font result = null;
         try {
             String fontRes = RESOURCE_PATH + fontName;
             InputStream fontDef =
                     NapkinLookAndFeel.class.getResourceAsStream(fontRes);
             if (fontDef != null) {
-                return Font.createFont(Font.TRUETYPE_FONT, fontDef);
+                result = Font.createFont(Font.TRUETYPE_FONT, fontDef);
             } else {
                 throw new NullPointerException(
                         "Could not find font resource \"" + fontName +
@@ -74,8 +79,10 @@ public class MergedFontTest extends TestCase {
                         .getResource(fontRes));
             }
         } catch (FontFormatException e) {
+            ; //fall through
         } catch (IOException e) {
+            ; //fall through
         }
-        return null;
+        return result;
     }
 }

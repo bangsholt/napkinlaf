@@ -47,8 +47,9 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
 
         // Paint the bouncing box.
         boxRect = getBox(boxRect);
-        if (boxRect == null)
+        if (boxRect == null) {
             return;
+        }
 
         if (box == null) {
             box = new DrawnBoxHolder();

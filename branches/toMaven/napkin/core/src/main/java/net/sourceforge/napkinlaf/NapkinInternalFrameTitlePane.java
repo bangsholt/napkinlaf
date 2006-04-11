@@ -96,10 +96,8 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
     }
 
     private static Dimension sizeFor(boolean is, boolean pref, JButton button) {
-        if (!is) {
-            return NO_SIZE;
-        }
-        return (pref ? button.getPreferredSize() : button.getMinimumSize());
+        return is ? (pref ? button.getPreferredSize() : button.getMinimumSize())
+                : NO_SIZE;
     }
 
     @Override

@@ -41,26 +41,24 @@ public class DrawnScribbleGenerator extends AbstractDrawnGenerator {
             shape.moveTo(convertedX(), convertedY());
             side.setMid(range);
             line(matrix);
-        } else {
-            if (side.getMid() > 0)
-                side.setMid(range); // in case it has changed
+        } else if (side.getMid() > 0) {
+            side.setMid(range); // in case it has changed
         }
 
-        if (shown < minShow || done)
-            return shape;
+        if (shown >= minShow && !done) {
+            double pos = position.get();
+            while (pos <= shown) {
+                position.setMid(pos + PER_STROKE);
+                line(matrix);
+                pos = position.get();
+            }
 
-        double pos = position.get();
-        while (pos <= shown) {
-            position.setMid(pos + PER_STROKE);
-            line(matrix);
-            pos = position.get();
-        }
-
-        if (position.getMid() + PER_STROKE >= max) {
-            position.setMid(max);
-            line(matrix);   // draw from last angled to end pos
-            line(matrix);   // draw from end pos to opposite side of bar
-            done = true;
+            if (position.getMid() + PER_STROKE >= max) {
+                position.setMid(max);
+                line(matrix);   // draw from last angled to end pos
+                line(matrix);   // draw from end pos to opposite side of bar
+                done = true;
+            }
         }
         return shape;
     }
@@ -94,29 +92,30 @@ public class DrawnScribbleGenerator extends AbstractDrawnGenerator {
     }
 
     public void setShown(int shown) {
-        if (shown < this.shown)
+        if (shown < this.shown) {
             shape = null;
+        }
         this.shown = shown;
     }
 
     public void setRange(double range) {
-        if (this.range == range)
-            return;
-        this.range = range;
-        shape = null;
+        if (this.range != range) {
+            this.range = range;
+            shape = null;
+        }
     }
 
     public void setOrientation(int orientation) {
-        if (this.orientation == orientation)
-            return;
-        this.orientation = orientation;
-        shape = null;
+        if (this.orientation != orientation) {
+            this.orientation = orientation;
+            shape = null;
+        }
     }
 
     public void setMax(double max) {
-        if (this.max == max)
-            return;
-        this.max = max;
-        shape = null;
+        if (this.max != max) {
+            this.max = max;
+            shape = null;
+        }
     }
 }

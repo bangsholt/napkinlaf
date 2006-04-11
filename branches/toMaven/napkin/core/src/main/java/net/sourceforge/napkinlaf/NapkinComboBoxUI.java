@@ -1,16 +1,8 @@
 package net.sourceforge.napkinlaf;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import javax.swing.event.ListDataListener;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.SOUTH;
 import net.sourceforge.napkinlaf.util.NapkinPainter;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.SOUTH;
 
 import javax.swing.*;
 import javax.swing.plaf.*;

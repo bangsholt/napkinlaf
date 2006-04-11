@@ -60,8 +60,9 @@ public class NapkinSplitPaneDivider extends BasicSplitPaneDivider
     }
 
     protected void setOrientation(int orientation) {
-        if (left == null)   // haven't yet created the buttons
+        if (left == null) {   // haven't yet created the buttons
             return;
+        }
 
         if (orientation == JSplitPane.HORIZONTAL_SPLIT) {
             left.setIcon(NapkinIconFactory.createArrowIcon(WEST, ARROW_SIZE));

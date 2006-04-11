@@ -36,8 +36,9 @@ public class NapkinViewportUI extends BasicViewportUI implements NapkinPainter {
     @Override
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
-        if (revertScrollMode != viewport.getScrollMode())
+        if (revertScrollMode != viewport.getScrollMode()) {
             viewport.setScrollMode(revertScrollMode);
+        }
         super.uninstallUI(c);
     }
 
@@ -47,8 +48,6 @@ public class NapkinViewportUI extends BasicViewportUI implements NapkinPainter {
     }
 
     public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
-//        if (viewport.getScrollMode() != JViewport.SIMPLE_SCROLL_MODE)
-//            forceScrollMode();
         super.update(g, c);
     }
 }

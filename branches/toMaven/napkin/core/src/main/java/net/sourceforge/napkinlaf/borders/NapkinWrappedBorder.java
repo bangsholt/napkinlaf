@@ -45,31 +45,31 @@ public class NapkinWrappedBorder extends AbstractNapkinBorder {
     }
 
     public static NapkinWrappedBorder wrap(Border origBorder) {
+        NapkinWrappedBorder result;
         Object brd = borders.get(origBorder);
         // Not all passed borders are wrapped yet...
         if (brd instanceof NapkinWrappedBorder) {
-            return (NapkinWrappedBorder) brd;
-        }
+            result = (NapkinWrappedBorder) brd;
+        } else {
+            if (origBorder instanceof EtchedBorder) {
+                EtchedBorder eb = (EtchedBorder) origBorder;
+                if (eb.getHighlightColor() == null ||
+                        eb.getShadowColor() == null) {
 
-        Border toWrap;
-        if (origBorder instanceof EtchedBorder) {
-            EtchedBorder eb = (EtchedBorder) origBorder;
-            if (eb.getHighlightColor() == null || eb.getShadowColor() == null) {
-                toWrap = new NapkinEtchedBorder(eb);
-                borders.put(origBorder, toWrap);
-            }
-        }
-        if (origBorder instanceof BevelBorder) {
-            BevelBorder bb = (BevelBorder) origBorder;
-            if (bb.getHighlightInnerColor() == null ||
-                    bb.getHighlightOuterColor() == null ||
-                    bb.getShadowInnerColor() == null ||
-                    bb.getShadowOuterColor() == null) {
+                    borders.put(origBorder, new NapkinEtchedBorder(eb));
+                }
+            } else if (origBorder instanceof BevelBorder) {
+                BevelBorder bb = (BevelBorder) origBorder;
+                if (bb.getHighlightInnerColor() == null ||
+                        bb.getHighlightOuterColor() == null ||
+                        bb.getShadowInnerColor() == null ||
+                        bb.getShadowOuterColor() == null) {
 
-                toWrap = new NapkinBevelBorder(bb);
-                borders.put(origBorder, toWrap);
+                    borders.put(origBorder, new NapkinBevelBorder(bb));
+                }
             }
+            result = new NapkinWrappedBorder(origBorder);
         }
-        return new NapkinWrappedBorder(origBorder);
+        return result;
     }
 }

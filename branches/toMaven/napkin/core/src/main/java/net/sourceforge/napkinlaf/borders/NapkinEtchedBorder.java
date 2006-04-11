@@ -12,17 +12,13 @@ public class NapkinEtchedBorder extends EtchedBorder {
 
     @Override
     public Color getHighlightColor(Component c) {
-        if (highlight != null)
-            return highlight;
-        else
-            return NapkinUtil.currentTheme(c).getPenColor();
+        return highlight == null ?
+            NapkinUtil.currentTheme(c).getPenColor() : highlight;
     }
 
     @Override
     public Color getShadowColor(Component c) {
-        if (shadow != null)
-            return shadow;
-        else
-            return NapkinUtil.currentTheme(c).getPenColor();
+        return shadow == null ?
+            NapkinUtil.currentTheme(c).getPenColor() : shadow;
     }
 }

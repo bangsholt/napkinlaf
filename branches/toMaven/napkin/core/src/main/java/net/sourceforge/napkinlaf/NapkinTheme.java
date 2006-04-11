@@ -1,8 +1,5 @@
 package net.sourceforge.napkinlaf;
 
-import static net.sourceforge.napkinlaf.NapkinKnownTheme.BASIC_THEME;
-import static net.sourceforge.napkinlaf.NapkinKnownTheme.POPUP_THEME;
-import static net.sourceforge.napkinlaf.NapkinThemeColor.*;
 import net.sourceforge.napkinlaf.fonts.PatchedFontUIResource;
 import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
 import net.sourceforge.napkinlaf.sketch.sketchers.DraftSketcher;
@@ -10,6 +7,9 @@ import net.sourceforge.napkinlaf.sketch.sketchers.JotSketcher;
 import net.sourceforge.napkinlaf.util.AlphaColorUIResource;
 import net.sourceforge.napkinlaf.util.NapkinBackground;
 import net.sourceforge.napkinlaf.util.NapkinConstants;
+import static net.sourceforge.napkinlaf.NapkinKnownTheme.BASIC_THEME;
+import static net.sourceforge.napkinlaf.NapkinKnownTheme.POPUP_THEME;
+import static net.sourceforge.napkinlaf.NapkinThemeColor.*;
 
 import javax.swing.plaf.*;
 import java.awt.*;
@@ -69,39 +69,34 @@ public class NapkinTheme {
             NapkinTheme popupTheme) {
         this.name = name;
         this.description = description;
-        colors.put(PEN_COLOR, uiResource(penColor));
-        colors.put(CHECK_COLOR, uiResource(checkColor));
-        colors.put(RADIO_COLOR, uiResource(radioColor));
-        colors.put(HIGHLIGHT_COLOR, uiResource(highlightColor));
-        colors.put(SELECTION_COLOR, uiResource(selectionColor));
-        colors.put(BACKGROUND_COLOR,
-                uiResource(paper.getMeanColor()));
-        colors.put(ROLLOVER_COLOR, uiResource(rollOverColor));
-        this.textFont = uiResource(textFont);
-        this.boldTextFont = uiResource(boldTextFont);
-        this.fixedFont = uiResource(fixedFont);
+        colors.put(PEN_COLOR, toColorResource(penColor));
+        colors.put(CHECK_COLOR, toColorResource(checkColor));
+        colors.put(RADIO_COLOR, toColorResource(radioColor));
+        colors.put(HIGHLIGHT_COLOR, toColorResource(highlightColor));
+        colors.put(SELECTION_COLOR, toColorResource(selectionColor));
+        colors.put(BACKGROUND_COLOR, toColorResource(paper.getMeanColor()));
+        colors.put(ROLLOVER_COLOR, toColorResource(rollOverColor));
+        this.textFont = toFontResource(textFont);
+        this.boldTextFont = toFontResource(boldTextFont);
+        this.fixedFont = toFontResource(fixedFont);
         this.sketcher = sketcher;
         this.paper = paper;
         this.erasure = erasure;
         variants.put(BASIC_THEME, this);
         variants.put(POPUP_THEME, popupTheme);
-        if (popupTheme != null)
+        if (popupTheme != null) {
             popupTheme.variants = variants;
-    }
-
-    private static Color uiResource(Color color) {
-        if (color instanceof UIResource)
-            return color;
-        else
-            return new AlphaColorUIResource(color);
-    }
-
-    private static Font uiResource(Font font) {
-        if (font instanceof UIResource)
-            return font;
-        else {
-            return PatchedFontUIResource.wrapIfPossible(font);
         }
+    }
+
+    private static Color toColorResource(Color color) {
+        return color instanceof UIResource ?
+            color : new AlphaColorUIResource(color);
+    }
+
+    private static Font toFontResource(Font font) {
+        return font instanceof UIResource ?
+            font : PatchedFontUIResource.wrapIfPossible(font);
     }
 
     public String getName() {
@@ -313,12 +308,13 @@ public class NapkinTheme {
         }
 
         static Font tryToLoadFont(String fontName) {
+            Font result = null;
             try {
                 String fontRes = RESOURCE_PATH + fontName;
                 InputStream fontDef =
                         NapkinLookAndFeel.class.getResourceAsStream(fontRes);
                 if (fontDef != null) {
-                    return Font.createFont(Font.TRUETYPE_FONT, fontDef);
+                    result = Font.createFont(Font.TRUETYPE_FONT, fontDef);
                 } else {
                     throw new NullPointerException(
                             "Could not find font resource \"" + fontName +
@@ -333,7 +329,7 @@ public class NapkinTheme {
             } catch (IOException e) {
                 LOG.log(Level.WARNING, "getting font " + fontName, e);
             }
-            return null;
+            return result;
         }
     }
 }

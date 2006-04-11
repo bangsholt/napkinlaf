@@ -53,8 +53,9 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
             int x, int y, int w, int h, boolean isSelected) {
 
         DrawnTabHolder tabHolder = tabs[tabIndex];
-        if (tabHolder == null)
+        if (tabHolder == null) {
             tabHolder = tabs[tabIndex] = new DrawnTabHolder(tabPlacement);
+        }
         tabHolder.shapeUpToDate(tabPlacement, x, y, w, h);
         g.setColor(tabPane.getForeground());
         tabHolder.draw(g);

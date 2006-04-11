@@ -523,7 +523,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                     if (res instanceof CompoundBorder) {
                         entry.setValue(compoundBorder);
                     } else if (res instanceof EmptyBorder) {
-                        // keep it as it is, i.e. EmptyBorder
+                        ; // keep it as it is, i.e. EmptyBorder
                     } else {
                         entry.setValue(drawnBorder);
                     }
@@ -631,13 +631,13 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         int propLen = prop.length();
         int prePos = keyLen - propLen - 1;
 
+        Object result = null;
         if (prePos > 0 && ((key.endsWith(prop) && key.charAt(prePos) == '.')
                 || (key.endsWith(prop.substring(1)) && key.charAt(prePos + 1)
                 == Character.toUpperCase(prop.charAt(0))))) {
-            return extractVal(val, table);
-        } else {
-            return null;
+            result = extractVal(val, table);
         }
+        return result;
     }
 
     private static Object extractVal(Object val, UIDefaults table) {

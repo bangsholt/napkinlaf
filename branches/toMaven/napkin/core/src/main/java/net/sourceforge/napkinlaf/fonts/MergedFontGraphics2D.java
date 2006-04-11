@@ -148,19 +148,24 @@ public class MergedFontGraphics2D extends Graphics2D {
                 (Graphics2D) g2d.create(x, y, width, height));
     }
 
-    /** Invokes {@link Graphics2D#dispose()} on the underlying object. */
-    @Override
+    /**
+     * Dispose of this object but not the Graphics2D instance that it wraps.
+     * This is because one often wraps an instance passed through as a method
+     * parameter, and there would almost always be impossible to replace the
+     * wrapped instance with this in the caller.
+     *
+     * Since it will be the caller's responsibility to dispose of its Graphics2D
+     * instance, and the caller would not be able to reference to this wrapper,
+     * so the only chance to dispose of a MergedFontGraphics2D instance would be
+     * where it was created.
+     */
     public void dispose() {
-        //g2d.dispose();
     }
 
     @Override
     public boolean equals(Object that) {
-        if (this == that)
-            return true;
-        if (that instanceof MergedFontGraphics2D)
-            return g2d.equals(((MergedFontGraphics2D) that).g2d);
-        return false;
+        return this == that ? true : that instanceof MergedFontGraphics2D ?
+            g2d.equals(((MergedFontGraphics2D) that).getGraphics2D()) : false;
     }
 
     /** {@inheritDoc} */

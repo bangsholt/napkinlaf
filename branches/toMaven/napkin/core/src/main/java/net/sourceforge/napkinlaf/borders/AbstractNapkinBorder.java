@@ -20,8 +20,9 @@ public abstract class AbstractNapkinBorder extends AbstractBorder {
 
         NapkinTheme theme = NapkinUtil.currentTheme(c);
         Color penColor = theme.getPenColor();
-        if (NapkinUtil.replace(g.getColor(), penColor))
+        if (NapkinUtil.replace(g.getColor(), penColor)) {
             g.setColor(penColor);
+        }
         doPaintBorder(c, g, x, y, width, height);
     }
 

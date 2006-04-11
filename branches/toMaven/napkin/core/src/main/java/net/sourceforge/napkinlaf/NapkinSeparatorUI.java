@@ -25,10 +25,10 @@ public class NapkinSeparatorUI extends BasicSeparatorUI
         }
 
         private void doPaint(Graphics g, JSeparator sep, boolean vertical) {
-            if (line == null)
-                line =
-                        new DrawnLineHolder(DrawnCubicLineGenerator.INSTANCE,
-                                vertical);
+            if (line == null) {
+                line = new DrawnLineHolder(
+                        DrawnCubicLineGenerator.INSTANCE, vertical);
+            }
 
             Rectangle bounds = sep.getBounds();
             bounds.x = bounds.y = 0;

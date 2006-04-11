@@ -1,10 +1,8 @@
 package net.sourceforge.napkinlaf.fonts;
 
-import javax.swing.plaf.*;
 import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
-import java.lang.reflect.Field;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.text.CharacterIterator;
 import java.util.Map;
@@ -56,8 +54,9 @@ public class MergedFont extends PatchedFontUIResource {
      */
     public MergedFont(Font primaryFont, Font backingFont) {
         super(primaryFont);
-        if (backingFont == null)
+        if (backingFont == null) {
             throw new NullPointerException("backingFont");
+        }
         this.backingFont = backingFont;
     }
 
@@ -72,20 +71,16 @@ public class MergedFont extends PatchedFontUIResource {
      * @return A font that is the merger of the given fonts.
      */
     public static Font mergeFonts(Font primaryFont, Font... backingFonts) {
-        if (backingFonts == null || backingFonts.length == 0)
-            return primaryFont;
-        else if (backingFonts.length == 1)
-            return new MergedFont(primaryFont, backingFonts[0]);
-        else
-            return new MergedFont(primaryFont, mergeFonts(backingFonts, 0));
+        return backingFonts == null || backingFonts.length == 0 ?
+            primaryFont : backingFonts.length == 1 ?
+                new MergedFont(primaryFont, backingFonts[0]) :
+                new MergedFont(primaryFont, _mergeFonts(backingFonts, 0));
     }
 
-    private static Font mergeFonts(Font[] backingFonts, int pos) {
+    private static Font _mergeFonts(Font[] backingFonts, int pos) {
         Font first = backingFonts[pos];
-        if (pos == backingFonts.length - 1)
-            return first;
-        else
-            return new MergedFont(first, mergeFonts(backingFonts, pos + 1));
+        return pos == backingFonts.length - 1 ?
+            first : new MergedFont(first, _mergeFonts(backingFonts, pos + 1));
     }
 
     /** @return The backing font for this font. */
@@ -97,85 +92,89 @@ public class MergedFont extends PatchedFontUIResource {
             GlyphVector gVector, GlyphVector gVector2) {
 
         int glyphCount = gVector.getNumGlyphs();
+        GlyphVector result;
         // if no glyphs or we only have a single font, just return
         if (glyphCount == 0) {
-            return gVector;
-        }
-
-        // we do have bad glyphs; scan through the font chain for replacement
-        int badCode = getMissingGlyphCode();
-        int badCode2 = backingFont.getMissingGlyphCode();
-        MergedGlyphVector result = new MergedGlyphVector(this, frc);
-        boolean replaced = false;
-        for (int i = 0; i < glyphCount; i++) {
-            /*
-             * Look for the GlyphVector with non-bad glyph.
-             * Fall back to top font's bad glyph if failed.
-             */
-            GlyphVector curGVector = gVector;
-            if (gVector.getGlyphCode(i) == badCode
-                    && gVector2.getGlyphCode(i) != badCode2) {
-                curGVector = gVector2;
-                replaced = true;
+            result = gVector;
+        } else {
+            // we do have bad glyphs; scan through the font chain for replacement
+            int badCode = getMissingGlyphCode();
+            int badCode2 = backingFont.getMissingGlyphCode();
+            MergedGlyphVector mgv = new MergedGlyphVector(this, frc);
+            boolean replaced = false;
+            for (int i = 0; i < glyphCount; i++) {
+                /*
+                 * Look for the GlyphVector with non-bad glyph.
+                 * Fall back to top font's bad glyph if failed.
+                 */
+                GlyphVector curGVector = gVector;
+                if (gVector.getGlyphCode(i) == badCode
+                        && gVector2.getGlyphCode(i) != badCode2) {
+                    curGVector = gVector2;
+                    replaced = true;
+                }
+                // prepare matrix for glyph paremater transformation
+                Point2D origPos = curGVector.getGlyphPosition(i);
+                Point2D curPos = gVector.getGlyphPosition(i);
+                AffineTransform matrix = AffineTransform.getTranslateInstance(
+                        curPos.getX() - origPos.getX(),
+                        curPos.getY() - origPos.getY());
+                // transform glyph parameters to its designated position
+                Shape outline = curGVector.getGlyphOutline(i);
+                Shape logicalBounds = curGVector.getGlyphLogicalBounds(i);
+                Shape visualBounds = curGVector.getGlyphVisualBounds(i);
+                outline = matrix.createTransformedShape(outline);
+                logicalBounds = matrix.createTransformedShape(logicalBounds);
+                visualBounds = matrix.createTransformedShape(visualBounds);
+                // transform GlyphMetrics
+                GlyphMetrics metrics = curGVector.getGlyphMetrics(i);
+                float advanceX = metrics.getAdvanceX();
+                Rectangle2D metricsBounds = metrics.getBounds2D();
+                metricsBounds.setRect(curPos.getX(), curPos.getY(),
+                        metricsBounds.getWidth(), metricsBounds.getHeight());
+                metrics = new GlyphMetrics(metrics.getAdvance() == advanceX,
+                        advanceX, metrics.getAdvanceY(), metricsBounds,
+                        (byte) metrics.getType());
+                // get the font of this particular glyph
+                Font glyphFont = curGVector instanceof MergedGlyphVector ?
+                        ((MergedGlyphVector) curGVector).getGlyphFont(i)
+                        : curGVector.getFont();
+                // add transformed glyph into our GlyphVector
+                mgv.appendGlyph(curGVector.getGlyphCode(i), outline, curPos,
+                        curGVector.getGlyphTransform(i), logicalBounds,
+                        visualBounds, metrics,
+                        curGVector.getGlyphJustificationInfo(i), glyphFont);
             }
-            // prepare matrix for glyph paremater transformation
-            Point2D origPos = curGVector.getGlyphPosition(i);
-            Point2D curPos = gVector.getGlyphPosition(i);
-            AffineTransform matrix = AffineTransform.getTranslateInstance(
-                    curPos.getX() - origPos.getX(),
-                    curPos.getY() - origPos.getY());
-            // transform glyph parameters to its designated position
-            Shape outline = curGVector.getGlyphOutline(i);
-            Shape logicalBounds = curGVector.getGlyphLogicalBounds(i);
-            Shape visualBounds = curGVector.getGlyphVisualBounds(i);
-            outline = matrix.createTransformedShape(outline);
-            logicalBounds = matrix.createTransformedShape(logicalBounds);
-            visualBounds = matrix.createTransformedShape(visualBounds);
-            // transform GlyphMetrics
-            GlyphMetrics metrics = curGVector.getGlyphMetrics(i);
-            float advanceX = metrics.getAdvanceX();
-            Rectangle2D metricsBounds = metrics.getBounds2D();
-            metricsBounds.setRect(curPos.getX(), curPos.getY(),
-                    metricsBounds.getWidth(), metricsBounds.getHeight());
-            metrics = new GlyphMetrics(metrics.getAdvance() == advanceX,
-                    advanceX, metrics.getAdvanceY(), metricsBounds,
-                    (byte) metrics.getType());
-            // get the font of this particular glyph
-            Font glyphFont = curGVector instanceof MergedGlyphVector ?
-                    ((MergedGlyphVector) curGVector).getGlyphFont(i)
-                    : curGVector.getFont();
-            // add transformed glyph into our GlyphVector
-            result.appendGlyph(curGVector.getGlyphCode(i),
-                    outline, curPos, curGVector.getGlyphTransform(i),
-                    logicalBounds, visualBounds, metrics,
-                    curGVector.getGlyphJustificationInfo(i), glyphFont);
+            /*
+             * if no replacements were done, i.e. the backing font does not have
+             * the missing glyphs as well, the original GlyphVector is returned.
+             */
+            result = replaced ? mgv : gVector;
         }
-        /*
-         * if no replacements were done, i.e. the backing font does not have
-         * the missing glyphs as well, the original GlyphVector is returned.
-         */
-        return replaced ? result : gVector;
+        return result;
     }
 
     private boolean isPrimarySufficient(String str) {
-        int i, n = str.length();
-        for (i = 0; i < n && super.canDisplay(str.charAt(i)); i++) {
+        int i = 0, n = str.length();
+        while (i < n && super.canDisplay(str.charAt(i))) {
+            i++;
         }
         return i == n;
     }
 
     private boolean isPrimarySufficient(char[] text, int start, int limit) {
-        int i;
-        for (i = start; i < limit && super.canDisplay(text[i]); i++) {
+        int i = start;
+        while (i < limit && super.canDisplay(text[i])) {
+            i++;
         }
         return i == limit;
     }
 
     private boolean isPrimarySufficient(CharacterIterator iter) {
         int limit = iter.getEndIndex();
-        for (char c = iter.setIndex(iter.getBeginIndex());
-             iter.getIndex() < limit && super.canDisplay(c);
-             c = iter.next()) {
+        char c = iter.setIndex(iter.getBeginIndex());
+        while (iter.getIndex() < limit && super.canDisplay(c)) {
+            c = iter.next();
         }
         return iter.getIndex() == limit;
     }
@@ -185,11 +184,9 @@ public class MergedFont extends PatchedFontUIResource {
     public GlyphVector createGlyphVector(FontRenderContext frc, char[] chars) {
         GlyphVector gVector = super.createGlyphVector(frc, chars);
         // If we don't have any bad glyphs, just return the simple result.
-        if (isPrimarySufficient(chars, 0, chars.length)) {
-            return gVector;
-        }
-        return processGlyphVector(frc, gVector,
-                backingFont.createGlyphVector(frc, chars));
+        return isPrimarySufficient(chars, 0, chars.length) ?
+            gVector : processGlyphVector
+            (frc, gVector, backingFont.createGlyphVector(frc, chars));
     }
 
     /** {@inheritDoc} */
@@ -197,27 +194,24 @@ public class MergedFont extends PatchedFontUIResource {
     public GlyphVector createGlyphVector(FontRenderContext frc, String str) {
         GlyphVector gVector = super.createGlyphVector(frc, str);
         // If we don't have any bad glyphs, just return the simple result.
-        if (isPrimarySufficient(str)) {
-            return gVector;
-        }
-        return processGlyphVector(frc, gVector,
-                backingFont.createGlyphVector(frc, str));
+        return isPrimarySufficient(str) ?
+            gVector : processGlyphVector
+                    (frc, gVector, backingFont.createGlyphVector(frc, str));
     }
 
     /** {@inheritDoc} */
     @Override
     public GlyphVector
             createGlyphVector(FontRenderContext frc, CharacterIterator ci) {
+
         GlyphVector gVector = super.createGlyphVector(frc, ci);
         /**
          * if this is not a composite font or if we don't have any bad glyphs,
          * just return the simple result.
          */
-        if (isPrimarySufficient(ci)) {
-            return gVector;
-        }
-        return processGlyphVector(frc, gVector,
-                backingFont.createGlyphVector(frc, ci));
+        return isPrimarySufficient(ci) ?
+            gVector : processGlyphVector
+                    (frc, gVector, backingFont.createGlyphVector(frc, ci));
     }
 
     /** {@inheritDoc} */
@@ -226,22 +220,20 @@ public class MergedFont extends PatchedFontUIResource {
             createGlyphVector(FontRenderContext frc, int[] glyphCodes) {
 
         GlyphVector gVector = super.createGlyphVector(frc, glyphCodes);
-        return processGlyphVector(frc, gVector,
-                backingFont.createGlyphVector(frc, glyphCodes));
+        return processGlyphVector
+                (frc, gVector, backingFont.createGlyphVector(frc, glyphCodes));
     }
 
     /** {@inheritDoc} */
     @Override
     public GlyphVector layoutGlyphVector(FontRenderContext frc,
             char[] text, int start, int limit, int flags) {
-        GlyphVector gVector = super.layoutGlyphVector(
-                frc, text, start, limit, flags);
+        GlyphVector gVector = super.layoutGlyphVector
+                (frc, text, start, limit, flags);
         // If we don't have any bad glyphs, just return the simple result.
-        if (isPrimarySufficient(text, start, limit)) {
-            return gVector;
-        }
-        return processGlyphVector(frc, gVector,
-                backingFont.layoutGlyphVector(frc, text, start, limit, flags));
+        return isPrimarySufficient(text, start, limit) ?
+            gVector : processGlyphVector(frc, gVector,
+            backingFont.layoutGlyphVector(frc, text, start, limit, flags));
     }
 
     /** {@inheritDoc} */
@@ -271,16 +263,9 @@ public class MergedFont extends PatchedFontUIResource {
      */
     @Override
     public boolean equals(Object that) {
-        if (that == this) {
-            return true;
-        }
-        if (!super.equals(that)) {
-            return false;
-        }
-        if (that instanceof MergedFont) {
-            return backingFont.equals(((MergedFont) that).backingFont);
-        }
-        return false;
+        return that == this ?
+            true : super.equals(that) && that instanceof MergedFont ?
+                backingFont.equals(((MergedFont) that).backingFont) : false;
     }
 
     /** {@inheritDoc} */
@@ -297,11 +282,8 @@ public class MergedFont extends PatchedFontUIResource {
      */
     @Override
     public byte getBaselineFor(char c) {
-        if (super.canDisplay(c) || !backingFont.canDisplay(c)) {
-            return super.getBaselineFor(c);
-        } else {
-            return backingFont.getBaselineFor(c);
-        }
+        return super.canDisplay(c) || !backingFont.canDisplay(c) ?
+            super.getBaselineFor(c) : backingFont.getBaselineFor(c);
     }
 
     /** {@inheritDoc} */
@@ -357,13 +339,10 @@ public class MergedFont extends PatchedFontUIResource {
     @Override
     public Font deriveFont(Map<? extends Attribute, ?> attributes) {
         Map<? extends Attribute, ?> topAttributes = getAttributes();
-        if (attributes == topAttributes ||
-                (attributes != null && attributes.equals(topAttributes))) {
-            return this;
-        } else {
-            return new MergedFont(super.deriveFont(attributes),
-                    backingFont.deriveFont(attributes));
-        }
+        return attributes == topAttributes ||
+                (attributes != null && attributes.equals(topAttributes)) ?
+                    this : new MergedFont(super.deriveFont(attributes),
+                            backingFont.deriveFont(attributes));
     }
 
     /** {@inheritDoc} */
