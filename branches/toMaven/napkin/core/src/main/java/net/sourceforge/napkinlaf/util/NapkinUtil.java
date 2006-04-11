@@ -396,41 +396,39 @@ public class NapkinUtil {
             dumpStacks();
         }
 
-        if (!(c instanceof JComponent))
-            return;
+        if (c instanceof JComponent) {
+            JComponent jc = (JComponent) c;
+            DisabledMark mark = (DisabledMark) jc.getClientProperty(
+                    DISABLED_MARK_KEY);
+            if (mark == null) {
+                Color bgColor = (Color) jc.getClientProperty(BACKGROUND_KEY);
+                if (bgColor != null) {
+                    jc.putClientProperty(BACKGROUND_KEY, null);
+                    jc.setBackground(bgColor);
+                }
+            } else {
+                jc.putClientProperty(DISABLED_MARK_KEY, null);
+                Color bgColor = jc.getBackground();
+                if (jc.getClientProperty(BACKGROUND_KEY) == null) {
+                    jc.putClientProperty(BACKGROUND_KEY,
+                            bgColor == null ? CLEAR : bgColor);
+                    jc.setBackground(new AlphaColorUIResource(
+                            jc.getForeground().getRGB() & 0x00FFFFFF));
+                }
 
-        JComponent jc = (JComponent) c;
-        DisabledMark mark = (DisabledMark) jc.getClientProperty(
-                DISABLED_MARK_KEY);
-        if (mark == null) {
-            Color bgColor = (Color) jc.getClientProperty(BACKGROUND_KEY);
-            if (bgColor != null) {
-                jc.putClientProperty(BACKGROUND_KEY, null);
-                jc.setBackground(bgColor);
+                Graphics2D tg = (Graphics2D) g1;
+                tg.setComposite(ERASURE_COMPOSITE);
+                Point start = getStart(jc, null);
+                int w = textureImage.getWidth();
+                int h = textureImage.getHeight();
+                Rectangle anchor = new Rectangle(w - start.x, h - start.y, w, h);
+                tg.setPaint(new TexturePaint(textureImage, anchor));
+                tg.fillRect(0, 0, mark.image.getWidth(), mark.image.getHeight());
+
+                mark.graphics.drawImage(mark.image, -mark.offX, -mark.offY, jc);
+                tg.dispose();
             }
-            return;
         }
-
-        jc.putClientProperty(DISABLED_MARK_KEY, null);
-        Color bgColor = jc.getBackground();
-        if (jc.getClientProperty(BACKGROUND_KEY) == null) {
-            jc.putClientProperty(BACKGROUND_KEY,
-                    bgColor == null ? CLEAR : bgColor);
-            jc.setBackground(new AlphaColorUIResource(
-                    jc.getForeground().getRGB() & 0x00FFFFFF));
-        }
-
-        Graphics2D tg = (Graphics2D) g1;
-        tg.setComposite(ERASURE_COMPOSITE);
-        Point start = getStart(jc, null);
-        int w = textureImage.getWidth();
-        int h = textureImage.getHeight();
-        Rectangle anchor = new Rectangle(w - start.x, h - start.y, w, h);
-        tg.setPaint(new TexturePaint(textureImage, anchor));
-        tg.fillRect(0, 0, mark.image.getWidth(), mark.image.getHeight());
-
-        mark.graphics.drawImage(mark.image, -mark.offX, -mark.offY, jc);
-        tg.dispose();
     }
 
     private static void setupBorder(Component c) {
@@ -521,7 +519,7 @@ public class NapkinUtil {
 
             bg.paint(c, g, pRect, cRect, insets(c));
 
-            if (c instanceof JComponent) {
+            if (c.isEnabled() && c instanceof JComponent) {
                 JComponent jc = (JComponent) c;
                 paintHighlights(g, theme, jc);
             }
@@ -549,30 +547,30 @@ public class NapkinUtil {
             float lineWidth = rect.height;
             if (lineWidth > 10f) {
                 lineWidth *= 0.8f;
-            } else if (lineWidth < 0f) {
-                return;
             }
-            Color fColor = g.getColor();
-            if (shouldHighlight && isRolledOver) {
-                lineWidth *= 0.5f;
-                highLightLine.setWidth(lineWidth);
-                rect.y += rect.height * 0.3f;
-                highLightLine.shapeUpToDate(rect, null);
-                g.setColor(theme.getHighlightColor());
-                highLightLine.draw(g);
-                rect.y += rect.height * 0.5f;
-                highLightLine.shapeUpToDate(rect, null);
-                g.setColor(theme.getRollOverColor());
-                highLightLine.draw(g);
-            } else {
-                highLightLine.setWidth(lineWidth);
-                rect.y += rect.height * 0.6f;
-                highLightLine.shapeUpToDate(rect, null);
-                g.setColor(isRolledOver ? theme.getRollOverColor()
-                        : theme.getHighlightColor());
-                highLightLine.draw(g);
+            if (lineWidth >= 0f) {
+                Color fColor = g.getColor();
+                if (shouldHighlight && isRolledOver) {
+                    lineWidth *= 0.5f;
+                    highLightLine.setWidth(lineWidth);
+                    rect.y += rect.height * 0.3f;
+                    highLightLine.shapeUpToDate(rect, null);
+                    g.setColor(theme.getHighlightColor());
+                    highLightLine.draw(g);
+                    rect.y += rect.height * 0.5f;
+                    highLightLine.shapeUpToDate(rect, null);
+                    g.setColor(theme.getRollOverColor());
+                    highLightLine.draw(g);
+                } else {
+                    highLightLine.setWidth(lineWidth);
+                    rect.y += rect.height * 0.6f;
+                    highLightLine.shapeUpToDate(rect, null);
+                    g.setColor(isRolledOver ? theme.getRollOverColor()
+                            : theme.getHighlightColor());
+                    highLightLine.draw(g);
+                }
+                g.setColor(fColor);
             }
-            g.setColor(fColor);
         }
     }
 
