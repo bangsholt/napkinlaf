@@ -27,13 +27,15 @@ public class DraftSketcher extends AbstractSketcher {
         double scale = l.length() * DEFORM_FACTOR;
 
         if (l.slope() == Double.POSITIVE_INFINITY) {
-            if (ret.y2 < ret.y1)
+            if (ret.y2 < ret.y1) {
                 scale = -scale;
+            }
             ret.y2 += Math.abs(NapkinRandom.gaussian() + 1) * scale;
             ret.y1 -= Math.abs(NapkinRandom.gaussian() + 1) * scale;
         } else {
-            if (ret.x2 < ret.x1)
+            if (ret.x2 < ret.x1) {
                 scale = -scale;
+            }
             double bonusL = Math.abs(NapkinRandom.gaussian() + 1) * scale;
             double bonusR = Math.abs(NapkinRandom.gaussian() + 1) * scale;
 
@@ -51,21 +53,15 @@ public class DraftSketcher extends AbstractSketcher {
     /** {@inheritDoc} */
     @Override
     public SketchShape deformQuad(QuadLine q) {
-        if (q.getFlatness() < q.approximateLength() * DEFORM_FACTOR) {
-            return new StraightLine(q.getP1(), q.getP2()).deform(this);
-        } else {
-            return q;
-        }
+        return q.getFlatness() < q.approximateLength() * DEFORM_FACTOR ?
+            new StraightLine(q.getP1(), q.getP2()).deform(this) : q;
     }
 
     /** {@inheritDoc} */
     @Override
     public SketchShape deformCubic(CubicLine c) {
-        if (c.getFlatness() < c.approximateLength() * DEFORM_FACTOR * 0.5) {
-            return new StraightLine(c.getP1(), c.getP2()).deform(this);
-        } else {
-            return c;
-        }
+        return c.getFlatness() < c.approximateLength() * DEFORM_FACTOR * 0.5 ?
+            new StraightLine(c.getP1(), c.getP2()).deform(this) : c;
     }
 
     /** {@inheritDoc} */

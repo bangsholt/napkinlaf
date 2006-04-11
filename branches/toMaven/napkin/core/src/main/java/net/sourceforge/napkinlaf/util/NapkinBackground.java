@@ -28,15 +28,17 @@ public class NapkinBackground {
     public NapkinBackground(String name, Insets insets) {
         this.name = name;
         URL resource = NapkinLookAndFeel.class.getResource(name);
-        if (resource == null)
+        if (resource == null) {
             throw new NullPointerException("no resource found for: " + name);
+        }
         Image image = Toolkit.getDefaultToolkit().getImage(resource);
         icon = new ImageIcon(image);
         int iconW = icon.getIconWidth();
         int iconH = icon.getIconHeight();
 
-        if (insets == null)
+        if (insets == null) {
             insets = NO_INSETS;
+        }
 
         int rX = iconW - insets.right;
         int bY = iconH - insets.bottom;
@@ -90,56 +92,52 @@ public class NapkinBackground {
             Rectangle paper, Rectangle comp, Insets cInsets, int bandY,
             int bandH, Icon lftIcon, Icon midIcon, Icon rgtIcon) {
 
-        if (bandH == 0)
-            return;
-        if (comp.y + comp.height < bandY)
-            return;
-        if (comp.y >= bandY + bandH)
-            return;
+        if (bandH != 0 && comp.y + comp.height >= bandY &&
+                comp.y < bandY + bandH) {
 
-        int lftW = lftIcon.getIconWidth();
-        int lftX = 0;
+            int lftW = lftIcon.getIconWidth();
+            int lftX = 0;
 
-        int midW = paper.width - (lftW + rgtIcon.getIconWidth());
-        int midX = lftW;
+            int midW = paper.width - (lftW + rgtIcon.getIconWidth());
+            int midX = lftW;
 
-        int rgtW = rgtIcon.getIconWidth();
-        int rgtX = paper.width - rgtW;
+            int rgtW = rgtIcon.getIconWidth();
+            int rgtX = paper.width - rgtW;
 
-        paintArea(c, g, comp, lftX, bandY, lftW, bandH, lftIcon, cInsets);
-        paintArea(c, g, comp, midX, bandY, midW, bandH, midIcon, cInsets);
-        paintArea(c, g, comp, rgtX, bandY, rgtW, bandH, rgtIcon, cInsets);
+            paintArea(c, g, comp, lftX, bandY, lftW, bandH, lftIcon, cInsets);
+            paintArea(c, g, comp, midX, bandY, midW, bandH, midIcon, cInsets);
+            paintArea(c, g, comp, rgtX, bandY, rgtW, bandH, rgtIcon, cInsets);
+        }
     }
 
     private static void paintArea(Component c, Graphics g, Rectangle comp,
             int atX, int atY, int w, int h, Icon icon, Insets cInsets) {
 
-        if (w == 0 || h == 0)
-            return;
-        if (comp.x + comp.width < atX)
-            return;
-        if (comp.x >= atX + w)
-            return;
+        if (w != 0 && h != 0 && comp.x + comp.width >= atX &&
+                comp.x < atX + w) {
 
-        // at this point we deal with the fact that the Graphics object is
-        // translated to the origin of the component, with insets outside
-        atX -= comp.x + cInsets.left;
-        atY -= comp.y + cInsets.top;
-        Rectangle cZeroed = new Rectangle(-cInsets.left, -cInsets.top,
-                comp.width, comp.height);
+            // at this point we deal with the fact that the Graphics object is
+            // translated to the origin of the component, with insets outside
+            atX -= comp.x + cInsets.left;
+            atY -= comp.y + cInsets.top;
+            Rectangle cZeroed = new Rectangle(-cInsets.left, -cInsets.top,
+                    comp.width, comp.height);
 
-        int endX = atX + w;
-        int endY = atY + h;
+            int endX = atX + w;
+            int endY = atY + h;
 
-        int iw = icon.getIconWidth();
-        int ih = icon.getIconHeight();
-        Rectangle area = new Rectangle(atX, atY, w, h);
-        for (area.x = atX; area.x < endX; area.x += iw) {
-            if (area.x + iw < 0)
-                continue;
-            for (area.y = atY; area.y < endY; area.y += ih) {
-                if (area.intersects(cZeroed))
-                    icon.paintIcon(c, g, area.x, area.y);
+            int iw = icon.getIconWidth();
+            int ih = icon.getIconHeight();
+            Rectangle area = new Rectangle(atX, atY, w, h);
+            for (area.x = atX; area.x < endX; area.x += iw) {
+                if (area.x + iw < 0) {
+                    continue;
+                }
+                for (area.y = atY; area.y < endY; area.y += ih) {
+                    if (area.intersects(cZeroed)) {
+                        icon.paintIcon(c, g, area.x, area.y);
+                    }
+                }
             }
         }
     }

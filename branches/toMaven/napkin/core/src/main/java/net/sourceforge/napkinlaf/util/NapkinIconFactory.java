@@ -40,7 +40,6 @@ public class NapkinIconFactory {
             init();
         }
 
-        @Override
         protected AbstractDrawnGenerator createPlaceGenerator() {
             DrawnQuadLineGenerator gen = new DrawnQuadLineGenerator();
             gen.getCtl().getY().setMid(1);
@@ -48,19 +47,17 @@ public class NapkinIconFactory {
         }
 
         /** @noinspection AssignmentToStaticFieldFromInstanceMethod */
-        @Override
         protected AbstractDrawnGenerator createMarkGenerator() {
-            if (checkGen == null)
+            if (checkGen == null) {
                 checkGen = new DrawnCheckGenerator(size - midInset);
+            }
             return checkGen;
         }
 
-        @Override
         protected int calcWidth() {
             return (int) ((size - midInset) * checkGen.getMaxWidth() + 0.5d);
         }
 
-        @Override
         protected int calcHeight() {
             // the "2" is for the underline if it loops down a bit
             return (int) ((size - midInset) * checkGen.getMaxHeight() + 2.5d);
@@ -176,9 +173,7 @@ public class NapkinIconFactory {
 
         @Override
         protected boolean shouldUseMark(Component c) {
-            if (super.shouldUseMark(c))
-                return true;
-            return c.isFocusOwner();
+            return super.shouldUseMark(c) ? true : c.isFocusOwner();
         }
     }
 
@@ -244,10 +239,9 @@ public class NapkinIconFactory {
     public static Icon createSketchedIcon(String templatePath) {
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
         Template template = getTemplate(templatePath);
-        if (template == null)
-            return createXIcon(20);   // just to have *something*
-        else
-            return new SketchedIcon(template, theme.getSketcher());
+        return template == null ?
+            createXIcon(20) /* just to have *something* */ :
+            new SketchedIcon(template, theme.getSketcher());
     }
 
     @SuppressWarnings({"HardcodedFileSeparator"})
@@ -257,16 +251,16 @@ public class NapkinIconFactory {
             String subpath = "resources/templates/" + templatePath + ".xml";
             InputStream in = NapkinLookAndFeel.class
                     .getResourceAsStream(subpath);
-            if (in == null)
+            if (in == null) {
                 throw new IllegalArgumentException(
                         "unknown template: " + subpath);
+            }
 
             try {
                 template = Template.createFromXML(in);
                 tmplMap.put(templatePath, template);
             } catch (TemplateReadException e) {
                 e.printStackTrace();
-                return null;
             }
         }
         return template;

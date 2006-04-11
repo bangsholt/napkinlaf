@@ -81,13 +81,15 @@ public class DrawnTriangleGenerator extends AbstractDrawnGenerator {
     }
 
     private double adjustStartOffset(RandomValueSource off, double scale) {
-        if (scale >= 1)
-            return off.generate();
-        double delta = 1 - scale;
-        double exp = startAdjust.generate();
-        double adjusted = Math.pow(delta, exp);
-        double startScale = 1 - adjusted;
-        return off.generate() * startScale;
+        double result = off.generate();
+        if (scale < 1d) {
+            double delta = 1 - scale;
+            double exp = startAdjust.generate();
+            double adjusted = Math.pow(delta, exp);
+            double startScale = 1 - adjusted;
+            result *= startScale;
+        }
+        return result;
     }
 
     public RandomValue getStartAdjust() {

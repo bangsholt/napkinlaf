@@ -40,10 +40,8 @@ public class TemplateItem implements Cloneable {
      *         returned.
      */
     public Color getStrokeColor() {
-        if (strokeColor == null) {
-            return NapkinTheme.Manager.getCurrentTheme().getPenColor();
-        } else
-            return strokeColor;
+        return strokeColor == null ?
+            NapkinTheme.Manager.getCurrentTheme().getPenColor() : strokeColor;
     }
 
     /**
@@ -73,10 +71,9 @@ public class TemplateItem implements Cloneable {
      *         returned.
      */
     public Color getFillColor() {
-        if (fillColor == null)
-            return NapkinTheme.Manager.getCurrentTheme().getHighlightColor();
-        else
-            return fillColor;
+        return fillColor == null ?
+            NapkinTheme.Manager.getCurrentTheme().getHighlightColor() :
+            fillColor;
     }
 
     /**
@@ -97,8 +94,9 @@ public class TemplateItem implements Cloneable {
 
     /** @param shape The shape to set. */
     public void setShape(SketchShape shape) {
-        if (shape == null)
-            throw new NullPointerException();
+        if (shape == null) {
+            throw new NullPointerException("shape cannot be null");
+        }
         this.shape = shape;
     }
 
@@ -127,30 +125,28 @@ public class TemplateItem implements Cloneable {
      *         TemplateItem.
      */
     public Element produceXML() {
+        Element result = null;
         if (shape instanceof XMLShape) {
             DefaultJDOMFactory f = new DefaultJDOMFactory();
 
-            Element ret = f.element("templateItem");
+            result = f.element("templateItem");
 
             if (strokeColor != null) {
-                ret.addContent(XMLUtility
+                result.addContent(XMLUtility
                         .colorToXML(strokeColor, "strokeColor"));
             }
             if (strokeWeight != 1) {
                 Element t = f.element("strokeWeight");
                 t.addContent(f.text(Float.toString(strokeWeight)));
-                ret.addContent(t);
+                result.addContent(t);
             }
             if (fillColor != null) {
-                ret.addContent(XMLUtility.colorToXML(fillColor, "fillColor"));
+                result.addContent(XMLUtility.colorToXML(fillColor, "fillColor"));
             }
 
-            ret.addContent(((XMLShape) shape).produceXML());
-
-            return ret;
-        } else {
-            return null;
+            result.addContent(((XMLShape) shape).produceXML());
         }
+        return result;
     }
 
     /** {@inheritDoc} */

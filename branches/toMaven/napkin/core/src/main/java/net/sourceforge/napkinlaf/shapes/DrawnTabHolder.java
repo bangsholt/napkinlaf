@@ -18,26 +18,26 @@ public class DrawnTabHolder extends DrawnShapeHolder {
     }
 
     public void shapeUpToDate(int tabPlacement, int x, int y, int w, int h) {
-        if (tabPlacement == this.tabPlacement && w == this.w && h == this.h &&
-                this.x == x && this.y == y) {
-            return;
+        if (tabPlacement != this.tabPlacement || w != this.w || h != this.h ||
+                this.x != x || this.y != y) {
+
+            if (tabPlacement != this.tabPlacement) {
+                gen = DrawnTabGenerator.generatorFor(tabPlacement);
+            }
+
+            AffineTransform matrix = new AffineTransform();
+            matrix.translate(x, y);
+            matrix.scale(w, h);
+            shape = gen.generate(matrix);
+
+            this.tabPlacement = tabPlacement;
+            this.x = x;
+            this.y = y;
+            this.w = w;
+            this.h = h;
+
+            setBreak(tabPlacement, x, w, y, h);
         }
-
-        if (tabPlacement != this.tabPlacement)
-            gen = DrawnTabGenerator.generatorFor(tabPlacement);
-
-        AffineTransform matrix = new AffineTransform();
-        matrix.translate(x, y);
-        matrix.scale(w, h);
-        shape = gen.generate(matrix);
-
-        this.tabPlacement = tabPlacement;
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-
-        setBreak(tabPlacement, x, w, y, h);
     }
 
     private void setBreak(int tabPlacement, int x, int w, int y, int h) {

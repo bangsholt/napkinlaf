@@ -30,8 +30,9 @@ public class RandomXY {
     }
 
     public Point2D get() {
-        if (point == null)
+        if (point == null) {
             point = new Point2D.Double(x.get(), y.get());
+        }
         return point;
     }
 
@@ -55,20 +56,23 @@ public class RandomXY {
     }
 
     public Point2D getMid() {
-        if (mid == null)
+        if (mid == null) {
             mid = new Point2D.Double(x.getMid(), y.getMid());
+        }
         return mid;
     }
 
     public Point2D max() {
-        if (max == null)
+        if (max == null) {
             max = new Point2D.Double(x.max(), y.max());
+        }
         return max;
     }
 
     public Point2D min() {
-        if (min == null)
+        if (min == null) {
             min = new Point2D.Double(x.min(), y.min());
+        }
         return min;
     }
 }

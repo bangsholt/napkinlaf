@@ -25,39 +25,39 @@ public class DrawnScribbleHolder extends DrawnShapeHolder {
                 ((Container) c).getInsets() : NapkinBoxBorder.getDefaultInsets(
                 c.getBounds()));
 
-        if (size != null && bwrds == backwards && insets.equals(in) &&
-                orientation == orient && shown == shn &&
-                size.width == sz.width && size.height == sz.height) {
+        boolean updated = false;
+        if (size == null || bwrds != backwards || !insets.equals(in) ||
+                orientation != orient || shown != shn ||
+                size.width != sz.width || size.height != sz.height) {
 
-            return false;
+            size = (Rectangle) sz.clone();
+            insets = (Insets) in.clone();
+            orientation = orient;
+            shown = shn;
+            backwards = bwrds;
+
+            int cornerX = in.top;
+            int cornerY = in.left;
+
+            double innerWidth = sz.getWidth() - (in.left + in.right);
+            double innerHeight = sz.getHeight() - (in.top + in.bottom);
+
+            DrawnScribbleGenerator dsg = (DrawnScribbleGenerator) gen;
+            dsg.setShown(shown);
+            dsg.setOrientation(orientation);
+            dsg.setRange(orientation == HORIZONTAL ? innerHeight : innerWidth);
+            dsg.setMax(orientation == HORIZONTAL ? innerWidth : innerHeight);
+
+            AffineTransform matrix = new AffineTransform();
+            matrix.translate(cornerY, cornerX);
+            if (backwards) {
+                matrix.translate(innerWidth, innerHeight);
+                matrix.scale(-1, -1);
+            }
+
+            shape = dsg.generate(matrix);
+            updated = true;
         }
-
-        size = (Rectangle) sz.clone();
-        insets = (Insets) in.clone();
-        orientation = orient;
-        shown = shn;
-        backwards = bwrds;
-
-        int cornerX = in.top;
-        int cornerY = in.left;
-
-        double innerWidth = sz.getWidth() - (in.left + in.right);
-        double innerHeight = sz.getHeight() - (in.top + in.bottom);
-
-        DrawnScribbleGenerator dsg = (DrawnScribbleGenerator) gen;
-        dsg.setShown(shown);
-        dsg.setOrientation(orientation);
-        dsg.setRange(orientation == HORIZONTAL ? innerHeight : innerWidth);
-        dsg.setMax(orientation == HORIZONTAL ? innerWidth : innerHeight);
-
-        AffineTransform matrix = new AffineTransform();
-        matrix.translate(cornerY, cornerX);
-        if (backwards) {
-            matrix.translate(innerWidth, innerHeight);
-            matrix.scale(-1, -1);
-        }
-
-        shape = dsg.generate(matrix);
-        return true;
+        return updated;
     }
 }

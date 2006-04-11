@@ -43,63 +43,68 @@ public class NapkinDebug {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
-            if (out != null)
+            if (out != null) {
                 out.close();
+            }
         }
     }
 
     public static String descFor(Object obj) {
-        if (obj instanceof Component)
-            return descFor((Component) obj);
-        else
-            return obj.getClass().getName();
+        return obj instanceof Component ?
+            descFor((Component) obj) : obj.getClass().getName();
     }
 
     @SuppressWarnings({"HardcodedFileSeparator"})
     public static String descFor(Component c) {
-        if (c == null)
-            return "[null]";
-        //noinspection NonConstantStringShouldBeStringBuffer
-        String desc;
-        String idStr = "[" + System.identityHashCode(c) + "]";
-        if ((desc = c.getName()) != null)
-            return desc.trim() + idStr + "/" + c.getClass().getName();
-        desc = c.getClass().getName();
-        int dot = desc.lastIndexOf('.');
-        if (dot > 0)
-            desc = desc.substring(dot + 1);
-        StringBuilder descStr = new StringBuilder(desc);
-        descStr.append(idStr);
+        String result = "[null]";
+        if (c != null) {
+            //noinspection NonConstantStringShouldBeStringBuffer
+            String idStr = "[" + System.identityHashCode(c) + "]";
+            String desc = c.getName();
+            if (desc != null) {
+                result = desc.trim() + idStr + "/" + c.getClass().getName();
+            } else {
+                desc = c.getClass().getName();
+                int dot = desc.lastIndexOf('.');
+                if (dot > 0)
+                    desc = desc.substring(dot + 1);
+                StringBuilder descStr = new StringBuilder(desc);
+                descStr.append(idStr);
 
-        if (c instanceof JLabel)
-            descStr.append(": ").append(((JLabel) c).getText());
-        else if (c instanceof AbstractButton)
-            descStr.append(": ").append(((AbstractButton) c).getText());
-        else if (c instanceof JTextComponent)
-            descStr.append(": ").append(((JTextComponent) c).getText());
-        else if (c instanceof JPopupMenu)
-            descStr.append(": ").append(((JPopupMenu) c).getLabel());
-        else if (c instanceof Label)
-            descStr.append(": ").append(((Label) c).getText());
-        else if (c instanceof Button)
-            descStr.append(": ").append(((Button) c).getLabel());
-        else if (c instanceof Checkbox)
-            descStr.append(": ").append(((Checkbox) c).getLabel());
-        else if (c instanceof Dialog)
-            descStr.append(": ").append(((Dialog) c).getTitle());
-        else if (c instanceof Frame)
-            descStr.append(": ").append(((Frame) c).getTitle());
-        else if (c instanceof JInternalFrame)
-            descStr.append(": ").append(((JInternalFrame) c).getTitle());
-        descStr = new StringBuilder(descStr.toString().trim());
+                if (c instanceof JLabel) {
+                    descStr.append(": ").append(((JLabel) c).getText());
+                } else if (c instanceof AbstractButton) {
+                    descStr.append(": ").append(((AbstractButton) c).getText());
+                } else if (c instanceof JTextComponent) {
+                    descStr.append(": ").append(((JTextComponent) c).getText());
+                } else if (c instanceof JPopupMenu) {
+                    descStr.append(": ").append(((JPopupMenu) c).getLabel());
+                } else if (c instanceof Label) {
+                    descStr.append(": ").append(((Label) c).getText());
+                } else if (c instanceof Button) {
+                    descStr.append(": ").append(((Button) c).getLabel());
+                } else if (c instanceof Checkbox) {
+                    descStr.append(": ").append(((Checkbox) c).getLabel());
+                } else if (c instanceof Dialog) {
+                    descStr.append(": ").append(((Dialog) c).getTitle());
+                } else if (c instanceof Frame) {
+                    descStr.append(": ").append(((Frame) c).getTitle());
+                } else if (c instanceof JInternalFrame) {
+                    descStr.append(": ").append(((JInternalFrame) c).getTitle());
+                }
+                descStr = new StringBuilder(descStr.toString().trim());
 
-        if (c instanceof JComponent) {
-            JComponent jc = (JComponent) c;
-            Border border = jc.getBorder();
-            if (border instanceof TitledBorder)
-                descStr.append(": ").append(((TitledBorder) border).getTitle());
+                if (c instanceof JComponent) {
+                    JComponent jc = (JComponent) c;
+                    Border border = jc.getBorder();
+                    if (border instanceof TitledBorder) {
+                        descStr.append(": ").append(((TitledBorder) border).getTitle());
+                    }
+                }
+                result = descStr.toString().trim();
+            }
         }
-        return descStr.toString().trim();
+        return result;
     }
 
     static void dumpTo(String file, JComponent c) {
@@ -112,8 +117,9 @@ public class NapkinDebug {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (out != null)
+            if (out != null) {
                 out.close();
+            }
         }
     }
 
@@ -121,20 +127,20 @@ public class NapkinDebug {
             int level, Set<Object> dumped)
             throws IllegalAccessException {
 
-        if (cl == null)
-            return;
-        dumpTo(out, obj, cl.getSuperclass(), level, dumped);
-        Field[] fields = cl.getDeclaredFields();
-        for (Field field : fields) {
-            field.setAccessible(true);
-            Object val = field.get(obj);
-            for (int l = 0; l < level; l++)
-                out.print("    ");
-            out.println(field.getName() + ": " + val);
-            if (val != null && !dumped.contains(obj) &&
-                    !field.getType().isPrimitive()) {
-                dumpTo(out, val, val.getClass(), level + 1, dumped);
-                dumped.add(obj);
+        if (cl != null) {
+            dumpTo(out, obj, cl.getSuperclass(), level, dumped);
+            Field[] fields = cl.getDeclaredFields();
+            for (Field field : fields) {
+                field.setAccessible(true);
+                Object val = field.get(obj);
+                for (int l = 0; l < level; l++)
+                    out.print("    ");
+                out.println(field.getName() + ": " + val);
+                if (val != null && !dumped.contains(obj) &&
+                        !field.getType().isPrimitive()) {
+                    dumpTo(out, val, val.getClass(), level + 1, dumped);
+                    dumped.add(obj);
+                }
             }
         }
     }
@@ -159,14 +165,16 @@ public class NapkinDebug {
 
         try {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i <= depth; i++)
+            for (int i = 0; i <= depth; i++) {
                 sb.append(i % 2 == 0 ? '.' : '|').append(' ');
+            }
             String indent = sb.toString();
 
             Field[] fields = getFields(obj);
             for (Field field : fields) {
-                if (skip.contains(field.getName()))
+                if (skip.contains(field.getName())) {
                     continue;
+                }
                 Class<?> type = field.getType();
                 out.print(indent);
                 out.print(field.getName() + " [" + field.getType().getName() +
@@ -180,8 +188,9 @@ public class NapkinDebug {
                 int length = Array.getLength(obj);
                 for (int i = 0; i < length; i++) {
                     Object val = Array.get(obj, i);
-                    if (val == null)
+                    if (val == null) {
                         continue;
+                    }
                     out.print(indent);
                     out.print(i + ": ");
                     dumpValue(type, out, val, depth, known);
@@ -211,35 +220,38 @@ public class NapkinDebug {
     private static Field[] getFields(Object obj) {
         Class<?> type = obj.getClass();
         Field[] fields = fieldsForType.get(type);
-        if (fields != null)
-            return fields;
-
-        Set<Field> fSet = new HashSet<Field>();
-        int skip = Modifier.STATIC | Modifier.FINAL | Modifier.TRANSIENT;
-        while (type != Object.class) {
-            Field[] declaredFields = type.getDeclaredFields();
-            for (Field field : declaredFields) {
-                int mods = field.getModifiers();
-                if (!field.getDeclaringClass().isAssignableFrom(obj.getClass()))
-                    fSet.size();
-                if ((mods & skip) == 0)
-                    fSet.add(field);
+        if (fields == null) {
+            Set<Field> fSet = new HashSet<Field>();
+            int skip = Modifier.STATIC | Modifier.FINAL | Modifier.TRANSIENT;
+            while (type != Object.class) {
+                Field[] declaredFields = type.getDeclaredFields();
+                for (Field field : declaredFields) {
+                    int mods = field.getModifiers();
+                    if (!field.getDeclaringClass()
+                            .isAssignableFrom(obj.getClass())) {
+                        fSet.size();
+                    }
+                    if ((mods & skip) == 0) {
+                        fSet.add(field);
+                    }
+                }
+                type = type.getSuperclass();
             }
-            type = type.getSuperclass();
-        }
-        fields = fSet.toArray(new Field[fSet.size()]);
-        Arrays.sort(fields, new Comparator<Field>() {
-            public int compare(Field f1, Field f2) {
-                int d = f1.getName().compareTo(f2.getName());
-                if (d != 0)
+            fields = fSet.toArray(new Field[fSet.size()]);
+            Arrays.sort(fields, new Comparator<Field>() {
+                public int compare(Field f1, Field f2) {
+                    int d = f1.getName().compareTo(f2.getName());
+                    if (d == 0) {
+                        Class<?> c1 = f1.getDeclaringClass();
+                        Class<?> c2 = f2.getDeclaringClass();
+                        d = c1.getName().compareTo(c2.getName());
+                    }
                     return d;
-                Class<?> c1 = f1.getDeclaringClass();
-                Class<?> c2 = f2.getDeclaringClass();
-                return c1.getName().compareTo(c2.getName());
-            }
-        });
-        AccessibleObject.setAccessible(fields, true);
-        fieldsForType.put(obj.getClass(), fields);
+                }
+            });
+            AccessibleObject.setAccessible(fields, true);
+            fieldsForType.put(obj.getClass(), fields);
+        }
         return fields;
     }
 

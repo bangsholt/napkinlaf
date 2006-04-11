@@ -208,8 +208,9 @@ public class NapkinUtil {
             button.setRolloverEnabled(true);
             c.addPropertyChangeListener(ROLL_OVER, ROLL_OVER_LISTENER);
         }
-        if (replaceBackground(c.getBackground()))
+        if (replaceBackground(c.getBackground())) {
             c.setBackground(CLEAR);
+        }
         c.addPropertyChangeListener(BACKGROUND, BACKGROUND_LISTENER);
         setupBorder(c);
         c.addPropertyChangeListener(BORDER, BORDER_LISTENER);
@@ -225,24 +226,21 @@ public class NapkinUtil {
                     (Boolean) c.getClientProperty(ROLL_OVER_ENABLED));
         }
         c.removePropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
-        if (shouldMakeOpaque(c))
+        if (shouldMakeOpaque(c)) {
             c.setOpaque(true);
-        for (String clientProp : CLIENT_PROPERTIES)
+        }
+        for (String clientProp : CLIENT_PROPERTIES) {
             c.putClientProperty(clientProp, null);
+        }
     }
 
     private static boolean shouldMakeOpaque(JComponent c) {
-        if (isGlassPane(c))
-            return false;
-        return (c.getClientProperty(OPAQUE_KEY) == Boolean.TRUE &&
-                !c.isOpaque());
+        return isGlassPane(c) ? false :
+            c.getClientProperty(OPAQUE_KEY) == Boolean.TRUE && !c.isOpaque();
     }
 
     private static boolean isGlassPane(Component c) {
-        if (c instanceof JComponent)
-            return isGlassPane((JComponent) c);
-        else
-            return false;
+        return c instanceof JComponent ? isGlassPane((JComponent) c) : false;
     }
 
     @SuppressWarnings({"ObjectEquality"})
@@ -351,8 +349,9 @@ public class NapkinUtil {
         // explicitly check for equality because two things depend on it
         if (!fgColor.equals(c.getForeground())) {
             c.setForeground(fgColor);
-            if (g != null)
+            if (g != null) {
                 g.setColor(fgColor);
+            }
         }
 
         if (c instanceof JTextComponent) {
@@ -376,24 +375,24 @@ public class NapkinUtil {
     }
 
     public static NapkinTheme currentTheme(Component c) {
-        if (themeStack.isEmpty())
-            return (NapkinTheme) themeTopFor(c).getClientProperty(THEME_KEY);
-        return themeStack.peek();
+        return themeStack.isEmpty() ?
+            (NapkinTheme) themeTopFor(c).getClientProperty(THEME_KEY) :
+            themeStack.peek();
     }
 
     public static Component currentPaper(Component c) {
-        if (paperStack.isEmpty())
-            return themeTopFor(c);
-        return paperStack.peek();
+        return paperStack.isEmpty() ? themeTopFor(c) : paperStack.peek();
     }
 
     @SuppressWarnings({"ObjectEquality"})
     public static void finishGraphics(Graphics g1, Component c) {
         if (c == currentPaper(c)) {
-            if (!paperStack.isEmpty())
+            if (!paperStack.isEmpty()) {
                 paperStack.pop();
-            if (!themeStack.isEmpty())
+            }
+            if (!themeStack.isEmpty()) {
                 themeStack.pop();
+            }
             dumpStacks();
         }
 
@@ -438,8 +437,9 @@ public class NapkinUtil {
         if (c instanceof JComponent) {
             JComponent jc = (JComponent) c;
             Border b = jc.getBorder();
-            if (b != null && !(b instanceof AbstractNapkinBorder))
+            if (b != null && !(b instanceof AbstractNapkinBorder)) {
                 jc.setBorder(NapkinWrappedBorder.wrap(b));
+            }
         }
     }
 
@@ -481,15 +481,17 @@ public class NapkinUtil {
 
     public static DrawnLineHolder paintLine(Graphics g, boolean vertical,
             DrawnLineHolder holder, Rectangle bounds) {
-        if (holder == null)
-            holder = new DrawnLineHolder(DrawnCubicLineGenerator.INSTANCE,
-                    vertical);
+        if (holder == null) {
+            holder = new DrawnLineHolder(
+                    DrawnCubicLineGenerator.INSTANCE, vertical);
+        }
         holder.shapeUpToDate(bounds, null);
         Graphics2D lineG = copy(g);
-        if (vertical)
+        if (vertical) {
             lineG.translate(bounds.x + bounds.width / 2, 0);
-        else
+        } else {
             lineG.translate(0, bounds.y + bounds.height / 2);
+        }
         holder.draw(lineG);
         return holder;
     }
@@ -497,6 +499,7 @@ public class NapkinUtil {
     @SuppressWarnings({"SameParameterValue"})
     public static void printPair(Logger logger, Level level, String label,
             double x, double y) {
+
         logger.log(level, label + ": " + x + ", " + y);
     }
 
@@ -507,8 +510,9 @@ public class NapkinUtil {
     }
 
     public static NapkinTheme paintBackground(Graphics g1, Component c) {
-        if (isGlassPane(c))
+        if (isGlassPane(c)) {
             return null;
+        }
 
         Graphics2D g = (Graphics2D) g1;
         NapkinTheme theme = currentTheme(c);
@@ -589,15 +593,18 @@ public class NapkinUtil {
 
     /** @noinspection TailRecursion */
     public static JComponent themeTopFor(Component c) {
-        if (c == null)
+        if (c == null) {
             return null;
+        }
 
-        if (!(c instanceof JComponent))
+        if (!(c instanceof JComponent)) {
             return themeTopFor(c.getParent());
+        }
 
         JComponent jc = (JComponent) c;
-        if (jc.getClientProperty(THEME_KEY) != null)
+        if (jc.getClientProperty(THEME_KEY) != null) {
             return jc;
+        }
 
         JComponent themeTop = themeTopFor(jc.getParent());
         if (themeTop == null) {
@@ -616,8 +623,9 @@ public class NapkinUtil {
     @SuppressWarnings({"ObjectEquality"})
     private static Point getStart(Component c, Insets insets) {
         Point start = new Point();
-        if (insets != null)
+        if (insets != null) {
             start.setLocation(-insets.left, -insets.top);
+        }
         Component paper = currentPaper(c);
         while (c != null && c != paper) {
             start.x += c.getX();
@@ -628,9 +636,8 @@ public class NapkinUtil {
     }
 
     private static boolean isPaper(Component c) {
-        if (c instanceof JComponent)
-            return (((JComponent) c).getClientProperty(THEME_KEY) != null);
-        return false;
+        return c instanceof JComponent ?
+            ((JComponent) c).getClientProperty(THEME_KEY) != null : false;
     }
 
     @SuppressWarnings({"TooBroadScope"})
@@ -641,8 +648,9 @@ public class NapkinUtil {
 
         Graphics2D ulG;
         if (isDefault) {
-            if (line == null)
+            if (line == null) {
                 line = new DrawnLineHolder(new DrawnCubicLineGenerator());
+            }
             ulG = copy(g);
             FontMetrics fm = ulG.getFontMetrics();
             line.shapeUpToDate(textRect, fm);
@@ -656,8 +664,9 @@ public class NapkinUtil {
         if (c instanceof AbstractButton) {
             AbstractButton button = (AbstractButton) c;
             ButtonModel model = button.getModel();
-            if (model.isArmed() || (c instanceof JMenu && model.isSelected()))
+            if (model.isArmed() || (c instanceof JMenu && model.isSelected())) {
                 textColor = currentTheme(c).getSelectionColor();
+            }
         }
         Color oldColor = g.getColor();
         g.setColor(textColor);
@@ -677,9 +686,8 @@ public class NapkinUtil {
     }
 
     public static boolean replace(Object current, Object candidate) {
-        if (current == null)
-            return true;
-        return !current.equals(candidate) && current instanceof UIResource;
+        return current == null ?
+            true : !current.equals(candidate) && current instanceof UIResource;
     }
 
     public static Color ifReplace(Color current, Color candidate) {
@@ -689,8 +697,9 @@ public class NapkinUtil {
     public static void drawStroke(GeneralPath path, AffineTransform matrix,
             double x1, double y1, double x2, double y2,
             double baseAngle, AbstractDrawnGenerator lineGen) {
-        if (matrix == null)
+        if (matrix == null) {
             matrix = new AffineTransform();
+        }
 
         double xDelta = x1 - x2;
         double yDelta = y1 - y2;
@@ -727,16 +736,19 @@ public class NapkinUtil {
 
     @SuppressWarnings({"UseOfSystemOutOrSystemErr", "HardcodedFileSeparator"})
     private static void dumpStacks() {
-        if (!Logs.paper.isLoggable(Level.FINER))
+        if (!Logs.paper.isLoggable(Level.FINER)) {
             return;
+        }
 
-        if (themeStack.size() != paperStack.size())
+        if (themeStack.size() != paperStack.size()) {
             System.out.println("!!!");
+        }
         StringBuilder dump = new StringBuilder(NapkinDebug.count).append(":\t");
         NapkinDebug.count++;
         //noinspection ForLoopReplaceableByForEach
-        for (int i = 0; i < paperStack.size(); i++)
+        for (int i = 0; i < paperStack.size(); i++) {
             dump.append(". ");
+        }
         if (!themeStack.isEmpty()) {
             dump.append(themeStack.peek()).append(" / ").append(
                     NapkinDebug.descFor(paperStack.peek()));

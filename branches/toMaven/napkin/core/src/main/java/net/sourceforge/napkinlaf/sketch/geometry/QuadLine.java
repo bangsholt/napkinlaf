@@ -38,8 +38,9 @@ public class QuadLine extends QuadCurve2D.Double implements SketchShape {
         Point base = Point.midpoint(getP1(), getP2());
         StraightLine span = new StraightLine(base, getCtrlPt());
         double lenMultiplier = 0.6;
-        if (span.x2 < span.x1)
-            lenMultiplier *= -1;
+        if (span.x2 < span.x1) {
+            lenMultiplier = -lenMultiplier;
+        }
         Point2D reach = new StraightLine(base, span.angle(),
                 span.length() * lenMultiplier).getP2();
         return new CubicLine(getP1(), reach, reach, getP2());

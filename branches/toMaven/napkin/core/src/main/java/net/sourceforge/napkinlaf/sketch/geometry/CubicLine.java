@@ -98,60 +98,64 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
 
         StraightLine span = new StraightLine(q1, getCtrlP1());
         double lenmultiplier = 0.4;
-        if (span.x2 < span.x1 || (span.x2 == span.x1 && span.y2 < span.y1))
-            lenmultiplier *= -1;
+        if (span.x2 < span.x1 || (span.x2 == span.x1 && span.y2 < span.y1)) {
+            lenmultiplier = -lenmultiplier;
+        }
         Point2D p1 = new Point(q1, span.angle(), span.length() * lenmultiplier);
 
         span = new StraightLine(q3, getCtrlP2());
         lenmultiplier = 0.4;
-        if (span.x2 < span.x1 || (span.x2 == span.x1 && span.y2 < span.y1))
-            lenmultiplier *= -1;
+        if (span.x2 < span.x1 || (span.x2 == span.x1 && span.y2 < span.y1)) {
+            lenmultiplier = -lenmultiplier;
+        }
         Point2D p2 = new Point(q3, span.angle(), span.length() * lenmultiplier);
 
         span = new StraightLine(getP1(), getCtrlP1());
         lenmultiplier = 0.6;
-        if (span.x2 < span.x1 || (span.x2 == span.x1 && span.y2 < span.y1))
-            lenmultiplier *= -1;
-        Point2D s1 = new Point(getP1(), span.angle(), span.length()
-                * lenmultiplier);
+        if (span.x2 < span.x1 || (span.x2 == span.x1 && span.y2 < span.y1)) {
+            lenmultiplier = -lenmultiplier;
+        }
+        Point2D s1 = new Point
+                (getP1(), span.angle(), span.length() * lenmultiplier);
 
         span = new StraightLine(getP2(), getCtrlP2());
         lenmultiplier = 0.6;
-        if (span.x2 < span.x1 || (span.x2 == span.x1 && span.y2 < span.y1))
-            lenmultiplier *= -1;
-        Point2D s2 = new Point(getP2(), span.angle(), span.length()
-                * lenmultiplier);
+        if (span.x2 < span.x1 || (span.x2 == span.x1 && span.y2 < span.y1)) {
+            lenmultiplier = -lenmultiplier;
+        }
+        Point2D s2 = new Point
+                (getP2(), span.angle(), span.length() * lenmultiplier);
 
         Point one = Point.midpoint(p1, s1);
         Point two = Point.midpoint(p2, s2);
 
-        StraightLine[] ret = new StraightLine[3];
-
-        ret[0] = new StraightLine(getP1(), one);
-        ret[1] = new StraightLine(one, two);
-        ret[2] = new StraightLine(two, getP2());
-
-        return ret;
+        return new StraightLine[] {
+            new StraightLine(getP1(), one),
+            new StraightLine(one, two),
+            new StraightLine(two, getP2()),
+        };
     }
 
     /** {@inheritDoc} */
     public QuadLine[] transformToQuad() {
-        QuadLine[] ret;
+        QuadLine[] result;
 
         StraightLine line = new StraightLine(getP1(), getP2());
         Point intersection = line.intersects(
                 new StraightLine(getCtrlP1(), getCtrlP2()));
         if (intersection == null) {
-            ret = new QuadLine[1];
-            ret[0] = new QuadLine(getP1(),
-                    Point.midpoint(getCtrlP1(), getCtrlP2()), getP2());
+            result = new QuadLine[] {
+                new QuadLine(getP1(),
+                        Point.midpoint(getCtrlP1(), getCtrlP2()), getP2()),
+            };
         } else {
-            ret = new QuadLine[2];
-            ret[0] = new QuadLine(getP1(), getCtrlP1(), intersection);
-            ret[1] = new QuadLine(intersection, getCtrlP2(), getP2());
+            result = new QuadLine[] {
+                new QuadLine(getP1(), getCtrlP1(), intersection),
+                new QuadLine(intersection, getCtrlP2(), getP2()),
+            };
         }
 
-        return ret;
+        return result;
     }
 
     /** {@inheritDoc} */

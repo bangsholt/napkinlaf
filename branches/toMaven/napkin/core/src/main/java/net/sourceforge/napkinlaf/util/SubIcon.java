@@ -35,14 +35,14 @@ public class SubIcon implements Icon {
      * foreground or background color.
      */
     public void paintIcon(Component c, Graphics g, int atX, int atY) {
-        if (width == 0 || height == 0)
-            return;
-        if (subIcon == null) {
-            Image img = c.createImage(width, height);
-            Graphics ig = img.getGraphics();
-            icon.paintIcon(c, ig, -x, -y);
-            subIcon = new ImageIcon(img);
+        if (width != 0 && height != 0) {
+            if (subIcon == null) {
+                Image img = c.createImage(width, height);
+                Graphics ig = img.getGraphics();
+                icon.paintIcon(c, ig, -x, -y);
+                subIcon = new ImageIcon(img);
+            }
+            subIcon.paintIcon(c, g, atX, atY);
         }
-        subIcon.paintIcon(c, g, atX, atY);
     }
 }

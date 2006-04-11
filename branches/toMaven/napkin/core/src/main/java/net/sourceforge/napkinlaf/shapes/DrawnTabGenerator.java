@@ -44,8 +44,9 @@ public class DrawnTabGenerator extends AbstractDrawnGenerator {
     }
 
     public static DrawnTabGenerator generatorFor(int side) {
-        if (side <= 0)
+        if (side <= 0) {
             throw new IndexOutOfBoundsException();
+        }
         return SIDES[side];
     }
 
@@ -150,8 +151,7 @@ public class DrawnTabGenerator extends AbstractDrawnGenerator {
     }
 
     private static double getXScale(AffineTransform matrix) {
-        Point2D[] points = {
-                new Point2D.Double(0, 0), new Point2D.Double(1, 0)};
+        Point2D[] points = {new Point2D.Double(0, 0), new Point2D.Double(1, 0)};
         matrix.transform(points, 0, points, 0, 2);
         return points[0].distance(points[1]);
     }
@@ -162,8 +162,9 @@ public class DrawnTabGenerator extends AbstractDrawnGenerator {
         lr.getY().setRange(shimmy);
         ll.getY().setRange(shimmy);
         // when this gets exagerated to stretch out the line it's too much
-        if (side == LEFT || side == RIGHT)
+        if (side == LEFT || side == RIGHT) {
             shimmy /= 10;
+        }
         ul.getX().setRange(shimmy);
         ur.getX().setRange(shimmy);
         ll.getX().setRange(shimmy);
