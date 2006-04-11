@@ -1,5 +1,6 @@
 package net.sourceforge.napkinlaf.util;
 
+import java.lang.ref.SoftReference;
 import net.sourceforge.napkinlaf.NapkinKnownTheme;
 import net.sourceforge.napkinlaf.NapkinTheme;
 import net.sourceforge.napkinlaf.borders.AbstractNapkinBorder;
@@ -118,6 +119,9 @@ public class NapkinUtil {
     private static final Stack<NapkinTheme> themeStack =
             new Stack<NapkinTheme>();
     private static final Stack<Component> paperStack = new Stack<Component>();
+
+    private static SoftReference<BufferedImage> erasureBuffer =
+            new SoftReference<BufferedImage>(null);
 
     static {
         /*
@@ -294,8 +298,11 @@ public class NapkinUtil {
             Rectangle r = g.getClipBounds();
             int w = r.width;
             int h = r.height;
-            BufferedImage tmp =
-                    new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage tmp = erasureBuffer.get();
+            if (tmp == null || tmp.getWidth() < w || tmp.getHeight() < h) {
+                tmp = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+                erasureBuffer = new SoftReference<BufferedImage>(tmp);
+            }
             Graphics2D tg = tmp.createGraphics();
             Composite origComp = tg.getComposite();
             tg.setComposite(AlphaComposite.Clear);
@@ -644,25 +651,16 @@ public class NapkinUtil {
             line.draw(ulG);
         }
 
-        Color oldColor = g.getColor();
         Color textColor = c.getForeground();
         if (c instanceof AbstractButton) {
             AbstractButton button = (AbstractButton) c;
             ButtonModel model = button.getModel();
             if (model.isArmed() || (c instanceof JMenu && model.isSelected()))
                 textColor = currentTheme(c).getSelectionColor();
-            g.setColor(textColor);
-            if (!model.isEnabled()) {
-                model.setEnabled(true);
-                helper.superPaintText(g, c, textRect, text);
-                model.setEnabled(false);
-            } else {
-                helper.superPaintText(g, c, textRect, text);
-            }
-        } else {
-            g.setColor(textColor);
-            helper.superPaintText(g, c, textRect, text);
         }
+        Color oldColor = g.getColor();
+        g.setColor(textColor);
+        helper.superPaintText(g, c, textRect, text);
         g.setColor(oldColor);
     }
 
