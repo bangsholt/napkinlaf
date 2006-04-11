@@ -1,6 +1,5 @@
 package net.sourceforge.napkinlaf.util;
 
-import java.lang.ref.SoftReference;
 import net.sourceforge.napkinlaf.NapkinKnownTheme;
 import net.sourceforge.napkinlaf.NapkinTheme;
 import net.sourceforge.napkinlaf.borders.AbstractNapkinBorder;
@@ -22,6 +21,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Closeable;
 import java.io.IOException;
+import java.lang.ref.SoftReference;
 import java.util.Map;
 import java.util.Stack;
 import java.util.WeakHashMap;
@@ -431,6 +431,7 @@ public class NapkinUtil {
         tg.fillRect(0, 0, mark.image.getWidth(), mark.image.getHeight());
 
         mark.graphics.drawImage(mark.image, -mark.offX, -mark.offY, jc);
+        tg.dispose();
     }
 
     private static void setupBorder(Component c) {
