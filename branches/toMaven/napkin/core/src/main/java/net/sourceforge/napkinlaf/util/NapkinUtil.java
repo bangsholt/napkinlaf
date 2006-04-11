@@ -510,24 +510,23 @@ public class NapkinUtil {
     }
 
     public static NapkinTheme paintBackground(Graphics g1, Component c) {
-        if (isGlassPane(c)) {
-            return null;
+        NapkinTheme theme = null;
+        if (!isGlassPane(c)) {
+            Graphics2D g = (Graphics2D) g1;
+            theme = currentTheme(c);
+            NapkinBackground bg = theme.getPaper();
+
+            Rectangle pRect = bounds(currentPaper(c));
+            Rectangle cRect = bounds(c);
+
+            bg.paint(c, g, pRect, cRect, insets(c));
+
+            if (c instanceof JComponent) {
+                JComponent jc = (JComponent) c;
+                paintHighlights(g, theme, jc);
+            }
+
         }
-
-        Graphics2D g = (Graphics2D) g1;
-        NapkinTheme theme = currentTheme(c);
-        NapkinBackground bg = theme.getPaper();
-
-        Rectangle pRect = bounds(currentPaper(c));
-        Rectangle cRect = bounds(c);
-
-        bg.paint(c, g, pRect, cRect, insets(c));
-
-        if (c instanceof JComponent) {
-            JComponent jc = (JComponent) c;
-            paintHighlights(g, theme, jc);
-        }
-
         return theme;
     }
 
@@ -593,31 +592,28 @@ public class NapkinUtil {
 
     /** @noinspection TailRecursion */
     public static JComponent themeTopFor(Component c) {
-        if (c == null) {
-            return null;
+        JComponent result = null;
+        if (c instanceof JComponent) {
+            JComponent jc = (JComponent) c;
+            if (jc.getClientProperty(THEME_KEY) == null) {
+                result = themeTopFor(jc.getParent());
+                if (result == null) {
+                    // This can happen to any entity without a JComponent ancestors.
+                    // If so, we nominate ourselves as the relevant background paper.
+                    // Unfortunately this is common: JFrame et al are not JComponents
+                    // and have no UI classes.  So this is what you get for any regular
+                    // top-level window we haven't overridden.  I wonder why JFrame and
+                    // friends are like this.
+                    setupPaper(jc, NapkinKnownTheme.BASIC_THEME);
+                    result = jc;
+                }
+            } else {
+                result = jc;
+            }
+        } else if (c != null) {
+            result = themeTopFor(c.getParent());
         }
-
-        if (!(c instanceof JComponent)) {
-            return themeTopFor(c.getParent());
-        }
-
-        JComponent jc = (JComponent) c;
-        if (jc.getClientProperty(THEME_KEY) != null) {
-            return jc;
-        }
-
-        JComponent themeTop = themeTopFor(jc.getParent());
-        if (themeTop == null) {
-            // This can happen to any entity without a JComponent ancestors.
-            // If so, we nominate ourselves as the relevant background paper.
-            // Unfortunately this is common: JFrame et al are not JComponents
-            // and have no UI classes.  So this is what you get for any regular
-            // top-level window we haven't overridden.  I wonder why JFrame and
-            // friends are like this.
-            setupPaper(jc, NapkinKnownTheme.BASIC_THEME);
-            return jc;
-        }
-        return themeTop;
+        return result;
     }
 
     @SuppressWarnings({"ObjectEquality"})
@@ -736,33 +732,32 @@ public class NapkinUtil {
 
     @SuppressWarnings({"UseOfSystemOutOrSystemErr", "HardcodedFileSeparator"})
     private static void dumpStacks() {
-        if (!Logs.paper.isLoggable(Level.FINER)) {
-            return;
+        if (Logs.paper.isLoggable(Level.FINER)) {
+            if (themeStack.size() != paperStack.size()) {
+                System.out.println("!!!");
+            }
+            StringBuilder dump = new StringBuilder(NapkinDebug.count).append(":\t");
+            NapkinDebug.count++;
+            //noinspection ForLoopReplaceableByForEach
+            for (int i = 0; i < paperStack.size(); i++) {
+                dump.append(". ");
+            }
+            if (!themeStack.isEmpty()) {
+                dump.append(themeStack.peek()).append(" / ").append(
+                        NapkinDebug.descFor(paperStack.peek()));
+            }
+            Logs.paper.log(Level.FINER, dump.toString());
         }
-
-        if (themeStack.size() != paperStack.size()) {
-            System.out.println("!!!");
-        }
-        StringBuilder dump = new StringBuilder(NapkinDebug.count).append(":\t");
-        NapkinDebug.count++;
-        //noinspection ForLoopReplaceableByForEach
-        for (int i = 0; i < paperStack.size(); i++) {
-            dump.append(". ");
-        }
-        if (!themeStack.isEmpty()) {
-            dump.append(themeStack.peek()).append(" / ").append(
-                    NapkinDebug.descFor(paperStack.peek()));
-        }
-        Logs.paper.log(Level.FINER, dump.toString());
     }
 
     @SuppressWarnings({"UnusedReturnValue"})
     public static IOException tryClose(Closeable fonts) {
+        IOException result = null;
         try {
             fonts.close();
-            return null;
         } catch (IOException e) {
-            return e;
+            result = e;
         }
+        return result;
     }
 }
