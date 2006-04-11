@@ -100,7 +100,7 @@ public class NapkinTheme {
         if (font instanceof UIResource)
             return font;
         else {
-            return new PatchedFontUIResource(font);
+            return PatchedFontUIResource.wrapIfPossible(font);
         }
     }
 

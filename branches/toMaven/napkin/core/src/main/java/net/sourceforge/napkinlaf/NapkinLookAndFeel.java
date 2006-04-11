@@ -4,6 +4,7 @@ import net.sourceforge.napkinlaf.borders.NapkinBoxBorder;
 import net.sourceforge.napkinlaf.borders.NapkinLineBorder;
 import net.sourceforge.napkinlaf.borders.NapkinSelectedBorder;
 import net.sourceforge.napkinlaf.fonts.MergedFont;
+import net.sourceforge.napkinlaf.fonts.PatchedFontUIResource;
 import net.sourceforge.napkinlaf.util.AlphaColorUIResource;
 import net.sourceforge.napkinlaf.util.ComponentWalker.Visitor;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
@@ -496,13 +497,16 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                     String name = resource.getFontName();
                     Font font = fontMap.get(name);
                     if (font != null) {
-                        MergedFont cFont = new MergedFont(font, resource);
-                        if (fontCache.containsKey(cFont)) {
-                            cFont = fontCache.get(cFont);
-                        } else {
-                            fontCache.put(cFont, cFont);
+                        if (PatchedFontUIResource.doesPatchWork()) {
+                            MergedFont mFont = new MergedFont(font, resource);
+                            if (fontCache.containsKey(mFont)) {
+                                mFont = fontCache.get(mFont);
+                            } else {
+                                fontCache.put(mFont, mFont);
+                            }
+                            font = mFont;
                         }
-                        entry.setValue(cFont);
+                        entry.setValue(font);
                     } else {
                         System.err.println(
                                 "unknown font: " + name + " for " + key);

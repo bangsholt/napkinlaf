@@ -26,12 +26,11 @@ public class PatchedFontUIResource extends Font implements UIResource {
             // transfer private field createdFont
             cField = Font.class.getDeclaredField("createdFont");
             cField.setAccessible(true);
-        } catch (IllegalArgumentException ex) {
-            ex.printStackTrace();
-        } catch (SecurityException ex) {
-            ex.printStackTrace();
-        } catch (NoSuchFieldException ex) {
-            ex.printStackTrace();
+        } catch (Exception ex) {
+            /*
+             * Could be IllegalArgumentException,
+             * SecurityException or NoSuchFieldException
+             */
         }
         font2DHandleField = fField;
         createdFontField = cField;
@@ -45,6 +44,14 @@ public class PatchedFontUIResource extends Font implements UIResource {
     public PatchedFontUIResource(Font font) {
         super(font.getAttributes());
         workaround6313541(font, this);
+    }
+
+    public static Font wrapIfPossible(Font font) {
+        return doesPatchWork() ? new PatchedFontUIResource(font) : font;
+    }
+
+    public static boolean doesPatchWork() {
+        return font2DHandleField != null;
     }
 
     /**
@@ -69,7 +76,7 @@ public class PatchedFontUIResource extends Font implements UIResource {
      * @param dst The font that has been copied and may need to be patched.
      */
     protected static void workaround6313541(Font src, Font dst) {
-        if (font2DHandleField == null) // we couldn't do the reflection
+        if (!doesPatchWork()) // we couldn't do the reflection
             return;
 
         // check for the effect of the bug -- don't do it if it's not needed
