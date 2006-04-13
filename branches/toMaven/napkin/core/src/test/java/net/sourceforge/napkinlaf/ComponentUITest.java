@@ -7,6 +7,7 @@
 
 package net.sourceforge.napkinlaf;
 
+import java.awt.Color;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
+import javax.swing.border.Border;
 import javax.swing.plaf.ComponentUI;
 import junit.framework.TestCase;
 import net.sourceforge.napkinlaf.util.NapkinIconFactory;
@@ -76,26 +78,62 @@ public class ComponentUITest extends TestCase {
 
     protected void tearDown() throws Exception {
     }
-    
+
+    private ComponentUI getInstance(TestPair pair) {
+        try {
+            Method createUI = pair.uiClass
+                    .getMethod("createUI", JComponent.class);
+            return (ComponentUI) createUI.invoke(null, pair.component);
+        } catch (Exception ex) {
+            Error err = new AssertionError("createUI() contract is broken for "
+                    + pair.uiClass.getCanonicalName());
+            err.initCause(ex);
+            ex.printStackTrace();
+            throw err;
+        }
+    }
+
+    public static void assertEquals(String msg, Object obj1, Object obj2) {
+        if (!obj1.equals(obj2)) {
+            System.err.println(msg);
+        }
+    }
+
     // TODO add test methods here. The name must begin with 'test'. For example:
     // public void testHello() {}
     public void testCreateUI() {
         for (TestPair pair : pairList) {
-            try {
-                Method createUI = pair.uiClass
-                        .getMethod("createUI", JComponent.class);
-                Class clazz = createUI.invoke(null, pair.component).getClass();
-                assertSame(pair.uiClass.getCanonicalName() +
-                        ".createUI() does not return the correct NapkinUI!",
-                        clazz, pair.uiClass);
-            } catch (Exception ex) {
-                Error err =
-                        new AssertionError("createUI() contract is broken for "
-                        + pair.uiClass.getCanonicalName());
-                err.initCause(ex);
-                ex.printStackTrace();
-                throw err;
-            }
+            Class<? extends ComponentUI> clazz = getInstance(pair).getClass();
+            assertSame(pair.uiClass.getCanonicalName() +
+                    ".createUI() does not return the correct NapkinUI!",
+                    clazz, pair.uiClass);
+        }
+    }
+
+    public void testInstallUI() {
+        for (TestPair pair : pairList) {
+            ComponentUI ui = getInstance(pair);
+
+            Color oldBackground = pair.component.getBackground();
+            Border oldBorder = pair.component.getBorder();
+            boolean wasOpaque = pair.component.isOpaque();
+
+            ui.installUI(pair.component);
+            ui.uninstallUI(pair.component);
+
+            Color newBackground = pair.component.getBackground();
+            Border newBorder = pair.component.getBorder();
+            boolean isOpaque = pair.component.isOpaque();
+
+            assertEquals(pair.uiClass.getCanonicalName() +
+                    " does not restore background colour properly!",
+                    oldBackground, newBackground);
+            assertEquals(pair.uiClass.getCanonicalName() +
+                    " does not restore border properly!",
+                    oldBorder, newBorder);
+            assertEquals(pair.uiClass.getCanonicalName() +
+                    " does not restore opaqueness properly!",
+                    wasOpaque, isOpaque);
         }
     }
 }

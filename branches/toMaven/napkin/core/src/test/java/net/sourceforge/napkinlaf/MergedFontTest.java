@@ -54,7 +54,7 @@ public class MergedFontTest extends TestCase {
         try {
             result = NapkinTheme.Manager.tryToLoadFont("FeltTipRoman.ttf");
         } catch (Throwable ex) {
-            ex.printStackTrace();
+            System.err.println("Cannot access NapkinTheme.Manager.tryToLoadFont()!");
         }
         return result == null ? tryToLoadFont("FeltTipRoman.ttf") : result;
     }
