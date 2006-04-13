@@ -113,6 +113,8 @@ public class NapkinUtil {
             };
 
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
+    private static final int CLIP_OFFSET = 10;
+    private static final int CLIP_INSET = CLIP_OFFSET * 2;
 
     private static final AlphaComposite ERASURE_COMPOSITE =
             AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.9f);
@@ -294,8 +296,8 @@ public class NapkinUtil {
         boolean enabled = c.isEnabled();
         if (!enabled && c instanceof JComponent) {
             Rectangle r = g.getClipBounds();
-            int w = r.width;
-            int h = r.height;
+            int w = r.width + CLIP_INSET;
+            int h = r.height + CLIP_INSET;
             BufferedImage tmp = erasureBuffer.get();
             if (tmp == null || tmp.getWidth() < w || tmp.getHeight() < h) {
                 tmp = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
@@ -306,13 +308,13 @@ public class NapkinUtil {
             tg.setComposite(AlphaComposite.Clear);
             tg.fillRect(0, 0, w, h);
             tg.setComposite(origComp);
-            int offX = -r.x;
-            int offY = -r.y;
+            int offX = -r.x + CLIP_OFFSET;
+            int offY = -r.y + CLIP_OFFSET;
             tg.translate(offX, offY);
 
             // copy in values from the original (should be a method to do this)
             tg.setBackground(g.getBackground());
-            tg.setClip(0, 0, w, h);
+            tg.setClip(g.getClip());
             tg.setColor(g.getColor());
             tg.setComposite(g.getComposite());
             tg.setFont(g.getFont());
