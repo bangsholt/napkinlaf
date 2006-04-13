@@ -16,9 +16,17 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
+import javax.swing.LookAndFeel;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.basic.BasicLookAndFeel;
+import javax.swing.plaf.metal.MetalLookAndFeel;
 import junit.framework.TestCase;
+import net.sourceforge.napkinlaf.util.NapkinConstants;
 import net.sourceforge.napkinlaf.util.NapkinIconFactory;
 
 /**
@@ -66,7 +74,6 @@ public class ComponentUITest extends TestCase {
         pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(text, icon)));
         pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(text, icon, true)));
         pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(text, icon, false)));
-
     }
 
     public ComponentUITest(String testName) {
@@ -99,6 +106,12 @@ public class ComponentUITest extends TestCase {
         }
     }
 
+    public static void assertEquals(String msg, boolean obj1, boolean obj2) {
+        if (obj1 != obj2) {
+            System.err.println(msg);
+        }
+    }
+
     // TODO add test methods here. The name must begin with 'test'. For example:
     // public void testHello() {}
     public void testCreateUI() {
@@ -110,30 +123,42 @@ public class ComponentUITest extends TestCase {
         }
     }
 
+    public void _testInstallUI(TestPair pair, ComponentUI ui,
+            Color oldBackground, Border oldBorder, boolean wasOpaque) {
+        pair.component.setBackground(oldBackground);
+        pair.component.setBorder(oldBorder);
+        pair.component.setOpaque(wasOpaque);
+
+        ui.installUI(pair.component);
+        ui.uninstallUI(pair.component);
+        
+        Color newBackground = pair.component.getBackground();
+        Border newBorder = pair.component.getBorder();
+        boolean isOpaque = pair.component.isOpaque();
+        
+        assertEquals(pair.uiClass.getCanonicalName() +
+                " does not restore background colour properly! (" +
+                oldBackground + " --> " + newBackground + ")",
+                oldBackground, newBackground);
+        assertEquals(pair.uiClass.getCanonicalName() +
+                " does not restore border properly! (" + oldBorder +
+                " --> " + newBorder + ")", oldBorder, newBorder);
+        assertEquals(pair.uiClass.getCanonicalName() +
+                " does not restore opaqueness properly! (" + wasOpaque +
+                " --> " + isOpaque + ")", wasOpaque, isOpaque);
+    }
+
     public void testInstallUI() {
+        Color[] bgColors = new Color[] {Color.WHITE, Color.BLUE, Color.PINK};
+        Border[] borders = new Border[] {new EmptyBorder(1, 1, 1, 1)};
         for (TestPair pair : pairList) {
             ComponentUI ui = getInstance(pair);
-
-            Color oldBackground = pair.component.getBackground();
-            Border oldBorder = pair.component.getBorder();
-            boolean wasOpaque = pair.component.isOpaque();
-
-            ui.installUI(pair.component);
-            ui.uninstallUI(pair.component);
-
-            Color newBackground = pair.component.getBackground();
-            Border newBorder = pair.component.getBorder();
-            boolean isOpaque = pair.component.isOpaque();
-
-            assertEquals(pair.uiClass.getCanonicalName() +
-                    " does not restore background colour properly!",
-                    oldBackground, newBackground);
-            assertEquals(pair.uiClass.getCanonicalName() +
-                    " does not restore border properly!",
-                    oldBorder, newBorder);
-            assertEquals(pair.uiClass.getCanonicalName() +
-                    " does not restore opaqueness properly!",
-                    wasOpaque, isOpaque);
+            for (Color bgColor : bgColors) {
+                for (Border border : borders) {
+                    _testInstallUI(pair, ui, bgColor, border, true);
+                    _testInstallUI(pair, ui, bgColor, border, false);
+                }
+            }
         }
     }
 }
