@@ -1,7 +1,7 @@
 package net.sourceforge.napkinlaf.borders;
 
 import net.sourceforge.napkinlaf.shapes.DrawnBoxHolder;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.BORDER_KEY;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.BOX_BORDER_KEY;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 
 import javax.swing.*;
@@ -30,8 +30,8 @@ public class NapkinBoxBorder extends AbstractNapkinBorder {
     protected void doPaintBorder(Component c, Graphics g1, int x, int y,
             int width, int height) {
 
-        DrawnBoxHolder box = (DrawnBoxHolder)
-                NapkinUtil.getProperty((JComponent) c, BORDER_KEY, BOX_FACTORY);
+        DrawnBoxHolder box = (DrawnBoxHolder) NapkinUtil
+                .getProperty((JComponent) c, BOX_BORDER_KEY, BOX_FACTORY);
 
         Rectangle passed = new Rectangle(x, y, width, height);
         box.shapeUpToDate(passed);

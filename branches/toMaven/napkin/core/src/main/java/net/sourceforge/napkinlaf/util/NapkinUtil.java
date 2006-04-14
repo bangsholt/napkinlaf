@@ -2,7 +2,8 @@ package net.sourceforge.napkinlaf.util;
 
 import net.sourceforge.napkinlaf.NapkinKnownTheme;
 import net.sourceforge.napkinlaf.NapkinTheme;
-import net.sourceforge.napkinlaf.borders.AbstractNapkinBorder;
+import net.sourceforge.napkinlaf.borders.NapkinBevelBorder;
+import net.sourceforge.napkinlaf.borders.NapkinEtchedBorder;
 import net.sourceforge.napkinlaf.borders.NapkinWrappedBorder;
 import net.sourceforge.napkinlaf.fonts.MergedFontGraphics2D;
 import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
@@ -199,38 +200,50 @@ public class NapkinUtil {
     }
 
     public static void installUI(JComponent c) {
+        // opaqueness override
         if (c.isOpaque()) {
             c.putClientProperty(OPAQUE_KEY, Boolean.TRUE);
             c.setOpaque(false);
         }
         c.addPropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
+        // roll-over-enabled override
         if (c instanceof AbstractButton) {
             AbstractButton button = (AbstractButton) c;
             c.putClientProperty(ROLL_OVER_ENABLED, button.isRolloverEnabled());
             button.setRolloverEnabled(true);
             c.addPropertyChangeListener(ROLL_OVER, ROLL_OVER_LISTENER);
         }
-        if (replaceBackground(c.getBackground())) {
+        // background colour override
+        Color bgColor = c.getBackground();
+        c.putClientProperty(BACKGROUND_KEY, bgColor);
+        if (replaceBackground(bgColor)) {
             c.setBackground(CLEAR);
         }
         c.addPropertyChangeListener(BACKGROUND, BACKGROUND_LISTENER);
+        // border override
         setupBorder(c);
         c.addPropertyChangeListener(BORDER, BORDER_LISTENER);
     }
 
     public static void uninstallUI(JComponent c) {
+        // restore from border override
         c.removePropertyChangeListener(BORDER, BORDER_LISTENER);
         unsetupBorder(c);
+        // restore from background colour override
         c.removePropertyChangeListener(BACKGROUND, BACKGROUND_LISTENER);
+        c.setBackground((Color) c.getClientProperty(BACKGROUND_KEY));
+        // restore from roll-over-enabled override
         if (c instanceof AbstractButton) {
             c.removePropertyChangeListener(ROLL_OVER, ROLL_OVER_LISTENER);
             ((AbstractButton) c).setRolloverEnabled(
                     (Boolean) c.getClientProperty(ROLL_OVER_ENABLED));
         }
+        // restore from opaqueness override
         c.removePropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
         if (shouldMakeOpaque(c)) {
             c.setOpaque(true);
         }
+        // remove Napkin-specific client properties
         for (String clientProp : CLIENT_PROPERTIES) {
             c.putClientProperty(clientProp, null);
         }
@@ -403,16 +416,16 @@ public class NapkinUtil {
             DisabledMark mark = (DisabledMark) jc.getClientProperty(
                     DISABLED_MARK_KEY);
             if (mark == null) {
-                Color bgColor = (Color) jc.getClientProperty(BACKGROUND_KEY);
+                Color bgColor = (Color) jc.getClientProperty(DISABLED_BACKGROUND_KEY);
                 if (bgColor != null) {
-                    jc.putClientProperty(BACKGROUND_KEY, null);
+                    jc.putClientProperty(DISABLED_BACKGROUND_KEY, null);
                     jc.setBackground(bgColor);
                 }
             } else {
                 jc.putClientProperty(DISABLED_MARK_KEY, null);
                 Color bgColor = jc.getBackground();
-                if (jc.getClientProperty(BACKGROUND_KEY) == null) {
-                    jc.putClientProperty(BACKGROUND_KEY,
+                if (jc.getClientProperty(DISABLED_BACKGROUND_KEY) == null) {
+                    jc.putClientProperty(DISABLED_BACKGROUND_KEY,
                             bgColor == null ? CLEAR : bgColor);
                     jc.setBackground(new AlphaColorUIResource(
                             jc.getForeground().getRGB() & 0x00FFFFFF));
@@ -433,23 +446,30 @@ public class NapkinUtil {
         }
     }
 
-    private static void setupBorder(Component c) {
-        if (c instanceof JComponent) {
-            JComponent jc = (JComponent) c;
-            Border b = jc.getBorder();
-            if (b != null && !(b instanceof AbstractNapkinBorder)) {
-                jc.setBorder(NapkinWrappedBorder.wrap(b));
-            }
+    private static Border wrapBorder(Border b) {
+        if (b instanceof BevelBorder) {
+            b = new NapkinBevelBorder((BevelBorder) b);
+        } else if (b instanceof EtchedBorder) {
+            b = new NapkinEtchedBorder((EtchedBorder) b);
+        } else if (b instanceof CompoundBorder) {
+            CompoundBorder cb = (CompoundBorder) b;
+            b = new CompoundBorder(wrapBorder(cb.getOutsideBorder()),
+                    wrapBorder(cb.getInsideBorder()));
+        }
+        return b;
+    }
+
+    private static void setupBorder(JComponent jc) {
+        Border b = jc.getBorder();
+        jc.putClientProperty(BORDER_KEY, b);
+        if (b != null) {
+            jc.setBorder(wrapBorder(b));
         }
     }
 
     private static void unsetupBorder(JComponent c) {
-        Border b = c.getBorder();
-        if (b instanceof NapkinWrappedBorder) {
-            NapkinWrappedBorder nb = (NapkinWrappedBorder) b;
-            c.setBorder(nb.getOrigBorder());
-        } else if (b instanceof AbstractNapkinBorder) {
-            c.setBorder(null);
+        if (c.getBorder() != null) {
+            c.setBorder((Border) c.getClientProperty(BORDER_KEY));
         }
     }
 

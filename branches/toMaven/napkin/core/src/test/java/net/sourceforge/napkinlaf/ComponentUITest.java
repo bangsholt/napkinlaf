@@ -8,6 +8,7 @@
 package net.sourceforge.napkinlaf;
 
 import java.awt.Color;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +24,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicLookAndFeel;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import junit.framework.TestCase;
-import net.sourceforge.napkinlaf.util.NapkinConstants;
 import net.sourceforge.napkinlaf.util.NapkinIconFactory;
 
 /**
@@ -38,7 +37,9 @@ public class ComponentUITest extends TestCase {
     private static class TestPair {
         final Class<? extends ComponentUI> uiClass;
         final JComponent component;
-        public TestPair(Class<? extends ComponentUI> uiClass, JComponent component) {
+
+        public TestPair
+                (Class<? extends ComponentUI> uiClass, JComponent component) {
             this.uiClass = uiClass;
             this.component = component;
         }
@@ -100,20 +101,27 @@ public class ComponentUITest extends TestCase {
         }
     }
 
-    public static void assertEquals(String msg, Object obj1, Object obj2) {
-        if (!obj1.equals(obj2)) {
-            System.err.println(msg);
-        }
-    }
-
-    public static void assertEquals(String msg, boolean obj1, boolean obj2) {
-        if (obj1 != obj2) {
-            System.err.println(msg);
-        }
-    }
+//    public static void assertEquals(String msg, Object obj1, Object obj2) {
+//        if (!obj1.equals(obj2)) {
+//            System.err.println(msg);
+//        }
+//    }
+//
+//    public static void assertEquals(String msg, boolean obj1, boolean obj2) {
+//        if (obj1 != obj2) {
+//            System.err.println(msg);
+//        }
+//    }
 
     // TODO add test methods here. The name must begin with 'test'. For example:
     // public void testHello() {}
+
+    public void testCurrentUI() {
+        if (UIManager.getLookAndFeel().getClass() == NapkinLookAndFeel.class) {
+            throw new AssertionError("Tests cannot run when using Napkin!");
+        }
+    }
+
     public void testCreateUI() {
         for (TestPair pair : pairList) {
             Class<? extends ComponentUI> clazz = getInstance(pair).getClass();
@@ -140,9 +148,11 @@ public class ComponentUITest extends TestCase {
                 " does not restore background colour properly! (" +
                 oldBackground + " --> " + newBackground + ")",
                 oldBackground, newBackground);
-        assertEquals(pair.uiClass.getCanonicalName() +
-                " does not restore border properly! (" + oldBorder +
-                " --> " + newBorder + ")", oldBorder, newBorder);
+        if (newBorder != null) {
+            assertEquals(pair.uiClass.getCanonicalName() +
+                    " does not restore border properly! (" + oldBorder +
+                    " --> " + newBorder + ")", oldBorder, newBorder);
+        }
         assertEquals(pair.uiClass.getCanonicalName() +
                 " does not restore opaqueness properly! (" + wasOpaque +
                 " --> " + isOpaque + ")", wasOpaque, isOpaque);
@@ -153,6 +163,8 @@ public class ComponentUITest extends TestCase {
         Border[] borders = new Border[] {new EmptyBorder(1, 1, 1, 1)};
         for (TestPair pair : pairList) {
             ComponentUI ui = getInstance(pair);
+            _testInstallUI(pair, ui, pair.component.getBackground(),
+                    pair.component.getBorder(), pair.component.isOpaque());
             for (Color bgColor : bgColors) {
                 for (Border border : borders) {
                     _testInstallUI(pair, ui, bgColor, border, true);

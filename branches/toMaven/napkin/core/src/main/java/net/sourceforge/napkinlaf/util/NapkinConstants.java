@@ -11,8 +11,10 @@ public interface NapkinConstants extends SwingConstants {
 
     String THEME_KEY = "net.sourceforge.napkinlaf.theme";
     String BACKGROUND_KEY = "net.sourceforge.napkinlaf.background";
+    String DISABLED_BACKGROUND_KEY = "net.sourceforge.napkinlaf.bgWhenEnabled";
     String DISABLED_MARK_KEY = "net.sourceforge.napkinlaf.disabledMark";
     String BORDER_KEY = "net.sourceforge.napkinlaf.border";
+    String BOX_BORDER_KEY = "net.sourceforge.napkinlaf.boxBorder";
     String OPAQUE_KEY = "net.sourceforge.napkinlaf.wasOpaque";
     // this key persists between LAF switches
     String HIGHLIGHT_KEY = "net.sourceforge.napkinlaf.highlighted";
@@ -25,8 +27,9 @@ public interface NapkinConstants extends SwingConstants {
 
     List<String> CLIENT_PROPERTIES = Collections.unmodifiableList(
             Arrays.asList(
-                    THEME_KEY, BACKGROUND_KEY, DISABLED_MARK_KEY, BORDER_KEY,
-                    OPAQUE_KEY, REVALIDATE_KEY, ROLL_OVER_ENABLED
+                    THEME_KEY, BACKGROUND_KEY, DISABLED_BACKGROUND_KEY,
+                    DISABLED_MARK_KEY, BORDER_KEY, BOX_BORDER_KEY, OPAQUE_KEY,
+                    REVALIDATE_KEY, ROLL_OVER_ENABLED
             )
     );
 
