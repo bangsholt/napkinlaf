@@ -385,17 +385,17 @@ public class NapkinUtil {
         }
     }
 
-    public static void syncWithTheme(Border border, Component c) {
-        if (border instanceof TitledBorder) {
-            TitledBorder tb = (TitledBorder) border;
-            Color pen = currentTheme(c).getPenColor();
-            tb.setTitleColor(ifReplace(tb.getTitleColor(), pen));
-        } else if (border instanceof CompoundBorder) {
-            CompoundBorder cb = (CompoundBorder) border;
-            syncWithTheme(cb.getInsideBorder(), c);
-            syncWithTheme(cb.getOutsideBorder(), c);
-        }
-    }
+//    public static void syncWithTheme(Border border, Component c) {
+//        if (border instanceof TitledBorder) {
+//            TitledBorder tb = (TitledBorder) border;
+//            Color pen = currentTheme(c).getPenColor();
+//            tb.setTitleColor(ifReplace(tb.getTitleColor(), pen));
+//        } else if (border instanceof CompoundBorder) {
+//            CompoundBorder cb = (CompoundBorder) border;
+//            syncWithTheme(cb.getInsideBorder(), c);
+//            syncWithTheme(cb.getOutsideBorder(), c);
+//        }
+//    }
 
     public static NapkinTheme currentTheme(Component c) {
         return themeStack.isEmpty() ?
