@@ -21,12 +21,16 @@ import javax.swing.JCheckBox;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JDesktopPane;
+import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListDataListener;
 import javax.swing.plaf.ComponentUI;
+import junit.framework.Assert;
 import junit.framework.TestCase;
 import net.sourceforge.napkinlaf.util.NapkinIconFactory;
 
@@ -120,6 +124,20 @@ public class ComponentUITest extends TestCase {
         pairList.add(new TestPair(NapkinComboBoxUI.class, new JComboBox(vector)));
 
 //        pairList.add(new TestPair(NapkinDesktopIconUI.class, new JInternalFrame.JDesktopIcon(internalFrame)));
+
+        pairList.add(new TestPair(NapkinDesktopPaneUI.class, new JDesktopPane()));
+
+        pairList.add(new TestPair(NapkinEditorPaneUI.class, new JEditorPane()));
+//        pairList.add(new TestPair(NapkinEditorPaneUI.class, new JEditorPane(url)));
+//        pairList.add(new TestPair(NapkinEditorPaneUI.class, new JEditorPane(initialPage)));
+//        pairList.add(new TestPair(NapkinEditorPaneUI.class, new JEditorPane("text/plain", text)));
+
+//        pairList.add(new TestPair(NapkinFileChooserUI.class, new JFileChooser()));
+//        pairList.add(new TestPair(NapkinFileChooserUI.class, new JFileChooser(currentDirectory)));
+//        pairList.add(new TestPair(NapkinFileChooserUI.class, new JFileChooser(currentDirectory, fsv)));
+//        pairList.add(new TestPair(NapkinFileChooserUI.class, new JFileChooser(fsv)));
+//        pairList.add(new TestPair(NapkinFileChooserUI.class, new JFileChooser(currentDirectoryPath)));
+//        pairList.add(new TestPair(NapkinFileChooserUI.class, new JFileChooser(currentDirectoryPath, fsv)));
     }
 
     public ComponentUITest(String testName) {
@@ -146,23 +164,24 @@ public class ComponentUITest extends TestCase {
         }
     }
 
-    public static void assertEquals(String msg, Object obj1, Object obj2) {
-        if (!obj1.equals(obj2)) {
-            System.err.println(msg);
-        }
-    }
-
-    public static void assertEquals(String msg, boolean obj1, boolean obj2) {
-        if (obj1 != obj2) {
-            System.err.println(msg);
-        }
-    }
+//    public static void assertEquals(String msg, Object obj1, Object obj2) {
+//        if (!obj1.equals(obj2)) {
+//            System.err.println(msg);
+//        }
+//    }
+//
+//    public static void assertEquals(String msg, boolean obj1, boolean obj2) {
+//        if (obj1 != obj2) {
+//            System.err.println(msg);
+//        }
+//    }
 
     // TODO add test methods here. The name must begin with 'test'. For example:
     // public void testHello() {}
 
     public void testCurrentUI() {
         if (UIManager.getLookAndFeel().getClass() == NapkinLookAndFeel.class) {
+            System.err.println("Tests cannot run when using Napkin!");
             throw new AssertionError("Tests cannot run when using Napkin!");
         }
     }
