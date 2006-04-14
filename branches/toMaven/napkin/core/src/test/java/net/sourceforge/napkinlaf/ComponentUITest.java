@@ -8,23 +8,25 @@
 package net.sourceforge.napkinlaf;
 
 import java.awt.Color;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
+import java.util.Vector;
+import javax.swing.ComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.LookAndFeel;
-import javax.swing.UIDefaults;
+import javax.swing.JInternalFrame;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListDataListener;
 import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.metal.MetalLookAndFeel;
 import junit.framework.TestCase;
 import net.sourceforge.napkinlaf.util.NapkinIconFactory;
 
@@ -50,6 +52,10 @@ public class ComponentUITest extends TestCase {
     static {
         Icon icon = NapkinIconFactory.createXIcon(20);
         String text = "testing";
+        Color color = new Color(new Random().nextInt());
+        Object[] items = new Object[] {text, icon, color};
+        Vector<Object> vector = new Vector<Object>(Arrays.asList(items));
+        JInternalFrame internalFrame = new JInternalFrame();
 
         pairList.add(new TestPair(NapkinButtonUI.class, new JButton()));
         pairList.add(new TestPair(NapkinButtonUI.class, new JButton(text)));
@@ -75,6 +81,45 @@ public class ComponentUITest extends TestCase {
         pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(text, icon)));
         pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(text, icon, true)));
         pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(text, icon, false)));
+
+//        pairList.add(new TestPair(NapkinColorChooserUI.class, new JColorChooser()));
+//        pairList.add(new TestPair(NapkinColorChooserUI.class, new JColorChooser(color)));
+//        pairList.add(new TestPair(NapkinColorChooserUI.class, new JColorChooser(new ColorSelectionModel() {
+//            private Color selColor = Color.WHITE;
+//            public void addChangeListener(ChangeListener listener) {
+//            }
+//            public Color getSelectedColor() {
+//                return selColor;
+//            }
+//            public void removeChangeListener(ChangeListener listener) {
+//            }
+//            public void setSelectedColor(Color color) {
+//                selColor = color;
+//            }
+//        })));
+
+        pairList.add(new TestPair(NapkinComboBoxUI.class, new JComboBox()));
+        pairList.add(new TestPair(NapkinComboBoxUI.class, new JComboBox(new ComboBoxModel() {
+            public void addListDataListener(ListDataListener l) {
+            }
+            public Object getElementAt(int index) {
+                return null;
+            }
+            public Object getSelectedItem() {
+                return null;
+            }
+            public int getSize() {
+                return 0;
+            }
+            public void removeListDataListener(ListDataListener l) {
+            }
+            public void setSelectedItem(Object anItem) {
+            }
+        })));
+        pairList.add(new TestPair(NapkinComboBoxUI.class, new JComboBox(items)));
+        pairList.add(new TestPair(NapkinComboBoxUI.class, new JComboBox(vector)));
+
+//        pairList.add(new TestPair(NapkinDesktopIconUI.class, new JInternalFrame.JDesktopIcon(internalFrame)));
     }
 
     public ComponentUITest(String testName) {
