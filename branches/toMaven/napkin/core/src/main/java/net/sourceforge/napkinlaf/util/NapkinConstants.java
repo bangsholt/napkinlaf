@@ -28,8 +28,8 @@ public interface NapkinConstants extends SwingConstants {
     List<String> CLIENT_PROPERTIES = Collections.unmodifiableList(
             Arrays.asList(
                     THEME_KEY, BACKGROUND_KEY, DISABLED_BACKGROUND_KEY,
-                    DISABLED_MARK_KEY, BORDER_KEY, BOX_BORDER_KEY, OPAQUE_KEY,
-                    REVALIDATE_KEY, ROLL_OVER_ENABLED
+                    DISABLED_MARK_KEY, BORDER_KEY, BOX_BORDER_KEY,
+                    OPAQUE_KEY, REVALIDATE_KEY, ROLL_OVER_ENABLED
             )
     );
 

@@ -5,7 +5,7 @@ import net.sourceforge.napkinlaf.util.NapkinUtil;
 import javax.swing.border.*;
 import java.awt.*;
 
-public class NapkinBevelBorder extends BevelBorder {
+public class NapkinBevelBorder extends BevelBorder implements NapkinBorder {
     public NapkinBevelBorder(BevelBorder bb) {
         super(bb.getBevelType(), bb.getHighlightOuterColor(),
                 bb.getHighlightInnerColor(), bb.getShadowOuterColor(),

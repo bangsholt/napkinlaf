@@ -7,7 +7,8 @@ import javax.swing.border.*;
 import java.awt.*;
 
 /** Common work for napkin-style borders. */
-public abstract class AbstractNapkinBorder extends AbstractBorder {
+public abstract class AbstractNapkinBorder
+        extends AbstractBorder implements NapkinBorder {
 
     @Override
     public Insets getBorderInsets(Component c) {
