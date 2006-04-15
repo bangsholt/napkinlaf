@@ -82,4 +82,8 @@ public class NapkinWrappedBorder extends AbstractNapkinBorder {
     public int hashCode() {
         return NapkinWrappedBorder.class.hashCode() ^ origBorder.hashCode();
     }
+
+    public String toString() {
+        return "NapkinWrappedBoreder{" + origBorder.toString() + "}";
+    }
 }

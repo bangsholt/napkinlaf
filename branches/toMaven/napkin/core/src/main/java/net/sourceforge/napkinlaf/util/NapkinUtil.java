@@ -121,8 +121,9 @@ public class NapkinUtil {
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
     private static final int CLIP_OFFSET = 10;
     private static final int CLIP_INSET = CLIP_OFFSET * 2;
-    private static final NapkinBorder NULL_BORDER =
-            new NapkinWrappedBorder(new EmptyBorder(NO_INSETS));
+    private static final Border NULL_BORDER = new EmptyBorder(NO_INSETS);
+    private static final NapkinBorder NAPKIN_NULL_BORDER =
+            new NapkinWrappedBorder(NULL_BORDER);
 
     private static final AlphaComposite ERASURE_COMPOSITE =
             AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.9f);
@@ -211,65 +212,84 @@ public class NapkinUtil {
     }
 
     public static void installUI(JComponent c) {
-        // opaqueness override
-        if (c.isOpaque()) {
-            c.putClientProperty(OPAQUE_KEY, Boolean.TRUE);
-            c.setOpaque(false);
-        }
-        c.addPropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
-        // AbstractButton-specific overrides
-        if (c instanceof AbstractButton) {
-            AbstractButton button = (AbstractButton) c;
-            // roll-over-enabled override
-            c.putClientProperty(ROLL_OVER_ENABLED, button.isRolloverEnabled());
-            button.setRolloverEnabled(true);
-            c.addPropertyChangeListener(ROLL_OVER, ROLL_OVER_LISTENER);
-        }
-        // background colour override
-        Color bgColor = c.getBackground();
-        c.putClientProperty(BACKGROUND_KEY, bgColor);
-        if (replaceBackground(bgColor)) {
-            c.setBackground(CLEAR);
-        }
-        c.addPropertyChangeListener(BACKGROUND, BACKGROUND_LISTENER);
-        // border override
-        Border b = c.getBorder();
-        c.putClientProperty(BORDER_KEY, b);
-        Border nb = wrapBorder(b);
-        if (nb != b) {
-            try {
-                c.setBorder(nb);
-            } catch (Exception ex) {
-                ; // setBorder() not supported; do nothing
+        // prevents double installing
+        if (c.getClientProperty(INSTALL_KEY) != Boolean.TRUE) {
+            // mark component as installed
+            c.putClientProperty(INSTALL_KEY, Boolean.TRUE);
+            // opaqueness override
+            if (c.isOpaque()) {
+                c.putClientProperty(OPAQUE_KEY, Boolean.TRUE);
+                c.setOpaque(false);
             }
+            c.addPropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
+            // AbstractButton-specific overrides
+            if (c instanceof AbstractButton) {
+                AbstractButton button = (AbstractButton) c;
+                // roll-over-enabled override
+                c.putClientProperty(ROLL_OVER_ENABLED, button.isRolloverEnabled());
+                button.setRolloverEnabled(true);
+                c.addPropertyChangeListener(ROLL_OVER, ROLL_OVER_LISTENER);
+            }
+            // background colour override
+            Color bgColor = c.getBackground();
+            c.putClientProperty(BACKGROUND_KEY, bgColor);
+            if (replaceBackground(bgColor)) {
+                c.setBackground(CLEAR);
+            }
+            c.addPropertyChangeListener(BACKGROUND, BACKGROUND_LISTENER);
+            // border override
+            Border b = c.getBorder();
+            Border nb = wrapBorder(b);
+            /**
+             * If our component gets a NapkinBorder already from UIDefaults,
+             * then we won't be modifying it; in fact, we won't register it on
+             * the restore key so that the NapkinBorder will be removed upon
+             * uninstallUI().
+             */
+            if (nb != b) {
+                c.putClientProperty(BORDER_KEY, b);
+                try {
+                    c.setBorder(nb);
+                } catch (Exception ex) {
+                    ; // setBorder() not supported; do nothing
+                }
+            }
+            c.addPropertyChangeListener(BORDER, BORDER_LISTENER);
         }
-        c.addPropertyChangeListener(BORDER, BORDER_LISTENER);
     }
 
     public static void uninstallUI(JComponent c) {
-        // restore from border override
-        c.removePropertyChangeListener(BORDER, BORDER_LISTENER);
-        Border border = (Border) c.getClientProperty(BORDER_KEY);
-        if (border != c.getBorder()) {
-            c.setBorder(border);
-        }
-        // restore from background colour override
-        c.removePropertyChangeListener(BACKGROUND, BACKGROUND_LISTENER);
-        c.setBackground((Color) c.getClientProperty(BACKGROUND_KEY));
-        // AbstractButton-specific overrides
-        if (c instanceof AbstractButton) {
-            AbstractButton button = (AbstractButton) c;
-            // restore from roll-over-enabled override
-            c.removePropertyChangeListener(ROLL_OVER, ROLL_OVER_LISTENER);
-            button.setRolloverEnabled(
-                    (Boolean) c.getClientProperty(ROLL_OVER_ENABLED));
-        }
-        // restore from opaqueness override
-        c.removePropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
-        c.setOpaque(c.getClientProperty(OPAQUE_KEY) == Boolean.TRUE);
-        // remove Napkin-specific client properties
-        for (String clientProp : CLIENT_PROPERTIES) {
-            c.putClientProperty(clientProp, null);
+        // prevents double uninstalling
+        if (c.getClientProperty(INSTALL_KEY) == Boolean.TRUE) {
+            // remove install mark
+            c.putClientProperty(INSTALL_KEY, null);
+            // restore from border override
+            c.removePropertyChangeListener(BORDER, BORDER_LISTENER);
+            try {
+                c.setBorder((Border) c.getClientProperty(BORDER_KEY));
+                assert c.getBorder() == c.getClientProperty(BORDER_KEY) :
+                    "Border restore failed!";
+            } catch (Exception ex) {
+                ; // setBorder() not supported; do nothing
+            }
+            // restore from background colour override
+            c.removePropertyChangeListener(BACKGROUND, BACKGROUND_LISTENER);
+            c.setBackground((Color) c.getClientProperty(BACKGROUND_KEY));
+            // AbstractButton-specific overrides
+            if (c instanceof AbstractButton) {
+                AbstractButton button = (AbstractButton) c;
+                // restore from roll-over-enabled override
+                c.removePropertyChangeListener(ROLL_OVER, ROLL_OVER_LISTENER);
+                button.setRolloverEnabled(
+                        (Boolean) c.getClientProperty(ROLL_OVER_ENABLED));
+            }
+            // restore from opaqueness override
+            c.removePropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
+            c.setOpaque(c.getClientProperty(OPAQUE_KEY) == Boolean.TRUE);
+            // remove Napkin-specific client properties (+ install mark)
+            for (String clientProp : CLIENT_PROPERTIES) {
+                c.putClientProperty(clientProp, null);
+            }
         }
     }
 
@@ -477,7 +497,8 @@ public class NapkinUtil {
                     b = new NapkinCompoundBorder(newOutside, newInside);
                 }
             } else {
-                b = (b == null) ? NULL_BORDER : new NapkinWrappedBorder(b);
+                b = (b == null) ?
+                    NAPKIN_NULL_BORDER : new NapkinWrappedBorder(b);
             }
         }
         return b;
