@@ -1,6 +1,9 @@
 package net.sourceforge.napkinlaf.util;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.concurrent.atomic.AtomicBoolean;
+import net.sourceforge.napkinlaf.NapkinComponentUI;
 import net.sourceforge.napkinlaf.NapkinKnownTheme;
 import net.sourceforge.napkinlaf.NapkinTheme;
 import net.sourceforge.napkinlaf.borders.NapkinBorder;
@@ -121,9 +124,8 @@ public class NapkinUtil {
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
     private static final int CLIP_OFFSET = 10;
     private static final int CLIP_INSET = CLIP_OFFSET * 2;
-    private static final Border NULL_BORDER = new EmptyBorder(NO_INSETS);
     private static final NapkinBorder NAPKIN_NULL_BORDER =
-            new NapkinWrappedBorder(NULL_BORDER);
+            new NapkinWrappedBorder(new EmptyBorder(NO_INSETS));
 
     private static final AlphaComposite ERASURE_COMPOSITE =
             AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.9f);
@@ -285,7 +287,9 @@ public class NapkinUtil {
             }
             // restore from opaqueness override
             c.removePropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
-            c.setOpaque(c.getClientProperty(OPAQUE_KEY) == Boolean.TRUE);
+            if (shouldMakeOpaque(c)) {
+                c.setOpaque(true);
+            }
             // remove Napkin-specific client properties (+ install mark)
             for (String clientProp : CLIENT_PROPERTIES) {
                 c.putClientProperty(clientProp, null);
@@ -293,6 +297,11 @@ public class NapkinUtil {
         }
     }
 
+    private static boolean shouldMakeOpaque(JComponent c) {
+        return isGlassPane(c) ? false :
+            c.getClientProperty(OPAQUE_KEY) == Boolean.TRUE && !c.isOpaque();
+    }
+    
     @SuppressWarnings({"ObjectEquality"})
     private static boolean isGlassPane(JComponent c) {
         JRootPane rootPane = c.getRootPane();
@@ -338,7 +347,58 @@ public class NapkinUtil {
         return lineG;
     }
 
+    private static final Method setUI;
+    static {
+        Method _setUI = null;
+        try {
+            _setUI = JComponent.class.getDeclaredMethod("setUI", ComponentUI.class);
+            _setUI.setAccessible(true);
+        } catch (Exception ex) {
+            /**
+             * includes SecurityException & NoSuchMethodException
+             */
+            ex.printStackTrace(); // do nothing
+        }
+        setUI = _setUI;
+    }
+    private static void scanComponentForNonNapkinChildren(Component c) {
+        if (setUI != null && c instanceof Container) {
+            if (!(c instanceof JComponent &&
+                    ((JComponent) c).getClientProperty(SCAN_KEY) ==
+                    Boolean.TRUE)) {
+
+                for (Component component : ((Container) c).getComponents()) {
+                    if (component instanceof JComponent) {
+                        JComponent jComponent = (JComponent) component;
+                        if (jComponent.getClientProperty(INSTALL_KEY) !=
+                                Boolean.TRUE) {
+
+                            try {
+                                setUI.invoke(jComponent,
+                                        NapkinComponentUI.createUI(jComponent));
+                            } catch (Exception ex) {
+                                /**
+                                 * includes IllegalArgumentException,
+                                 * InvocationTargetException and
+                                 * IllegalAccessException
+                                 */
+                                ex.printStackTrace(); // do nothing
+                            }
+                            jComponent.putClientProperty(
+                                    INSTALL_KEY, Boolean.TRUE);
+                        }
+                    }
+                    scanComponentForNonNapkinChildren(component);
+                }
+            }
+            if (c instanceof JComponent) {
+                ((JComponent) c).putClientProperty(SCAN_KEY, Boolean.TRUE);
+            }
+        }
+    }
+
     public static Graphics2D defaultGraphics(Graphics g1, Component c) {
+        scanComponentForNonNapkinChildren(c);
         Graphics2D g = (Graphics2D) g1;
         syncWithTheme(g, c);
         boolean enabled = c.isEnabled();

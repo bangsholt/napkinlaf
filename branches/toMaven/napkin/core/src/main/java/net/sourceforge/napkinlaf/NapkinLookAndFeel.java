@@ -42,6 +42,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
             "CheckBoxUI",
             "ColorChooserUI",
             "ComboBoxUI",
+            "ComponentUI",
             "DesktopIconUI",
             "DesktopPaneUI",
             "EditorPaneUI",
