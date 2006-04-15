@@ -10,7 +10,7 @@ public interface NapkinConstants extends SwingConstants {
     int LENGTH = 100;
 
     String INSTALL_KEY = "net.sourceforge.napkinlaf.installed";
-    String SCAN_KEY = "net.sourceforge.napkinlaf.scanned";
+    String PURE_KEY = "net.sourceforge.napkinlaf.isPure";
     String THEME_KEY = "net.sourceforge.napkinlaf.theme";
     String BACKGROUND_KEY = "net.sourceforge.napkinlaf.background";
     String DISABLED_BACKGROUND_KEY = "net.sourceforge.napkinlaf.bgWhenEnabled";
@@ -29,7 +29,7 @@ public interface NapkinConstants extends SwingConstants {
 
     List<String> CLIENT_PROPERTIES = Collections.unmodifiableList(
             Arrays.asList(
-                    INSTALL_KEY, SCAN_KEY, THEME_KEY, BACKGROUND_KEY,
+                    INSTALL_KEY, PURE_KEY, THEME_KEY, BACKGROUND_KEY,
                     DISABLED_BACKGROUND_KEY, DISABLED_MARK_KEY, BORDER_KEY,
                     BOX_BORDER_KEY, OPAQUE_KEY, REVALIDATE_KEY,
                     ROLL_OVER_ENABLED

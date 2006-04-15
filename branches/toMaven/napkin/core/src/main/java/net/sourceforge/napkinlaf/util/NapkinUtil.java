@@ -1,9 +1,13 @@
 package net.sourceforge.napkinlaf.util;
 
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.atomic.AtomicBoolean;
-import net.sourceforge.napkinlaf.NapkinComponentUI;
 import net.sourceforge.napkinlaf.NapkinKnownTheme;
 import net.sourceforge.napkinlaf.NapkinTheme;
 import net.sourceforge.napkinlaf.borders.NapkinBorder;
@@ -347,58 +351,109 @@ public class NapkinUtil {
         return lineG;
     }
 
-    private static final Method setUI;
-    static {
-        Method _setUI = null;
-        try {
-            _setUI = JComponent.class.getDeclaredMethod("setUI", ComponentUI.class);
-            _setUI.setAccessible(true);
-        } catch (Exception ex) {
-            /**
-             * includes SecurityException & NoSuchMethodException
-             */
-            ex.printStackTrace(); // do nothing
+    private static class NonNapkinPaintListener implements MouseListener,
+            MouseMotionListener, PropertyChangeListener, ComponentListener {
+
+        private final JComponent parent;
+
+        NonNapkinPaintListener(JComponent napkinParent) {
+            parent = napkinParent;
         }
-        setUI = _setUI;
+
+        private void repaintFromParent() {
+            parent.repaint();
+        }
+
+        public void mouseClicked(MouseEvent e) {
+            repaintFromParent();
+        }
+
+        public void mousePressed(MouseEvent e) {
+            repaintFromParent();
+        }
+
+        public void mouseReleased(MouseEvent e) {
+            repaintFromParent();
+        }
+
+        public void mouseEntered(MouseEvent e) {
+            repaintFromParent();
+        }
+
+        public void mouseExited(MouseEvent e) {
+            repaintFromParent();
+        }
+
+        public void mouseDragged(MouseEvent e) {
+            repaintFromParent();
+        }
+
+        public void mouseMoved(MouseEvent e) {
+            repaintFromParent();
+        }
+
+        public void propertyChange(PropertyChangeEvent evt) {
+            repaintFromParent();
+        }
+
+        public void componentResized(ComponentEvent e) {
+            repaintFromParent();
+        }
+
+        public void componentMoved(ComponentEvent e) {
+            repaintFromParent();
+        }
+
+        public void componentShown(ComponentEvent e) {
+            repaintFromParent();
+        }
+
+        public void componentHidden(ComponentEvent e) {
+            repaintFromParent();
+        }
     }
-    private static void scanComponentForNonNapkinChildren(Component c) {
-        if (setUI != null && c instanceof Container) {
+
+    private static void checkForPurity(Component c, JComponent napkinParent) {
+        if (c instanceof Container) {
             if (!(c instanceof JComponent &&
-                    ((JComponent) c).getClientProperty(SCAN_KEY) ==
-                    Boolean.TRUE)) {
+                    ((JComponent) c).getClientProperty(PURE_KEY) != null)) {
 
+                // see if we have a Napkin component; if so set as parent
+                if (c instanceof JComponent) {
+                    JComponent jc = (JComponent) c;
+                    if (jc.getClientProperty(INSTALL_KEY) == Boolean.TRUE) {
+                        napkinParent = jc;
+                    }
+                }
+                NonNapkinPaintListener listener = (napkinParent == null) ?
+                    null : new NonNapkinPaintListener(napkinParent);
+                // scan children for purity
+                Boolean isPure = Boolean.TRUE;
                 for (Component component : ((Container) c).getComponents()) {
-                    if (component instanceof JComponent) {
-                        JComponent jComponent = (JComponent) component;
-                        if (jComponent.getClientProperty(INSTALL_KEY) !=
-                                Boolean.TRUE) {
+                    if (!(component instanceof JComponent &&
+                            ((JComponent) component)
+                            .getClientProperty(INSTALL_KEY) == Boolean.TRUE)) {
 
-                            try {
-                                setUI.invoke(jComponent,
-                                        NapkinComponentUI.createUI(jComponent));
-                            } catch (Exception ex) {
-                                /**
-                                 * includes IllegalArgumentException,
-                                 * InvocationTargetException and
-                                 * IllegalAccessException
-                                 */
-                                ex.printStackTrace(); // do nothing
-                            }
-                            jComponent.putClientProperty(
-                                    INSTALL_KEY, Boolean.TRUE);
+                        // found non-Napkin component; try to hook listener
+                        isPure = Boolean.FALSE;
+                        if (listener != null) {
+                            component.addComponentListener(listener);
+                            component.addMouseListener(listener);
+                            component.addMouseMotionListener(listener);
+                            component.addPropertyChangeListener(listener);
                         }
                     }
-                    scanComponentForNonNapkinChildren(component);
+                    checkForPurity(component, napkinParent);
                 }
-            }
-            if (c instanceof JComponent) {
-                ((JComponent) c).putClientProperty(SCAN_KEY, Boolean.TRUE);
+                if (c instanceof JComponent) {
+                    ((JComponent) c).putClientProperty(PURE_KEY, isPure);
+                }
             }
         }
     }
 
     public static Graphics2D defaultGraphics(Graphics g1, Component c) {
-        scanComponentForNonNapkinChildren(c);
+        checkForPurity(c, null);
         Graphics2D g = (Graphics2D) g1;
         syncWithTheme(g, c);
         boolean enabled = c.isEnabled();
@@ -510,6 +565,11 @@ public class NapkinUtil {
             JComponent jc = (JComponent) c;
             DisabledMark mark = (DisabledMark) jc.getClientProperty(
                     DISABLED_MARK_KEY);
+
+//            g1.setColor(jc.getClientProperty(PURE_KEY) == Boolean.TRUE ?
+//                Color.GREEN : Color.RED);
+//            g1.fillRect(0, 0, 4, 4);
+
             if (mark == null) {
                 Color bgColor = (Color) jc.getClientProperty(DISABLED_BACKGROUND_KEY);
                 if (bgColor != null) {
