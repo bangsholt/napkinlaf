@@ -359,7 +359,7 @@ public class NapkinUtil {
 
     private static class NonNapkinPaintListener implements MouseListener,
             MouseMotionListener, PropertyChangeListener, ComponentListener,
-            FocusListener, MouseWheelListener {
+            FocusListener {
 
         private final Component component;
 
@@ -453,7 +453,6 @@ public class NapkinUtil {
                         component.addFocusListener(listener);
                         component.addMouseListener(listener);
                         component.addMouseMotionListener(listener);
-                        component.addMouseWheelListener(listener);
                         component.addPropertyChangeListener(listener);
                     }
                     checkForPurity(component);

@@ -47,14 +47,10 @@ public class NapkinWrappedBorder extends AbstractNapkinBorder {
     protected void doPaintBorder(Component c, Graphics g, int x, int y,
             int width, int height) {
 
-        if (NapkinUtil.isNapkinInstalled(c)) {
-            origBorder.paintBorder(c, g, x, y, width, height);
-        } else {
-            g = NapkinUtil.defaultGraphics(g, c);
-            NapkinUtil.syncWithTheme(origBorder, c);
-            origBorder.paintBorder(c, g, x, y, width, height);
-            NapkinUtil.finishGraphics(g, c);
-        }
+        g = NapkinUtil.defaultGraphics(g, c);
+        NapkinUtil.syncWithTheme(origBorder, c);
+        origBorder.paintBorder(c, g, x, y, width, height);
+        NapkinUtil.finishGraphics(g, c);
     }
 
     @Override
