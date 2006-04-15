@@ -583,7 +583,8 @@ public class NapkinUtil {
 //            g1.fillRect(0, 0, 4, 4);
 
             if (mark == null) {
-                Color bgColor = (Color) jc.getClientProperty(DISABLED_BACKGROUND_KEY);
+                Color bgColor =
+                        (Color) jc.getClientProperty(DISABLED_BACKGROUND_KEY);
                 if (bgColor != null) {
                     jc.putClientProperty(DISABLED_BACKGROUND_KEY, null);
                     jc.setBackground(bgColor);
@@ -603,11 +604,14 @@ public class NapkinUtil {
                 Point start = getStart(jc, null);
                 int w = textureImage.getWidth();
                 int h = textureImage.getHeight();
-                Rectangle anchor = new Rectangle(w - start.x, h - start.y, w, h);
+                Rectangle anchor =
+                        new Rectangle(w - start.x, h - start.y, w, h);
                 tg.setPaint(new TexturePaint(textureImage, anchor));
-                tg.fillRect(0, 0, mark.image.getWidth(), mark.image.getHeight());
+                tg.fillRect(0, 0,
+                        mark.image.getWidth(), mark.image.getHeight());
 
-                mark.graphics.drawImage(mark.image, -mark.offX, -mark.offY, jc);
+                mark.graphics
+                        .drawImage(mark.image, -mark.offX, -mark.offY, jc);
                 tg.dispose();
             }
         }
@@ -623,10 +627,26 @@ public class NapkinUtil {
                 CompoundBorder cb = (CompoundBorder) b;
                 Border outside = cb.getOutsideBorder();
                 Border inside = cb.getInsideBorder();
-                Border newOutside = wrapBorder(outside);
-                Border newInside = wrapBorder(inside);
-                if (outside != newOutside || inside != newInside) {
-                    b = new NapkinCompoundBorder(newOutside, newInside);
+                /**
+                 * In the case when one of the member Border is a NapkinBorder,
+                 * we will just wrap the CompoundBorder as is.
+                 *
+                 * This is due to components like JButton somehow have a special
+                 * CompoundBorder to wrap its original Border, which if we
+                 * replace it with a NapkinCompoundBorder things will cease to
+                 * work, that is, another border will be painted on top of the
+                 * "erased" JButton when the button is disabled.
+                 */
+                if (inside instanceof NapkinBorder ||
+                        outside instanceof NapkinBorder) {
+
+                    b = new NapkinWrappedBorder(b);
+                } else {
+                    Border newOutside = wrapBorder(outside);
+                    Border newInside = wrapBorder(inside);
+                    b = (outside == newOutside && inside == newInside) ?
+                        new NapkinWrappedBorder(b) :
+                        new NapkinCompoundBorder(outside, inside);
                 }
             } else {
                 b = (b == null) ?
