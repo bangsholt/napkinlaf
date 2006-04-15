@@ -7,6 +7,7 @@ import net.sourceforge.napkinlaf.borders.NapkinBevelBorder;
 import net.sourceforge.napkinlaf.borders.NapkinBorder;
 import net.sourceforge.napkinlaf.borders.NapkinCompoundBorder;
 import net.sourceforge.napkinlaf.borders.NapkinEtchedBorder;
+import net.sourceforge.napkinlaf.borders.NapkinWrappedBorder;
 import net.sourceforge.napkinlaf.fonts.MergedFontGraphics2D;
 import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
@@ -385,17 +386,17 @@ public class NapkinUtil {
         }
     }
 
-//    public static void syncWithTheme(Border border, Component c) {
-//        if (border instanceof TitledBorder) {
-//            TitledBorder tb = (TitledBorder) border;
-//            Color pen = currentTheme(c).getPenColor();
-//            tb.setTitleColor(ifReplace(tb.getTitleColor(), pen));
-//        } else if (border instanceof CompoundBorder) {
-//            CompoundBorder cb = (CompoundBorder) border;
-//            syncWithTheme(cb.getInsideBorder(), c);
-//            syncWithTheme(cb.getOutsideBorder(), c);
-//        }
-//    }
+    public static void syncWithTheme(Border border, Component c) {
+        if (border instanceof TitledBorder) {
+            TitledBorder tb = (TitledBorder) border;
+            Color pen = currentTheme(c).getPenColor();
+            tb.setTitleColor(ifReplace(tb.getTitleColor(), pen));
+        } else if (border instanceof CompoundBorder) {
+            CompoundBorder cb = (CompoundBorder) border;
+            syncWithTheme(cb.getInsideBorder(), c);
+            syncWithTheme(cb.getOutsideBorder(), c);
+        }
+    }
 
     public static NapkinTheme currentTheme(Component c) {
         return themeStack.isEmpty() ?
@@ -469,6 +470,8 @@ public class NapkinUtil {
                 if (outside != newOutside || inside != newInside) {
                     b = new NapkinCompoundBorder(newOutside, newInside);
                 }
+            } else if (b != null) {
+                b = new NapkinWrappedBorder(b);
             }
         }
         return b;
