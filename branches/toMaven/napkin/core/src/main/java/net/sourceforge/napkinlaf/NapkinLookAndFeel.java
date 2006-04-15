@@ -10,6 +10,7 @@ import net.sourceforge.napkinlaf.util.ComponentWalker.Visitor;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
 import net.sourceforge.napkinlaf.util.NapkinDebug;
 import net.sourceforge.napkinlaf.util.NapkinIconFactory;
+import net.sourceforge.napkinlaf.util.NapkinRepaintManager;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 
 import javax.swing.*;
@@ -647,5 +648,28 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
             val = ((ActiveValue) val).createValue(table);
         }
         return val;
+    }
+
+    private static void wrapRepaintManager() {
+        RepaintManager manager = RepaintManager.currentManager(null);
+        RepaintManager.setCurrentManager(new NapkinRepaintManager(manager));
+    }
+
+    private static void unwrapRepaintManager() {
+        RepaintManager manager = RepaintManager.currentManager(null);
+        RepaintManager.setCurrentManager(
+                ((NapkinRepaintManager) manager).getManager());
+    }
+
+    @Override
+    public void initialize() {
+        wrapRepaintManager();
+        super.initialize();
+    }
+
+    @Override
+    public void uninitialize() {
+        unwrapRepaintManager();
+        super.uninitialize();
     }
 }
