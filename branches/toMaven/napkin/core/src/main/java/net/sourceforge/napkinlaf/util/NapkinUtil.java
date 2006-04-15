@@ -3,10 +3,9 @@ package net.sourceforge.napkinlaf.util;
 import java.util.concurrent.atomic.AtomicBoolean;
 import net.sourceforge.napkinlaf.NapkinKnownTheme;
 import net.sourceforge.napkinlaf.NapkinTheme;
-import net.sourceforge.napkinlaf.borders.NapkinBevelBorder;
 import net.sourceforge.napkinlaf.borders.NapkinBorder;
+import net.sourceforge.napkinlaf.borders.NapkinBoxBorder;
 import net.sourceforge.napkinlaf.borders.NapkinCompoundBorder;
-import net.sourceforge.napkinlaf.borders.NapkinEtchedBorder;
 import net.sourceforge.napkinlaf.borders.NapkinWrappedBorder;
 import net.sourceforge.napkinlaf.fonts.MergedFontGraphics2D;
 import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
@@ -75,6 +74,7 @@ public class NapkinUtil {
                             c.putClientProperty(BORDER_KEY, border);
                             Border newBorder = wrapBorder(border);
                             if (newBorder != border) {
+                                // setBorder() must be supported
                                 c.setBorder(newBorder);
                             }
                         }
@@ -121,6 +121,8 @@ public class NapkinUtil {
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
     private static final int CLIP_OFFSET = 10;
     private static final int CLIP_INSET = CLIP_OFFSET * 2;
+    private static final NapkinBorder NULL_BORDER =
+            new NapkinWrappedBorder(new EmptyBorder(NO_INSETS));
 
     private static final AlphaComposite ERASURE_COMPOSITE =
             AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.9f);
@@ -235,7 +237,11 @@ public class NapkinUtil {
         c.putClientProperty(BORDER_KEY, b);
         Border nb = wrapBorder(b);
         if (nb != b) {
-            c.setBorder(nb);
+            try {
+                c.setBorder(nb);
+            } catch (Exception ex) {
+                ; // setBorder() not supported; do nothing
+            }
         }
         c.addPropertyChangeListener(BORDER, BORDER_LISTENER);
     }
@@ -458,9 +464,9 @@ public class NapkinUtil {
     private static Border wrapBorder(Border b) {
         if (!(b instanceof NapkinBorder)) {
             if (b instanceof BevelBorder) {
-                b = new NapkinBevelBorder((BevelBorder) b);
+                b = new NapkinBoxBorder();
             } else if (b instanceof EtchedBorder) {
-                b = new NapkinEtchedBorder((EtchedBorder) b);
+                b = new NapkinBoxBorder();
             } else if (b instanceof CompoundBorder) {
                 CompoundBorder cb = (CompoundBorder) b;
                 Border outside = cb.getOutsideBorder();
@@ -470,8 +476,8 @@ public class NapkinUtil {
                 if (outside != newOutside || inside != newInside) {
                     b = new NapkinCompoundBorder(newOutside, newInside);
                 }
-            } else if (b != null) {
-                b = new NapkinWrappedBorder(b);
+            } else {
+                b = (b == null) ? NULL_BORDER : new NapkinWrappedBorder(b);
             }
         }
         return b;
