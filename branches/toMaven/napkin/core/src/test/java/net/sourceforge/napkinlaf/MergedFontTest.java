@@ -1,5 +1,6 @@
 package net.sourceforge.napkinlaf;
 
+import javax.swing.UIManager;
 import junit.framework.TestCase;
 import net.sourceforge.napkinlaf.fonts.MergedFont;
 
@@ -8,7 +9,19 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class MergedFontTest extends TestCase {
+
+    private boolean SKIP_TEST = false;
+
+    public void testCurrentUI() {
+        if (UIManager.getLookAndFeel().getClass() == NapkinLookAndFeel.class) {
+            System.err.println("Tests cannot run when using Napkin!");
+            SKIP_TEST = true;
+        }
+    }
+    
     public void testTwoFonts() {
+        if (SKIP_TEST) return;
+
         Font fixedFont = getFixedFont();
         Font serifFont = new Font("serif", Font.PLAIN, 10);
         Font mergedFont = new MergedFont(fixedFont, serifFont);
@@ -50,39 +63,6 @@ public class MergedFontTest extends TestCase {
     }
 
     private static Font getFixedFont() {
-        Font result = null;
-        try {
-            result = NapkinTheme.Manager.tryToLoadFont("FeltTipRoman.ttf");
-        } catch (Throwable ex) {
-            System.err.println("Cannot access NapkinTheme.Manager.tryToLoadFont()!");
-        }
-        return result == null ? tryToLoadFont("FeltTipRoman.ttf") : result;
-    }
-
-    private static final String RESOURCE_PATH = "resources/";
-    static Font tryToLoadFont(String fontName) {
-        NapkinTheme.Manager.getTheme("Default theme");
-        Font result = null;
-        try {
-            String fontRes = RESOURCE_PATH + fontName;
-            InputStream fontDef =
-                    NapkinLookAndFeel.class.getResourceAsStream(fontRes);
-            if (fontDef != null) {
-                result = Font.createFont(Font.TRUETYPE_FONT, fontDef);
-            } else {
-                throw new NullPointerException(
-                        "Could not find font resource \"" + fontName +
-                        "\"\n\t\tin \"" + fontRes +
-                        "\"\n\t\tfor \"" + NapkinLookAndFeel.class
-                        .getName() +
-                        "\"\n\t\ttry: " + NapkinLookAndFeel.class
-                        .getResource(fontRes));
-            }
-        } catch (FontFormatException e) {
-            ; //fall through
-        } catch (IOException e) {
-            ; //fall through
-        }
-        return result;
+        return NapkinTheme.Manager.tryToLoadFont("FeltTipRoman.ttf");
     }
 }
