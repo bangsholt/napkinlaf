@@ -1,18 +1,5 @@
 package net.sourceforge.napkinlaf.util;
 
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.concurrent.atomic.AtomicBoolean;
 import net.sourceforge.napkinlaf.NapkinKnownTheme;
 import net.sourceforge.napkinlaf.NapkinTheme;
@@ -277,12 +264,10 @@ public class NapkinUtil {
             c.putClientProperty(INSTALL_KEY, null);
             // restore from border override
             c.removePropertyChangeListener(BORDER, BORDER_LISTENER);
-            try {
-                c.setBorder((Border) c.getClientProperty(BORDER_KEY));
-                assert c.getBorder() == c.getClientProperty(BORDER_KEY) :
-                    "Border restore failed!";
-            } catch (Exception ex) {
-                ; // setBorder() not supported; do nothing
+            Border border = (Border) c.getClientProperty(BORDER_KEY);
+            if (border != c.getBorder()) {
+                // if setBorder() is not supported, we won't be here
+                c.setBorder(border);
             }
             // restore from background colour override
             c.removePropertyChangeListener(BACKGROUND, BACKGROUND_LISTENER);
@@ -357,115 +342,7 @@ public class NapkinUtil {
         return lineG;
     }
 
-//    private static class NonNapkinPaintListener implements MouseListener,
-//            MouseMotionListener, PropertyChangeListener, ComponentListener,
-//            FocusListener {
-//
-//        private final Component component;
-//
-//        NonNapkinPaintListener(Component component) {
-//            this.component = component;
-//        }
-//
-//        private void repaintFromParent() {
-//            Container parent = component.getParent();
-//            if (parent != null) {
-//                Rectangle b = component.getBounds();
-//                parent.repaint(b.x, b.y, b.width, b.height);
-//            }
-//        }
-//
-//        public void mouseClicked(MouseEvent e) {
-//            repaintFromParent();
-//        }
-//
-//        public void mousePressed(MouseEvent e) {
-//            repaintFromParent();
-//        }
-//
-//        public void mouseReleased(MouseEvent e) {
-//            repaintFromParent();
-//        }
-//
-//        public void mouseEntered(MouseEvent e) {
-//            repaintFromParent();
-//        }
-//
-//        public void mouseExited(MouseEvent e) {
-//            repaintFromParent();
-//        }
-//
-//        public void mouseDragged(MouseEvent e) {
-//            repaintFromParent();
-//        }
-//
-//        public void mouseMoved(MouseEvent e) {
-//            repaintFromParent();
-//        }
-//
-//        public void propertyChange(PropertyChangeEvent evt) {
-//            repaintFromParent();
-//        }
-//
-//        public void componentResized(ComponentEvent e) {
-//            repaintFromParent();
-//        }
-//
-//        public void componentMoved(ComponentEvent e) {
-//            repaintFromParent();
-//        }
-//
-//        public void componentShown(ComponentEvent e) {
-//            repaintFromParent();
-//        }
-//
-//        public void componentHidden(ComponentEvent e) {
-//            repaintFromParent();
-//        }
-//
-//        public void focusGained(FocusEvent e) {
-//            repaintFromParent();
-//        }
-//
-//        public void focusLost(FocusEvent e) {
-//            repaintFromParent();
-//        }
-//
-//        public void mouseWheelMoved(MouseWheelEvent e) {
-//            repaintFromParent();
-//        }
-//    }
-//
-//    private static void checkForPurity(Component c) {
-//        if (c instanceof Container) {
-//            if (!(isNapkinInstalled(c) &&
-//                    ((JComponent) c).getClientProperty(PURE_KEY) != null)) {
-//
-//                // scan children for purity
-//                Boolean isPure = Boolean.TRUE;
-//                for (Component component : ((Container) c).getComponents()) {
-//                    if (!(isNapkinInstalled(component))) {
-//                        // found non-Napkin component; hook listener
-//                        isPure = Boolean.FALSE;
-//                        NonNapkinPaintListener listener =
-//                                new NonNapkinPaintListener(component);
-//                        component.addComponentListener(listener);
-//                        component.addFocusListener(listener);
-//                        component.addMouseListener(listener);
-//                        component.addMouseMotionListener(listener);
-//                        component.addPropertyChangeListener(listener);
-//                    }
-//                    checkForPurity(component);
-//                }
-//                if (c instanceof JComponent) {
-//                    ((JComponent) c).putClientProperty(PURE_KEY, isPure);
-//                }
-//            }
-//        }
-//    }
-
     public static Graphics2D defaultGraphics(Graphics g1, Component c) {
-//        checkForPurity(c);
         Graphics2D g = (Graphics2D) g1;
         syncWithTheme(g, c);
         boolean enabled = c.isEnabled();
@@ -577,11 +454,6 @@ public class NapkinUtil {
             JComponent jc = (JComponent) c;
             DisabledMark mark = (DisabledMark) jc.getClientProperty(
                     DISABLED_MARK_KEY);
-
-//            g1.setColor(jc.getClientProperty(PURE_KEY) == Boolean.TRUE ?
-//                Color.GREEN : Color.RED);
-//            g1.fillRect(0, 0, 4, 4);
-
             if (mark == null) {
                 Color bgColor =
                         (Color) jc.getClientProperty(DISABLED_BACKGROUND_KEY);
