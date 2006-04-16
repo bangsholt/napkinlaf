@@ -2,6 +2,7 @@ package net.sourceforge.napkinlaf.util;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import net.sourceforge.napkinlaf.NapkinKnownTheme;
+import net.sourceforge.napkinlaf.NapkinLookAndFeel;
 import net.sourceforge.napkinlaf.NapkinTheme;
 import net.sourceforge.napkinlaf.borders.NapkinBorder;
 import net.sourceforge.napkinlaf.borders.NapkinBoxBorder;
@@ -215,6 +216,7 @@ public class NapkinUtil {
         if (c.getClientProperty(INSTALL_KEY) != Boolean.TRUE) {
             // mark component as installed
             c.putClientProperty(INSTALL_KEY, Boolean.TRUE);
+            NapkinLookAndFeel.registerComponent(c);
             // opaqueness override
             if (c.isOpaque()) {
                 c.putClientProperty(OPAQUE_KEY, Boolean.TRUE);

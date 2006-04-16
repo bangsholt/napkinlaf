@@ -1,6 +1,5 @@
 package net.sourceforge.napkinlaf;
 
-import java.util.concurrent.atomic.AtomicBoolean;
 import net.sourceforge.napkinlaf.borders.NapkinBoxBorder;
 import net.sourceforge.napkinlaf.borders.NapkinLineBorder;
 import net.sourceforge.napkinlaf.borders.NapkinSelectedBorder;
@@ -9,6 +8,7 @@ import net.sourceforge.napkinlaf.fonts.PatchedFontUIResource;
 import net.sourceforge.napkinlaf.util.AlphaColorUIResource;
 import net.sourceforge.napkinlaf.util.ComponentWalker.Visitor;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
+import net.sourceforge.napkinlaf.util.NapkinConstants;
 import net.sourceforge.napkinlaf.util.NapkinDebug;
 import net.sourceforge.napkinlaf.util.NapkinIconFactory;
 import net.sourceforge.napkinlaf.util.NapkinRepaintManager;
@@ -30,6 +30,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.WeakHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * This class defines the central behavior for the Napkin look & feel.
@@ -38,6 +42,10 @@ import java.util.Set;
  * @author Alex Lam
  */
 public class NapkinLookAndFeel extends BasicLookAndFeel {
+
+    /**
+     * A table of Napkin ComponentUIs to be set as default when initialised.
+     */
     private static final String[] UI_TYPES = {
             "ButtonUI",
             "CheckBoxMenuItemUI",
@@ -105,6 +113,9 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         }
     }
 
+    /**
+     * Creates a new instance of NapkinLookAndFeel
+     */
     public NapkinLookAndFeel() {
         /*
          * Default values are not initialised properly before the first
@@ -117,31 +128,48 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         new JLabel();
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getDescription() {
         return "The Napkin Look and Feel";
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getID() {
         return "Napkin";
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getName() {
         return getID();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Napkin is a cross-platform Pluggable Look & Feel.
+     */
     @Override
     public boolean isNativeLookAndFeel() {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Napkin is a cross-platform Pluggable Look & Feel.
+     */
     @Override
     public boolean isSupportedLookAndFeel() {
         return true;
     }
 
+    /**
+     * Initialise mapping of JComponent to their corresponding Napkin
+     * ComponentUIs.
+     */
     @Override
     protected void initClassDefaults(UIDefaults table) {
         super.initClassDefaults(table);
@@ -159,12 +187,34 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         }
     }
 
+    /**
+     * Initialise Napkin default colours.
+     */
     @Override
     protected void initSystemColorDefaults(UIDefaults table) {
         super.initSystemColorDefaults(table);
         // make a copy so we can modify the table as we read the key set
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
+        Color penColor = theme.getPenColor();
+        Color bgColor = theme.getBackgroundColor();
+        NapkinTheme popupTheme = theme.getPopupTheme();
+        Color popupBgColor = popupTheme.getBackgroundColor();
+        Color popupPenColor = popupTheme.getPenColor();
+        table.put("desktop", bgColor);
+        table.put("activeCaption", bgColor);
+        table.put("activeCaptionText", theme.getSelectionColor());
+        table.put("activeCaptionBorder", penColor);
+        table.put("inactiveCaption", bgColor);
+        table.put("inactiveCaptionText", penColor);
+        table.put("inactiveCaptionBorder", penColor);
+        table.put("window", bgColor);
+        table.put("windowBorder", penColor);
+        table.put("windowText", penColor);
+        table.put("text", bgColor);
+        table.put("textText", penColor);
         table.put("textHighlight", theme.getHighlightColor());
+        table.put("textHighlightText", penColor);
+        table.put("textInactiveText", penColor);
     }
 
     @Override
@@ -676,6 +726,39 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         if (initialised.compareAndSet(true, false)) {
             unwrapRepaintManager();
             super.uninitialize();
+            new Thread(
+                new Runnable() {
+                    public void run() {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                        purgeAllInstalledComponents();
+                    }
+                }
+            ).start();
         }
+    }
+
+    private static final WeakHashMap<JComponent, Void> installedComponents =
+            new WeakHashMap<JComponent, Void>();
+    private static final ReadWriteLock lock = new ReentrantReadWriteLock();
+
+    public static void registerComponent(JComponent component) {
+        lock.readLock().lock();
+        installedComponents.put(component, null);
+        lock.readLock().unlock();
+    }
+
+    private static void purgeAllInstalledComponents() {
+        lock.writeLock().lock();
+        for (JComponent component : installedComponents.keySet()) {
+            if (NapkinUtil.isNapkinInstalled(component)) {
+                component.updateUI();
+            }
+        }
+        installedComponents.clear();
+        lock.writeLock().unlock();
     }
 }
