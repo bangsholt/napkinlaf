@@ -38,17 +38,18 @@ public class NapkinRepaintManager extends RepaintManager {
      * Creates a new instance of NapkinRepaintManager that wraps the given
      * RepaintManager instance.
      */
-    public NapkinRepaintManager(RepaintManager manager) {
+    private NapkinRepaintManager(RepaintManager manager) {
         this.manager = manager;
     }
 
-    /**
-     * Returns the wrapped RepaintManager instance.
-     *
-     * Used to restore things when unpluging Napkin.
-     */
-    public RepaintManager getManager() {
-        return manager;
+    public static NapkinRepaintManager wrap(RepaintManager manager) {
+        return manager instanceof NapkinRepaintManager ?
+            (NapkinRepaintManager) manager : new NapkinRepaintManager(manager);
+    }
+
+    public static RepaintManager unwrap(RepaintManager manager) {
+        return manager instanceof NapkinRepaintManager ?
+            ((NapkinRepaintManager) manager).manager : manager;
     }
 
     /**

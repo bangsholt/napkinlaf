@@ -1,5 +1,6 @@
 package net.sourceforge.napkinlaf;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import net.sourceforge.napkinlaf.borders.NapkinBoxBorder;
 import net.sourceforge.napkinlaf.borders.NapkinLineBorder;
 import net.sourceforge.napkinlaf.borders.NapkinSelectedBorder;
@@ -650,26 +651,31 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         return val;
     }
 
-    private static void wrapRepaintManager() {
+    private final AtomicBoolean initialised = new AtomicBoolean(false);
+
+    private void wrapRepaintManager() {
         RepaintManager manager = RepaintManager.currentManager(null);
-        RepaintManager.setCurrentManager(new NapkinRepaintManager(manager));
+        RepaintManager.setCurrentManager(NapkinRepaintManager.wrap(manager));
     }
 
-    private static void unwrapRepaintManager() {
+    private void unwrapRepaintManager() {
         RepaintManager manager = RepaintManager.currentManager(null);
-        RepaintManager.setCurrentManager(
-                ((NapkinRepaintManager) manager).getManager());
+        RepaintManager.setCurrentManager(NapkinRepaintManager.unwrap(manager));
     }
 
     @Override
     public void initialize() {
-        wrapRepaintManager();
-        super.initialize();
+        if (initialised.compareAndSet(false, true)) {
+            wrapRepaintManager();
+            super.initialize();
+        }
     }
 
     @Override
     public void uninitialize() {
-        unwrapRepaintManager();
-        super.uninitialize();
+        if (initialised.compareAndSet(true, false)) {
+            unwrapRepaintManager();
+            super.uninitialize();
+        }
     }
 }
