@@ -516,12 +516,14 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         table.putDefaults(actionDefaults);
     }
 
-    private static void overrideComponentDefaults(UIDefaults table) {
+    public static void overrideComponentDefaults(UIDefaults table) {
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
 
         Map<String, Font> fontMap = fontNameMap(theme);
         Map<MergedFont, MergedFont> fontCache =
                 new HashMap<MergedFont, MergedFont>();
+        Font textFont = theme.getTextFont();
+        Font boldFont = theme.getBoldTextFont();
 
         Object drawnBorder = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
@@ -540,29 +542,35 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         Color clear = new AlphaColorUIResource(CLEAR);
 
         for (Map.Entry<Object, Object> entry : table.entrySet()) {
+            if (!(entry.getKey() instanceof String)) {
+                continue;
+            }
             String key = (String) entry.getKey();
             Object val = entry.getValue();
             Object res;
             if ((res = propVal(key, "font", val, table)) != null) {
-                if (res instanceof Font && res instanceof UIResource) {
+                if (res instanceof Font && res instanceof UIResource &&
+                        !(res instanceof PatchedFontUIResource ||
+                        res instanceof MergedFont)) {
+
                     Font resource = (Font) res;
                     String name = resource.getFontName();
                     Font font = fontMap.get(name);
-                    if (font != null) {
-                        if (PatchedFontUIResource.doesPatchWork()) {
-                            MergedFont mFont = new MergedFont(font, resource);
-                            if (fontCache.containsKey(mFont)) {
-                                mFont = fontCache.get(mFont);
-                            } else {
-                                fontCache.put(mFont, mFont);
-                            }
-                            font = mFont;
-                        }
-                        entry.setValue(font);
-                    } else {
+                    if (font == null) {
+                        font = resource.isBold() ? boldFont : textFont;
                         System.err.println(
                                 "unknown font: " + name + " for " + key);
                     }
+                    if (PatchedFontUIResource.doesPatchWork()) {
+                        MergedFont mFont = new MergedFont(font, resource);
+                        if (fontCache.containsKey(mFont)) {
+                            mFont = fontCache.get(mFont);
+                        } else {
+                            fontCache.put(mFont, mFont);
+                        }
+                        font = mFont;
+                    }
+                    entry.setValue(font);
                 }
             } else if ((res = propVal(key, "border", val, table)) != null) {
                 if (res instanceof UIResource || (val instanceof UIResource && (
@@ -624,11 +632,15 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
 
     @SuppressWarnings({"HardcodedFileSeparator"})
     private static Map<String, Font> fontNameMap(NapkinTheme theme) {
-        Font dialogPlain = theme.getTextFont();
-        Font dialogBold = theme.getBoldTextFont();
-        Font serifPlain = theme.getTextFont();
-        Font sansSerifPlain = theme.getTextFont();
-        Font monospacedPlain = theme.getFixedFont();
+        Font textFont = theme.getTextFont();
+        Font boldFont = theme.getBoldTextFont();
+        Font fixedFont = theme.getFixedFont();
+
+        Font dialogPlain = textFont;
+        Font dialogBold = boldFont;
+        Font serifPlain = textFont;
+        Font sansSerifPlain = textFont;
+        Font monospacedPlain = fixedFont;
 
         Map<String, Font> fromName = new HashMap<String, Font>();
         fromName.put("dialogBold", dialogBold);
