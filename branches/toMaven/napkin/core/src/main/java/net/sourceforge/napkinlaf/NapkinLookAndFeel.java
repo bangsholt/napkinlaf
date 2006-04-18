@@ -746,7 +746,10 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                         } catch (InterruptedException ex) {
                             ex.printStackTrace();
                         }
-                        purgeAllInstalledComponents();
+                        if (!(UIManager.getLookAndFeel()
+                                instanceof NapkinLookAndFeel)) {
+                            purgeAllInstalledComponents();
+                        }
                     }
                 }
             ).start();
@@ -758,18 +761,20 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
     private static final ReadWriteLock lock = new ReentrantReadWriteLock();
 
     public static void registerComponent(JComponent component) {
-        lock.readLock().lock();
+        lock.writeLock().lock();
         installedComponents.put(component, null);
-        lock.readLock().unlock();
+        lock.writeLock().unlock();
     }
 
     private static void purgeAllInstalledComponents() {
-        lock.writeLock().lock();
+        lock.readLock().lock();
         for (JComponent component : installedComponents.keySet()) {
             if (NapkinUtil.isNapkinInstalled(component)) {
                 component.updateUI();
             }
         }
+        lock.readLock().unlock();
+        lock.writeLock().lock();
         installedComponents.clear();
         lock.writeLock().unlock();
     }
