@@ -1,5 +1,9 @@
 package net.sourceforge.napkinlaf;
 
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import net.sourceforge.napkinlaf.borders.NapkinCompoundBorder;
+import net.sourceforge.napkinlaf.borders.NapkinLineBorder;
 import net.sourceforge.napkinlaf.util.NapkinPainter;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.SOUTH;
@@ -22,6 +26,8 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
      */
     private boolean wasLightWeightPopupEnabled;
 
+    private Border oldBorder;
+
     @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinComboBoxUI();
@@ -30,6 +36,9 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
     @Override
     public void installUI(JComponent c) {
         super.installUI(c);
+        oldBorder = c.getBorder();
+        c.setBorder(new NapkinCompoundBorder(
+                new NapkinLineBorder(false), new EmptyBorder(0, 0, 3, 0)));
         NapkinUtil.installUI(c);
         wasLightWeightPopupEnabled = comboBox.isLightWeightPopupEnabled();
         comboBox.setLightWeightPopupEnabled(false);
@@ -39,6 +48,7 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
     public void uninstallUI(JComponent c) {
         comboBox.setLightWeightPopupEnabled(wasLightWeightPopupEnabled);
         NapkinUtil.uninstallUI(c);
+        c.setBorder(oldBorder);
         super.uninstallUI(c);
     }
 
