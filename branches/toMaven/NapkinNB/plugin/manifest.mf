@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+OpenIDE-Module: net.sourceforge.napkinlaf.netbeans
+OpenIDE-Module-Implementation-Version: 1
+OpenIDE-Module-Install: net/sourceforge/napkinlaf/netbeans/Installer.class
+OpenIDE-Module-Layer: net/sourceforge/napkinlaf/netbeans/layer.xml
+OpenIDE-Module-Localizing-Bundle: net/sourceforge/napkinlaf/netbeans/Bundle.properties
+
