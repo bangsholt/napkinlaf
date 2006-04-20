@@ -9,6 +9,9 @@
 
 package net.sourceforge.napkinlaf.netbeans;
 
+import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
+import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
+import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
 import org.netbeans.swing.tabcontrol.*;
 import org.netbeans.swing.tabcontrol.plaf.*;
 
@@ -37,21 +40,16 @@ public class NapkinEditorTabDisplayerUI extends BasicScrollingTabDisplayerUI
     private static class NapkinTabPainter implements TabPainter {
         
         private final Icon CLOSE_ICON = NapkinIconFactory.createXIcon(15);
-        private final NapkinEditorTabDisplayerUI ui;
-        private static final int MAX_NUM_OF_LINES = 100;
+        private static final int MAX_CACHE_SIZE = 10;
         private static final Map<Rectangle, DrawnTabHolder> cache =
             new LinkedHashMap<Rectangle, DrawnTabHolder>(16, 0.75f, true) {
                 @Override
                 protected boolean removeEldestEntry(
                         Map.Entry<Rectangle, DrawnTabHolder> eldest) {
-                    return size() > MAX_NUM_OF_LINES;
+                    return size() > MAX_CACHE_SIZE;
                 }
             };
         
-        NapkinTabPainter(NapkinEditorTabDisplayerUI ui) {
-            this.ui = ui;
-        }
-
         public Polygon getInteriorPolygon(Component component) {
             Rectangle bounds = component.getBounds();
             int w = component.getWidth();
@@ -65,8 +63,6 @@ public class NapkinEditorTabDisplayerUI extends BasicScrollingTabDisplayerUI
 
         public void paintInterior(Graphics g, Component c) {
             Graphics2D g2d = (Graphics2D) g;
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON);
             g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                     RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
             Rectangle cb = new Rectangle();
@@ -107,10 +103,8 @@ public class NapkinEditorTabDisplayerUI extends BasicScrollingTabDisplayerUI
                 holder = new DrawnTabHolder(NORTH);
                 cache.put(rect, holder);
             }
-            if (ui.needsFullUpdate()) {
-                holder.shapeUpToDate(NORTH, Math.max(0, x - 3),
-                        y + 3, width + 3, height - 3);
-            }
+            holder.shapeUpToDate(NORTH, Math.max(0, x - 3),
+                    y + 3, width + 3, height - 3);
             holder.draw(g);
         }
 
@@ -130,8 +124,8 @@ public class NapkinEditorTabDisplayerUI extends BasicScrollingTabDisplayerUI
     
     private static class NapkinTabCellRenderer extends AbstractTabCellRenderer {
         
-        NapkinTabCellRenderer(NapkinEditorTabDisplayerUI ui) {
-            super(new NapkinTabPainter(ui), new Dimension(0, 0));
+        NapkinTabCellRenderer() {
+            super(new NapkinTabPainter(), new Dimension(0, 0));
         }
         
         @Override
@@ -250,7 +244,7 @@ public class NapkinEditorTabDisplayerUI extends BasicScrollingTabDisplayerUI
     }
 
     protected TabCellRenderer createDefaultRenderer() {
-        return new NapkinTabCellRenderer(this);
+        return new NapkinTabCellRenderer();
     }
 
     public Insets getTabAreaInsets() {
@@ -266,12 +260,16 @@ public class NapkinEditorTabDisplayerUI extends BasicScrollingTabDisplayerUI
         NapkinUtil.update(g, c, this);
     }
 
-    private final Border border = new NapkinLineBorder(false);
+    private final DrawnLineHolder[] holders =
+            new DrawnLineHolder[] {
+                new DrawnLineHolder(new DrawnCubicLineGenerator(), false),
+                new DrawnLineHolder(new DrawnCubicLineGenerator(), false),
+            };
     private Dimension oldSize = new Dimension();
     private int lastIndex = -2;
-    private int[] coordinateCache = null;
+    private Rectangle[] coordinateCache = new Rectangle[2];
     private boolean moved = false;
-    
+
     private boolean needsFullUpdate() {
         return moved || lastIndex != selectionModel.getSelectedIndex() ||
                 !oldSize.equals(displayer.getSize());
@@ -282,54 +280,42 @@ public class NapkinEditorTabDisplayerUI extends BasicScrollingTabDisplayerUI
         lastIndex = selectionModel.getSelectedIndex();
         oldSize = displayer.getSize();
     }
-
+    
     @Override
     protected void paintAfterTabs(Graphics g) {
         int index = selectionModel.getSelectedIndex();
+        Rectangle clipBounds = g.getClipBounds();
         if (needsFullUpdate()) {
             updateOldParams();
-            Rectangle clipBounds = g.getClipBounds();
             Rectangle bounds = new Rectangle();
             getTabRect(index, bounds);
-            int dx = (bounds.x + bounds.width) / 2 + 3;
-            coordinateCache = index >= 0 ?
-                new int[] {
-                    clipBounds.x, clipBounds.y,
-                    bounds.x - 3, clipBounds.height,
-                    clipBounds.x + dx, clipBounds.y,
-                    clipBounds.width - dx, clipBounds.height,
-                } : new int[] {
-                    clipBounds.x,
-                    clipBounds.y,
-                    clipBounds.width,
-                    clipBounds.height,
-                };
+            int dx = bounds.x + bounds.width + 3;
+            if (index >= 0) {
+                coordinateCache[0] =
+                    new Rectangle(
+                        clipBounds.x,
+                        clipBounds.y + clipBounds.height - 2,
+                        bounds.x,
+                        4
+                    );
+                coordinateCache[1] =
+                    new Rectangle(
+                        clipBounds.x + dx,
+                        clipBounds.y + clipBounds.height - 2,
+                        clipBounds.width - dx,
+                        4
+                    );
+            } else {
+                coordinateCache[0] = clipBounds;
+            }
         }
-        int x, y, width, height;
+        // paint from left to tab / right, depending on the case
+        holders[0].shapeUpToDate(coordinateCache[0], null);
+        holders[0].draw(g);
         if (index >= 0) {
-            // paint from left to tab
-            x = coordinateCache[0];
-            y = coordinateCache[1];
-            width = coordinateCache[2];
-            height = coordinateCache[3];
-            if (x >= 0 && width > 10) {
-                border.paintBorder(displayer, g, x, y, width, height);
-            }
             // paint from tab to right
-            x = coordinateCache[4];
-            y = coordinateCache[5];
-            width = coordinateCache[6];
-            height = coordinateCache[7];
-            if (x < displayer.getWidth() && width > 10) {
-                border.paintBorder(displayer, g, x, y, width, height);
-            }
-        } else {
-            // paint from left to right
-            x = coordinateCache[0];
-            y = coordinateCache[1];
-            width = coordinateCache[2];
-            height = coordinateCache[3];
-            border.paintBorder(displayer, g, x, y, width, height);
+            holders[1].shapeUpToDate(coordinateCache[1], null);
+            holders[1].draw(g);
         }
         super.paintAfterTabs(g);
     }
