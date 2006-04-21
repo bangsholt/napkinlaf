@@ -7,8 +7,10 @@ import org.netbeans.swing.plaf.Startup;
 import org.openide.ErrorManager;
 import org.openide.modules.ModuleInstall;
 
+import java.awt.Frame;
 import java.util.Map;
 import javax.swing.*;
+import org.openide.windows.WindowManager;
 
 /**
  * Manages a module's lifecycle. Remember that an installer is optional and
@@ -16,7 +18,6 @@ import javax.swing.*;
  */
 public class Installer extends ModuleInstall {
 
-    static LookAndFeel origLAF = null;
     static String origLAFClass = null;
 
     private static void updateLookAndFeel() {
@@ -29,10 +30,8 @@ public class Installer extends ModuleInstall {
         try {
             if (isNapkin) {
                 UIManager.setLookAndFeel(new NapkinLookAndFeel());
-            } else if (origLAF == null) {
-                UIManager.setLookAndFeel(origLAFClass);
             } else {
-                UIManager.setLookAndFeel(origLAF);
+                UIManager.setLookAndFeel(origLAFClass);
             }
             LookAndFeel laf = UIManager.getLookAndFeel();
             if (laf.getSupportsWindowDecorations()) {
@@ -40,6 +39,12 @@ public class Installer extends ModuleInstall {
                         "Look and Feel supports window decorations!");
                 JFrame.setDefaultLookAndFeelDecorated(true);
                 JDialog.setDefaultLookAndFeelDecorated(true);
+                // set main IDE window to be decorated, too
+                JFrame frame =
+                        (JFrame) WindowManager.getDefault().getMainWindow();
+                frame.setUndecorated(true);
+                frame.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+                SwingUtilities.updateComponentTreeUI(frame);
             } else {
                 JFrame.setDefaultLookAndFeelDecorated(false);
                 JDialog.setDefaultLookAndFeelDecorated(false);
@@ -78,11 +83,11 @@ public class Installer extends ModuleInstall {
 
     @Override
     public void restored() {
-        origLAF = UIManager.getLookAndFeel();
-        origLAFClass = UIManager.getSystemLookAndFeelClassName();
+        origLAFClass = NapkinSettings.getDefaultLookAndFeel();
         ErrorManager.getDefault().log(ErrorManager.WARNING,
                 "Look and Feel should be " +
                 (NapkinSettings.isNapkinEnabled() ? "Napkin" : origLAFClass));
         updateLookAndFeel();
+        dumpUIDefaults();
     }
 }

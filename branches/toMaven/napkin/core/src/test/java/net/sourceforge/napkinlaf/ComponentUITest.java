@@ -166,17 +166,17 @@ public class ComponentUITest extends TestCase {
         }
     }
 
-//    public static void assertEquals(String msg, Object obj1, Object obj2) {
-//        if (!obj1.equals(obj2)) {
-//            System.err.println(msg);
-//        }
-//    }
-//
-//    public static void assertEquals(String msg, boolean obj1, boolean obj2) {
-//        if (obj1 != obj2) {
-//            System.err.println(msg);
-//        }
-//    }
+    public static void assertEquals(String msg, Object obj1, Object obj2) {
+        if (!obj1.equals(obj2)) {
+            System.err.println(msg);
+        }
+    }
+
+    public static void assertEquals(String msg, boolean obj1, boolean obj2) {
+        if (obj1 != obj2) {
+            System.err.println(msg);
+        }
+    }
 
     // TODO add test methods here. The name must begin with 'test'. For example:
     // public void testHello() {}

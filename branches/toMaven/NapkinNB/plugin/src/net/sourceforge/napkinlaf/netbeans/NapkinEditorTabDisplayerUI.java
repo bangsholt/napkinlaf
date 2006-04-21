@@ -9,17 +9,19 @@
 
 package net.sourceforge.napkinlaf.netbeans;
 
-import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
-import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
-import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
-import org.netbeans.swing.tabcontrol.*;
-import org.netbeans.swing.tabcontrol.plaf.*;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import javax.swing.event.ListDataEvent;
 import net.sourceforge.napkinlaf.NapkinTheme;
 import net.sourceforge.napkinlaf.borders.*;
-import net.sourceforge.napkinlaf.shapes.DrawnTabHolder;
+import net.sourceforge.napkinlaf.shapes.*;
 import net.sourceforge.napkinlaf.util.*;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
+
+import org.netbeans.swing.tabcontrol.*;
+import org.netbeans.swing.tabcontrol.event.ComplexListDataEvent;
+import org.netbeans.swing.tabcontrol.event.ComplexListDataListener;
+import org.netbeans.swing.tabcontrol.plaf.*;
 
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
@@ -27,7 +29,6 @@ import java.beans.PropertyChangeListener;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.plaf.ComponentUI;
 
 /**
@@ -37,97 +38,112 @@ import javax.swing.plaf.ComponentUI;
 public class NapkinEditorTabDisplayerUI extends BasicScrollingTabDisplayerUI
         implements NapkinPainter {
     
-    private static class NapkinTabPainter implements TabPainter {
-        
-        private final Icon CLOSE_ICON = NapkinIconFactory.createXIcon(15);
-        private static final int MAX_CACHE_SIZE = 10;
-        private static final Map<Rectangle, DrawnTabHolder> cache =
-            new LinkedHashMap<Rectangle, DrawnTabHolder>(16, 0.75f, true) {
+    private static class NapkinTabCellRenderer extends AbstractTabCellRenderer {
+
+        private static class NapkinTabPainter implements TabPainter {
+
+            private static class Cache<T> extends LinkedHashMap<Rectangle, T> {
+
+                Cache() {
+                    super(MAX_CACHE_SIZE + 1, 1.0f, true);
+                }
+
                 @Override
                 protected boolean removeEldestEntry(
-                        Map.Entry<Rectangle, DrawnTabHolder> eldest) {
+                        Map.Entry<Rectangle, T> eldest) {
                     return size() > MAX_CACHE_SIZE;
                 }
-            };
-        
-        public Polygon getInteriorPolygon(Component component) {
-            Rectangle bounds = component.getBounds();
-            int w = component.getWidth();
-            int h = component.getHeight();
-            return new Polygon(
-                    new int[] {10, w - 10, w, 0},
-                    new int[] {0, 0, h, h},
-                    4
-            );
-        }
+            }
 
-        public void paintInterior(Graphics g, Component c) {
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                    RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-            Rectangle cb = new Rectangle();
-            NapkinTabCellRenderer tcr = (NapkinTabCellRenderer) c;
-            Rectangle bounds = c.getBounds();
-            bounds.x = 0;
-            bounds.y = 0;
-            getCloseButtonRectangle(tcr, cb, bounds);
-            g.setColor(NapkinUtil.currentTheme(c).getPenColor());
-            if (cb.width > 0) {
-                CLOSE_ICON.paintIcon(c, g, cb.x, cb.y);
+            private static final int MAX_CACHE_SIZE = 50;
+            private static final Map<Rectangle, DrawnTabHolder> holderCache =
+                new Cache<DrawnTabHolder>();
+            private static final Map<Rectangle, Icon> iconCache =
+                new Cache<Icon>();
+
+            public Polygon getInteriorPolygon(Component component) {
+                int w = component.getWidth();
+                int h = component.getHeight();
+                return new Polygon(
+                        new int[] {10, w - 10, w, 0},
+                        new int[] {0, 0, h, h},
+                        4
+                );
+            }
+
+            private DrawnTabHolder _getHolder(Rectangle rect) {
+                DrawnTabHolder result = holderCache.get(rect);
+                if (result == null) {
+                    result = new DrawnTabHolder(NORTH);
+                    holderCache.put(rect, result);
+                }
+                return result;
+            }
+
+            private Icon _getIcon(Rectangle rect) {
+                Icon result = iconCache.get(rect);
+                if (result == null) {
+                    result = NapkinIconFactory.createXIcon(CLOSE_ICON_SIZE);
+                    iconCache.put(rect, result);
+                }
+                return result;
+            }
+
+            public void paintInterior(Graphics g, Component c) {
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                NapkinTabCellRenderer tcr = (NapkinTabCellRenderer) c;
+                Rectangle bounds = c.getBounds();
+                Rectangle cb = new Rectangle();
+                getCloseButtonRectangle(tcr, cb,
+                        new Rectangle(0, 0, bounds.width, bounds.height));
+                g.setColor(NapkinUtil.currentTheme(c).getPenColor());
+                if (cb.width > 0) {
+                    _getIcon(bounds).paintIcon(c, g, cb.x, cb.y);
+                }
+            }
+
+            public void getCloseButtonRectangle(JComponent jc,
+                    Rectangle rect, Rectangle bounds) {
+
+                if (!((NapkinTabCellRenderer) jc).isShowCloseButton()) {
+                    rect.setBounds(0, 0, 0, 0);
+                } else {
+                    rect.width = CLOSE_ICON_SIZE;
+                    rect.height = CLOSE_ICON_SIZE;
+                    rect.x = bounds.x - 5 + bounds.width - rect.width;
+                    rect.y = (bounds.y + 5 + bounds.height - rect.height) / 2;
+                }
+            }
+
+            public boolean supportsCloseButton(JComponent jc) {
+                return ((NapkinTabCellRenderer) jc).isShowCloseButton();
+            }
+
+            public void paintBorder(Component c, Graphics g,
+                    int x, int y, int width, int height) {
+
+                DrawnTabHolder holder =
+                        _getHolder(new Rectangle(x, y, width, height));
+                holder.shapeUpToDate(NORTH, Math.max(0, x - 3),
+                        y + 3, width + 3, height - 3);
+                holder.draw(g);
+            }
+
+            public Insets getBorderInsets(Component c) {
+                return new Insets(5, 5, 0, 5);
+            }
+
+            public boolean isBorderOpaque() {
+                return false;
             }
         }
 
-        public void getCloseButtonRectangle(JComponent jc,
-                Rectangle rect, Rectangle bounds) {
-
-            if (!((NapkinTabCellRenderer) jc).isShowCloseButton()) {
-                rect.setBounds(0, 0, 0, 0);
-            } else {
-                rect.width = CLOSE_ICON.getIconWidth();
-                rect.height = CLOSE_ICON.getIconHeight();
-                rect.x = bounds.x + bounds.width - rect.width - 2;
-                rect.y = (bounds.y + bounds.height - rect.height) / 2;
-            }
-        }
-
-        public boolean supportsCloseButton(JComponent jc) {
-            return ((NapkinTabCellRenderer) jc).isShowCloseButton();
-        }
-
-        public void paintBorder(Component c, Graphics g,
-                int x, int y, int width, int height) {
-
-            Rectangle rect = new Rectangle(x, y, width, height);
-            DrawnTabHolder holder = cache.get(rect);
-            if (holder == null) {
-                holder = new DrawnTabHolder(NORTH);
-                cache.put(rect, holder);
-            }
-            holder.shapeUpToDate(NORTH, Math.max(0, x - 3),
-                    y + 3, width + 3, height - 3);
-            holder.draw(g);
-        }
-
-        public Insets getBorderInsets(Component c) {
-            Insets result = NapkinBoxBorder.getDefaultInsets(c.getBounds());
-            result.left += 5;
-            result.right += CLOSE_ICON.getIconWidth() + 5;
-            result.bottom = 0;
-            return result;
-        }
-
-        public boolean isBorderOpaque() {
-            return false;
-        }
-        
-    }
-    
-    private static class NapkinTabCellRenderer extends AbstractTabCellRenderer {
-        
         NapkinTabCellRenderer() {
             super(new NapkinTabPainter(), new Dimension(0, 0));
         }
-        
+
         @Override
         public Color getSelectedForeground() {
             return NapkinUtil.currentTheme(this).getPenColor();
@@ -152,7 +168,31 @@ public class NapkinEditorTabDisplayerUI extends BasicScrollingTabDisplayerUI
         protected int getCaptionYAdjustment() {
             return -5;
         }
+
+        @Override
+        public Dimension getPadding() {
+            return new Dimension(CLOSE_ICON_SIZE + 20, 0);
+        }
     }
+
+    private static class OnPressButton extends JButton {
+
+        OnPressButton(Action a) {
+            super(a);
+        }
+
+        @Override
+        protected void processMouseEvent(MouseEvent me) {
+            super.processMouseEvent(me);
+            if (isEnabled() && me.getID() == MouseEvent.MOUSE_PRESSED) {
+                getAction().actionPerformed(
+                        new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
+                        "pressed"));
+            }
+        }
+    }
+
+    public static final int CLOSE_ICON_SIZE = 15;
     
     /** Creates a new instance of NapkinEditorTabDisplayerUI */
     public NapkinEditorTabDisplayerUI(TabDisplayer tabDisplayer) {
@@ -221,7 +261,7 @@ public class NapkinEditorTabDisplayerUI extends BasicScrollingTabDisplayerUI
 
         result[0] = new JButton(backward);
         result[1] = new JButton(forward);
-        result[2] = new JButton(new TabListPopupAction(displayer));
+        result[2] = new OnPressButton(new TabListPopupAction(displayer));
 
         _setupButton(result[0], WEST);
         _setupButton(result[1], EAST);
@@ -318,5 +358,11 @@ public class NapkinEditorTabDisplayerUI extends BasicScrollingTabDisplayerUI
             holders[1].draw(g);
         }
         super.paintAfterTabs(g);
+    }
+
+    protected int createRepaintPolicy() {
+        return TabState.REPAINT_ALL_ON_MOUSE_ENTER_TABS_AREA |
+                TabState.REPAINT_ALL_TABS_ON_ACTIVATION_CHANGE |
+                TabState.REPAINT_ALL_TABS_ON_SELECTION_CHANGE;
     }
 }

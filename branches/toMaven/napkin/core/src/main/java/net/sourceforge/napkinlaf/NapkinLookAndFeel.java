@@ -602,15 +602,16 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                         key.endsWith(".disabledForeground") ||
                         key.endsWith(".inactiveForeground") ||
                         key.endsWith(".inactiveTitleForeground") ||
+                        key.endsWith(".selectionForeground") ||
                         key.endsWith(".textForeground")) {
                     entry.setValue(theme.getPenColor());
                 } else if (key.endsWith(".background") ||
+                        key.endsWith(".disabledBackground") ||
                         key.endsWith(".textBackground")) {
                     /**
                      * Other potential candidates includes:
                      *
                      * .buttonBackground
-                     * .disabledBackground
                      * .inactiveBackground
                      * .activeTitleBackground
                      * .inactiveTitleBackground
@@ -619,10 +620,10 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                      * .floatingBackground
                      */
                     entry.setValue(clear);
-                } else if (key.endsWith(".selectionBackground")) {
+                } else if (key.endsWith(".selectionBackground") ||
+                        key.endsWith("SelectionBackground")) {
                     entry.setValue(HIGHLIGHT_CLEAR);
-                } else if (key.endsWith(".selectionForeground") ||
-                        key.endsWith(".activeTitleForeground") ||
+                } else if (key.endsWith(".activeTitleForeground") ||
                         key.endsWith("SelectionForeground")) {
                     entry.setValue(theme.getSelectionColor());
                 }

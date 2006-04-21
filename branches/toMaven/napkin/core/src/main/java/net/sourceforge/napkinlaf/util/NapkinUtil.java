@@ -343,12 +343,16 @@ public class NapkinUtil {
                 RenderingHints.VALUE_ANTIALIAS_ON);
         return lineG;
     }
+    
+    private static boolean canBeDisabled(Component c) {
+        return c instanceof AbstractButton;
+    }
 
     public static Graphics2D defaultGraphics(Graphics g1, Component c) {
         Graphics2D g = (Graphics2D) g1;
         syncWithTheme(g, c);
         boolean enabled = c.isEnabled();
-        if (!enabled && c instanceof JComponent) {
+        if (!enabled && canBeDisabled(c)) {
             Rectangle r = g.getClipBounds();
             int w = r.width + CLIP_INSET;
             int h = r.height + CLIP_INSET;

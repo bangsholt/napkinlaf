@@ -31,9 +31,10 @@ public class NapkinSettingsBeanInfo extends SimpleBeanInfo {
     
     // Property identifiers//GEN-FIRST:Properties
     private static final int PROPERTY_enabled = 0;
+    private static final int PROPERTY_oldLookAndFeel = 1;
 
     // Property array 
-    private static PropertyDescriptor[] properties = new PropertyDescriptor[1];
+    private static PropertyDescriptor[] properties = new PropertyDescriptor[2];
 
     private static PropertyDescriptor[] getPdescriptor(){
         return properties;
@@ -44,6 +45,11 @@ public class NapkinSettingsBeanInfo extends SimpleBeanInfo {
             properties[PROPERTY_enabled] = new PropertyDescriptor ( "enabled", net.sourceforge.napkinlaf.netbeans.NapkinSettings.class, "isEnabled", "setEnabled" ); // NOI18N
             properties[PROPERTY_enabled].setDisplayName ( "Use Napkin Look & Feel" );
             properties[PROPERTY_enabled].setShortDescription ( "Toggle Napkin Look & Feel on/off (requires restart of the application)" );
+            properties[PROPERTY_oldLookAndFeel] = new PropertyDescriptor ( "oldLookAndFeel", net.sourceforge.napkinlaf.netbeans.NapkinSettings.class, "getOldLookAndFeel", "setOldLookAndFeel" ); // NOI18N
+            properties[PROPERTY_oldLookAndFeel].setExpert ( true );
+            properties[PROPERTY_oldLookAndFeel].setDisplayName ( "Alternate Look & Feel" );
+            properties[PROPERTY_oldLookAndFeel].setShortDescription ( "Alternate Look & Feel that the application uses if Napkin is toggled off" );
+            properties[PROPERTY_oldLookAndFeel].setConstrained ( true );
         }
         catch(IntrospectionException e) {
             e.printStackTrace();

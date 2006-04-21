@@ -9,11 +9,15 @@
 
 package net.sourceforge.napkinlaf.netbeans;
 
+import java.beans.PropertyVetoException;
+import javax.swing.LookAndFeel;
+import javax.swing.UIManager;
+import org.openide.options.SystemOption;
+import org.openide.util.SharedClassObject;
+
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import org.openide.options.SystemOption;
-import org.openide.util.SharedClassObject;
 
 /**
  *
@@ -21,10 +25,11 @@ import org.openide.util.SharedClassObject;
  */
 public class NapkinSettings extends SystemOption {
 
-    static final long serialVersionUID = 8946546455638648L;
+    static final long serialVersionUID = 378221546854587L;
     private static final String NAPKIN_ENABLED = "napkinlaf.isEnabled";
+    private static final String OLD_LOOK_AND_FEEL = "napkinlaf.oldLookAndFeel";
 
-    public static NapkinSettings getInstance() {
+    private static NapkinSettings getInstance() {
         return (NapkinSettings)
                 SharedClassObject.findObject(NapkinSettings.class, true);
     }
@@ -33,34 +38,37 @@ public class NapkinSettings extends SystemOption {
         return getInstance().isEnabled();
     }
     
-    public static void setNapkinEnabled(boolean value) {
-        getInstance().setEnabled(value);
+    public static String getDefaultLookAndFeel() {
+        return getInstance().getOldLookAndFeel();
     }
     
     public String displayName() {
         return "Napkin Look & Feel";
     }
     
-    // this method serializes the options
-    @Override
-    public void writeExternal(ObjectOutput out) throws IOException {
-        super.writeExternal(out);
-        out.writeObject(getProperty(NAPKIN_ENABLED));
-    }
-    
-    // this method deserializes the options
-    @Override
-    public void readExternal(ObjectInput in) throws IOException,
-            ClassNotFoundException {
-        super.readExternal(in);
-        putProperty(NAPKIN_ENABLED, in.readObject(), true);
-    }
-
     public boolean isEnabled() {
         return !Boolean.FALSE.equals(getProperty(NAPKIN_ENABLED));
     }
 
     public void setEnabled(boolean value) {
         putProperty(NAPKIN_ENABLED, value, true);
+    }
+    
+    public String getOldLookAndFeel() {
+        String result = (String) getProperty(OLD_LOOK_AND_FEEL);
+        if (result == null) {
+            result = UIManager.getSystemLookAndFeelClassName();
+        }
+        return result;
+    }
+    
+    public void setOldLookAndFeel(String value) {
+        try {
+            if (LookAndFeel.class.isAssignableFrom(Class.forName(value))) {
+                putProperty(OLD_LOOK_AND_FEEL, value);
+            }
+        } catch (ClassNotFoundException ex) {
+            ; // do nothing
+        }
     }
 }

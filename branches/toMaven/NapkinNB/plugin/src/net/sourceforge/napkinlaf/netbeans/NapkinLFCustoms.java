@@ -12,6 +12,8 @@ package net.sourceforge.napkinlaf.netbeans;
 
 import net.sourceforge.napkinlaf.NapkinTheme;
 import net.sourceforge.napkinlaf.borders.*;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.CLEAR;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.HIGHLIGHT_CLEAR;
 
 import org.netbeans.swing.plaf.LFCustoms;
 
@@ -39,7 +41,6 @@ public class NapkinLFCustoms extends LFCustoms {
         Color penColor = theme.getPenColor();
         Color selColor = theme.getSelectionColor();
         Color highlightColor = theme.getHighlightColor();
-        Color clear = new Color(0x00FFFFFF, true);
         Font textFont = theme.getTextFont();
         Font fixedFont = theme.getFixedFont();
         Font boldFont = theme.getBoldTextFont();
@@ -61,9 +62,20 @@ public class NapkinLFCustoms extends LFCustoms {
             WINDOWTITLEFONT, boldFont,
 
             OUTPUT_SELECTION_BACKGROUND, highlightColor,
+            PROPSHEET_SELECTED_SET_BACKGROUND, HIGHLIGHT_CLEAR,
             PROPSHEET_SELECTED_SET_FOREGROUND, penColor,
-            PROPSHEET_SET_BACKGROUND, clear,
+            PROPSHEET_SELECTION_BACKGROUND, HIGHLIGHT_CLEAR,
+            PROPSHEET_SELECTION_FOREGROUND, penColor,
+            PROPSHEET_SET_BACKGROUND, CLEAR,
+            PROPSHEET_SET_FOREGROUND, penColor,
+            SCROLLPANE_BORDER_COLOR, penColor,
+            TAB_ACTIVE_SELECTION_BACKGROUND, HIGHLIGHT_CLEAR,
+            TAB_ACTIVE_SELECTION_FOREGROUND, penColor,
             "nb.explorer.unfocusedSelBg", highlightColor,
+            "nb.explorer.unfocusedSelFg", penColor,
+            "Tree.selectionBackground", highlightColor,
+            "Tree.selectionForeground", penColor,
+            "Tree.selectionBorderColor", CLEAR,
             "TabRenderer.selectedForeground", selColor,
 
             DESKTOP_SPLITPANE_BORDER, emptyBorder,
@@ -81,6 +93,10 @@ public class NapkinLFCustoms extends LFCustoms {
             VIEW_TAB_CONTENT_BORDER, boxBorder,
             VIEW_TAB_OUTER_BORDER, boxBorder,
             VIEW_TAB_TABS_BORDER, emptyBorder,
+
+            "swing.aatext", Boolean.TRUE,
+            "nb.cellrenderer.antialiasing", Boolean.TRUE,
+            "nb.useSwingHtmlRendering", Boolean.FALSE,
         };
     }
 }
