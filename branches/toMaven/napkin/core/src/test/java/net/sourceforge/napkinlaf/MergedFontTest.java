@@ -10,18 +10,7 @@ import java.io.InputStream;
 
 public class MergedFontTest extends TestCase {
 
-    private boolean SKIP_TEST = false;
-
-    public void testCurrentUI() {
-        if (UIManager.getLookAndFeel().getClass() == NapkinLookAndFeel.class) {
-            System.err.println("Tests cannot run when using Napkin!");
-            SKIP_TEST = true;
-        }
-    }
-    
     public void testTwoFonts() {
-        if (SKIP_TEST) return;
-
         Font fixedFont = getFixedFont();
         Font serifFont = new Font("serif", Font.PLAIN, 10);
         Font mergedFont = new MergedFont(fixedFont, serifFont);

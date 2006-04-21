@@ -10,6 +10,8 @@
 package net.sourceforge.napkinlaf.netbeans;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseEvent;
 import javax.swing.event.ListDataEvent;
 import net.sourceforge.napkinlaf.NapkinTheme;
@@ -175,19 +177,84 @@ public class NapkinEditorTabDisplayerUI extends BasicScrollingTabDisplayerUI
         }
     }
 
-    private static class OnPressButton extends JButton {
+    private static class TimerButton extends JButton
+            implements ActionListener {
 
-        OnPressButton(Action a) {
+        private Timer timer = null;
+        private NapkinEditorTabDisplayerUI ui;
+
+        TimerButton(Action a, NapkinEditorTabDisplayerUI ui) {
             super(a);
+            this.ui = ui;
         }
 
-        @Override
+        private Timer getTimer() {
+            if (timer == null) {
+                timer = new Timer(400, this);
+                timer.setRepeats(true);
+            }
+            return timer;
+        }
+
+        int count = 0;
+
+        public void actionPerformed(java.awt.event.ActionEvent e) {
+            ui.moved = true;
+            count++;
+            if (count > 2) {
+                if (count > 5) {
+                    timer.setDelay(75);
+                } else {
+                    timer.setDelay(200);
+                }
+            }
+            performAction();
+        }
+
+        private void performAction() {
+            if (!isEnabled()) {
+                stopTimer();
+                return;
+            }
+            getAction().actionPerformed(new ActionEvent(this,
+                    ActionEvent.ACTION_PERFORMED, getActionCommand()));
+        }
+
+        private void startTimer() {
+            performAction();
+            Timer t = getTimer();
+            if (t.isRunning()) {
+                return;
+            }
+            repaint();
+            t.setDelay(400);
+            t.start();
+        }
+
+        private void stopTimer() {
+            if (timer != null) {
+                timer.stop();
+            }
+            repaint();
+            count = 0;
+        }
+
         protected void processMouseEvent(MouseEvent me) {
-            super.processMouseEvent(me);
-            if (isEnabled() && me.getID() == MouseEvent.MOUSE_PRESSED) {
-                getAction().actionPerformed(
-                        new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-                        "pressed"));
+            ui.moved = true;
+            if (isEnabled() && me.getID() == me.MOUSE_PRESSED) {
+                startTimer();
+            } else if (me.getID() == me.MOUSE_RELEASED) {
+                stopTimer();
+            } else {
+                super.processMouseEvent(me);
+            }
+        }
+
+        protected void processFocusEvent(FocusEvent fe) {
+            ui.moved = true;
+            super.processFocusEvent(fe);
+            if (fe.getID() == fe.FOCUS_LOST) {
+                stopTimer();
             }
         }
     }
@@ -259,8 +326,8 @@ public class NapkinEditorTabDisplayerUI extends BasicScrollingTabDisplayerUI
         Action backward = scroll().getBackwardAction();
         Action forward = scroll().getForwardAction();
 
-        result[0] = new JButton(backward);
-        result[1] = new JButton(forward);
+        result[0] = new TimerButton(backward, this);
+        result[1] = new TimerButton(forward, this);
         result[2] = new OnPressButton(new TabListPopupAction(displayer));
 
         _setupButton(result[0], WEST);
@@ -270,16 +337,6 @@ public class NapkinEditorTabDisplayerUI extends BasicScrollingTabDisplayerUI
         backward.putValue("control", displayer);
         forward.putValue("control", displayer);
         
-        PropertyChangeListener pcl = new PropertyChangeListener() {
-            private final NapkinEditorTabDisplayerUI ui =
-                    NapkinEditorTabDisplayerUI.this;
-            public void propertyChange(PropertyChangeEvent evt) {
-                ui.moved = true;
-            }
-        };
-        backward.addPropertyChangeListener(pcl);
-        forward.addPropertyChangeListener(pcl);
-
         return result;
     }
 
@@ -305,20 +362,23 @@ public class NapkinEditorTabDisplayerUI extends BasicScrollingTabDisplayerUI
                 new DrawnLineHolder(new DrawnCubicLineGenerator(), false),
                 new DrawnLineHolder(new DrawnCubicLineGenerator(), false),
             };
-    private Dimension oldSize = new Dimension();
+    private Dimension oldDimension = new Dimension();
+    private int oldSize = -1;
     private int lastIndex = -2;
     private Rectangle[] coordinateCache = new Rectangle[2];
     private boolean moved = false;
 
     private boolean needsFullUpdate() {
         return moved || lastIndex != selectionModel.getSelectedIndex() ||
-                !oldSize.equals(displayer.getSize());
+                oldSize != displayer.getModel().size() ||
+                !oldDimension.equals(displayer.getSize());
     }
     
     private void updateOldParams() {
         moved = false;
         lastIndex = selectionModel.getSelectedIndex();
-        oldSize = displayer.getSize();
+        oldSize = displayer.getModel().size();
+        oldDimension = displayer.getSize();
     }
     
     @Override

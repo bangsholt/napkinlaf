@@ -26,6 +26,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListDataListener;
@@ -39,8 +40,6 @@ import net.sourceforge.napkinlaf.util.NapkinIconFactory;
  * @author Alex Lam Sze Lok
  */
 public class ComponentUITest extends TestCase {
-
-    private static boolean SKIP_TEST = false;
 
     private static class TestPair {
         final Class<? extends ComponentUI> uiClass;
@@ -166,31 +165,22 @@ public class ComponentUITest extends TestCase {
         }
     }
 
-    public static void assertEquals(String msg, Object obj1, Object obj2) {
-        if (!obj1.equals(obj2)) {
-            System.err.println(msg);
-        }
-    }
-
-    public static void assertEquals(String msg, boolean obj1, boolean obj2) {
-        if (obj1 != obj2) {
-            System.err.println(msg);
-        }
-    }
+//    public static void assertEquals(String msg, Object obj1, Object obj2) {
+//        if (!obj1.equals(obj2)) {
+//            System.err.println(msg);
+//        }
+//    }
+//
+//    public static void assertEquals(String msg, boolean obj1, boolean obj2) {
+//        if (obj1 != obj2) {
+//            System.err.println(msg);
+//        }
+//    }
 
     // TODO add test methods here. The name must begin with 'test'. For example:
     // public void testHello() {}
 
-    public void testCurrentUI() {
-        if (UIManager.getLookAndFeel().getClass() == NapkinLookAndFeel.class) {
-            System.err.println("Tests cannot run when using Napkin!");
-            SKIP_TEST = true;
-        }
-    }
-
     public void testCreateUI() {
-        if (SKIP_TEST) return;
-
         for (TestPair pair : pairList) {
             Class<? extends ComponentUI> clazz = getInstance(pair).getClass();
             assertSame(pair.uiClass.getCanonicalName() +
@@ -228,8 +218,6 @@ public class ComponentUITest extends TestCase {
     }
 
     public void testInstallUI() {
-        if (SKIP_TEST) return;
-
         Color[] bgColors = new Color[] {Color.WHITE, Color.BLUE, Color.PINK};
         Border[] borders = new Border[] {new EmptyBorder(1, 1, 1, 1)};
         for (TestPair pair : pairList) {
