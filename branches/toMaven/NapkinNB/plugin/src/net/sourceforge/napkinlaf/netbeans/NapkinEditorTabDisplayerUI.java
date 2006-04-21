@@ -120,7 +120,8 @@ public class NapkinEditorTabDisplayerUI extends BasicScrollingTabDisplayerUI
             }
 
             public boolean supportsCloseButton(JComponent jc) {
-                return ((NapkinTabCellRenderer) jc).isShowCloseButton();
+                NapkinTabCellRenderer tcr = (NapkinTabCellRenderer) jc;
+                return !tcr.isClipLeft() && !tcr.isClipRight();
             }
 
             public void paintBorder(Component c, Graphics g,

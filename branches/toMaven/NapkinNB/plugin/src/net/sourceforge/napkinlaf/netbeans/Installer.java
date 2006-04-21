@@ -1,5 +1,6 @@
 package net.sourceforge.napkinlaf.netbeans;
 
+import java.lang.reflect.InvocationTargetException;
 import net.sourceforge.napkinlaf.NapkinLookAndFeel;
 
 import org.netbeans.swing.plaf.LFCustoms;
@@ -21,6 +22,22 @@ public class Installer extends ModuleInstall {
     static String origLAFClass = null;
 
     private static void updateLookAndFeel() {
+        if (!SwingUtilities.isEventDispatchThread()) {
+            try {
+                SwingUtilities.invokeAndWait(new Runnable() {
+                    public void run() {
+                        updateLookAndFeel();
+                    }
+                });
+            } catch (Exception ex) {
+                /**
+                 * includes InvocationTargetException and InterruptedException
+                 */
+                ErrorManager.getDefault().notify(ex);
+            }
+            return;
+        }
+
         boolean isNapkin = NapkinSettings.isNapkinEnabled();
         if (isNapkin &&
                 (UIManager.getLookAndFeel() instanceof NapkinLookAndFeel)) {
@@ -42,9 +59,18 @@ public class Installer extends ModuleInstall {
                 // set main IDE window to be decorated, too
                 JFrame frame =
                         (JFrame) WindowManager.getDefault().getMainWindow();
+                boolean needToDispose = frame.isDisplayable();
+                boolean isVisible = frame.isVisible();
+                if (needToDispose) {
+                    frame.dispose();
+                }
                 frame.setUndecorated(true);
                 frame.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
                 SwingUtilities.updateComponentTreeUI(frame);
+                if (needToDispose) {
+                    frame.pack();
+                    frame.setVisible(isVisible);
+                }
             } else {
                 JFrame.setDefaultLookAndFeelDecorated(false);
                 JDialog.setDefaultLookAndFeelDecorated(false);

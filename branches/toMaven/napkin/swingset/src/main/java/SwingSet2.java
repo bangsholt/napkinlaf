@@ -1046,6 +1046,18 @@ public class SwingSet2 extends JPanel {
                 SwingUtilities.updateComponentTreeUI(this);
             } else {
                 SwingUtilities.updateComponentTreeUI(frame);
+                frame.dispose();
+                if (UIManager.getLookAndFeel().getSupportsWindowDecorations()) {
+                    JFrame.setDefaultLookAndFeelDecorated(true);
+                    JDialog.setDefaultLookAndFeelDecorated(true);
+                    frame.setUndecorated(true);
+                    frame.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+                } else {
+                    JFrame.setDefaultLookAndFeelDecorated(false);
+                    JDialog.setDefaultLookAndFeelDecorated(false);
+                    frame.setUndecorated(false);
+                }
+                frame.setVisible(true);
             }
         }
 

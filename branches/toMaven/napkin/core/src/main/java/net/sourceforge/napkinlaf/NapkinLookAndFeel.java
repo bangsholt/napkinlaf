@@ -165,7 +165,12 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
     public boolean isSupportedLookAndFeel() {
         return true;
     }
-
+    
+    @Override
+    public boolean getSupportsWindowDecorations() {
+        return true;
+    }
+    
     /**
      * Initialise mapping of JComponent to their corresponding Napkin
      * ComponentUIs.
@@ -247,6 +252,11 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         Object selectBorder = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return new NapkinSelectedBorder();
+            }
+        };
+        Object boxBorder = new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
+                return new NapkinBoxBorder();
             }
         };
 
@@ -360,6 +370,15 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                 "RadioButtonMenuItem.selectionForeground",
                 popupTheme.getSelectionColor(),
                 "RadioButtonMenuItem.textIconGap", 0,
+                
+                "RootPane.frameBorder", boxBorder,
+                "RootPane.plainDialogBorder", boxBorder,
+                "RootPane.informationDialogBorder", boxBorder,
+                "RootPane.errorDialogBorder", boxBorder,
+                "RootPane.colorChooserDialogBorder", boxBorder,
+                "RootPane.fileChooserDialogBorder", boxBorder,
+                "RootPane.questionDialogBorder", boxBorder,
+                "RootPane.warningDialogBorder", boxBorder,
 
                 "SplitPane.dividerSize", NapkinSplitPaneDivider.SIZE,
 
