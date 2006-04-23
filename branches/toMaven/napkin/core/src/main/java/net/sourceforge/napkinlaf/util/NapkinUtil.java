@@ -1,6 +1,7 @@
 package net.sourceforge.napkinlaf.util;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+
 import net.sourceforge.napkinlaf.NapkinKnownTheme;
 import net.sourceforge.napkinlaf.NapkinLookAndFeel;
 import net.sourceforge.napkinlaf.NapkinTheme;
@@ -49,6 +50,7 @@ public class NapkinUtil {
     private static final PropertyChangeListener BACKGROUND_LISTENER =
             new PropertyChangeListener() {
                 private AtomicBoolean overriding = new AtomicBoolean(false);
+
                 public void propertyChange(PropertyChangeEvent event) {
                     // check if this is an external call
                     if (overriding.compareAndSet(false, true)) {
@@ -66,6 +68,7 @@ public class NapkinUtil {
     private static final PropertyChangeListener BORDER_LISTENER =
             new PropertyChangeListener() {
                 private AtomicBoolean overriding = new AtomicBoolean(false);
+
                 public void propertyChange(PropertyChangeEvent event) {
                     // check if this is an external call
                     if (overriding.compareAndSet(false, true)) {
@@ -88,12 +91,14 @@ public class NapkinUtil {
     private static final PropertyChangeListener OPAQUE_LISTENER =
             new PropertyChangeListener() {
                 private AtomicBoolean overriding = new AtomicBoolean(false);
+
                 public void propertyChange(PropertyChangeEvent event) {
                     // check if this is an external call
                     if (overriding.compareAndSet(false, true)) {
                         JComponent c = (JComponent) event.getSource();
                         boolean val = (Boolean) event.getNewValue();
-                        c.putClientProperty(OPAQUE_KEY, val ? Boolean.TRUE : null);
+                        c.putClientProperty(OPAQUE_KEY,
+                                val ? Boolean.TRUE : null);
                         if (val && isTranparent(c.getBackground())) {
                             c.setOpaque(false);
                         }
@@ -105,10 +110,12 @@ public class NapkinUtil {
     private static final PropertyChangeListener ROLL_OVER_LISTENER =
             new PropertyChangeListener() {
                 private AtomicBoolean overriding = new AtomicBoolean(false);
+
                 public void propertyChange(PropertyChangeEvent event) {
                     // check if this is an external call
                     if (overriding.compareAndSet(false, true)) {
-                        AbstractButton button = (AbstractButton) event.getSource();
+                        AbstractButton button =
+                                (AbstractButton) event.getSource();
                         boolean val = (Boolean) event.getNewValue();
                         button.putClientProperty(ROLL_OVER_ENABLED, val);
                         if (!val) {
@@ -227,7 +234,8 @@ public class NapkinUtil {
             if (c instanceof AbstractButton) {
                 AbstractButton button = (AbstractButton) c;
                 // roll-over-enabled override
-                c.putClientProperty(ROLL_OVER_ENABLED, button.isRolloverEnabled());
+                c.putClientProperty(ROLL_OVER_ENABLED,
+                        button.isRolloverEnabled());
                 button.setRolloverEnabled(true);
                 c.addPropertyChangeListener(ROLL_OVER, ROLL_OVER_LISTENER);
             }
@@ -252,7 +260,7 @@ public class NapkinUtil {
                 try {
                     c.setBorder(nb);
                 } catch (Exception ex) {
-                    ; // setBorder() not supported; do nothing
+                    // setBorder() not supported; do nothing
                 }
             }
             c.addPropertyChangeListener(BORDER, BORDER_LISTENER);
@@ -295,10 +303,10 @@ public class NapkinUtil {
     }
 
     private static boolean shouldMakeOpaque(JComponent c) {
-        return isGlassPane(c) ? false :
-            c.getClientProperty(OPAQUE_KEY) == Boolean.TRUE && !c.isOpaque();
+        return !isGlassPane(c) && !c.isOpaque() &&
+                c.getClientProperty(OPAQUE_KEY) == Boolean.TRUE;
     }
-    
+
     @SuppressWarnings({"ObjectEquality"})
     private static boolean isGlassPane(JComponent c) {
         JRootPane rootPane = c.getRootPane();
@@ -343,7 +351,7 @@ public class NapkinUtil {
                 RenderingHints.VALUE_ANTIALIAS_ON);
         return lineG;
     }
-    
+
     private static boolean canBeDisabled(Component c) {
         return c instanceof AbstractButton;
     }
@@ -436,8 +444,8 @@ public class NapkinUtil {
 
     public static NapkinTheme currentTheme(Component c) {
         return themeStack.isEmpty() ?
-            (NapkinTheme) themeTopFor(c).getClientProperty(THEME_KEY) :
-            themeStack.peek();
+                (NapkinTheme) themeTopFor(c).getClientProperty(THEME_KEY) :
+                themeStack.peek();
     }
 
     public static Component currentPaper(Component c) {
@@ -523,12 +531,12 @@ public class NapkinUtil {
                     Border newOutside = wrapBorder(outside);
                     Border newInside = wrapBorder(inside);
                     b = (outside == newOutside && inside == newInside) ?
-                        new NapkinWrappedBorder(b) :
-                        new NapkinCompoundBorder(outside, inside);
+                            new NapkinWrappedBorder(b) :
+                            new NapkinCompoundBorder(outside, inside);
                 }
             } else {
                 b = (b == null) ?
-                    NAPKIN_NULL_BORDER : new NapkinWrappedBorder(b);
+                        NAPKIN_NULL_BORDER : new NapkinWrappedBorder(b);
             }
         }
         return b;
@@ -606,13 +614,13 @@ public class NapkinUtil {
                 JComponent jc = (JComponent) c;
                 paintHighlights(g, theme, jc);
             }
-
         }
         return theme;
     }
 
-    private static void paintHighlights(final Graphics2D g,
-            final NapkinTheme theme, final JComponent jc) {
+    private static void paintHighlights(Graphics2D g, NapkinTheme theme,
+            JComponent jc) {
+
         Boolean tempBool = (Boolean) jc.getClientProperty(HIGHLIGHT_KEY);
         boolean shouldHighlight = (jc.getBackground() == HIGHLIGHT_CLEAR)
                 || (tempBool != null && tempBool);
@@ -713,8 +721,8 @@ public class NapkinUtil {
     }
 
     private static boolean isPaper(Component c) {
-        return c instanceof JComponent ?
-            ((JComponent) c).getClientProperty(THEME_KEY) != null : false;
+        return c instanceof JComponent && ((JComponent) c).getClientProperty(
+                THEME_KEY) != null;
     }
 
     @SuppressWarnings({"TooBroadScope"})
@@ -763,8 +771,8 @@ public class NapkinUtil {
     }
 
     public static boolean replace(Object current, Object candidate) {
-        return current == null ?
-            true : !current.equals(candidate) && current instanceof UIResource;
+        return current == null || !current.equals(candidate) &&
+                current instanceof UIResource;
     }
 
     public static Color ifReplace(Color current, Color candidate) {
@@ -813,8 +821,7 @@ public class NapkinUtil {
 
     public static boolean isNapkinInstalled(Component c) {
         return c instanceof JComponent &&
-                ((JComponent) c).getClientProperty(INSTALL_KEY)
-                == Boolean.TRUE;
+                ((JComponent) c).getClientProperty(INSTALL_KEY) == Boolean.TRUE;
     }
 
     @SuppressWarnings({"UseOfSystemOutOrSystemErr", "HardcodedFileSeparator"})
@@ -823,7 +830,8 @@ public class NapkinUtil {
             if (themeStack.size() != paperStack.size()) {
                 System.out.println("!!!");
             }
-            StringBuilder dump = new StringBuilder(NapkinDebug.count).append(":\t");
+            StringBuilder dump = new StringBuilder(NapkinDebug.count).append(
+                    ":\t");
             NapkinDebug.count++;
             //noinspection ForLoopReplaceableByForEach
             for (int i = 0; i < paperStack.size(); i++) {

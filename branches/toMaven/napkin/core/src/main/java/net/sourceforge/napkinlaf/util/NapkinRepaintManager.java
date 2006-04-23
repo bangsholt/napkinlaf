@@ -1,12 +1,3 @@
-/*
- * NapkinRepaintManager.java
- *
- * Created on 15 April 2006, 23:47
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package net.sourceforge.napkinlaf.util;
 
 import java.applet.Applet;
@@ -15,9 +6,9 @@ import javax.swing.JComponent;
 import javax.swing.RepaintManager;
 
 /**
- * This class intercepts calls to the original RepaintManager to check for
+ * This class intercepts calls to the original repaint manager to check for
  * non-Napkin components attempting to repaint.
- *
+ * <p/>
  * When such a case is detected, we look for the closest parent which is a
  * Napkin component, then invalidate the relevent region so that a repaint to
  * the underlying paper (or more) can be performed together with the non-Napkin
@@ -28,7 +19,7 @@ import javax.swing.RepaintManager;
 public class NapkinRepaintManager extends RepaintManager {
 
     private final RepaintManager manager;
-    
+
     /**
      * Creates a new instance of NapkinRepaintManager that wraps the given
      * RepaintManager instance.
@@ -38,18 +29,20 @@ public class NapkinRepaintManager extends RepaintManager {
     }
 
     public static NapkinRepaintManager wrap(RepaintManager manager) {
-        return manager instanceof NapkinRepaintManager ?
-            (NapkinRepaintManager) manager : new NapkinRepaintManager(manager);
+        if (manager instanceof NapkinRepaintManager)
+            return (NapkinRepaintManager) manager;
+        else
+            return new NapkinRepaintManager(manager);
     }
 
     public static RepaintManager unwrap(RepaintManager manager) {
         return manager instanceof NapkinRepaintManager ?
-            ((NapkinRepaintManager) manager).manager : manager;
+                ((NapkinRepaintManager) manager).manager : manager;
     }
 
     /**
-     * Calls {@link #repaintNapkinParent(JComponent,Rectangle)} with the
-     * visible region of the given JComponent as the extra parameter.
+     * Calls {@link #repaintNapkinParent(JComponent,Rectangle)} with the visible
+     * region of the given JComponent as the extra parameter.
      */
     private void repaintNapkinParent(JComponent component) {
         repaintNapkinParent(component, component.getVisibleRect());
@@ -78,19 +71,16 @@ public class NapkinRepaintManager extends RepaintManager {
         }
     }
 
-    /**
-     * --------------------------------------
-     * Methods that will cause possible
-     * repaints in Napkin parent components
-     * --------------------------------------
-     */
+    // --------------------------------------
+    // Methods that will cause possible repaints in Napkin parent components
+    // --------------------------------------
 
     /**
      * {@inheritDoc}
-     *
+     * <p/>
      * In addition, if <b>aComponent</b> is not a Napkin component then the
-     * region it covers the closest parent Napkin component will be repainted
-     * as well.
+     * region it covers the closest parent Napkin component will be repainted as
+     * well.
      */
     @Override
     public void markCompletelyDirty(JComponent aComponent) {
@@ -100,7 +90,7 @@ public class NapkinRepaintManager extends RepaintManager {
 
     /**
      * {@inheritDoc}
-     *
+     * <p/>
      * In addition, if <b>invalidComponent</b> is not a Napkin component then
      * the region it covers the closest parent Napkin component will be
      * repainted as well.
@@ -113,10 +103,10 @@ public class NapkinRepaintManager extends RepaintManager {
 
     /**
      * {@inheritDoc}
-     *
+     * <p/>
      * In addition, if the given component is not a Napkin component then the
-     * region it covers the closest parent Napkin component will be repainted
-     * as well.
+     * region it covers the closest parent Napkin component will be repainted as
+     * well.
      */
     @Override
     public void addDirtyRegion(JComponent c, int x, int y, int w, int h) {
@@ -124,11 +114,9 @@ public class NapkinRepaintManager extends RepaintManager {
         manager.addDirtyRegion(c, x, y, w, h);
     }
 
-    /**
-     * --------------------------------------
-     * Simple delegations
-     * --------------------------------------
-     */
+    // --------------------------------------
+    // Simple delegations
+    // --------------------------------------
 
     /** {@inheritDoc} */
     @Override
@@ -144,14 +132,17 @@ public class NapkinRepaintManager extends RepaintManager {
 
     /** {@inheritDoc} */
     @Override
-    public Image getOffscreenBuffer(Component c, int proposedWidth, int proposedHeight) {
+    public Image getOffscreenBuffer(Component c, int proposedWidth,
+            int proposedHeight) {
         return manager.getOffscreenBuffer(c, proposedWidth, proposedHeight);
     }
 
     /** {@inheritDoc} */
     @Override
-    public Image getVolatileOffscreenBuffer(Component c, int proposedWidth, int proposedHeight) {
-        return manager.getVolatileOffscreenBuffer(c, proposedWidth, proposedHeight);
+    public Image getVolatileOffscreenBuffer(Component c, int proposedWidth,
+            int proposedHeight) {
+        return manager.getVolatileOffscreenBuffer(c, proposedWidth,
+                proposedHeight);
     }
 
     /** {@inheritDoc} */
@@ -214,16 +205,14 @@ public class NapkinRepaintManager extends RepaintManager {
         manager.paintDirtyRegions();
     }
 
-    /**
-     * --------------------------------------
-     * Object methods override
-     * --------------------------------------
-     */
+    // --------------------------------------
+    // Object methods override
+    // --------------------------------------
 
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return "NapkinRepaintManager {" + manager.toString() +"}";
+        return "NapkinRepaintManager {" + manager.toString() + "}";
     }
 
     /** {@inheritDoc} */

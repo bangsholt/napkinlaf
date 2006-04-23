@@ -1,12 +1,3 @@
-/*
- * NapkinWrappedBorder.java
- *
- * Created on 15 April 2006, 00:36
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package net.sourceforge.napkinlaf.borders;
 
 import java.awt.Component;
@@ -27,7 +18,6 @@ public class NapkinWrappedBorder extends AbstractNapkinBorder {
     private final AbstractBorder border;
 
     public NapkinWrappedBorder(Border origBorder) {
-        super();
         this.origBorder = origBorder;
         border = origBorder instanceof AbstractBorder ?
             (AbstractBorder) origBorder : null;

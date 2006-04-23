@@ -165,12 +165,12 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
     public boolean isSupportedLookAndFeel() {
         return true;
     }
-    
+
     @Override
     public boolean getSupportsWindowDecorations() {
         return true;
     }
-    
+
     /**
      * Initialise mapping of JComponent to their corresponding Napkin
      * ComponentUIs.
@@ -202,9 +202,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
         Color penColor = theme.getPenColor();
         Color bgColor = theme.getBackgroundColor();
-        NapkinTheme popupTheme = theme.getPopupTheme();
-        Color popupBgColor = popupTheme.getBackgroundColor();
-        Color popupPenColor = popupTheme.getPenColor();
         table.put("desktop", bgColor);
         table.put("activeCaption", bgColor);
         table.put("activeCaptionText", theme.getSelectionColor());
@@ -370,7 +367,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                 "RadioButtonMenuItem.selectionForeground",
                 popupTheme.getSelectionColor(),
                 "RadioButtonMenuItem.textIconGap", 0,
-                
+
                 "RootPane.frameBorder", boxBorder,
                 "RootPane.plainDialogBorder", boxBorder,
                 "RootPane.informationDialogBorder", boxBorder,
@@ -569,8 +566,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
             Object res;
             if ((res = propVal(key, "font", val, table)) != null) {
                 if (res instanceof Font && res instanceof UIResource &&
-                        !(res instanceof PatchedFontUIResource ||
-                        res instanceof MergedFont)) {
+                        !(res instanceof PatchedFontUIResource)) {
 
                     Font resource = (Font) res;
                     String name = resource.getFontName();
@@ -602,7 +598,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                     if (res instanceof CompoundBorder) {
                         entry.setValue(compoundBorder);
                     } else if (res instanceof EmptyBorder) {
-                        ; // keep it as it is, i.e. EmptyBorder
+                        // keep it as it is, i.e. EmptyBorder
                     } else {
                         entry.setValue(drawnBorder);
                     }
@@ -652,15 +648,11 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
 
     @SuppressWarnings({"HardcodedFileSeparator"})
     private static Map<String, Font> fontNameMap(NapkinTheme theme) {
-        Font textFont = theme.getTextFont();
-        Font boldFont = theme.getBoldTextFont();
-        Font fixedFont = theme.getFixedFont();
-
-        Font dialogPlain = textFont;
-        Font dialogBold = boldFont;
-        Font serifPlain = textFont;
-        Font sansSerifPlain = textFont;
-        Font monospacedPlain = fixedFont;
+        Font dialogPlain = theme.getTextFont();
+        Font dialogBold = theme.getBoldTextFont();
+        Font serifPlain = theme.getTextFont();
+        Font sansSerifPlain = theme.getTextFont();
+        Font monospacedPlain = theme.getFixedFont();
 
         Map<String, Font> fromName = new HashMap<String, Font>();
         fromName.put("dialogBold", dialogBold);
