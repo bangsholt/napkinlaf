@@ -50,17 +50,20 @@ public class NapkinWrappedBorder extends AbstractNapkinBorder {
             super.getInteriorRectangle(c, x, y, width, height);
     }
 
-    @Override
-    public int getBaseline(Component c, int width, int height) {
-        return border != null ? border.getBaseline(c, width, height) :
-            super.getBaseline(c, width, height);
-    }
-
-    @Override
-    public Component.BaselineResizeBehavior getBaselineResizeBehavior(Component c) {
-        return border != null ? border.getBaselineResizeBehavior(c) :
-            super.getBaselineResizeBehavior(c);
-    }
+    // These overrides are for Mustang (1.6), and won't compile under 1.5
+    // TODO: Figure out a way to make this conditional -- two versions of the
+    // class file maybe?
+//    @Override
+//    public int getBaseline(Component c, int width, int height) {
+//        return border != null ? border.getBaseline(c, width, height) :
+//            super.getBaseline(c, width, height);
+//    }
+//
+//    @Override
+//    public Component.BaselineResizeBehavior getBaselineResizeBehavior(Component c) {
+//        return border != null ? border.getBaselineResizeBehavior(c) :
+//            super.getBaselineResizeBehavior(c);
+//    }
 
     @Override
     public boolean equals(Object obj) {

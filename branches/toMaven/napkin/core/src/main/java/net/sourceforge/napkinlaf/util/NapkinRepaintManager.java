@@ -114,21 +114,25 @@ public class NapkinRepaintManager extends RepaintManager {
         manager.addDirtyRegion(c, x, y, w, h);
     }
 
+    /**
     // --------------------------------------
     // Simple delegations
     // --------------------------------------
 
-    /** {@inheritDoc} */
-    @Override
-    public void addDirtyRegion(Applet applet, int x, int y, int w, int h) {
-        manager.addDirtyRegion(applet, x, y, w, h);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void addDirtyRegion(Window window, int x, int y, int w, int h) {
-        manager.addDirtyRegion(window, x, y, w, h);
-    }
+     // These overrides are for Mustang (1.6), and won't compile under 1.5
+     // TODO: Figure out a way to make this conditional -- two versions of the
+     // class file maybe?
+//    /** {@inheritDoc} */
+//    @Override
+//    public void addDirtyRegion(Applet applet, int x, int y, int w, int h) {
+//        manager.addDirtyRegion(applet, x, y, w, h);
+//    }
+//
+//    /** {@inheritDoc} */
+//    @Override
+//    public void addDirtyRegion(Window window, int x, int y, int w, int h) {
+//        manager.addDirtyRegion(window, x, y, w, h);
+//    }
 
     /** {@inheritDoc} */
     @Override
@@ -205,9 +209,11 @@ public class NapkinRepaintManager extends RepaintManager {
         manager.paintDirtyRegions();
     }
 
-    // --------------------------------------
-    // Object methods override
-    // --------------------------------------
+    /**
+     * --------------------------------------
+     * Object methods override
+     * --------------------------------------
+     */
 
     /** {@inheritDoc} */
     @Override

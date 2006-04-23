@@ -51,7 +51,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
             Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 
     /** Keys to lookup borders in defaults table. */
-    private static final String[] BORDER_KEYS = new String[]{
+    private static final String[] BORDER_KEYS = {
             null, "RootPane.frameBorder", "RootPane.plainDialogBorder",
             "RootPane.informationDialogBorder",
             "RootPane.errorDialogBorder", "RootPane.colorChooserDialogBorder",
@@ -68,9 +68,10 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
     /**
      * Creates a UI for a <tt>JRootPane</tt>.
      *
-     * @param c the JRootPane the RootPaneUI will be created for
+     * @param c The JRootPane the RootPaneUI will be created for.
      *
-     * @return the RootPaneUI implementation for the passed in JRootPane
+     * @return The <tt>RootPaneUI</tt> implementation for the passed-in
+     *         <tt>JRootPane</tt>.
      */
     public static ComponentUI createUI(JComponent c) {
         return new NapkinRootPaneUI();
@@ -332,6 +333,10 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
         // NOTE: Ideally this would extends JRootPane.RootLayout, but that
         //       would force this to be non-static.
 
+        interface SizeAccessor {
+            Dimension size(Component c);
+        }
+
         /**
          * Returns the amount of space the layout would like to have.
          *
@@ -342,48 +347,11 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
          *         size.
          */
         public Dimension preferredLayoutSize(Container parent) {
-            Dimension cpd, mbd, tpd;
-            int cpWidth = 0;
-            int cpHeight = 0;
-            int mbWidth = 0;
-            int mbHeight = 0;
-            int tpWidth = 0;
-            Insets i = parent.getInsets();
-            JRootPane root = (JRootPane) parent;
-
-            if (root.getContentPane() != null) {
-                cpd = root.getContentPane().getPreferredSize();
-            } else {
-                cpd = root.getSize();
-            }
-            if (cpd != null) {
-                cpWidth = cpd.width;
-                cpHeight = cpd.height;
-            }
-
-            if (root.getJMenuBar() != null) {
-                mbd = root.getJMenuBar().getPreferredSize();
-                if (mbd != null) {
-                    mbWidth = mbd.width;
-                    mbHeight = mbd.height;
+            return layoutSize(parent, new SizeAccessor() {
+                public Dimension size(Component c) {
+                    return c.getPreferredSize();
                 }
-            }
-
-            if (root.getWindowDecorationStyle() != JRootPane.NONE &&
-                    (root.getUI() instanceof NapkinRootPaneUI)) {
-                JComponent titlePane = ((NapkinRootPaneUI) root.getUI()).
-                        getTitlePane();
-                if (titlePane != null) {
-                    tpd = titlePane.getPreferredSize();
-                    if (tpd != null) {
-                        tpWidth = tpd.width;
-                    }
-                }
-            }
-
-            return new Dimension(Math.max(Math.max(cpWidth, mbWidth), tpWidth) +
-                    i.left + i.right,
-                    cpHeight + mbHeight + tpWidth + i.top + i.bottom);
+            });
         }
 
         /**
@@ -396,6 +364,23 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
          *         size.
          */
         public Dimension minimumLayoutSize(Container parent) {
+            return layoutSize(parent, new SizeAccessor() {
+                public Dimension size(Component c) {
+                    return c.getMinimumSize();
+                }
+            });
+        }
+
+        /**
+         * Returns the minimum amount of space the layout needs.
+         *
+         * @param parent The container for which this layout manager is being
+         *               used.
+         *
+         * @return A <tt>Dimension</tt> object containing the layout's minimum
+         *         size.
+         */
+        public Dimension layoutSize(Container parent, SizeAccessor sizer) {
             Dimension cpd, mbd, tpd;
             int cpWidth = 0;
             int cpHeight = 0;
@@ -405,10 +390,10 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
             Insets i = parent.getInsets();
             JRootPane root = (JRootPane) parent;
 
-            if (root.getContentPane() != null) {
-                cpd = root.getContentPane().getMinimumSize();
-            } else {
+            if (root.getContentPane() == null) {
                 cpd = root.getSize();
+            } else {
+                cpd = sizer.size(root.getContentPane());
             }
             if (cpd != null) {
                 cpWidth = cpd.width;
@@ -416,7 +401,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
             }
 
             if (root.getJMenuBar() != null) {
-                mbd = root.getJMenuBar().getMinimumSize();
+                mbd = sizer.size(root.getJMenuBar());
                 if (mbd != null) {
                     mbWidth = mbd.width;
                     mbHeight = mbd.height;
@@ -424,10 +409,10 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
             }
             if (root.getWindowDecorationStyle() != JRootPane.NONE &&
                     root.getUI() instanceof NapkinRootPaneUI) {
-                JComponent titlePane = ((NapkinRootPaneUI) root.getUI()).
-                        getTitlePane();
+                JComponent titlePane =
+                        ((NapkinRootPaneUI) root.getUI()).getTitlePane();
                 if (titlePane != null) {
-                    tpd = titlePane.getMinimumSize();
+                    tpd = sizer.size(titlePane);
                     if (tpd != null) {
                         tpWidth = tpd.width;
                     }
@@ -530,9 +515,9 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
             // Note: This is laying out the children in the layeredPane,
             // technically, these are not our children.
             if (root.getWindowDecorationStyle() != JRootPane.NONE &&
-                    (root.getUI() instanceof NapkinRootPaneUI)) {
-                JComponent titlePane = ((NapkinRootPaneUI) root.getUI()).
-                        getTitlePane();
+                    root.getUI() instanceof NapkinRootPaneUI) {
+                JComponent titlePane =
+                        ((NapkinRootPaneUI) root.getUI()).getTitlePane();
                 if (titlePane != null) {
                     Dimension tpd = titlePane.getPreferredSize();
                     if (tpd != null) {
