@@ -66,7 +66,7 @@ public class Installer extends ModuleInstall {
                 }
                 frame.setUndecorated(true);
                 frame.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
-                SwingUtilities.updateComponentTreeUI(frame);
+                frame.getRootPane().updateUI();
                 if (needToDispose) {
                     frame.pack();
                     frame.setVisible(isVisible);
