@@ -1,0 +1,125 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>net.sourceforge.napkinlaf</groupId>
+        <artifactId>overall</artifactId>
+        <version>1.1.SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>napkinlaf-swingset</artifactId>
+    <packaging>jar</packaging>
+    <name>Napkin Look and Feel SwingSet</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.sourceforge.napkinlaf</groupId>
+            <artifactId>napkinlaf</artifactId>
+            <version>1.1.SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Basic jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>SwingSet2</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- copy swingset source files in as resources -->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <copy todir="${project.build.directory}/classes/src">
+                                    <fileset dir="src/main/java">
+                                        <include name="**/*.java"/>
+                                    </fileset>
+                                </copy>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Unpack dependencies so the swingset jar is self sufficient -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>dependency-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack-dependencies</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}/classes
+                            </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Build webstart release -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>webstart-maven-plugin</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <configuration>
+                            <!-- transitive dependencies filter -->
+                            <dependencies>
+                                <!-- Note that only groupId and artifactId must be specified here. because of a limitation of the Include/ExcludesArtifactFilter -->
+                                <includes>
+                                </includes>
+                                <excludes>
+                                    <exclude>jdom:jdom</exclude>
+                                    <exclude>
+                                        net.sourceforge.napkinlaf:napkinlaf</exclude>
+                                </excludes>
+                            </dependencies>
+
+                            <!-- JNLP generation -->
+                            <jnlp>
+                                <outputFile>napkinlaf.jnlp</outputFile>
+                                <!-- defaults to launch.jnlp -->
+                                <!-- used to automatically identify the jar containing the dependency. (note: slightly broken today) -->
+                                <!-- this is going to change -->
+                                <mainClass>SwingSet2</mainClass>
+                            </jnlp>
+
+                            <!-- should we have some more configurations here? E.g. compression level (aka packing effort) -->
+                            <!-- not yet implemented -->
+                            <pack200>true</pack200>
+                            <gzip>true</gzip>
+                            <!-- default force when pack200 false, true when pack200 selected ?? -->
+
+                            <verbose>true</verbose>
+                        </configuration>
+                        <goals>
+                            <goal>jnlp</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
