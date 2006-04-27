@@ -41,90 +41,80 @@ public class NapkinUtil {
 
     private static final float FOCUS_MARK_WIDTH = 1.5f;
 
-    private static final String BACKGROUND = "background";
-    private static final String BORDER = "border";
-    private static final String OPAQUE = "opaque";
-    private static final String ROLL_OVER =
-            AbstractButton.ROLLOVER_ENABLED_CHANGED_PROPERTY;
+    private static class BackgroundListener extends SmartStickyListener<Color> {
+        
+        BackgroundListener() {
+            super(BACKGROUND_KEY, "background");
+        }
 
-    private static final PropertyChangeListener BACKGROUND_LISTENER =
-            new PropertyChangeListener() {
-                private AtomicBoolean overriding = new AtomicBoolean(false);
+        protected void overrideValue(JComponent c, Color newValue) {
+            if (replaceBackground(newValue)) {
+                c.setBackground(CLEAR);
+            }
+        }
 
-                public void propertyChange(PropertyChangeEvent event) {
-                    // check if this is an external call
-                    if (overriding.compareAndSet(false, true)) {
-                        JComponent c = (JComponent) event.getSource();
-                        Color color = (Color) event.getNewValue();
-                        c.putClientProperty(BACKGROUND_KEY, color);
-                        if (replaceBackground(color)) {
-                            c.setBackground(CLEAR);
-                        }
-                        overriding.set(false);
-                    }
+        protected boolean shouldRecord(Color newValue) {
+            return !(newValue instanceof AlphaColorUIResource);
+        }
+    }
+
+    private static class BorderListener extends SmartStickyListener<Border> {
+        
+        BorderListener() {
+            super(BORDER_KEY, "border");
+        }
+        
+        protected void overrideValue(JComponent c, Border newValue) {
+            if (shouldRecord(newValue)) {
+                Border newBorder = wrapBorder(newValue);
+                if (newBorder != newValue) {
+                    // setBorder() must be supported
+                    c.setBorder(newBorder);
                 }
-            };
+            }
+        }
+        
+        protected boolean shouldRecord(Border newValue) {
+            return !(newValue instanceof NapkinBorder);
+        }
+    }
 
-    private static final PropertyChangeListener BORDER_LISTENER =
-            new PropertyChangeListener() {
-                private AtomicBoolean overriding = new AtomicBoolean(false);
+    private static class OpaqueListener extends SmartStickyListener<Boolean> {
+        
+        OpaqueListener() {
+            super(OPAQUE_KEY, "opaque");
+        }
+        
+        protected void overrideValue(JComponent c, Boolean newValue) {
+            if (Boolean.TRUE.equals(newValue) &&
+                    isTranparent(c.getBackground())) {
 
-                public void propertyChange(PropertyChangeEvent event) {
-                    // check if this is an external call
-                    if (overriding.compareAndSet(false, true)) {
-                        JComponent c = (JComponent) event.getSource();
-                        Border border = (Border) event.getNewValue();
-                        if (!(border instanceof NapkinBorder)) {
-                            c.putClientProperty(BORDER_KEY, border);
-                            Border newBorder = wrapBorder(border);
-                            if (newBorder != border) {
-                                // setBorder() must be supported
-                                c.setBorder(newBorder);
-                            }
-                        }
-                        overriding.set(false);
-                    }
-                }
-            };
+                c.setOpaque(false);
+            }
+        }
+        
+        protected boolean shouldRecord(Boolean newValue) {
+            return true;
+        }
+    }
 
-    @SuppressWarnings({"ObjectEquality"})
-    private static final PropertyChangeListener OPAQUE_LISTENER =
-            new PropertyChangeListener() {
-                private AtomicBoolean overriding = new AtomicBoolean(false);
+    private static class RollOverListener extends SmartStickyListener<Boolean> {
 
-                public void propertyChange(PropertyChangeEvent event) {
-                    // check if this is an external call
-                    if (overriding.compareAndSet(false, true)) {
-                        JComponent c = (JComponent) event.getSource();
-                        boolean val = (Boolean) event.getNewValue();
-                        c.putClientProperty(OPAQUE_KEY,
-                                val ? Boolean.TRUE : null);
-                        if (val && isTranparent(c.getBackground())) {
-                            c.setOpaque(false);
-                        }
-                        overriding.set(false);
-                    }
-                }
-            };
+        RollOverListener() {
+            super(ROLL_OVER_ENABLED,
+                    AbstractButton.ROLLOVER_ENABLED_CHANGED_PROPERTY);
+        }
 
-    private static final PropertyChangeListener ROLL_OVER_LISTENER =
-            new PropertyChangeListener() {
-                private AtomicBoolean overriding = new AtomicBoolean(false);
+        protected void overrideValue(JComponent c, Boolean newValue) {
+            if (!Boolean.TRUE.equals(newValue)) {
+                ((AbstractButton) c).setRolloverEnabled(true);
+            }
+        }
 
-                public void propertyChange(PropertyChangeEvent event) {
-                    // check if this is an external call
-                    if (overriding.compareAndSet(false, true)) {
-                        AbstractButton button =
-                                (AbstractButton) event.getSource();
-                        boolean val = (Boolean) event.getNewValue();
-                        button.putClientProperty(ROLL_OVER_ENABLED, val);
-                        if (!val) {
-                            button.setRolloverEnabled(true);
-                        }
-                        overriding.set(false);
-                    }
-                }
-            };
+        protected boolean shouldRecord(Boolean newValue) {
+            return true;
+        }
+    }
 
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
     private static final int CLIP_OFFSET = 10;
@@ -217,7 +207,7 @@ public class NapkinUtil {
     private static boolean isTranparent(Color bgColor) {
         return bgColor == CLEAR || bgColor == HIGHLIGHT_CLEAR;
     }
-
+    
     public static void installUI(JComponent c) {
         // prevents double installing
         if (c.getClientProperty(INSTALL_KEY) != Boolean.TRUE) {
@@ -229,7 +219,7 @@ public class NapkinUtil {
                 c.putClientProperty(OPAQUE_KEY, Boolean.TRUE);
                 c.setOpaque(false);
             }
-            c.addPropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
+            SmartStickyListener.hookListener(c, new OpaqueListener());
             // AbstractButton-specific overrides
             if (c instanceof AbstractButton) {
                 AbstractButton button = (AbstractButton) c;
@@ -237,7 +227,7 @@ public class NapkinUtil {
                 c.putClientProperty(ROLL_OVER_ENABLED,
                         button.isRolloverEnabled());
                 button.setRolloverEnabled(true);
-                c.addPropertyChangeListener(ROLL_OVER, ROLL_OVER_LISTENER);
+                SmartStickyListener.hookListener(c, new RollOverListener());
             }
             // background colour override
             Color bgColor = c.getBackground();
@@ -245,7 +235,7 @@ public class NapkinUtil {
             if (replaceBackground(bgColor)) {
                 c.setBackground(CLEAR);
             }
-            c.addPropertyChangeListener(BACKGROUND, BACKGROUND_LISTENER);
+            SmartStickyListener.hookListener(c, new BackgroundListener());
             // border override
             Border b = c.getBorder();
             Border nb = wrapBorder(b);
@@ -263,7 +253,7 @@ public class NapkinUtil {
                     // setBorder() not supported; do nothing
                 }
             }
-            c.addPropertyChangeListener(BORDER, BORDER_LISTENER);
+            SmartStickyListener.hookListener(c, new BorderListener());
         }
     }
 
@@ -272,26 +262,24 @@ public class NapkinUtil {
         if (c.getClientProperty(INSTALL_KEY) == Boolean.TRUE) {
             // remove install mark
             c.putClientProperty(INSTALL_KEY, null);
+            // unhook all the smart listeners
+            SmartStickyListener.unhookListeners(c);
             // restore from border override
-            c.removePropertyChangeListener(BORDER, BORDER_LISTENER);
             Border border = (Border) c.getClientProperty(BORDER_KEY);
             if (border != c.getBorder()) {
                 // if setBorder() is not supported, we won't be here
                 c.setBorder(border);
             }
             // restore from background colour override
-            c.removePropertyChangeListener(BACKGROUND, BACKGROUND_LISTENER);
             c.setBackground((Color) c.getClientProperty(BACKGROUND_KEY));
             // AbstractButton-specific overrides
             if (c instanceof AbstractButton) {
                 AbstractButton button = (AbstractButton) c;
                 // restore from roll-over-enabled override
-                c.removePropertyChangeListener(ROLL_OVER, ROLL_OVER_LISTENER);
                 button.setRolloverEnabled(
                         (Boolean) c.getClientProperty(ROLL_OVER_ENABLED));
             }
             // restore from opaqueness override
-            c.removePropertyChangeListener(OPAQUE, OPAQUE_LISTENER);
             if (shouldMakeOpaque(c)) {
                 c.setOpaque(true);
             }
