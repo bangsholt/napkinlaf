@@ -37,7 +37,7 @@ public class SketchedImageIcon extends ImageIcon implements NapkinIcon {
 
     private static final BandCombineOp invertOp = new BandCombineOp(
             new float[][] {
-                {-1f,  1f},
+                {-1f,  255f},
             }, hints
         );
     
@@ -96,22 +96,24 @@ public class SketchedImageIcon extends ImageIcon implements NapkinIcon {
         int[] src1 = new int[1];
         int[] src2 = new int[1];
         int[] alpha = new int[1];
-        int[] clear = new int[]{0xFF, 0xFF, 0xFF, 0x00};
-        int[] black = new int[]{0x00, 0x00, 0x00, 0xFF};
+        int[] color = new int[4];
         for (int x, y = 0; y < height; y++) {
             for (x = 0; x < width; x++) {
                 gRaster.getPixel(x, y, src1);
                 gIRaster.getPixel(x, y, src2);
                 aRaster.getPixel(x, y, alpha);
-                dstRaster.setPixel(x, y,
-                        alpha[0] > 0x20 && src1[0] + src2[0] < 0xF0 ?
-                            black : clear);
+                color[0] = src1[0] + src2[0] < 0xF0 ? 0x00 : 0xFF;
+                color[2] = color[1] = color[0];
+                color[3] = (color[0] == 0x00) ? alpha[0] : 0x00;
+                dstRaster.setPixel(x, y, color);
             }
         }
-        // overlay the edge image onto the sharpened original
-        image.setData(sharpenOp.filter(image.getRaster(), null));
+        // smoothen the edges
+        edgeImage.setData(blurOp.filter(edgeImage.getRaster(), null));
+        edgeImage.setData(sharpenOp.filter(edgeImage.getRaster(), null));
+        // overlay the edge image onto the original
         g.drawImage(edgeImage, 0, 0, null);
-        return edgeImage;
+        return image;
     }
     
 }
