@@ -177,7 +177,7 @@ public class NapkinIconFactory {
         }
     }
 
-    public static class XIcon implements Icon {
+    public static class XIcon implements NapkinIcon {
         private final int size;
         private final DrawnBoxHolder mark;
 

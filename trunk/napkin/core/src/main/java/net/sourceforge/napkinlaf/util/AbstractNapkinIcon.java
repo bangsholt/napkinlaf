@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 
-public abstract class AbstractNapkinIcon implements Icon {
+public abstract class AbstractNapkinIcon implements NapkinIcon {
     protected Shape place;
     protected Shape mark;
 
