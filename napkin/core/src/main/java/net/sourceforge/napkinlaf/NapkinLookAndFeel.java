@@ -3,6 +3,7 @@ package net.sourceforge.napkinlaf;
 import net.sourceforge.napkinlaf.borders.NapkinBoxBorder;
 import net.sourceforge.napkinlaf.borders.NapkinLineBorder;
 import net.sourceforge.napkinlaf.borders.NapkinSelectedBorder;
+import net.sourceforge.napkinlaf.borders.NapkinWrappedBorder;
 import net.sourceforge.napkinlaf.fonts.MergedFont;
 import net.sourceforge.napkinlaf.fonts.PatchedFontUIResource;
 import net.sourceforge.napkinlaf.util.AlphaColorUIResource;
@@ -256,6 +257,11 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                 return new NapkinBoxBorder();
             }
         };
+        Object emptyBorder = new UIDefaults.ActiveValue() {
+            public Object createValue(UIDefaults table) {
+                return new NapkinWrappedBorder(new EmptyBorder(3, 3, 3, 3));
+            }
+        };
 
         Object downArrowIcon = new UIDefaults.ActiveValue() {
             public Object createValue(UIDefaults table) {
@@ -324,7 +330,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
 
                 "InternalFrame.activeTitleForeground",
                 popupTheme.getSelectionColor(),
-                "InternalFrame.border", null,
+                "InternalFrame.border", emptyBorder,
                 "InternalFrame.closeButtonToolTip", "Close",
                 "InternalFrame.closeIcon", closeIcon,
                 "InternalFrame.iconButtonToolTip", "Minimise",
@@ -789,5 +795,23 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         lock.writeLock().lock();
         installedComponents.clear();
         lock.writeLock().unlock();
+    }
+
+    /**
+     * Since we are providing erasure effects to disabled components, there is
+     * no need to perform additional operations on disabled component's icon.
+     */
+    @Override
+    public Icon getDisabledSelectedIcon(JComponent component, Icon icon) {
+        return icon;
+    }
+
+    /**
+     * Since we are providing erasure effects to disabled components, there is
+     * no need to perform additional operations on disabled component's icon.
+     */
+    @Override
+    public Icon getDisabledIcon(JComponent component, Icon icon) {
+        return icon;
     }
 }

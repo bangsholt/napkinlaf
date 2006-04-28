@@ -1,37 +1,28 @@
 package net.sourceforge.napkinlaf.util;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import net.sourceforge.napkinlaf.NapkinKnownTheme;
-import net.sourceforge.napkinlaf.NapkinLookAndFeel;
-import net.sourceforge.napkinlaf.NapkinTheme;
-import net.sourceforge.napkinlaf.borders.NapkinBorder;
-import net.sourceforge.napkinlaf.borders.NapkinBoxBorder;
-import net.sourceforge.napkinlaf.borders.NapkinCompoundBorder;
-import net.sourceforge.napkinlaf.borders.NapkinWrappedBorder;
+import net.sourceforge.napkinlaf.*;
+import net.sourceforge.napkinlaf.borders.*;
 import net.sourceforge.napkinlaf.fonts.MergedFontGraphics2D;
-import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
-import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
-import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
+import net.sourceforge.napkinlaf.shapes.*;
+import net.sourceforge.napkinlaf.sketch.SketchedImageIcon;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.*;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.text.*;
 import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
+import java.awt.image.BufferedImage;
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
-import java.util.Map;
-import java.util.Stack;
-import java.util.WeakHashMap;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.UIResource;
+import javax.swing.text.JTextComponent;
 
 public class NapkinUtil {
     private static final Map<Float, Stroke> strokes =
@@ -40,81 +31,6 @@ public class NapkinUtil {
     private static final BufferedImage textureImage;
 
     private static final float FOCUS_MARK_WIDTH = 1.5f;
-
-    private static class BackgroundListener extends SmartStickyListener<Color> {
-        
-        BackgroundListener() {
-            super(BACKGROUND_KEY, "background");
-        }
-
-        protected void overrideValue(JComponent c, Color newValue) {
-            if (replaceBackground(newValue)) {
-                c.setBackground(CLEAR);
-            }
-        }
-
-        protected boolean shouldRecord(Color newValue) {
-            return !(newValue instanceof AlphaColorUIResource);
-        }
-    }
-
-    private static class BorderListener extends SmartStickyListener<Border> {
-        
-        BorderListener() {
-            super(BORDER_KEY, "border");
-        }
-        
-        protected void overrideValue(JComponent c, Border newValue) {
-            if (shouldRecord(newValue)) {
-                Border newBorder = wrapBorder(newValue);
-                if (newBorder != newValue) {
-                    // setBorder() must be supported
-                    c.setBorder(newBorder);
-                }
-            }
-        }
-        
-        protected boolean shouldRecord(Border newValue) {
-            return !(newValue instanceof NapkinBorder);
-        }
-    }
-
-    private static class OpaqueListener extends SmartStickyListener<Boolean> {
-        
-        OpaqueListener() {
-            super(OPAQUE_KEY, "opaque");
-        }
-        
-        protected void overrideValue(JComponent c, Boolean newValue) {
-            if (Boolean.TRUE.equals(newValue) &&
-                    isTranparent(c.getBackground())) {
-
-                c.setOpaque(false);
-            }
-        }
-        
-        protected boolean shouldRecord(Boolean newValue) {
-            return true;
-        }
-    }
-
-    private static class RollOverListener extends SmartStickyListener<Boolean> {
-
-        RollOverListener() {
-            super(ROLL_OVER_ENABLED,
-                    AbstractButton.ROLLOVER_ENABLED_CHANGED_PROPERTY);
-        }
-
-        protected void overrideValue(JComponent c, Boolean newValue) {
-            if (!Boolean.TRUE.equals(newValue)) {
-                ((AbstractButton) c).setRolloverEnabled(true);
-            }
-        }
-
-        protected boolean shouldRecord(Boolean newValue) {
-            return true;
-        }
-    }
 
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
     private static final int CLIP_OFFSET = 10;
@@ -198,13 +114,13 @@ public class NapkinUtil {
     }
 
     @SuppressWarnings({"ObjectEquality"})
-    private static boolean replaceBackground(Color bgColor) {
+    static boolean replaceBackground(Color bgColor) {
         return bgColor == null || (!(bgColor instanceof AlphaColorUIResource)
                 && bgColor.getRed() == bgColor.getGreen()
                 && bgColor.getGreen() == bgColor.getBlue());
     }
 
-    private static boolean isTranparent(Color bgColor) {
+    static boolean isTranparent(Color bgColor) {
         return bgColor == CLEAR || bgColor == HIGHLIGHT_CLEAR;
     }
     
@@ -223,11 +139,67 @@ public class NapkinUtil {
             // AbstractButton-specific overrides
             if (c instanceof AbstractButton) {
                 AbstractButton button = (AbstractButton) c;
-                // roll-over-enabled override
-                c.putClientProperty(ROLL_OVER_ENABLED,
+                // rollover-enabled override
+                c.putClientProperty(ROLLOVER_ENABLED,
                         button.isRolloverEnabled());
                 button.setRolloverEnabled(true);
                 SmartStickyListener.hookListener(c, new RollOverListener());
+                // button icon override
+                Icon icon = button.getIcon();
+                SmartStickyListener<Icon> listener = new ButtonIconListener();
+                if (listener.shouldRecord(icon)) {
+                    c.putClientProperty(BUTTON_ICON_KEY, icon);
+                }
+                listener.overrideValue(c, icon);
+                SmartStickyListener.hookListener(c, listener);
+                // pressed icon override
+                icon = button.getPressedIcon();
+                listener = new PressedIconListener();
+                if (listener.shouldRecord(icon)) {
+                    c.putClientProperty(PRESSED_ICON_KEY, icon);
+                }
+                listener.overrideValue(c, icon);
+                SmartStickyListener.hookListener(c, listener);
+                // selected icon override
+                icon = button.getSelectedIcon();
+                listener = new SelectedIconListener();
+                if (listener.shouldRecord(icon)) {
+                    c.putClientProperty(SELECTED_ICON_KEY, icon);
+                }
+                listener.overrideValue(c, icon);
+                SmartStickyListener.hookListener(c, listener);
+                // rollover icon override
+                icon = button.getRolloverIcon();
+                listener = new RolloverIconListener();
+                if (listener.shouldRecord(icon)) {
+                    c.putClientProperty(ROLLOVER_ICON_KEY, icon);
+                }
+                listener.overrideValue(c, icon);
+                SmartStickyListener.hookListener(c, listener);
+                // rollover selected icon override
+                icon = button.getRolloverSelectedIcon();
+                listener = new RolloverSelectedIconListener();
+                if (listener.shouldRecord(icon)) {
+                    c.putClientProperty(ROLLOVER_SELECTED_ICON_KEY, icon);
+                }
+                listener.overrideValue(c, icon);
+                SmartStickyListener.hookListener(c, listener);
+                // disabled icon override
+                icon = button.getDisabledIcon();
+                listener = new DisabledIconListener();
+                if (listener.shouldRecord(icon)) {
+                    c.putClientProperty(DISABLED_ICON_KEY, icon);
+                }
+                listener.overrideValue(c, icon);
+                SmartStickyListener.hookListener(c, listener);
+                // disabled selected icon override
+                icon = button.getDisabledSelectedIcon();
+                listener = new DisabledSelectedIconListener();
+                if (listener.shouldRecord(icon)) {
+                    c.putClientProperty(DISABLED_SELECTED_ICON_KEY, icon);
+                }
+                listener.overrideValue(c, icon);
+                SmartStickyListener.hookListener(c, listener);
             }
             // background colour override
             Color bgColor = c.getBackground();
@@ -275,9 +247,29 @@ public class NapkinUtil {
             // AbstractButton-specific overrides
             if (c instanceof AbstractButton) {
                 AbstractButton button = (AbstractButton) c;
-                // restore from roll-over-enabled override
+                // restore from disabled selected icon override
+                button.setDisabledSelectedIcon(
+                        (Icon) c.getClientProperty(DISABLED_SELECTED_ICON_KEY));
+                // restore from disabled icon override
+                button.setDisabledIcon(
+                        (Icon) c.getClientProperty(DISABLED_ICON_KEY));
+                // restore from rollover selected icon override
+                button.setRolloverSelectedIcon(
+                        (Icon) c.getClientProperty(ROLLOVER_SELECTED_ICON_KEY));
+                // restore from rollover icon override
+                button.setRolloverIcon(
+                        (Icon) c.getClientProperty(ROLLOVER_ICON_KEY));
+                // restore from selected icon override
+                button.setSelectedIcon(
+                        (Icon) c.getClientProperty(SELECTED_ICON_KEY));
+                // restore from pressed icon override
+                button.setPressedIcon(
+                        (Icon) c.getClientProperty(PRESSED_ICON_KEY));
+                // restore from button icon override
+                button.setIcon((Icon) c.getClientProperty(BUTTON_ICON_KEY));
+                // restore from rollover-enabled override
                 button.setRolloverEnabled(
-                        (Boolean) c.getClientProperty(ROLL_OVER_ENABLED));
+                        (Boolean) c.getClientProperty(ROLLOVER_ENABLED));
             }
             // restore from opaqueness override
             if (shouldMakeOpaque(c)) {
@@ -491,7 +483,7 @@ public class NapkinUtil {
         }
     }
 
-    private static Border wrapBorder(Border b) {
+    static Border wrapBorder(Border b) {
         if (!(b instanceof NapkinBorder)) {
             if (b instanceof BevelBorder) {
                 b = new NapkinBoxBorder();
@@ -548,7 +540,7 @@ public class NapkinUtil {
         Dimension dim = new Dimension(size + 3, size + 3);
         button.setPreferredSize(dim);
         button.setMinimumSize(dim);
-        button.putClientProperty(NO_ROLL_OVER_KEY, Boolean.TRUE);
+        button.putClientProperty(NO_ROLLOVER_KEY, Boolean.TRUE);
         return button;
     }
 
@@ -612,7 +604,7 @@ public class NapkinUtil {
         Boolean tempBool = (Boolean) jc.getClientProperty(HIGHLIGHT_KEY);
         boolean shouldHighlight = (jc.getBackground() == HIGHLIGHT_CLEAR)
                 || (tempBool != null && tempBool);
-        tempBool = (Boolean) jc.getClientProperty(ROLL_OVER_KEY);
+        tempBool = (Boolean) jc.getClientProperty(ROLLOVER_KEY);
         boolean isRolledOver = (tempBool != null && tempBool);
         if (shouldHighlight || isRolledOver) {
             Rectangle rect = g.getClipBounds();
@@ -792,10 +784,10 @@ public class NapkinUtil {
             c.revalidate();
         }
         if (c instanceof AbstractButton) {
-            if (!Boolean.TRUE.equals(c.getClientProperty(NO_ROLL_OVER_KEY))) {
+            if (!Boolean.TRUE.equals(c.getClientProperty(NO_ROLLOVER_KEY))) {
                 AbstractButton button = (AbstractButton) c;
                 ButtonModel model = button.getModel();
-                button.putClientProperty(ROLL_OVER_KEY,
+                button.putClientProperty(ROLLOVER_KEY,
                         button.isRolloverEnabled() && model.isRollover());
             }
         }

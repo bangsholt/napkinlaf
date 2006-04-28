@@ -1,8 +1,9 @@
 package net.sourceforge.napkinlaf.sketch;
 
-import javax.swing.*;
+import net.sourceforge.napkinlaf.util.NapkinIcon;
+
 import java.awt.*;
-import java.awt.image.*;
+import java.awt.image.BufferedImage;
 
 /**
  * The <tt>SketchedIcon</tt> class is an implmentation of the <tt>Icon</tt>
@@ -13,7 +14,7 @@ import java.awt.image.*;
  * @author Justin Crafford
  * @author Peter Goodspeed
  */
-public class SketchedIcon implements Icon {
+public class SketchedIcon implements NapkinIcon {
     private final Template template;    // The template object to sketch
     private AbstractSketcher sketcher;    // The sketcher used to create icon's image
     private BufferedImage bimage; // The stored image of the final sketch

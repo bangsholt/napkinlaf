@@ -17,21 +17,31 @@ public interface NapkinConstants extends SwingConstants {
     String BORDER_KEY = "net.sourceforge.napkinlaf.border";
     String BOX_BORDER_KEY = "net.sourceforge.napkinlaf.boxBorder";
     String OPAQUE_KEY = "net.sourceforge.napkinlaf.wasOpaque";
-    // this key persists between LAF switches
+    // the following key persists between LAF switches
     String HIGHLIGHT_KEY = "net.sourceforge.napkinlaf.highlighted";
     String REVALIDATE_KEY = "net.sourceforge.napkinlaf.revalidated";
-    // this key persists between LAF switches
-    String ROLL_OVER_KEY = "net.sourceforge.napkinlaf.rolledOver";
-    String ROLL_OVER_ENABLED = "net.sourceforge.napkinlaf.wasRollOverEnabled";
-    // this key persists between LAF switches
-    String NO_ROLL_OVER_KEY = "net.sourceforge.napkinlaf.noRollOver";
+    // the following key persists between LAF switches
+    String ROLLOVER_KEY = "net.sourceforge.napkinlaf.rollovered";
+    String ROLLOVER_ENABLED = "net.sourceforge.napkinlaf.wasRolloverEnabled";
+    // the following key persists between LAF switches
+    String NO_ROLLOVER_KEY = "net.sourceforge.napkinlaf.noRollover";
+    String BUTTON_ICON_KEY = "net.sourceforge.napkinlaf.buttonIcon";
+    String PRESSED_ICON_KEY = "net.sourceforge.napkinlaf.pressedIcon";
+    String SELECTED_ICON_KEY = "net.sourceforge.napkinlaf.selectedIcon";
+    String ROLLOVER_SELECTED_ICON_KEY = "net.sourceforge.napkinlaf.rolloverSelectedIcon";
+    String ROLLOVER_ICON_KEY = "net.sourceforge.napkinlaf.rolloverIcon";
+    String DISABLED_SELECTED_ICON_KEY = "net.sourceforge.napkinlaf.disabledSelectedIcon";
+    String DISABLED_ICON_KEY = "net.sourceforge.napkinlaf.disabledIcon";
 
     List<String> CLIENT_PROPERTIES = Collections.unmodifiableList(
             Arrays.asList(
                     INSTALL_KEY, THEME_KEY, BACKGROUND_KEY,
                     DISABLED_BACKGROUND_KEY, DISABLED_MARK_KEY, BORDER_KEY,
                     BOX_BORDER_KEY, OPAQUE_KEY, REVALIDATE_KEY,
-                    ROLL_OVER_ENABLED
+                    ROLLOVER_ENABLED, BUTTON_ICON_KEY, PRESSED_ICON_KEY,
+                    SELECTED_ICON_KEY, ROLLOVER_SELECTED_ICON_KEY,
+                    ROLLOVER_ICON_KEY, DISABLED_SELECTED_ICON_KEY,
+                    DISABLED_ICON_KEY
             )
     );
 

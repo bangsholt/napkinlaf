@@ -2,7 +2,7 @@ package net.sourceforge.napkinlaf;
 
 import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.NO_ROLL_OVER_KEY;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.NO_ROLLOVER_KEY;
 import net.sourceforge.napkinlaf.util.NapkinPainter;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 
@@ -118,7 +118,6 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
         if (!button.equals(maxButton)) {
             button.setBorder(new EmptyBorder(1, 1, 1, 1));
         }
-        button.putClientProperty(NO_ROLL_OVER_KEY, Boolean.TRUE);
         /**!!
          * this is to fix the issue with invisible Close button
          * Steps to reproduce:
