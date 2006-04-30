@@ -8,12 +8,11 @@ import net.sourceforge.napkinlaf.fonts.MergedFont;
 import net.sourceforge.napkinlaf.fonts.PatchedFontUIResource;
 import net.sourceforge.napkinlaf.util.AlphaColorUIResource;
 import net.sourceforge.napkinlaf.util.ComponentWalker.Visitor;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
-import net.sourceforge.napkinlaf.util.NapkinConstants;
 import net.sourceforge.napkinlaf.util.NapkinDebug;
 import net.sourceforge.napkinlaf.util.NapkinIconFactory;
 import net.sourceforge.napkinlaf.util.NapkinRepaintManager;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
 
 import javax.swing.*;
 import javax.swing.UIDefaults.*;
@@ -604,7 +603,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                     if (res instanceof CompoundBorder) {
                         entry.setValue(compoundBorder);
                     } else if (res instanceof EmptyBorder) {
-                        // keep it as it is, i.e. EmptyBorder
+                        ; // keep it as it is, i.e. EmptyBorder
                     } else {
                         entry.setValue(drawnBorder);
                     }

@@ -16,6 +16,8 @@ import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicRootPaneUI;
+import static java.awt.Frame.MAXIMIZED_BOTH;
+import static java.awt.event.InputEvent.BUTTON1_MASK;
 
 public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
 
@@ -80,8 +82,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
     public void installUI(JComponent c) {
         super.installUI(c);
         root = (JRootPane) c;
-        int style = root.getWindowDecorationStyle();
-        if (style != JRootPane.NONE) {
+        if (root.getWindowDecorationStyle() != JRootPane.NONE) {
             installClientDecorations(root);
         }
         NapkinUtil.installUI(c);
@@ -114,11 +115,8 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
      * @param parent The parent of the <tt>JRootPane</tt>.
      */
     private void installWindowListeners(Component parent) {
-        if (parent instanceof Window) {
-            window = (Window) parent;
-        } else {
-            window = SwingUtilities.getWindowAncestor(parent);
-        }
+        window = parent instanceof Window ?
+            (Window) parent : SwingUtilities.getWindowAncestor(parent); 
         if (window != null) {
             if (mouseInputListener == null) {
                 mouseInputListener = createWindowMouseInputListener();
@@ -291,27 +289,26 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
         super.propertyChange(ev);
 
         String propertyName = ev.getPropertyName();
-        if (propertyName == null) {
-            return;
-        }
+        if (propertyName != null) {
+            if (propertyName.equals("windowDecorationStyle")) {
+                JRootPane pane = (JRootPane) ev.getSource();
+                int style = pane.getWindowDecorationStyle();
 
-        if (propertyName.equals("windowDecorationStyle")) {
-            JRootPane pane = (JRootPane) ev.getSource();
-            int style = pane.getWindowDecorationStyle();
+                // This is potentially more than needs to be done,
+                // but it rarely happens and makes the install/uninstall process
+                // simpler. NapkinTitlePane also assumes it will be recreated if
+                // the decoration style changes.
+                uninstallClientDecorations(pane);
+                if (style != JRootPane.NONE) {
+                    installClientDecorations(pane);
+                }
+            } else if (propertyName.equals("ancestor")) {
+                uninstallWindowListeners();
+                if (((JRootPane) ev.getSource()).getWindowDecorationStyle() !=
+                        JRootPane.NONE) {
 
-            // This is potentially more than needs to be done,
-            // but it rarely happens and makes the install/uninstall process
-            // simpler. NapkinTitlePane also assumes it will be recreated if
-            // the decoration style changes.
-            uninstallClientDecorations(pane);
-            if (style != JRootPane.NONE) {
-                installClientDecorations(pane);
-            }
-        } else if (propertyName.equals("ancestor")) {
-            uninstallWindowListeners();
-            JRootPane pane = ((JRootPane) ev.getSource());
-            if (pane.getWindowDecorationStyle() != JRootPane.NONE) {
-                installWindowListeners(root.getParent());
+                    installWindowListeners(root.getParent());
+                }
             }
         }
     }
@@ -436,7 +433,6 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
          *         size.
          */
         public Dimension maximumLayoutSize(Container target) {
-            Dimension cpd, mbd, tpd;
             int cpWidth = Integer.MAX_VALUE;
             int cpHeight = Integer.MAX_VALUE;
             int mbWidth = Integer.MAX_VALUE;
@@ -447,7 +443,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
             JRootPane root = (JRootPane) target;
 
             if (root.getContentPane() != null) {
-                cpd = root.getContentPane().getMaximumSize();
+                Dimension cpd = root.getContentPane().getMaximumSize();
                 if (cpd != null) {
                     cpWidth = cpd.width;
                     cpHeight = cpd.height;
@@ -455,7 +451,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
             }
 
             if (root.getJMenuBar() != null) {
-                mbd = root.getJMenuBar().getMaximumSize();
+                Dimension mbd = root.getJMenuBar().getMaximumSize();
                 if (mbd != null) {
                     mbWidth = mbd.width;
                     mbHeight = mbd.height;
@@ -464,10 +460,10 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
 
             if (root.getWindowDecorationStyle() != JRootPane.NONE &&
                     root.getUI() instanceof NapkinRootPaneUI) {
-                JComponent titlePane = ((NapkinRootPaneUI) root.getUI()).
-                        getTitlePane();
+                JComponent titlePane =
+                        ((NapkinRootPaneUI) root.getUI()).getTitlePane();
                 if (titlePane != null) {
-                    tpd = titlePane.getMaximumSize();
+                    Dimension tpd = titlePane.getMaximumSize();
                     if (tpd != null) {
                         tpWidth = tpd.width;
                         tpHeight = tpd.height;
@@ -533,8 +529,8 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
                 nextY += mbd.height;
             }
             if (root.getContentPane() != null) {
-                int height = h < nextY ? 0 : h - nextY;
-                root.getContentPane().setBounds(0, nextY, w, height);
+                root.getContentPane()
+                        .setBounds(0, nextY, w, h < nextY ? 0 : h - nextY);
             }
         }
 
@@ -612,49 +608,51 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
         public void mousePressed(MouseEvent ev) {
             JRootPane rootPane = getRootPane();
 
-            if (rootPane.getWindowDecorationStyle() == JRootPane.NONE) {
-                return;
-            }
-            Point dragWindowOffset = ev.getPoint();
-            Window w = (Window) ev.getSource();
-            if (w != null) {
-                w.toFront();
-            }
-            Point convertedDragWindowOffset = SwingUtilities.convertPoint(
-                    w, dragWindowOffset, getTitlePane());
+            if (rootPane.getWindowDecorationStyle() != JRootPane.NONE) {
+                Point dragWindowOffset = ev.getPoint();
+                Window w = (Window) ev.getSource();
+                if (w != null) {
+                    w.toFront();
+                }
+                Point convertedDragWindowOffset = SwingUtilities.convertPoint(
+                        w, dragWindowOffset, getTitlePane());
 
-            Frame f = null;
-            Dialog d = null;
+                Frame f = null;
+                Dialog d = null;
 
-            if (w instanceof Frame) {
-                f = (Frame) w;
-            } else if (w instanceof Dialog) {
-                d = (Dialog) w;
-            }
+                if (w instanceof Frame) {
+                    f = (Frame) w;
+                } else if (w instanceof Dialog) {
+                    d = (Dialog) w;
+                }
 
-            int frameState = f != null ? f.getExtendedState() : 0;
+                int frameState = f != null ? f.getExtendedState() : 0;
 
-            if (getTitlePane() != null &&
-                    getTitlePane().contains(convertedDragWindowOffset)) {
-                if ((f != null && (frameState & Frame.MAXIMIZED_BOTH) == 0 ||
-                        d != null) &&
-                        dragWindowOffset.y >= BORDER_DRAG_THICKNESS &&
-                        dragWindowOffset.x >= BORDER_DRAG_THICKNESS &&
-                        dragWindowOffset.x <
-                                w.getWidth() - BORDER_DRAG_THICKNESS) {
-                    isMovingWindow = true;
+                if (getTitlePane() != null &&
+                        getTitlePane().contains(convertedDragWindowOffset)) {
+
+                    if ((f != null && (frameState & MAXIMIZED_BOTH) == 0 ||
+                            d != null) &&
+                            dragWindowOffset.y >= BORDER_DRAG_THICKNESS &&
+                            dragWindowOffset.x >= BORDER_DRAG_THICKNESS &&
+                            dragWindowOffset.x <
+                                    w.getWidth() - BORDER_DRAG_THICKNESS) {
+
+                        isMovingWindow = true;
+                        dragOffsetX = dragWindowOffset.x;
+                        dragOffsetY = dragWindowOffset.y;
+                    }
+                } else if (f != null && f.isResizable() &&
+                        (frameState & Frame.MAXIMIZED_BOTH) == 0 ||
+                        d != null && d.isResizable()) {
+
                     dragOffsetX = dragWindowOffset.x;
                     dragOffsetY = dragWindowOffset.y;
+                    dragWidth = w.getWidth();
+                    dragHeight = w.getHeight();
+                    dragCursor = getCursor(calculateCorner(
+                            w, dragWindowOffset.x, dragWindowOffset.y));
                 }
-            } else if (f != null && f.isResizable() &&
-                    (frameState & Frame.MAXIMIZED_BOTH) == 0 ||
-                    d != null && d.isResizable()) {
-                dragOffsetX = dragWindowOffset.x;
-                dragOffsetY = dragWindowOffset.y;
-                dragWidth = w.getWidth();
-                dragHeight = w.getHeight();
-                dragCursor = getCursor(calculateCorner(
-                        w, dragWindowOffset.x, dragWindowOffset.y));
             }
         }
 
@@ -672,51 +670,45 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
         public void mouseMoved(MouseEvent ev) {
             JRootPane root = getRootPane();
 
-            if (root.getWindowDecorationStyle() == JRootPane.NONE) {
-                return;
-            }
+            if (root.getWindowDecorationStyle() != JRootPane.NONE) {
+                Window w = (Window) ev.getSource();
 
-            Window w = (Window) ev.getSource();
+                Frame f = null;
+                Dialog d = null;
 
-            Frame f = null;
-            Dialog d = null;
+                if (w instanceof Frame) {
+                    f = (Frame) w;
+                } else if (w instanceof Dialog) {
+                    d = (Dialog) w;
+                }
 
-            if (w instanceof Frame) {
-                f = (Frame) w;
-            } else if (w instanceof Dialog) {
-                d = (Dialog) w;
-            }
+                // Update the cursor
+                int cursor = getCursor(calculateCorner(w, ev.getX(), ev.getY()));
 
-            // Update the cursor
-            int cursor = getCursor(calculateCorner(w, ev.getX(), ev.getY()));
-
-            if (cursor != 0 && ((f != null && (f.isResizable() &&
-                    (f.getExtendedState() & Frame.MAXIMIZED_BOTH) == 0))
-                    || (d != null && d.isResizable()))) {
-                w.setCursor(Cursor.getPredefinedCursor(cursor));
-            } else {
-                w.setCursor(lastCursor);
+                w.setCursor(cursor != 0 && ((f != null && f.isResizable() &&
+                        (f.getExtendedState() & MAXIMIZED_BOTH) == 0)
+                        || (d != null && d.isResizable())) ?
+                            Cursor.getPredefinedCursor(cursor) : lastCursor);
             }
         }
 
         private void adjust(Rectangle bounds, Dimension min, int deltaX,
                 int deltaY, int deltaWidth, int deltaHeight) {
+
             bounds.x += deltaX;
             bounds.y += deltaY;
             bounds.width += deltaWidth;
             bounds.height += deltaHeight;
             if (min != null) {
                 if (bounds.width < min.width) {
-                    int correction = min.width - bounds.width;
                     if (deltaX != 0) {
-                        bounds.x -= correction;
+                        bounds.x -= min.width - bounds.width;
                     }
                     bounds.width = min.width;
                 }
                 if (bounds.height < min.height) {
-                    int correction = min.height - bounds.height;
                     if (deltaY != 0) {
-                        bounds.y -= correction;
+                        bounds.y -= min.height - bounds.height;
                     }
                     bounds.height = min.height;
                 }
@@ -736,7 +728,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
                     windowPt.y = windowPt.y - dragOffsetY;
                     w.setLocation(windowPt);
                 } catch (PrivilegedActionException e) {
-                    // getting the location is helpful, but not required
+                    ; // getting the location is helpful, but not required
                 }
             } else if (dragCursor != 0) {
                 Rectangle r = w.getBounds();
@@ -789,42 +781,31 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
         }
 
         public void mouseEntered(MouseEvent ev) {
-            Window w = (Window) ev.getSource();
-            lastCursor = w.getCursor();
+            lastCursor = ((Window) ev.getSource()).getCursor();
             mouseMoved(ev);
         }
 
         public void mouseExited(MouseEvent ev) {
-            Window w = (Window) ev.getSource();
-            w.setCursor(lastCursor);
+            ((Window) ev.getSource()).setCursor(lastCursor);
         }
 
         public void mouseClicked(MouseEvent ev) {
             Window w = (Window) ev.getSource();
-            Frame f;
-
             if (w instanceof Frame) {
-                f = (Frame) w;
-            } else {
-                return;
-            }
+                Frame f = (Frame) w;
+                JComponent titlePane = getTitlePane();
 
-            JComponent titlePane = getTitlePane();
+                Point convertedPoint =
+                        SwingUtilities.convertPoint(w, ev.getPoint(), titlePane);
 
-            Point convertedPoint =
-                    SwingUtilities.convertPoint(w, ev.getPoint(), titlePane);
+                int state = f.getExtendedState();
+                if (titlePane != null && titlePane.contains(convertedPoint) &&
+                        ev.getClickCount() % 2 == 0 &&
+                        (ev.getModifiers() & BUTTON1_MASK) != 0 &&
+                        f.isResizable()) {
 
-            int state = f.getExtendedState();
-            if (titlePane != null && titlePane.contains(convertedPoint)) {
-                if (ev.getClickCount() % 2 == 0 &&
-                        (ev.getModifiers() & InputEvent.BUTTON1_MASK) != 0) {
-                    if (f.isResizable()) {
-                        if ((state & Frame.MAXIMIZED_BOTH) != 0) {
-                            f.setExtendedState(state & ~Frame.MAXIMIZED_BOTH);
-                        } else {
-                            f.setExtendedState(state | Frame.MAXIMIZED_BOTH);
-                        }
-                    }
+                    f.setExtendedState((state & MAXIMIZED_BOTH) != 0 ?
+                        state & ~MAXIMIZED_BOTH : state | MAXIMIZED_BOTH);
                 }
             }
         }
@@ -840,10 +821,8 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
             int yPosition = calculatePosition(y - insets.top,
                     w.getHeight() - insets.top - insets.bottom);
 
-            if (xPosition == -1 || yPosition == -1) {
-                return -1;
-            }
-            return yPosition * 5 + xPosition;
+            return xPosition == -1 || yPosition == -1 ?
+                -1 : yPosition * 5 + xPosition;
         }
 
         /**
@@ -851,10 +830,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
          * if the corner doesn't map to a valid cursor.
          */
         private int getCursor(int corner) {
-            if (corner == -1) {
-                return 0;
-            }
-            return CURSOR_MAP[corner];
+            return corner == -1 ? 0 : CURSOR_MAP[corner];
         }
 
         /**
@@ -865,19 +841,10 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
          * CORNER_DRAG_WIDTH 4 if >= width - BORDER_DRAG_THICKNESS 5 otherwise
          */
         private int calculatePosition(int spot, int width) {
-            if (spot < BORDER_DRAG_THICKNESS) {
-                return 0;
-            }
-            if (spot < CORNER_DRAG_WIDTH) {
-                return 1;
-            }
-            if (spot >= width - BORDER_DRAG_THICKNESS) {
-                return 4;
-            }
-            if (spot >= width - CORNER_DRAG_WIDTH) {
-                return 3;
-            }
-            return 2;
+            return spot < BORDER_DRAG_THICKNESS ?
+                0 : spot < CORNER_DRAG_WIDTH ?
+                    1 : spot >= width - BORDER_DRAG_THICKNESS ?
+                        4 : spot >= width - CORNER_DRAG_WIDTH ? 3 : 2;
         }
     }
 }
