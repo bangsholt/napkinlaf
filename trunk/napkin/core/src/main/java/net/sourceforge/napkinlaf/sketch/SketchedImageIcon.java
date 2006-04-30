@@ -131,7 +131,7 @@ public class SketchedImageIcon extends ImageIcon implements NapkinIcon {
         }
         // overlay the edge image onto the result
         g.drawImage(edgeImage, 0, 0, null);
-        return edgeImage;
+        return image;
     }
     
 }
