@@ -2,7 +2,6 @@ package net.sourceforge.napkinlaf;
 
 import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.NO_ROLLOVER_KEY;
 import net.sourceforge.napkinlaf.util.NapkinPainter;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 
