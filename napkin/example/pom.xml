@@ -14,6 +14,13 @@
     <packaging>jar</packaging>
     <name>Napkin Look and Feel Examples</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>net.sourceforge.napkinlaf</groupId>
+            <artifactId>napkinlaf</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -35,11 +42,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>net.sourceforge.napkinlaf</groupId>
-            <artifactId>napkinlaf</artifactId>
-        </dependency>
-    </dependencies>
 </project>
