@@ -6,7 +6,7 @@
     <parent>
         <groupId>net.sourceforge.napkinlaf</groupId>
         <artifactId>overall</artifactId>
-        <version>1.1.SNAPSHOT</version>
+        <version>1.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -40,19 +40,17 @@
         </repository>
     </repositories>
 
+    <dependencies>
+        <dependency>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                    <forkMode>once</forkMode>
-                    <argLine>
-                        -enableassertions -Dswing.defaultlaf=javax.swing.plaf.metal.MetalLookAndFeel
-                    </argLine>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>dependency-maven-plugin</artifactId>
@@ -65,21 +63,24 @@
                         </goals>
                         <configuration>
                             <outputDirectory>
-                                ${project.build.directory}/classes
+                                ${project.build.outputDirectory}
                             </outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                    <forkMode>once</forkMode>
+                    <argLine>
+                        -enableassertions
+                        -Dswing.defaultlaf=javax.swing.plaf.metal.MetalLookAndFeel
+                    </argLine>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>jdom</groupId>
-            <artifactId>jdom</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
 </project>

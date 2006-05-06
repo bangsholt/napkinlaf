@@ -5,7 +5,7 @@
 
     <groupId>net.sourceforge.napkinlaf</groupId>
     <artifactId>overall</artifactId>
-    <version>1.1.SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
     <name>Napkin Look and Feel</name>
     <packaging>pom</packaging>
 
@@ -48,4 +48,14 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>net.sourceforge.napkinlaf</groupId>
+                <artifactId>napkinlaf</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
