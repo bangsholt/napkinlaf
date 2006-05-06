@@ -6,7 +6,7 @@
     <parent>
         <groupId>net.sourceforge.napkinlaf</groupId>
         <artifactId>overall</artifactId>
-        <version>1.1.SNAPSHOT</version>
+        <version>1.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -18,42 +18,29 @@
         <dependency>
             <groupId>net.sourceforge.napkinlaf</groupId>
             <artifactId>napkinlaf</artifactId>
-            <version>1.1.SNAPSHOT</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Basic jar -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>SwingSet2</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
             <!-- copy swingset source files in as resources -->
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
                         <phase>generate-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
                         <configuration>
                             <tasks>
-                                <copy todir="${project.build.directory}/classes/src">
+                                <copy todir="${project.build.outputDirectory}/src">
                                     <fileset dir="src/main/java">
                                         <include name="**/*.java"/>
                                     </fileset>
                                 </copy>
                             </tasks>
                         </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -75,6 +62,18 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <!-- Basic jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>SwingSet2</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
             <!-- Build webstart release -->
             <plugin>
