@@ -40,6 +40,10 @@
 
 import net.sourceforge.napkinlaf.NapkinTheme;
 
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.event.*;
+import javax.swing.plaf.metal.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.lang.reflect.Constructor;
@@ -51,10 +55,6 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import java.util.Vector;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import javax.swing.plaf.metal.*;
 
 /**
  * A demo that shows all of the Swing components.
@@ -64,21 +64,21 @@ import javax.swing.plaf.metal.*;
  */
 public class SwingSet2 extends JPanel {
     String[] demos = {
-        "ButtonDemo",
-        "ColorChooserDemo",
-        "ComboBoxDemo",
-        "FileChooserDemo",
-        "HtmlDemo",
-        "ListDemo",
-        "OptionPaneDemo",
-        "ProgressBarDemo",
-        "ScrollPaneDemo",
-        "SliderDemo",
-        "SplitPaneDemo",
-        "TabbedPaneDemo",
-        "TableDemo",
-        "ToolTipDemo",
-        "TreeDemo"
+            "ButtonDemo",
+            "ColorChooserDemo",
+            "ComboBoxDemo",
+            "FileChooserDemo",
+            "HtmlDemo",
+            "ListDemo",
+            "OptionPaneDemo",
+            "ProgressBarDemo",
+            "ScrollPaneDemo",
+            "SliderDemo",
+            "SplitPaneDemo",
+            "TabbedPaneDemo",
+            "TableDemo",
+            "ToolTipDemo",
+            "TreeDemo"
     };
 
     private static final String DEFAULT_THEME_PREFIX = "default:";
@@ -184,7 +184,7 @@ public class SwingSet2 extends JPanel {
 
     /** SwingSet2 Constructor */
     public SwingSet2(SwingSet2Applet applet, GraphicsConfiguration gc) {
-        
+
         // Note that the applet may null if this is started as an application
         this.applet = applet;
 
@@ -261,6 +261,7 @@ public class SwingSet2 extends JPanel {
 
         // creates popup menu accessible via keyboard
         popupMenu = createPopupMenu();
+        createFormalControls();
 
         ToolBarPanel toolbarPanel = new ToolBarPanel();
         toolbarPanel.setLayout(new BorderLayout());
@@ -296,6 +297,14 @@ public class SwingSet2 extends JPanel {
                 scroller,
                 getString("TabbedPane.src_tooltip")
         );
+    }
+
+    private void createFormalControls() {
+        InputMap map = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        KeyStroke key = KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,
+                InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK);
+        map.put(key, "invokeFormality");
+        getActionMap().put("invokeFormality", new FormalityChangeToggleAction(this));
     }
 
     DemoModule currentTabDemo = null;
@@ -438,7 +447,6 @@ public class SwingSet2 extends JPanel {
                     "FontMenu.bold_accessible_description",
                     new ChangeFontAction(this, false), fontButtonGroup);
 
-
             // ***** create the options menu
             optionsMenu = (JMenu) menuBar.add(
                     new JMenu(getString("OptionsMenu.options_label")));
@@ -461,7 +469,6 @@ public class SwingSet2 extends JPanel {
                     "OptionsMenu.dragEnabled_accessible_description",
                     new DragSupportAction());
         }
-
 
         // ***** create the multiscreen menu, if we have multiple screens
         if (!isApplet()) {
@@ -853,9 +860,9 @@ public class SwingSet2 extends JPanel {
         try {
             Class demoClass = Class.forName(classname);
             Constructor demoConstructor = demoClass
-                    .getConstructor(new Class[] {SwingSet2.class});
+                    .getConstructor(new Class[]{SwingSet2.class});
             demo = (DemoModule) demoConstructor
-                    .newInstance(new Object[] {this});
+                    .newInstance(new Object[]{this});
             addDemo(demo);
         } catch (Exception e) {
             System.out.println("Error occurred loading demo: " + classname);
@@ -1051,7 +1058,8 @@ public class SwingSet2 extends JPanel {
                     JFrame.setDefaultLookAndFeelDecorated(true);
                     JDialog.setDefaultLookAndFeelDecorated(true);
                     frame.setUndecorated(true);
-                    frame.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+                    frame.getRootPane().setWindowDecorationStyle(
+                            JRootPane.FRAME);
                 } else {
                     JFrame.setDefaultLookAndFeelDecorated(false);
                     JDialog.setDefaultLookAndFeelDecorated(false);
