@@ -9,6 +9,26 @@
     <name>Napkin Look and Feel</name>
     <packaging>pom</packaging>
 
+    <!-- Napkin's project information -->
+    <url>http://napkinlaf.sourceforge.net</url>
+    <developers>
+        <developer>
+            <name>Ken Arnold</name>
+            <email>kcrca@sourceforge.net</email>
+        </developer>
+        <developer>
+            <name>Alex Lam S.L.</name>
+            <email>alexlamsl@sourceforge.net</email>
+        </developer>
+    </developers>
+
+    <!-- the main projects underneath -->
+    <modules>
+        <module>core</module>
+        <module>example</module>
+        <module>swingset</module>
+    </modules>
+
     <!-- MOJO snapshots repository -->
     <pluginRepositories>
         <pluginRepository>
@@ -35,27 +55,34 @@
         </repository>
     </repositories>
 
-    <!-- Napkin's project information -->
-    <url>http://napkinlaf.sourceforge.net</url>
-    <developers>
-        <developer>
-            <name>Ken Arnold</name>
-            <email>kcrca@sourceforge.net</email>
-        </developer>
-        <developer>
-            <name>Alex Lam S.L.</name>
-            <email>alexlamsl@sourceforge.net</email>
-        </developer>
-    </developers>
+    <!-- details to various dependencies -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>net.sourceforge.napkinlaf</groupId>
+                <artifactId>napkinlaf</artifactId>
+                <version>${project.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>jdom</groupId>
+                <artifactId>jdom</artifactId>
+                <version>1.0</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>3.8.1</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-    <modules>
-        <module>core</module>
-        <module>example</module>
-        <module>swingset</module>
-    </modules>
-
+    <!-- build settings -->
     <build>
         <plugins>
+            <!-- javac settings -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -88,7 +115,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <skip>true</skip>
+                    <skip>false</skip>
                     <forkMode>once</forkMode>
                     <argLine>
                         -enableassertions
@@ -103,18 +130,6 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>net.sourceforge.napkinlaf</groupId>
-                <artifactId>napkinlaf</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 </project>
