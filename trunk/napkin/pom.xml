@@ -91,6 +91,39 @@
                     <target>1.5</target>
                 </configuration>
             </plugin>
+            <!-- Unit Test Settings -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                    <forkMode>once</forkMode>
+                    <argLine>
+                        -enableassertions
+                        -Dswing.defaultlaf=javax.swing.plaf.metal.MetalLookAndFeel
+                    </argLine>
+                </configuration>
+            </plugin>
+            <!-- prints out dependencies -->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <echo>Runtime Dependencies:</echo>
+                                <echo>${project.runtimeDependencies}</echo>
+                                <echo>Compile Dependencies:</echo>
+                                <echo>${project.compileDependencies}</echo>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- Make jar self-sufficient -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -109,19 +142,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <!-- Unit Test Settings -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <skip>false</skip>
-                    <forkMode>once</forkMode>
-                    <argLine>
-                        -enableassertions
-                        -Dswing.defaultlaf=javax.swing.plaf.metal.MetalLookAndFeel
-                    </argLine>
-                </configuration>
             </plugin>
         </plugins>
     </build>
