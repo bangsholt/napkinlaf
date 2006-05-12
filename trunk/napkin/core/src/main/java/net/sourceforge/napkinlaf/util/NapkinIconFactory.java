@@ -10,7 +10,7 @@ import net.sourceforge.napkinlaf.shapes.DrawnCheckGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnCircleGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnQuadLineGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnTriangleGenerator;
-import net.sourceforge.napkinlaf.sketch.SketchedIcon;
+import net.sourceforge.napkinlaf.sketch.DrawnIcon;
 import net.sourceforge.napkinlaf.sketch.Template;
 import net.sourceforge.napkinlaf.sketch.TemplateReadException;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.LENGTH;
@@ -241,7 +241,7 @@ public class NapkinIconFactory {
         Template template = getTemplate(templatePath);
         return template == null ?
             createXIcon(20) /* just to have *something* */ :
-            new SketchedIcon(template, theme.getSketcher());
+            new DrawnIcon(template, theme.getSketcher());
     }
 
     @SuppressWarnings({"HardcodedFileSeparator"})

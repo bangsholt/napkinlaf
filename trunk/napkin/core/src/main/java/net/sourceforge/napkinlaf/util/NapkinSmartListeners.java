@@ -10,7 +10,7 @@
 package net.sourceforge.napkinlaf.util;
 
 import net.sourceforge.napkinlaf.borders.NapkinBorder;
-import net.sourceforge.napkinlaf.sketch.SketchedImageIcon;
+import net.sourceforge.napkinlaf.sketch.SketchifiedIcon;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
 
 import java.awt.Color;
@@ -108,12 +108,12 @@ class NapkinSmartListeners {
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
                 ((AbstractButton) c)
-                        .setIcon(new SketchedImageIcon(c, newValue));
+                        .setIcon(new SketchifiedIcon(c, newValue));
             }
         }
         
         protected boolean shouldRecord(Icon newValue) {
-            return !(newValue == null || newValue instanceof SketchedImageIcon);
+            return !(newValue == null || newValue instanceof SketchifiedIcon);
         }
     }
 
@@ -126,12 +126,12 @@ class NapkinSmartListeners {
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
                 ((AbstractButton) c)
-                        .setPressedIcon(new SketchedImageIcon(c, newValue));
+                        .setPressedIcon(new SketchifiedIcon(c, newValue));
             }
         }
         
         protected boolean shouldRecord(Icon newValue) {
-            return !(newValue == null || newValue instanceof SketchedImageIcon);
+            return !(newValue == null || newValue instanceof SketchifiedIcon);
         }
     }
 
@@ -144,12 +144,12 @@ class NapkinSmartListeners {
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
                 ((AbstractButton) c)
-                        .setSelectedIcon(new SketchedImageIcon(c, newValue));
+                        .setSelectedIcon(new SketchifiedIcon(c, newValue));
             }
         }
         
         protected boolean shouldRecord(Icon newValue) {
-            return !(newValue == null || newValue instanceof SketchedImageIcon);
+            return !(newValue == null || newValue instanceof SketchifiedIcon);
         }
     }
 
@@ -162,12 +162,12 @@ class NapkinSmartListeners {
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
                 ((AbstractButton) c)
-                        .setRolloverIcon(new SketchedImageIcon(c, newValue));
+                        .setRolloverIcon(new SketchifiedIcon(c, newValue));
             }
         }
         
         protected boolean shouldRecord(Icon newValue) {
-            return !(newValue == null || newValue instanceof SketchedImageIcon);
+            return !(newValue == null || newValue instanceof SketchifiedIcon);
         }
     }
 
@@ -182,12 +182,12 @@ class NapkinSmartListeners {
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
                 ((AbstractButton) c).setRolloverSelectedIcon(
-                        new SketchedImageIcon(c, newValue));
+                        new SketchifiedIcon(c, newValue));
             }
         }
         
         protected boolean shouldRecord(Icon newValue) {
-            return !(newValue == null || newValue instanceof SketchedImageIcon);
+            return !(newValue == null || newValue instanceof SketchifiedIcon);
         }
     }
 
@@ -200,12 +200,12 @@ class NapkinSmartListeners {
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
                 ((AbstractButton) c)
-                        .setDisabledIcon(new SketchedImageIcon(c, newValue));
+                        .setDisabledIcon(new SketchifiedIcon(c, newValue));
             }
         }
         
         protected boolean shouldRecord(Icon newValue) {
-            return !(newValue == null || newValue instanceof SketchedImageIcon);
+            return !(newValue == null || newValue instanceof SketchifiedIcon);
         }
     }
 
@@ -220,12 +220,12 @@ class NapkinSmartListeners {
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
                 ((AbstractButton) c).setDisabledSelectedIcon(
-                        new SketchedImageIcon(c, newValue));
+                        new SketchifiedIcon(c, newValue));
             }
         }
         
         protected boolean shouldRecord(Icon newValue) {
-            return !(newValue == null || newValue instanceof SketchedImageIcon);
+            return !(newValue == null || newValue instanceof SketchifiedIcon);
         }
     }
 
