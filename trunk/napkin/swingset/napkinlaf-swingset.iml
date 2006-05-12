@@ -32,7 +32,7 @@
     <orderEntry type="module-library">
       <library name="napkinlaf">
         <CLASSES>
-          <root url="jar:///Users/arnold/.m2/repository/net/sourceforge/napkinlaf/napkinlaf/1.1.SNAPSHOT/napkinlaf-1.1.SNAPSHOT.jar!/" />
+          <root url="jar:///Users/arnold/.m2/repository/net/sourceforge/napkinlaf/napkinlaf/1.1-SNAPSHOT/napkinlaf-1.1-SNAPSHOT.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
