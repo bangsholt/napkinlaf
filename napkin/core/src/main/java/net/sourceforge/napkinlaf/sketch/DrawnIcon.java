@@ -6,22 +6,23 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
- * The <tt>SketchedIcon</tt> class is an implmentation of the <tt>Icon</tt>
+ * The <tt>DrawnIcon</tt> class is an implmentation of the <tt>Icon</tt>
  * interface type. This class is responsible for providing the height and width
  * of the icon and painting the sketched image on screen using the given XML
  * template and sketching style.
- *
+ * 
+ * 
  * @author Justin Crafford
  * @author Peter Goodspeed
  */
-public class SketchedIcon implements NapkinIcon {
+public class DrawnIcon implements NapkinIcon {
     private final Template template;    // The template object to sketch
     private AbstractSketcher sketcher;    // The sketcher used to create icon's image
     private BufferedImage bimage; // The stored image of the final sketch
     private boolean isSketched;   // Has this icon's template has been sketched?
 
     /** Creates a new DrawnIcon with specified template and sketch style. */
-    public SketchedIcon(Template template, AbstractSketcher sketcher) {
+    public DrawnIcon(Template template, AbstractSketcher sketcher) {
         this.template = template;
         this.sketcher = sketcher;
         isSketched = false;

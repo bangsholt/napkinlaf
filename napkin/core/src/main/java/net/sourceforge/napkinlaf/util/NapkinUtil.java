@@ -4,7 +4,7 @@ import net.sourceforge.napkinlaf.*;
 import net.sourceforge.napkinlaf.borders.*;
 import net.sourceforge.napkinlaf.fonts.MergedFontGraphics2D;
 import net.sourceforge.napkinlaf.shapes.*;
-import net.sourceforge.napkinlaf.sketch.SketchedImageIcon;
+import net.sourceforge.napkinlaf.sketch.SketchifiedIcon;
 import net.sourceforge.napkinlaf.util.NapkinSmartListeners.*;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
 
