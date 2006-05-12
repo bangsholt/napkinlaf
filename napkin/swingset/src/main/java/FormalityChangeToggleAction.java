@@ -7,9 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Toggle whether to start formality shifting
- */
+/** Toggle whether to start formality shifting */
 public class FormalityChangeToggleAction implements Action {
     private final JComponent component;
     private final List<PropertyChangeListener> changeListeners;
@@ -25,7 +23,6 @@ public class FormalityChangeToggleAction implements Action {
     }
 
     public void actionPerformed(ActionEvent e) {
-        System.out.println("action: " + component);
         JRootPane root = component.getRootPane();
         Component glassPane = root.getGlassPane();
         if (glassPane.isVisible()) {

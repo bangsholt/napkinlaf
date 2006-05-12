@@ -1,5 +1,3 @@
-import net.sourceforge.napkinlaf.util.NapkinDebug;
-
 import javax.swing.*;
 import javax.swing.plaf.metal.*;
 import java.awt.*;
@@ -57,7 +55,6 @@ public class FormalityMouseListener extends MouseAdapter {
                 return;
         }
         over = (JComponent) c;
-        System.out.println(over.getClass().getName());
         boolean formal = isFormal(over);
         if (formal) {
             SwingUtilities.updateComponentTreeUI(over);
@@ -72,18 +69,14 @@ public class FormalityMouseListener extends MouseAdapter {
             }
         }
         changes.put(over, new ChangeDesc(!formal, nextGen++));
-        System.out.println("put(" + NapkinDebug.descFor(over) + ": " +
-                changes.get(over));
         ev.consume();
     }
 
     private boolean isFormal(JComponent over) {
         ChangeDesc ownerChange = null;
         Container owner = null;
-        System.out.println("isFormal(" + NapkinDebug.descFor(over) + ")");
         for (Container c = over; c != null; c = c.getParent()) {
             ChangeDesc change = changes.get(c);
-            System.out.println("  " + NapkinDebug.descFor(c) + ": " + change);
             if (change != null) {
                 if (ownerChange == null) {
                     owner = c;
@@ -95,8 +88,6 @@ public class FormalityMouseListener extends MouseAdapter {
                         ownerChange = change;
                     }
                 }
-                System.out.println("    owner: " + NapkinDebug.descFor(owner) +
-                        ": " + ownerChange);
             }
         }
         if (ownerChange == null)
