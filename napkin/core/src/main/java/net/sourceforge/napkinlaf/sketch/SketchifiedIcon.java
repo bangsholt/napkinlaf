@@ -135,5 +135,4 @@ public class SketchifiedIcon extends ImageIcon implements NapkinIcon {
         g.drawImage(edgeImage, 0, 0, null);
         return image;
     }
-    
 }
