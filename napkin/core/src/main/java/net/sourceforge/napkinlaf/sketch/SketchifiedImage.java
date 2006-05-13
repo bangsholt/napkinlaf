@@ -70,6 +70,9 @@ public class SketchifiedImage extends Image implements ImageObserver {
     public SketchifiedImage(Image image) {
         this.image = image;
         sketch = sketchify(image);
+        if (sketch == null) {
+            getGraphics().drawImage(image, 0, 0, this);
+        }
     }
     
     private static Raster
@@ -101,9 +104,9 @@ public class SketchifiedImage extends Image implements ImageObserver {
         return dstRtr;
     }
     
-    private BufferedImage sketchify(Image origImage) {
-        int width = origImage.getWidth(this);
-        int height = origImage.getHeight(this);
+    static BufferedImage sketchify(Image origImage) {
+        int width = origImage.getWidth(null);
+        int height = origImage.getHeight(null);
         if (width < 0 || height < 0) {
             return null;
         }
