@@ -333,7 +333,7 @@ public class NapkinUtil {
     }
 
     private static boolean canBeDisabled(Component c) {
-        return c instanceof AbstractButton;
+        return !(c instanceof JTextComponent);
     }
 
     public static Graphics2D defaultGraphics(Graphics g1, Component c) {

@@ -202,29 +202,35 @@ public class SketchifiedImage extends Image implements ImageObserver {
         return true;
     }
 
+    @Override
     public void setAccelerationPriority(float priority) {
         super.setAccelerationPriority(priority);
     }
 
+    @Override
     public ImageCapabilities getCapabilities(GraphicsConfiguration gc) {
         return sketch == null ?
             super.getCapabilities(gc) : sketch.getCapabilities(gc);
     }
 
+    @Override
     public Image getScaledInstance(int width, int height, int hints) {
         return sketch == null ?
             null : sketch.getScaledInstance(width, height, hints);
     }
 
+    @Override
     public float getAccelerationPriority() {
         return sketch == null ?
             super.getAccelerationPriority() : sketch.getAccelerationPriority();
     }
 
+    @Override
     public void flush() {
         if (sketch != null) {
             sketch.flush();
         }
-        super.flush();
+        //!! only works with Mustang (or later)
+        //super.flush();
     }
 }
