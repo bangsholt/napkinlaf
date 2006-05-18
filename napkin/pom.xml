@@ -99,8 +99,7 @@
                     <skip>false</skip>
                     <forkMode>once</forkMode>
                     <argLine>
-                        -enableassertions
-                        -Dswing.defaultlaf=javax.swing.plaf.metal.MetalLookAndFeel
+                        -enableassertions -Dswing.defaultlaf=javax.swing.plaf.metal.MetalLookAndFeel
                     </argLine>
                 </configuration>
             </plugin>
