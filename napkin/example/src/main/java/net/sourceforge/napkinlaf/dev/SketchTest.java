@@ -2,7 +2,7 @@ package net.sourceforge.napkinlaf.dev;
 
 import net.sourceforge.napkinlaf.NapkinLookAndFeel;
 import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
-import net.sourceforge.napkinlaf.sketch.SketchedIcon;
+import net.sourceforge.napkinlaf.sketch.DrawnIcon;
 import net.sourceforge.napkinlaf.sketch.Template;
 import net.sourceforge.napkinlaf.sketch.sketchers.DraftSketcher;
 import net.sourceforge.napkinlaf.sketch.sketchers.IdealSketcher;
@@ -33,7 +33,7 @@ public class SketchTest implements ActionListener {
     private static final int DEFAULT = IDEAL;
 
     // Drawn icons generated from an XML template
-    private SketchedIcon templateIcon;
+    private DrawnIcon templateIcon;
 
     // Various GUI widgets for controlling the application's settings
     private static JFrame templateTestFrame;
@@ -350,15 +350,15 @@ public class SketchTest implements ActionListener {
      *
      * @return An icon image of the sketched template
      */
-    private static SketchedIcon
+    private static DrawnIcon
             createDrawnIcon(String templatePath, int sketchStyle) {
 
         AbstractSketcher sketcher = getSketchStyle(sketchStyle);
-        SketchedIcon ret = null;
+        DrawnIcon ret = null;
 
         try {
             Template template = Template.createFromXML(templatePath);
-            ret = new SketchedIcon(template, sketcher);
+            ret = new DrawnIcon(template, sketcher);
         } catch (Exception e) {
             e.printStackTrace();
             throw new Error(e);
