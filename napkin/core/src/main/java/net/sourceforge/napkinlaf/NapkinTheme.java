@@ -1,7 +1,7 @@
 package net.sourceforge.napkinlaf;
 
 import net.sourceforge.napkinlaf.fonts.PatchedFontUIResource;
-import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
+import net.sourceforge.napkinlaf.sketch.Sketcher;
 import net.sourceforge.napkinlaf.sketch.sketchers.DraftSketcher;
 import net.sourceforge.napkinlaf.sketch.sketchers.JotSketcher;
 import net.sourceforge.napkinlaf.util.AlphaColorUIResource;
@@ -32,7 +32,7 @@ public class NapkinTheme {
     private final Font textFont;
     private final Font boldTextFont;
     private final Font fixedFont;
-    private final AbstractSketcher sketcher;
+    private final Sketcher sketcher;
     private final NapkinBackground paper;
     private final NapkinBackground erasure;
     private Map<NapkinKnownTheme, NapkinTheme> variants =
@@ -48,7 +48,7 @@ public class NapkinTheme {
             Color checkColor, Color radioColor, Color highlightColor,
             Color selectionColor, Color rollOverColor, Color popupRollOverColor,
             Font textFont, Font boldTextFont, Font fixedFont,
-            AbstractSketcher sketcher, NapkinBackground paper,
+            Sketcher sketcher, NapkinBackground paper,
             NapkinBackground erasure, NapkinBackground popupPaper) {
 
         this(name, description, penColor, checkColor, radioColor,
@@ -64,7 +64,7 @@ public class NapkinTheme {
     public NapkinTheme(String name, String description, Color penColor,
             Color checkColor, Color radioColor, Color highlightColor,
             Color selectionColor, Color rollOverColor, Font textFont,
-            Font boldTextFont, Font fixedFont, AbstractSketcher sketcher,
+            Font boldTextFont, Font fixedFont, Sketcher sketcher,
             NapkinBackground paper, NapkinBackground erasure,
             NapkinTheme popupTheme) {
         this.name = name;
@@ -151,7 +151,7 @@ public class NapkinTheme {
         return fixedFont;
     }
 
-    public AbstractSketcher getSketcher() {
+    public Sketcher getSketcher() {
         return sketcher;
     }
 

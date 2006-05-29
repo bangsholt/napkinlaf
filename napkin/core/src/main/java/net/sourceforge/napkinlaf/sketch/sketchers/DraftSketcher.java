@@ -1,6 +1,6 @@
 package net.sourceforge.napkinlaf.sketch.sketchers;
 
-import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
+import net.sourceforge.napkinlaf.sketch.Sketcher;
 import net.sourceforge.napkinlaf.sketch.geometry.CubicLine;
 import net.sourceforge.napkinlaf.sketch.geometry.Path;
 import net.sourceforge.napkinlaf.sketch.geometry.QuadLine;
@@ -16,7 +16,7 @@ import net.sourceforge.napkinlaf.util.NapkinRandom;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-public class DraftSketcher extends AbstractSketcher {
+public class DraftSketcher extends Sketcher {
     private static final double DEFORM_FACTOR = 0.05;
 
     /** {@inheritDoc} */

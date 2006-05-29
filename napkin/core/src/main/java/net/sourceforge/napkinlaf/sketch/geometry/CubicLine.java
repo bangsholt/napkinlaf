@@ -1,6 +1,6 @@
 package net.sourceforge.napkinlaf.sketch.geometry;
 
-import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
+import net.sourceforge.napkinlaf.sketch.Sketcher;
 
 import java.awt.geom.*;
 
@@ -13,7 +13,6 @@ import java.awt.geom.*;
 public class CubicLine extends CubicCurve2D.Double implements SketchShape {
     /** Constructs a new <tt>CubicLine</tt> object. */
     public CubicLine() {
-        super();
     }
 
     /**
@@ -57,8 +56,8 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
         StraightLine s1 = new StraightLine(getP1(), getCtrlP1());
         StraightLine s2 = new StraightLine(getCtrlP1(), getCtrlP2());
         StraightLine s3 = new StraightLine(getCtrlP2(), getP2());
-        return (s1.length() + s2.length() + s3.length())
-                / (1 + Math.log(getFlatness() + 1));
+        return (s1.length() + s2.length() + s3.length()) /
+                (1 + Math.log(getFlatness() + 1));
     }
 
     /** {@inheritDoc} */
@@ -129,37 +128,41 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
         Point one = Point.midpoint(p1, s1);
         Point two = Point.midpoint(p2, s2);
 
-        return new StraightLine[] {
-            new StraightLine(getP1(), one),
-            new StraightLine(one, two),
-            new StraightLine(two, getP2()),
+        return new StraightLine[]{
+                new StraightLine(getP1(), one),
+                new StraightLine(one, two),
+                new StraightLine(two, getP2()),
         };
     }
 
     /** {@inheritDoc} */
-    public QuadLine[] transformToQuad() {
+    public QuadLine[] transformToQuadList() {
         QuadLine[] result;
 
         StraightLine line = new StraightLine(getP1(), getP2());
         Point intersection = line.intersects(
                 new StraightLine(getCtrlP1(), getCtrlP2()));
         if (intersection == null) {
-            result = new QuadLine[] {
-                new QuadLine(getP1(),
-                        Point.midpoint(getCtrlP1(), getCtrlP2()), getP2()),
+            result = new QuadLine[]{
+                    transformToQuad(),
             };
         } else {
-            result = new QuadLine[] {
-                new QuadLine(getP1(), getCtrlP1(), intersection),
-                new QuadLine(intersection, getCtrlP2(), getP2()),
+            result = new QuadLine[]{
+                    new QuadLine(getP1(), getCtrlP1(), intersection),
+                    new QuadLine(intersection, getCtrlP2(), getP2()),
             };
         }
 
         return result;
     }
 
+    public QuadLine transformToQuad() {
+        return new QuadLine(getP1(),
+                Point.midpoint(getCtrlP1(), getCtrlP2()), getP2());
+    }
+
     /** {@inheritDoc} */
-    public SketchShape deform(AbstractSketcher r) {
+    public SketchShape deform(Sketcher r) {
         return r.deformCubic(this);
     }
 

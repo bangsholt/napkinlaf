@@ -1,19 +1,20 @@
 package net.sourceforge.napkinlaf.sketch.geometry;
 
-import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
+import net.sourceforge.napkinlaf.sketch.Sketcher;
 
 import java.awt.*;
 
 /**
- * The <tt>UtilityShape</tt> class defines a set of utility methods which are
- * used within the Napkin Drawing MQP. An important point of note is that one of
- * the most important methods is not actually specified by the interface itself,
- * but should still hold true for all implementors of this interface: there
- * should be a constructor which accepts the highest-level non-<tt>Object</tt>
- * class in the tree, and constructs a new member of this shape class whose path
- * is identical to that of the one passed in. Thus, XMLStraightLine, which
- * implements XMLShape, which is a subinterface of this, has a constructor thus:
- * <tt>new XMLStraightLine(Line2D)</tt>. This allows easy access to all the
+ * The {@link SketchShape} class defines a set of utility methods which are used
+ * within the Napkin Drawing subsystem. An important point of note is that one
+ * of the most important methods is not actually specified by the interface
+ * itself, but should still hold true for all implementors of this interface:
+ * there should be a constructor which accepts the highest-level
+ * non-<tt>Object</tt> class in the tree, and constructs a new member of this
+ * shape class whose path is identical to that of the one passed in. Thus,
+ * {@link XMLStraightLine}, which implements {@link XMLShape}, which is a
+ * subinterface of this, has a constructor thus: <tt>new
+ * XMLStraightLine(Line2D)</tt>. This allows easy access to all the
  * functionality of these classes without having to deal with factories.
  *
  * @author Peter Goodspeed
@@ -31,43 +32,48 @@ public interface SketchShape extends Shape, Cloneable {
      *
      * @param scaleFactor The scaling factor.
      *
-     * @return a UtilityShape geometrically similar to this one, scaled by the
-     *         scaleFactor.
+     * @return A {@link SketchShape} geometrically similar to this one, scaled
+     *         by the scaleFactor.
      */
     SketchShape magnify(double scaleFactor);
 
-    /** @return an approximation of this shape, sketched as a set of Lines. */
+    /** @return An approximation of this shape, sketched as a set of Lines. */
     StraightLine[] transformToLine();
 
-    /** @return an approximation of this shape, sketched as a set of Quads. */
-    QuadLine[] transformToQuad();
+    /** @return A representation of this shape in the form of a QuadLine. */
+    QuadLine transformToQuad();
 
-    /** @return a representation of this shape in the form of a CubicLine. */
+    /** @return An approximation of this shape, sketched as a set of Quads. */
+    QuadLine[] transformToQuadList();
+
+    /** @return A representation of this shape in the form of a CubicLine. */
     CubicLine transformToCubic();
 
-    /** @return an approximation of this shape, sketched as a set of Cubics. */
+    /** @return An approximation of this shape, sketched as a set of Cubics. */
     CubicLine[] transformToCubicList();
 
-    /** @return a representation of this shape in the form of a Path. */
+    /** @return A representation of this shape in the form of a Path. */
     Path transformToPath();
 
     /**
-     * Deform this shape by the appropriate method within the sketcher. Thus,
+     * Deforms this shape by the appropriate method within the sketcher. Thus,
      * the implementation of this method will nearly always take the following
-     * form: <br /> <br /> <tt>return r.deform</tt> <b>&lt;UtilityShape name&gt;
-     * </b> <tt>(this);</tt>
+     * form:
+     * <pre>
+     * return r.deform<i>SketchShapeName</i>(this);
+     * </pre>
      *
      * @param sketcher The sketcher.
      *
-     * @return this shape, deformed by the appropriate method within the
+     * @return This shape, deformed by the appropriate method within the
      *         sketcher
      */
-    SketchShape deform(AbstractSketcher sketcher);
+    SketchShape deform(Sketcher sketcher);
 
     /**
-     * @return the approximate length of this item. This should be optimized for
+     * @return The approximate length of this item. This should be optimized for
      *         speed of computation, not accuracy. However, in general it should
-     *         be accurate to within approximately 20%.
+     *         be accurate to within at least 20%.
      */
     double approximateLength();
 

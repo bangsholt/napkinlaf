@@ -1,6 +1,6 @@
 package net.sourceforge.napkinlaf.sketch.geometry;
 
-import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
+import net.sourceforge.napkinlaf.sketch.Sketcher;
 
 import java.awt.geom.*;
 
@@ -13,7 +13,6 @@ import java.awt.geom.*;
 public class QuadLine extends QuadCurve2D.Double implements SketchShape {
     /** Constructs a new <tt>QuadLine</tt> object. */
     public QuadLine() {
-        super();
     }
 
     public QuadLine(double x1, double y1, double ctrlx, double ctrly, double x2,
@@ -66,14 +65,18 @@ public class QuadLine extends QuadCurve2D.Double implements SketchShape {
     }
 
     /** {@inheritDoc} */
-    public QuadLine[] transformToQuad() {
+    public QuadLine[] transformToQuadList() {
         QuadLine[] ret = new QuadLine[1];
-        ret[0] = clone();
+        ret[0] = transformToQuad();
         return ret;
     }
 
+    public QuadLine transformToQuad() {
+        return clone();
+    }
+
     /** {@inheritDoc} */
-    public SketchShape deform(AbstractSketcher r) {
+    public SketchShape deform(Sketcher r) {
         return r.deformQuad(this);
     }
 

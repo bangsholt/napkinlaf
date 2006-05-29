@@ -21,8 +21,6 @@ public class DrawnCubicLineGenerator extends AbstractDrawnGenerator {
             DrawnCubicLineGenerator.class.getName());
 
     public DrawnCubicLineGenerator() {
-        super();
-
         left = new RandomXY(10, 4, -0.7, 1.5);
         right = new RandomXY(20, 8, -1.3, 2);
     }

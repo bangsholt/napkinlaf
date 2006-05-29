@@ -60,7 +60,6 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
 
     public DrawnBoxGenerator(DrawnCubicLineGenerator cubic,
             DrawnQuadLineGenerator quad) {
-        super();
 
         generators = new HashMap<Class<?>, AbstractDrawnGenerator>(3);
         generators.put(DrawnCubicLineGenerator.class, cubic);

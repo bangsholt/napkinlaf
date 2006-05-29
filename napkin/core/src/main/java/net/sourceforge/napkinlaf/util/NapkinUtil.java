@@ -1,28 +1,45 @@
 package net.sourceforge.napkinlaf.util;
 
-import net.sourceforge.napkinlaf.*;
-import net.sourceforge.napkinlaf.borders.*;
+import net.sourceforge.napkinlaf.DebugGraphics2D;
+import net.sourceforge.napkinlaf.NapkinKnownTheme;
+import net.sourceforge.napkinlaf.NapkinLookAndFeel;
+import net.sourceforge.napkinlaf.NapkinTheme;
+import net.sourceforge.napkinlaf.borders.NapkinBorder;
+import net.sourceforge.napkinlaf.borders.NapkinBoxBorder;
+import net.sourceforge.napkinlaf.borders.NapkinCompoundBorder;
+import net.sourceforge.napkinlaf.borders.NapkinWrappedBorder;
 import net.sourceforge.napkinlaf.fonts.MergedFontGraphics2D;
-import net.sourceforge.napkinlaf.shapes.*;
-import net.sourceforge.napkinlaf.sketch.SketchifiedIcon;
-import net.sourceforge.napkinlaf.util.NapkinSmartListeners.*;
+import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
+import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
+import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.BackgroundListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.BorderListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.ButtonIconListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.DisabledIconListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.DisabledSelectedIconListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.OpaqueListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.PressedIconListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.RollOverListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.RolloverIconListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.RolloverSelectedIconListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.SelectedIconListener;
 
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.plaf.*;
+import javax.swing.text.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.image.BufferedImage;
+import java.awt.geom.*;
+import java.awt.image.*;
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
-import java.util.*;
+import java.util.Map;
+import java.util.Stack;
+import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.UIResource;
-import javax.swing.text.JTextComponent;
 
 public class NapkinUtil {
     private static final Map<Float, Stroke> strokes =
@@ -42,9 +59,9 @@ public class NapkinUtil {
             AlphaComposite.getInstance(AlphaComposite.DST_OUT, 0.9f);
     private static final Stack<NapkinTheme> themeStack =
             new Stack<NapkinTheme>();
-    private static final Stack<Component> paperStack = new Stack<Component>();
+    private static final Stack<Component> PAPER_STACK = new Stack<Component>();
 
-    private static SoftReference<BufferedImage> erasureBuffer =
+    private static SoftReference<BufferedImage> ERASURE_BUFFER =
             new SoftReference<BufferedImage>(null);
 
     static {
@@ -62,8 +79,8 @@ public class NapkinUtil {
         gi.drawImage(icon.getImage(), 0, 0, icon.getImageObserver());
     }
 
-    private static final DrawnLineHolder highLightLongLine;
-    private static final DrawnLineHolder highLightShortLine;
+    private static final DrawnLineHolder HIGHLIGHT_LONG_LINE;
+    private static final DrawnLineHolder HIGHLIGHT_SHORT_LINE;
 
     static {
         DrawnCubicLineGenerator lineGen = new DrawnCubicLineGenerator();
@@ -71,10 +88,10 @@ public class NapkinUtil {
         rVal.setRange(rVal.getRange() * 2.5d);
         rVal = lineGen.getRight().getY();
         rVal.setRange(rVal.getRange() * 2.5d);
-        highLightLongLine = new DrawnLineHolder(lineGen);
+        HIGHLIGHT_LONG_LINE = new DrawnLineHolder(lineGen);
 
         lineGen = new DrawnCubicLineGenerator();
-        highLightShortLine = new DrawnLineHolder(lineGen);
+        HIGHLIGHT_SHORT_LINE = new DrawnLineHolder(lineGen);
     }
 
     public interface PropertyFactory {
@@ -123,7 +140,7 @@ public class NapkinUtil {
     static boolean isTranparent(Color bgColor) {
         return bgColor == CLEAR || bgColor == HIGHLIGHT_CLEAR;
     }
-    
+
     public static void installUI(JComponent c) {
         // prevents double installing
         if (c.getClientProperty(INSTALL_KEY) != Boolean.TRUE) {
@@ -298,16 +315,23 @@ public class NapkinUtil {
     }
 
     public static Graphics2D copy(Graphics g) {
-        return (Graphics2D) g.create();
+        return (Graphics2D) toGraphics2D(g).create();
     }
 
     public static Graphics2D lineGraphics(Graphics orig, float w) {
-        return lineGraphics((Graphics2D) orig, w);
+        return lineGraphics(toGraphics2D(orig), w);
+    }
+
+    public static Graphics2D toGraphics2D(Graphics orig) {
+        if (orig instanceof DebugGraphics)
+            return new DebugGraphics2D((DebugGraphics) orig);
+        else
+            return (Graphics2D) orig;
     }
 
     public static Graphics2D lineGraphics(
             Graphics orig, float w, int cap, int join) {
-        return lineGraphics((Graphics2D) orig, w, cap, join);
+        return lineGraphics(toGraphics2D(orig), w, cap, join);
     }
 
     public static Graphics2D lineGraphics(Graphics2D orig, float w) {
@@ -337,17 +361,17 @@ public class NapkinUtil {
     }
 
     public static Graphics2D defaultGraphics(Graphics g1, Component c) {
-        Graphics2D g = (Graphics2D) g1;
+        Graphics2D g = toGraphics2D(g1);
         syncWithTheme(g, c);
         boolean enabled = c.isEnabled();
         if (!enabled && canBeDisabled(c)) {
             Rectangle r = g.getClipBounds();
             int w = r.width + CLIP_INSET;
             int h = r.height + CLIP_INSET;
-            BufferedImage tmp = erasureBuffer.get();
+            BufferedImage tmp = ERASURE_BUFFER.get();
             if (tmp == null || tmp.getWidth() < w || tmp.getHeight() < h) {
                 tmp = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-                erasureBuffer = new SoftReference<BufferedImage>(tmp);
+                ERASURE_BUFFER = new SoftReference<BufferedImage>(tmp);
             }
             Graphics2D tg = tmp.createGraphics();
             Composite origComp = tg.getComposite();
@@ -383,7 +407,7 @@ public class NapkinUtil {
 
     public static void syncWithTheme(Graphics2D g, Component c) {
         if (isPaper(c)) {
-            paperStack.push(c);
+            PAPER_STACK.push(c);
             themeStack.push(
                     (NapkinTheme) ((JComponent) c).getClientProperty(THEME_KEY)
             );
@@ -429,14 +453,14 @@ public class NapkinUtil {
     }
 
     public static Component currentPaper(Component c) {
-        return paperStack.isEmpty() ? themeTopFor(c) : paperStack.peek();
+        return PAPER_STACK.isEmpty() ? themeTopFor(c) : PAPER_STACK.peek();
     }
 
     @SuppressWarnings({"ObjectEquality"})
     public static void finishGraphics(Graphics g1, Component c) {
         if (c == currentPaper(c)) {
-            if (!paperStack.isEmpty()) {
-                paperStack.pop();
+            if (!PAPER_STACK.isEmpty()) {
+                PAPER_STACK.pop();
             }
             if (!themeStack.isEmpty()) {
                 themeStack.pop();
@@ -465,7 +489,7 @@ public class NapkinUtil {
                             jc.getForeground().getRGB() & 0x00FFFFFF));
                 }
 
-                Graphics2D tg = (Graphics2D) g1;
+                Graphics2D tg = toGraphics2D(g1);
                 tg.setComposite(ERASURE_COMPOSITE);
                 Point start = getStart(jc, null);
                 int w = textureImage.getWidth();
@@ -581,7 +605,7 @@ public class NapkinUtil {
     public static NapkinTheme paintBackground(Graphics g1, Component c) {
         NapkinTheme theme = null;
         if (!(c instanceof JComponent && isGlassPane((JComponent) c))) {
-            Graphics2D g = (Graphics2D) g1;
+            Graphics2D g = toGraphics2D(g1);
             theme = currentTheme(c);
             NapkinBackground bg = theme.getPaper();
 
@@ -613,13 +637,13 @@ public class NapkinUtil {
                 rect.width -= NapkinRandom.nextDouble(10d);
             }
             DrawnLineHolder highLightLine = rect.width > 50f ?
-                    highLightLongLine : highLightShortLine;
+                    HIGHLIGHT_LONG_LINE : HIGHLIGHT_SHORT_LINE;
             highLightLine.setCap(BasicStroke.CAP_BUTT);
             float lineWidth = rect.height;
-            if (lineWidth > 10f) {
+            if (lineWidth > 10.0f) {
                 lineWidth *= 0.8f;
             }
-            if (lineWidth >= 0f) {
+            if (lineWidth >= 0.0f) {
                 Color fColor = g.getColor();
                 if (shouldHighlight && isRolledOver) {
                     lineWidth *= 0.5f;
@@ -793,7 +817,7 @@ public class NapkinUtil {
         }
         g = defaultGraphics(g, c);
         NapkinTheme theme = paintBackground(g, c);
-        MergedFontGraphics2D mfg = MergedFontGraphics2D.wrap((Graphics2D) g);
+        MergedFontGraphics2D mfg = MergedFontGraphics2D.wrap(toGraphics2D(g));
         painter.superPaint(mfg, c, theme);
         mfg.dispose();
         finishGraphics(g, c);
@@ -807,19 +831,19 @@ public class NapkinUtil {
     @SuppressWarnings({"UseOfSystemOutOrSystemErr", "HardcodedFileSeparator"})
     private static void dumpStacks() {
         if (Logs.paper.isLoggable(Level.FINER)) {
-            if (themeStack.size() != paperStack.size()) {
+            if (themeStack.size() != PAPER_STACK.size()) {
                 System.out.println("!!!");
             }
             StringBuilder dump = new StringBuilder(NapkinDebug.count).append(
                     ":\t");
             NapkinDebug.count++;
             //noinspection ForLoopReplaceableByForEach
-            for (int i = 0; i < paperStack.size(); i++) {
+            for (int i = 0; i < PAPER_STACK.size(); i++) {
                 dump.append(". ");
             }
             if (!themeStack.isEmpty()) {
                 dump.append(themeStack.peek()).append(" / ").append(
-                        NapkinDebug.descFor(paperStack.peek()));
+                        NapkinDebug.descFor(PAPER_STACK.peek()));
             }
             Logs.paper.log(Level.FINER, dump.toString());
         }
@@ -834,5 +858,26 @@ public class NapkinUtil {
             result = e;
         }
         return result;
+    }
+
+    /**
+     * Copies the non-transformational parts of the source graphics to the
+     * destination graphics.  The general use is to copy things like the pen and
+     * color to a new graphics object.  We do not copy the transform because it
+     * usually will mess up the drawing, such as by translating to coordinates
+     * that make sense in the source graphic's context, but not in the
+     * destinations.
+     *
+     * @param src The source for settings.
+     * @param dst The destination for settings.
+     */
+    public static void copySettings(Graphics2D src, Graphics2D dst) {
+        dst.setBackground(src.getBackground());
+        dst.setColor(src.getColor());
+        dst.setComposite(src.getComposite());
+        dst.setRenderingHints(src.getRenderingHints());
+        dst.setFont(src.getFont());
+        dst.setPaint(src.getPaint());
+        dst.setStroke(src.getStroke());
     }
 }

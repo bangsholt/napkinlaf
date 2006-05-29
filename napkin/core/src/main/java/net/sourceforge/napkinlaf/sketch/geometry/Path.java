@@ -1,6 +1,6 @@
 package net.sourceforge.napkinlaf.sketch.geometry;
 
-import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
+import net.sourceforge.napkinlaf.sketch.Sketcher;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -149,8 +149,19 @@ public class Path implements SketchShape {
         return ret;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * This operation is not supported, and throws {@link
+     * UnsupportedOperationException}
+     */
     public CubicLine transformToCubic() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * This operation is not supported, and throws {@link
+     * UnsupportedOperationException}
+     */
+    public QuadLine transformToQuad() {
         throw new UnsupportedOperationException();
     }
 
@@ -177,14 +188,14 @@ public class Path implements SketchShape {
     }
 
     /** {@inheritDoc} */
-    public QuadLine[] transformToQuad() {
+    public QuadLine[] transformToQuadList() {
         //noinspection CollectionDeclaredAsConcreteClass
         LinkedList<QuadLine> ret = new LinkedList<QuadLine>();
 
         SketchShape[] elements = simplify();
 
         for (SketchShape element : elements) {
-            QuadLine[] temp = element.transformToQuad();
+            QuadLine[] temp = element.transformToQuadList();
             for (QuadLine line : temp) {
                 ret.addLast(line);
             }
@@ -194,12 +205,12 @@ public class Path implements SketchShape {
     }
 
     /** {@inheritDoc} */
-    public SketchShape deform(AbstractSketcher r) {
+    public SketchShape deform(Sketcher r) {
         return r.deformPath(this);
     }
 
     /**
-     * @return An array of UtilityShapes which comprise the elements of this
+     * @return An array of SketchShapes which comprise the elements of this
      *         Path.
      */
     @SuppressWarnings({"TooBroadScope"})

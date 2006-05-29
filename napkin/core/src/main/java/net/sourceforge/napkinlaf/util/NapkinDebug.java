@@ -1,9 +1,12 @@
 package net.sourceforge.napkinlaf.util;
 
+import net.sourceforge.napkinlaf.DebugGraphics2D;
+
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.text.*;
 import java.awt.*;
+import java.awt.geom.*;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -31,8 +34,10 @@ public class NapkinDebug {
 
     protected static int count;
 
-    private NapkinDebug() {
-    }
+    private static Map<Integer, String> matrixTypeNames;
+
+    private static final String[] JOIN_NAMES = {"MITER", "ROUND", "BEVEL"};
+    private static final String[] CAP_NAMES = {"BUTT", "ROUND", "SQUARE"};
 
     public static void dumpObject(Object obj, String fileName) {
         PrintStream out = null;
@@ -51,7 +56,7 @@ public class NapkinDebug {
 
     public static String descFor(Object obj) {
         return obj instanceof Component ?
-            descFor((Component) obj) : obj.getClass().getName();
+                descFor((Component) obj) : obj.getClass().getName();
     }
 
     @SuppressWarnings({"HardcodedFileSeparator"})
@@ -90,7 +95,8 @@ public class NapkinDebug {
                 } else if (c instanceof Frame) {
                     descStr.append(": ").append(((Frame) c).getTitle());
                 } else if (c instanceof JInternalFrame) {
-                    descStr.append(": ").append(((JInternalFrame) c).getTitle());
+                    descStr.append(": ").append(
+                            ((JInternalFrame) c).getTitle());
                 }
                 descStr = new StringBuilder(descStr.toString().trim());
 
@@ -98,7 +104,8 @@ public class NapkinDebug {
                     JComponent jc = (JComponent) c;
                     Border border = jc.getBorder();
                     if (border instanceof TitledBorder) {
-                        descStr.append(": ").append(((TitledBorder) border).getTitle());
+                        descStr.append(": ").append(
+                                ((TitledBorder) border).getTitle());
                     }
                 }
                 result = descStr.toString().trim();
@@ -257,7 +264,99 @@ public class NapkinDebug {
 
     @SuppressWarnings({"HardcodedFileSeparator"})
     public static String toString(Color c) {
-        return "#" + Integer.toHexString(c.getRGB()) + "/" +
-                Integer.toHexString(c.getAlpha());
+        return "#" + pad(Integer.toHexString(c.getRGB() & 0xffffff), 6, '0') +
+                "/" + pad(Integer.toHexString(c.getAlpha()), 2, '0');
+    }
+
+    public static String pad(String s, int min, char pad) {
+        int len = s.length();
+        if (len >= min)
+            return s;
+        StringBuilder sb = new StringBuilder(min);
+        for (int i = len; i < min; i++)
+            sb.append(pad);
+        sb.append(s);
+        return sb.toString();
+    }
+
+    public static String toString(AffineTransform m, String prefix
+    ) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(prefix).append(matrixType(m)).append('\n');
+        sb.append(prefix).append("@ ").append(m.getTranslateX()).append(", ")
+                .append(m.getTranslateY()).append('\n');
+        sb.append(prefix).append("* ").append(m.getScaleX()).append(", ")
+                .append(m.getScaleY());
+        return sb.toString();
+    }
+
+    public static String matrixType(AffineTransform m) {
+        int type = m.getType();
+        if (type == 0)
+            return "MATRIX";
+
+        StringBuilder sb = new StringBuilder();
+        Map<Integer, String> typeNames = matrixTypeNames();
+        for (Map.Entry<Integer, String>  entry : typeNames.entrySet()) {
+            if ((type & entry.getKey()) != 0) {
+                String typeName = entry.getValue();
+                if (sb.length() > 0)
+                    sb.append("|");
+                sb.append(typeName);
+            }
+        }
+        return sb.toString();
+    }
+
+    private static Map<Integer, String> matrixTypeNames() {
+        if (matrixTypeNames != null)
+            return matrixTypeNames;
+
+        Map<Integer, String> fields = new HashMap<Integer, String>();
+        try {
+            for (Field field : AffineTransform.class.getFields()) {
+                String name = field.getName();
+                if (name.startsWith("TYPE_") && Modifier.isStatic(
+                        field.getModifiers())) {
+                    fields.put(field.getInt(null), name);
+                }
+            }
+        } catch (IllegalAccessException e) {
+            fields.put(-1, "<NO_TYPE_NAMES>");
+        }
+        matrixTypeNames = fields;
+        return matrixTypeNames;
+    }
+
+    public static String toString(Stroke stroke) {
+        if (stroke instanceof BasicStroke) {
+            BasicStroke s = (BasicStroke) stroke;
+            StringBuilder sb = new StringBuilder();
+            sb.append("Stroke[");
+            sb.append("w=").append(s.getLineWidth());
+            sb.append(" join=").append(strokeJoinName(s.getLineJoin()));
+            sb.append(" cap=").append(strokeCapName(s.getEndCap()));
+            sb.append(" dash=").append(Arrays.toString(s.getDashArray()));
+            sb.append("]");
+            return sb.toString();
+        } else {
+            return stroke.toString();
+        }
+    }
+
+    private static String strokeJoinName(int lineJoin) {
+        try {
+            return JOIN_NAMES[lineJoin];
+        } catch (IndexOutOfBoundsException e) {
+            return Integer.toString(lineJoin);
+        }
+    }
+
+    private static String strokeCapName(int lineCap) {
+        try {
+            return CAP_NAMES[lineCap];
+        } catch (IndexOutOfBoundsException e) {
+            return Integer.toString(lineCap);
+        }
     }
 }

@@ -1,7 +1,7 @@
 package net.sourceforge.napkinlaf.dev;
 
 import net.sourceforge.napkinlaf.NapkinLookAndFeel;
-import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
+import net.sourceforge.napkinlaf.sketch.Sketcher;
 import net.sourceforge.napkinlaf.sketch.DrawnIcon;
 import net.sourceforge.napkinlaf.sketch.Template;
 import net.sourceforge.napkinlaf.sketch.sketchers.DraftSketcher;
@@ -91,7 +91,7 @@ public class SketchTest implements ActionListener {
      * This class represents a file filter for use by the file chooser. It
      * limits the files displayed only to those with an "xml" file extension.
      */
-    static class XMLFilter extends javax.swing.filechooser.FileFilter {
+    static class XMLFilter extends FileFilter {
         /** {@inheritDoc} */
         public boolean accept(File pathname) {
             if (pathname.isDirectory()) {
@@ -271,7 +271,7 @@ public class SketchTest implements ActionListener {
         }
 
         if (event.getSource() == sketchButton) {
-            templateIcon.setSketched(false);
+            templateIcon.invalidate();
             templateImageLabel.repaint();
         }
 
@@ -353,22 +353,18 @@ public class SketchTest implements ActionListener {
     private static DrawnIcon
             createDrawnIcon(String templatePath, int sketchStyle) {
 
-        AbstractSketcher sketcher = getSketchStyle(sketchStyle);
-        DrawnIcon ret = null;
-
         try {
+            Sketcher sketcher = getSketchStyle(sketchStyle);
             Template template = Template.createFromXML(templatePath);
-            ret = new DrawnIcon(template, sketcher);
+            return new DrawnIcon(template, sketcher);
         } catch (Exception e) {
             e.printStackTrace();
             throw new Error(e);
         }
-
-        return ret;
     }
 
-    private static AbstractSketcher getSketchStyle(int sketchStyle) {
-        AbstractSketcher sketcher;
+    private static Sketcher getSketchStyle(int sketchStyle) {
+        Sketcher sketcher;
 
         // Selects the sketching style to use
         switch (sketchStyle) {
@@ -420,7 +416,7 @@ public class SketchTest implements ActionListener {
     public static void main(String[] args) {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
             }

@@ -1,6 +1,6 @@
 package net.sourceforge.napkinlaf.sketch.geometry;
 
-import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
+import net.sourceforge.napkinlaf.sketch.Sketcher;
 import net.sourceforge.napkinlaf.sketch.XMLUtility;
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Element;
@@ -16,7 +16,6 @@ import java.awt.geom.*;
 public class StraightLine extends Line2D.Double implements SketchShape {
     /** Constructs a new <tt>StraightLine</tt> object. */
     public StraightLine() {
-        super();
     }
 
     public StraightLine(Line2D l) {
@@ -115,10 +114,14 @@ public class StraightLine extends Line2D.Double implements SketchShape {
     }
 
     /** {@inheritDoc} */
-    public QuadLine[] transformToQuad() {
+    public QuadLine[] transformToQuadList() {
         QuadLine[] ret = new QuadLine[1];
-        ret[0] = new QuadLine(getP1(), midpoint(), getP2());
+        ret[0] = transformToQuad();
         return ret;
+    }
+
+    public QuadLine transformToQuad() {
+        return new QuadLine(getP1(), midpoint(), getP2());
     }
 
     /**
@@ -161,7 +164,7 @@ public class StraightLine extends Line2D.Double implements SketchShape {
     }
 
     /** {@inheritDoc} */
-    public SketchShape deform(AbstractSketcher r) {
+    public SketchShape deform(Sketcher r) {
         return r.deformLine(this);
     }
 

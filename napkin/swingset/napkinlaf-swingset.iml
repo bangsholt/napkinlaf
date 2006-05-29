@@ -11,6 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="napkinlaf" />
     <orderEntry type="module-library">
       <library name="junit">
         <CLASSES>

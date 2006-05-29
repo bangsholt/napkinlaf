@@ -1,6 +1,6 @@
 package net.sourceforge.napkinlaf.sketch.sketchers;
 
-import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
+import net.sourceforge.napkinlaf.sketch.Sketcher;
 import net.sourceforge.napkinlaf.sketch.Template;
 import net.sourceforge.napkinlaf.sketch.TemplateItem;
 import net.sourceforge.napkinlaf.sketch.geometry.CubicLine;
@@ -9,7 +9,11 @@ import net.sourceforge.napkinlaf.sketch.geometry.Point;
 import net.sourceforge.napkinlaf.sketch.geometry.QuadLine;
 import net.sourceforge.napkinlaf.sketch.geometry.SketchShape;
 import net.sourceforge.napkinlaf.sketch.geometry.StraightLine;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.LENGTH;
 import net.sourceforge.napkinlaf.util.NapkinRandom;
+import net.sourceforge.napkinlaf.util.NapkinUtil;
+import net.sourceforge.napkinlaf.util.RandomValue;
+import net.sourceforge.napkinlaf.util.RandomXY;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -24,8 +28,15 @@ import java.util.Iterator;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-public class JotSketcher extends AbstractSketcher {
+public class JotSketcher extends Sketcher {
     private static final double DEFORM_FACTOR = 0.2;
+    private static final double CUBIC_LEN = 5.0;
+
+    private static final RandomXY start = new RandomXY(-1, 3, 0, 2.5);
+    private static final RandomValue startAdjust = new RandomValue(5);
+    private static final RandomXY mid = new RandomXY(60, 3, 0, 0.5);
+    private static final RandomXY left = new RandomXY(10, 4, -0.7, 1.5);
+    private static final RandomXY right = new RandomXY(20, 8, -1.3, 2);
 
     /** {@inheritDoc} */
     @Override
@@ -44,12 +55,7 @@ public class JotSketcher extends AbstractSketcher {
                 draw.setShape(deform(current.getShape().transformToPath(),
                         true));
 
-                //try the new scribble generator
-                //				draw.setShape(this.generateScribblePath(
-                //						current.getShape().transformToPath()).deform(this));
-                //it is horrible
-
-                cleanSketch(draw, g2d);
+                render(draw, g2d);
             }
             if (current.isDrawStroke()) {
                 draw.setDrawFill(false);
@@ -60,7 +66,7 @@ public class JotSketcher extends AbstractSketcher {
                         computeStrokeModifier(u.approximateLength()));
                 draw.setShape(u);
 
-                cleanSketch(draw, g2d);
+                render(draw, g2d);
             }
         }
     }
@@ -70,14 +76,44 @@ public class JotSketcher extends AbstractSketcher {
     }
 
     private static CubicLine deform(CubicLine c, boolean perturbInitial) {
-        double twopercent = c.approximateLength() * DEFORM_FACTOR;
+        double len = c.approximateLength();
+        if (len < 16) {
+            double twopercent = len * DEFORM_FACTOR;
 
-        Point p1 = (perturbInitial ?
-                Point.random(c.getP1(), twopercent) : new Point(c.getP1()));
-        return new CubicLine(p1,
-                Point.random(c.getCtrlP1(), twopercent * 5),
-                Point.random(c.getCtrlP2(), twopercent * 5),
-                Point.random(c.getP2(), twopercent));
+            Point p1 = (perturbInitial ?
+                    Point.random(c.getP1(), twopercent) : new Point(c.getP1()));
+            return new CubicLine(p1,
+                    Point.random(c.getCtrlP1(), twopercent * 5),
+                    Point.random(c.getCtrlP2(), twopercent * 5),
+                    Point.random(c.getP2(), twopercent));
+        } else {
+            Rectangle2D bounds = c.getBounds2D();
+            double angle = Math.atan2(bounds.getHeight(), bounds.getWidth());
+            AffineTransform matrix = new AffineTransform();
+            matrix.rotate(angle);
+            matrix.scale(len / LENGTH, 1);
+
+            Point2D leftAt = left.generate();
+            Point2D rightAt = right.generate();
+            double lx = NapkinUtil.leftRight(leftAt.getX(), true);
+            double ly = leftAt.getY();
+            double rx = NapkinUtil.leftRight(rightAt.getX(), false);
+            double ry = rightAt.getY();
+
+            if (perturbInitial) {
+                lx += startAdjust.generate();
+                ly += startAdjust.generate();
+            }
+
+            double[] coords = {0, 0, lx, ly, rx, ry, LENGTH, 0};
+            matrix.transform(coords, 0, coords, 0, 4);
+
+            return new CubicLine(
+                    coords[0], coords[1],
+                    coords[2], coords[3],
+                    coords[4], coords[5],
+                    coords[6], coords[7]);
+        }
     }
 
     /**
@@ -118,17 +154,26 @@ public class JotSketcher extends AbstractSketcher {
 
         double[] coords = new double[6];
 
+        boolean needClose = close;
         PathIterator pi = p.getPathIterator(new AffineTransform());
-        while (!pi.isDone()) {
-            int segType = pi.currentSegment(coords);
-            pi.next();
+        while (!pi.isDone() || needClose) {
+            int segType;
+            if (!pi.isDone()) {
+                segType = pi.currentSegment(coords);
+                pi.next();
+            } else {
+                assert needClose;
+                needClose = false;
+                segType = PathIterator.SEG_LINETO;
+                coords[0] = initial.getX();
+                coords[1] = initial.getY();
+            }
 
             // Do we need to keep creating new points or can we set coordinates
             switch (segType) {
             case PathIterator.SEG_MOVETO:
                 current = new Point(coords[0], coords[1]);
                 initial = new Point(current);
-                ret.moveTo(current.floatX(), current.floatY());
                 seg = null;
                 break;
             case PathIterator.SEG_LINETO:
@@ -158,26 +203,8 @@ public class JotSketcher extends AbstractSketcher {
             }
             if (seg != null) {
                 draw = deform(seg.transformToCubic(), false);
-                ctrl1 = new Point(draw.getCtrlP1());
-                ctrl2 = new Point(draw.getCtrlP2());
-                far = new Point(draw.getP2());
-                ret.curveTo(ctrl1.floatX(), ctrl1.floatY(), ctrl2.floatX(),
-                        ctrl2.floatY(),
-                        far.floatX(), far.floatY());
+                ret.append(draw, true);
             }
-        }
-
-        if (close) {
-            draw = deform(new StraightLine(current, initial).transformToCubic(),
-                    false);
-            ctrl1 = new Point(draw.getCtrlP1());
-            ctrl2 = new Point(draw.getCtrlP2());
-            far = new Point(draw.getP2());
-            ret.curveTo(ctrl1.floatX(), ctrl1.floatY(), ctrl2.floatX(),
-                    ctrl2.floatY(),
-                    far.floatX(),
-                    far.floatY());
-            ret.closePath();
         }
 
         return ret;
@@ -199,13 +226,17 @@ public class JotSketcher extends AbstractSketcher {
     /** {@inheritDoc} */
     @Override
     public SketchShape deformLine(StraightLine l) {
-        return l.transformToCubic().deform(this);
+        double basicLen = l.approximateLength();
+        if (basicLen >= CUBIC_LEN)
+            return l.transformToCubic().deform(this);
+        else
+            return l.transformToQuad().deform(this);
     }
 
     /** {@inheritDoc} */
     @Override
     public SketchShape deformQuad(QuadLine q) {
-        return q.transformToCubic().deform(this);
+        return q.transformToQuad().deform(this);
     }
 
     /** {@inheritDoc} */

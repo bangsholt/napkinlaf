@@ -1,46 +1,42 @@
 package net.sourceforge.napkinlaf.sketch;
 
 import net.sourceforge.napkinlaf.util.NapkinIcon;
+import net.sourceforge.napkinlaf.util.NapkinUtil;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.image.*;
 
 /**
  * The <tt>DrawnIcon</tt> class is an implmentation of the <tt>Icon</tt>
  * interface type. This class is responsible for providing the height and width
  * of the icon and painting the sketched image on screen using the given XML
  * template and sketching style.
- * 
- * 
+ *
  * @author Justin Crafford
  * @author Peter Goodspeed
  */
 public class DrawnIcon implements NapkinIcon {
     private final Template template;    // The template object to sketch
-    private AbstractSketcher sketcher;    // The sketcher used to create icon's image
-    private BufferedImage bimage; // The stored image of the final sketch
-    private boolean isSketched;   // Has this icon's template has been sketched?
+    private Sketcher sketcher;    // The sketcher used to create icon's image
+    private BufferedImage image; // The stored image of the final sketch
 
     /** Creates a new DrawnIcon with specified template and sketch style. */
-    public DrawnIcon(Template template, AbstractSketcher sketcher) {
+    public DrawnIcon(Template template, Sketcher sketcher) {
         this.template = template;
         this.sketcher = sketcher;
-        isSketched = false;
     }
 
     /** Sets the current sketcher to <tt>sketchStyle</tt>. */
-    public void setSketchStyle(AbstractSketcher sketchStyle) {
+    public void setSketchStyle(Sketcher sketchStyle) {
         sketcher = sketchStyle;
-        isSketched = false;
     }
 
     /**
-     * Set the sketched status of this icon. When the sketched status is false,
-     * the next paint command will generate a new sketching according to the
-     * sketcher. This mainly matters on non-deterministic underlying sketchers.
+     * Invalidate the current sketch so it will be redone next time it is
+     * needed.
      */
-    public void setSketched(boolean isSketched) {
-        this.isSketched = isSketched;
+    public void invalidate() {
+        image = null;
     }
 
     /** @return The title of the underlying template. */
@@ -69,19 +65,26 @@ public class DrawnIcon implements NapkinIcon {
         int height = template.getClippingBounds().height;
 
         Graphics2D g2d = (Graphics2D) g.create(x, y, width, height);
+        paint(g2d);
+        g2d.dispose();
+    }
 
-        if (!isSketched) {
-            bimage = new BufferedImage(width, height,
+    public void paint(Graphics2D g2d) {
+        int width = template.getWidth();
+        int height = template.getHeight();
+        width += 6;
+        height += 6;
+
+        if (image == null) {
+            image = new BufferedImage(width, height,
                     BufferedImage.TYPE_INT_ARGB);
-            Graphics2D imageGraphics = bimage.createGraphics();
-
-            sketcher.sketch(template.clone(), imageGraphics);
-            g2d.drawImage(bimage, 0, 0, width, height, null);
-            isSketched = true;
-        } else if (bimage != null) {
-            g2d.drawImage(bimage, 0, 0, width, height, null);
+            Graphics2D ig = image.createGraphics();
+            ig.translate(3, 3);
+            NapkinUtil.copySettings(g2d, ig);
+            sketcher.sketch(template, ig);
+            ig.dispose();
         }
 
-        g2d.dispose();
+        g2d.drawImage(image, -3, -3, width, height, null);
     }
 }

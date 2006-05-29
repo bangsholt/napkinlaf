@@ -1,5 +1,11 @@
 package net.sourceforge.napkinlaf.shapes;
 
+import net.sourceforge.napkinlaf.NapkinTheme;
+import net.sourceforge.napkinlaf.sketch.DrawnIcon;
+import net.sourceforge.napkinlaf.sketch.Template;
+import net.sourceforge.napkinlaf.sketch.TemplateItem;
+import net.sourceforge.napkinlaf.sketch.Sketcher;
+import net.sourceforge.napkinlaf.sketch.geometry.Path;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.LENGTH;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 
@@ -11,6 +17,7 @@ import java.util.logging.Logger;
 public class DrawnLineHolder extends DrawnShapeHolder {
     private Rectangle rect;
     private FontMetrics metrics;
+    private Template sketched;
     private final Endpoints endpoints;
 
     private static final Endpoints HORIZ_LINE = new Endpoints() {
@@ -23,9 +30,6 @@ public class DrawnLineHolder extends DrawnShapeHolder {
             return new Rectangle(bounds.x, bounds.y, 0, bounds.height);
         }
     };
-
-    private static final Logger logger = Logger.getLogger(
-            DrawnLineHolder.class.getName());
 
     public interface Endpoints {
         Rectangle getEndpoints(Rectangle bounds);
@@ -51,7 +55,7 @@ public class DrawnLineHolder extends DrawnShapeHolder {
     private static AbstractDrawnGenerator generatorFor(double len) {
         Class<?> type = AbstractDrawnGenerator.defaultLineType(len);
         return type == DrawnCubicLineGenerator.class ?
-            new DrawnCubicLineGenerator() : new DrawnQuadLineGenerator();
+                new DrawnCubicLineGenerator() : new DrawnQuadLineGenerator();
     }
 
     public void shapeUpToDate(Rectangle cRect, FontMetrics cMetrics) {
@@ -76,28 +80,22 @@ public class DrawnLineHolder extends DrawnShapeHolder {
                 x2 += below;
             }
 
-            double xDelta = x2 - x1;
-            double yDelta = y2 - y1;
-            double len = Math.sqrt(xDelta * xDelta + yDelta * yDelta);
-
-            double angle = Math.atan2(yDelta, xDelta);  // y before x (it's sin/cos)
-
-            AffineTransform matrix = new AffineTransform();
-            matrix.translate(x1, y1);
-            matrix.rotate(angle);
-            if (logger.isLoggable(Level.FINE)) {
-                logger.log(Level.FINE, "");
-                NapkinUtil.printPair(logger, Level.FINE, "1: ", x1, y1);
-                NapkinUtil.printPair(logger, Level.FINE, "2: ", x2, y2);
-                NapkinUtil.printPair(logger, Level.FINE, "delta = ", xDelta,
-                        yDelta);
-                logger.log(Level.FINE, "rot = " + angle);
-                logger.log(Level.FINE, "angle = " + angle);
-                logger.log(Level.FINE, "len = " + len);
-            }
-            double xScale = len / LENGTH;
-            matrix.scale(xScale, 1);
-            shape = gen.generate(matrix);
+            Path path = new Path(new Line2D.Double(x1, y1, x2, y2));
+            TemplateItem item = new TemplateItem(path);
+            Template template = new Template(item);
+            sketched = sketcher().deform(template);
+            template.setCustomAll(false);
         }
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        Graphics2D g2d = NapkinUtil.lineGraphics(g, width, cap, join);
+        g2d.translate(0, width / 2);
+        sketcher().render(sketched, g2d);
+    }
+
+    private Sketcher sketcher() {
+        return NapkinTheme.Manager.getCurrentTheme().getSketcher();
     }
 }

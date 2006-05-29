@@ -1,6 +1,6 @@
 package net.sourceforge.napkinlaf.sketch.sketchers;
 
-import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
+import net.sourceforge.napkinlaf.sketch.Sketcher;
 import net.sourceforge.napkinlaf.sketch.geometry.CubicLine;
 import net.sourceforge.napkinlaf.sketch.geometry.Path;
 import net.sourceforge.napkinlaf.sketch.geometry.QuadLine;
@@ -13,7 +13,7 @@ import net.sourceforge.napkinlaf.sketch.geometry.StraightLine;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-public class LineSketcher extends AbstractSketcher {
+public class LineSketcher extends Sketcher {
     /** {@inheritDoc} */
     @Override
     public SketchShape deformLine(StraightLine l) {

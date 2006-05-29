@@ -1,6 +1,7 @@
 package net.sourceforge.napkinlaf.sketch;
 
 import net.sourceforge.napkinlaf.NapkinTheme;
+import net.sourceforge.napkinlaf.sketch.geometry.Path;
 import net.sourceforge.napkinlaf.sketch.geometry.SketchShape;
 import net.sourceforge.napkinlaf.sketch.geometry.XMLShape;
 import org.jdom.DefaultJDOMFactory;
@@ -23,6 +24,7 @@ public class TemplateItem implements Cloneable {
     private float strokeWeight = 1; // Thickness of this object's boundary line
     private Color fillColor; // Color of this object's internal fill
     private SketchShape shape; // Geometry that specifies this object's shape
+    private Template template; // Parent template
 
     /** Constructs a new TemplateItem with default values. */
     public TemplateItem() {
@@ -34,6 +36,11 @@ public class TemplateItem implements Cloneable {
         shape = null;
     }
 
+    public TemplateItem(Path path) {
+        this();
+        shape = path;
+    }
+
     /**
      * @return Returns the strokeColor. If the stroke color was set to null the
      *         default color specified by the Napkin's current theme is
@@ -41,7 +48,8 @@ public class TemplateItem implements Cloneable {
      */
     public Color getStrokeColor() {
         return strokeColor == null ?
-            NapkinTheme.Manager.getCurrentTheme().getPenColor() : strokeColor;
+                NapkinTheme.Manager.getCurrentTheme().getPenColor() :
+                strokeColor;
     }
 
     /**
@@ -72,8 +80,8 @@ public class TemplateItem implements Cloneable {
      */
     public Color getFillColor() {
         return fillColor == null ?
-            NapkinTheme.Manager.getCurrentTheme().getHighlightColor() :
-            fillColor;
+                NapkinTheme.Manager.getCurrentTheme().getHighlightColor() :
+                fillColor;
     }
 
     /**
@@ -141,7 +149,8 @@ public class TemplateItem implements Cloneable {
                 result.addContent(t);
             }
             if (fillColor != null) {
-                result.addContent(XMLUtility.colorToXML(fillColor, "fillColor"));
+                result.addContent(XMLUtility.colorToXML(fillColor,
+                        "fillColor"));
             }
 
             result.addContent(((XMLShape) shape).produceXML());
@@ -165,5 +174,25 @@ public class TemplateItem implements Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new IllegalStateException("cannot clone?", e);
         }
+    }
+
+    public Template getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(Template template) {
+        this.template = template;
+    }
+
+    public boolean customPen() {
+        return template.customPen();
+    }
+
+    public boolean customFill() {
+        return template.customFill();
+    }
+
+    public boolean customStroke() {
+        return template.customStroke();
     }
 }

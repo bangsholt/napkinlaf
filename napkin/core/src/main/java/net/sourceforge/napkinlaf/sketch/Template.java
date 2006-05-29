@@ -33,6 +33,9 @@ public class Template implements Cloneable {
     private int height; // the height of the image with all the template components combined
     @SuppressWarnings("CollectionDeclaredAsConcreteClass")
     private LinkedList<TemplateItem> templateItems; // A list of all template components
+    private boolean customFill;
+    private boolean customPen;
+    private boolean customStroke;
 
     /**
      * Constructs a new template with the given values.
@@ -46,11 +49,17 @@ public class Template implements Cloneable {
         description = "";
         templateItems = new LinkedList<TemplateItem>();
         clippingBounds = new Rectangle(origin, dimensions);
+        setCustomAll(true);
     }
 
     /** Constructs a new Template with default values. */
     public Template() {
         this(new Point(), new Dimension());
+    }
+
+    public Template(TemplateItem item) {
+        this();
+        add(item);
     }
 
     /**
@@ -109,6 +118,7 @@ public class Template implements Cloneable {
      */
     public void add(TemplateItem templateItem) {
         templateItems.add(templateItem);
+        templateItem.setTemplate(this);
         computeWidthAndHeight();
     }
 
@@ -263,5 +273,21 @@ public class Template implements Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new IllegalStateException("cannot clone?", e);
         }
+    }
+
+    public void setCustomAll(boolean custom) {
+        customPen = customFill = customStroke = custom;
+    }
+
+    public boolean customPen() {
+        return customPen;
+    }
+
+    public boolean customFill() {
+        return customFill;
+    }
+
+    public boolean customStroke() {
+        return customStroke;
     }
 }

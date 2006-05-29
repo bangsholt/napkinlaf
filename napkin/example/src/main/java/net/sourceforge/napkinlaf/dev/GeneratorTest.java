@@ -61,11 +61,12 @@ public class GeneratorTest extends NapkinUtil {
     static {
         CubicTest cubic = new CubicTest();
         QuadTest quad = new QuadTest();
+        LineTest line = new LineTest();
         BoxTest box = new BoxTest(
                 (DrawnCubicLineGenerator) cubic.getGenerator(),
                 (DrawnQuadLineGenerator) quad.getGenerator());
         CheckBoxTest checkBox = new CheckBoxTest();
-        drawers = new Drawer[]{cubic, quad, box, checkBox};
+        drawers = new Drawer[]{cubic, quad, line, box, checkBox};
     }
 
     interface Drawer {
