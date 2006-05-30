@@ -9,6 +9,9 @@ import java.awt.*;
 
 public class NapkinUtilTest extends TestCase {
     @SuppressWarnings({"FieldCanBeLocal"})
+    private boolean testReady;
+
+    @SuppressWarnings({"FieldCanBeLocal"})
     private boolean testDone;
 
     private Throwable problem;
@@ -24,6 +27,7 @@ public class NapkinUtilTest extends TestCase {
         public void paint(Graphics g) {
             try {
                 problem = null;
+                waitForTestReady();
                 super.paint(g);
                 runTest((Graphics2D) g);
             } catch (Throwable e) {
@@ -109,19 +113,34 @@ public class NapkinUtilTest extends TestCase {
             frame.getContentPane().add(testLabel, BorderLayout.CENTER);
             frame.pack();
             frame.setVisible(true);
-            waitForTest();
+            waitForTestDone();
         } finally {
             frame.setVisible(false);
             frame.dispose();
         }
     }
 
-    private synchronized void waitForTest() throws Throwable {
+    private synchronized void waitForTestDone() throws Throwable {
         testDone = false;
+        testReady = true;
+        notifyAll();
         while (!testDone)
             wait();
         if (problem != null)
             throw problem;
+    }
+
+    private synchronized void waitForTestReady() {
+        try {
+            while (!testReady)
+                wait();
+            testDone = false;
+        } catch (InterruptedException e) {
+            testDone = true;
+            problem = e;
+            notifyAll();
+            throw new IllegalComponentStateException();
+        }
     }
 
     private synchronized void setTestDone() {
