@@ -21,24 +21,16 @@ import javax.swing.JCheckBox;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JDesktopPane;
 import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
-import javax.swing.JInternalFrame;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListDataListener;
 import javax.swing.plaf.ComponentUI;
-import junit.framework.Assert;
+
 import junit.framework.TestCase;
 import net.sourceforge.napkinlaf.util.NapkinIconFactory;
 
-/**
- *
- * @author Alex Lam Sze Lok
- */
+/** @author Alex Lam Sze Lok */
 public class ComponentUITest extends TestCase {
 
     private static class TestPair {
@@ -58,34 +50,52 @@ public class ComponentUITest extends TestCase {
         Icon icon = NapkinIconFactory.createXIcon(20);
         String text = "testing";
         Color color = new Color(new Random().nextInt());
-        Object[] items = new Object[] {text, icon, color};
+        Object[] items = {text, icon, color};
         Vector<Object> vector = new Vector<Object>(Arrays.asList(items));
-        JInternalFrame internalFrame = new JInternalFrame();
+
+//        pairList.add(new TestPair(NapkinDesktopPaneUI.class,
+//                new JDesktopPane()));
 
         pairList.add(new TestPair(NapkinButtonUI.class, new JButton()));
         pairList.add(new TestPair(NapkinButtonUI.class, new JButton(text)));
         pairList.add(new TestPair(NapkinButtonUI.class, new JButton(icon)));
-        pairList.add(new TestPair(NapkinButtonUI.class, new JButton(text, icon)));
+        pairList.add(new TestPair(NapkinButtonUI.class, new JButton(text,
+                icon)));
 
-        pairList.add(new TestPair(NapkinCheckBoxMenuItemUI.class, new JCheckBoxMenuItem()));
-        pairList.add(new TestPair(NapkinCheckBoxMenuItemUI.class, new JCheckBoxMenuItem(icon)));
-        pairList.add(new TestPair(NapkinCheckBoxMenuItemUI.class, new JCheckBoxMenuItem(text)));
-        pairList.add(new TestPair(NapkinCheckBoxMenuItemUI.class, new JCheckBoxMenuItem(text, true)));
-        pairList.add(new TestPair(NapkinCheckBoxMenuItemUI.class, new JCheckBoxMenuItem(text, false)));
-        pairList.add(new TestPair(NapkinCheckBoxMenuItemUI.class, new JCheckBoxMenuItem(text, icon)));
-        pairList.add(new TestPair(NapkinCheckBoxMenuItemUI.class, new JCheckBoxMenuItem(text, icon, true)));
-        pairList.add(new TestPair(NapkinCheckBoxMenuItemUI.class, new JCheckBoxMenuItem(text, icon, false)));
+        pairList.add(new TestPair(NapkinCheckBoxMenuItemUI.class,
+                new JCheckBoxMenuItem()));
+        pairList.add(new TestPair(NapkinCheckBoxMenuItemUI.class,
+                new JCheckBoxMenuItem(icon)));
+        pairList.add(new TestPair(NapkinCheckBoxMenuItemUI.class,
+                new JCheckBoxMenuItem(text)));
+        pairList.add(new TestPair(NapkinCheckBoxMenuItemUI.class,
+                new JCheckBoxMenuItem(text, true)));
+        pairList.add(new TestPair(NapkinCheckBoxMenuItemUI.class,
+                new JCheckBoxMenuItem(text, false)));
+        pairList.add(new TestPair(NapkinCheckBoxMenuItemUI.class,
+                new JCheckBoxMenuItem(text, icon)));
+        pairList.add(new TestPair(NapkinCheckBoxMenuItemUI.class,
+                new JCheckBoxMenuItem(text, icon, true)));
+        pairList.add(new TestPair(NapkinCheckBoxMenuItemUI.class,
+                new JCheckBoxMenuItem(text, icon, false)));
 
         pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox()));
         pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(icon)));
-        pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(icon, true)));
-        pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(icon, false)));
+        pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(icon,
+                true)));
+        pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(icon,
+                false)));
         pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(text)));
-        pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(text, true)));
-        pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(text, false)));
-        pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(text, icon)));
-        pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(text, icon, true)));
-        pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(text, icon, false)));
+        pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(text,
+                true)));
+        pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(text,
+                false)));
+        pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(text,
+                icon)));
+        pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(text,
+                icon, true)));
+        pairList.add(new TestPair(NapkinCheckBoxUI.class, new JCheckBox(text,
+                icon, false)));
 
 //        pairList.add(new TestPair(NapkinColorChooserUI.class, new JColorChooser()));
 //        pairList.add(new TestPair(NapkinColorChooserUI.class, new JColorChooser(color)));
@@ -104,29 +114,35 @@ public class ComponentUITest extends TestCase {
 //        })));
 
         pairList.add(new TestPair(NapkinComboBoxUI.class, new JComboBox()));
-        pairList.add(new TestPair(NapkinComboBoxUI.class, new JComboBox(new ComboBoxModel() {
-            public void addListDataListener(ListDataListener l) {
-            }
-            public Object getElementAt(int index) {
-                return null;
-            }
-            public Object getSelectedItem() {
-                return null;
-            }
-            public int getSize() {
-                return 0;
-            }
-            public void removeListDataListener(ListDataListener l) {
-            }
-            public void setSelectedItem(Object anItem) {
-            }
-        })));
-        pairList.add(new TestPair(NapkinComboBoxUI.class, new JComboBox(items)));
-        pairList.add(new TestPair(NapkinComboBoxUI.class, new JComboBox(vector)));
+        pairList.add(new TestPair(NapkinComboBoxUI.class, new JComboBox(
+                new ComboBoxModel() {
+                    public void addListDataListener(ListDataListener l) {
+                    }
+
+                    public Object getElementAt(int index) {
+                        return null;
+                    }
+
+                    public Object getSelectedItem() {
+                        return null;
+                    }
+
+                    public int getSize() {
+                        return 0;
+                    }
+
+                    public void removeListDataListener(ListDataListener l) {
+                    }
+
+                    public void setSelectedItem(Object anItem) {
+                    }
+                })));
+        pairList.add(new TestPair(NapkinComboBoxUI.class, new JComboBox(
+                items)));
+        pairList.add(new TestPair(NapkinComboBoxUI.class, new JComboBox(
+                vector)));
 
 //        pairList.add(new TestPair(NapkinDesktopIconUI.class, new JInternalFrame.JDesktopIcon(internalFrame)));
-
-        pairList.add(new TestPair(NapkinDesktopPaneUI.class, new JDesktopPane()));
 
         pairList.add(new TestPair(NapkinEditorPaneUI.class, new JEditorPane()));
 //        pairList.add(new TestPair(NapkinEditorPaneUI.class, new JEditorPane(url)));
@@ -145,12 +161,6 @@ public class ComponentUITest extends TestCase {
         super(testName);
     }
 
-    protected void setUp() throws Exception {
-    }
-
-    protected void tearDown() throws Exception {
-    }
-
     private ComponentUI getInstance(TestPair pair) {
         try {
             Method createUI = pair.uiClass
@@ -165,21 +175,6 @@ public class ComponentUITest extends TestCase {
         }
     }
 
-//    public static void assertEquals(String msg, Object obj1, Object obj2) {
-//        if (!obj1.equals(obj2)) {
-//            System.err.println(msg);
-//        }
-//    }
-//
-//    public static void assertEquals(String msg, boolean obj1, boolean obj2) {
-//        if (obj1 != obj2) {
-//            System.err.println(msg);
-//        }
-//    }
-
-    // TODO add test methods here. The name must begin with 'test'. For example:
-    // public void testHello() {}
-
     public void testCreateUI() {
         for (TestPair pair : pairList) {
             Class<? extends ComponentUI> clazz = getInstance(pair).getClass();
@@ -189,7 +184,7 @@ public class ComponentUITest extends TestCase {
         }
     }
 
-    private void _testInstallUI(TestPair pair, ComponentUI ui,
+    private void checkInstallUI(TestPair pair, ComponentUI ui,
             Color oldBackground, Border oldBorder, boolean wasOpaque) {
 
         pair.component.setBackground(oldBackground);
@@ -198,36 +193,42 @@ public class ComponentUITest extends TestCase {
 
         ui.installUI(pair.component);
         ui.uninstallUI(pair.component);
-        
+
         Color newBackground = pair.component.getBackground();
         Border newBorder = pair.component.getBorder();
         boolean isOpaque = pair.component.isOpaque();
-        
-        assertEquals(pair.uiClass.getCanonicalName() +
-                " does not restore background colour properly! (" +
-                oldBackground + " --> " + newBackground + ")",
-                oldBackground, newBackground);
+
+        String uiClass = pair.uiClass.getCanonicalName();
+        String argDesc = argDesc(oldBackground, oldBorder, wasOpaque);
+        assertEquals(uiClass + " does not restore background colour properly" +
+                argDesc, oldBackground, newBackground);
         if (newBorder != null) {
-            assertEquals(pair.uiClass.getCanonicalName() +
-                    " does not restore border properly! (" + oldBorder +
-                    " --> " + newBorder + ")", oldBorder, newBorder);
+            assertEquals(uiClass +
+                    " does not restore border properly" + argDesc, oldBorder,
+                    newBorder);
         }
-        assertEquals(pair.uiClass.getCanonicalName() +
-                " does not restore opaqueness properly! (" + wasOpaque +
-                " --> " + isOpaque + ")", wasOpaque, isOpaque);
+        assertEquals(uiClass + " does not restore opaqueness properly" +
+                argDesc, wasOpaque, isOpaque);
+        System.out.println(uiClass + " passes for " + argDesc);
+    }
+
+    private String argDesc(Color oldBackground, Border oldBorder,
+            boolean wasOpaque) {
+
+        return "(" + oldBackground + ", " + oldBorder + ", " + wasOpaque + ")";
     }
 
     public void testInstallUI() {
-        Color[] bgColors = new Color[] {Color.WHITE, Color.BLUE, Color.PINK};
-        Border[] borders = new Border[] {new EmptyBorder(1, 1, 1, 1)};
+        Color[] bgColors = new Color[]{Color.WHITE, Color.BLUE, Color.PINK};
+        Border[] borders = new Border[]{new EmptyBorder(1, 1, 1, 1)};
         for (TestPair pair : pairList) {
             ComponentUI ui = getInstance(pair);
-            _testInstallUI(pair, ui, pair.component.getBackground(),
+            checkInstallUI(pair, ui, pair.component.getBackground(),
                     pair.component.getBorder(), pair.component.isOpaque());
             for (Color bgColor : bgColors) {
                 for (Border border : borders) {
-                    _testInstallUI(pair, ui, bgColor, border, true);
-                    _testInstallUI(pair, ui, bgColor, border, false);
+                    checkInstallUI(pair, ui, bgColor, border, true);
+                    checkInstallUI(pair, ui, bgColor, border, false);
                 }
             }
         }
