@@ -12,6 +12,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="napkinlaf" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -30,7 +31,15 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="napkinlaf" />
+    <orderEntry type="module-library">
+      <library name="Maven Dependency: junit:junit:3.8.1::jar:test">
+        <CLASSES>
+          <root url="jar:///Users/arnold/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntryProperties />
   </component>
   <component name="org.mevenide.idea.module.ModuleSettings">
