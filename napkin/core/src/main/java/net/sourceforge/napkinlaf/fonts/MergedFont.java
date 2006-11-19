@@ -18,7 +18,7 @@ import java.util.Map;
  * You can create a chain of merged fonts if you want to look through a search
  * path of more than one font by making the backing font itself a merged font,
  * and so on as far as you like. Then the chain of fonts will be search in order
- * for missing glyphs.  The {@link #mergedFonts(Font, Font...)} method helps you
+ * for missing glyphs.  The {@link #mergeFonts(Font,Font...)} method helps you
  * do this easily.
  * <p/>
  * Deriving fonts raises the following interesting issues: The backing font does
@@ -72,7 +72,7 @@ public class MergedFont extends PatchedFontUIResource {
      */
     public static Font mergeFonts(Font primaryFont, Font... backingFonts) {
         return backingFonts == null || backingFonts.length == 0 ?
-            primaryFont : backingFonts.length == 1 ?
+                primaryFont : backingFonts.length == 1 ?
                 new MergedFont(primaryFont, backingFonts[0]) :
                 new MergedFont(primaryFont, _mergeFonts(backingFonts, 0));
     }
@@ -80,7 +80,8 @@ public class MergedFont extends PatchedFontUIResource {
     private static Font _mergeFonts(Font[] backingFonts, int pos) {
         Font first = backingFonts[pos];
         return pos == backingFonts.length - 1 ?
-            first : new MergedFont(first, _mergeFonts(backingFonts, pos + 1));
+                first : new MergedFont(first, _mergeFonts(backingFonts,
+                pos + 1));
     }
 
     /** @return The backing font for this font. */
@@ -185,8 +186,8 @@ public class MergedFont extends PatchedFontUIResource {
         GlyphVector gVector = super.createGlyphVector(frc, chars);
         // If we don't have any bad glyphs, just return the simple result.
         return isPrimarySufficient(chars, 0, chars.length) ?
-            gVector : processGlyphVector
-            (frc, gVector, backingFont.createGlyphVector(frc, chars));
+                gVector : processGlyphVector
+                (frc, gVector, backingFont.createGlyphVector(frc, chars));
     }
 
     /** {@inheritDoc} */
@@ -195,14 +196,14 @@ public class MergedFont extends PatchedFontUIResource {
         GlyphVector gVector = super.createGlyphVector(frc, str);
         // If we don't have any bad glyphs, just return the simple result.
         return isPrimarySufficient(str) ?
-            gVector : processGlyphVector
-                    (frc, gVector, backingFont.createGlyphVector(frc, str));
+                gVector : processGlyphVector
+                (frc, gVector, backingFont.createGlyphVector(frc, str));
     }
 
     /** {@inheritDoc} */
     @Override
     public GlyphVector
-            createGlyphVector(FontRenderContext frc, CharacterIterator ci) {
+           createGlyphVector(FontRenderContext frc, CharacterIterator ci) {
 
         GlyphVector gVector = super.createGlyphVector(frc, ci);
         /**
@@ -210,14 +211,14 @@ public class MergedFont extends PatchedFontUIResource {
          * just return the simple result.
          */
         return isPrimarySufficient(ci) ?
-            gVector : processGlyphVector
-                    (frc, gVector, backingFont.createGlyphVector(frc, ci));
+                gVector : processGlyphVector
+                (frc, gVector, backingFont.createGlyphVector(frc, ci));
     }
 
     /** {@inheritDoc} */
     @Override
     public GlyphVector
-            createGlyphVector(FontRenderContext frc, int[] glyphCodes) {
+           createGlyphVector(FontRenderContext frc, int[] glyphCodes) {
 
         GlyphVector gVector = super.createGlyphVector(frc, glyphCodes);
         return processGlyphVector
@@ -232,8 +233,8 @@ public class MergedFont extends PatchedFontUIResource {
                 (frc, text, start, limit, flags);
         // If we don't have any bad glyphs, just return the simple result.
         return isPrimarySufficient(text, start, limit) ?
-            gVector : processGlyphVector(frc, gVector,
-            backingFont.layoutGlyphVector(frc, text, start, limit, flags));
+                gVector : processGlyphVector(frc, gVector,
+                backingFont.layoutGlyphVector(frc, text, start, limit, flags));
     }
 
     /** {@inheritDoc} */
@@ -263,9 +264,9 @@ public class MergedFont extends PatchedFontUIResource {
      */
     @Override
     public boolean equals(Object that) {
-        return that == this ?
-            true : super.equals(that) && that instanceof MergedFont ?
-                backingFont.equals(((MergedFont) that).backingFont) : false;
+        return that == this || (super.equals(that) &&
+                that instanceof MergedFont && backingFont.equals(
+                ((MergedFont) that).backingFont));
     }
 
     /** {@inheritDoc} */
@@ -283,7 +284,7 @@ public class MergedFont extends PatchedFontUIResource {
     @Override
     public byte getBaselineFor(char c) {
         return super.canDisplay(c) || !backingFont.canDisplay(c) ?
-            super.getBaselineFor(c) : backingFont.getBaselineFor(c);
+                super.getBaselineFor(c) : backingFont.getBaselineFor(c);
     }
 
     /** {@inheritDoc} */
@@ -341,8 +342,8 @@ public class MergedFont extends PatchedFontUIResource {
         Map<? extends Attribute, ?> topAttributes = getAttributes();
         return attributes == topAttributes ||
                 (attributes != null && attributes.equals(topAttributes)) ?
-                    this : new MergedFont(super.deriveFont(attributes),
-                            backingFont.deriveFont(attributes));
+                this : new MergedFont(super.deriveFont(attributes),
+                backingFont.deriveFont(attributes));
     }
 
     /** {@inheritDoc} */

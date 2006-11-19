@@ -265,7 +265,7 @@ public class SketchTest implements ActionListener {
         // Combo box events
         if ("comboBoxChanged".equals(event.getActionCommand())) {
             //Update the icon to display the new image
-            templateIcon.setSketchStyle(getSketchStyle(sketchStyle));
+            templateIcon.setSketcher(getSketchStyle(sketchStyle));
             templateImageLabel.setIcon(templateIcon);
             templateImageLabel.repaint();
         }
@@ -351,7 +351,7 @@ public class SketchTest implements ActionListener {
      * @return An icon image of the sketched template
      */
     private static DrawnIcon
-            createDrawnIcon(String templatePath, int sketchStyle) {
+    createDrawnIcon(String templatePath, int sketchStyle) {
 
         AbstractSketcher sketcher = getSketchStyle(sketchStyle);
         DrawnIcon ret = null;

@@ -1,28 +1,44 @@
 package net.sourceforge.napkinlaf.util;
 
-import net.sourceforge.napkinlaf.*;
-import net.sourceforge.napkinlaf.borders.*;
+import net.sourceforge.napkinlaf.NapkinKnownTheme;
+import net.sourceforge.napkinlaf.NapkinLookAndFeel;
+import net.sourceforge.napkinlaf.NapkinTheme;
+import net.sourceforge.napkinlaf.borders.NapkinBorder;
+import net.sourceforge.napkinlaf.borders.NapkinBoxBorder;
+import net.sourceforge.napkinlaf.borders.NapkinCompoundBorder;
+import net.sourceforge.napkinlaf.borders.NapkinWrappedBorder;
 import net.sourceforge.napkinlaf.fonts.MergedFontGraphics2D;
-import net.sourceforge.napkinlaf.shapes.*;
-import net.sourceforge.napkinlaf.sketch.SketchifiedIcon;
-import net.sourceforge.napkinlaf.util.NapkinSmartListeners.*;
+import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
+import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
+import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
 import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.BackgroundListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.BorderListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.ButtonIconListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.DisabledIconListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.DisabledSelectedIconListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.OpaqueListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.PressedIconListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.RollOverListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.RolloverIconListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.RolloverSelectedIconListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.SelectedIconListener;
 
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.plaf.*;
+import javax.swing.text.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.image.BufferedImage;
+import java.awt.geom.*;
+import java.awt.image.*;
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
-import java.util.*;
+import java.util.Map;
+import java.util.Stack;
+import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.UIResource;
-import javax.swing.text.JTextComponent;
 
 public class NapkinUtil {
     private static final Map<Float, Stroke> strokes =
@@ -123,7 +139,7 @@ public class NapkinUtil {
     static boolean isTranparent(Color bgColor) {
         return bgColor == CLEAR || bgColor == HIGHLIGHT_CLEAR;
     }
-    
+
     public static void installUI(JComponent c) {
         // prevents double installing
         if (c.getClientProperty(INSTALL_KEY) != Boolean.TRUE) {
@@ -615,6 +631,7 @@ public class NapkinUtil {
             DrawnLineHolder highLightLine = rect.width > 50f ?
                     highLightLongLine : highLightShortLine;
             highLightLine.setCap(BasicStroke.CAP_BUTT);
+            //noinspection SuspiciousNameCombination
             float lineWidth = rect.height;
             if (lineWidth > 10f) {
                 lineWidth *= 0.8f;
@@ -659,7 +676,6 @@ public class NapkinUtil {
         return c instanceof Container ? ((Container) c).getInsets() : NO_INSETS;
     }
 
-    /** @noinspection TailRecursion */
     public static JComponent themeTopFor(Component c) {
         JComponent result = null;
         if (c instanceof JComponent) {
@@ -707,7 +723,7 @@ public class NapkinUtil {
 
     @SuppressWarnings({"TooBroadScope"})
     public static void
-            paintButtonText(Graphics g, JComponent c, Rectangle textRect,
+                  paintButtonText(Graphics g, JComponent c, Rectangle textRect,
             String text, int textOffset, DrawnLineHolder line,
             boolean isDefault, NapkinTextPainter helper) {
 
@@ -741,7 +757,8 @@ public class NapkinUtil {
 
     @SuppressWarnings({"SameParameterValue"})
     public static Object
-            getProperty(JComponent c, String key, PropertyFactory factory) {
+                  getProperty(JComponent c, String key,
+            PropertyFactory factory) {
         Object value = c.getClientProperty(key);
         if (value == null) {
             value = factory.createPropertyValue();
@@ -768,6 +785,7 @@ public class NapkinUtil {
 
         double xDelta = x1 - x2;
         double yDelta = y1 - y2;
+        //noinspection SuspiciousNameCombination
         double angle = Math.atan2(xDelta, yDelta);
         AffineTransform mat = (AffineTransform) matrix.clone();
         mat.translate(x1, y1);

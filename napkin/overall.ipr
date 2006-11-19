@@ -47,7 +47,26 @@
     <option name="MAXIMUM_HEAP_SIZE" value="128" />
   </component>
   <component name="EntryPointsManager">
-    <entry_points />
+    <entry_points>
+      <entry_point TYPE="method" FQNAME="String net.sourceforge.napkinlaf.sketch.Template.produceXMLString()" />
+      <entry_point TYPE="method" FQNAME="int net.sourceforge.napkinlaf.sketch.Template.getHeight()" />
+      <entry_point TYPE="method" FQNAME="int net.sourceforge.napkinlaf.sketch.Template.getWidth()" />
+      <entry_point TYPE="method" FQNAME="String net.sourceforge.napkinlaf.sketch.DrawnIcon.getTemplateTitle()" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.SketchifiedImage.SketchifiedImage(Image image)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.Template.Template(Point origin, Dimension dimensions)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.Template.Template()" />
+      <entry_point TYPE="method" FQNAME="CubicLine[] net.sourceforge.napkinlaf.sketch.geometry.SketchShape.transformToCubicList()" />
+      <entry_point TYPE="method" FQNAME="Element net.sourceforge.napkinlaf.sketch.geometry.StraightLine.produceXML()" />
+      <entry_point TYPE="method" FQNAME="QuadLine[] net.sourceforge.napkinlaf.sketch.geometry.SketchShape.transformToQuad()" />
+      <entry_point TYPE="method" FQNAME="StraightLine[] net.sourceforge.napkinlaf.sketch.geometry.SketchShape.transformToLine()" />
+      <entry_point TYPE="method" FQNAME="SketchShape net.sourceforge.napkinlaf.sketch.geometry.SketchShape.magnify(double scaleFactor)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.StraightLine.StraightLine(double x1, double y1, double angle, double length)" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.SketchShape" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.StraightLine.StraightLine()" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.StraightLine.StraightLine(Line2D l)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.StraightLine.StraightLine(Point2D p1, Point2D p2)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.StraightLine.StraightLine(Point2D start, double angle, double length)" />
+    </entry_points>
   </component>
   <component name="ExportToHTMLSettings">
     <option name="PRINT_LINE_NUMBERS" value="false" />

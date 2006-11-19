@@ -1,15 +1,15 @@
 package net.sourceforge.napkinlaf.fonts;
 
-import java.lang.reflect.Field;
 import javax.swing.plaf.*;
 import java.awt.*;
+import java.lang.reflect.Field;
 
 /**
  * This is a {@link FontUIResource} that works around a bug in some Java
  * releases.
  *
  * @author Alex Lam Sze Lok
- * @see PatchedFontUIResource#workaround6313541(Font, Font)
+ * @see PatchedFontUIResource#workaround6313541(Font,Font)
  */
 public class PatchedFontUIResource extends Font implements UIResource {
 
@@ -31,7 +31,7 @@ public class PatchedFontUIResource extends Font implements UIResource {
              * Could be IllegalArgumentException,
              * SecurityException or NoSuchFieldException
              */
-            ; // fall through
+            // fall through
         }
         font2DHandleField = fField;
         createdFontField = cField;
@@ -87,9 +87,8 @@ public class PatchedFontUIResource extends Font implements UIResource {
                  * Could be IllegalArgumentException,
                  * SecurityException or IllegalAccessException
                  */
-                ; // fall through
+                // fall through
             }
         }
     }
-
 }

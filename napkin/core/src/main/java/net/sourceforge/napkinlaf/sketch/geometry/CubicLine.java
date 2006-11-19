@@ -10,10 +10,10 @@ import java.awt.geom.*;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
+@SuppressWarnings({"WeakerAccess"})
 public class CubicLine extends CubicCurve2D.Double implements SketchShape {
     /** Constructs a new <tt>CubicLine</tt> object. */
     public CubicLine() {
-        super();
     }
 
     /**
@@ -129,10 +129,10 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
         Point one = Point.midpoint(p1, s1);
         Point two = Point.midpoint(p2, s2);
 
-        return new StraightLine[] {
-            new StraightLine(getP1(), one),
-            new StraightLine(one, two),
-            new StraightLine(two, getP2()),
+        return new StraightLine[]{
+                new StraightLine(getP1(), one),
+                new StraightLine(one, two),
+                new StraightLine(two, getP2()),
         };
     }
 
@@ -144,14 +144,14 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
         Point intersection = line.intersects(
                 new StraightLine(getCtrlP1(), getCtrlP2()));
         if (intersection == null) {
-            result = new QuadLine[] {
-                new QuadLine(getP1(),
-                        Point.midpoint(getCtrlP1(), getCtrlP2()), getP2()),
+            result = new QuadLine[]{
+                    new QuadLine(getP1(),
+                            Point.midpoint(getCtrlP1(), getCtrlP2()), getP2()),
             };
         } else {
-            result = new QuadLine[] {
-                new QuadLine(getP1(), getCtrlP1(), intersection),
-                new QuadLine(intersection, getCtrlP2(), getP2()),
+            result = new QuadLine[]{
+                    new QuadLine(getP1(), getCtrlP1(), intersection),
+                    new QuadLine(intersection, getCtrlP2(), getP2()),
             };
         }
 

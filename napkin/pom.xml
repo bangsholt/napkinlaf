@@ -26,6 +26,9 @@
         <developerConnection>
             scm:svn:https://svn.sourceforge.net/svnroot/napkinlaf/trunk
         </developerConnection>
+        <connection/>
+        <tag/>
+        <url/>
     </scm>
 
     <!-- the main projects underneath -->

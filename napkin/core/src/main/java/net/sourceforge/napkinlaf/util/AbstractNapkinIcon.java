@@ -69,12 +69,11 @@ public abstract class AbstractNapkinIcon implements NapkinIcon {
     }
 
     protected boolean shouldUseMark(Component c) {
-        return c instanceof AbstractButton ?
-            ((AbstractButton) c).isSelected() : false;
+        return c instanceof AbstractButton && ((AbstractButton) c).isSelected();
     }
 
     protected void
-            doPaint(Graphics2D placeG, Graphics2D markG, int x, int y) {
+    doPaint(Graphics2D placeG, Graphics2D markG, int x, int y) {
         if (markG != null) {
             markG.translate(x, y);
             markG.fill(mark);

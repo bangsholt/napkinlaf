@@ -16,6 +16,7 @@ import java.awt.*;
  * @author Justin Crafford
  * @author Peter Goodspeed
  */
+@SuppressWarnings({"CloneDoesntDeclareCloneNotSupportedException"})
 public class TemplateItem implements Cloneable {
     private boolean drawStroke = true; // Is the shape's stroke is drawn?
     private boolean drawFill = true; // Is the shape's fill is drawn?
@@ -28,10 +29,7 @@ public class TemplateItem implements Cloneable {
     public TemplateItem() {
         drawStroke = true;
         drawFill = false;
-        strokeColor = null;
         strokeWeight = 1;
-        fillColor = null;
-        shape = null;
     }
 
     /**
@@ -41,7 +39,8 @@ public class TemplateItem implements Cloneable {
      */
     public Color getStrokeColor() {
         return strokeColor == null ?
-            NapkinTheme.Manager.getCurrentTheme().getPenColor() : strokeColor;
+                NapkinTheme.Manager.getCurrentTheme().getPenColor() :
+                strokeColor;
     }
 
     /**
@@ -72,8 +71,8 @@ public class TemplateItem implements Cloneable {
      */
     public Color getFillColor() {
         return fillColor == null ?
-            NapkinTheme.Manager.getCurrentTheme().getHighlightColor() :
-            fillColor;
+                NapkinTheme.Manager.getCurrentTheme().getHighlightColor() :
+                fillColor;
     }
 
     /**
@@ -141,7 +140,8 @@ public class TemplateItem implements Cloneable {
                 result.addContent(t);
             }
             if (fillColor != null) {
-                result.addContent(XMLUtility.colorToXML(fillColor, "fillColor"));
+                result.addContent(XMLUtility.colorToXML(fillColor,
+                        "fillColor"));
             }
 
             result.addContent(((XMLShape) shape).produceXML());

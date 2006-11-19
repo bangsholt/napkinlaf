@@ -13,6 +13,7 @@ import java.awt.geom.*;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
+@SuppressWarnings({"StaticMethodOnlyUsedInOneClass"})
 public class XMLUtility {
 
     private XMLUtility() {
@@ -57,8 +58,8 @@ public class XMLUtility {
         Element x = f.element("x");
         Element y = f.element("y");
 
-        int xval = new Long(Math.round(p.getX())).intValue();
-        int yval = new Long(Math.round(p.getY())).intValue();
+        int xval = (int) Math.round(p.getX());
+        int yval = (int) Math.round(p.getY());
 
         x.addContent(f.text(Integer.toString(xval)));
         y.addContent(f.text(Integer.toString(yval)));

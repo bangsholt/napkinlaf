@@ -1,25 +1,14 @@
-/*
- * SmartStickyListener.java
- *
- * Created on 27 April 2006, 21:23
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package net.sourceforge.napkinlaf.util;
 
+import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.concurrent.atomic.AtomicBoolean;
-import javax.swing.JComponent;
 
-/**
- *
- * @author Alex Lam Sze Lok
- */
+/** @author Alex Lam Sze Lok */
+@SuppressWarnings({"JavaDoc"})
 public abstract class SmartStickyListener<T> implements PropertyChangeListener {
-    
+
     private static final String listenerKey = "SmartStickyListeners";
     private SmartStickyListener<?> nextNode = null;
 
@@ -37,17 +26,13 @@ public abstract class SmartStickyListener<T> implements PropertyChangeListener {
         this.recordKey = recordKey;
         this.propKey = propKey;
     }
-    
+
     /**
-     * Adds the specified smart listener to the given component.
-     * <BR/><BR/>
-     * <B>Note:</B><BR/>
-     * This method is not thread-safe; so ensure it to operate correctly in the
-     * case when multiple threads might call this method, you will need to
-     * synchronise with respect to the JComponent parameter:<PRE>
-     *   synchronized(c) {
-     *       SmartStickyListener.hookListener(c, listener);
-     *   }</PRE>
+     * Adds the specified smart listener to the given component. <BR/><BR/>
+     * <B>Note:</B><BR/> This method is not thread-safe; so ensure it to operate
+     * correctly in the case when multiple threads might call this method, you
+     * will need to synchronise with respect to the JComponent parameter:<PRE>
+     * synchronized(c) { SmartStickyListener.hookListener(c, listener); }</PRE>
      */
     public static void hookListener(
             JComponent c, SmartStickyListener<?> listener) {
@@ -56,23 +41,18 @@ public abstract class SmartStickyListener<T> implements PropertyChangeListener {
             throw new IllegalArgumentException(
                     "listener cannot hook to multiple components");
         }
-        SmartStickyListener<?> listeners =
+        listener.nextNode =
                 (SmartStickyListener<?>) c.getClientProperty(listenerKey);
-        listener.nextNode = listeners;
         c.putClientProperty(listenerKey, listener);
         c.addPropertyChangeListener(listener.propKey, listener);
     }
-    
+
     /**
-     * Removes all smart listeners from the given component.
-     * <BR/><BR/>
-     * <B>Note:</B><BR/>
-     * This method is not thread-safe; so ensure it to operate correctly in the
-     * case when multiple threads might call this method, you will need to
-     * synchronise with respect to the JComponent parameter:<PRE>
-     *   synchronized(c) {
-     *       SmartStickyListener.unhookListeners(c);
-     *   }</PRE>
+     * Removes all smart listeners from the given component. <BR/><BR/>
+     * <B>Note:</B><BR/> This method is not thread-safe; so ensure it to operate
+     * correctly in the case when multiple threads might call this method, you
+     * will need to synchronise with respect to the JComponent parameter:<PRE>
+     * synchronized(c) { SmartStickyListener.unhookListeners(c); }</PRE>
      */
     public static void unhookListeners(JComponent c) {
         SmartStickyListener<?> listener =
@@ -84,9 +64,7 @@ public abstract class SmartStickyListener<T> implements PropertyChangeListener {
         }
     }
 
-    /**
-     * Specifies whether we should record the new value from the setter call.
-     */
+    /** Specifies whether we should record the new value from the setter call. */
     protected abstract boolean shouldRecord(T newValue);
 
     /**

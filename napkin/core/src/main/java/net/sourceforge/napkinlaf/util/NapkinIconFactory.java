@@ -143,7 +143,10 @@ public class NapkinIconFactory {
                 new DrawnTriangleGenerator(-Math.PI / 2),
         };
 
-        /** @param pointTowards One of NORTH, EAST, WEST, or SOUTH. */
+        /**
+         * @param pointTowards One of NORTH, EAST, WEST, or SOUTH.
+         * @param size         Icon size.
+         */
         public ArrowIcon(int pointTowards, int size) {
             super(NapkinThemeColor.CHECK_COLOR, NapkinUtil.scaleMat(size));
             genNum = pointTowards / 2;
@@ -173,7 +176,7 @@ public class NapkinIconFactory {
 
         @Override
         protected boolean shouldUseMark(Component c) {
-            return super.shouldUseMark(c) ? true : c.isFocusOwner();
+            return super.shouldUseMark(c) || c.isFocusOwner();
         }
     }
 
@@ -240,8 +243,8 @@ public class NapkinIconFactory {
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
         Template template = getTemplate(templatePath);
         return template == null ?
-            createXIcon(20) /* just to have *something* */ :
-            new DrawnIcon(template, theme.getSketcher());
+                createXIcon(20) /* just to have *something* */ :
+                new DrawnIcon(template, theme.getSketcher());
     }
 
     @SuppressWarnings({"HardcodedFileSeparator"})

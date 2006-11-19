@@ -1,36 +1,25 @@
-/*
- * SketchifiedIcon.java
- *
- * Created on 27 April 2006, 23:15
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package net.sourceforge.napkinlaf.sketch;
 
 import net.sourceforge.napkinlaf.util.NapkinIcon;
 
-import java.awt.*;
-import java.awt.image.*;
 import javax.swing.*;
+import java.awt.image.*;
 import static java.awt.image.BufferedImage.*;
-import static java.awt.image.DataBuffer.TYPE_BYTE;
-import static java.awt.RenderingHints.*;
 
-/**
- *
- * @author Alex Lam Sze Lok
- */
+/** @author Alex Lam Sze Lok */
+@SuppressWarnings({"WeakerAccess"})
 public class SketchifiedIcon extends ImageIcon implements NapkinIcon {
-    
     /**
-     * Creates a new instance of SketchifiedIcon
+     * Creates a new instance of {@link SketchifiedIcon}.
+     *
+     * @param component The component on which the icon is to be rendered.
+     * @param icon      The icon to sketch.
      */
     public SketchifiedIcon(JComponent component, Icon icon) {
         super(sketchify(component, icon));
     }
 
+    @SuppressWarnings({"ParameterHidesMemberVariable"})
     private static BufferedImage sketchify(JComponent component, Icon icon) {
         BufferedImage image = new BufferedImage(
                 icon.getIconWidth(), icon.getIconHeight(), TYPE_INT_ARGB);

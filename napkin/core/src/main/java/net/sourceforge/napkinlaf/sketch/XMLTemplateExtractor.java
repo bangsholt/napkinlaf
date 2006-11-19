@@ -30,7 +30,7 @@ import java.security.PrivilegedAction;
  * @author Justin Crafford
  * @author Peter Goodspeed
  */
-@SuppressWarnings({"WeakerAccess"})
+@SuppressWarnings({"WeakerAccess", "UnusedCatchParameter"})
 public class XMLTemplateExtractor extends DefaultHandler {
 
     // Template-related objects
@@ -48,6 +48,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
     // Data-related objects
     private Point2D point; // Holds point information
     private final Point2D.Float[] points; // Holds points for a particular line
+    @SuppressWarnings({"InstanceVariableNamingConvention"})
     private int i; // Used to iterate through all the points
     private int[] rgb; // Holds r, g, b color information
 
@@ -64,7 +65,8 @@ public class XMLTemplateExtractor extends DefaultHandler {
             v = AccessController
                     .doPrivileged(new PrivilegedAction<Boolean>() {
                         public Boolean run() {
-                            return Boolean.getBoolean(VALIDATE_PROP);
+                            return Boolean.parseBoolean(System.getProperty(
+                                    VALIDATE_PROP));
                         }
                     });
         } catch (SecurityException e) {
@@ -75,7 +77,6 @@ public class XMLTemplateExtractor extends DefaultHandler {
 
     /** Constructs a new XMLTemplateExtractor. */
     public XMLTemplateExtractor() {
-        super();
         template = new Template();
         i = 0;
         point = new Point2D.Float();
@@ -315,6 +316,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
      *
      * @return A Template.
      */
+    @SuppressWarnings({"OverlyBroadCatchBlock"})
     public Template createTemplate(InputStream in)
             throws TemplateReadException {
 
