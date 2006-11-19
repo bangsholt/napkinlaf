@@ -25,6 +25,8 @@ import java.util.ListIterator;
  * @author Justin Crafford
  * @author Peter Goodspeed
  */
+@SuppressWarnings(
+        {"CloneDoesntDeclareCloneNotSupportedException", "WeakerAccess", "InstanceMethodNamingConvention"})
 public class Template implements Cloneable {
     private String title; // The title of the template
     private String description; // A description of the template
@@ -54,22 +56,20 @@ public class Template implements Cloneable {
     }
 
     /**
-     * Reads an XML file located at the path indicated, and returns a Template
-     * object which instantiates the object represented in that document, so
-     * long as the document is in fact an XML document which is valid according
-     * to the schema net.sourceforge.napkinlaf.resources.Template.xsd. This is
-     * useful to retrieve a Template from long-term storage.
+     * Reads an XML file located at the path indicated, and returns a {@link
+     * Template} object that instantiates the object represented in that
+     * document, so long as the document is in fact a valid XML document
+     * according to the schema <tt>net.sourceforge.napkinlaf.resources.Template.xsd</tt>.
      *
-     * @param path
+     * @param path The path of the file to read.
      *
-     * @return a Template described by the XML document located at
-     *         <tt>path</tt>
+     * @return A {@link Template} described by the XML document located at
+     *         <tt>path</tt>.
      *
-     * @throws TemplateReadException
-     * @throws IOException
+     * @throws TemplateReadException The template file has an error.
+     * @throws IOException           A problem with the file.
      * @see Template#produceXMLString()
      */
-    @SuppressWarnings({"IOResourceOpenedButNotSafelyClosed"})
     public static Template createFromXML(String path)
             throws TemplateReadException, IOException {
 
@@ -83,18 +83,17 @@ public class Template implements Cloneable {
     }
 
     /**
-     * Reads an XML file located at the path indicated, and returns a Template
-     * object which instantiates the object represented in that document, so
-     * long as the document is in fact an XML document which is valid according
-     * to the schema net.sourceforge.napkinlaf.resources.Template.xsd. This is
-     * useful to retrieve a Template from long-term storage.
+     * Reads an XML from the given input stream, and returns a {@link Template}
+     * object that instantiates the object represented in that document, so long
+     * as the document is in fact a valid XML document according to the schema
+     * <tt>net.sourceforge.napkinlaf.resources.Template.xsd</tt>.
      *
-     * @param in
+     * @param in The stream to read from.
      *
      * @return a Template described by the XML document located at
      *         <tt>path</tt>.
      *
-     * @throws TemplateReadException
+     * @throws TemplateReadException The template file has an error.
      * @see Template#produceXMLString()
      */
     public static Template createFromXML(InputStream in)

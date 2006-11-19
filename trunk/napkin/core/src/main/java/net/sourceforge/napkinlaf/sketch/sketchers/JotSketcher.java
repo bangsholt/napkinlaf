@@ -81,25 +81,25 @@ public class JotSketcher extends AbstractSketcher {
     }
 
     /**
-     * Deforms a Path to resemble something which might have been drawn by hand.
-     * Equivalent to deform(Path, false).
+     * Deforms a {@link Path} to resemble something which might have been drawn
+     * by hand. Equivalent to <tt>deform(Path, false)</tt>.
      *
-     * @param p
+     * @param p Path to deform.
      *
-     * @return a Path resembling the original Path, but deformed
+     * @return a Path resembling the original Path, but deformed.
      *
-     * @see JotSketcher#deform(Path, boolean)
+     * @see JotSketcher#deform(Path,boolean)
      */
     private static Path deform(Path p) {
         return deform(p, false);
     }
 
     /**
-     * As deform(Path) but with the additional behavior: if <tt>close</tt> is
-     * true, an attempt is made to close the path.
+     * As {@link #deform(Path)}, but with the additional behavior: If
+     * <tt>close</tt> is <tt>true</tt>, an attempt is made to close the path.
      *
-     * @param p
-     * @param close
+     * @param p     Path to deform.
+     * @param close If <tt>true</tt>, close the path when finished.
      *
      * @return a closed Path resembling the original, but deformed.
      *

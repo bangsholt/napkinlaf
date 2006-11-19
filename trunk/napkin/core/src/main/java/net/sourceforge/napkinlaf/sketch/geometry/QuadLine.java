@@ -10,10 +10,10 @@ import java.awt.geom.*;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
+@SuppressWarnings({"WeakerAccess"})
 public class QuadLine extends QuadCurve2D.Double implements SketchShape {
     /** Constructs a new <tt>QuadLine</tt> object. */
     public QuadLine() {
-        super();
     }
 
     public QuadLine(double x1, double y1, double ctrlx, double ctrly, double x2,

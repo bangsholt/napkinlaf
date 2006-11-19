@@ -1,5 +1,3 @@
-// $Header$
-
 package net.sourceforge.napkinlaf.util;
 
 import java.util.Random;

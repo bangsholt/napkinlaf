@@ -3,41 +3,53 @@ package net.sourceforge.napkinlaf.sketch;
 import net.sourceforge.napkinlaf.util.NapkinIcon;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.image.*;
 
 /**
  * The <tt>DrawnIcon</tt> class is an implmentation of the <tt>Icon</tt>
  * interface type. This class is responsible for providing the height and width
  * of the icon and painting the sketched image on screen using the given XML
  * template and sketching style.
- * 
- * 
+ *
  * @author Justin Crafford
  * @author Peter Goodspeed
  */
+@SuppressWarnings({"WeakerAccess"})
 public class DrawnIcon implements NapkinIcon {
     private final Template template;    // The template object to sketch
     private AbstractSketcher sketcher;    // The sketcher used to create icon's image
     private BufferedImage bimage; // The stored image of the final sketch
     private boolean isSketched;   // Has this icon's template has been sketched?
 
-    /** Creates a new DrawnIcon with specified template and sketch style. */
+    /**
+     * Creates a new DrawnIcon with specified template and sketch style.
+     *
+     * @param template The template for the sketch.
+     * @param sketcher The sketcher to use.
+     */
     public DrawnIcon(Template template, AbstractSketcher sketcher) {
         this.template = template;
         this.sketcher = sketcher;
         isSketched = false;
     }
 
-    /** Sets the current sketcher to <tt>sketchStyle</tt>. */
-    public void setSketchStyle(AbstractSketcher sketchStyle) {
-        sketcher = sketchStyle;
+    /**
+     * Sets the current sketcher to <tt>sketcher</tt>.
+     *
+     * @param sketcher The sketcher to use.
+     */
+    public void setSketcher(AbstractSketcher sketcher) {
+        this.sketcher = sketcher;
         isSketched = false;
     }
 
     /**
-     * Set the sketched status of this icon. When the sketched status is false,
-     * the next paint command will generate a new sketching according to the
-     * sketcher. This mainly matters on non-deterministic underlying sketchers.
+     * Set the sketched status of this icon. When the sketched status is
+     * <tt>false</tt>, the next <tt>paint</tt> call will generate a new
+     * sketching according to the sketcher. This mainly matters on
+     * non-deterministic underlying sketchers.
+     *
+     * @param isSketched Whether the icon is sketched.
      */
     public void setSketched(boolean isSketched) {
         this.isSketched = isSketched;

@@ -20,7 +20,7 @@ public class MergedFontGraphics2D extends Graphics2D {
     private boolean isMergedFont;
 
     private MergedFontGraphics2D(Graphics2D g2d) {
-        assert !(g2d instanceof MergedFontGraphics2D) : "double delegation";
+        assert!(g2d instanceof MergedFontGraphics2D) : "double delegation";
         this.g2d = g2d;
         // setFont so as to set the intial state of isCompositeFont
         setFont(g2d.getFont());
@@ -89,7 +89,7 @@ public class MergedFontGraphics2D extends Graphics2D {
     /** {@inheritDoc} */
     @Override
     public void
-            drawString(AttributedCharacterIterator iterator, float x, float y) {
+           drawString(AttributedCharacterIterator iterator, float x, float y) {
         if (isMergedFont) {
             Font font = getFont();
             FontRenderContext frc = getFontRenderContext();
@@ -153,7 +153,7 @@ public class MergedFontGraphics2D extends Graphics2D {
      * This is because one often wraps an instance passed through as a method
      * parameter, and there would almost always be impossible to replace the
      * wrapped instance with this in the caller.
-     *
+     * <p/>
      * Since it will be the caller's responsibility to dispose of its Graphics2D
      * instance, and the caller would not be able to reference to this wrapper,
      * so the only chance to dispose of a MergedFontGraphics2D instance would be
@@ -164,8 +164,8 @@ public class MergedFontGraphics2D extends Graphics2D {
 
     @Override
     public boolean equals(Object that) {
-        return this == that ? true : that instanceof MergedFontGraphics2D ?
-            g2d.equals(((MergedFontGraphics2D) that).getGraphics2D()) : false;
+        return this == that || (that instanceof MergedFontGraphics2D &&
+                g2d.equals(((MergedFontGraphics2D) that).getGraphics2D()));
     }
 
     /** {@inheritDoc} */
@@ -189,14 +189,14 @@ public class MergedFontGraphics2D extends Graphics2D {
     /** {@inheritDoc} */
     @Override
     public void
-            fill3DRect(int x, int y, int width, int height, boolean raised) {
+           fill3DRect(int x, int y, int width, int height, boolean raised) {
         g2d.fill3DRect(x, y, width, height, raised);
     }
 
     /** {@inheritDoc} */
     @Override
     public void
-            draw3DRect(int x, int y, int width, int height, boolean raised) {
+           draw3DRect(int x, int y, int width, int height, boolean raised) {
         g2d.draw3DRect(x, y, width, height, raised);
     }
 
@@ -231,6 +231,7 @@ public class MergedFontGraphics2D extends Graphics2D {
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings({"deprecation"})
     @Override
     @Deprecated
     public Rectangle getClipRect() {
@@ -246,7 +247,7 @@ public class MergedFontGraphics2D extends Graphics2D {
     /** {@inheritDoc} */
     @Override
     public boolean
-            drawImage(Image img, AffineTransform xform, ImageObserver obs) {
+           drawImage(Image img, AffineTransform xform, ImageObserver obs) {
         return g2d.drawImage(img, xform, obs);
     }
 
@@ -265,7 +266,7 @@ public class MergedFontGraphics2D extends Graphics2D {
     /** {@inheritDoc} */
     @Override
     public void
-            drawRenderableImage(RenderableImage img, AffineTransform xform) {
+           drawRenderableImage(RenderableImage img, AffineTransform xform) {
         g2d.drawRenderableImage(img, xform);
     }
 

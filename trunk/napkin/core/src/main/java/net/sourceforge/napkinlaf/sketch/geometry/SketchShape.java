@@ -19,6 +19,7 @@ import java.awt.*;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
+@SuppressWarnings({"CloneDoesntDeclareCloneNotSupportedException"})
 public interface SketchShape extends Shape, Cloneable {
     /**
      * Returns a shape geometrically similar to this, magnified by the scale

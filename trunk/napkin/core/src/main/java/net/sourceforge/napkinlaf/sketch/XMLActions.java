@@ -1,6 +1,7 @@
 package net.sourceforge.napkinlaf.sketch;
 
 // Constants indicating what data needs to be extracted
+@SuppressWarnings({"EnumeratedConstantNamingConvention"})
 enum XMLActions {
     NO_ACTION,
     GET_TEMPLATE_TITLE,

@@ -5,6 +5,7 @@ package net.sourceforge.napkinlaf.sketch;
  *
  * @author Peter Goodspeed
  */
+@SuppressWarnings({"WeakerAccess"})
 public class TemplateReadException extends Exception {
     public TemplateReadException(Throwable cause) {
         super(cause);

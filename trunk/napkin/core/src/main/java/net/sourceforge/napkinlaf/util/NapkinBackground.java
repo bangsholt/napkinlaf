@@ -67,7 +67,7 @@ public class NapkinBackground {
         return "NapkinBackground(\"" + name + "\")";
     }
 
-    /** @noinspection UnnecessaryLocalVariable */
+    @SuppressWarnings({"UnnecessaryLocalVariable"})
     public void paint(Component c, Graphics g, Rectangle paper, Rectangle comp,
             Insets cInsets) {
         int topH = tlCorner.getIconHeight();
@@ -87,7 +87,7 @@ public class NapkinBackground {
                 bSide, brCorner);
     }
 
-    /** @noinspection UnnecessaryLocalVariable */
+    @SuppressWarnings({"UnnecessaryLocalVariable"})
     private static void paintSliceAcross(Component c, Graphics g,
             Rectangle paper, Rectangle comp, Insets cInsets, int bandY,
             int bandH, Icon lftIcon, Icon midIcon, Icon rgtIcon) {

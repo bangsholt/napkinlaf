@@ -12,6 +12,8 @@ import java.util.LinkedList;
  * @author Justin Crafford
  * @author Peter Goodspeed
  */
+@SuppressWarnings(
+        {"CloneDoesntDeclareCloneNotSupportedException", "WeakerAccess", "ClassNamingConvention"})
 public class Path implements SketchShape {
     private GeneralPath generalPath;
 

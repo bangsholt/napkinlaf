@@ -6,6 +6,7 @@ import org.jdom.DefaultJDOMFactory;
 import org.jdom.Element;
 
 import java.awt.geom.*;
+import static java.lang.Double.POSITIVE_INFINITY;
 
 /**
  * StraightLine: An extension of Line2D that has added utility methods.
@@ -16,7 +17,6 @@ import java.awt.geom.*;
 public class StraightLine extends Line2D.Double implements SketchShape {
     /** Constructs a new <tt>StraightLine</tt> object. */
     public StraightLine() {
-        super();
     }
 
     public StraightLine(Line2D l) {
@@ -41,7 +41,8 @@ public class StraightLine extends Line2D.Double implements SketchShape {
                 + (length * Math.sin(angle))));
     }
 
-    /** @see StraightLine#StraightLine(Point2D, double, double) */
+    /** @see StraightLine#StraightLine(Point2D,double,double) */
+    @SuppressWarnings({"JavaDoc"})
     public StraightLine(double x1, double y1, double angle, double length) {
         this(new Point2D.Double(x1, y1), angle, length);
     }
@@ -56,14 +57,14 @@ public class StraightLine extends Line2D.Double implements SketchShape {
      *         x.
      */
     public double slope() {
-        return (x2 - x1 == 0) ? java.lang.Double.POSITIVE_INFINITY
+        return (x2 - x1 == 0) ? POSITIVE_INFINITY
                 : ((y2 - y1) / (x2 - x1));
     }
 
     /** @return the y value of this line when x is set to 0. */
     public double yIntercept() {
-        return (slope() == java.lang.Double.POSITIVE_INFINITY) ?
-                java.lang.Double.POSITIVE_INFINITY : (y1 - (slope() * x1));
+        return slope() == POSITIVE_INFINITY ?
+                POSITIVE_INFINITY : y1 - slope() * x1;
     }
 
     /** @return the angle of this line in the range pi/2 to -pi/2 in radians. */
@@ -141,10 +142,10 @@ public class StraightLine extends Line2D.Double implements SketchShape {
             double x;
             double y;
 
-            if (slope == java.lang.Double.POSITIVE_INFINITY) {
+            if (slope == POSITIVE_INFINITY) {
                 x = x1;
                 y = (slopeprime * x) + bprime;
-            } else if (slopeprime == java.lang.Double.POSITIVE_INFINITY) {
+            } else if (slopeprime == POSITIVE_INFINITY) {
                 x = o.x1;
                 y = (slope * x) + b;
             } else {

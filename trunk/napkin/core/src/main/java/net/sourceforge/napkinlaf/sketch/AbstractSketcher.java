@@ -24,6 +24,7 @@ import java.util.Iterator;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
+@SuppressWarnings({"StaticMethodOnlyUsedInOneClass", "WeakerAccess"})
 public abstract class AbstractSketcher {
     /**
      * Sketches a TemplateItem exactly as specified by the TemplateItem itself.
@@ -80,36 +81,48 @@ public abstract class AbstractSketcher {
     }
 
     /**
-     * @return a StraightLine which has been deformed in the manner appropriate
-     *         for this sketcher.
+     * @param l Line to start from.
+     *
+     * @return A {@link StraightLine} which has been deformed in the manner
+     *         appropriate for this sketcher.
      */
     public abstract SketchShape deformLine(StraightLine l);
 
     /**
-     * @return a QuadLine which has been deformed in the manner appropriate for
-     *         this sketcher.
+     * @param q Line to start from.
+     *
+     * @return A {@link QuadLine} which has been deformed in the manner
+     *         appropriate for this sketcher.
      */
     public abstract SketchShape deformQuad(QuadLine q);
 
     /**
-     * @return a CubicLine which has been deformed in the manner appropriate for
-     *         this sketcher.
+     * @param c Line to start from.
+     *
+     * @return A {@link CubicLine} which has been deformed in the manner
+     *         appropriate for this sketcher.
      */
     public abstract SketchShape deformCubic(CubicLine c);
 
     /**
-     * @return a Path which has been deformed in the manner appropriate for this
-     *         sketcher.
+     * @param p The path to start from.
+     *
+     * @return A {@link Path} which has been deformed in the manner appropriate
+     *         for this sketcher.
      */
     public abstract SketchShape deformPath(Path p);
 
-    /** @return a path which represents the input collection of lines. */
-    protected static Path formPath(StraightLine[] l) {
+    /**
+     * @param lines The lines that constitute the path.
+     *
+     * @return A path which represents the input collection of lines.
+     */
+    protected static Path formPath(StraightLine[] lines) {
         Path ret = new Path();
-        Point p = new Point(l[0].getP1());
+        Point p = new Point(lines[0].getP1());
         ret.moveTo(p.floatX(), p.floatY());
 
-        for (StraightLine line : l) {
+        for (StraightLine line : lines) {
             p = new Point(line.getP2());
             ret.lineTo(p.floatX(), p.floatY());
         }

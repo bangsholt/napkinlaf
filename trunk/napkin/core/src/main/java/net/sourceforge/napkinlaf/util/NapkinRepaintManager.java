@@ -1,9 +1,7 @@
 package net.sourceforge.napkinlaf.util;
 
-import java.applet.Applet;
+import javax.swing.*;
 import java.awt.*;
-import javax.swing.JComponent;
-import javax.swing.RepaintManager;
 
 /**
  * This class intercepts calls to the original repaint manager to check for
@@ -21,8 +19,10 @@ public class NapkinRepaintManager extends RepaintManager {
     private final RepaintManager manager;
 
     /**
-     * Creates a new instance of NapkinRepaintManager that wraps the given
-     * RepaintManager instance.
+     * Creates a new instance of {@link NapkinRepaintManager} that wraps the
+     * given repaint manager .
+     *
+     * @param manager The repaint manager to use.
      */
     private NapkinRepaintManager(RepaintManager manager) {
         this.manager = manager;
@@ -43,6 +43,8 @@ public class NapkinRepaintManager extends RepaintManager {
     /**
      * Calls {@link #repaintNapkinParent(JComponent,Rectangle)} with the visible
      * region of the given JComponent as the extra parameter.
+     *
+     * @param component The bottom component to repaint.
      */
     private void repaintNapkinParent(JComponent component) {
         repaintNapkinParent(component, component.getVisibleRect());
@@ -51,6 +53,9 @@ public class NapkinRepaintManager extends RepaintManager {
     /**
      * Search up the hierarchy for a Napkin component (the parent component),
      * and calculates the given region in the parent component's coordinates.
+     *
+     * @param component The bottom component to repaint.
+     * @param region    The subregion of the component to repaint.
      */
     private void repaintNapkinParent(JComponent component, Rectangle region) {
         Container container = component;
@@ -115,14 +120,14 @@ public class NapkinRepaintManager extends RepaintManager {
     }
 
     /**
-    // --------------------------------------
-    // Simple delegations
-    // --------------------------------------
+     // --------------------------------------
+     // Simple delegations
+     // --------------------------------------
 
      // These overrides are for Mustang (1.6), and won't compile under 1.5
      // TODO: Figure out a way to make this conditional -- two versions of the
      // class file maybe?
-//    /** {@inheritDoc} */
+     //    /** {@inheritDoc} */
 //    @Override
 //    public void addDirtyRegion(Applet applet, int x, int y, int w, int h) {
 //        manager.addDirtyRegion(applet, x, y, w, h);
