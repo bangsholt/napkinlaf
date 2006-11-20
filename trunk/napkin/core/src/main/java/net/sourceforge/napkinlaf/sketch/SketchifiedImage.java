@@ -8,13 +8,33 @@ import static java.awt.image.DataBuffer.*;
 import java.util.LinkedList;
 import java.util.List;
 
-/** @author Alex Lam Sze Lok */
+/**
+ * This class takes an image and creates a new version of it that looks
+ * hand-drawn, like a sketched version.  For Napkin Look and Feel, the purpose
+ * is to allow you to use such sketched images instead of pristine ones during
+ * development. This mechanism, however, is independent from the Napkin Look and
+ * Feel, and you can use it for whatever tickles your fancy.
+ *
+ * @author Alex Lam Sze Lok see SketchifiedIcon
+ */
 @SuppressWarnings({"WeakerAccess", "UnusedReturnValue"})
-public class SketchifiedImage extends Image implements ImageObserver {
+public class SketchifiedImage extends Image {
 
     private BufferedImage sketch = null;
     private List<ImageObserver> observers = new LinkedList<ImageObserver>();
 
+    private final ImageObserver observer = new ImageObserver() {
+        public boolean imageUpdate(
+                Image img, int infoflags, int x, int y, int width, int height) {
+
+            sketch = sketchify(img);
+            sketch.setAccelerationPriority(getAccelerationPriority());
+            // always return true to stay on for further events
+            return true;
+        }
+    };
+
+    /** Holds the hints that used when rendering into the sketched image. */
     private static final RenderingHints hints = new RenderingHints(null);
 
     static {
@@ -41,49 +61,66 @@ public class SketchifiedImage extends Image implements ImageObserver {
     );
 
     /**
-     * Creates a new instance of SketchifiedImage
+     * Creates a new instance of <tt>SketchifiedImage</tt>.
      *
-     * @param image Image to sketchify.
+     * @param image The image to sketchify.
      */
     public SketchifiedImage(Image image) {
         sketch = sketchify(image);
         if (sketch == null) {
-            getGraphics().drawImage(image, 0, 0, this);
+            getGraphics().drawImage(image, 0, 0, observer);
         }
     }
 
+    /**
+     * Find the edges in the image.
+     *
+     * @param alpha The alpha applied when writing into the output raster
+     *              image.
+     * @param src   The source raster image.
+     * @param dst   The output raster image, with edges detected.  If
+     *              <tt>null</tt>, a new {@link WritableRaster} is created for
+     *              the output image.
+     *
+     * @return The output image with edges detected.
+     */
     @SuppressWarnings({"UnusedAssignment"})
-    private static Raster
-                   findEdge(Raster alphaRtr, Raster srcRtr,
-            WritableRaster dstRtr) {
+    private static Raster findEdge(Raster alpha, Raster src,
+            WritableRaster dst) {
 
-        WritableRaster invRtr = invertOp.filter(srcRtr, null);
+        WritableRaster invRtr = invertOp.filter(src, null);
         invRtr = blurOp.filter(invRtr, null);
         int width = invRtr.getWidth();
         int height = invRtr.getHeight();
-        if (dstRtr == null) {
-            dstRtr = Raster.createBandedRaster(
-                    TYPE_BYTE, width, height, 1, null);
+        if (dst == null) {
+            dst = Raster.createBandedRaster(TYPE_BYTE, width, height, 1, null);
         }
         int[] srcVal = new int[1];
         int[] invVal = new int[1];
-        int[] alpha = new int[1];
+        int[] alphaVal = new int[1];
         int[] retVal = new int[1];
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                srcRtr.getPixel(x, y, srcVal);
+                src.getPixel(x, y, srcVal);
                 invRtr.getPixel(x, y, invVal);
-                alphaRtr.getPixel(x, y, alpha);
+                alpha.getPixel(x, y, alphaVal);
                 float c = (srcVal[0] + invVal[0]) / 255.0f;
                 c = Math.max(0.0f, Math.min(1.0f, (c - 0.9f) / 0.1f));
                 c *= c;
-                retVal[0] = (int) (alpha[0] * (1.0f - c));
-                dstRtr.setPixel(x, y, retVal);
+                retVal[0] = (int) (alphaVal[0] * (1.0f - c));
+                dst.setPixel(x, y, retVal);
             }
         }
-        return dstRtr;
+        return dst;
     }
 
+    /**
+     * Shared code with {@link SketchifiedIcon}.  This does the real work.
+     *
+     * @param origImage The original image.
+     *
+     * @return A sketchified version of the original image.
+     */
     static BufferedImage sketchify(Image origImage) {
         int width = origImage.getWidth(null);
         int height = origImage.getHeight(null);
@@ -117,9 +154,11 @@ public class SketchifiedImage extends Image implements ImageObserver {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 bands.getPixel(x, y, pixel);
-                alpha[0] = Math.max(pixel[0], pixel[1]);
-                alpha[0] = Math.max(alpha[0], pixel[2]);
-                alpha[0] = Math.max(alpha[0], pixel[3]);
+                int a = pixel[0];
+                a = Math.max(a, pixel[1]);
+                a = Math.max(a, pixel[2]);
+                a = Math.max(a, pixel[3]);
+                alpha[0] = a;
                 alphaRtr.setPixel(x, y, alpha);
             }
         }
@@ -127,12 +166,9 @@ public class SketchifiedImage extends Image implements ImageObserver {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 imageRtr.getPixel(x, y, pixel);
-                pixel[0] &= 0xE0;
-                pixel[0] |= 0x1F;
-                pixel[1] &= 0xE0;
-                pixel[1] |= 0x1F;
-                pixel[2] &= 0xC0;
-                pixel[2] |= 0x3F;
+                pixel[0] = (pixel[0] & 0xe0) | 0x1f;
+                pixel[1] = (pixel[1] & 0xe0) | 0x1f;
+                pixel[2] = (pixel[2] & 0xc0) | 0x3f;
                 imageRtr.setPixel(x, y, pixel);
             }
         }
@@ -152,6 +188,7 @@ public class SketchifiedImage extends Image implements ImageObserver {
         return sketch.getWidth(observer);
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getHeight(ImageObserver observer) {
         if (sketch == null) {
@@ -163,11 +200,13 @@ public class SketchifiedImage extends Image implements ImageObserver {
         return sketch.getHeight(observer);
     }
 
+    /** {@inheritDoc} */
     @Override
     public ImageProducer getSource() {
         return sketch == null ? null : sketch.getSource();
     }
 
+    /** {@inheritDoc} */
     @Override
     public Graphics getGraphics() {
         return sketch == null ?
@@ -175,26 +214,20 @@ public class SketchifiedImage extends Image implements ImageObserver {
                 sketch.getGraphics();
     }
 
+    /** {@inheritDoc} */
     @Override
     public Object getProperty(String name, ImageObserver observer) {
         return sketch.getProperty(name, observer);
     }
 
-    public boolean imageUpdate(
-            Image img, int infoflags, int x, int y, int width, int height) {
-
-        sketch = sketchify(img);
-        sketch.setAccelerationPriority(getAccelerationPriority());
-        // always return true to stay on for further events
-        return true;
-    }
-
+    /** {@inheritDoc} */
     @Override
     public ImageCapabilities getCapabilities(GraphicsConfiguration gc) {
         return sketch == null ?
                 super.getCapabilities(gc) : sketch.getCapabilities(gc);
     }
 
+    /** {@inheritDoc} */
     @SuppressWarnings({"ParameterHidesMemberVariable"})
     @Override
     public Image getScaledInstance(int width, int height, int hints) {
@@ -202,6 +235,7 @@ public class SketchifiedImage extends Image implements ImageObserver {
                 null : sketch.getScaledInstance(width, height, hints);
     }
 
+    /** {@inheritDoc} */
     @Override
     public float getAccelerationPriority() {
         return sketch == null ?
@@ -209,6 +243,7 @@ public class SketchifiedImage extends Image implements ImageObserver {
                 sketch.getAccelerationPriority();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void flush() {
         if (sketch != null) {

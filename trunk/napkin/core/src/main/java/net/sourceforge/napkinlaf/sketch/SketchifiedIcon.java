@@ -6,7 +6,12 @@ import javax.swing.*;
 import java.awt.image.*;
 import static java.awt.image.BufferedImage.*;
 
-/** @author Alex Lam Sze Lok */
+/**
+ * This class gives you an {@linkImageIcon} with the icon sketched, as in {@link
+ * SketchifiedImage}.
+ *
+ * @author Alex Lam Sze Lok
+ */
 @SuppressWarnings({"WeakerAccess"})
 public class SketchifiedIcon extends ImageIcon implements NapkinIcon {
     /**
