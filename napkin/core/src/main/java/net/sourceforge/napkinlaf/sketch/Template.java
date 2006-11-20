@@ -25,8 +25,9 @@ import java.util.ListIterator;
  * @author Justin Crafford
  * @author Peter Goodspeed
  */
-@SuppressWarnings(
-        {"CloneDoesntDeclareCloneNotSupportedException", "WeakerAccess", "InstanceMethodNamingConvention"})
+@SuppressWarnings({
+        "CloneDoesntDeclareCloneNotSupportedException", "WeakerAccess",
+        "InstanceMethodNamingConvention"})
 public class Template implements Cloneable {
     private String title; // The title of the template
     private String description; // A description of the template
@@ -39,9 +40,9 @@ public class Template implements Cloneable {
     /**
      * Constructs a new template with the given values.
      *
-     * @param origin     The upper-left corner of the rectangle specifying the
-     *                   clipping bounds
-     * @param dimensions The width and height of the rectangle specifying the
+     * @param origin     The upper-left corner of the clipping bounds
+     *                   rectangle.
+     * @param dimensions The width and height of the clipping bounds rectangle.
      */
     public Template(Point origin, Dimension dimensions) {
         title = "";
@@ -50,16 +51,18 @@ public class Template implements Cloneable {
         clippingBounds = new Rectangle(origin, dimensions);
     }
 
-    /** Constructs a new Template with default values. */
+    /**
+     * Constructs a new Template with default values. The origin and dimensions
+     * are both (0,0).
+     */
     public Template() {
         this(new Point(), new Dimension());
     }
 
     /**
      * Reads an XML file located at the path indicated, and returns a {@link
-     * Template} object that instantiates the object represented in that
-     * document, so long as the document is in fact a valid XML document
-     * according to the schema <tt>net.sourceforge.napkinlaf.resources.Template.xsd</tt>.
+     * Template} that instantiates the object represented in that document. The
+     * document must be valid according to the schema <tt>net.sourceforge.napkinlaf.resources.Template.xsd</tt>.
      *
      * @param path The path of the file to read.
      *
@@ -83,15 +86,14 @@ public class Template implements Cloneable {
     }
 
     /**
-     * Reads an XML from the given input stream, and returns a {@link Template}
-     * object that instantiates the object represented in that document, so long
-     * as the document is in fact a valid XML document according to the schema
-     * <tt>net.sourceforge.napkinlaf.resources.Template.xsd</tt>.
+     * Reads XML from an input stream, and returns a {@link Template} that
+     * instantiates the object represented in that document. The document must
+     * be valid according to the schema <tt>net.sourceforge.napkinlaf.resources.Template.xsd</tt>.
      *
      * @param in The stream to read from.
      *
-     * @return a Template described by the XML document located at
-     *         <tt>path</tt>.
+     * @return A {@link Template} described by the XML document in the input
+     *         stream.
      *
      * @throws TemplateReadException The template file has an error.
      * @see Template#produceXMLString()
@@ -147,42 +149,37 @@ public class Template implements Cloneable {
         height = maxy - miny;
     }
 
-    /**
-     * Gets a list-iterator of the template-items in this list, starting at the
-     * first element.
-     *
-     * @return a listIterator of the elements in this list.
-     */
+    /** @return A {@link ListIterator} of the template items in this template. */
     public ListIterator<TemplateItem> getListIterator() {
         return templateItems.listIterator();
     }
 
-    /** @return Returns the title. */
+    /** @return The title. */
     public String getTitle() {
         return title;
     }
 
-    /** @param title The title to set. */
+    /** @param title The new title. */
     public void setTitle(String title) {
         this.title = title;
     }
 
-    /** @return Returns the description. */
+    /** @return The description. */
     public String getDescription() {
         return description;
     }
 
-    /** @param description The description to set. */
+    /** @param description The new description. */
     public void setDescription(String description) {
         this.description = description;
     }
 
-    /** @return Returns the width. */
+    /** @return The width. */
     public int getWidth() {
         return width;
     }
 
-    /** @return Returns the height. */
+    /** @return The height. */
     public int getHeight() {
         return height;
     }
@@ -198,20 +195,20 @@ public class Template implements Cloneable {
         return clippingBounds;
     }
 
-    /** @param clippingBounds The clipping bounds to set. */
+    /** @param clippingBounds The new clipping bounds. */
     public void setClippingBounds(Rectangle clippingBounds) {
         this.clippingBounds = clippingBounds;
     }
 
     /**
-     * Produces a String which contains a pretty-printed XML representation of
-     * this Template. This is a bit too computationally intensive to be used to
+     * Produces a string that contains a pretty-printed XML representation of
+     * this template. This is a bit too computationally intensive to be used to
      * replace serialization for interprocess communication or transactions
      * which occur at machine-speed; it is more for long-term storage of
-     * Templates in files which a user might edit manually.
+     * templates in files which a user might edit manually.
      *
-     * @return a String containing the pretty-printed textual XML document
-     *         representing this Template
+     * @return A string containing the pretty-printed textual XML document
+     *         representing this template
      *
      * @see Template#createFromXML(String)
      */
@@ -222,18 +219,14 @@ public class Template implements Cloneable {
                     stringWriter);
         } catch (IOException e) {
             // There was an error creating the XML output
+            // This should never happen writing to a StringWriter
             e.printStackTrace();
         }
 
         return stringWriter.toString();
     }
 
-    /**
-     * Creates an XML Document representing the internal state of this
-     * Template.
-     *
-     * @return an XML Document containing the state of this
-     */
+    /** @return An XML Document containing the state of this template. */
     public Document produceXML() {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element("template");
