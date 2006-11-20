@@ -25,7 +25,10 @@ public class TemplateItem implements Cloneable {
     private Color fillColor; // Color of this object's internal fill
     private SketchShape shape; // Geometry that specifies this object's shape
 
-    /** Constructs a new TemplateItem with default values. */
+    /**
+     * Constructs a new TemplateItem with default values. The stroke will be
+     * drawn in a line weight of one, and will not be filled.
+     */
     public TemplateItem() {
         drawStroke = true;
         drawFill = false;
@@ -33,9 +36,8 @@ public class TemplateItem implements Cloneable {
     }
 
     /**
-     * @return Returns the strokeColor. If the stroke color was set to null the
-     *         default color specified by the Napkin's current theme is
-     *         returned.
+     * @return The stroke color. If the stroke color was set to <tt>null</tt>
+     *         the default color specified by the current theme is returned.
      */
     public Color getStrokeColor() {
         return strokeColor == null ?
@@ -44,30 +46,29 @@ public class TemplateItem implements Cloneable {
     }
 
     /**
-     * Note that by default, the strokeColor is null. This has the effect that
-     * the default sketch color is that of the Look and Feel. Setting a
-     * strokeColor will override the Look and Feel's default stroke color.
+     * Set the stroke color. By default, the stroke color is <tt>null</tt>. This
+     * has the effect that the default sketch color is that of the current
+     * theme.
      *
-     * @param strokeColor The strokeColor to set.
+     * @param strokeColor The new stroke color.
      */
     public void setStrokeColor(Color strokeColor) {
         this.strokeColor = strokeColor;
     }
 
-    /** @return Returns the strokeWeight. */
+    /** @return The stroke weight. */
     public float getStrokeWeight() {
         return strokeWeight;
     }
 
-    /** @param strokeWeight The strokeWeight to set. */
+    /** @param strokeWeight The new stroke weight. */
     public void setStrokeWeight(float strokeWeight) {
         this.strokeWeight = strokeWeight;
     }
 
     /**
-     * @return Returns the fillColor. If the fill color was set to null the
-     *         default color specified by the Napkin's current theme is
-     *         returned.
+     * @return The fill color. If the fill color is <t,t>null</tt> the default
+     *         color specified by the Napkin's current theme is returned.
      */
     public Color getFillColor() {
         return fillColor == null ?
@@ -76,22 +77,22 @@ public class TemplateItem implements Cloneable {
     }
 
     /**
-     * Note that by default, the fillColor is null. This has the effect that the
-     * default sketch color is that of the Look and Feel. Setting a fillColor
-     * will override the Look and Feel's default fill color.
+     * Set the fille color. By default, the fille color is <tt>null</tt>. This
+     * has the effect that the default sketch color is that of the current
+     * theme.
      *
-     * @param fillColor The fillColor to set.
+     * @param fillColor The new fill color.
      */
     public void setFillColor(Color fillColor) {
         this.fillColor = fillColor;
     }
 
-    /** @return Returns the shape. */
+    /** @return The shape. */
     public SketchShape getShape() {
         return shape;
     }
 
-    /** @param shape The shape to set. */
+    /** @param shape The new shape. */
     public void setShape(SketchShape shape) {
         if (shape == null) {
             throw new NullPointerException("shape cannot be null");
@@ -99,29 +100,29 @@ public class TemplateItem implements Cloneable {
         this.shape = shape;
     }
 
-    /** @return Returns the drawFill. */
+    /** @return <tt>true</tt> if the shape should be filled. */
     public boolean isDrawFill() {
         return drawFill;
     }
 
-    /** @param drawFill The drawFill to set. */
+    /** @param drawFill <tt>true</tt> if the shape should be filled. */
     public void setDrawFill(boolean drawFill) {
         this.drawFill = drawFill;
     }
 
-    /** @return Returns the drawStroke. */
+    /** @return The draw stroke. */
     public boolean isDrawStroke() {
         return drawStroke;
     }
 
-    /** @param drawStroke The drawStroke to set. */
+    /** @param drawStroke The new draw stroke. */
     public void setDrawStroke(boolean drawStroke) {
         this.drawStroke = drawStroke;
     }
 
     /**
-     * @return an XML representation of the information contained in this
-     *         TemplateItem.
+     * @return An XML representation of the information contained in this
+     *         template item.
      */
     public Element produceXML() {
         Element result = null;

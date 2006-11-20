@@ -19,41 +19,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/AbstractNapkinIcon.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/AbstractNapkinIcon.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinRandom.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinRandom.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/TemplateReadException.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/TemplateReadException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinIconFactory.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinIconFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/XMLTemplateExtractor.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/XMLTemplateExtractor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinSmartListeners.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinSmartListeners.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/sketchers/JotSketcher.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/sketchers/JotSketcher.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/geometry/QuadLine.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/geometry/QuadLine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/SmartStickyListener.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/SmartStickyListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/XMLUtility.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/XMLUtility.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/AbstractSketcher.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/AbstractSketcher.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/DrawnIcon.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/DrawnIcon.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/geometry/SketchShape.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/geometry/SketchShape.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/overall.ipr" afterPath="$PROJECT_DIR$/overall.ipr" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/Template.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/Template.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinUtil.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/fonts/PatchedFontUIResource.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/fonts/PatchedFontUIResource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/geometry/CubicLine.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/geometry/CubicLine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinRepaintManager.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinRepaintManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/geometry/Point.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/geometry/Point.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/geometry/StraightLine.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/geometry/StraightLine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/SketchifiedIcon.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/SketchifiedIcon.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/TemplateItem.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/TemplateItem.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinIcon.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinIcon.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/geometry/Path.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/geometry/Path.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/XMLActions.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/XMLActions.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/overall.iws" afterPath="$PROJECT_DIR$/overall.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/fonts/MergedFont.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/fonts/MergedFont.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinBackground.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinBackground.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/fonts/MergedFontGraphics2D.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/fonts/MergedFontGraphics2D.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example/src/main/java/net/sourceforge/napkinlaf/dev/SketchTest.java" afterPath="$PROJECT_DIR$/example/src/main/java/net/sourceforge/napkinlaf/dev/SketchTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ReleaseNotes.html" afterPath="$PROJECT_DIR$/ReleaseNotes.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/borders/NapkinBorder.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/borders/NapkinBorder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/SketchifiedImage.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/SketchifiedImage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/Template.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/Template.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/TemplateItem.java" afterPath="$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/TemplateItem.java" />
     </list>
   </component>
   <component name="ChangeListSynchronizer" />
@@ -258,7 +226,7 @@
       <file leaf-file-name="NapkinRepaintManager.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinRepaintManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="59" column="66" selection-start="2103" selection-end="2103" vertical-scroll-proportion="0.4814815">
+            <state line="57" column="66" selection-start="2032" selection-end="2032" vertical-scroll-proportion="0.3043478">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;class#NapkinRepaintManager#0" expanded="true" />
@@ -314,7 +282,7 @@
       <file leaf-file-name="NapkinUtil.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="662" column="29" selection-start="26840" selection-end="26840" vertical-scroll-proportion="0.33333334">
+            <state line="678" column="29" selection-start="27994" selection-end="27994" vertical-scroll-proportion="0.21070234">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="initializer##0;class#NapkinUtil#0" expanded="true" />
@@ -379,7 +347,7 @@
       <file leaf-file-name="SmartStickyListener.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/SmartStickyListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="0" selection-start="172" selection-end="172" vertical-scroll-proportion="0.18518518">
+            <state line="5" column="28" selection-start="172" selection-end="172" vertical-scroll-proportion="0.117056854">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;class#SmartStickyListener#0" expanded="true" />
@@ -401,7 +369,7 @@
       <file leaf-file-name="StraightLine.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/geometry/StraightLine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="11" selection-start="1309" selection-end="1309" vertical-scroll-proportion="0.33333334">
+            <state line="45" column="11" selection-start="1323" selection-end="1323" vertical-scroll-proportion="0.21070234">
               <folding>
                 <element signature="method#slope#0;class#StraightLine#0" expanded="true" />
                 <element signature="method#yIntercept#0;class#StraightLine#0" expanded="true" />
@@ -411,10 +379,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Template.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Template.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/Template.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="70" column="39" selection-start="2827" selection-end="2827" vertical-scroll-proportion="0.07713499">
+            <state line="30" column="13" selection-start="949" selection-end="949" vertical-scroll-proportion="0.3327616">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;class#Template#0" expanded="true" />
@@ -459,66 +427,64 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NapkinBorder.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/borders/NapkinBorder.java">
+      <file leaf-file-name="TemplateItem.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/TemplateItem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="0" selection-start="292" selection-end="292" vertical-scroll-proportion="0.22222222">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NapkinIconFactory.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinIconFactory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="147" column="11" selection-start="5332" selection-end="5332" vertical-scroll-proportion="0.37037036">
+            <state line="151" column="0" selection-start="4850" selection-end="4850" vertical-scroll-proportion="0.4147157">
               <folding>
-                <element signature="class#CheckBoxIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#CheckBoxIcon#0;class#CheckBoxIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#createPlaceGenerator#0;class#CheckBoxIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="docComment;method#createMarkGenerator#0;class#CheckBoxIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#createMarkGenerator#0;class#CheckBoxIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#calcWidth#0;class#CheckBoxIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#calcHeight#0;class#CheckBoxIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#doPaint#0;class#CheckBoxIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="class#RadioButtonIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#RadioButtonIcon#0;class#RadioButtonIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="docComment;method#createPlaceGenerator#0;class#RadioButtonIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#createPlaceGenerator#0;class#RadioButtonIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#createMarkGenerator#0;class#RadioButtonIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#calcWidth#0;class#RadioButtonIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#calcHeight#0;class#RadioButtonIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="class#ArrowIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="docComment;method#ArrowIcon#0;class#ArrowIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#ArrowIcon#0;class#ArrowIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#createPlaceGenerator#0;class#ArrowIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#createMarkGenerator#0;class#ArrowIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#calcHeight#0;class#ArrowIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#calcWidth#0;class#ArrowIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#shouldUseMark#0;class#ArrowIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="class#XIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#XIcon#0;class#XIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#getIconHeight#0;class#XIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#getIconWidth#0;class#XIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#paintIcon#0;class#XIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#createCheckBoxIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#createCheckedMenuItemIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#createRadioButtonIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#createArrowIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#createArrowIcon#1;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#createXIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="docComment;method#createSketchedIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#createSketchedIcon#0;class#NapkinIconFactory#0" expanded="true" />
-                <element signature="method#getTemplate#0;class#NapkinIconFactory#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="docComment;class#TemplateItem#0" expanded="true" />
+                <element signature="docComment;method#TemplateItem#0;class#TemplateItem#0" expanded="true" />
+                <element signature="method#TemplateItem#0;class#TemplateItem#0" expanded="true" />
+                <element signature="docComment;method#getStrokeColor#0;class#TemplateItem#0" expanded="true" />
+                <element signature="method#getStrokeColor#0;class#TemplateItem#0" expanded="true" />
+                <element signature="docComment;method#setStrokeColor#0;class#TemplateItem#0" expanded="true" />
+                <element signature="method#setStrokeColor#0;class#TemplateItem#0" expanded="true" />
+                <element signature="docComment;method#getStrokeWeight#0;class#TemplateItem#0" expanded="true" />
+                <element signature="method#getStrokeWeight#0;class#TemplateItem#0" expanded="true" />
+                <element signature="docComment;method#setStrokeWeight#0;class#TemplateItem#0" expanded="true" />
+                <element signature="method#setStrokeWeight#0;class#TemplateItem#0" expanded="true" />
+                <element signature="docComment;method#getFillColor#0;class#TemplateItem#0" expanded="true" />
+                <element signature="method#getFillColor#0;class#TemplateItem#0" expanded="true" />
+                <element signature="docComment;method#setFillColor#0;class#TemplateItem#0" expanded="true" />
+                <element signature="method#setFillColor#0;class#TemplateItem#0" expanded="true" />
+                <element signature="docComment;method#getShape#0;class#TemplateItem#0" expanded="true" />
+                <element signature="method#getShape#0;class#TemplateItem#0" expanded="true" />
+                <element signature="docComment;method#setShape#0;class#TemplateItem#0" expanded="true" />
+                <element signature="method#setShape#0;class#TemplateItem#0" expanded="true" />
+                <element signature="docComment;method#isDrawFill#0;class#TemplateItem#0" expanded="true" />
+                <element signature="method#isDrawFill#0;class#TemplateItem#0" expanded="true" />
+                <element signature="docComment;method#setDrawFill#0;class#TemplateItem#0" expanded="true" />
+                <element signature="method#setDrawFill#0;class#TemplateItem#0" expanded="true" />
+                <element signature="docComment;method#isDrawStroke#0;class#TemplateItem#0" expanded="true" />
+                <element signature="method#isDrawStroke#0;class#TemplateItem#0" expanded="true" />
+                <element signature="docComment;method#setDrawStroke#0;class#TemplateItem#0" expanded="true" />
+                <element signature="method#setDrawStroke#0;class#TemplateItem#0" expanded="true" />
+                <element signature="docComment;method#produceXML#0;class#TemplateItem#0" expanded="true" />
+                <element signature="method#produceXML#0;class#TemplateItem#0" expanded="true" />
+                <element signature="docComment;method#clone#0;class#TemplateItem#0" expanded="true" />
+                <element signature="method#clone#0;class#TemplateItem#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NapkinRandom.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinRandom.java">
+      <file leaf-file-name="TemplateReadException.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/TemplateReadException.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="1" selection-start="770" selection-end="770" vertical-scroll-proportion="0.7037037">
+            <state line="8" column="54" selection-start="250" selection-end="250" vertical-scroll-proportion="0.18729097">
+              <folding>
+                <element signature="docComment;class#TemplateReadException#0" expanded="true" />
+                <element signature="method#TemplateReadException#0;class#TemplateReadException#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NapkinBorder.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/borders/NapkinBorder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="0" selection-start="287" selection-end="287" vertical-scroll-proportion="0.14046822">
               <folding />
             </state>
           </provider>
@@ -978,7 +944,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/geometry" />
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/sketchers" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -986,144 +952,6 @@
         <PATH_ELEMENT>
           <option name="myItemId" value="overall.ipr" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="napkinlaf" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/core" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/core/src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/core/src/main" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/core/src/main/java" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/borders" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="overall.ipr" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="example" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="overall.ipr" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="example" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/example" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="overall.ipr" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="example" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/example" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/example/src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/example/src/main" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="overall.ipr" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="example" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/example" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/example/src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/example/src/main" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/example/src/main/java" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/example/src/main/java/net/sourceforge/napkinlaf" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="overall.ipr" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="example" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/example" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/example/src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/example/src/main" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/example/src/main/java" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/example/src/main/java/net/sourceforge/napkinlaf" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/example/src/main/java/net/sourceforge/napkinlaf/dev" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
     </subPane>
@@ -1321,7 +1149,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="52" y="22" width="1101" height="746" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="5" />
       <window_info id="Maven-2 Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="5" />
@@ -1331,7 +1159,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32922202" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287037" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3287037" order="10" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287037" order="10" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4351852" order="6" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="5" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="10" />
@@ -1365,16 +1193,16 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
-    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="PERFORM_UPDATE_IN_BACKGROUND" value="false" />
     <option name="PERFORM_COMMIT_IN_BACKGROUND" value="false" />
     <option name="PUT_FOCUS_INTO_COMMENT" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Comment out test that was failing" />
+    <option name="LAST_COMMIT_MESSAGE" value="Code cleanups" />
     <option name="SAVE_LAST_COMMIT_MESSAGE" value="true" />
     <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
-    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
-    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
     <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
     <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
@@ -1384,6 +1212,7 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="Comment out test that was failing" />
+    <MESSAGE value="Code cleanups" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -1438,81 +1267,6 @@
     <option name="myLastEditedConfigurable" value="EditorHightlightingSettings" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinPainter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="0" selection-start="231" selection-end="231" vertical-scroll-proportion="0.25925925">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinRandom.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="1" selection-start="770" selection-end="770" vertical-scroll-proportion="0.7037037">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinDebug.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="13" selection-start="696" selection-end="696" vertical-scroll-proportion="0.0952381">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinRepaintManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="66" selection-start="2103" selection-end="2103" vertical-scroll-proportion="0.4814815">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="docComment;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#NapkinRepaintManager#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#NapkinRepaintManager#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#wrap#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#unwrap#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#repaintNapkinParent#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#repaintNapkinParent#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#repaintNapkinParent#1;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#repaintNapkinParent#1;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#markCompletelyDirty#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#markCompletelyDirty#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#addInvalidComponent#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#addInvalidComponent#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#addDirtyRegion#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#addDirtyRegion#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#getOffscreenBuffer#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#getOffscreenBuffer#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#getVolatileOffscreenBuffer#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#getVolatileOffscreenBuffer#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#setDoubleBufferMaximumSize#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#setDoubleBufferMaximumSize#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#setDoubleBufferingEnabled#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#setDoubleBufferingEnabled#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#getDirtyRegion#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#getDirtyRegion#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#isCompletelyDirty#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#isCompletelyDirty#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#markCompletelyClean#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#markCompletelyClean#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#removeInvalidComponent#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#removeInvalidComponent#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#validateInvalidComponents#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#validateInvalidComponents#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#getDoubleBufferMaximumSize#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#getDoubleBufferMaximumSize#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#isDoubleBufferingEnabled#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#isDoubleBufferingEnabled#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#paintDirtyRegions#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#paintDirtyRegions#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#toString#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#toString#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#equals#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#equals#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="docComment;method#hashCode#0;class#NapkinRepaintManager#0" expanded="true" />
-            <element signature="method#hashCode#0;class#NapkinRepaintManager#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinTextPainter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="17" selection-start="100" selection-end="100" vertical-scroll-proportion="0.14814815">
@@ -1522,7 +1276,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/NapkinUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="662" column="29" selection-start="26840" selection-end="26840" vertical-scroll-proportion="0.33333334">
+        <state line="678" column="29" selection-start="27994" selection-end="27994" vertical-scroll-proportion="0.21070234">
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="initializer##0;class#NapkinUtil#0" expanded="true" />
@@ -1599,7 +1353,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/borders/NapkinBorder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="292" selection-end="292" vertical-scroll-proportion="0.22222222">
+        <state line="11" column="0" selection-start="287" selection-end="287" vertical-scroll-proportion="0.14046822">
           <folding />
         </state>
       </provider>
@@ -1627,7 +1381,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/util/SmartStickyListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="172" selection-end="172" vertical-scroll-proportion="0.18518518">
+        <state line="5" column="28" selection-start="172" selection-end="172" vertical-scroll-proportion="0.117056854">
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#SmartStickyListener#0" expanded="true" />
@@ -1647,7 +1401,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/geometry/StraightLine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="11" selection-start="1309" selection-end="1309" vertical-scroll-proportion="0.33333334">
+        <state line="45" column="11" selection-start="1323" selection-end="1323" vertical-scroll-proportion="0.21070234">
           <folding>
             <element signature="method#slope#0;class#StraightLine#0" expanded="true" />
             <element signature="method#yIntercept#0;class#StraightLine#0" expanded="true" />
@@ -1658,7 +1412,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/Template.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="39" selection-start="2827" selection-end="2827" vertical-scroll-proportion="0.07713499">
+        <state line="30" column="13" selection-start="949" selection-end="949" vertical-scroll-proportion="0.3327616">
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#Template#0" expanded="true" />
@@ -1698,6 +1452,90 @@
             <element signature="method#produceXML#0;class#Template#0" expanded="true" />
             <element signature="docComment;method#clone#0;class#Template#0" expanded="true" />
             <element signature="method#clone#0;class#Template#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/sketchers/JotSketcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="24" selection-start="1549" selection-end="1549" vertical-scroll-proportion="0.34710744">
+          <folding>
+            <element signature="method#sketch#0;class#JotSketcher#0" expanded="true" />
+            <element signature="docComment;method#deform#2;class#JotSketcher#0" expanded="true" />
+            <element signature="docComment;method#deform#3;class#JotSketcher#0" expanded="true" />
+            <element signature="method#deform#3;class#JotSketcher#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/AbstractSketcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="18" selection-start="1689" selection-end="1689" vertical-scroll-proportion="0.33333334">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;class#AbstractSketcher#0" expanded="true" />
+            <element signature="docComment;method#cleanSketch#0;class#AbstractSketcher#0" expanded="true" />
+            <element signature="method#cleanSketch#0;class#AbstractSketcher#0" expanded="true" />
+            <element signature="docComment;method#getPen#0;class#AbstractSketcher#0" expanded="true" />
+            <element signature="method#getPen#0;class#AbstractSketcher#0" expanded="true" />
+            <element signature="docComment;method#sketch#0;class#AbstractSketcher#0" expanded="true" />
+            <element signature="method#sketch#0;class#AbstractSketcher#0" expanded="true" />
+            <element signature="docComment;method#deformLine#0;class#AbstractSketcher#0" expanded="true" />
+            <element signature="docComment;method#deformQuad#0;class#AbstractSketcher#0" expanded="true" />
+            <element signature="docComment;method#deformCubic#0;class#AbstractSketcher#0" expanded="true" />
+            <element signature="docComment;method#deformPath#0;class#AbstractSketcher#0" expanded="true" />
+            <element signature="docComment;method#formPath#0;class#AbstractSketcher#0" expanded="true" />
+            <element signature="method#formPath#0;class#AbstractSketcher#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/TemplateItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="151" column="0" selection-start="4850" selection-end="4850" vertical-scroll-proportion="0.4147157">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;class#TemplateItem#0" expanded="true" />
+            <element signature="docComment;method#TemplateItem#0;class#TemplateItem#0" expanded="true" />
+            <element signature="method#TemplateItem#0;class#TemplateItem#0" expanded="true" />
+            <element signature="docComment;method#getStrokeColor#0;class#TemplateItem#0" expanded="true" />
+            <element signature="method#getStrokeColor#0;class#TemplateItem#0" expanded="true" />
+            <element signature="docComment;method#setStrokeColor#0;class#TemplateItem#0" expanded="true" />
+            <element signature="method#setStrokeColor#0;class#TemplateItem#0" expanded="true" />
+            <element signature="docComment;method#getStrokeWeight#0;class#TemplateItem#0" expanded="true" />
+            <element signature="method#getStrokeWeight#0;class#TemplateItem#0" expanded="true" />
+            <element signature="docComment;method#setStrokeWeight#0;class#TemplateItem#0" expanded="true" />
+            <element signature="method#setStrokeWeight#0;class#TemplateItem#0" expanded="true" />
+            <element signature="docComment;method#getFillColor#0;class#TemplateItem#0" expanded="true" />
+            <element signature="method#getFillColor#0;class#TemplateItem#0" expanded="true" />
+            <element signature="docComment;method#setFillColor#0;class#TemplateItem#0" expanded="true" />
+            <element signature="method#setFillColor#0;class#TemplateItem#0" expanded="true" />
+            <element signature="docComment;method#getShape#0;class#TemplateItem#0" expanded="true" />
+            <element signature="method#getShape#0;class#TemplateItem#0" expanded="true" />
+            <element signature="docComment;method#setShape#0;class#TemplateItem#0" expanded="true" />
+            <element signature="method#setShape#0;class#TemplateItem#0" expanded="true" />
+            <element signature="docComment;method#isDrawFill#0;class#TemplateItem#0" expanded="true" />
+            <element signature="method#isDrawFill#0;class#TemplateItem#0" expanded="true" />
+            <element signature="docComment;method#setDrawFill#0;class#TemplateItem#0" expanded="true" />
+            <element signature="method#setDrawFill#0;class#TemplateItem#0" expanded="true" />
+            <element signature="docComment;method#isDrawStroke#0;class#TemplateItem#0" expanded="true" />
+            <element signature="method#isDrawStroke#0;class#TemplateItem#0" expanded="true" />
+            <element signature="docComment;method#setDrawStroke#0;class#TemplateItem#0" expanded="true" />
+            <element signature="method#setDrawStroke#0;class#TemplateItem#0" expanded="true" />
+            <element signature="docComment;method#produceXML#0;class#TemplateItem#0" expanded="true" />
+            <element signature="method#produceXML#0;class#TemplateItem#0" expanded="true" />
+            <element signature="docComment;method#clone#0;class#TemplateItem#0" expanded="true" />
+            <element signature="method#clone#0;class#TemplateItem#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/net/sourceforge/napkinlaf/sketch/TemplateReadException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="54" selection-start="250" selection-end="250" vertical-scroll-proportion="0.18729097">
+          <folding>
+            <element signature="docComment;class#TemplateReadException#0" expanded="true" />
+            <element signature="method#TemplateReadException#0;class#TemplateReadException#0" expanded="true" />
           </folding>
         </state>
       </provider>
