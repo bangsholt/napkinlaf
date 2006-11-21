@@ -15,7 +15,6 @@ public class DrawnTriangleGenerator extends AbstractDrawnGenerator {
     private final double rotate;
 
     public DrawnTriangleGenerator(double rotate) {
-        super();
 
         this.rotate = rotate;
 
@@ -64,8 +63,9 @@ public class DrawnTriangleGenerator extends AbstractDrawnGenerator {
         }
 
         float[] drawPoints = new float[points.length + 2];
-        for (int i = 0; i < points.length; i++)
+        for (int i = 0; i < points.length; i++) {
             drawPoints[i] = (float) points[(i + minPoint) % points.length];
+        }
         drawPoints[6] = drawPoints[0];
         drawPoints[7] = drawPoints[1];
 
@@ -75,14 +75,16 @@ public class DrawnTriangleGenerator extends AbstractDrawnGenerator {
         drawPoints[7] += adjustStartOffset(startAdjust, yScale);
 
         t.moveTo(drawPoints[0], drawPoints[1]);
-        for (int i = 2; i < drawPoints.length; i += 2)
+        for (int i = 2; i < drawPoints.length; i += 2) {
             t.lineTo(drawPoints[i], drawPoints[i + 1]);
+        }
         return t;
     }
 
+    @SuppressWarnings({"UnnecessaryLocalVariable"})
     private double adjustStartOffset(RandomValueSource off, double scale) {
         double result = off.generate();
-        if (scale < 1d) {
+        if (scale < 1.0) {
             double delta = 1 - scale;
             double exp = startAdjust.generate();
             double adjusted = Math.pow(delta, exp);

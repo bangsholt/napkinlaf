@@ -57,16 +57,16 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
         StraightLine s1 = new StraightLine(getP1(), getCtrlP1());
         StraightLine s2 = new StraightLine(getCtrlP1(), getCtrlP2());
         StraightLine s3 = new StraightLine(getCtrlP2(), getP2());
-        return (s1.length() + s2.length() + s3.length())
-                / (1 + Math.log(getFlatness() + 1));
+        return (s1.length() + s2.length() + s3.length()) / (1 + Math.log(
+                getFlatness() + 1));
     }
 
     /** {@inheritDoc} */
     public SketchShape magnify(double scaleFactor) {
         return new XMLCubicLine(x1 * scaleFactor, y1 * scaleFactor,
                 ctrlx1 * scaleFactor, ctrly1 * scaleFactor,
-                ctrlx2 * scaleFactor, ctrly2 * scaleFactor,
-                x2 * scaleFactor, y2 * scaleFactor);
+                ctrlx2 * scaleFactor, ctrly2 * scaleFactor, x2 * scaleFactor,
+                y2 * scaleFactor);
     }
 
     /** {@inheritDoc} */
@@ -115,25 +115,22 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
         if (span.x2 < span.x1 || (span.x2 == span.x1 && span.y2 < span.y1)) {
             lenmultiplier = -lenmultiplier;
         }
-        Point2D s1 = new Point
-                (getP1(), span.angle(), span.length() * lenmultiplier);
+        Point2D s1 = new Point(getP1(), span.angle(),
+                span.length() * lenmultiplier);
 
         span = new StraightLine(getP2(), getCtrlP2());
         lenmultiplier = 0.6;
         if (span.x2 < span.x1 || (span.x2 == span.x1 && span.y2 < span.y1)) {
             lenmultiplier = -lenmultiplier;
         }
-        Point2D s2 = new Point
-                (getP2(), span.angle(), span.length() * lenmultiplier);
+        Point2D s2 = new Point(getP2(), span.angle(),
+                span.length() * lenmultiplier);
 
         Point one = Point.midpoint(p1, s1);
         Point two = Point.midpoint(p2, s2);
 
-        return new StraightLine[]{
-                new StraightLine(getP1(), one),
-                new StraightLine(one, two),
-                new StraightLine(two, getP2()),
-        };
+        return new StraightLine[]{new StraightLine(getP1(), one),
+                new StraightLine(one, two), new StraightLine(two, getP2()),};
     }
 
     /** {@inheritDoc} */
@@ -141,18 +138,15 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
         QuadLine[] result;
 
         StraightLine line = new StraightLine(getP1(), getP2());
-        Point intersection = line.intersects(
-                new StraightLine(getCtrlP1(), getCtrlP2()));
+        Point intersection = line.intersects(new StraightLine(getCtrlP1(),
+                getCtrlP2()));
         if (intersection == null) {
-            result = new QuadLine[]{
-                    new QuadLine(getP1(),
-                            Point.midpoint(getCtrlP1(), getCtrlP2()), getP2()),
-            };
+            result = new QuadLine[]{new QuadLine(getP1(), Point.midpoint(
+                    getCtrlP1(), getCtrlP2()), getP2()),};
         } else {
-            result = new QuadLine[]{
-                    new QuadLine(getP1(), getCtrlP1(), intersection),
-                    new QuadLine(intersection, getCtrlP2(), getP2()),
-            };
+            result = new QuadLine[]{new QuadLine(getP1(), getCtrlP1(),
+                    intersection), new QuadLine(intersection, getCtrlP2(),
+                    getP2()),};
         }
 
         return result;

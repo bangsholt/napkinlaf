@@ -1,17 +1,12 @@
 package net.sourceforge.napkinlaf.borders;
 
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import javax.swing.border.AbstractBorder;
-import javax.swing.border.Border;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 
-/**
- *
- * @author Alex Lam Sze Lok
- */
+import javax.swing.border.*;
+import java.awt.*;
+
+/** @author Alex Lam Sze Lok */
+@SuppressWarnings({"NonSerializableFieldInSerializableClass"})
 public class NapkinWrappedBorder extends AbstractNapkinBorder {
 
     private final Border origBorder;
@@ -20,9 +15,11 @@ public class NapkinWrappedBorder extends AbstractNapkinBorder {
     public NapkinWrappedBorder(Border origBorder) {
         this.origBorder = origBorder;
         border = origBorder instanceof AbstractBorder ?
-            (AbstractBorder) origBorder : null;
+                (AbstractBorder) origBorder :
+                null;
     }
 
+    @Override
     protected Insets doGetBorderInsets(Component c, Insets insets) {
         Insets result = origBorder.getBorderInsets(c);
         insets.set(result.top, result.left, result.bottom, result.right);
@@ -34,6 +31,7 @@ public class NapkinWrappedBorder extends AbstractNapkinBorder {
         return origBorder.isBorderOpaque();
     }
 
+    @Override
     protected void doPaintBorder(Component c, Graphics g, int x, int y,
             int width, int height) {
 
@@ -44,10 +42,10 @@ public class NapkinWrappedBorder extends AbstractNapkinBorder {
     }
 
     @Override
-    public Rectangle getInteriorRectangle(Component c, int x, int y, int width, int height) {
-        return border != null ?
-            border.getInteriorRectangle(c, x, y, width, height) :
-            super.getInteriorRectangle(c, x, y, width, height);
+    public Rectangle getInteriorRectangle(Component c, int x, int y, int width,
+            int height) {
+        return border != null ? border.getInteriorRectangle(c, x, y, width,
+                height) : super.getInteriorRectangle(c, x, y, width, height);
     }
 
     // These overrides are for Mustang (1.6), and won't compile under 1.5
@@ -68,7 +66,7 @@ public class NapkinWrappedBorder extends AbstractNapkinBorder {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof NapkinWrappedBorder &&
-            ((NapkinWrappedBorder) obj).origBorder.equals(origBorder);
+                ((NapkinWrappedBorder) obj).origBorder.equals(origBorder);
     }
 
     @Override
@@ -76,6 +74,7 @@ public class NapkinWrappedBorder extends AbstractNapkinBorder {
         return NapkinWrappedBorder.class.hashCode() ^ origBorder.hashCode();
     }
 
+    @Override
     public String toString() {
         return "NapkinWrappedBoreder{" + origBorder.toString() + "}";
     }

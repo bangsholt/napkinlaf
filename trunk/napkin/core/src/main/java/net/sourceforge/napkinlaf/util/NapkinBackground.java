@@ -1,12 +1,33 @@
 package net.sourceforge.napkinlaf.util;
 
-import net.sourceforge.napkinlaf.NapkinLookAndFeel;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;
-import java.net.URL;
 
+/**
+ * This class describes a background.  It may be as simple as a color, or have
+ * edges that differ from a tiled middle.  The model is that the background
+ * consists of the following parts:
+ * <p/>
+ * <table align="center" border="1"> <tr> <td>Top<br>left<br>corner <td
+ * align="center">Top side <td>Top<br>right<br>corner <tr> <td>Left<br>side <td
+ * width="200" height="200" align="center">Middle <td>Right<br>side <tr>
+ * <td>Bottom<br>left<br>corner <td align="center">Bottom side
+ * <td>Bottom<br>right<br>corner </table>
+ * <p/>
+ * This model is used in two ways.  The first is to take the provided image and
+ * break it up into these parts.  When you create a <tt>NapkinBackground</tt>,
+ * you provide widths for the left and right sides, and height for the top and
+ * bottom sides.  From these the corners can be inferred.  The parts of the
+ * image that are so described become the relevant parts of the image that are
+ * used in drawing the background.
+ * <p/>
+ * The second is to draw the background. Each of the corners will appear once.
+ * Each side will be tiled to fill out the area between the side's corners. The
+ * middle part of the image will be tiled to fill up the remaining area in the
+ * middle of the background (if any).
+ */
+@SuppressWarnings({"WeakerAccess"})
 public class NapkinBackground {
     private final String name;
     private final ImageIcon icon;
@@ -16,23 +37,46 @@ public class NapkinBackground {
 
     private static final Insets NO_INSETS = new Insets(0, 0, 0, 0);
 
-    public NapkinBackground(String name) {
-        this(name, null);
+    /**
+     * Creates a background with the given image. This has no outer parts, only
+     * a middle.
+     *
+     * @param icon The background image.
+     */
+    public NapkinBackground(ImageIcon icon) {
+        this(icon, null);
     }
 
-    public NapkinBackground(String name, int top, int left, int bottom,
+    /**
+     * Creates a background with the specified insets for the given sides.
+     *
+     * @param icon   The background image.
+     * @param top    The height of the top side and corners.
+     * @param left   The width of the left side and corners.
+     * @param bottom The height of the bottom side and corners.
+     * @param right  The width of the right side and corners.
+     */
+    public NapkinBackground(ImageIcon icon, int top, int left, int bottom,
             int right) {
-        this(name, new Insets(top, left, bottom, right));
+
+        this(icon, new Insets(top, left, bottom, right));
     }
 
-    public NapkinBackground(String name, Insets insets) {
-        this.name = name;
-        URL resource = NapkinLookAndFeel.class.getResource(name);
-        if (resource == null) {
-            throw new NullPointerException("no resource found for: " + name);
-        }
-        Image image = Toolkit.getDefaultToolkit().getImage(resource);
-        icon = new ImageIcon(image);
+    /**
+     * Creates a background with the insert's sizes for the given sides.
+     *
+     * @param icon   The background image.
+     * @param insets The inset describing the sizes; <tt>top</tt> is the height
+     *               of the top side and corners; <tt>left</tt> is the width of
+     *               the left side and corners; <tt>bottom</tt> is the height of
+     *               the bottom side and corners; <tt>right</tt> is the width of
+     *               the right side and corners. If <tt>null</tt>, all these
+     *               values will be zero.
+     */
+    @SuppressWarnings({"WeakerAccess"})
+    public NapkinBackground(ImageIcon icon, Insets insets) {
+        this.icon = icon;
+        this.name = icon.getDescription();
         int iconW = icon.getIconWidth();
         int iconH = icon.getIconHeight();
 
@@ -70,6 +114,7 @@ public class NapkinBackground {
     @SuppressWarnings({"UnnecessaryLocalVariable"})
     public void paint(Component c, Graphics g, Rectangle paper, Rectangle comp,
             Insets cInsets) {
+
         int topH = tlCorner.getIconHeight();
         int topY = 0;
 

@@ -17,6 +17,7 @@ public class DrawnTabHolder extends DrawnShapeHolder {
         breakEnd = new Point2D.Double();
     }
 
+    @SuppressWarnings({"ParameterHidesMemberVariable"})
     public void shapeUpToDate(int tabPlacement, int x, int y, int w, int h) {
         if (tabPlacement != this.tabPlacement || w != this.w || h != this.h ||
                 this.x != x || this.y != y) {

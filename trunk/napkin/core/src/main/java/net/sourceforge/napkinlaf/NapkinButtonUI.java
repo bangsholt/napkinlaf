@@ -11,6 +11,7 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import java.awt.*;
 
+@SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinButtonUI extends BasicButtonUI
         implements NapkinPainter, NapkinTextPainter {
 
@@ -55,7 +56,7 @@ public class NapkinButtonUI extends BasicButtonUI
         NapkinUtil.update(g, c, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
 }

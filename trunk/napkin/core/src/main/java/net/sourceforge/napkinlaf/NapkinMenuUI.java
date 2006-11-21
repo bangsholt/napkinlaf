@@ -16,6 +16,7 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+@SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinMenuUI extends BasicMenuUI
         implements NapkinTextPainter, NapkinPainter {
     private DrawnLineHolder line;
@@ -27,8 +28,8 @@ public class NapkinMenuUI extends BasicMenuUI
                             (ComponentOrientation) evt.getNewValue();
                     arrowIcon = NapkinIconFactory
                             .createArrowIcon(
-                            (orientation.isLeftToRight() ? EAST : WEST)
-                            , 8);
+                                    (orientation.isLeftToRight() ? EAST : WEST),
+                                    8);
                 }
             };
 
@@ -44,8 +45,8 @@ public class NapkinMenuUI extends BasicMenuUI
         boolean isLeftToRight = c.getComponentOrientation().isLeftToRight();
         arrowIcon = NapkinIconFactory
                 .createArrowIcon((isLeftToRight ? EAST : WEST), 8);
-        c.addPropertyChangeListener(
-                "componentOrientation", orientationListener);
+        c.addPropertyChangeListener("componentOrientation",
+                orientationListener);
         NapkinUtil.installUI(c);
     }
 
@@ -53,8 +54,8 @@ public class NapkinMenuUI extends BasicMenuUI
     public void uninstallUI(JComponent c) {
         NapkinUtil.uninstallUI(c);
         arrowIcon = oldArrowIcon;
-        c.removePropertyChangeListener(
-                "componentOrientation", orientationListener);
+        c.removePropertyChangeListener("componentOrientation",
+                orientationListener);
         super.uninstallUI(c);
     }
 
@@ -78,6 +79,8 @@ public class NapkinMenuUI extends BasicMenuUI
      * JMenu can either be on JMenuBar or within another JMenu and it could well
      * be changed throughout the life-time of the component, so we have to work
      * out the selectionForeground every time.
+     *
+     * @param c The component to udpate.
      */
     private void updateDefaultSelectionColor(JComponent c) {
         selectionForeground = NapkinUtil.currentTheme(c).getSelectionColor();
@@ -103,7 +106,7 @@ public class NapkinMenuUI extends BasicMenuUI
         NapkinUtil.update(g, c, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
 }

@@ -30,12 +30,11 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
         }
 
         private Dimension calcSize(Container c, boolean pref, int min) {
-            Dimension closeSize =
-                    sizeFor(frame.isClosable(), pref, closeButton);
-            Dimension maxSize =
-                    sizeFor(frame.isMaximizable(), pref, maxButton);
-            Dimension iconSize =
-                    sizeFor(frame.isIconifiable(), pref, iconButton);
+            Dimension closeSize = sizeFor(frame.isClosable(), pref,
+                    closeButton);
+            Dimension maxSize = sizeFor(frame.isMaximizable(), pref, maxButton);
+            Dimension iconSize = sizeFor(frame.isIconifiable(), pref,
+                    iconButton);
 
             // Calculate width.
             int width = 0;
@@ -95,8 +94,9 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
     }
 
     private static Dimension sizeFor(boolean is, boolean pref, JButton button) {
-        return is ? (pref ? button.getPreferredSize() : button.getMinimumSize())
-                : NO_SIZE;
+        return is ?
+                (pref ? button.getPreferredSize() : button.getMinimumSize()) :
+                NO_SIZE;
     }
 
     @Override
@@ -131,7 +131,7 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
         NapkinUtil.update(g, this, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.paint(g);
     }
 

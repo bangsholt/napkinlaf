@@ -4,23 +4,23 @@ import net.sourceforge.napkinlaf.borders.NapkinBoxBorder;
 import net.sourceforge.napkinlaf.borders.NapkinLineBorder;
 import net.sourceforge.napkinlaf.borders.NapkinWrappedBorder;
 import net.sourceforge.napkinlaf.util.NapkinBackground;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.CLEAR;
 
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.plaf.*;
 import java.awt.*;
+import static java.awt.RenderingHints.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.UIResource;
-import static java.awt.RenderingHints.*;
 
 /** @author Alex Lam Sze Lok */
+@SuppressWarnings(
+        {"WeakerAccess", "JavaDoc", "NonSerializableFieldInSerializableClass"})
 public class NapkinTitlePane extends JComponent {
 
-    private static final Border EMPTY_BORDER =
-            new NapkinWrappedBorder(new EmptyBorder(0, 0, 0, 0));
+    private static final Border EMPTY_BORDER = new NapkinWrappedBorder(
+            new EmptyBorder(0, 0, 0, 0));
     private static final int IMAGE_HEIGHT = 18;
     private static final int IMAGE_WIDTH = 18;
 
@@ -74,12 +74,8 @@ public class NapkinTitlePane extends JComponent {
      */
     private int state;
 
-    /** NapkinRootPaneUI that created us. */
-    private NapkinRootPaneUI rootPaneUI;
-
-    public NapkinTitlePane(JRootPane root, NapkinRootPaneUI ui) {
+    public NapkinTitlePane(JRootPane root) {
         rootPane = root;
-        rootPaneUI = ui;
 
         state = -1;
 
@@ -94,7 +90,7 @@ public class NapkinTitlePane extends JComponent {
         if (window != null) {
             windowListener = createWindowListener();
             window.addWindowListener(windowListener);
-            propertyChangeListener = createWindowPropertyChangeListener();
+            propertyChangeListener = propertyChangeListener();
             window.addPropertyChangeListener(propertyChangeListener);
         }
     }
@@ -107,29 +103,31 @@ public class NapkinTitlePane extends JComponent {
         }
     }
 
-    /** Returns the <tt>WindowListener</tt> to add to the <tt>Window</tt>. */
+    /** @return The <tt>WindowListener</tt> to add to the <tt>Window</tt>. */
     private WindowListener createWindowListener() {
         return new WindowHandler();
     }
 
     /**
-     * Returns the <tt>PropertyChangeListener</tt> to install on the
-     * <tt>Window</tt>.
+     * @return The <tt>PropertyChangeListener</tt> to install on the
+     *         <tt>Window</tt>.
      */
-    private PropertyChangeListener createWindowPropertyChangeListener() {
+    private PropertyChangeListener propertyChangeListener() {
         return new PropertyChangeHandler();
     }
 
-    /** Returns the <tt>JRootPane</tt> this was created for. */
+    /** @return The <tt>JRootPane</tt> this was created for. */
+    @Override
     public JRootPane getRootPane() {
         return rootPane;
     }
 
-    /** Returns the decoration style of the <tt>JRootPane</tt>. */
+    /** @return The decoration style of the <tt>JRootPane</tt>. */
     private int getWindowDecorationStyle() {
         return getRootPane().getWindowDecorationStyle();
     }
 
+    @Override
     public void addNotify() {
         super.addNotify();
 
@@ -147,6 +145,7 @@ public class NapkinTitlePane extends JComponent {
         }
     }
 
+    @Override
     public void removeNotify() {
         super.removeNotify();
 
@@ -185,8 +184,8 @@ public class NapkinTitlePane extends JComponent {
     }
 
     /**
-     * Returns the <tt>JMenuBar</tt> displaying the appropriate system menu
-     * items.
+     * @return The <tt>JMenuBar</tt> displaying the appropriate system menu
+     *         items.
      */
     protected JMenuBar createMenuBar() {
         menuBar = new SystemMenuBar();
@@ -198,11 +197,9 @@ public class NapkinTitlePane extends JComponent {
 
     /** Closes the Window. */
     private void close() {
-        Window window = getWindow();
-
         if (window != null) {
-            window.dispatchEvent(new WindowEvent(
-                    window, WindowEvent.WINDOW_CLOSING));
+            window.dispatchEvent(new WindowEvent(window,
+                    WindowEvent.WINDOW_CLOSING));
         }
     }
 
@@ -251,8 +248,8 @@ public class NapkinTitlePane extends JComponent {
     }
 
     /**
-     * Returns the <tt>JMenu</tt> displaying the appropriate menu items for
-     * manipulating the Frame.
+     * @return The <tt>JMenu</tt> displaying the appropriate menu items for
+     *         manipulating the Frame.
      */
     private JMenu createMenu() {
         JMenu menu = new JMenu("");
@@ -263,20 +260,21 @@ public class NapkinTitlePane extends JComponent {
     }
 
     /** Adds the necessary <tt>JMenuItem</tt>s to the passed in menu. */
-    private void addMenuItems(JMenu menu) {
+    private static void addMenuItems(JMenu menu) {
         if (Toolkit.getDefaultToolkit().isFrameStateSupported(
                 Frame.MAXIMIZED_BOTH)) {
         }
         menu.add(new JSeparator());
     }
 
-    /** Returns a <tt>JButton</tt> appropriate for placement on the TitlePane. */
+    /** @return A <tt>JButton</tt> appropriate for placement on the title pane. */
     private JButton createTitleButton(Action action) {
         JButton button = new JButton(action) {
             @Override
             public void setBorder(Border value) {
                 super.setBorder(getIcon() == null ?
-                        new NapkinBoxBorder() : EMPTY_BORDER);
+                        new NapkinBoxBorder() :
+                        EMPTY_BORDER);
             }
         };
         button.setFocusPainted(false);
@@ -317,8 +315,8 @@ public class NapkinTitlePane extends JComponent {
     }
 
     /**
-     * Returns the <tt>LayoutManager</tt> that should be installed on the
-     * <tt>NapkinTitlePane</tt>.
+     * @return The <tt>LayoutManager</tt> that should be installed on the
+     *         <tt>NapkinTitlePane</tt>.
      */
     private LayoutManager createLayout() {
         return new TitlePaneLayout();
@@ -357,17 +355,15 @@ public class NapkinTitlePane extends JComponent {
             Frame frame = getFrame();
 
             if (frame != null) {
-                JRootPane rootPane = getRootPane();
-
-                if (((state & Frame.MAXIMIZED_BOTH) != 0) &&
-                        (rootPane.getBorder() == null ||
+                if (((state & Frame.MAXIMIZED_BOTH) != 0) && (
+                        rootPane.getBorder() == null ||
                                 (rootPane.getBorder() instanceof UIResource)) &&
                         frame.isShowing()) {
                     rootPane.setBorder(null);
                 } else if ((state & Frame.MAXIMIZED_BOTH) == 0) {
                     // This is a croak, if state becomes bound, this can
                     // be nuked.
-                    rootPaneUI.installBorder(rootPane);
+                    NapkinRootPaneUI.installBorder(rootPane);
                 }
                 if (frame.isResizable()) {
                     if ((state & Frame.MAXIMIZED_BOTH) != 0) {
@@ -422,12 +418,10 @@ public class NapkinTitlePane extends JComponent {
     }
 
     /**
-     * Returns the Frame rendering in. This will return null if the
-     * <tt>JRootPane</tt> is not contained in a <tt>Frame</tt>.
+     * @return The Frame rendering in. This will return null if the
+     *         <tt>JRootPane</tt> is not contained in a <tt>Frame</tt>.
      */
     private Frame getFrame() {
-        Window window = getWindow();
-
         if (window instanceof Frame) {
             return (Frame) window;
         }
@@ -435,15 +429,15 @@ public class NapkinTitlePane extends JComponent {
     }
 
     /**
-     * Returns the <tt>Window</tt> the <tt>JRootPane</tt> is contained in. This
-     * will return null if there is no parent ancestor of the
-     * <tt>JRootPane</tt>.
+     * @return The <tt>Window</tt> the <tt>JRootPane</tt> is contained in. Will
+     *         return <tt>null</tt> if there is no parent ancestor of the
+     *         <tt>JRootPane</tt>.
      */
     private Window getWindow() {
         return window;
     }
 
-    /** Returns the String to display as the title. */
+    /** @return The string to display as the title. */
     private String getTitle() {
         Window w = getWindow();
 
@@ -456,14 +450,13 @@ public class NapkinTitlePane extends JComponent {
     }
 
     /** Renders the TitlePane. */
+    @Override
     public void paintComponent(Graphics g) {
         // As state isn't bound, we need a convenience place to check
         // if it has changed. Changing the state typically changes the
         if (getFrame() != null) {
             setState(getFrame().getExtendedState());
         }
-        JRootPane rootPane = getRootPane();
-        Window window = getWindow();
         boolean leftToRight = window == null ?
                 rootPane.getComponentOrientation().isLeftToRight() :
                 window.getComponentOrientation().isLeftToRight();
@@ -475,8 +468,8 @@ public class NapkinTitlePane extends JComponent {
         g2d.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(KEY_TEXT_ANTIALIASING, VALUE_TEXT_ANTIALIAS_ON);
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
-        Color foreground = isSelected ?
-                theme.getSelectionColor() : theme.getPenColor();
+        Color foreground =
+                isSelected ? theme.getSelectionColor() : theme.getPenColor();
         NapkinBackground bg = theme.getPaper();
         Rectangle bounds = getBounds();
         Insets insets = getInsets();
@@ -489,7 +482,7 @@ public class NapkinTitlePane extends JComponent {
         int xOffset = leftToRight ? 5 : width - 5;
 
         if (getWindowDecorationStyle() == JRootPane.FRAME) {
-            xOffset += leftToRight ? IMAGE_WIDTH + 5 : - IMAGE_WIDTH - 5;
+            xOffset += leftToRight ? IMAGE_WIDTH + 5 : -IMAGE_WIDTH - 5;
         }
 
         String theTitle = getTitle();
@@ -507,14 +500,14 @@ public class NapkinTitlePane extends JComponent {
             int titleW;
 
             if (leftToRight) {
-                if (rect.x == 0) {
+                if (rect.x == 0 && window != null) {
                     rect.x = window.getWidth() - window.getInsets().right - 2;
                 }
                 titleW = rect.x - xOffset - 4;
-                theTitle = _clipStringIfNecessary(fm, theTitle, titleW);
+                theTitle = clipStringIfNecessary(fm, theTitle, titleW);
             } else {
                 titleW = xOffset - rect.x - rect.width - 4;
-                theTitle = _clipStringIfNecessary(fm, theTitle, titleW);
+                theTitle = clipStringIfNecessary(fm, theTitle, titleW);
                 xOffset -= fm.stringWidth(theTitle);
             }
             int titleLength = fm.stringWidth(theTitle);
@@ -523,8 +516,10 @@ public class NapkinTitlePane extends JComponent {
         }
     }
 
-    private String _clipStringIfNecessary(FontMetrics fm, String text,
+    @SuppressWarnings({"StringContatenationInLoop"})
+    private static String clipStringIfNecessary(FontMetrics fm, String text,
             int width) {
+
         int textWidth = fm.stringWidth(text);
         int len = text.length();
         String result = text;
@@ -539,7 +534,7 @@ public class NapkinTitlePane extends JComponent {
     /** Actions used to <tt>close</tt> the <tt>Window</tt>. */
     @SuppressWarnings({"CloneableClassWithoutClone"})
     private class CloseAction extends AbstractAction {
-        public CloseAction() {
+        CloseAction() {
             super("Close");
         }
 
@@ -551,7 +546,7 @@ public class NapkinTitlePane extends JComponent {
     /** Actions used to <tt>iconfiy</tt> the <tt>Frame</tt>. */
     @SuppressWarnings({"CloneableClassWithoutClone"})
     private class IconifyAction extends AbstractAction {
-        public IconifyAction() {
+        IconifyAction() {
             super("Minimize");
         }
 
@@ -563,7 +558,7 @@ public class NapkinTitlePane extends JComponent {
     /** Actions used to <tt>restore</tt> the <tt>Frame</tt>. */
     @SuppressWarnings({"CloneableClassWithoutClone"})
     private class RestoreAction extends AbstractAction {
-        public RestoreAction() {
+        RestoreAction() {
             super("Restore");
         }
 
@@ -575,7 +570,7 @@ public class NapkinTitlePane extends JComponent {
     /** Actions used to <tt>restore</tt> the <tt>Frame</tt>. */
     @SuppressWarnings({"CloneableClassWithoutClone"})
     private class MaximizeAction extends AbstractAction {
-        public MaximizeAction() {
+        MaximizeAction() {
             super("Maximize");
         }
 
@@ -589,6 +584,7 @@ public class NapkinTitlePane extends JComponent {
      * from the Frame associated with the <tt>JRootPane</tt>.
      */
     private class SystemMenuBar extends JMenuBar {
+        @Override
         public void paint(Graphics g) {
             Frame frame = getFrame();
 
@@ -609,15 +605,17 @@ public class NapkinTitlePane extends JComponent {
             }
         }
 
+        @Override
         public Dimension getMinimumSize() {
             return getPreferredSize();
         }
 
+        @Override
         public Dimension getPreferredSize() {
             Dimension size = super.getPreferredSize();
 
-            return new Dimension(Math.max(IMAGE_WIDTH, size.width),
-                    Math.max(size.height, IMAGE_HEIGHT));
+            return new Dimension(Math.max(IMAGE_WIDTH, size.width), Math.max(
+                    size.height, IMAGE_HEIGHT));
         }
     }
 
@@ -630,6 +628,7 @@ public class NapkinTitlePane extends JComponent {
 
         public Dimension preferredLayoutSize(Container c) {
             int height = computeHeight();
+            //noinspection SuspiciousNameCombination
             return new Dimension(height, height);
         }
 
@@ -655,9 +654,6 @@ public class NapkinTitlePane extends JComponent {
                     window.getComponentOrientation().isLeftToRight();
 
             int w = getWidth();
-            int x;
-            int y = 3;
-            int spacing;
             int buttonHeight;
             int buttonWidth;
 
@@ -672,8 +668,9 @@ public class NapkinTitlePane extends JComponent {
             // assumes all buttons have the same dimensions
             // these dimensions include the borders
 
-            spacing = 5;
-            x = leftToRight ? spacing : w - buttonWidth - spacing;
+            int spacing = 5;
+            int x = leftToRight ? spacing : w - buttonWidth - spacing;
+            int y = 3;
             if (menuBar != null) {
                 menuBar.setBounds(x, y, buttonWidth, buttonHeight);
             }
@@ -685,8 +682,9 @@ public class NapkinTitlePane extends JComponent {
                 closeButton.setBounds(x, y, buttonWidth, buttonHeight);
             }
 
-            if (!leftToRight)
+            if (!leftToRight) {
                 x += buttonWidth;
+            }
 
             if (getWindowDecorationStyle() == JRootPane.FRAME) {
                 if (Toolkit.getDefaultToolkit().isFrameStateSupported(
@@ -701,8 +699,8 @@ public class NapkinTitlePane extends JComponent {
                     }
                 }
 
-                if (iconifyButton != null && iconifyButton.getParent() != null)
-                {
+                if (iconifyButton != null &&
+                        iconifyButton.getParent() != null) {
                     spacing = 2;
                     x += leftToRight ? -spacing - buttonWidth : spacing;
                     iconifyButton.setBounds(x, y, buttonWidth, buttonHeight);
@@ -744,10 +742,12 @@ public class NapkinTitlePane extends JComponent {
 
     /** WindowListener installed on the Window, updates the state as necessary. */
     private class WindowHandler extends WindowAdapter {
+        @Override
         public void windowActivated(WindowEvent ev) {
             setActive(true);
         }
 
+        @Override
         public void windowDeactivated(WindowEvent ev) {
             setActive(false);
         }

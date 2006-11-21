@@ -72,16 +72,16 @@ public class MergedFont extends PatchedFontUIResource {
      */
     public static Font mergeFonts(Font primaryFont, Font... backingFonts) {
         return backingFonts == null || backingFonts.length == 0 ?
-                primaryFont : backingFonts.length == 1 ?
-                new MergedFont(primaryFont, backingFonts[0]) :
-                new MergedFont(primaryFont, _mergeFonts(backingFonts, 0));
+                primaryFont :
+                backingFonts.length == 1 ? new MergedFont(primaryFont,
+                        backingFonts[0]) : new MergedFont(primaryFont,
+                        doMergeFonts(backingFonts, 0));
     }
 
-    private static Font _mergeFonts(Font[] backingFonts, int pos) {
+    private static Font doMergeFonts(Font[] backingFonts, int pos) {
         Font first = backingFonts[pos];
-        return pos == backingFonts.length - 1 ?
-                first : new MergedFont(first, _mergeFonts(backingFonts,
-                pos + 1));
+        return pos == backingFonts.length - 1 ? first : new MergedFont(first,
+                doMergeFonts(backingFonts, pos + 1));
     }
 
     /** @return The backing font for this font. */
@@ -109,8 +109,8 @@ public class MergedFont extends PatchedFontUIResource {
                  * Fall back to top font's bad glyph if failed.
                  */
                 GlyphVector curGVector = gVector;
-                if (gVector.getGlyphCode(i) == badCode
-                        && gVector2.getGlyphCode(i) != badCode2) {
+                if (gVector.getGlyphCode(i) == badCode && gVector2.getGlyphCode(
+                        i) != badCode2) {
                     curGVector = gVector2;
                     replaced = true;
                 }
@@ -138,8 +138,8 @@ public class MergedFont extends PatchedFontUIResource {
                         (byte) metrics.getType());
                 // get the font of this particular glyph
                 Font glyphFont = curGVector instanceof MergedGlyphVector ?
-                        ((MergedGlyphVector) curGVector).getGlyphFont(i)
-                        : curGVector.getFont();
+                        ((MergedGlyphVector) curGVector).getGlyphFont(i) :
+                        curGVector.getFont();
                 // add transformed glyph into our GlyphVector
                 mgv.appendGlyph(curGVector.getGlyphCode(i), outline, curPos,
                         curGVector.getGlyphTransform(i), logicalBounds,
@@ -186,8 +186,9 @@ public class MergedFont extends PatchedFontUIResource {
         GlyphVector gVector = super.createGlyphVector(frc, chars);
         // If we don't have any bad glyphs, just return the simple result.
         return isPrimarySufficient(chars, 0, chars.length) ?
-                gVector : processGlyphVector
-                (frc, gVector, backingFont.createGlyphVector(frc, chars));
+                gVector :
+                processGlyphVector(frc, gVector, backingFont.createGlyphVector(
+                        frc, chars));
     }
 
     /** {@inheritDoc} */
@@ -195,46 +196,45 @@ public class MergedFont extends PatchedFontUIResource {
     public GlyphVector createGlyphVector(FontRenderContext frc, String str) {
         GlyphVector gVector = super.createGlyphVector(frc, str);
         // If we don't have any bad glyphs, just return the simple result.
-        return isPrimarySufficient(str) ?
-                gVector : processGlyphVector
-                (frc, gVector, backingFont.createGlyphVector(frc, str));
+        return isPrimarySufficient(str) ? gVector : processGlyphVector(frc,
+                gVector, backingFont.createGlyphVector(frc, str));
     }
 
     /** {@inheritDoc} */
     @Override
-    public GlyphVector
-           createGlyphVector(FontRenderContext frc, CharacterIterator ci) {
+    public GlyphVector createGlyphVector(FontRenderContext frc,
+            CharacterIterator ci) {
 
         GlyphVector gVector = super.createGlyphVector(frc, ci);
         /**
          * if this is not a composite font or if we don't have any bad glyphs,
          * just return the simple result.
          */
-        return isPrimarySufficient(ci) ?
-                gVector : processGlyphVector
-                (frc, gVector, backingFont.createGlyphVector(frc, ci));
+        return isPrimarySufficient(ci) ? gVector : processGlyphVector(frc,
+                gVector, backingFont.createGlyphVector(frc, ci));
     }
 
     /** {@inheritDoc} */
     @Override
-    public GlyphVector
-           createGlyphVector(FontRenderContext frc, int[] glyphCodes) {
+    public GlyphVector createGlyphVector(FontRenderContext frc,
+            int[] glyphCodes) {
 
         GlyphVector gVector = super.createGlyphVector(frc, glyphCodes);
-        return processGlyphVector
-                (frc, gVector, backingFont.createGlyphVector(frc, glyphCodes));
+        return processGlyphVector(frc, gVector, backingFont.createGlyphVector(
+                frc, glyphCodes));
     }
 
     /** {@inheritDoc} */
     @Override
-    public GlyphVector layoutGlyphVector(FontRenderContext frc,
-            char[] text, int start, int limit, int flags) {
-        GlyphVector gVector = super.layoutGlyphVector
-                (frc, text, start, limit, flags);
+    public GlyphVector layoutGlyphVector(FontRenderContext frc, char[] text,
+            int start, int limit, int flags) {
+        GlyphVector gVector = super.layoutGlyphVector(frc, text, start, limit,
+                flags);
         // If we don't have any bad glyphs, just return the simple result.
         return isPrimarySufficient(text, start, limit) ?
-                gVector : processGlyphVector(frc, gVector,
-                backingFont.layoutGlyphVector(frc, text, start, limit, flags));
+                gVector :
+                processGlyphVector(frc, gVector, backingFont.layoutGlyphVector(
+                        frc, text, start, limit, flags));
     }
 
     /** {@inheritDoc} */
@@ -284,7 +284,8 @@ public class MergedFont extends PatchedFontUIResource {
     @Override
     public byte getBaselineFor(char c) {
         return super.canDisplay(c) || !backingFont.canDisplay(c) ?
-                super.getBaselineFor(c) : backingFont.getBaselineFor(c);
+                super.getBaselineFor(c) :
+                backingFont.getBaselineFor(c);
     }
 
     /** {@inheritDoc} */
@@ -295,20 +296,20 @@ public class MergedFont extends PatchedFontUIResource {
 
     /** {@inheritDoc} */
     @Override
-    public Font deriveFont(float size) {
-        Font topFont = super.deriveFont(size);
-        float backSize = size * backingFont.getSize2D() / getSize2D();
+    public Font deriveFont(float newSize) {
+        Font topFont = super.deriveFont(newSize);
+        float backSize = newSize * backingFont.getSize2D() / getSize2D();
         return new MergedFont(topFont, backingFont.deriveFont(backSize));
     }
 
     /** {@inheritDoc} */
     @Override
-    public Font deriveFont(int style) {
-        Font topFont = super.deriveFont(style);
+    public Font deriveFont(int newStyle) {
+        Font topFont = super.deriveFont(newStyle);
         // find the differing bits, i.e. the styles which will be overriden
-        int styleMask = getStyle() ^ style;
+        int styleMask = getStyle() ^ newStyle;
         // prepare the overriding bits (styles)
-        int overridingStyles = style & styleMask;
+        int overridingStyles = newStyle & styleMask;
         // prepare to calculate for the new backing font's styles
         int backStyle = backingFont.getStyle();
         // clears away the fields we are going to write in
@@ -342,19 +343,20 @@ public class MergedFont extends PatchedFontUIResource {
         Map<? extends Attribute, ?> topAttributes = getAttributes();
         return attributes == topAttributes ||
                 (attributes != null && attributes.equals(topAttributes)) ?
-                this : new MergedFont(super.deriveFont(attributes),
-                backingFont.deriveFont(attributes));
+                this :
+                new MergedFont(super.deriveFont(attributes),
+                        backingFont.deriveFont(attributes));
     }
 
     /** {@inheritDoc} */
     @Override
-    public Font deriveFont(int style, AffineTransform trans) {
-        return deriveFont(style).deriveFont(trans);
+    public Font deriveFont(int newStyle, AffineTransform trans) {
+        return deriveFont(newStyle).deriveFont(trans);
     }
 
     /** {@inheritDoc} */
     @Override
-    public Font deriveFont(int style, float size) {
-        return deriveFont(size).deriveFont(style);
+    public Font deriveFont(int newStyle, float newSize) {
+        return deriveFont(newSize).deriveFont(newStyle);
     }
 }

@@ -12,6 +12,7 @@ import javax.swing.plaf.basic.*;
 import java.awt.*;
 import java.awt.geom.*;
 
+@SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
         implements NapkinPainter {
     private DrawnTabHolder[] tabs = new DrawnTabHolder[0];
@@ -80,17 +81,17 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
         calcRect.y = y;
         calcRect.width = w;
         calcRect.height = h;
-        if (selectedIndex < 0)
+        if (selectedIndex < 0) {
             contentBorder.shapeUpToDate(calcRect);
-        else {
+        } else {
             DrawnTabHolder tab = tabs[selectedIndex];
-            if (tab == null)
+            if (tab == null) {
                 contentBorder.shapeUpToDate(calcRect);
-            else {
+            } else {
                 Point2D beg = tab.getBreakBeg();
                 Point2D end = tab.getBreakEnd();
-                contentBorder.shapeUpToDate(calcRect, tabPlacement,
-                        beg.getX(), beg.getY(), end.getX(), end.getY());
+                contentBorder.shapeUpToDate(calcRect, tabPlacement, beg.getX(),
+                        beg.getY(), end.getX(), end.getY());
             }
         }
         g.setColor(tabPane.getForeground());
@@ -122,7 +123,7 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
         NapkinUtil.update(g, c, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
 }

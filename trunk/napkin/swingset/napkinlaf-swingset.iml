@@ -13,6 +13,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="napkinlaf" />
+    <orderEntry type="module" module-name="overall" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>

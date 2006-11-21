@@ -15,5 +15,4 @@ enum XMLActions {
     GET_G_VALUE,
     GET_B_VALUE,
     GET_X_VALUE,
-    GET_Y_VALUE,
-}
+    GET_Y_VALUE, }

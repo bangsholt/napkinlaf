@@ -16,10 +16,11 @@ public class RandomValue implements RandomValueSource {
 
     public void randomize() {
         double factor = getRange();
-        if (factor == 0)
+        if (factor == 0) {
             adjust = 0;
-        else
-            adjust = NapkinRandom.triCbRt(0.9d * factor); //gaussian(factor);
+        } else {
+            adjust = NapkinRandom.triangularCubeRoot(0.9d * factor);
+        }
     }
 
     public double get() {

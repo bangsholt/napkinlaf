@@ -28,7 +28,7 @@ public class Point extends Point2D.Double {
      * Modifies the position of this point as if the viewport had been magnified
      * towards or from the origin.
      *
-     * @param scaleFactor
+     * @param scaleFactor The factor to scale by.
      *
      * @return a point located along the magnification line through the original
      *         and the origin, modified by the scale factor.
@@ -78,7 +78,12 @@ public class Point extends Point2D.Double {
         return (float) y;
     }
 
-    /** @return the midpoint of the line between points p1 and p2. */
+    /**
+     * @param p1 One point.
+     * @param p2 The other point.
+     *
+     * @return the midpoint of the line between points p1 and p2.
+     */
     public static Point midpoint(Point2D p1, Point2D p2) {
         return new StraightLine(p1, p2).midpoint();
     }

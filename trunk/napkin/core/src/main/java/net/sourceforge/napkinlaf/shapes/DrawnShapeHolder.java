@@ -4,6 +4,7 @@ import net.sourceforge.napkinlaf.util.NapkinUtil;
 
 import java.awt.*;
 
+@SuppressWarnings({"WeakerAccess"})
 class DrawnShapeHolder {
     AbstractDrawnGenerator gen;
     Shape shape;
@@ -42,6 +43,7 @@ class DrawnShapeHolder {
         return cap;
     }
 
+    @SuppressWarnings({"SameParameterValue"})
     public void setCap(int cap) {
         this.cap = cap;
     }

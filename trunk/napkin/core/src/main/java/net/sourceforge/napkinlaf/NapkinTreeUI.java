@@ -13,6 +13,7 @@ import java.awt.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
 
     // access-order based bounded cache
@@ -32,15 +33,14 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
     }
 
     public static class DefaultNapkinTreeCellRender
-            extends DefaultTreeCellRenderer
-            implements NapkinPainter {
+            extends DefaultTreeCellRenderer implements NapkinPainter {
         @Override
         public void paint(Graphics g) {
-            this.putClientProperty(HIGHLIGHT_KEY, selected);
+            putClientProperty(HIGHLIGHT_KEY, selected);
             NapkinUtil.update(g, this, this);
         }
 
-        public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+        public void superPaint(Graphics g, JComponent c) {
             super.paint(g);
         }
 
@@ -84,7 +84,7 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
         NapkinUtil.update(g, c, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
 
@@ -150,8 +150,8 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
         Rectangle rect = tree.getBounds();
         rect.x = 0;
         rect.y = 0;
-        super.paintHorizontalPartOfLeg(g, rect, insets, bounds,
-                path, row, isExpanded, hasBeenExpanded, isLeaf);
+        super.paintHorizontalPartOfLeg(g, rect, insets, bounds, path, row,
+                isExpanded, hasBeenExpanded, isLeaf);
     }
 
     @Override

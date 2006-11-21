@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings({"WeakerAccess"})
 public class NapkinIconFactory {
     private static final Map<String, Template> tmplMap =
             new HashMap<String, Template>();
@@ -40,13 +41,14 @@ public class NapkinIconFactory {
             init();
         }
 
+        @Override
         protected AbstractDrawnGenerator createPlaceGenerator() {
             DrawnQuadLineGenerator gen = new DrawnQuadLineGenerator();
             gen.getCtl().getY().setMid(1);
             return gen;
         }
 
-        /** @noinspection AssignmentToStaticFieldFromInstanceMethod */
+        @Override
         protected AbstractDrawnGenerator createMarkGenerator() {
             if (checkGen == null) {
                 checkGen = new DrawnCheckGenerator(size - midInset);
@@ -54,10 +56,12 @@ public class NapkinIconFactory {
             return checkGen;
         }
 
+        @Override
         protected int calcWidth() {
             return (int) ((size - midInset) * checkGen.getMaxWidth() + 0.5d);
         }
 
+        @Override
         protected int calcHeight() {
             // the "2" is for the underline if it loops down a bit
             return (int) ((size - midInset) * checkGen.getMaxHeight() + 2.5d);
@@ -79,6 +83,7 @@ public class NapkinIconFactory {
         }
     }
 
+    @SuppressWarnings({"RedundantSuppression"})
     public static class RadioButtonIcon extends AbstractNapkinIcon {
         private final double scale;
 
@@ -96,7 +101,6 @@ public class NapkinIconFactory {
             init();
         }
 
-        /** @noinspection AssignmentToStaticFieldFromInstanceMethod */
         @Override
         protected AbstractDrawnGenerator createPlaceGenerator() {
             return CIRCLE_GEN;
@@ -136,12 +140,10 @@ public class NapkinIconFactory {
 
         public static final int DEFAULT_SIZE = 10;
 
-        private static final DrawnTriangleGenerator[] ARROW_GEN = {
-                new DrawnTriangleGenerator(0),
-                new DrawnTriangleGenerator(Math.PI / 2),
-                new DrawnTriangleGenerator(Math.PI),
-                new DrawnTriangleGenerator(-Math.PI / 2),
-        };
+        private static final DrawnTriangleGenerator[] ARROW_GEN =
+                {new DrawnTriangleGenerator(0), new DrawnTriangleGenerator(
+                        Math.PI / 2), new DrawnTriangleGenerator(Math.PI),
+                        new DrawnTriangleGenerator(-Math.PI / 2),};
 
         /**
          * @param pointTowards One of NORTH, EAST, WEST, or SOUTH.
@@ -242,9 +244,9 @@ public class NapkinIconFactory {
     public static Icon createSketchedIcon(String templatePath) {
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
         Template template = getTemplate(templatePath);
-        return template == null ?
-                createXIcon(20) /* just to have *something* */ :
-                new DrawnIcon(template, theme.getSketcher());
+        return template == null ? createXIcon(20)
+                /* just to have *something* */ : new DrawnIcon(template,
+                theme.getSketcher());
     }
 
     @SuppressWarnings({"HardcodedFileSeparator"})

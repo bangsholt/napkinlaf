@@ -2,11 +2,13 @@ package net.sourceforge.napkinlaf.util;
 
 import java.awt.*;
 
+@SuppressWarnings({"WeakerAccess", "InterfaceNamingConvention"})
 public class ComponentWalker {
 
     private final Visitor visitor;
 
     public interface Visitor {
+        @SuppressWarnings({"SameReturnValue"})
         boolean visit(Component c, int depth);
     }
 
@@ -26,8 +28,9 @@ public class ComponentWalker {
             if (c instanceof Container) {
                 Container container = (Container) c;
                 int end = container.getComponentCount();
-                for (int i = 0; i < end; i++)
+                for (int i = 0; i < end; i++) {
                     visit(container.getComponent(i), childDepth);
+                }
             }
         }
     }

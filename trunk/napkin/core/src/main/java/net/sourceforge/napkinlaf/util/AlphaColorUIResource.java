@@ -12,6 +12,7 @@ import java.awt.color.*;
  * without fixing this one. Let this be a lesson to all and sundry to only put
  * one issue in each report.]
  */
+@SuppressWarnings({"WeakerAccess"})
 public class AlphaColorUIResource extends Color implements UIResource {
     public AlphaColorUIResource(Color c) {
         super(c.getColorSpace(), c.getColorComponents(null),

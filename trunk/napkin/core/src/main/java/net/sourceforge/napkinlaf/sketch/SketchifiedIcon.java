@@ -26,8 +26,8 @@ public class SketchifiedIcon extends ImageIcon implements NapkinIcon {
 
     @SuppressWarnings({"ParameterHidesMemberVariable"})
     private static BufferedImage sketchify(JComponent component, Icon icon) {
-        BufferedImage image = new BufferedImage(
-                icon.getIconWidth(), icon.getIconHeight(), TYPE_INT_ARGB);
+        BufferedImage image = new BufferedImage(icon.getIconWidth(),
+                icon.getIconHeight(), TYPE_INT_ARGB);
         icon.paintIcon(component, image.getGraphics(), 0, 0);
         return SketchifiedImage.sketchify(image);
     }

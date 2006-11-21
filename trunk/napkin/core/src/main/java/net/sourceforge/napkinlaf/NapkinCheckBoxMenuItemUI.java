@@ -11,6 +11,7 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import java.awt.*;
 
+@SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinCheckBoxMenuItemUI extends BasicCheckBoxMenuItemUI
         implements NapkinPainter, NapkinTextPainter {
     private DrawnLineHolder line;
@@ -53,7 +54,7 @@ public class NapkinCheckBoxMenuItemUI extends BasicCheckBoxMenuItemUI
         NapkinUtil.update(g, c, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
 }

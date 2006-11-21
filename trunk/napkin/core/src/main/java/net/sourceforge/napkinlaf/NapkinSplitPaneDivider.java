@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.plaf.basic.*;
 import java.awt.*;
 
+@SuppressWarnings({"WeakerAccess"})
 public class NapkinSplitPaneDivider extends BasicSplitPaneDivider
         implements NapkinPainter {
 
@@ -18,8 +19,8 @@ public class NapkinSplitPaneDivider extends BasicSplitPaneDivider
     private static final int ARROW_SIZE = 5;
     static final int SIZE = ARROW_SIZE + 4;
 
-    private static final Cursor DEFAULT_CURSOR =
-            Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
+    private static final Cursor DEFAULT_CURSOR = Cursor.getPredefinedCursor(
+            Cursor.DEFAULT_CURSOR);
 
     public NapkinSplitPaneDivider(NapkinSplitPaneUI ui) {
         super(ui);
@@ -30,7 +31,7 @@ public class NapkinSplitPaneDivider extends BasicSplitPaneDivider
         NapkinUtil.update(g, splitPane, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g);
     }
 

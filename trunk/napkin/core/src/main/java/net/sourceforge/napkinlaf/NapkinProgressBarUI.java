@@ -11,6 +11,7 @@ import javax.swing.plaf.basic.*;
 import java.awt.*;
 import java.awt.image.*;
 
+@SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinProgressBarUI extends BasicProgressBarUI
         implements NapkinPainter {
     private final DrawnScribbleHolder scribble = new DrawnScribbleHolder();
@@ -109,7 +110,7 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
         NapkinUtil.update(g, c, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
 

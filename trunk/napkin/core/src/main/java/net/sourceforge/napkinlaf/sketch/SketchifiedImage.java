@@ -17,15 +17,16 @@ import java.util.List;
  *
  * @author Alex Lam Sze Lok see SketchifiedIcon
  */
-@SuppressWarnings({"WeakerAccess", "UnusedReturnValue"})
+@SuppressWarnings(
+        {"WeakerAccess", "UnusedReturnValue", "ParameterHidesMemberVariable", "ParameterHidesMemberVariable"})
 public class SketchifiedImage extends Image {
 
     private BufferedImage sketch = null;
     private List<ImageObserver> observers = new LinkedList<ImageObserver>();
 
     private final ImageObserver observer = new ImageObserver() {
-        public boolean imageUpdate(
-                Image img, int infoflags, int x, int y, int width, int height) {
+        public boolean imageUpdate(Image img, int infoflags, int x, int y,
+                int width, int height) {
 
             sketch = sketchify(img);
             sketch.setAccelerationPriority(getAccelerationPriority());
@@ -44,21 +45,11 @@ public class SketchifiedImage extends Image {
     }
 
     private static final BandCombineOp invertOp = new BandCombineOp(
-            new float[][]{
-                    {-1.0f, 255.0f},
-            }, hints
-    );
+            new float[][]{{-1.0f, 255.0f},}, hints);
 
-    private static final ConvolveOp blurOp = new ConvolveOp(
-            new Kernel(3, 3,
-                    new float[]{
-                            0.0625f, 0.1250f, 0.0625f,
-                            0.1250f, 0.2500f, 0.1250f,
-                            0.0625f, 0.1250f, 0.0625f,
-                    }
-            ),
-            ConvolveOp.EDGE_NO_OP, hints
-    );
+    private static final ConvolveOp blurOp = new ConvolveOp(new Kernel(3, 3,
+            new float[]{0.0625f, 0.1250f, 0.0625f, 0.1250f, 0.2500f, 0.1250f,
+                    0.0625f, 0.1250f, 0.0625f,}), ConvolveOp.EDGE_NO_OP, hints);
 
     /**
      * Creates a new instance of <tt>SketchifiedImage</tt>.
@@ -127,16 +118,15 @@ public class SketchifiedImage extends Image {
         if (width < 0 || height < 0) {
             return null;
         }
-        BufferedImage image =
-                new BufferedImage(width, height, TYPE_INT_ARGB);
+        BufferedImage image = new BufferedImage(width, height, TYPE_INT_ARGB);
         Graphics g = image.getGraphics();
         ((Graphics2D) g).setRenderingHints(hints);
         g.drawImage(origImage, 0, 0, null);
         // renders the edge image
         WritableRaster imageRtr = image.getRaster();
         WritableRaster alphaRtr = image.getAlphaRaster();
-        WritableRaster bands = Raster.createBandedRaster(
-                DataBuffer.TYPE_BYTE, width, height, 4, null);
+        WritableRaster bands = Raster.createBandedRaster(DataBuffer.TYPE_BYTE,
+                width, height, 4, null);
         int[] bandList = new int[1];
         for (int i = 0; i < 4; i++) {
             bandList[0] = i;
@@ -146,8 +136,8 @@ public class SketchifiedImage extends Image {
                     .createWritableChild(0, 0, width, height, 0, 0, bandList);
             findEdge(alphaRtr, imageBand, band);
         }
-        BufferedImage edgeImage =
-                new BufferedImage(width, height, TYPE_INT_ARGB);
+        BufferedImage edgeImage = new BufferedImage(width, height,
+                TYPE_INT_ARGB);
         alphaRtr = edgeImage.getAlphaRaster();
         int[] pixel = new int[4];
         int[] alpha = new int[1];
@@ -209,9 +199,8 @@ public class SketchifiedImage extends Image {
     /** {@inheritDoc} */
     @Override
     public Graphics getGraphics() {
-        return sketch == null ?
-                new BufferedImage(1, 1, TYPE_INT_ARGB).getGraphics() :
-                sketch.getGraphics();
+        return sketch == null ? new BufferedImage(1, 1, TYPE_INT_ARGB)
+                .getGraphics() : sketch.getGraphics();
     }
 
     /** {@inheritDoc} */
@@ -224,15 +213,16 @@ public class SketchifiedImage extends Image {
     @Override
     public ImageCapabilities getCapabilities(GraphicsConfiguration gc) {
         return sketch == null ?
-                super.getCapabilities(gc) : sketch.getCapabilities(gc);
+                super.getCapabilities(gc) :
+                sketch.getCapabilities(gc);
     }
 
     /** {@inheritDoc} */
     @SuppressWarnings({"ParameterHidesMemberVariable"})
     @Override
     public Image getScaledInstance(int width, int height, int hints) {
-        return sketch == null ?
-                null : sketch.getScaledInstance(width, height, hints);
+        return sketch == null ? null : sketch.getScaledInstance(width, height,
+                hints);
     }
 
     /** {@inheritDoc} */

@@ -12,12 +12,10 @@ public class NapkinBoxBorder extends AbstractNapkinBorder {
     private static final int SMALL_BORDER = 3;
     private static final int LARGE_BORDER = 4;
 
-    public static final Insets SMALL_DEFAULT_INSETS =
-            new InsetsUIResource(SMALL_BORDER, SMALL_BORDER,
-                    SMALL_BORDER, SMALL_BORDER);
-    public static final Insets LARGE_DEFAULT_INSETS =
-            new InsetsUIResource(LARGE_BORDER, LARGE_BORDER,
-                    LARGE_BORDER, LARGE_BORDER);
+    public static final Insets SMALL_DEFAULT_INSETS = new InsetsUIResource(
+            SMALL_BORDER, SMALL_BORDER, SMALL_BORDER, SMALL_BORDER);
+    public static final Insets LARGE_DEFAULT_INSETS = new InsetsUIResource(
+            LARGE_BORDER, LARGE_BORDER, LARGE_BORDER, LARGE_BORDER);
 
     private static final NapkinUtil.PropertyFactory BOX_FACTORY =
             new NapkinUtil.PropertyFactory() {
@@ -42,6 +40,7 @@ public class NapkinBoxBorder extends AbstractNapkinBorder {
         g.translate(-x, -y);
     }
 
+    @SuppressWarnings({"WeakerAccess"})
     public static Insets getDefaultInsets(Rectangle bounds, Insets insets) {
         int wi = bounds.height <= 100 ? SMALL_BORDER : LARGE_BORDER;
         int hi = bounds.width <= 100 ? SMALL_BORDER : LARGE_BORDER;

@@ -8,6 +8,7 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import java.awt.*;
 
+@SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinPopupMenuUI extends BasicPopupMenuUI
         implements NapkinPainter {
 
@@ -34,7 +35,7 @@ public class NapkinPopupMenuUI extends BasicPopupMenuUI
         NapkinUtil.update(g, c, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
 }

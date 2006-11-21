@@ -8,10 +8,10 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import java.awt.*;
 
+@SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinToggleButtonUI extends BasicToggleButtonUI
         implements NapkinPainter {
-    private static final NapkinToggleButtonUI ui =
-            new NapkinToggleButtonUI();
+    private static final NapkinToggleButtonUI ui = new NapkinToggleButtonUI();
 
     @SuppressWarnings({"UnusedParameters"})
     public static ComponentUI createUI(JComponent c) {
@@ -35,7 +35,7 @@ public class NapkinToggleButtonUI extends BasicToggleButtonUI
         NapkinUtil.update(g, c, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
 }

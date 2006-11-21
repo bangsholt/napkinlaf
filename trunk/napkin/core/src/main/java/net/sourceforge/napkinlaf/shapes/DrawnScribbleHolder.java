@@ -19,11 +19,12 @@ public class DrawnScribbleHolder extends DrawnShapeHolder {
         super(new DrawnScribbleGenerator(LINE_WIDTH), LINE_WIDTH);
     }
 
+    @SuppressWarnings({"SuspiciousNameCombination"})
     public boolean shapeUpToDate(Component c, Rectangle sz, int orient, int shn,
             boolean bwrds) {
         Insets in = (c instanceof Container ?
-                ((Container) c).getInsets() : NapkinBoxBorder.getDefaultInsets(
-                c.getBounds()));
+                ((Container) c).getInsets() :
+                NapkinBoxBorder.getDefaultInsets(c.getBounds()));
 
         boolean updated = false;
         if (size == null || bwrds != backwards || !insets.equals(in) ||

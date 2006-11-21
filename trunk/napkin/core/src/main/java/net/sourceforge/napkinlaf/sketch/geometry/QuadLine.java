@@ -29,8 +29,8 @@ public class QuadLine extends QuadCurve2D.Double implements SketchShape {
     /** {@inheritDoc} */
     public SketchShape magnify(double scaleFactor) {
         return new XMLQuadLine(x1 * scaleFactor, y1 * scaleFactor,
-                ctrlx * scaleFactor, ctrly * scaleFactor,
-                x2 * scaleFactor, y2 * scaleFactor);
+                ctrlx * scaleFactor, ctrly * scaleFactor, x2 * scaleFactor,
+                y2 * scaleFactor);
     }
 
     /** {@inheritDoc} */

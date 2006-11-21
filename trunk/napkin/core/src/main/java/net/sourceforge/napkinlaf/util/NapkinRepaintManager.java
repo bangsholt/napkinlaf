@@ -29,15 +29,17 @@ public class NapkinRepaintManager extends RepaintManager {
     }
 
     public static NapkinRepaintManager wrap(RepaintManager manager) {
-        if (manager instanceof NapkinRepaintManager)
+        if (manager instanceof NapkinRepaintManager) {
             return (NapkinRepaintManager) manager;
-        else
+        } else {
             return new NapkinRepaintManager(manager);
+        }
     }
 
     public static RepaintManager unwrap(RepaintManager manager) {
         return manager instanceof NapkinRepaintManager ?
-                ((NapkinRepaintManager) manager).manager : manager;
+                ((NapkinRepaintManager) manager).manager :
+                manager;
     }
 
     /**
@@ -57,6 +59,7 @@ public class NapkinRepaintManager extends RepaintManager {
      * @param component The bottom component to repaint.
      * @param region    The subregion of the component to repaint.
      */
+    @SuppressWarnings({"ObjectEquality"})
     private void repaintNapkinParent(JComponent component, Rectangle region) {
         Container container = component;
         Rectangle bounds = new Rectangle();
@@ -68,11 +71,10 @@ public class NapkinRepaintManager extends RepaintManager {
             region.y += bounds.y;
         }
         // repaint the relevant region in parent
-        if (container != component &&
-                NapkinUtil.isNapkinInstalled(container)) {
+        if (container != component && NapkinUtil.isNapkinInstalled(container)) {
 
-            manager.addDirtyRegion((JComponent) container,
-                    region.x, region.y, region.width, region.height);
+            manager.addDirtyRegion((JComponent) container, region.x, region.y,
+                    region.width, region.height);
         }
     }
 
@@ -229,8 +231,8 @@ public class NapkinRepaintManager extends RepaintManager {
     /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof NapkinRepaintManager &&
-                manager.equals(((NapkinRepaintManager) obj).manager);
+        return obj instanceof NapkinRepaintManager && manager.equals(
+                ((NapkinRepaintManager) obj).manager);
     }
 
     /** {@inheritDoc} */

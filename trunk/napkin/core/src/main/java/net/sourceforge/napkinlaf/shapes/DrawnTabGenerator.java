@@ -7,6 +7,7 @@ import net.sourceforge.napkinlaf.util.RandomXY;
 import java.awt.*;
 import java.awt.geom.*;
 
+@SuppressWarnings({"WeakerAccess"})
 public class DrawnTabGenerator extends AbstractDrawnGenerator {
     private final RandomXY ul;
     private final RandomXY ur;
@@ -15,14 +16,13 @@ public class DrawnTabGenerator extends AbstractDrawnGenerator {
     private final RandomValue squeeze;
     private final int side;
 
-    public static final DrawnTabGenerator LEFT_TAB =
-            new DrawnTabGenerator(LEFT);
-    public static final DrawnTabGenerator RIGHT_TAB =
-            new DrawnTabGenerator(RIGHT);
-    public static final DrawnTabGenerator TOP_TAB =
-            new DrawnTabGenerator(TOP);
-    public static final DrawnTabGenerator BOTTOM_TAB =
-            new DrawnTabGenerator(BOTTOM);
+    public static final DrawnTabGenerator LEFT_TAB = new DrawnTabGenerator(
+            LEFT);
+    public static final DrawnTabGenerator RIGHT_TAB = new DrawnTabGenerator(
+            RIGHT);
+    public static final DrawnTabGenerator TOP_TAB = new DrawnTabGenerator(TOP);
+    public static final DrawnTabGenerator BOTTOM_TAB = new DrawnTabGenerator(
+            BOTTOM);
 
     private static final int[] STARTS;
     private static final DrawnTabGenerator[] SIDES;
@@ -51,7 +51,6 @@ public class DrawnTabGenerator extends AbstractDrawnGenerator {
     }
 
     private DrawnTabGenerator(int side) {
-        super();
         this.side = side;
         float shimmy = 0.03f;
         ul = new RandomXY(0, shimmy, 0, shimmy);

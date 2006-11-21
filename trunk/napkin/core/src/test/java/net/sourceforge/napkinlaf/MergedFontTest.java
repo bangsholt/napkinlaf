@@ -1,12 +1,9 @@
 package net.sourceforge.napkinlaf;
 
-import javax.swing.UIManager;
 import junit.framework.TestCase;
 import net.sourceforge.napkinlaf.fonts.MergedFont;
 
 import java.awt.*;
-import java.io.IOException;
-import java.io.InputStream;
 
 public class MergedFontTest extends TestCase {
 
@@ -15,9 +12,8 @@ public class MergedFontTest extends TestCase {
         Font serifFont = new Font("serif", Font.PLAIN, 10);
         Font mergedFont = new MergedFont(fixedFont, serifFont);
         boolean hasDifferences = false;
-        for (int i = Character.MIN_CODE_POINT;
-             i <= Character.MAX_CODE_POINT;
-             i += 16) {
+        int i = Character.MIN_CODE_POINT;
+        while (i <= Character.MAX_CODE_POINT) {
             boolean fixed = fixedFont.canDisplay(i);
             boolean serif = serifFont.canDisplay(i);
             boolean napkin = mergedFont.canDisplay(i);
@@ -38,17 +34,24 @@ public class MergedFontTest extends TestCase {
                     assertEquals(stringFromChar(ch), merged, napkin);
                 }
             }
+            if (i < 256) {
+                i++;
+            } else if (i <= Character.MAX_VALUE) {
+                i += 231;   // arbitrary number, not a power of two
+            } else {
+                i += 1010;  // arbitrary number, not a power of two
+            }
         }
         assertTrue("No differences in fonts", hasDifferences);
     }
 
-    private String stringFromChar(char ch) {
+    private static String stringFromChar(char ch) {
         return "char 0x" + Integer.toHexString((int) ch) + ": " + ch;
     }
 
-    private String stringFromCode(int codePoint) {
-        return "char 0x" + Integer.toHexString(codePoint) + ": " +
-                new String(new int[]{codePoint}, 0, 1);
+    private static String stringFromCode(int codePoint) {
+        return "char 0x" + Integer.toHexString(codePoint) + ": " + new String(
+                new int[]{codePoint}, 0, 1);
     }
 
     private static Font getFixedFont() {

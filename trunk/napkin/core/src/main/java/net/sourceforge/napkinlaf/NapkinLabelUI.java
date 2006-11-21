@@ -8,6 +8,7 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import java.awt.*;
 
+@SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinLabelUI extends BasicLabelUI implements NapkinPainter {
     private static final NapkinLabelUI ui = new NapkinLabelUI();
 
@@ -33,7 +34,7 @@ public class NapkinLabelUI extends BasicLabelUI implements NapkinPainter {
         NapkinUtil.update(g, c, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
 

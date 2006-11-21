@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+@SuppressWarnings({"WeakerAccess"})
 public interface NapkinConstants extends SwingConstants {
     int LENGTH = 100;
 
@@ -28,22 +29,19 @@ public interface NapkinConstants extends SwingConstants {
     String BUTTON_ICON_KEY = "net.sourceforge.napkinlaf.buttonIcon";
     String PRESSED_ICON_KEY = "net.sourceforge.napkinlaf.pressedIcon";
     String SELECTED_ICON_KEY = "net.sourceforge.napkinlaf.selectedIcon";
-    String ROLLOVER_SELECTED_ICON_KEY = "net.sourceforge.napkinlaf.rolloverSelectedIcon";
+    String ROLLOVER_SELECTED_ICON_KEY =
+            "net.sourceforge.napkinlaf.rolloverSelectedIcon";
     String ROLLOVER_ICON_KEY = "net.sourceforge.napkinlaf.rolloverIcon";
-    String DISABLED_SELECTED_ICON_KEY = "net.sourceforge.napkinlaf.disabledSelectedIcon";
+    String DISABLED_SELECTED_ICON_KEY =
+            "net.sourceforge.napkinlaf.disabledSelectedIcon";
     String DISABLED_ICON_KEY = "net.sourceforge.napkinlaf.disabledIcon";
 
-    List<String> CLIENT_PROPERTIES = Collections.unmodifiableList(
-            Arrays.asList(
-                    INSTALL_KEY, THEME_KEY, BACKGROUND_KEY,
-                    DISABLED_BACKGROUND_KEY, DISABLED_MARK_KEY, BORDER_KEY,
-                    BOX_BORDER_KEY, OPAQUE_KEY, REVALIDATE_KEY,
-                    ROLLOVER_ENABLED, BUTTON_ICON_KEY, PRESSED_ICON_KEY,
-                    SELECTED_ICON_KEY, ROLLOVER_SELECTED_ICON_KEY,
-                    ROLLOVER_ICON_KEY, DISABLED_SELECTED_ICON_KEY,
-                    DISABLED_ICON_KEY
-            )
-    );
+    List<String> CLIENT_PROPERTIES = Collections.unmodifiableList(Arrays.asList(
+            INSTALL_KEY, THEME_KEY, BACKGROUND_KEY, DISABLED_BACKGROUND_KEY,
+            DISABLED_MARK_KEY, BORDER_KEY, BOX_BORDER_KEY, OPAQUE_KEY,
+            REVALIDATE_KEY, ROLLOVER_ENABLED, BUTTON_ICON_KEY, PRESSED_ICON_KEY,
+            SELECTED_ICON_KEY, ROLLOVER_SELECTED_ICON_KEY, ROLLOVER_ICON_KEY,
+            DISABLED_SELECTED_ICON_KEY, DISABLED_ICON_KEY));
 
     /**
      * Since Swing cannot handle alpha correctly/consistently, when things fail

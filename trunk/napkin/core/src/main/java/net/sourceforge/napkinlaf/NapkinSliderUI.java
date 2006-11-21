@@ -13,6 +13,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinSliderUI extends BasicSliderUI implements NapkinPainter {
     private Icon thumb;
     private DrawnLineHolder track;
@@ -111,32 +112,31 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinPainter {
     }
 
     @Override
-    protected void paintMinorTickForHorizSlider(Graphics g,
-            Rectangle tick, int x) {
+    protected void paintMinorTickForHorizSlider(Graphics g, Rectangle tick,
+            int x) {
         paintTick(minor, minorPos++, g, x, 0, x, tick.height / 2 - 1);
     }
 
     @Override
-    protected void paintMajorTickForHorizSlider(Graphics g,
-            Rectangle tick, int x) {
+    protected void paintMajorTickForHorizSlider(Graphics g, Rectangle tick,
+            int x) {
         paintTick(major, majorPos++, g, x, 0, x, tick.height - 2);
     }
 
     @Override
-    protected void paintMinorTickForVertSlider(Graphics g,
-            Rectangle tick, int y) {
+    protected void paintMinorTickForVertSlider(Graphics g, Rectangle tick,
+            int y) {
         paintTick(minor, minorPos++, g, 0, y, tick.width / 2 - 1, y);
     }
 
     @Override
-    protected void paintMajorTickForVertSlider(Graphics g,
-            Rectangle tick, int y) {
+    protected void paintMajorTickForVertSlider(Graphics g, Rectangle tick,
+            int y) {
         paintTick(major, majorPos++, g, 0, y, tick.width - 2, y);
     }
 
     private void paintTick(List<DrawnLineHolder> ticks, int pos, Graphics g,
-            int x, int y,
-            int width, int height) {
+            int x, int y, int width, int height) {
 
         boolean vertTicks = !vertical;
         tickBounds.x = x;
@@ -145,13 +145,15 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinPainter {
         tickBounds.height = height;
 
         // I don't know why this is needed, but it works
-        if (vertTicks)
+        if (vertTicks) {
             tickBounds.x /= 4;
-        else
+        } else {
             tickBounds.y /= 4;
+        }
 
-        while (pos >= ticks.size())
+        while (pos >= ticks.size()) {
             ticks.add(null);
+        }
         DrawnLineHolder holder = ticks.get(pos);
         g.setColor(slider.getForeground());
         holder = NapkinUtil.paintLine(g, vertTicks, holder, tickBounds);
@@ -163,7 +165,7 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinPainter {
         NapkinUtil.update(g, c, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
 

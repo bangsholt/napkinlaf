@@ -1,28 +1,29 @@
 package net.sourceforge.napkinlaf;
 
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import net.sourceforge.napkinlaf.borders.NapkinCompoundBorder;
 import net.sourceforge.napkinlaf.borders.NapkinLineBorder;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.SOUTH;
 import net.sourceforge.napkinlaf.util.NapkinPainter;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.SOUTH;
 
 import javax.swing.*;
+import javax.swing.border.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import java.awt.*;
 
-public class NapkinComboBoxUI extends BasicComboBoxUI
-        implements NapkinPainter {
+@SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
+public class NapkinComboBoxUI extends BasicComboBoxUI implements NapkinPainter {
 
-    /**!!
-     * Due to "GES, 980818" in BasicComboBoxUI, which seems to be a workaround
-     * for java bug 4168483, we need to get set our popup to non-light-weight
-     * in order for the workaround's setPopupVisible(false) not to fire, which
-     * results in the popup menu disappearing upon focusGained().
-     *
-     * The "default" behaviour causes scroll bars to be seemed as non-functional
+    /**
+     * !! Due to "GES, 980818" in BasicComboBoxUI, which seems to be a
+     * workaround for java bug 4168483, we need to get set our popup to
+     * non-light-weight in order for the workaround's setPopupVisible(false) not
+     * to fire, which results in the popup menu disappearing upon
+     * focusGained().
+     * <p/>
+     * The "default" behaviour causes scroll bars to be seemed as
+     * non-functional
      */
     private boolean wasLightWeightPopupEnabled;
 
@@ -37,8 +38,8 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
     public void installUI(JComponent c) {
         super.installUI(c);
         oldBorder = c.getBorder();
-        c.setBorder(new NapkinCompoundBorder(
-                new NapkinLineBorder(false), new EmptyBorder(0, 0, 3, 0)));
+        c.setBorder(new NapkinCompoundBorder(new NapkinLineBorder(false),
+                new EmptyBorder(0, 0, 3, 0)));
         NapkinUtil.installUI(c);
         wasLightWeightPopupEnabled = comboBox.isLightWeightPopupEnabled();
         comboBox.setLightWeightPopupEnabled(false);
@@ -59,7 +60,7 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
 
     @Override
     public void paintCurrentValueBackground(Graphics g, Rectangle bounds,
-            boolean hasFocus) {
+            boolean hasTheFocus) {
         // we don't want any special background
     }
 
@@ -68,9 +69,8 @@ public class NapkinComboBoxUI extends BasicComboBoxUI
         NapkinUtil.update(g, c, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
-
 }
 

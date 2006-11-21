@@ -66,6 +66,157 @@
       <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.StraightLine.StraightLine(Line2D l)" />
       <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.StraightLine.StraightLine(Point2D p1, Point2D p2)" />
       <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.StraightLine.StraightLine(Point2D start, double angle, double length)" />
+      <entry_point TYPE="method" FQNAME="String net.sourceforge.napkinlaf.util.NapkinDebug.toString(Color c)" />
+      <entry_point TYPE="method" FQNAME="void net.sourceforge.napkinlaf.util.NapkinDebug.dumpTo(String file, JComponent c)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.AlphaColorUIResource.AlphaColorUIResource(ColorSpace space, float[] comp, float alpha)" />
+      <entry_point TYPE="method" FQNAME="void net.sourceforge.napkinlaf.util.NapkinDebug.dumpObject(Object obj, String fileName)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.AlphaColorUIResource.AlphaColorUIResource(float r, float g, float b, float a)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.NapkinDebug.NapkinDebug()" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.AlphaColorUIResource.AlphaColorUIResource(int r, int g, int b, int a)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.AlphaColorUIResource.AlphaColorUIResource(int rgba)" />
+      <entry_point TYPE="method" FQNAME="double net.sourceforge.napkinlaf.util.NapkinRandom.triangular(double scale)" />
+      <entry_point TYPE="method" FQNAME="void net.sourceforge.napkinlaf.util.ComponentWalker.walk(Component top)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.NapkinRandom.NapkinRandom()" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTitlePane.WindowHandler" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTitlePane.PropertyChangeHandler" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinRootPaneUI.MouseInputHandler" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTitlePane.TitlePaneLayout" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTitlePane.SystemMenuBar" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTitlePane.MaximizeAction.MaximizeAction()" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTitlePane.RestoreAction.RestoreAction()" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTitlePane.IconifyAction.IconifyAction()" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTitlePane.CloseAction.CloseAction()" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinRootPaneUI.NapkinRootLayout" />
+      <entry_point TYPE="method" FQNAME="NapkinTheme net.sourceforge.napkinlaf.NapkinTheme.getBasicTheme()" />
+      <entry_point TYPE="method" FQNAME="String net.sourceforge.napkinlaf.NapkinTheme.getDescription()" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinLookAndFeel.DumpVisitor.DumpVisitor(PrintStream out)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinInternalFrameTitlePane.NapkinInternalFrameTitlePane(JInternalFrame f)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinRootPaneUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTitlePane.NapkinTitlePane(JRootPane root, NapkinRootPaneUI ui)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinFileChooserUI.NapkinFileChooserUI(JFileChooser c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinFileChooserUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinTreeUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinSeparatorUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinLookAndFeel.NapkinLookAndFeel()" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinMenuUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinComboBoxUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTheme.NapkinTheme(String name, String description, Color penColor, Color checkColor, Color radioColor, Color highlightColor, Color selectionColor, ...)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinSliderUI.NapkinSliderUI(JSlider c)" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTreeUI.DefaultNapkinTreeCellRender" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinSliderUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinProgressBarUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinTabbedPaneUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinScrollBarUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTreeUI.LineCache.LineCache()" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinMenuUI" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinCheckBoxUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinRadioButtonUI.createUI(JComponent c)" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinRootPaneUI" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinRadioButtonMenuItemUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinCheckBoxMenuItemUI.createUI(JComponent c)" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinFileChooserUI.NapkinFileView" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinInternalFrameTitlePane.NapkinTitlePaneLayout" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinMenuItemUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinButtonUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinScrollBarUI.NapkinScrollBarUI(JScrollBar bar)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinViewportUI.createUI(JComponent c)" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinSeparatorUI.Separator" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinPopupMenuSeparatorUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinToolBarSeparatorUI.createUI(JComponent c)" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinComboBoxUI" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinToggleButtonUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinEditorPaneUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinInternalFrameUI.NapkinInternalFrameUI(JInternalFrame c)" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTreeUI" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinPanelUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinLabelUI.createUI(JComponent c)" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTabbedPaneUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinCheckBoxUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinCheckBoxMenuItemUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinButtonUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinRadioButtonMenuItemUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinRadioButtonUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinMenuItemUI" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinFormattedTextFieldUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinPasswordFieldUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinColorChooserUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinTableHeaderUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinDesktopPaneUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinDesktopIconUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinOptionPaneUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinScrollPaneUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinTextFieldUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinSplitPaneUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinPopupMenuUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinTextAreaUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinTextPaneUI.createUI(JComponent c)" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinProgressBarUI" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinToolTipUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinSpinnerUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinMenuBarUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinToolBarUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinTableUI.createUI(JComponent c)" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinListUI.createUI(JComponent c)" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinSeparatorUI" />
+      <entry_point TYPE="method" FQNAME="ComponentUI net.sourceforge.napkinlaf.NapkinInternalFrameUI.createUI(JComponent c)" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinEditorPaneUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinToolBarUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTextAreaUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinColorChooserUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTextPaneUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinPasswordFieldUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinLabelUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinFormattedTextFieldUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinOptionPaneUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinListUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinToolTipUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinPopupMenuUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinSplitPaneUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinDesktopPaneUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTextFieldUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinScrollPaneUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinToggleButtonUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinViewportUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinPopupMenuSeparatorUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTableHeaderUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTableUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinPanelUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinDesktopIconUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinToolBarSeparatorUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinSpinnerUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinMenuBarUI" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.MergedFontTest" />
+      <entry_point TYPE="method" FQNAME="TestSuite net.sourceforge.napkinlaf.AllTests.suite()" />
+      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.AllTests" />
+      <entry_point TYPE="method" FQNAME="Font net.sourceforge.napkinlaf.fonts.MergedFont.getBackingFont()" />
+      <entry_point TYPE="method" FQNAME="Font net.sourceforge.napkinlaf.fonts.MergedFont.mergeFonts(Font primaryFont, Font... backingFonts)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.fonts.MergedFont.MergedFont(Font primaryFont, Font backingFont)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.fonts.PatchedFontUIResource.PatchedFontUIResource(String name, int style, int size)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.fonts.PatchedFontUIResource.PatchedFontUIResource(Font font)" />
+      <entry_point TYPE="method" FQNAME="boolean net.sourceforge.napkinlaf.shapes.DrawnBoxGenerator.isAsX()" />
+      <entry_point TYPE="method" FQNAME="DrawnCubicLineGenerator net.sourceforge.napkinlaf.shapes.DrawnBoxGenerator.getCubicGenerator()" />
+      <entry_point TYPE="method" FQNAME="DrawnQuadLineGenerator net.sourceforge.napkinlaf.shapes.DrawnBoxGenerator.getQuadGenerator()" />
+      <entry_point TYPE="method" FQNAME="Class&lt;? extends AbstractDrawnGenerator&gt; net.sourceforge.napkinlaf.shapes.DrawnBoxGenerator.getGenerator(int side)" />
+      <entry_point TYPE="method" FQNAME="double net.sourceforge.napkinlaf.shapes.DrawnCheckGenerator.getMinHeight()" />
+      <entry_point TYPE="method" FQNAME="double net.sourceforge.napkinlaf.shapes.DrawnCheckGenerator.getMinWidth()" />
+      <entry_point TYPE="method" FQNAME="RandomValue net.sourceforge.napkinlaf.shapes.DrawnTriangleGenerator.getStartAdjust()" />
+      <entry_point TYPE="method" FQNAME="void net.sourceforge.napkinlaf.shapes.DrawnShapeHolder.fill(Graphics g)" />
+      <entry_point TYPE="method" FQNAME="int net.sourceforge.napkinlaf.shapes.DrawnShapeHolder.getCap()" />
+      <entry_point TYPE="method" FQNAME="void net.sourceforge.napkinlaf.shapes.DrawnShapeHolder.setJoin(int join)" />
+      <entry_point TYPE="method" FQNAME="int net.sourceforge.napkinlaf.shapes.DrawnShapeHolder.getJoin()" />
+      <entry_point TYPE="method" FQNAME="float net.sourceforge.napkinlaf.shapes.DrawnShapeHolder.getWidth()" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnBoxGenerator.DrawnBoxGenerator()" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnBoxGenerator.DrawnBoxGenerator(DrawnCubicLineGenerator cubic, DrawnQuadLineGenerator quad)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnCheckGenerator.DrawnCheckGenerator(double size)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnCheckGenerator.DrawnCheckGenerator(RandomValue widthVal, RandomValue heightVal)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnTriangleGenerator.DrawnTriangleGenerator(double rotate)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnShapeHolder.DrawnShapeHolder(AbstractDrawnGenerator gen)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnShapeHolder.DrawnShapeHolder(AbstractDrawnGenerator gen, float width)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.ComponentWalker.ComponentWalker(Visitor visitor)" />
+      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.ComponentUITest.ComponentUITest(String testName)" />
+      <entry_point TYPE="method" FQNAME="void net.sourceforge.napkinlaf.ComponentUITest.testInstallUI()" />
+      <entry_point TYPE="method" FQNAME="void net.sourceforge.napkinlaf.ComponentUITest.testCreateUI()" />
+      <entry_point TYPE="method" FQNAME="void net.sourceforge.napkinlaf.MergedFontTest.testTwoFonts()" />
     </entry_points>
   </component>
   <component name="ExportToHTMLSettings">
@@ -173,19 +324,15 @@
             <map type="java.util.HashMap">
               <entry>
                 <value>
-                  <collection type="java.util.HashSet">
-                    <entry type="java.lang.String" value="napkinlaf-swingset" />
-                  </collection>
+                  <collection type="java.util.HashSet" />
                 </value>
                 <key type="java.lang.String" value="example" />
               </entry>
               <entry>
                 <value>
-                  <collection type="java.util.HashSet">
-                    <entry type="java.lang.String" value="napkinlaf-swingset" />
-                  </collection>
+                  <collection type="java.util.HashSet" />
                 </value>
-                <key type="java.lang.String" value="overall" />
+                <key type="java.lang.String" value="napkinlaf-swingset" />
               </entry>
             </map>
           </value>

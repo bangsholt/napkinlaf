@@ -21,7 +21,6 @@ public class DrawnCircleGenerator extends AbstractDrawnGenerator {
     }
 
     public DrawnCircleGenerator(boolean forFill) {
-        super();
 
         this.forFill = forFill;
 
@@ -52,25 +51,21 @@ public class DrawnCircleGenerator extends AbstractDrawnGenerator {
         double bottomX = xBL + (xBR - xBL) / 2;
         double bottomY = yBL + (yBR - yBL) / 2;
 
-        double[] coords = {
-                startAt.getX(), startAt.getY(), trAt.getX(), trAt.getY(),
-                xBR, yBR, bottomX, bottomY,
+        double[] coords = {startAt.getX(), startAt.getY(), trAt.getX(),
+                trAt.getY(), xBR, yBR, bottomX, bottomY,
 
-                bottomX, bottomY, xBL, yBL, tlAt.getX(),
-                tlAt.getY(), endAt.getX(), endAt.getY(),
-        };
+                bottomX, bottomY, xBL, yBL, tlAt.getX(), tlAt.getY(),
+                endAt.getX(), endAt.getY(),};
         if (matrix != null) {
             matrix.transform(coords, 0, coords, 0, coords.length / 2);
         }
 
         CubicCurve2D left = new CubicCurve2D.Double(coords[0], coords[1],
-                coords[2], coords[3],
-                coords[4], coords[5],
-                coords[6], coords[7]);
+                coords[2], coords[3], coords[4], coords[5], coords[6],
+                coords[7]);
         CubicCurve2D right = new CubicCurve2D.Double(coords[8], coords[9],
-                coords[10], coords[11],
-                coords[12], coords[13],
-                coords[14], coords[15]);
+                coords[10], coords[11], coords[12], coords[13], coords[14],
+                coords[15]);
 
         circle.append(left, false);
         circle.append(right, false);

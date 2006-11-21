@@ -11,6 +11,22 @@
 
     <!-- Napkin's project information -->
     <url>http://napkinlaf.sourceforge.net</url>
+    <issueManagement>
+        <url>http://sourceforge.net/tracker/?group_id=104116</url>
+        <system>SourceForge Tracker</system>
+    </issueManagement>
+    <description>
+        The Napkin Look and Feel is a pluggable look and feel for Java Swing
+        that makes the UI look as if it was hand-sketched on a napkin.
+        This provisional look is designed tfor use during project development
+        so that provisional parts of the UI look provisional, but of course you
+        may use it for anything you like.
+    </description>
+    <licenses>
+        <license>
+            <name>BSD</name>
+        </license>
+    </licenses>
     <developers>
         <developer>
             <name>Ken Arnold</name>
@@ -21,6 +37,7 @@
             <email>alexlamsl@sourceforge.net</email>
         </developer>
     </developers>
+    <inceptionYear>2004</inceptionYear>
 
     <scm>
         <developerConnection>
@@ -86,10 +103,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <skip>true</skip>
+                    <skip>false</skip>
                     <forkMode>once</forkMode>
                     <argLine>
-                        -enableassertions
                         -Dswing.defaultlaf=javax.swing.plaf.metal.MetalLookAndFeel
                     </argLine>
                 </configuration>

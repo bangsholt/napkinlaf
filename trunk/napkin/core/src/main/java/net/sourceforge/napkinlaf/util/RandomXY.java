@@ -2,6 +2,7 @@ package net.sourceforge.napkinlaf.util;
 
 import java.awt.geom.*;
 
+@SuppressWarnings({"WeakerAccess", "InstanceVariableNamingConvention"})
 public class RandomXY {
     private final RandomValue x, y;
     private Point2D point;

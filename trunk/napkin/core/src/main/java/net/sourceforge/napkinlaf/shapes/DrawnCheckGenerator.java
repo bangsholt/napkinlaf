@@ -7,6 +7,7 @@ import net.sourceforge.napkinlaf.util.RandomXY;
 import java.awt.*;
 import java.awt.geom.*;
 
+@SuppressWarnings({"WeakerAccess"})
 public class DrawnCheckGenerator extends AbstractDrawnGenerator {
     private final RandomXY dim;
     private final DrawnQuadLineGenerator leftLineGen;
@@ -25,7 +26,6 @@ public class DrawnCheckGenerator extends AbstractDrawnGenerator {
     }
 
     public DrawnCheckGenerator(RandomValue widthVal, RandomValue heightVal) {
-        super();
 
         dim = new RandomXY(widthVal, heightVal);
 
@@ -79,10 +79,11 @@ public class DrawnCheckGenerator extends AbstractDrawnGenerator {
         return midScale;
     }
 
-    private static double rootOfSquares(double ... numbers) {
+    private static double rootOfSquares(double... numbers) {
         double sum = 0.0;
-        for (double number : numbers)
+        for (double number : numbers) {
             sum += number * number;
+        }
         return Math.sqrt(sum);
     }
 
@@ -92,12 +93,10 @@ public class DrawnCheckGenerator extends AbstractDrawnGenerator {
 
     public double getWidthRange() {
         // sum of Gaussians is the sum of means and sum of variance (not s.d.)
-        return rootOfSquares(
-                getRightScale().getX().getRange(),
+        return rootOfSquares(getRightScale().getX().getRange(),
                 getMidScale().getX().getRange(),
                 getMidScale().getX().getRange(),
-                getLeftScale().getX().getRange()
-        );
+                getLeftScale().getX().getRange());
     }
 
     public double getMaxWidth() {
@@ -114,10 +113,8 @@ public class DrawnCheckGenerator extends AbstractDrawnGenerator {
 
     public double getHeightRange() {
         // sum of Gaussians is the sum of means and sum of variance (not s.d.)
-        return rootOfSquares(
-                getRightScale().getY().getRange(),
-                getMidScale().getY().getRange()
-        );
+        return rootOfSquares(getRightScale().getY().getRange(),
+                getMidScale().getY().getRange());
     }
 
     public double getMaxHeight() {

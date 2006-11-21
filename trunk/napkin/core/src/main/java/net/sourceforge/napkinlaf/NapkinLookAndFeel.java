@@ -8,11 +8,11 @@ import net.sourceforge.napkinlaf.fonts.MergedFont;
 import net.sourceforge.napkinlaf.fonts.PatchedFontUIResource;
 import net.sourceforge.napkinlaf.util.AlphaColorUIResource;
 import net.sourceforge.napkinlaf.util.ComponentWalker.Visitor;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
 import net.sourceforge.napkinlaf.util.NapkinDebug;
 import net.sourceforge.napkinlaf.util.NapkinIconFactory;
 import net.sourceforge.napkinlaf.util.NapkinRepaintManager;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
 
 import javax.swing.*;
 import javax.swing.UIDefaults.*;
@@ -41,56 +41,22 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @author Ken Arnold
  * @author Alex Lam
  */
+@SuppressWarnings({"CollectionDeclaredAsConcreteClass", "WeakerAccess"})
 public class NapkinLookAndFeel extends BasicLookAndFeel {
 
-    /**
-     * A table of Napkin ComponentUIs to be set as default when initialised.
-     */
-    private static final String[] UI_TYPES = {
-            "ButtonUI",
-            "CheckBoxMenuItemUI",
-            "CheckBoxUI",
-            "ColorChooserUI",
-            "ComboBoxUI",
-            "DesktopIconUI",
-            "DesktopPaneUI",
-            "EditorPaneUI",
-            "FileChooserUI",
-            "FormattedTextFieldUI",
-            "InternalFrameUI",
-            "LabelUI",
-            "ListUI",
-            "MenuBarUI",
-            "MenuItemUI",
-            "MenuUI",
-            "OptionPaneUI",
-            "PanelUI",
-            "PasswordFieldUI",
-            "PopupMenuSeparatorUI",
-            "PopupMenuUI",
-            "ProgressBarUI",
-            "RadioButtonMenuItemUI",
-            "RadioButtonUI",
-            "RootPaneUI",
-            "ScrollBarUI",
-            "ScrollPaneUI",
-            "SeparatorUI",
-            "SliderUI",
-            "SpinnerUI",
-            "SplitPaneUI",
-            "TabbedPaneUI",
-            "TableHeaderUI",
-            "TableUI",
-            "TextAreaUI",
-            "TextFieldUI",
-            "TextPaneUI",
-            "ToggleButtonUI",
-            "ToolBarSeparatorUI",
-            "ToolBarUI",
-            "ToolTipUI",
-            "TreeUI",
-            "ViewportUI",
-    };
+    /** A table of Napkin ComponentUIs to be set as default when initialised. */
+    private static final String[] UI_TYPES = {"ButtonUI", "CheckBoxMenuItemUI",
+            "CheckBoxUI", "ColorChooserUI", "ComboBoxUI", "DesktopIconUI",
+            "DesktopPaneUI", "EditorPaneUI", "FileChooserUI",
+            "FormattedTextFieldUI", "InternalFrameUI", "LabelUI", "ListUI",
+            "MenuBarUI", "MenuItemUI", "MenuUI", "OptionPaneUI", "PanelUI",
+            "PasswordFieldUI", "PopupMenuSeparatorUI", "PopupMenuUI",
+            "ProgressBarUI", "RadioButtonMenuItemUI", "RadioButtonUI",
+            "RootPaneUI", "ScrollBarUI", "ScrollPaneUI", "SeparatorUI",
+            "SliderUI", "SpinnerUI", "SplitPaneUI", "TabbedPaneUI",
+            "TableHeaderUI", "TableUI", "TextAreaUI", "TextFieldUI",
+            "TextPaneUI", "ToggleButtonUI", "ToolBarSeparatorUI", "ToolBarUI",
+            "ToolTipUI", "TreeUI", "ViewportUI",};
 
     static class DumpVisitor implements Visitor {
         private final PrintStream out;
@@ -113,9 +79,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         }
     }
 
-    /**
-     * Creates a new instance of NapkinLookAndFeel
-     */
+    /** Creates a new instance of NapkinLookAndFeel */
+    @SuppressWarnings({"ResultOfObjectAllocationIgnored"})
     public NapkinLookAndFeel() {
         /*
          * Default values are not initialised properly before the first
@@ -148,7 +113,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
 
     /**
      * {@inheritDoc}
-     *
+     * <p/>
      * Napkin is a cross-platform Pluggable Look & Feel.
      */
     @Override
@@ -158,7 +123,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
 
     /**
      * {@inheritDoc}
-     *
+     * <p/>
      * Napkin is a cross-platform Pluggable Look & Feel.
      */
     @Override
@@ -192,9 +157,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         }
     }
 
-    /**
-     * Initialise Napkin default colours.
-     */
+    /** Initialise Napkin default colours. */
     @Override
     protected void initSystemColorDefaults(UIDefaults table) {
         super.initSystemColorDefaults(table);
@@ -294,123 +257,120 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         NapkinTheme theme = NapkinTheme.Manager.getCurrentTheme();
         NapkinTheme popupTheme = theme.getPopupTheme();
 
-        Object[] napkinDefaults = {
-                "CheckBox.icon", checkBoxButtonIcon,
-                "CheckBox.textIconGap", 0,
+        Object[] napkinDefaults =
+                {"CheckBox.icon", checkBoxButtonIcon, "CheckBox.textIconGap", 0,
 
-                "CheckBoxMenuItem.checkIcon", checkedMenuItemIcon,
-                "CheckBoxMenuItem.foreground", popupTheme.getPenColor(),
-                "CheckBoxMenuItem.selectionForeground",
-                popupTheme.getSelectionColor(),
-                "CheckBoxMenuItem.textIconGap", 0,
+                        "CheckBoxMenuItem.checkIcon", checkedMenuItemIcon,
+                        "CheckBoxMenuItem.foreground", popupTheme.getPenColor(),
+                        "CheckBoxMenuItem.selectionForeground",
+                        popupTheme.getSelectionColor(),
+                        "CheckBoxMenuItem.textIconGap", 0,
 
-                "DesktopIcon.border", null,
+                        "DesktopIcon.border", null,
 
-                "FileChooser.detailsViewButtonToolTipText", "Details View",
-                "FileChooser.detailsViewIcon", sketchedIcon("DetailsView"),
-                "FileChooser.fileNameLabelText", "File Name(s):",
-                "FileChooser.filesOfTypeLabelText", "Of Type(s):",
-                "FileChooser.homeFolderIcon", sketchedIcon("HomeFolder"),
-                "FileChooser.homeFolderToolTipText", "Home Folder",
-                "FileChooser.listViewButtonToolTipText", "List View",
-                "FileChooser.listViewIcon", sketchedIcon("ListView"),
-                "FileChooser.lookInLabelText", "Look in:",
-                "FileChooser.newFolderIcon", sketchedIcon("NewFolder"),
-                "FileChooser.newFolderToolTipText", "New Folder",
-                "FileChooser.saveInLabelText", "Save in:",
-                "FileChooser.upFolderIcon", sketchedIcon("UpFolder"),
-                "FileChooser.upFolderToolTipText", "Up One Level",
+                        "FileChooser.detailsViewButtonToolTipText",
+                        "Details View", "FileChooser.detailsViewIcon",
+                        sketchedIcon("DetailsView"),
+                        "FileChooser.fileNameLabelText", "File Name(s):",
+                        "FileChooser.filesOfTypeLabelText", "Of Type(s):",
+                        "FileChooser.homeFolderIcon", sketchedIcon(
+                        "HomeFolder"), "FileChooser.homeFolderToolTipText",
+                        "Home Folder", "FileChooser.listViewButtonToolTipText",
+                        "List View", "FileChooser.listViewIcon", sketchedIcon(
+                        "ListView"), "FileChooser.lookInLabelText", "Look in:",
+                        "FileChooser.newFolderIcon", sketchedIcon("NewFolder"),
+                        "FileChooser.newFolderToolTipText", "New Folder",
+                        "FileChooser.saveInLabelText", "Save in:",
+                        "FileChooser.upFolderIcon", sketchedIcon("UpFolder"),
+                        "FileChooser.upFolderToolTipText", "Up One Level",
 
-                "FileView.computerIcon", sketchedIcon("Computer"),
-                "FileView.directoryIcon", sketchedIcon("Directory"),
-                "FileView.fileIcon", sketchedIcon("File"),
-                "FileView.floppyDriveIcon", sketchedIcon("FloppyDrive"),
-                "FileView.hardDriveIcon", sketchedIcon("HardDrive"),
+                        "FileView.computerIcon", sketchedIcon("Computer"),
+                        "FileView.directoryIcon", sketchedIcon("Directory"),
+                        "FileView.fileIcon", sketchedIcon("File"),
+                        "FileView.floppyDriveIcon", sketchedIcon("FloppyDrive"),
+                        "FileView.hardDriveIcon", sketchedIcon("HardDrive"),
 
-                "InternalFrame.activeTitleForeground",
-                popupTheme.getSelectionColor(),
-                "InternalFrame.border", emptyBorder,
-                "InternalFrame.closeButtonToolTip", "Close",
-                "InternalFrame.closeIcon", closeIcon,
-                "InternalFrame.iconButtonToolTip", "Minimise",
-                "InternalFrame.iconifyIcon", iconIcon,
-                "InternalFrame.inactiveTitleForeground",
-                popupTheme.getPenColor(),
-                "InternalFrame.maxButtonToolTip", "Maximise",
-                "InternalFrame.maximizeIcon", null,
-                "InternalFrame.minimizeIcon", minIcon,
-                "InternalFrame.restoreButtonToolTip", "Restore",
+                        "InternalFrame.activeTitleForeground",
+                        popupTheme.getSelectionColor(), "InternalFrame.border",
+                        emptyBorder, "InternalFrame.closeButtonToolTip",
+                        "Close", "InternalFrame.closeIcon", closeIcon,
+                        "InternalFrame.iconButtonToolTip", "Minimise",
+                        "InternalFrame.iconifyIcon", iconIcon,
+                        "InternalFrame.inactiveTitleForeground",
+                        popupTheme.getPenColor(),
+                        "InternalFrame.maxButtonToolTip", "Maximise",
+                        "InternalFrame.maximizeIcon", null,
+                        "InternalFrame.minimizeIcon", minIcon,
+                        "InternalFrame.restoreButtonToolTip", "Restore",
 
-                "List.focusCellHighlightBorder", null,
+                        "List.focusCellHighlightBorder", null,
 
-                "Menu.arrowIcon", rightArrowIcon,
-                "Menu.border", null,
+                        "Menu.arrowIcon", rightArrowIcon, "Menu.border", null,
 
-                "MenuBar.border", null,
+                        "MenuBar.border", null,
 
-                "MenuItem.disabledForeground", popupTheme.getPenColor(),
-                "MenuItem.foreground", popupTheme.getPenColor(),
-                "MenuItem.selectionForeground", popupTheme.getSelectionColor(),
+                        "MenuItem.disabledForeground", popupTheme.getPenColor(),
+                        "MenuItem.foreground", popupTheme.getPenColor(),
+                        "MenuItem.selectionForeground",
+                        popupTheme.getSelectionColor(),
 
-                "OptionPane.buttonAreaBorder", null,
-                "OptionPane.errorIcon", sketchedIcon("Error"),
-                "OptionPane.informationIcon", sketchedIcon("Information"),
-                "OptionPane.messageAreaBorder", null,
-                "OptionPane.questionIcon", sketchedIcon("Question"),
-                "OptionPane.warningIcon", sketchedIcon("Warning"),
+                        "OptionPane.buttonAreaBorder", null,
+                        "OptionPane.errorIcon", sketchedIcon("Error"),
+                        "OptionPane.informationIcon", sketchedIcon(
+                        "Information"), "OptionPane.messageAreaBorder", null,
+                        "OptionPane.questionIcon", sketchedIcon("Question"),
+                        "OptionPane.warningIcon", sketchedIcon("Warning"),
 
-                "RadioButton.icon", radioButtonIcon,
-                "RadioButton.textIconGap", 0,
+                        "RadioButton.icon", radioButtonIcon,
+                        "RadioButton.textIconGap", 0,
 
-                "PasswordField.border", underlineBorder,
+                        "PasswordField.border", underlineBorder,
 
-                "PopupMenu.border", null,
-                "PopupMenu.foreground", popupTheme.getPenColor(),
+                        "PopupMenu.border", null, "PopupMenu.foreground",
+                        popupTheme.getPenColor(),
 
-                "RadioButtonMenuItem.checkIcon", radioButtonIcon,
-                "RadioButtonMenuItem.foreground", popupTheme.getPenColor(),
-                "RadioButtonMenuItem.selectionForeground",
-                popupTheme.getSelectionColor(),
-                "RadioButtonMenuItem.textIconGap", 0,
+                        "RadioButtonMenuItem.checkIcon", radioButtonIcon,
+                        "RadioButtonMenuItem.foreground",
+                        popupTheme.getPenColor(),
+                        "RadioButtonMenuItem.selectionForeground",
+                        popupTheme.getSelectionColor(),
+                        "RadioButtonMenuItem.textIconGap", 0,
 
-                "RootPane.frameBorder", boxBorder,
-                "RootPane.plainDialogBorder", boxBorder,
-                "RootPane.informationDialogBorder", boxBorder,
-                "RootPane.errorDialogBorder", boxBorder,
-                "RootPane.colorChooserDialogBorder", boxBorder,
-                "RootPane.fileChooserDialogBorder", boxBorder,
-                "RootPane.questionDialogBorder", boxBorder,
-                "RootPane.warningDialogBorder", boxBorder,
+                        "RootPane.frameBorder", boxBorder,
+                        "RootPane.plainDialogBorder", boxBorder,
+                        "RootPane.informationDialogBorder", boxBorder,
+                        "RootPane.errorDialogBorder", boxBorder,
+                        "RootPane.colorChooserDialogBorder", boxBorder,
+                        "RootPane.fileChooserDialogBorder", boxBorder,
+                        "RootPane.questionDialogBorder", boxBorder,
+                        "RootPane.warningDialogBorder", boxBorder,
 
-                "SplitPane.dividerSize", NapkinSplitPaneDivider.SIZE,
+                        "SplitPane.dividerSize", NapkinSplitPaneDivider.SIZE,
 
-                "SplitPaneDivider.border", null,
+                        "SplitPaneDivider.border", null,
 
-                "TabbedPane.contentBorderInsets",
-                NapkinBoxBorder.LARGE_DEFAULT_INSETS,
-                "TabbedPane.tabsOverlapBorder", null,
+                        "TabbedPane.contentBorderInsets",
+                        NapkinBoxBorder.LARGE_DEFAULT_INSETS,
+                        "TabbedPane.tabsOverlapBorder", null,
 
-                "Table.focusCellHighlightBorder", null,
-                "Table.scrollPaneBorder", null,
+                        "Table.focusCellHighlightBorder", null,
+                        "Table.scrollPaneBorder", null,
 
-                "TextArea.caretForeground", theme.getPenColor(),
+                        "TextArea.caretForeground", theme.getPenColor(),
 
-                "TextField.border", underlineBorder,
-                "TextField.caretForeground", theme.getPenColor(),
+                        "TextField.border", underlineBorder,
+                        "TextField.caretForeground", theme.getPenColor(),
 
-                "ToggleButton.border", selectBorder,
+                        "ToggleButton.border", selectBorder,
 
-                "ToolTip.border", null,
-                "ToolTip.foreground", popupTheme.getPenColor(),
+                        "ToolTip.border", null, "ToolTip.foreground",
+                        popupTheme.getPenColor(),
 
-                "Tree.closedIcon", rightArrowIcon,
-                "Tree.collapsedIcon", null,
-                "Tree.expandedIcon", null,
-                "Tree.hash", theme.getPenColor(),
-                "Tree.leafIcon", null,
-                "Tree.openIcon", downArrowIcon,
-                "Tree.selectionBorderColor", null,
-        };
+                        "Tree.closedIcon", rightArrowIcon, "Tree.collapsedIcon",
+                        null, "Tree.expandedIcon", null, "Tree.hash",
+                        theme.getPenColor(), "Tree.leafIcon", null,
+                        "Tree.openIcon", downArrowIcon,
+                        "Tree.selectionBorderColor", null,};
 
         table.putDefaults(napkinDefaults);
     }
@@ -426,103 +386,94 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
     private static void setupActions(UIDefaults table) {
         //!! Should get actions from the native L&F for all map defaults
         Object fieldInputMap = new UIDefaults.LazyInputMap(new Object[]{
-                "ctrl C", DefaultEditorKit.copyAction,
-                "ctrl V", DefaultEditorKit.pasteAction,
-                "ctrl X", DefaultEditorKit.cutAction,
-                "COPY", DefaultEditorKit.copyAction,
-                "PASTE", DefaultEditorKit.pasteAction,
-                "CUT", DefaultEditorKit.cutAction,
-                "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-                "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
-                "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-                "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
-                "ctrl LEFT", DefaultEditorKit.previousWordAction,
-                "ctrl KP_LEFT", DefaultEditorKit.previousWordAction,
-                "ctrl RIGHT", DefaultEditorKit.nextWordAction,
-                "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
-                "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
+                "ctrl C", DefaultEditorKit.copyAction, "ctrl V",
+                DefaultEditorKit.pasteAction, "ctrl X",
+                DefaultEditorKit.cutAction, "COPY", DefaultEditorKit.copyAction,
+                "PASTE", DefaultEditorKit.pasteAction, "CUT",
+                DefaultEditorKit.cutAction, "shift LEFT",
+                DefaultEditorKit.selectionBackwardAction, "shift KP_LEFT",
+                DefaultEditorKit.selectionBackwardAction, "shift RIGHT",
+                DefaultEditorKit.selectionForwardAction, "shift KP_RIGHT",
+                DefaultEditorKit.selectionForwardAction, "ctrl LEFT",
+                DefaultEditorKit.previousWordAction, "ctrl KP_LEFT",
+                DefaultEditorKit.previousWordAction, "ctrl RIGHT",
+                DefaultEditorKit.nextWordAction, "ctrl KP_RIGHT",
+                DefaultEditorKit.nextWordAction, "ctrl shift LEFT",
+                DefaultEditorKit.selectionPreviousWordAction,
                 "ctrl shift KP_LEFT",
                 DefaultEditorKit.selectionPreviousWordAction,
                 "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
                 "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
-                "ctrl A", DefaultEditorKit.selectAllAction,
-                "HOME", DefaultEditorKit.beginLineAction,
-                "END", DefaultEditorKit.endLineAction,
-                "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-                "shift END", DefaultEditorKit.selectionEndLineAction,
-                "typed \010", DefaultEditorKit.deletePrevCharAction,
-                "DELETE", DefaultEditorKit.deleteNextCharAction,
-                "RIGHT", DefaultEditorKit.forwardAction,
-                "LEFT", DefaultEditorKit.backwardAction,
-                "KP_RIGHT", DefaultEditorKit.forwardAction,
-                "KP_LEFT", DefaultEditorKit.backwardAction,
-                "ENTER", JTextField.notifyAction,
-                "ctrl BACK_SLASH", "unselect"
-                /*DefaultEditorKit.unselectAction*/,
-                "control shift O", "toggle-componentOrientation"
-                /*DefaultEditorKit.toggleComponentOrientation*/
-        });
+                "ctrl A", DefaultEditorKit.selectAllAction, "HOME",
+                DefaultEditorKit.beginLineAction, "END",
+                DefaultEditorKit.endLineAction, "shift HOME",
+                DefaultEditorKit.selectionBeginLineAction, "shift END",
+                DefaultEditorKit.selectionEndLineAction, "typed \010",
+                DefaultEditorKit.deletePrevCharAction, "DELETE",
+                DefaultEditorKit.deleteNextCharAction, "RIGHT",
+                DefaultEditorKit.forwardAction, "LEFT",
+                DefaultEditorKit.backwardAction, "KP_RIGHT",
+                DefaultEditorKit.forwardAction, "KP_LEFT",
+                DefaultEditorKit.backwardAction, "ENTER",
+                JTextField.notifyAction, "ctrl BACK_SLASH", "unselect"
+                /*DefaultEditorKit.unselectAction*/, "control shift O",
+                "toggle-componentOrientation"
+                /*DefaultEditorKit.toggleComponentOrientation*/});
 
         Object multilineInputMap = new UIDefaults.LazyInputMap(new Object[]{
-                "ctrl C", DefaultEditorKit.copyAction,
-                "ctrl V", DefaultEditorKit.pasteAction,
-                "ctrl X", DefaultEditorKit.cutAction,
-                "COPY", DefaultEditorKit.copyAction,
-                "PASTE", DefaultEditorKit.pasteAction,
-                "CUT", DefaultEditorKit.cutAction,
-                "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-                "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
-                "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-                "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
-                "ctrl LEFT", DefaultEditorKit.previousWordAction,
-                "ctrl KP_LEFT", DefaultEditorKit.previousWordAction,
-                "ctrl RIGHT", DefaultEditorKit.nextWordAction,
-                "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
-                "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
+                "ctrl C", DefaultEditorKit.copyAction, "ctrl V",
+                DefaultEditorKit.pasteAction, "ctrl X",
+                DefaultEditorKit.cutAction, "COPY", DefaultEditorKit.copyAction,
+                "PASTE", DefaultEditorKit.pasteAction, "CUT",
+                DefaultEditorKit.cutAction, "shift LEFT",
+                DefaultEditorKit.selectionBackwardAction, "shift KP_LEFT",
+                DefaultEditorKit.selectionBackwardAction, "shift RIGHT",
+                DefaultEditorKit.selectionForwardAction, "shift KP_RIGHT",
+                DefaultEditorKit.selectionForwardAction, "ctrl LEFT",
+                DefaultEditorKit.previousWordAction, "ctrl KP_LEFT",
+                DefaultEditorKit.previousWordAction, "ctrl RIGHT",
+                DefaultEditorKit.nextWordAction, "ctrl KP_RIGHT",
+                DefaultEditorKit.nextWordAction, "ctrl shift LEFT",
+                DefaultEditorKit.selectionPreviousWordAction,
                 "ctrl shift KP_LEFT",
                 DefaultEditorKit.selectionPreviousWordAction,
                 "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
                 "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
-                "ctrl A", DefaultEditorKit.selectAllAction,
-                "HOME", DefaultEditorKit.beginLineAction,
-                "END", DefaultEditorKit.endLineAction,
-                "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-                "shift END", DefaultEditorKit.selectionEndLineAction,
+                "ctrl A", DefaultEditorKit.selectAllAction, "HOME",
+                DefaultEditorKit.beginLineAction, "END",
+                DefaultEditorKit.endLineAction, "shift HOME",
+                DefaultEditorKit.selectionBeginLineAction, "shift END",
+                DefaultEditorKit.selectionEndLineAction,
 
-                "UP", DefaultEditorKit.upAction,
-                "KP_UP", DefaultEditorKit.upAction,
-                "DOWN", DefaultEditorKit.downAction,
-                "KP_DOWN", DefaultEditorKit.downAction,
-                "PAGE_UP", DefaultEditorKit.pageUpAction,
-                "PAGE_DOWN", DefaultEditorKit.pageDownAction,
-                "shift PAGE_UP", "selection-page-up",
-                "shift PAGE_DOWN", "selection-page-down",
+                "UP", DefaultEditorKit.upAction, "KP_UP",
+                DefaultEditorKit.upAction, "DOWN", DefaultEditorKit.downAction,
+                "KP_DOWN", DefaultEditorKit.downAction, "PAGE_UP",
+                DefaultEditorKit.pageUpAction, "PAGE_DOWN",
+                DefaultEditorKit.pageDownAction, "shift PAGE_UP",
+                "selection-page-up", "shift PAGE_DOWN", "selection-page-down",
                 "ctrl shift PAGE_UP", "selection-page-left",
-                "ctrl shift PAGE_DOWN", "selection-page-right",
-                "shift UP", DefaultEditorKit.selectionUpAction,
-                "shift KP_UP", DefaultEditorKit.selectionUpAction,
-                "shift DOWN", DefaultEditorKit.selectionDownAction,
-                "shift KP_DOWN", DefaultEditorKit.selectionDownAction,
-                "ENTER", DefaultEditorKit.insertBreakAction,
-                "typed \010", DefaultEditorKit.deletePrevCharAction,
-                "DELETE", DefaultEditorKit.deleteNextCharAction,
-                "RIGHT", DefaultEditorKit.forwardAction,
-                "LEFT", DefaultEditorKit.backwardAction,
-                "KP_RIGHT", DefaultEditorKit.forwardAction,
-                "KP_LEFT", DefaultEditorKit.backwardAction,
-                "TAB", DefaultEditorKit.insertTabAction,
-                "ctrl BACK_SLASH", "unselect"
-                /*DefaultEditorKit.unselectAction*/,
-                "ctrl HOME", DefaultEditorKit.beginAction,
-                "ctrl END", DefaultEditorKit.endAction,
-                "ctrl shift HOME", DefaultEditorKit.selectionBeginAction,
-                "ctrl shift END", DefaultEditorKit.selectionEndAction,
-                "ctrl T", "next-link-action",
-                "ctrl shift T", "previous-link-action",
-                "ctrl SPACE", "activate-link-action",
-                "control shift O", "toggle-componentOrientation"
-                /*DefaultEditorKit.toggleComponentOrientation*/
-        });
+                "ctrl shift PAGE_DOWN", "selection-page-right", "shift UP",
+                DefaultEditorKit.selectionUpAction, "shift KP_UP",
+                DefaultEditorKit.selectionUpAction, "shift DOWN",
+                DefaultEditorKit.selectionDownAction, "shift KP_DOWN",
+                DefaultEditorKit.selectionDownAction, "ENTER",
+                DefaultEditorKit.insertBreakAction, "typed \010",
+                DefaultEditorKit.deletePrevCharAction, "DELETE",
+                DefaultEditorKit.deleteNextCharAction, "RIGHT",
+                DefaultEditorKit.forwardAction, "LEFT",
+                DefaultEditorKit.backwardAction, "KP_RIGHT",
+                DefaultEditorKit.forwardAction, "KP_LEFT",
+                DefaultEditorKit.backwardAction, "TAB",
+                DefaultEditorKit.insertTabAction, "ctrl BACK_SLASH", "unselect"
+                /*DefaultEditorKit.unselectAction*/, "ctrl HOME",
+                DefaultEditorKit.beginAction, "ctrl END",
+                DefaultEditorKit.endAction, "ctrl shift HOME",
+                DefaultEditorKit.selectionBeginAction, "ctrl shift END",
+                DefaultEditorKit.selectionEndAction, "ctrl T",
+                "next-link-action", "ctrl shift T", "previous-link-action",
+                "ctrl SPACE", "activate-link-action", "control shift O",
+                "toggle-componentOrientation"
+                /*DefaultEditorKit.toggleComponentOrientation*/});
 
         Object[] actionDefaults = {
                 // these are just copied from Metal L&F -- no values in Basic L&F
@@ -531,8 +482,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                 "PasswordField.focusInputMap", fieldInputMap,
                 "TextArea.focusInputMap", multilineInputMap,
                 "TextPane.focusInputMap", multilineInputMap,
-                "EditorPane.focusInputMap", multilineInputMap,
-        };
+                "EditorPane.focusInputMap", multilineInputMap,};
 
         table.putDefaults(actionDefaults);
     }
@@ -597,37 +547,35 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                         res instanceof BevelBorder ||
                                 res instanceof EtchedBorder ||
                                 res instanceof LineBorder ||
-                                res instanceof CompoundBorder))
-                        ) {
+                                res instanceof CompoundBorder))) {
                     // we override manually later
                     if (res instanceof CompoundBorder) {
                         entry.setValue(compoundBorder);
                     } else if (res instanceof EmptyBorder) {
-                        ; // keep it as it is, i.e. EmptyBorder
+                        // keep it as it is, i.e. EmptyBorder
                     } else {
                         entry.setValue(drawnBorder);
                     }
                 }
             } else {
                 // We set things up right for these ones manually
-                if (key.contains("Text") || key.startsWith("Password")
-                        || key.startsWith("Editor")) {
+                if (key.contains("Text") || key.startsWith("Password") ||
+                        key.startsWith("Editor")) {
                     continue;
                 }
 
-                if (key.endsWith(".foreground") ||
-                        key.endsWith("BorderColor") ||
-                        key.endsWith(".caretForeground") ||
-                        key.endsWith(".acceleratorForeground") ||
-                        key.endsWith(".disabledForeground") ||
-                        key.endsWith(".inactiveForeground") ||
-                        key.endsWith(".inactiveTitleForeground") ||
-                        key.endsWith(".selectionForeground") ||
-                        key.endsWith(".textForeground")) {
+                if (key.endsWith(".foreground") || key.endsWith(
+                        "BorderColor") || key.endsWith(".caretForeground") ||
+                        key.endsWith(".acceleratorForeground") || key.endsWith(
+                        ".disabledForeground") || key.endsWith(
+                        ".inactiveForeground") || key.endsWith(
+                        ".inactiveTitleForeground") || key.endsWith(
+                        ".selectionForeground") || key.endsWith(
+                        ".textForeground")) {
                     entry.setValue(theme.getPenColor());
-                } else if (key.endsWith(".background") ||
-                        key.endsWith(".disabledBackground") ||
-                        key.endsWith(".textBackground")) {
+                } else if (key.endsWith(".background") || key.endsWith(
+                        ".disabledBackground") || key.endsWith(
+                        ".textBackground")) {
                     /**
                      * Other potential candidates includes:
                      *
@@ -640,8 +588,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                      * .floatingBackground
                      */
                     entry.setValue(clear);
-                } else if (key.endsWith(".selectionBackground") ||
-                        key.endsWith("SelectionBackground")) {
+                } else if (key.endsWith(".selectionBackground") || key.endsWith(
+                        "SelectionBackground")) {
                     entry.setValue(HIGHLIGHT_CLEAR);
                 } else if (key.endsWith(".activeTitleForeground") ||
                         key.endsWith("SelectionForeground")) {
@@ -677,9 +625,8 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         fromName.put("Monospaced.plain", monospacedPlain);
 
         // read in from the property file
-        InputStream fonts =
-                NapkinLookAndFeel.class
-                        .getResourceAsStream("resources/fonts.properties");
+        InputStream fonts = NapkinLookAndFeel.class
+                .getResourceAsStream("resources/fonts.properties");
         if (fonts != null) {
             try {
                 Properties props = new Properties();
@@ -690,10 +637,11 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                     String fontName = (String) entry.getKey();
                     //noinspection SuspiciousMethodCalls
                     Font font = fromName.get(entry.getValue());
-                    if (font == null)
+                    if (font == null) {
                         System.err.println("unknown font: " + fontName);
-                    else
+                    } else {
                         fromName.put(fontName, font);
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -705,17 +653,17 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         return fromName;
     }
 
-    private static Object
-            propVal(String key, String prop, Object val, UIDefaults table) {
+    private static Object propVal(String key, String prop, Object val,
+            UIDefaults table) {
 
         int keyLen = key.length();
         int propLen = prop.length();
         int prePos = keyLen - propLen - 1;
 
         Object result = null;
-        if (prePos > 0 && ((key.endsWith(prop) && key.charAt(prePos) == '.')
-                || (key.endsWith(prop.substring(1)) && key.charAt(prePos + 1)
-                == Character.toUpperCase(prop.charAt(0))))) {
+        if (prePos > 0 && ((key.endsWith(prop) && key.charAt(prePos) == '.') ||
+                (key.endsWith(prop.substring(1)) && key.charAt(prePos + 1) ==
+                        Character.toUpperCase(prop.charAt(0))))) {
             result = extractVal(val, table);
         }
         return result;
@@ -732,12 +680,12 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
 
     private final AtomicBoolean initialised = new AtomicBoolean(false);
 
-    private void wrapRepaintManager() {
+    private static void wrapRepaintManager() {
         RepaintManager manager = RepaintManager.currentManager(null);
         RepaintManager.setCurrentManager(NapkinRepaintManager.wrap(manager));
     }
 
-    private void unwrapRepaintManager() {
+    private static void unwrapRepaintManager() {
         RepaintManager manager = RepaintManager.currentManager(null);
         RepaintManager.setCurrentManager(NapkinRepaintManager.unwrap(manager));
     }
@@ -755,25 +703,23 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         if (initialised.compareAndSet(true, false)) {
             unwrapRepaintManager();
             super.uninitialize();
-            new Thread(
-                new Runnable() {
-                    public void run() {
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException ex) {
-                            ex.printStackTrace();
-                        }
-                        if (!(UIManager.getLookAndFeel()
-                                instanceof NapkinLookAndFeel)) {
-                            purgeAllInstalledComponents();
-                        }
+            new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                    if (!(UIManager
+                            .getLookAndFeel() instanceof NapkinLookAndFeel)) {
+                        purgeAllInstalledComponents();
                     }
                 }
-            ).start();
+            }).start();
         }
     }
 
-    private static final WeakHashMap<JComponent, Void> installedComponents =
+    private static final Map<JComponent, Void> installedComponents =
             new WeakHashMap<JComponent, Void>();
     private static final ReadWriteLock lock = new ReentrantReadWriteLock();
 
