@@ -66,9 +66,10 @@
             UIManager.setLookAndFeel(<i>&lt;SomeOtherLookAndFeel&gt;</i>);
             SwingUtilities.updateComponentTreeUI(top); </pre>
 
-    <li><tt>JViewport</tt> requires "simple" scrolling (<tt>JViewport.SIMPLE_SCROLL_MODE</tt>).
-        So it will actively ignore any other mode you set, although it will
-        remember the other mode and restore it when you switch away from Napkin.
+    <li><tt>JViewport</tt> requires "simple" scrolling
+	(<tt>JViewport.SIMPLE_SCROLL_MODE</tt>).  So it will actively ignore any
+	other mode you set, although it will remember the other mode and
+	restore it when you switch away from Napkin.
 
     <li>Unlike the ordinary <tt>JComponent</tt> defaults, with Napkin the
         background is transparent by default. To make it opaque, set the
@@ -82,18 +83,32 @@
 
 <h3>Change History</h3>
 
-<h4>1.1, 18 November, 2006</h4>
+<h3>1.1, 18 November, 2006</h3>
 
 <ul>
 
-    <li><b>Sketchable:</b> Several bugs vanished with this upgrade, but it
-        does mean that this will not work anymore with earlier Java versions. So
-        far it has seemed too much work to maintain a system that can work on
-        both.
+    <li><b>Sketchified Images:</b> We have added a new mechanism that will take
+	an image and make a "sketched" version of it.  This will allow your
+	images to look provisional as well, to fit in with the overall theme.
+	The <tt>SketchifyImage</tt> and <tt>SketchifyIcon</tt> classes are what
+	you need to do this.
+
+    <li><b>Merged Fonts:</b> Handwritten fonts often are relatively limited in
+	their space.  There certainly is no single Unicode handwritten font we
+	are aware of.  So we have created a way to have a pseudo-font that is a
+	composite of other fonts in a search order.  We use this to back our
+	handwritten fonts with a full Unicode font so at least no letter will
+	be undisplayed.
+
+    <li><b>Highlighting:</b> We use highlighter pen effects to mark default
+	buttons and selected items.
+
+    <li><b><tt>JFrame</tt> borders:</b> <tt>JFrame</tt>s now have sketched
+	borders.
 
 </ul>
 
-<h4>1.0, 18 March, 2006</h4>
+<h3>1.0, 18 March, 2006</h3>
 
 <ul>
 
