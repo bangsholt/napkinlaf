@@ -54,14 +54,16 @@ public class DraftSketcher extends AbstractSketcher {
     @Override
     public SketchShape deformQuad(QuadLine q) {
         return q.getFlatness() < q.approximateLength() * DEFORM_FACTOR ?
-            new StraightLine(q.getP1(), q.getP2()).deform(this) : q;
+                new StraightLine(q.getP1(), q.getP2()).deform(this) :
+                q;
     }
 
     /** {@inheritDoc} */
     @Override
     public SketchShape deformCubic(CubicLine c) {
         return c.getFlatness() < c.approximateLength() * DEFORM_FACTOR * 0.5 ?
-            new StraightLine(c.getP1(), c.getP2()).deform(this) : c;
+                new StraightLine(c.getP1(), c.getP2()).deform(this) :
+                c;
     }
 
     /** {@inheritDoc} */

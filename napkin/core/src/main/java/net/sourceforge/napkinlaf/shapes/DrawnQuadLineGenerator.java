@@ -14,7 +14,6 @@ public class DrawnQuadLineGenerator extends AbstractDrawnGenerator {
             new DrawnQuadLineGenerator();
 
     public DrawnQuadLineGenerator() {
-        super();
         ctl = new RandomXY(60, 3, 0, 0.5);
     }
 
@@ -28,9 +27,8 @@ public class DrawnQuadLineGenerator extends AbstractDrawnGenerator {
             matrix.transform(coords, 0, coords, 0, coords.length / 2);
         }
 
-        return new QuadCurve2D.Double(coords[0], coords[1],
-                coords[2], coords[3],
-                coords[4], coords[5]);
+        return new QuadCurve2D.Double(coords[0], coords[1], coords[2],
+                coords[3], coords[4], coords[5]);
     }
 
     public RandomXY getCtl() {

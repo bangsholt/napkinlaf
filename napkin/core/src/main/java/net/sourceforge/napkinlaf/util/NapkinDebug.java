@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
+@SuppressWarnings({"WeakerAccess"})
 public class NapkinDebug {
     private static final Map<Class<?>, Field[]> fieldsForType =
             new WeakHashMap<Class<?>, Field[]>();
@@ -37,8 +38,8 @@ public class NapkinDebug {
     public static void dumpObject(Object obj, String fileName) {
         PrintStream out = null;
         try {
-            out = new PrintStream(new BufferedOutputStream(
-                    new FileOutputStream(fileName)));
+            out = new PrintStream(new BufferedOutputStream(new FileOutputStream(
+                    fileName)));
             dumpObject(obj, out);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -51,7 +52,8 @@ public class NapkinDebug {
 
     public static String descFor(Object obj) {
         return obj instanceof Component ?
-            descFor((Component) obj) : obj.getClass().getName();
+                descFor((Component) obj) :
+                obj.getClass().getName();
     }
 
     @SuppressWarnings({"HardcodedFileSeparator"})
@@ -66,8 +68,9 @@ public class NapkinDebug {
             } else {
                 desc = c.getClass().getName();
                 int dot = desc.lastIndexOf('.');
-                if (dot > 0)
+                if (dot > 0) {
                     desc = desc.substring(dot + 1);
+                }
                 StringBuilder descStr = new StringBuilder(desc);
                 descStr.append(idStr);
 
@@ -90,7 +93,8 @@ public class NapkinDebug {
                 } else if (c instanceof Frame) {
                     descStr.append(": ").append(((Frame) c).getTitle());
                 } else if (c instanceof JInternalFrame) {
-                    descStr.append(": ").append(((JInternalFrame) c).getTitle());
+                    descStr.append(": ").append(
+                            ((JInternalFrame) c).getTitle());
                 }
                 descStr = new StringBuilder(descStr.toString().trim());
 
@@ -98,7 +102,8 @@ public class NapkinDebug {
                     JComponent jc = (JComponent) c;
                     Border border = jc.getBorder();
                     if (border instanceof TitledBorder) {
-                        descStr.append(": ").append(((TitledBorder) border).getTitle());
+                        descStr.append(": ").append(
+                                ((TitledBorder) border).getTitle());
                     }
                 }
                 result = descStr.toString().trim();
@@ -123,9 +128,9 @@ public class NapkinDebug {
         }
     }
 
+    @SuppressWarnings({"StringContatenationInLoop"})
     private static void dumpTo(PrintWriter out, Object obj, Class<?> cl,
-            int level, Set<Object> dumped)
-            throws IllegalAccessException {
+            int level, Set<Object> dumped) throws IllegalAccessException {
 
         if (cl != null) {
             dumpTo(out, obj, cl.getSuperclass(), level, dumped);
@@ -133,8 +138,9 @@ public class NapkinDebug {
             for (Field field : fields) {
                 field.setAccessible(true);
                 Object val = field.get(obj);
-                for (int l = 0; l < level; l++)
+                for (int l = 0; l < level; l++) {
                     out.print("    ");
+                }
                 out.println(field.getName() + ": " + val);
                 if (val != null && !dumped.contains(obj) &&
                         !field.getType().isPrimitive()) {
@@ -150,6 +156,7 @@ public class NapkinDebug {
         dumpObject(obj, out, 0, known);
     }
 
+    @SuppressWarnings({"StringContatenationInLoop"})
     private static void dumpObject(Object obj, PrintStream out, int depth,
             Map<Object, Integer> known) {
 
@@ -201,22 +208,24 @@ public class NapkinDebug {
         }
     }
 
+    @SuppressWarnings({"ObjectEquality"})
     private static void dumpValue(Class<?> type, PrintStream out, Object val,
             int depth, Map<Object, Integer> known) {
-        if (type.isPrimitive())
+        if (type.isPrimitive()) {
             out.println(val);
-        else if (val == null || type == String.class)
+        } else if (val == null || type == String.class) {
             out.println(val);
-        else {
+        } else {
             if (type.isArray()) {
                 Class<?> aType = type.getComponentType();
-                out.println(" " + aType.getName() + "[" +
-                        Array.getLength(val) + "]");
+                out.println(" " + aType.getName() + "[" + Array.getLength(val) +
+                        "]");
             }
             dumpObject(val, out, depth + 1, known);
         }
     }
 
+    @SuppressWarnings({"ObjectEquality"})
     private static Field[] getFields(Object obj) {
         Class<?> type = obj.getClass();
         Field[] fields = fieldsForType.get(type);
@@ -257,7 +266,32 @@ public class NapkinDebug {
 
     @SuppressWarnings({"HardcodedFileSeparator"})
     public static String toString(Color c) {
+        if (c == null) {
+            return null;
+        }
         return "#" + Integer.toHexString(c.getRGB()) + "/" +
                 Integer.toHexString(c.getAlpha());
+    }
+
+    public static String toString(Object obj) {
+        if (obj == null) {
+            return "null";
+        }
+        if (obj instanceof Color) {
+            Color color = (Color) obj;
+            return toString(color);
+        }
+        String str = obj.toString();
+        String cName = obj.getClass().getCanonicalName();
+        if (!str.startsWith(cName)) {
+            return str;
+        } else {
+            int dot = str.lastIndexOf('.', cName.length());
+            if (dot < 0) {
+                return str;
+            } else {
+                return str.substring(dot + 1);
+            }
+        }
     }
 }

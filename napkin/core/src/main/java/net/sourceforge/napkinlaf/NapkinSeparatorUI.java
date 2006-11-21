@@ -10,6 +10,7 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import java.awt.*;
 
+@SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinSeparatorUI extends BasicSeparatorUI
         implements NapkinPainter {
     private final Separator separator = new Separator();
@@ -26,16 +27,17 @@ public class NapkinSeparatorUI extends BasicSeparatorUI
 
         private void doPaint(Graphics g, JSeparator sep, boolean vertical) {
             if (line == null) {
-                line = new DrawnLineHolder(
-                        DrawnCubicLineGenerator.INSTANCE, vertical);
+                line = new DrawnLineHolder(DrawnCubicLineGenerator.INSTANCE,
+                        vertical);
             }
 
             Rectangle bounds = sep.getBounds();
             bounds.x = bounds.y = 0;
-            if (vertical)
+            if (vertical) {
                 bounds.x = sep.getWidth() / 2;
-            else
+            } else {
                 bounds.y = sep.getHeight() / 2;
+            }
             line.shapeUpToDate(bounds, null);
             g.setColor(sep.getForeground());
             line.draw(g);
@@ -43,10 +45,11 @@ public class NapkinSeparatorUI extends BasicSeparatorUI
 
         @SuppressWarnings({"MethodMayBeStatic"})
         public Dimension getPreferredSize(JComponent c) {
-            if (((JSeparator) c).getOrientation() == SwingConstants.VERTICAL)
+            if (((JSeparator) c).getOrientation() == SwingConstants.VERTICAL) {
                 return new Dimension(5, 0);
-            else
+            } else {
                 return new Dimension(0, 5);
+            }
         }
     }
 
@@ -82,7 +85,7 @@ public class NapkinSeparatorUI extends BasicSeparatorUI
         NapkinUtil.update(g, c, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
 }

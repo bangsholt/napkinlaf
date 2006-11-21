@@ -56,8 +56,8 @@ public class JotSketcher extends AbstractSketcher {
                 draw.setDrawStroke(true);
 
                 SketchShape u = current.getShape().deform(this);
-                draw.setStrokeWeight(
-                        computeStrokeModifier(u.approximateLength()));
+                draw.setStrokeWeight(computeStrokeModifier(
+                        u.approximateLength()));
                 draw.setShape(u);
 
                 cleanSketch(draw, g2d);
@@ -73,11 +73,11 @@ public class JotSketcher extends AbstractSketcher {
         double twopercent = c.approximateLength() * DEFORM_FACTOR;
 
         Point p1 = (perturbInitial ?
-                Point.random(c.getP1(), twopercent) : new Point(c.getP1()));
-        return new CubicLine(p1,
-                Point.random(c.getCtrlP1(), twopercent * 5),
-                Point.random(c.getCtrlP2(), twopercent * 5),
-                Point.random(c.getP2(), twopercent));
+                Point.random(c.getP1(), twopercent) :
+                new Point(c.getP1()));
+        return new CubicLine(p1, Point.random(c.getCtrlP1(), twopercent * 5),
+                Point.random(c.getCtrlP2(), twopercent * 5), Point.random(
+                c.getP2(), twopercent));
     }
 
     /**
@@ -162,8 +162,7 @@ public class JotSketcher extends AbstractSketcher {
                 ctrl2 = new Point(draw.getCtrlP2());
                 far = new Point(draw.getP2());
                 ret.curveTo(ctrl1.floatX(), ctrl1.floatY(), ctrl2.floatX(),
-                        ctrl2.floatY(),
-                        far.floatX(), far.floatY());
+                        ctrl2.floatY(), far.floatX(), far.floatY());
             }
         }
 
@@ -174,9 +173,7 @@ public class JotSketcher extends AbstractSketcher {
             ctrl2 = new Point(draw.getCtrlP2());
             far = new Point(draw.getP2());
             ret.curveTo(ctrl1.floatX(), ctrl1.floatY(), ctrl2.floatX(),
-                    ctrl2.floatY(),
-                    far.floatX(),
-                    far.floatY());
+                    ctrl2.floatY(), far.floatX(), far.floatY());
             ret.closePath();
         }
 

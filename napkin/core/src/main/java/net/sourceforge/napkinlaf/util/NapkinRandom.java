@@ -2,8 +2,9 @@ package net.sourceforge.napkinlaf.util;
 
 import java.util.Random;
 
+@SuppressWarnings({"WeakerAccess"})
 public class NapkinRandom {
-    public static final Random random = new Random();
+    private static final Random random = new Random();
 
     private NapkinRandom() {
     }
@@ -25,7 +26,7 @@ public class NapkinRandom {
         return scale * (random.nextDouble() - random.nextDouble());
     }
 
-    public static double triCbRt(double scale) {
+    public static double triangularCubeRoot(double scale) {
         return scale * Math.cbrt(random.nextDouble() - random.nextDouble());
     }
 }

@@ -15,6 +15,7 @@ import java.util.Map;
 //!! It seems as if the BasicFileChooserUI is not yet well formed, so we're just
 //!! borrowing the metal chooser for now.
 
+@SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinFileChooserUI extends MetalFileChooserUI
         implements NapkinPainter {
 
@@ -95,7 +96,7 @@ public class NapkinFileChooserUI extends MetalFileChooserUI
         NapkinUtil.update(g, c, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
 

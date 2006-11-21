@@ -22,12 +22,14 @@ class NapkinSmartListeners {
             super(BACKGROUND_KEY, "background");
         }
 
+        @Override
         protected void overrideValue(JComponent c, Color newValue) {
             if (NapkinUtil.replaceBackground(newValue)) {
                 c.setBackground(CLEAR);
             }
         }
 
+        @Override
         protected boolean shouldRecord(Color newValue) {
             return !(newValue instanceof AlphaColorUIResource);
         }
@@ -39,6 +41,8 @@ class NapkinSmartListeners {
             super(BORDER_KEY, "border");
         }
 
+        @SuppressWarnings({"ObjectEquality"})
+        @Override
         protected void overrideValue(JComponent c, Border newValue) {
             if (shouldRecord(newValue)) {
                 Border newBorder = NapkinUtil.wrapBorder(newValue);
@@ -49,6 +53,7 @@ class NapkinSmartListeners {
             }
         }
 
+        @Override
         protected boolean shouldRecord(Border newValue) {
             return !(newValue == null || newValue instanceof NapkinBorder);
         }
@@ -60,31 +65,35 @@ class NapkinSmartListeners {
             super(OPAQUE_KEY, "opaque");
         }
 
+        @Override
         protected void overrideValue(JComponent c, Boolean newValue) {
-            if (Boolean.TRUE.equals(newValue) &&
-                    NapkinUtil.isTranparent(c.getBackground())) {
+            if (Boolean.TRUE.equals(newValue) && NapkinUtil.isTranparent(
+                    c.getBackground())) {
 
                 c.setOpaque(false);
             }
         }
 
+        @Override
         protected boolean shouldRecord(Boolean newValue) {
             return true;
         }
     }
 
-    public static class RollOverListener extends SmartStickyListener<Boolean> {
+    public static class RolloverListener extends SmartStickyListener<Boolean> {
 
-        public RollOverListener() {
+        public RolloverListener() {
             super(ROLLOVER_ENABLED, ROLLOVER_ENABLED_CHANGED_PROPERTY);
         }
 
+        @Override
         protected void overrideValue(JComponent c, Boolean newValue) {
             if (!Boolean.TRUE.equals(newValue)) {
                 ((AbstractButton) c).setRolloverEnabled(true);
             }
         }
 
+        @Override
         protected boolean shouldRecord(Boolean newValue) {
             return true;
         }
@@ -96,6 +105,7 @@ class NapkinSmartListeners {
             super(BUTTON_ICON_KEY, ICON_CHANGED_PROPERTY);
         }
 
+        @Override
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
                 ((AbstractButton) c)
@@ -103,6 +113,7 @@ class NapkinSmartListeners {
             }
         }
 
+        @Override
         protected boolean shouldRecord(Icon newValue) {
             return !(newValue == null || newValue instanceof SketchifiedIcon);
         }
@@ -114,6 +125,7 @@ class NapkinSmartListeners {
             super(PRESSED_ICON_KEY, PRESSED_ICON_CHANGED_PROPERTY);
         }
 
+        @Override
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
                 ((AbstractButton) c)
@@ -121,6 +133,7 @@ class NapkinSmartListeners {
             }
         }
 
+        @Override
         protected boolean shouldRecord(Icon newValue) {
             return !(newValue == null || newValue instanceof SketchifiedIcon);
         }
@@ -132,6 +145,7 @@ class NapkinSmartListeners {
             super(SELECTED_ICON_KEY, SELECTED_ICON_CHANGED_PROPERTY);
         }
 
+        @Override
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
                 ((AbstractButton) c)
@@ -139,6 +153,7 @@ class NapkinSmartListeners {
             }
         }
 
+        @Override
         protected boolean shouldRecord(Icon newValue) {
             return !(newValue == null || newValue instanceof SketchifiedIcon);
         }
@@ -150,6 +165,7 @@ class NapkinSmartListeners {
             super(ROLLOVER_ICON_KEY, ROLLOVER_ICON_CHANGED_PROPERTY);
         }
 
+        @Override
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
                 ((AbstractButton) c)
@@ -157,6 +173,7 @@ class NapkinSmartListeners {
             }
         }
 
+        @Override
         protected boolean shouldRecord(Icon newValue) {
             return !(newValue == null || newValue instanceof SketchifiedIcon);
         }
@@ -170,6 +187,7 @@ class NapkinSmartListeners {
                     ROLLOVER_SELECTED_ICON_CHANGED_PROPERTY);
         }
 
+        @Override
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
                 ((AbstractButton) c).setRolloverSelectedIcon(
@@ -177,6 +195,7 @@ class NapkinSmartListeners {
             }
         }
 
+        @Override
         protected boolean shouldRecord(Icon newValue) {
             return !(newValue == null || newValue instanceof SketchifiedIcon);
         }
@@ -188,6 +207,7 @@ class NapkinSmartListeners {
             super(DISABLED_ICON_KEY, DISABLED_ICON_CHANGED_PROPERTY);
         }
 
+        @Override
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
                 ((AbstractButton) c)
@@ -195,6 +215,7 @@ class NapkinSmartListeners {
             }
         }
 
+        @Override
         protected boolean shouldRecord(Icon newValue) {
             return !(newValue == null || newValue instanceof SketchifiedIcon);
         }
@@ -208,6 +229,7 @@ class NapkinSmartListeners {
                     DISABLED_SELECTED_ICON_CHANGED_PROPERTY);
         }
 
+        @Override
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
                 ((AbstractButton) c).setDisabledSelectedIcon(
@@ -215,6 +237,7 @@ class NapkinSmartListeners {
             }
         }
 
+        @Override
         protected boolean shouldRecord(Icon newValue) {
             return !(newValue == null || newValue instanceof SketchifiedIcon);
         }

@@ -9,8 +9,7 @@ import java.awt.geom.*;
 public class DrawnBoxHolder extends DrawnShapeHolder {
     private Rectangle size;
     private int breakSide;
-    private final Point2D begBreak,
-            endBreak;
+    private final Point2D begBreak, endBreak;
 
     public DrawnBoxHolder(DrawnBoxGenerator gen) {
         super(gen);
@@ -30,8 +29,8 @@ public class DrawnBoxHolder extends DrawnShapeHolder {
     public void shapeUpToDate(Rectangle sz, int bSide, double begX, double begY,
             double endX, double endY) {
 
-        if (size != null && size.width == sz.width && size.height == sz.height
-                && bSide == breakSide &&
+        if (size != null && size.width == sz.width &&
+                size.height == sz.height && bSide == breakSide &&
                 begBreak.getX() == begX && begBreak.getY() == begY &&
                 endBreak.getX() == endX && endBreak.getY() == endY) {
 
@@ -59,10 +58,11 @@ public class DrawnBoxHolder extends DrawnShapeHolder {
         AffineTransform matrix = new AffineTransform();
         matrix.translate(cornerX, cornerY);
 
-        if (bSide == NO_SIDE)
+        if (bSide == NO_SIDE) {
             dbg.setNoBreak();
-        else
+        } else {
             dbg.setBreak(bSide, begX, begY, endX, endY);
+        }
 
         shape = dbg.generate(matrix);
     }

@@ -21,8 +21,7 @@ public class DrawnScribbleGenerator extends AbstractDrawnGenerator {
     private static final float PER_STROKE = 1.5f;
 
     @SuppressWarnings({"SameParameterValue"})
-            DrawnScribbleGenerator(float minShow) {
-        super();
+    DrawnScribbleGenerator(float minShow) {
         this.minShow = minShow;
         position = new RandomValue(0, 0.4);
         side = new RandomValue(0, 0.4);

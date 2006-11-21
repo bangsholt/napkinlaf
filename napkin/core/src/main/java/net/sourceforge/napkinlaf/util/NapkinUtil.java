@@ -19,8 +19,8 @@ import net.sourceforge.napkinlaf.util.NapkinSmartListeners.DisabledIconListener;
 import net.sourceforge.napkinlaf.util.NapkinSmartListeners.DisabledSelectedIconListener;
 import net.sourceforge.napkinlaf.util.NapkinSmartListeners.OpaqueListener;
 import net.sourceforge.napkinlaf.util.NapkinSmartListeners.PressedIconListener;
-import net.sourceforge.napkinlaf.util.NapkinSmartListeners.RollOverListener;
 import net.sourceforge.napkinlaf.util.NapkinSmartListeners.RolloverIconListener;
+import net.sourceforge.napkinlaf.util.NapkinSmartListeners.RolloverListener;
 import net.sourceforge.napkinlaf.util.NapkinSmartListeners.RolloverSelectedIconListener;
 import net.sourceforge.napkinlaf.util.NapkinSmartListeners.SelectedIconListener;
 
@@ -40,6 +40,7 @@ import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@SuppressWarnings({"WeakerAccess", "InterfaceNamingConvention"})
 public class NapkinUtil {
     private static final Map<Float, Stroke> strokes =
             new WeakHashMap<Float, Stroke>();
@@ -97,12 +98,11 @@ public class NapkinUtil {
         Object createPropertyValue();
     }
 
+    @SuppressWarnings({"RedundantSuppression"})
     public static class DisabledMark {
         /** @noinspection PublicField */
         public final BufferedImage image;
-        /** @noinspection PublicField */
         public final int offX;
-        /** @noinspection PublicField */
         public final int offY;
         /** @noinspection PublicField */
         public final Graphics2D graphics;
@@ -129,17 +129,18 @@ public class NapkinUtil {
         return pref + "." + prop;
     }
 
-    @SuppressWarnings({"ObjectEquality"})
     static boolean replaceBackground(Color bgColor) {
-        return bgColor == null || (!(bgColor instanceof AlphaColorUIResource)
-                && bgColor.getRed() == bgColor.getGreen()
-                && bgColor.getGreen() == bgColor.getBlue());
+        return bgColor == null || (!(bgColor instanceof AlphaColorUIResource) &&
+                bgColor.getRed() == bgColor.getGreen() &&
+                bgColor.getGreen() == bgColor.getBlue());
     }
 
+    @SuppressWarnings({"ObjectEquality"})
     static boolean isTranparent(Color bgColor) {
         return bgColor == CLEAR || bgColor == HIGHLIGHT_CLEAR;
     }
 
+    @SuppressWarnings({"UnusedCatchParameter", "ObjectEquality"})
     public static void installUI(JComponent c) {
         // prevents double installing
         if (c.getClientProperty(INSTALL_KEY) != Boolean.TRUE) {
@@ -159,7 +160,7 @@ public class NapkinUtil {
                 c.putClientProperty(ROLLOVER_ENABLED,
                         button.isRolloverEnabled());
                 button.setRolloverEnabled(true);
-                SmartStickyListener.hookListener(c, new RollOverListener());
+                SmartStickyListener.hookListener(c, new RolloverListener());
                 // button icon override
                 Icon icon = button.getIcon();
                 SmartStickyListener<Icon> listener = new ButtonIconListener();
@@ -245,6 +246,7 @@ public class NapkinUtil {
         }
     }
 
+    @SuppressWarnings({"ObjectEquality"})
     public static void uninstallUI(JComponent c) {
         // prevents double uninstalling
         if (c.getClientProperty(INSTALL_KEY) == Boolean.TRUE) {
@@ -264,28 +266,28 @@ public class NapkinUtil {
             if (c instanceof AbstractButton) {
                 AbstractButton button = (AbstractButton) c;
                 // restore from disabled selected icon override
-                button.setDisabledSelectedIcon(
-                        (Icon) c.getClientProperty(DISABLED_SELECTED_ICON_KEY));
+                button.setDisabledSelectedIcon((Icon) c.getClientProperty(
+                        DISABLED_SELECTED_ICON_KEY));
                 // restore from disabled icon override
-                button.setDisabledIcon(
-                        (Icon) c.getClientProperty(DISABLED_ICON_KEY));
+                button.setDisabledIcon((Icon) c.getClientProperty(
+                        DISABLED_ICON_KEY));
                 // restore from rollover selected icon override
-                button.setRolloverSelectedIcon(
-                        (Icon) c.getClientProperty(ROLLOVER_SELECTED_ICON_KEY));
+                button.setRolloverSelectedIcon((Icon) c.getClientProperty(
+                        ROLLOVER_SELECTED_ICON_KEY));
                 // restore from rollover icon override
-                button.setRolloverIcon(
-                        (Icon) c.getClientProperty(ROLLOVER_ICON_KEY));
+                button.setRolloverIcon((Icon) c.getClientProperty(
+                        ROLLOVER_ICON_KEY));
                 // restore from selected icon override
-                button.setSelectedIcon(
-                        (Icon) c.getClientProperty(SELECTED_ICON_KEY));
+                button.setSelectedIcon((Icon) c.getClientProperty(
+                        SELECTED_ICON_KEY));
                 // restore from pressed icon override
-                button.setPressedIcon(
-                        (Icon) c.getClientProperty(PRESSED_ICON_KEY));
+                button.setPressedIcon((Icon) c.getClientProperty(
+                        PRESSED_ICON_KEY));
                 // restore from button icon override
                 button.setIcon((Icon) c.getClientProperty(BUTTON_ICON_KEY));
                 // restore from rollover-enabled override
-                button.setRolloverEnabled(
-                        (Boolean) c.getClientProperty(ROLLOVER_ENABLED));
+                button.setRolloverEnabled((Boolean) c.getClientProperty(
+                        ROLLOVER_ENABLED));
             }
             // restore from opaqueness override
             if (shouldMakeOpaque(c)) {
@@ -298,12 +300,13 @@ public class NapkinUtil {
         }
     }
 
+    @SuppressWarnings({"ObjectEquality"})
     private static boolean shouldMakeOpaque(JComponent c) {
-        return !isGlassPane(c) && !c.isOpaque() &&
-                c.getClientProperty(OPAQUE_KEY) == Boolean.TRUE;
+        return !isGlassPane(c) && !c.isOpaque() && c.getClientProperty(
+                OPAQUE_KEY) == Boolean.TRUE;
     }
 
-    @SuppressWarnings({"ObjectEquality"})
+    @SuppressWarnings({"ObjectEquality", "BooleanMethodIsAlwaysInverted"})
     private static boolean isGlassPane(JComponent c) {
         JRootPane rootPane = c.getRootPane();
         return (rootPane != null && rootPane.getGlassPane() == c);
@@ -321,18 +324,18 @@ public class NapkinUtil {
         return lineGraphics((Graphics2D) orig, w);
     }
 
-    public static Graphics2D lineGraphics(
-            Graphics orig, float w, int cap, int join) {
+    public static Graphics2D lineGraphics(Graphics orig, float w, int cap,
+            int join) {
         return lineGraphics((Graphics2D) orig, w, cap, join);
     }
 
     public static Graphics2D lineGraphics(Graphics2D orig, float w) {
-        return lineGraphics(
-                orig, w, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+        return lineGraphics(orig, w, BasicStroke.CAP_ROUND,
+                BasicStroke.JOIN_ROUND);
     }
 
-    public static Graphics2D lineGraphics(
-            Graphics2D orig, float w, int cap, int join) {
+    public static Graphics2D lineGraphics(Graphics2D orig, float w, int cap,
+            int join) {
         Graphics2D lineG = copy(orig);
 
         Stroke stroke = strokes.get(w);
@@ -400,9 +403,8 @@ public class NapkinUtil {
     public static void syncWithTheme(Graphics2D g, Component c) {
         if (isPaper(c)) {
             paperStack.push(c);
-            themeStack.push(
-                    (NapkinTheme) ((JComponent) c).getClientProperty(THEME_KEY)
-            );
+            themeStack.push((NapkinTheme) ((JComponent) c).getClientProperty(
+                    THEME_KEY));
             dumpStacks();
         }
 
@@ -439,9 +441,8 @@ public class NapkinUtil {
     }
 
     public static NapkinTheme currentTheme(Component c) {
-        return themeStack.isEmpty() ?
-                (NapkinTheme) themeTopFor(c).getClientProperty(THEME_KEY) :
-                themeStack.peek();
+        return themeStack.isEmpty() ? (NapkinTheme) themeTopFor(c)
+                .getClientProperty(THEME_KEY) : themeStack.peek();
     }
 
     public static Component currentPaper(Component c) {
@@ -465,8 +466,8 @@ public class NapkinUtil {
             DisabledMark mark = (DisabledMark) jc.getClientProperty(
                     DISABLED_MARK_KEY);
             if (mark == null) {
-                Color bgColor =
-                        (Color) jc.getClientProperty(DISABLED_BACKGROUND_KEY);
+                Color bgColor = (Color) jc.getClientProperty(
+                        DISABLED_BACKGROUND_KEY);
                 if (bgColor != null) {
                     jc.putClientProperty(DISABLED_BACKGROUND_KEY, null);
                     jc.setBackground(bgColor);
@@ -486,11 +487,11 @@ public class NapkinUtil {
                 Point start = getStart(jc, null);
                 int w = textureImage.getWidth();
                 int h = textureImage.getHeight();
-                Rectangle anchor =
-                        new Rectangle(w - start.x, h - start.y, w, h);
+                Rectangle anchor = new Rectangle(w - start.x, h - start.y, w,
+                        h);
                 tg.setPaint(new TexturePaint(textureImage, anchor));
-                tg.fillRect(0, 0,
-                        mark.image.getWidth(), mark.image.getHeight());
+                tg.fillRect(0, 0, mark.image.getWidth(),
+                        mark.image.getHeight());
 
                 mark.graphics
                         .drawImage(mark.image, -mark.offX, -mark.offY, jc);
@@ -499,6 +500,7 @@ public class NapkinUtil {
         }
     }
 
+    @SuppressWarnings({"ObjectEquality"})
     static Border wrapBorder(Border b) {
         if (!(b instanceof NapkinBorder)) {
             if (b instanceof BevelBorder) {
@@ -531,8 +533,8 @@ public class NapkinUtil {
                             new NapkinCompoundBorder(outside, inside);
                 }
             } else {
-                b = (b == null) ?
-                        NAPKIN_NULL_BORDER : new NapkinWrappedBorder(b);
+                b = (b == null) ? NAPKIN_NULL_BORDER : new NapkinWrappedBorder(
+                        b);
             }
         }
         return b;
@@ -567,8 +569,8 @@ public class NapkinUtil {
     public static DrawnLineHolder paintLine(Graphics g, boolean vertical,
             DrawnLineHolder holder, Rectangle bounds) {
         if (holder == null) {
-            holder = new DrawnLineHolder(
-                    DrawnCubicLineGenerator.INSTANCE, vertical);
+            holder = new DrawnLineHolder(DrawnCubicLineGenerator.INSTANCE,
+                    vertical);
         }
         holder.shapeUpToDate(bounds, null);
         Graphics2D lineG = copy(g);
@@ -594,49 +596,49 @@ public class NapkinUtil {
         c.putClientProperty(THEME_KEY, baseTheme.getTheme(theme));
     }
 
-    public static NapkinTheme paintBackground(Graphics g1, Component c) {
-        NapkinTheme theme = null;
-        if (!(c instanceof JComponent && isGlassPane((JComponent) c))) {
-            Graphics2D g = (Graphics2D) g1;
-            theme = currentTheme(c);
-            NapkinBackground bg = theme.getPaper();
-
-            Rectangle pRect = bounds(currentPaper(c));
-            Rectangle cRect = bounds(c);
-
-            bg.paint(c, g, pRect, cRect, insets(c));
-
-            if (c.isEnabled() && c instanceof JComponent) {
-                JComponent jc = (JComponent) c;
-                paintHighlights(g, theme, jc);
-            }
+    public static void paintBackground(Graphics g1, Component c) {
+        if (c instanceof JComponent && isGlassPane((JComponent) c)) {
+            return;
         }
-        return theme;
+
+        Graphics2D g = (Graphics2D) g1;
+        NapkinTheme theme = currentTheme(c);
+        NapkinBackground bg = theme.getPaper();
+
+        Rectangle pRect = bounds(currentPaper(c));
+        Rectangle cRect = bounds(c);
+
+        bg.paint(c, g, pRect, cRect, insets(c));
+
+        if (c.isEnabled() && c instanceof JComponent) {
+            paintHighlights(g, theme, (JComponent) c);
+        }
     }
 
+    @SuppressWarnings({"ObjectEquality"})
     private static void paintHighlights(Graphics2D g, NapkinTheme theme,
             JComponent jc) {
 
-        Boolean tempBool = (Boolean) jc.getClientProperty(HIGHLIGHT_KEY);
-        boolean shouldHighlight = (jc.getBackground() == HIGHLIGHT_CLEAR)
-                || (tempBool != null && tempBool);
-        tempBool = (Boolean) jc.getClientProperty(ROLLOVER_KEY);
-        boolean isRolledOver = (tempBool != null && tempBool);
+        boolean shouldHighlight =
+                (jc.getBackground() == HIGHLIGHT_CLEAR) || getBooleanProprty(jc,
+                        HIGHLIGHT_KEY);
+        boolean isRolledOver = getBooleanProprty(jc, ROLLOVER_KEY);
+
         if (shouldHighlight || isRolledOver) {
             Rectangle rect = g.getClipBounds();
-            if (rect.width > 20f) {
-                rect.x += NapkinRandom.nextDouble(5d);
-                rect.width -= NapkinRandom.nextDouble(10d);
+            if (rect.width > 20.0f) {
+                rect.x += NapkinRandom.nextDouble(5.0);
+                rect.width -= NapkinRandom.nextDouble(10.0);
             }
-            DrawnLineHolder highLightLine = rect.width > 50f ?
-                    highLightLongLine : highLightShortLine;
+            DrawnLineHolder highLightLine =
+                    rect.width > 50 ? highLightLongLine : highLightShortLine;
             highLightLine.setCap(BasicStroke.CAP_BUTT);
             //noinspection SuspiciousNameCombination
             float lineWidth = rect.height;
-            if (lineWidth > 10f) {
+            if (lineWidth > 10.0f) {
                 lineWidth *= 0.8f;
             }
-            if (lineWidth >= 0f) {
+            if (lineWidth >= 0.0f) {
                 Color fColor = g.getColor();
                 if (shouldHighlight && isRolledOver) {
                     lineWidth *= 0.5f;
@@ -647,19 +649,25 @@ public class NapkinUtil {
                     highLightLine.draw(g);
                     rect.y += rect.height * 0.5f;
                     highLightLine.shapeUpToDate(rect, null);
-                    g.setColor(theme.getRollOverColor());
+                    g.setColor(theme.getRolloverColor());
                     highLightLine.draw(g);
                 } else {
                     highLightLine.setWidth(lineWidth);
                     rect.y += rect.height * 0.6f;
                     highLightLine.shapeUpToDate(rect, null);
-                    g.setColor(isRolledOver ? theme.getRollOverColor()
-                            : theme.getHighlightColor());
+                    g.setColor(isRolledOver ?
+                            theme.getRolloverColor() :
+                            theme.getHighlightColor());
                     highLightLine.draw(g);
                 }
                 g.setColor(fColor);
             }
         }
+    }
+
+    private static boolean getBooleanProprty(JComponent jc, String key) {
+        Boolean prop = (Boolean) jc.getClientProperty(key);
+        return (prop != null && prop);
     }
 
     private static Rectangle bounds(Component c) {
@@ -722,10 +730,9 @@ public class NapkinUtil {
     }
 
     @SuppressWarnings({"TooBroadScope"})
-    public static void
-                  paintButtonText(Graphics g, JComponent c, Rectangle textRect,
-            String text, int textOffset, DrawnLineHolder line,
-            boolean isDefault, NapkinTextPainter helper) {
+    public static void paintButtonText(Graphics g, JComponent c,
+            Rectangle textRect, String text, int textOffset,
+            DrawnLineHolder line, boolean isDefault, NapkinTextPainter helper) {
 
         Graphics2D ulG;
         if (isDefault) {
@@ -756,8 +763,7 @@ public class NapkinUtil {
     }
 
     @SuppressWarnings({"SameParameterValue"})
-    public static Object
-                  getProperty(JComponent c, String key,
+    public static Object getProperty(JComponent c, String key,
             PropertyFactory factory) {
         Object value = c.getClientProperty(key);
         if (value == null) {
@@ -777,8 +783,8 @@ public class NapkinUtil {
     }
 
     public static void drawStroke(GeneralPath path, AffineTransform matrix,
-            double x1, double y1, double x2, double y2,
-            double baseAngle, AbstractDrawnGenerator lineGen) {
+            double x1, double y1, double x2, double y2, double baseAngle,
+            AbstractDrawnGenerator lineGen) {
         if (matrix == null) {
             matrix = new AffineTransform();
         }
@@ -810,16 +816,17 @@ public class NapkinUtil {
             }
         }
         g = defaultGraphics(g, c);
-        NapkinTheme theme = paintBackground(g, c);
+        paintBackground(g, c);
         MergedFontGraphics2D mfg = MergedFontGraphics2D.wrap((Graphics2D) g);
-        painter.superPaint(mfg, c, theme);
+        painter.superPaint(mfg, c);
         mfg.dispose();
         finishGraphics(g, c);
     }
 
+    @SuppressWarnings({"ObjectEquality"})
     public static boolean isNapkinInstalled(Component c) {
-        return c instanceof JComponent &&
-                ((JComponent) c).getClientProperty(INSTALL_KEY) == Boolean.TRUE;
+        return c instanceof JComponent && ((JComponent) c).getClientProperty(
+                INSTALL_KEY) == Boolean.TRUE;
     }
 
     @SuppressWarnings({"UseOfSystemOutOrSystemErr", "HardcodedFileSeparator"})

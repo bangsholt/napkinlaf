@@ -137,8 +137,8 @@ public class Path implements SketchShape {
                 control2 = new Point(points[2], points[3]).magnify(scaleFactor);
                 current = new Point(points[4], points[5]).magnify(scaleFactor);
                 ret.curveTo(control1.floatX(), control1.floatY(),
-                        control2.floatX(),
-                        control2.floatY(), current.floatX(), current.floatY());
+                        control2.floatX(), control2.floatY(), current.floatX(),
+                        current.floatY());
                 break;
             case PathIterator.SEG_CLOSE:
                 ret.closePath();

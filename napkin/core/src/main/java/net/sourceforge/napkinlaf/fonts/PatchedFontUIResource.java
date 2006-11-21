@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
  * @author Alex Lam Sze Lok
  * @see PatchedFontUIResource#workaround6313541(Font,Font)
  */
+@SuppressWarnings({"WeakerAccess", "UnusedCatchParameter"})
 public class PatchedFontUIResource extends Font implements UIResource {
 
     private static final Field font2DHandleField;
@@ -76,6 +77,7 @@ public class PatchedFontUIResource extends Font implements UIResource {
      * @param src The font being copied.
      * @param dst The font that has been copied and may need to be patched.
      */
+    @SuppressWarnings({"UnusedCatchParameter"})
     protected static void workaround6313541(Font src, Font dst) {
         // check for the effect of the bug -- don't do it if it's not needed
         if (doesPatchWork() && !dst.getFontName().equals(src.getFontName())) {

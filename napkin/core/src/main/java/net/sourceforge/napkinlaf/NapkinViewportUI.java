@@ -8,11 +8,11 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import java.awt.*;
 
+@SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinViewportUI extends BasicViewportUI implements NapkinPainter {
     private int revertScrollMode;
 
-    private static final NapkinViewportUI ui =
-            new NapkinViewportUI();
+    private static final NapkinViewportUI ui = new NapkinViewportUI();
     private JViewport viewport;
 
     @SuppressWarnings({"UnusedParameters"})
@@ -47,7 +47,7 @@ public class NapkinViewportUI extends BasicViewportUI implements NapkinPainter {
         NapkinUtil.update(g, c, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
 }

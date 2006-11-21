@@ -10,7 +10,8 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import java.awt.*;
 
-@SuppressWarnings({"QuestionableName"})
+@SuppressWarnings(
+        {"QuestionableName", "WeakerAccess", "MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinScrollBarUI extends BasicScrollBarUI
         implements NapkinPainter {
     private DrawnLineHolder track;
@@ -18,7 +19,6 @@ public class NapkinScrollBarUI extends BasicScrollBarUI
     private DrawnBoxHolder thumb;
 
     public NapkinScrollBarUI(JScrollBar bar) {
-        super();
         vertical = (bar.getOrientation() == VERTICAL);
     }
 
@@ -56,8 +56,9 @@ public class NapkinScrollBarUI extends BasicScrollBarUI
 
     @Override
     protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
-        if (thumb == null)
+        if (thumb == null) {
             thumb = new DrawnBoxHolder();
+        }
         thumb.shapeUpToDate(thumbBounds);
         Graphics2D lineG = NapkinUtil.copy(g);
         lineG.setColor(c.getForeground());
@@ -70,7 +71,7 @@ public class NapkinScrollBarUI extends BasicScrollBarUI
         NapkinUtil.update(g, c, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
 }

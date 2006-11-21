@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is used in the implementation of {@link MergedFont}.
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 class MergedGlyphVector extends GlyphVector {
     private final Font font;
     private final FontRenderContext frc;
-    private final java.util.List<GlyphInfo> glyphs = new ArrayList<GlyphInfo>();
+    private final List<GlyphInfo> glyphs = new ArrayList<GlyphInfo>();
 
     private static class GlyphInfo {
         final int code;
@@ -77,8 +78,7 @@ class MergedGlyphVector extends GlyphVector {
     @Override
     public int[] getGlyphCodes(int beginGlyphIndex, int numEntries,
             int[] codeReturn) {
-        int[] result = codeReturn == null ?
-                new int[numEntries] : codeReturn;
+        int[] result = codeReturn == null ? new int[numEntries] : codeReturn;
         for (int i = 0; i < numEntries; i++) {
             result[i] = getGlyphCode(beginGlyphIndex + i);
         }
@@ -87,16 +87,18 @@ class MergedGlyphVector extends GlyphVector {
 
     @Override
     public Rectangle2D getLogicalBounds() {
-        if (getNumGlyphs() == 0)
+        if (getNumGlyphs() == 0) {
             return new Rectangle();
+        }
         return getGlyphLogicalBounds(0).getBounds2D().createUnion(
                 getGlyphLogicalBounds(getNumGlyphs() - 1).getBounds2D());
     }
 
     @Override
     public Rectangle2D getVisualBounds() {
-        if (getNumGlyphs() == 0)
+        if (getNumGlyphs() == 0) {
             return new Rectangle();
+        }
         return getGlyphVisualBounds(0).getBounds2D().createUnion(
                 getGlyphVisualBounds(getNumGlyphs() - 1).getBounds2D());
     }
@@ -144,7 +146,8 @@ class MergedGlyphVector extends GlyphVector {
     public float[] getGlyphPositions(int beginGlyphIndex, int numEntries,
             float[] positionReturn) {
         float[] result = positionReturn == null ?
-                new float[numEntries * 2] : positionReturn;
+                new float[numEntries * 2] :
+                positionReturn;
         for (int i = 0; i < numEntries; i++) {
             Point2D point = getGlyphPosition(beginGlyphIndex + i);
             int aPos = i * 2;
@@ -170,8 +173,7 @@ class MergedGlyphVector extends GlyphVector {
     }
 
     @Override
-    public GlyphJustificationInfo getGlyphJustificationInfo(
-            int glyphIndex) {
+    public GlyphJustificationInfo getGlyphJustificationInfo(int glyphIndex) {
         return glyphs.get(glyphIndex).info;
     }
 
@@ -181,8 +183,9 @@ class MergedGlyphVector extends GlyphVector {
     @Override
     public boolean equals(GlyphVector that) {
         for (int i = 0, n = getNumGlyphs(); i < n; i++) {
-            if (getGlyphCode(i) != that.getGlyphCode(i))
+            if (getGlyphCode(i) != that.getGlyphCode(i)) {
                 return false;
+            }
         }
         return true;
     }
@@ -192,17 +195,16 @@ class MergedGlyphVector extends GlyphVector {
     }
 
     public void appendGlyph(int code, Shape outline, Point2D position,
-            AffineTransform transform, Shape logicalBounds,
-            Shape visualBounds, GlyphMetrics metrics,
-            GlyphJustificationInfo info, Font font) {
+            AffineTransform transform, Shape logicalBounds, Shape visualBounds,
+            GlyphMetrics metrics, GlyphJustificationInfo info, Font glyphFont) {
+
         GlyphInfo glyph = new GlyphInfo(code, outline, position, transform,
-                logicalBounds, visualBounds, metrics, info, font);
+                logicalBounds, visualBounds, metrics, info, glyphFont);
         glyphs.add(glyph);
     }
 
-    public java.util.List<MergedGlyphVector> split() {
-        java.util.List<MergedGlyphVector> list =
-                new ArrayList<MergedGlyphVector>();
+    public List<MergedGlyphVector> split() {
+        List<MergedGlyphVector> list = new ArrayList<MergedGlyphVector>();
         int glyphCount = glyphs.size();
         if (glyphCount > 0) {
             int topStartIndex = 0;
@@ -210,13 +212,13 @@ class MergedGlyphVector extends GlyphVector {
                 GlyphInfo info = glyphs.get(i);
                 if (!font.equals(info.font)) {
                     if (topStartIndex < i) {
-                        MergedGlyphVector cgv =
-                                new MergedGlyphVector(font, frc);
+                        MergedGlyphVector cgv = new MergedGlyphVector(font,
+                                frc);
                         cgv.glyphs.addAll(glyphs.subList(topStartIndex, i));
                         list.add(cgv);
                     }
-                    MergedGlyphVector cgv =
-                            new MergedGlyphVector(info.font, frc);
+                    MergedGlyphVector cgv = new MergedGlyphVector(info.font,
+                            frc);
                     cgv.glyphs.add(glyphs.get(i));
                     list.add(cgv);
                     topStartIndex = i + 1;

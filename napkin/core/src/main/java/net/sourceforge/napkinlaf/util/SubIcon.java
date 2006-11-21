@@ -3,6 +3,7 @@ package net.sourceforge.napkinlaf.util;
 import javax.swing.*;
 import java.awt.*;
 
+@SuppressWarnings({"WeakerAccess", "InstanceVariableNamingConvention"})
 public class SubIcon implements Icon {
     private final Icon icon;
     private final int x, y;

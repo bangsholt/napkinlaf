@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@SuppressWarnings({"WeakerAccess"})
 public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     private final RandomXY corner;
     private double adjustmentX;
@@ -27,8 +28,8 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     private final Map<Class<?>, AbstractDrawnGenerator> generators;
     private boolean asX;
 
-    private static final Logger logger =
-            Logger.getLogger(DrawnBoxGenerator.class.getName());
+    private static final Logger logger = Logger.getLogger(
+            DrawnBoxGenerator.class.getName());
 
     private class SideSize extends RandomValue {
         private final int s1;
@@ -60,7 +61,6 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
 
     public DrawnBoxGenerator(DrawnCubicLineGenerator cubic,
             DrawnQuadLineGenerator quad) {
-        super();
 
         generators = new HashMap<Class<?>, AbstractDrawnGenerator>(3);
         generators.put(DrawnCubicLineGenerator.class, cubic);
@@ -69,19 +69,19 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
         // TOP ... RIGHT runs from 1 to 4
         sides = new Shape[5];
         gens = new AbstractDrawnGenerator[5];
-        for (int i = 1; i < 5; i++)
+        for (int i = 1; i < 5; i++) {
             setGenerator(i, DrawnCubicLineGenerator.class);
+        }
 
         corner = new RandomXY(-1, 3, 0, 2.5);
         startAdjust = new RandomValue(5);
-        size = new RandomXY(new SideSize(LENGTH, LEFT, RIGHT),
-                new SideSize(LENGTH * 0.618, TOP, BOTTOM));
+        size = new RandomXY(new SideSize(LENGTH, LEFT, RIGHT), new SideSize(
+                LENGTH * 0.618, TOP, BOTTOM));
         breakSide = NO_SIDE;
         breakBeg = new Point2D.Double(0, 0);
         breakEnd = new Point2D.Double(0, 0);
     }
 
-    @SuppressWarnings({"TooBroadScope"})
     @Override
     public Shape generate(AffineTransform matrix) {
         matrix = (matrix != null ? matrix : new AffineTransform());
@@ -129,8 +129,8 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
         return shape;
     }
 
-    private Shape addSide
-            (GeneralPath shape, AffineTransform smat, int side, double scale) {
+    private Shape addSide(GeneralPath shape, AffineTransform smat, int side,
+            double scale) {
 
         Shape result;
         if (side == breakSide) {
@@ -156,8 +156,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
             double scale) {
         // Need to transalate the absolute positions into positions on the line
         double xOff = smat.getTranslateX();
-        double xSize = size.getX().get() -
-                (corner.getX().get() + adjustmentX);
+        double xSize = size.getX().get() - (corner.getX().get() + adjustmentX);
         if (scale < 0) {
             xSize = -xSize;
         }
@@ -176,8 +175,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
             double scale) {
         // Need to transalate the absolute positions into positions on the line
         double yOff = smat.getTranslateY();
-        double ySize = size.getY().get() -
-                (corner.getY().get() + adjustmentY);
+        double ySize = size.getY().get() - (corner.getY().get() + adjustmentY);
         if (scale < 0) {
             ySize = -ySize;
         }
@@ -217,8 +215,8 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
             double yBeg, double len) {
 
         if (logger.isLoggable(Level.FINE)) {
-            NapkinUtil.printPair(logger, Level.FINE,
-                    "addSeg (len " + len + ")", xBeg, yBeg);
+            NapkinUtil.printPair(logger, Level.FINE, "addSeg (len " + len + ")",
+                    xBeg, yBeg);
         }
         if (len > 0) {
             AffineTransform mat = (AffineTransform) smat.clone();
@@ -228,9 +226,10 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
         }
     }
 
+    @SuppressWarnings({"UnnecessaryLocalVariable"})
     private double adjustStartOffset(RandomValueSource off, double scale) {
         double result = off.generate();
-        if (scale < 1d) {
+        if (scale < 1.0) {
             double delta = 1 - scale;
             double exp = startAdjust.generate();
             double adjusted = Math.pow(delta, exp);
@@ -267,8 +266,8 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
         return fromGenerator(gens[side]);
     }
 
-    private static Class<? extends AbstractDrawnGenerator>
-            fromGenerator(AbstractDrawnGenerator gen) {
+    private static Class<? extends AbstractDrawnGenerator> fromGenerator(
+            AbstractDrawnGenerator gen) {
 
         return gen == null ? null : gen.getClass();
     }
@@ -285,13 +284,13 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
     }
 
     public DrawnQuadLineGenerator getQuadGenerator() {
-        return (DrawnQuadLineGenerator)
-                generators.get(DrawnQuadLineGenerator.class);
+        return (DrawnQuadLineGenerator) generators.get(
+                DrawnQuadLineGenerator.class);
     }
 
     public DrawnCubicLineGenerator getCubicGenerator() {
-        return (DrawnCubicLineGenerator)
-                generators.get(DrawnCubicLineGenerator.class);
+        return (DrawnCubicLineGenerator) generators.get(
+                DrawnCubicLineGenerator.class);
     }
 
     @SuppressWarnings({"SameParameterValue"})

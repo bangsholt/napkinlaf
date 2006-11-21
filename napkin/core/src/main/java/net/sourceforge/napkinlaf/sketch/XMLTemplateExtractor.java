@@ -281,7 +281,13 @@ public class XMLTemplateExtractor extends DefaultHandler {
         printError("Fatal Error", e);
     }
 
-    /** Prints a detailed error message. */
+    /**
+     * Prints a detailed error message.
+     *
+     * @param type Type of error (such as <tt>"Error"</tt> or
+     *             <tt>"Warning"</tt>.
+     * @param e    The exception that caused the error, or <tt>null</tt>.
+     */
     @SuppressWarnings(
             {"WeakerAccess", "UseOfSystemOutOrSystemErr", "HardcodedFileSeparator"})
     protected static void printError(String type, SAXParseException e) {
@@ -291,8 +297,9 @@ public class XMLTemplateExtractor extends DefaultHandler {
         String systemId = e.getSystemId();
         if (systemId != null) {
             int index = systemId.lastIndexOf('/');
-            if (index != -1)
+            if (index != -1) {
                 systemId = systemId.substring(index + 1);
+            }
             System.err.print(systemId);
         }
         System.err.print(':');
@@ -314,7 +321,9 @@ public class XMLTemplateExtractor extends DefaultHandler {
      *
      * @param in An input stream containing the XML document to parse.
      *
-     * @return A Template.
+     * @return A template.
+     *
+     * @throws TemplateReadException A problem reading the template.
      */
     @SuppressWarnings({"OverlyBroadCatchBlock"})
     public Template createTemplate(InputStream in)

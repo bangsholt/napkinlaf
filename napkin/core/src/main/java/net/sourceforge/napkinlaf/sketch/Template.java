@@ -10,6 +10,7 @@ import org.jdom.output.XMLOutputter;
 import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -25,9 +26,8 @@ import java.util.ListIterator;
  * @author Justin Crafford
  * @author Peter Goodspeed
  */
-@SuppressWarnings({
-        "CloneDoesntDeclareCloneNotSupportedException", "WeakerAccess",
-        "InstanceMethodNamingConvention"})
+@SuppressWarnings(
+        {"CloneDoesntDeclareCloneNotSupportedException", "WeakerAccess", "InstanceMethodNamingConvention"})
 public class Template implements Cloneable {
     private String title; // The title of the template
     private String description; // A description of the template
@@ -70,11 +70,11 @@ public class Template implements Cloneable {
      *         <tt>path</tt>.
      *
      * @throws TemplateReadException The template file has an error.
-     * @throws IOException           A problem with the file.
+     * @throws FileNotFoundException The file cannot be found.
      * @see Template#produceXMLString()
      */
     public static Template createFromXML(String path)
-            throws TemplateReadException, IOException {
+            throws TemplateReadException, FileNotFoundException {
 
         BufferedInputStream in = null;
         try {
@@ -117,7 +117,7 @@ public class Template implements Cloneable {
      * Computes the width and height of a template using the boundaries of the
      * template items' shapes.
      */
-    public void computeWidthAndHeight() {
+    private void computeWidthAndHeight() {
         int minx = 0;
         int maxx = 0;
         int miny = 0;
@@ -227,6 +227,7 @@ public class Template implements Cloneable {
     }
 
     /** @return An XML Document containing the state of this template. */
+    @SuppressWarnings({"WeakerAccess"})
     public Document produceXML() {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element("template");
@@ -248,8 +249,9 @@ public class Template implements Cloneable {
                     (LinkedList<TemplateItem>) templateItems.clone();
             // make it a deep copy
             ret.templateItems.clear();
-            for (TemplateItem item : templateItems)
+            for (TemplateItem item : templateItems) {
                 ret.templateItems.add(item.clone());
+            }
             ret.clippingBounds = (Rectangle) clippingBounds.clone();
             return ret;
         } catch (CloneNotSupportedException e) {

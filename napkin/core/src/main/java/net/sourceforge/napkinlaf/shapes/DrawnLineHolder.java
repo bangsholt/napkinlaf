@@ -8,6 +8,7 @@ import java.awt.geom.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@SuppressWarnings({"WeakerAccess"})
 public class DrawnLineHolder extends DrawnShapeHolder {
     private Rectangle rect;
     private FontMetrics metrics;
@@ -51,7 +52,8 @@ public class DrawnLineHolder extends DrawnShapeHolder {
     private static AbstractDrawnGenerator generatorFor(double len) {
         Class<?> type = AbstractDrawnGenerator.defaultLineType(len);
         return type == DrawnCubicLineGenerator.class ?
-            new DrawnCubicLineGenerator() : new DrawnQuadLineGenerator();
+                new DrawnCubicLineGenerator() :
+                new DrawnQuadLineGenerator();
     }
 
     public void shapeUpToDate(Rectangle cRect, FontMetrics cMetrics) {
@@ -80,7 +82,8 @@ public class DrawnLineHolder extends DrawnShapeHolder {
             double yDelta = y2 - y1;
             double len = Math.sqrt(xDelta * xDelta + yDelta * yDelta);
 
-            double angle = Math.atan2(yDelta, xDelta);  // y before x (it's sin/cos)
+            double angle = Math.atan2(yDelta,
+                    xDelta);  // y before x (it's sin/cos)
 
             AffineTransform matrix = new AffineTransform();
             matrix.translate(x1, y1);

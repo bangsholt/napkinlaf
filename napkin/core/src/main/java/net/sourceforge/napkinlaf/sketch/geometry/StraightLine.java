@@ -36,9 +36,8 @@ public class StraightLine extends Line2D.Double implements SketchShape {
      * @param length a length
      */
     public StraightLine(Point2D start, double angle, double length) {
-        super(start, new Point2D.Double(
-                start.getX() + (length * Math.cos(angle)), start.getY()
-                + (length * Math.sin(angle))));
+        super(start, new Point2D.Double(start.getX() + (length * Math.cos(
+                angle)), start.getY() + (length * Math.sin(angle))));
     }
 
     /** @see StraightLine#StraightLine(Point2D,double,double) */
@@ -57,14 +56,14 @@ public class StraightLine extends Line2D.Double implements SketchShape {
      *         x.
      */
     public double slope() {
-        return (x2 - x1 == 0) ? POSITIVE_INFINITY
-                : ((y2 - y1) / (x2 - x1));
+        return (x2 - x1 == 0) ? POSITIVE_INFINITY : ((y2 - y1) / (x2 - x1));
     }
 
     /** @return the y value of this line when x is set to 0. */
     public double yIntercept() {
         return slope() == POSITIVE_INFINITY ?
-                POSITIVE_INFINITY : y1 - slope() * x1;
+                POSITIVE_INFINITY :
+                y1 - slope() * x1;
     }
 
     /** @return the angle of this line in the range pi/2 to -pi/2 in radians. */
@@ -85,9 +84,9 @@ public class StraightLine extends Line2D.Double implements SketchShape {
 
     /** {@inheritDoc} */
     public SketchShape magnify(double scaleFactor) {
-        return new XMLStraightLine(
-                new Point(x1 * scaleFactor, y1 * scaleFactor),
-                new Point(x2 * scaleFactor, y2 * scaleFactor));
+        return new XMLStraightLine(new Point(x1 * scaleFactor,
+                y1 * scaleFactor), new Point(x2 * scaleFactor,
+                y2 * scaleFactor));
     }
 
     /** {@inheritDoc} */

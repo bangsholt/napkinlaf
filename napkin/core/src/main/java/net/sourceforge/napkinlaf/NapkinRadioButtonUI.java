@@ -11,6 +11,7 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import java.awt.*;
 
+@SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinRadioButtonUI extends BasicRadioButtonUI
         implements NapkinTextPainter, NapkinPainter {
 
@@ -52,7 +53,7 @@ public class NapkinRadioButtonUI extends BasicRadioButtonUI
             line = new DrawnLineHolder(new DrawnCubicLineGenerator());
         }
         NapkinUtil.paintButtonText(g, c, textRect, text, getTextShiftOffset(),
-                        line, c.isFocusOwner(), this);
+                line, c.isFocusOwner(), this);
     }
 
     public void superPaintText(Graphics g, JComponent c, Rectangle textRect,
@@ -65,7 +66,7 @@ public class NapkinRadioButtonUI extends BasicRadioButtonUI
         NapkinUtil.update(g, c, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
 }

@@ -20,10 +20,10 @@ public class XMLUtility {
     }
 
     /**
-     * @param c
-     * @param name
+     * @param c    A color to represent.
+     * @param name The name of the color.
      *
-     * @return an XML representation of the color with the specified element
+     * @return An XML representation of the color with the specified element
      *         name
      */
     public static Element colorToXML(Color c, String name) {
@@ -46,10 +46,10 @@ public class XMLUtility {
     }
 
     /**
-     * @param p
-     * @param name
+     * @param p    Point to represent.
+     * @param name The name of the point.
      *
-     * @return an XML representation of the specified Point2D
+     * @return An XML representation of the specified Point2D
      */
     public static Element pointToXML(Point2D p, String name) {
         DefaultJDOMFactory f = new DefaultJDOMFactory();

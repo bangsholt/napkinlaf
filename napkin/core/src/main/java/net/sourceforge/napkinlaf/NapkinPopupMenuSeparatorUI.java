@@ -8,6 +8,7 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import java.awt.*;
 
+@SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinPopupMenuSeparatorUI extends BasicPopupMenuSeparatorUI
         implements NapkinPainter {
     private final NapkinSeparatorUI.Separator separator =
@@ -45,7 +46,7 @@ public class NapkinPopupMenuSeparatorUI extends BasicPopupMenuSeparatorUI
         NapkinUtil.update(g, c, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
 }

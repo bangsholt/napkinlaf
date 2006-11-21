@@ -11,6 +11,7 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import java.awt.*;
 
+@SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinMenuItemUI extends BasicMenuItemUI
         implements NapkinTextPainter, NapkinPainter {
     private DrawnLineHolder line;
@@ -53,7 +54,7 @@ public class NapkinMenuItemUI extends BasicMenuItemUI
         NapkinUtil.update(g, c, this);
     }
 
-    public void superPaint(Graphics g, JComponent c, NapkinTheme theme) {
+    public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
 }

@@ -15,6 +15,7 @@ import java.util.Map;
  *
  * @author Alex Lam Sze Lok
  */
+@SuppressWarnings({"WeakerAccess"})
 public class MergedFontGraphics2D extends Graphics2D {
     private final Graphics2D g2d;
     private boolean isMergedFont;
@@ -45,7 +46,8 @@ public class MergedFontGraphics2D extends Graphics2D {
      */
     public static MergedFontGraphics2D wrap(Graphics2D g2d) {
         return g2d instanceof MergedFontGraphics2D ?
-                (MergedFontGraphics2D) g2d : new MergedFontGraphics2D(g2d);
+                (MergedFontGraphics2D) g2d :
+                new MergedFontGraphics2D(g2d);
     }
 
     /** @return The underlying {@link Graphics2D} object. */
@@ -88,8 +90,8 @@ public class MergedFontGraphics2D extends Graphics2D {
 
     /** {@inheritDoc} */
     @Override
-    public void
-           drawString(AttributedCharacterIterator iterator, float x, float y) {
+    public void drawString(AttributedCharacterIterator iterator, float x,
+            float y) {
         if (isMergedFont) {
             Font font = getFont();
             FontRenderContext frc = getFontRenderContext();
@@ -144,8 +146,8 @@ public class MergedFontGraphics2D extends Graphics2D {
      */
     @Override
     public Graphics create(int x, int y, int width, int height) {
-        return new MergedFontGraphics2D(
-                (Graphics2D) g2d.create(x, y, width, height));
+        return new MergedFontGraphics2D((Graphics2D) g2d.create(x, y, width,
+                height));
     }
 
     /**
@@ -159,13 +161,15 @@ public class MergedFontGraphics2D extends Graphics2D {
      * so the only chance to dispose of a MergedFontGraphics2D instance would be
      * where it was created.
      */
+    @Override
     public void dispose() {
     }
 
     @Override
     public boolean equals(Object that) {
-        return this == that || (that instanceof MergedFontGraphics2D &&
-                g2d.equals(((MergedFontGraphics2D) that).getGraphics2D()));
+        return this == that ||
+                (that instanceof MergedFontGraphics2D && g2d.equals(
+                        ((MergedFontGraphics2D) that).getGraphics2D()));
     }
 
     /** {@inheritDoc} */
@@ -188,15 +192,15 @@ public class MergedFontGraphics2D extends Graphics2D {
 
     /** {@inheritDoc} */
     @Override
-    public void
-           fill3DRect(int x, int y, int width, int height, boolean raised) {
+    public void fill3DRect(int x, int y, int width, int height,
+            boolean raised) {
         g2d.fill3DRect(x, y, width, height, raised);
     }
 
     /** {@inheritDoc} */
     @Override
-    public void
-           draw3DRect(int x, int y, int width, int height, boolean raised) {
+    public void draw3DRect(int x, int y, int width, int height,
+            boolean raised) {
         g2d.draw3DRect(x, y, width, height, raised);
     }
 
@@ -246,8 +250,8 @@ public class MergedFontGraphics2D extends Graphics2D {
 
     /** {@inheritDoc} */
     @Override
-    public boolean
-           drawImage(Image img, AffineTransform xform, ImageObserver obs) {
+    public boolean drawImage(Image img, AffineTransform xform,
+            ImageObserver obs) {
         return g2d.drawImage(img, xform, obs);
     }
 
@@ -265,8 +269,8 @@ public class MergedFontGraphics2D extends Graphics2D {
 
     /** {@inheritDoc} */
     @Override
-    public void
-           drawRenderableImage(RenderableImage img, AffineTransform xform) {
+    public void drawRenderableImage(RenderableImage img,
+            AffineTransform xform) {
         g2d.drawRenderableImage(img, xform);
     }
 

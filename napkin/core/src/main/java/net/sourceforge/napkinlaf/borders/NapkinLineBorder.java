@@ -5,13 +5,13 @@ import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
 
 import java.awt.*;
 
+@SuppressWarnings({"NonSerializableFieldInSerializableClass"})
 public class NapkinLineBorder extends AbstractNapkinBorder {
     private final boolean vertical;
     private DrawnLineHolder line;
 
     @SuppressWarnings({"SameParameterValue"})
     public NapkinLineBorder(boolean vertical) {
-        super();
         this.vertical = vertical;
     }
 
@@ -26,14 +26,14 @@ public class NapkinLineBorder extends AbstractNapkinBorder {
     }
 
     @Override
-    public void doPaintBorder(Component c, Graphics g1, int x, int y,
-            int width, int height) {
+    public void doPaintBorder(Component c, Graphics g1, int x, int y, int width,
+            int height) {
 
         Graphics2D g = (Graphics2D) g1;
         Rectangle passed = new Rectangle(x, y, width, height);
         if (line == null) {
-            line = new DrawnLineHolder
-                    (DrawnCubicLineGenerator.INSTANCE, vertical);
+            line = new DrawnLineHolder(DrawnCubicLineGenerator.INSTANCE,
+                    vertical);
         }
         line.shapeUpToDate(passed, null);
 

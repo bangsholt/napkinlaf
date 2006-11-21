@@ -9,13 +9,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @SuppressWarnings({"JavaDoc"})
 public abstract class SmartStickyListener<T> implements PropertyChangeListener {
 
-    private static final String listenerKey = "SmartStickyListeners";
     private SmartStickyListener<?> nextNode = null;
 
     private AtomicBoolean overriding = new AtomicBoolean(false);
 
     private String recordKey;
     private String propKey;
+
+    private static final String LISTENER_KEY = "SmartStickyListeners";
 
     /**
      * Subclasses would supply their keys for setter-value backup (record) and
@@ -34,16 +35,16 @@ public abstract class SmartStickyListener<T> implements PropertyChangeListener {
      * will need to synchronise with respect to the JComponent parameter:<PRE>
      * synchronized(c) { SmartStickyListener.hookListener(c, listener); }</PRE>
      */
-    public static void hookListener(
-            JComponent c, SmartStickyListener<?> listener) {
+    public static void hookListener(JComponent c,
+            SmartStickyListener<?> listener) {
 
         if (listener.nextNode != null) {
             throw new IllegalArgumentException(
                     "listener cannot hook to multiple components");
         }
-        listener.nextNode =
-                (SmartStickyListener<?>) c.getClientProperty(listenerKey);
-        c.putClientProperty(listenerKey, listener);
+        listener.nextNode = (SmartStickyListener<?>) c.getClientProperty(
+                LISTENER_KEY);
+        c.putClientProperty(LISTENER_KEY, listener);
         c.addPropertyChangeListener(listener.propKey, listener);
     }
 
@@ -56,8 +57,8 @@ public abstract class SmartStickyListener<T> implements PropertyChangeListener {
      */
     public static void unhookListeners(JComponent c) {
         SmartStickyListener<?> listener =
-                (SmartStickyListener<?>) c.getClientProperty(listenerKey);
-        c.putClientProperty(listenerKey, null);
+                (SmartStickyListener<?>) c.getClientProperty(LISTENER_KEY);
+        c.putClientProperty(LISTENER_KEY, null);
         while (listener != null) {
             c.removePropertyChangeListener(listener.propKey, listener);
             listener = listener.nextNode;
