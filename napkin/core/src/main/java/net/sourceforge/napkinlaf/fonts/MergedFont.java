@@ -8,38 +8,38 @@ import java.text.CharacterIterator;
 import java.util.Map;
 
 /**
- * This class defines a psuedo font that satisfies glyphs from a primary and a
+ * This class defines a pseudo font that provides glyphs from a primary and a
  * backing font.  When a glyph vector is being produced, glyphs are gathered
  * from the primary font.  If the resuting vector contains any undefined glyphs,
- * these are looked for in the backing font.  All other equestions are answered
+ * they are looked for in the backing font.  All other questions are answered
  * similarly.  For example, {@link #canDisplay(char)} returns <tt>true</tt> if
  * either font can display the character.
  * <p/>
  * You can create a chain of merged fonts if you want to look through a search
  * path of more than one font by making the backing font itself a merged font,
- * and so on as far as you like. Then the chain of fonts will be search in order
- * for missing glyphs.  The {@link #mergeFonts(Font,Font...)} method helps you
- * do this easily.
+ * and so on, as far as you like. Then the chain of fonts will be search in
+ * order for missing glyphs.  The {@link #mergeFonts(Font,Font...)} method helps
+ * you do this easily.
  * <p/>
  * Deriving fonts raises the following interesting issues: The backing font does
- * not necessarily share the same properties with the top font.  For example,
- * you can have a plain, 16pt, hand-written top font backed by an italic,
- * 14.5pt, unicode font. The challenge is how to maintain these relationships
- * with the backing font while applying the derivation instructions to the
- * primary font.  The answer is that changing the size of the primary font will
- * cause proportional scaling in the backing font, while changes in any other
+ * not necessarily have the same properties with the top font.  For example, you
+ * can have a plain, 16pt, hand-written top font backed by an italic, 14.5pt,
+ * unicode font. The challenge is how to maintain these relationships with the
+ * backing font while applying the derivation instructions to the primary font.
+ * The answer is that changing the size of the primary font will cause
+ * proportional scaling in the backing font, while changes in any other
  * attributes in the primary font will also be simply applied to the backing
  * font.
  * <p/>
  * We use this because handwritten fonts are rarely complete, so when people use
  * Napkin for text it is easy to find characters that are missing from the
  * fonts. Rather than look illegible, we can use one or more similar fonts as
- * supplement, or let a complete but possibly non-handwritten font to back up
- * the handwritten one.
+ * supplement, or let a complete but possibly non-handwritten font back up the
+ * handwritten one.
  * <p/>
- * Obviously this might be useful in other situations, and is written to be
- * independent of the Napkin Look & Feel.  In other words, the {@link
- * net.sourceforge.napkinlaf.fonts} package can be used by themselves.
+ * Obviously this might be useful in other situations, so this class is written
+ * to be independent of the Napkin Look & Feel.  In other words, the {@link
+ * net.sourceforge.napkinlaf.fonts} classes can be used by themselves.
  *
  * @author Alex Lam Sze Lok
  */
@@ -61,9 +61,9 @@ public class MergedFont extends PatchedFontUIResource {
     }
 
     /**
-     * Creates a font chain starting with a parimary font.  The returned font
-     * will satisfy glyphs from the fonts in the order they are provided. The
-     * degenerate case of providing only one font will return that font.
+     * Creates a font chain starting with a parimary font.  The returned merged
+     * font will satisfy glyphs from the fonts in the order they are provided.
+     * The degenerate case of providing only one font will return that font.
      *
      * @param primaryFont  The primary font.
      * @param backingFonts Zero or more backing fonts, to be searched in order.
@@ -71,20 +71,25 @@ public class MergedFont extends PatchedFontUIResource {
      * @return A font that is the merger of the given fonts.
      */
     public static Font mergeFonts(Font primaryFont, Font... backingFonts) {
-        return backingFonts == null || backingFonts.length == 0 ?
-                primaryFont :
-                backingFonts.length == 1 ? new MergedFont(primaryFont,
-                        backingFonts[0]) : new MergedFont(primaryFont,
-                        doMergeFonts(backingFonts, 0));
+        if (backingFonts == null || backingFonts.length == 0) {
+            return primaryFont;
+        } else if (backingFonts.length == 1) {
+            return new MergedFont(primaryFont, backingFonts[0]);
+        } else {
+            return new MergedFont(primaryFont, doMergeFonts(backingFonts, 0));
+        }
     }
 
     private static Font doMergeFonts(Font[] backingFonts, int pos) {
         Font first = backingFonts[pos];
-        return pos == backingFonts.length - 1 ? first : new MergedFont(first,
-                doMergeFonts(backingFonts, pos + 1));
+        if (pos == backingFonts.length - 1) {
+            return first;
+        } else {
+            return new MergedFont(first, doMergeFonts(backingFonts, pos + 1));
+        }
     }
 
-    /** @return The backing font for this font. */
+    /** @return The backing font for this merged font. */
     public Font getBackingFont() {
         return backingFont;
     }
@@ -185,10 +190,12 @@ public class MergedFont extends PatchedFontUIResource {
     public GlyphVector createGlyphVector(FontRenderContext frc, char[] chars) {
         GlyphVector gVector = super.createGlyphVector(frc, chars);
         // If we don't have any bad glyphs, just return the simple result.
-        return isPrimarySufficient(chars, 0, chars.length) ?
-                gVector :
-                processGlyphVector(frc, gVector, backingFont.createGlyphVector(
-                        frc, chars));
+        if (isPrimarySufficient(chars, 0, chars.length)) {
+            return gVector;
+        } else {
+            GlyphVector backVector = backingFont.createGlyphVector(frc, chars);
+            return processGlyphVector(frc, gVector, backVector);
+        }
     }
 
     /** {@inheritDoc} */
@@ -196,8 +203,12 @@ public class MergedFont extends PatchedFontUIResource {
     public GlyphVector createGlyphVector(FontRenderContext frc, String str) {
         GlyphVector gVector = super.createGlyphVector(frc, str);
         // If we don't have any bad glyphs, just return the simple result.
-        return isPrimarySufficient(str) ? gVector : processGlyphVector(frc,
-                gVector, backingFont.createGlyphVector(frc, str));
+        if (isPrimarySufficient(str)) {
+            return gVector;
+        } else {
+            GlyphVector backVector = backingFont.createGlyphVector(frc, str);
+            return processGlyphVector(frc, gVector, backVector);
+        }
     }
 
     /** {@inheritDoc} */
@@ -210,8 +221,12 @@ public class MergedFont extends PatchedFontUIResource {
          * if this is not a composite font or if we don't have any bad glyphs,
          * just return the simple result.
          */
-        return isPrimarySufficient(ci) ? gVector : processGlyphVector(frc,
-                gVector, backingFont.createGlyphVector(frc, ci));
+        if (isPrimarySufficient(ci)) {
+            return gVector;
+        } else {
+            GlyphVector backVector = backingFont.createGlyphVector(frc, ci);
+            return processGlyphVector(frc, gVector, backVector);
+        }
     }
 
     /** {@inheritDoc} */
@@ -228,13 +243,17 @@ public class MergedFont extends PatchedFontUIResource {
     @Override
     public GlyphVector layoutGlyphVector(FontRenderContext frc, char[] text,
             int start, int limit, int flags) {
+
         GlyphVector gVector = super.layoutGlyphVector(frc, text, start, limit,
                 flags);
         // If we don't have any bad glyphs, just return the simple result.
-        return isPrimarySufficient(text, start, limit) ?
-                gVector :
-                processGlyphVector(frc, gVector, backingFont.layoutGlyphVector(
-                        frc, text, start, limit, flags));
+        if (isPrimarySufficient(text, start, limit)) {
+            return gVector;
+        } else {
+            GlyphVector backVector = backingFont.layoutGlyphVector(frc, text,
+                    start, limit, flags);
+            return processGlyphVector(frc, gVector, backVector);
+        }
     }
 
     /** {@inheritDoc} */
@@ -264,9 +283,11 @@ public class MergedFont extends PatchedFontUIResource {
      */
     @Override
     public boolean equals(Object that) {
-        return that == this || (super.equals(that) &&
-                that instanceof MergedFont && backingFont.equals(
-                ((MergedFont) that).backingFont));
+        if (that == this) {
+            return true;
+        }
+        return super.equals(that) && that instanceof MergedFont &&
+                backingFont.equals(((MergedFont) that).backingFont);
     }
 
     /** {@inheritDoc} */
@@ -278,14 +299,16 @@ public class MergedFont extends PatchedFontUIResource {
     /**
      * {@inheritDoc}
      * <p/>
-     * If neither font can display the character, the baseline will be the one
-     * for the primary font.
+     * If neither font can display the character, the baseline will be that for
+     * the primary font.
      */
     @Override
     public byte getBaselineFor(char c) {
-        return super.canDisplay(c) || !backingFont.canDisplay(c) ?
-                super.getBaselineFor(c) :
-                backingFont.getBaselineFor(c);
+        if (!super.canDisplay(c) && backingFont.canDisplay(c)) {
+            return backingFont.getBaselineFor(c);
+        } else {
+            return super.getBaselineFor(c);
+        }
     }
 
     /** {@inheritDoc} */
@@ -324,10 +347,10 @@ public class MergedFont extends PatchedFontUIResource {
     @Override
     public Font deriveFont(AffineTransform trans) {
         try {
-            AffineTransform temp = getTransform().createInverse();
-            temp.concatenate(backingFont.getTransform());
+            AffineTransform inv = getTransform().createInverse();
+            inv.concatenate(backingFont.getTransform());
             AffineTransform backingTrans = (AffineTransform) trans.clone();
-            backingTrans.concatenate(temp);
+            backingTrans.concatenate(inv);
             return new MergedFont(super.deriveFont(trans),
                     backingFont.deriveFont(backingTrans));
         } catch (NoninvertibleTransformException ex) {
@@ -339,13 +362,14 @@ public class MergedFont extends PatchedFontUIResource {
     /** {@inheritDoc} */
     @SuppressWarnings({"ObjectEquality"})
     @Override
-    public Font deriveFont(Map<? extends Attribute, ?> attributes) {
-        Map<? extends Attribute, ?> topAttributes = getAttributes();
-        return attributes == topAttributes ||
-                (attributes != null && attributes.equals(topAttributes)) ?
-                this :
-                new MergedFont(super.deriveFont(attributes),
-                        backingFont.deriveFont(attributes));
+    public Font deriveFont(Map<? extends Attribute, ?> attrs) {
+        Map<? extends Attribute, ?> topAttrs = getAttributes();
+        if (attrs == topAttrs || (attrs != null && attrs.equals(topAttrs))) {
+            return this;
+        } else {
+            return new MergedFont(super.deriveFont(attrs),
+                    backingFont.deriveFont(attrs));
+        }
     }
 
     /** {@inheritDoc} */
