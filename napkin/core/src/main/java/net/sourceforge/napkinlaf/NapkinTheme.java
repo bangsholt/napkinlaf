@@ -315,14 +315,16 @@ public class NapkinTheme {
             Font augie = tryToLoadFont("augie.ttf");
 
             String image = "postit.jpg";
+            int scrawlSize = 14;
             NapkinTheme def = new NapkinTheme(DEFAULT_THEME, "Default theme",
                     Color.BLACK, checkGreen, new Color(0xf50000), new Color(
                     0x00, 0xff, 0xff, 0x80), new Color(0xff, 0xff, 0x00, 0x80),
-                    checkGreen, scrawl.deriveFont(Font.PLAIN, 15),
-                    scrawlBold.deriveFont(Font.BOLD, 15), fixed.deriveFont(
-                    Font.PLAIN, 15), new JotSketcher(), background(
-                    "napkin.jpg"), background("erasure.png"), background(image,
-                    80, 80, 50, 40), new Color(0xff, 0x00, 0xff, 0x80));
+                    checkGreen, scrawl.deriveFont(Font.PLAIN, scrawlSize),
+                    scrawlBold.deriveFont(Font.BOLD, scrawlSize),
+                    fixed.deriveFont(Font.PLAIN, scrawlSize), new JotSketcher(),
+                    background("napkin.jpg"), background("erasure.png"),
+                    background(image, 80, 80, 50, 40), new Color(0xff, 0x00,
+                    0xff, 0x80));
             addTheme(def);
 
             addTheme(new NapkinTheme(DEBUG_THEME, "Debug theme",
@@ -339,7 +341,7 @@ public class NapkinTheme {
             // We're using the same font for plain and bold because the current
             // font has no bold, so it's better to do this than let the graphics
             // system pick a replacement "best match" for the bold font.
-            Font blueFont = augie.deriveFont(Font.PLAIN, 13);
+            Font blueFont = augie.deriveFont(Font.PLAIN, 11);
             addTheme(new NapkinTheme(BLUEPRINT_THEME, "Blueprint", Color.white,
                     blueprintInk, blueprintInk, blueprintHighlight,
                     blueprintHighlight, blueprintInk, blueFont, blueFont,

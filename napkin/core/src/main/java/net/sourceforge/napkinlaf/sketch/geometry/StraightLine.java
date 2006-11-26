@@ -76,8 +76,8 @@ public class StraightLine extends Line2D.Double implements SketchShape {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element("straightLine");
 
-        ret.addContent(XMLUtility.pointToXML(getP1(), "start"));
-        ret.addContent(XMLUtility.pointToXML(getP2(), "end"));
+        ret.addContent(XMLUtility.pointToXML("start", getP1()));
+        ret.addContent(XMLUtility.pointToXML("end", getP2()));
 
         return ret;
     }

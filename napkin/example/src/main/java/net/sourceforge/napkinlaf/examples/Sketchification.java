@@ -1,6 +1,7 @@
 package net.sourceforge.napkinlaf.examples;
 
 import net.sourceforge.napkinlaf.sketch.SketchifiedIcon;
+import net.sourceforge.napkinlaf.sketch.SketchifiedImage;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

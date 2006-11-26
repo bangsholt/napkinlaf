@@ -31,20 +31,24 @@ public abstract class AbstractSketcher {
      * Usually only useful for sketching items which have been deformed by other
      * transformations.
      *
-     * @param tItem A component of a template specifying geometry and color
-     *              information
-     * @param g2d   The graphics object on which to sketch the image
+     * @param item A component of a template specifying geometry and color
+     *             information
+     * @param g2d  The graphics object on which to sketch the image
+     * @param c    The component to sketch on, which is used for abstract colors
+     *             such as "pen". No drawing is done here.
      */
-    protected static void cleanSketch(TemplateItem tItem, Graphics2D g2d) {
-        if (tItem.isDrawFill()) {
-            g2d.setColor(tItem.getFillColor());
-            g2d.fill(tItem.getShape());
-        }
-        if (tItem.isDrawStroke()) {
-            g2d.setStroke(getPen(tItem.getStrokeWeight()));
-            g2d.setColor(tItem.getStrokeColor());
+    protected static void cleanSketch(TemplateItem item, Graphics2D g2d,
+            Component c) {
 
-            g2d.draw(tItem.getShape());
+        if (item.isDrawFill()) {
+            g2d.setColor(item.getFillColor(c));
+            g2d.fill(item.getShape());
+        }
+        if (item.isDrawStroke()) {
+            g2d.setStroke(getPen(item.getStrokeWeight()));
+            g2d.setColor(item.getStrokeColor(c));
+
+            g2d.draw(item.getShape());
         }
     }
 
@@ -67,8 +71,10 @@ public abstract class AbstractSketcher {
      *
      * @param template the template to sketch
      * @param g2d      the graphics object on which to sketch the image
+     * @param c        The component to sketch on, which is used for abstract
+     *                 colors such as "pen". No drawing is done here.
      */
-    public void sketch(Template template, Graphics2D g2d) {
+    public void sketch(Template template, Graphics2D g2d, Component c) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -76,7 +82,7 @@ public abstract class AbstractSketcher {
         while (i.hasNext()) {
             TemplateItem current = i.next();
             current.setShape(current.getShape().deform(this));
-            cleanSketch(current, g2d);
+            cleanSketch(current, g2d, c);
         }
     }
 

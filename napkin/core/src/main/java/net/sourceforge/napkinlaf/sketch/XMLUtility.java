@@ -20,38 +20,44 @@ public class XMLUtility {
     }
 
     /**
-     * @param c    A color to represent.
      * @param name The name of the color.
+     * @param c    A color to represent.
      *
      * @return An XML representation of the color with the specified element
      *         name
      */
-    public static Element colorToXML(Color c, String name) {
+    public static Element colorToXML(String name, Color c) {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element(name);
 
-        Element red = f.element("r");
-        Element green = f.element("g");
-        Element blue = f.element("b");
+        String colorName = TemplateColor.nameFor(c);
+        if (colorName != null) {
+            Element which = f.element("which");
+            which.addContent(f.text(colorName));
+            ret.addContent(which);
+        } else {
+            Element red = f.element("r");
+            Element green = f.element("g");
+            Element blue = f.element("b");
 
-        red.addContent(f.text(Integer.toString(c.getRed())));
-        green.addContent(f.text(Integer.toString(c.getGreen())));
-        blue.addContent(f.text(Integer.toString(c.getBlue())));
+            red.addContent(f.text(Integer.toString(c.getRed())));
+            green.addContent(f.text(Integer.toString(c.getGreen())));
+            blue.addContent(f.text(Integer.toString(c.getBlue())));
 
-        ret.addContent(red);
-        ret.addContent(green);
-        ret.addContent(blue);
-
+            ret.addContent(red);
+            ret.addContent(green);
+            ret.addContent(blue);
+        }
         return ret;
     }
 
     /**
-     * @param p    Point to represent.
      * @param name The name of the point.
+     * @param p    Point to represent.
      *
      * @return An XML representation of the specified Point2D
      */
-    public static Element pointToXML(Point2D p, String name) {
+    public static Element pointToXML(String name, Point2D p) {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element(name);
 

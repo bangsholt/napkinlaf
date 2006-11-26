@@ -1,6 +1,6 @@
 package net.sourceforge.napkinlaf.sketch;
 
-import net.sourceforge.napkinlaf.NapkinTheme;
+import net.sourceforge.napkinlaf.NapkinThemeColor;
 import net.sourceforge.napkinlaf.sketch.geometry.SketchShape;
 import net.sourceforge.napkinlaf.sketch.geometry.XMLShape;
 import org.jdom.DefaultJDOMFactory;
@@ -36,13 +36,15 @@ public class TemplateItem implements Cloneable {
     }
 
     /**
+     * @param c The component to sketch on, which is used for abstract colors
+     *          such as "pen". No drawing is done here.
+     *
      * @return The stroke color. If the stroke color was set to <tt>null</tt>
      *         the default color specified by the current theme is returned.
      */
-    public Color getStrokeColor() {
-        return strokeColor == null ?
-                NapkinTheme.Manager.getCurrentTheme().getPenColor() :
-                strokeColor;
+    public Color getStrokeColor(Component c) {
+        return TemplateColor.colorFor(strokeColor, c,
+                NapkinThemeColor.PEN_COLOR);
     }
 
     /**
@@ -67,13 +69,15 @@ public class TemplateItem implements Cloneable {
     }
 
     /**
+     * @param c The component to sketch on, which is used for abstract colors
+     *          such as "pen". No drawing is done here.
+     *
      * @return The fill color. If the fill color is <t,t>null</tt> the default
      *         color specified by the Napkin's current theme is returned.
      */
-    public Color getFillColor() {
-        return fillColor == null ?
-                NapkinTheme.Manager.getCurrentTheme().getHighlightColor() :
-                fillColor;
+    public Color getFillColor(Component c) {
+        return TemplateColor.colorFor(fillColor, c,
+                NapkinThemeColor.HIGHLIGHT_COLOR);
     }
 
     /**
@@ -133,7 +137,7 @@ public class TemplateItem implements Cloneable {
 
             if (strokeColor != null) {
                 result.addContent(XMLUtility
-                        .colorToXML(strokeColor, "strokeColor"));
+                        .colorToXML("strokeColor", strokeColor));
             }
             if (strokeWeight != 1) {
                 Element t = f.element("strokeWeight");
@@ -141,8 +145,8 @@ public class TemplateItem implements Cloneable {
                 result.addContent(t);
             }
             if (fillColor != null) {
-                result.addContent(XMLUtility.colorToXML(fillColor,
-                        "fillColor"));
+                result.addContent(XMLUtility.colorToXML("fillColor",
+                        fillColor));
             }
 
             result.addContent(((XMLShape) shape).produceXML());
@@ -156,12 +160,7 @@ public class TemplateItem implements Cloneable {
     public TemplateItem clone() {
         try {
             TemplateItem item = (TemplateItem) super.clone();
-            item.drawFill = drawFill;
-            item.drawStroke = drawStroke;
-            item.fillColor = fillColor;
             item.shape = shape.clone();
-            item.strokeColor = strokeColor;
-            item.strokeWeight = strokeWeight;
             return item;
         } catch (CloneNotSupportedException e) {
             throw new IllegalStateException("cannot clone?", e);

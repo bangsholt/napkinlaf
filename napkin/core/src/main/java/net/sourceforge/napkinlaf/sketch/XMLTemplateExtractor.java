@@ -1,6 +1,7 @@
 package net.sourceforge.napkinlaf.sketch;
 
 import net.sourceforge.napkinlaf.NapkinLookAndFeel;
+import net.sourceforge.napkinlaf.NapkinThemeColor;
 import static net.sourceforge.napkinlaf.sketch.XMLActions.*;
 import net.sourceforge.napkinlaf.sketch.geometry.CubicLine;
 import net.sourceforge.napkinlaf.sketch.geometry.Path;
@@ -35,7 +36,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
 
     // Template-related objects
     private final Template template;
-    private TemplateItem templateItem;
+    private TemplateItem item;
     private Dimension dimensions;
     private SketchShape shape;
 
@@ -51,6 +52,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
     @SuppressWarnings({"InstanceVariableNamingConvention"})
     private int i; // Used to iterate through all the points
     private int[] rgb; // Holds r, g, b color information
+    private NapkinThemeColor whichColor;
 
     private XMLActions currentAction; // Specifies information that needs parsing
     private float curX;
@@ -108,7 +110,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
         } else if ("height".equals(localName)) {
             currentAction = GET_TEMPLATE_CLIP_HEIGHT;
         } else if ("templateItem".equals(localName)) {
-            templateItem = new TemplateItem();
+            item = new TemplateItem();
         } else if ("drawStroke".equals(localName)) {
             currentAction = GET_DRAW_STROKE;
         } else if ("drawFill".equals(localName)) {
@@ -117,8 +119,10 @@ public class XMLTemplateExtractor extends DefaultHandler {
             currentAction = GET_STROKE_WEIGHT;
         } else if ("strokeColor".equals(localName)) {
             rgb = new int[3];
+            whichColor = null;
         } else if ("fillColor".equals(localName)) {
             rgb = new int[3];
+            whichColor = null;
         } else if ("straightLine".equals(localName)) {
             i = 0;
             straightLine = new StraightLine();
@@ -137,6 +141,8 @@ public class XMLTemplateExtractor extends DefaultHandler {
             i = 0;
         } else if ("cubicTo".equals(localName)) {
             i = 0;
+        } else if ("which".equals(localName)) {
+            currentAction = GET_WHICH_VALUE;
         } else if ("r".equals(localName)) {
             currentAction = GET_R_VALUE;
         } else if ("g".equals(localName)) {
@@ -172,13 +178,16 @@ public class XMLTemplateExtractor extends DefaultHandler {
                 dimensions.height = Integer.parseInt(value);
                 break;
             case GET_DRAW_STROKE:
-                templateItem.setDrawStroke(Boolean.valueOf(value));
+                item.setDrawStroke(Boolean.valueOf(value));
                 break;
             case GET_DRAW_FILL:
-                templateItem.setDrawFill(Boolean.valueOf(value));
+                item.setDrawFill(Boolean.valueOf(value));
                 break;
             case GET_STROKE_WEIGHT:
-                templateItem.setStrokeWeight(Float.parseFloat(value));
+                item.setStrokeWeight(Float.parseFloat(value));
+                break;
+            case GET_WHICH_VALUE:
+                whichColor = NapkinThemeColor.valueOf(value + "_COLOR");
                 break;
             case GET_R_VALUE:
                 rgb[0] = Integer.parseInt(value);
@@ -211,12 +220,20 @@ public class XMLTemplateExtractor extends DefaultHandler {
             Rectangle clippingBounds = new Rectangle(dimensions);
             template.setClippingBounds(clippingBounds);
         } else if ("templateItem".equals(localName)) {
-            templateItem.setShape(shape);
-            template.add(templateItem);
+            item.setShape(shape);
+            template.add(item);
         } else if ("strokeColor".equals(localName)) {
-            templateItem.setStrokeColor(new Color(rgb[0], rgb[1], rgb[2]));
+            if (whichColor != null) {
+                item.setStrokeColor(TemplateColor.colorFor(whichColor));
+            } else {
+                item.setStrokeColor(new Color(rgb[0], rgb[1], rgb[2]));
+            }
         } else if ("fillColor".equals(localName)) {
-            templateItem.setFillColor(new Color(rgb[0], rgb[1], rgb[2]));
+            if (whichColor != null) {
+                item.setFillColor(TemplateColor.colorFor(whichColor));
+            } else {
+                item.setFillColor(new Color(rgb[0], rgb[1], rgb[2]));
+            }
         } else if ("straightLine".equals(localName)) {
             straightLine.x1 = points[0].x;
             straightLine.y1 = points[0].y;
