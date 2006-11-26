@@ -21,10 +21,10 @@ public class XMLCubicLine extends CubicLine implements XMLShape {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element("cubicLine");
 
-        ret.addContent(XMLUtility.pointToXML(getP1(), "start"));
-        ret.addContent(XMLUtility.pointToXML(getCtrlP1(), "control"));
-        ret.addContent(XMLUtility.pointToXML(getCtrlP2(), "control"));
-        ret.addContent(XMLUtility.pointToXML(getP2(), "end"));
+        ret.addContent(XMLUtility.pointToXML("start", getP1()));
+        ret.addContent(XMLUtility.pointToXML("control", getCtrlP1()));
+        ret.addContent(XMLUtility.pointToXML("control", getCtrlP2()));
+        ret.addContent(XMLUtility.pointToXML("end", getP2()));
 
         return ret;
     }

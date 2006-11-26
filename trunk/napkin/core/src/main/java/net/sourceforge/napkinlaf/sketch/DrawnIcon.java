@@ -87,7 +87,7 @@ public class DrawnIcon implements NapkinIcon {
                     BufferedImage.TYPE_INT_ARGB);
             Graphics2D imageGraphics = bimage.createGraphics();
 
-            sketcher.sketch(template.clone(), imageGraphics);
+            sketcher.sketch(template.clone(), imageGraphics, c);
             g2d.drawImage(bimage, 0, 0, width, height, null);
             isSketched = true;
         } else if (bimage != null) {

@@ -21,9 +21,9 @@ public class XMLQuadLine extends QuadLine implements XMLShape {
         DefaultJDOMFactory f = new DefaultJDOMFactory();
         Element ret = f.element("quadLine");
 
-        ret.addContent(XMLUtility.pointToXML(getP1(), "start"));
-        ret.addContent(XMLUtility.pointToXML(getCtrlPt(), "control"));
-        ret.addContent(XMLUtility.pointToXML(getP2(), "end"));
+        ret.addContent(XMLUtility.pointToXML("start", getP1()));
+        ret.addContent(XMLUtility.pointToXML("control", getCtrlPt()));
+        ret.addContent(XMLUtility.pointToXML("end", getP2()));
 
         return ret;
     }

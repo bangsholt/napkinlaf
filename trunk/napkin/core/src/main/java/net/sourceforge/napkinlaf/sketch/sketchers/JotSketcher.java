@@ -29,7 +29,7 @@ public class JotSketcher extends AbstractSketcher {
 
     /** {@inheritDoc} */
     @Override
-    public void sketch(Template template, Graphics2D g2d) {
+    public void sketch(Template template, Graphics2D g2d, Component c) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -44,12 +44,7 @@ public class JotSketcher extends AbstractSketcher {
                 draw.setShape(deform(current.getShape().transformToPath(),
                         true));
 
-                //try the new scribble generator
-                //				draw.setShape(this.generateScribblePath(
-                //						current.getShape().transformToPath()).deform(this));
-                //it is horrible
-
-                cleanSketch(draw, g2d);
+                cleanSketch(draw, g2d, c);
             }
             if (current.isDrawStroke()) {
                 draw.setDrawFill(false);
@@ -60,7 +55,7 @@ public class JotSketcher extends AbstractSketcher {
                         u.approximateLength()));
                 draw.setShape(u);
 
-                cleanSketch(draw, g2d);
+                cleanSketch(draw, g2d, c);
             }
         }
     }
