@@ -66,12 +66,9 @@
             UIManager.setLookAndFeel(<i>&lt;SomeOtherLookAndFeel&gt;</i>);
             SwingUtilities.updateComponentTreeUI(top); </pre>
 
-    <li><tt>JViewport</tt> requires "simple" scrolling
-                           (<tt>JViewport.SIMPLE_SCROLL_MODE</tt>). So it will
-                           actively ignore any
-                           other mode you set, although it will remember the
-                           other mode and
-                           restore it when you switch away from Napkin.
+    <li><tt>JViewport</tt> requires "simple" scrolling (<tt>JViewport.SIMPLE_SCROLL_MODE</tt>).
+        So it will actively ignore any other mode you set, although it will
+        remember the other mode and restore it when you switch away from Napkin.
 
     <li>Unlike the ordinary <tt>JComponent</tt> defaults, with Napkin the
         background is transparent by default. To make it opaque, set the
@@ -90,32 +87,27 @@
 <ul>
 
     <li><b>Sketchified Images:</b> We have added a new mechanism that will take
-                                   an image and make a "sketched" version of it.
-                                   This will allow your
-                                   images to look provisional as well, to fit in
-                                   with the overall theme.
-                                   The <tt>SketchifyImage</tt> and <tt>SketchifyIcon</tt>
-                                   classes are what
-                                   you need to do this. The example <tt>Sketchifier</tt>
-                                   class shows a
-                                   simple way to use it.
+        an image and make a "sketched" version of it. This will allow your
+        images to look provisional as well, to fit in with the overall theme.
+        The <tt>SketchifyImage</tt> and <tt>SketchifyIcon</tt> classes are what
+        you need to do this. The example <tt>Sketchifier</tt> class shows a
+        simple way to use it.
 
     <li><b>Merged Fonts:</b> Handwritten fonts often are relatively limited in
-                             their space. There certainly is no single Unicode
-                             handwritten font we
-                             are aware of. So we have created a way to have a
-                             pseudo-font that is a
-                             composite of other fonts in a search order. We use
-                             this to back our
-                             handwritten fonts with a full Unicode font so at
-                             least no letter will
-                             be undisplayed.
+        their space. There certainly is no single Unicode handwritten font we
+        are aware of. So we have created a way to have a pseudo-font that is a
+        composite of other fonts in a search order. We use this to back our
+        handwritten fonts with a full Unicode font so at least no letter will be
+        undisplayed.
 
     <li><b>Highlighting:</b> We use highlighter pen effects to mark default
-                             buttons and selected items.
+        buttons and selected items.
 
     <li><b><tt>JFrame</tt> borders:</b> <tt>JFrame</tt>s now have sketched
-                                                       borders.
+        borders.
+
+    <li><b>Abstract Template Colors:</b> You can specify a color for a template
+        that is based on the theme, such as <tt>PEN</tt> or <tt>HIGHLIGHT</tt>.
 
 </ul>
 
@@ -124,37 +116,25 @@
 <ul>
 
     <li><b>Upgrade to 1.5:</b> Several bugs vanished with this upgrade, but it
-                               does mean that this will not work anymore with
-                               earlier Java versions. So
-                               far it has seemed too much work to maintain a
-                               system that can work on
-                               both.
+        does mean that this will not work anymore with earlier Java versions. So
+        far it has seemed too much work to maintain a system that can work on
+        both.
 
     <li><b>Sketched icons added:</b> Peter Goodspeed and Justin Crafford created
-                                     a cool package to take an XML description
-                                     of an icon and randomly
-                                     perturb it around. This lets us easily have
-                                     icons for dialog boxes, for
-                                     example, that look sketched and slightly
-                                     different each time. This is in
-                                     the subpackage <tt>napkin.sketch</tt>, and
-                                     you can use it for diagrams
-                                     as well. It's still has some tweaking to
-                                     do, but it's really, really
-                                     cool.
+        a cool package to take an XML description of an icon and randomly
+        perturb it around. This lets us easily have icons for dialog boxes, for
+        example, that look sketched and slightly different each time. This is in
+        the subpackage <tt>napkin.sketch</tt>, and you can use it for diagrams
+        as well. It's still has some tweaking to do, but it's really, really
+        cool.
 
     <li><b>Works on Windows:</b> Alex Lam took an interest in using Napkin as
-                                 his default look & feel for NetBeans. Rather
-                                 than refer him to an
-                                 appropriate mental health professional, I put
-                                 him on the team. He has
-                                 fixed many, many issues, most specific to the
-                                 Windows platform but
-                                 including several other issues related to
-                                 borders, opacity, and created
-                                 a tileable sticky-note background for popups,
-                                 etc. Welcome to the monkey
-                                 house, Alex.
+        his default look & feel for NetBeans. Rather than refer him to an
+        appropriate mental health professional, I put him on the team. He has
+        fixed many, many issues, most specific to the Windows platform but
+        including several other issues related to borders, opacity, and created
+        a tileable sticky-note background for popups, etc. Welcome to the monkey
+        house, Alex.
 
 </ul>
 
@@ -251,9 +231,8 @@
 <ul>
     <li>Check for debug property in security context to avoid security
         exception. <i>(This caused impenetrable failures in web start and
-                      anywhere else security was in place, so it gets a release
-                      of its
-                      own.)</i>
+        anywhere else security was in place, so it gets a release of its
+        own.)</i>
 </ul>
 
 <h4>beta-001, 21 July, 2004</h4>
@@ -312,11 +291,10 @@
 
 <ul>
     <li><b>Note:</b> This LAF will not work under Java 1.3. There were many
-                     changes in the LAF infrastructure and I can't figure out a
-                     way to do one
-                     development for both versions. [<a
+        changes in the LAF infrastructure and I can't figure out a way to do one
+        development for both versions. [<a
             href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=963198&amp;group_id=104116&amp;atid=636983">bug
-                                                                                                                           963198</a>]
+        963198</a>]
 
     <li>Put SwingSet2 source in the swingset jar file.
 
@@ -369,16 +347,8 @@
     <li>fonts loaded from jar
 
     <li>new font: Felt Tip Roman (has bold + full char set) <i>I want to add a
-                                                               few choices of
-                                                               fonts; this
-                                                               release I'm just
-                                                               switching to the
-                                                               new one but
-                                                               next release I
-                                                               want to have them
-                                                               choosable because
-                                                               both are
-                                                               good.</i>
+        few choices of fonts; this release I'm just switching to the new one but
+        next release I want to have them choosable because both are good.</i>
 
     <li>build the release automatically
 
