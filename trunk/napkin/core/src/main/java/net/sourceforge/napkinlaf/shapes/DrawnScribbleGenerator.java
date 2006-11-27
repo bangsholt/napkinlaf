@@ -13,12 +13,15 @@ public class DrawnScribbleGenerator extends AbstractDrawnGenerator {
     private final float minShow;
     private int shown;
     private double range;
+    private double swingRange;
+    private float midRange;
     private GeneralPath shape;
     private int orientation;
     private boolean done;
     private double max;
 
-    private static final float PER_STROKE = 1.5f;
+    private static final float PER_STROKE = 1.8f;
+    private static final double HEIGHT_ADJUST = 0.85;
 
     @SuppressWarnings({"SameParameterValue"})
     DrawnScribbleGenerator(float minShow) {
@@ -34,17 +37,21 @@ public class DrawnScribbleGenerator extends AbstractDrawnGenerator {
         if (first) {
             shape = new GeneralPath();
             done = false;
-            side.setMid(0);
             position.setMid(0);
-            convert(matrix, 0, 0);
+            setSideRange();
+            if (orientation == HORIZONTAL) {
+                convert(matrix, 0, (float) side.getMid());
+            } else {
+                convert(matrix, (float) side.getMid(), 0);
+            }
             shape.moveTo(convertedX(), convertedY());
-            side.setMid(range);
-            line(matrix);
-        } else if (side.getMid() > 0) {
-            side.setMid(range); // in case it has changed
         }
 
-        if (shown >= minShow && !done) {
+        if (shown > minShow && !done) {
+            if (first) {
+                line(matrix);
+            }
+
             double pos = position.get();
             while (pos <= shown) {
                 position.setMid(pos + PER_STROKE);
@@ -63,7 +70,8 @@ public class DrawnScribbleGenerator extends AbstractDrawnGenerator {
     }
 
     private void line(AffineTransform matrix) {
-        side.setMid(side.getMid() == 0 ? range : 0);
+        // alternate sides of the bar
+        setSideRange();
         double x, y;
         if (orientation == HORIZONTAL) {
             x = position.generate();
@@ -74,6 +82,12 @@ public class DrawnScribbleGenerator extends AbstractDrawnGenerator {
         }
         convert(matrix, (float) x, (float) y);
         shape.lineTo(convertedX(), convertedY());
+    }
+
+    private void setSideRange() {
+        side.setMid(side.getMid() < midRange ?
+                midRange + swingRange :
+                midRange - swingRange);
     }
 
     private void convert(AffineTransform matrix, float x, float y) {
@@ -100,6 +114,8 @@ public class DrawnScribbleGenerator extends AbstractDrawnGenerator {
     public void setRange(double range) {
         if (this.range != range) {
             this.range = range;
+            midRange = (float) (this.range / 2.0);
+            swingRange = (range * HEIGHT_ADJUST) / 2;
             shape = null;
         }
     }
