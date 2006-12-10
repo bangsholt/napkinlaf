@@ -18,7 +18,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="napkinlaf-swingset" exported="" />
-    <orderEntry type="module" module-name="napkinlaf" />
+    <orderEntry type="module" module-name="napkinlaf" exported="" />
     <orderEntry type="module-library">
       <library name="junit">
         <CLASSES>
