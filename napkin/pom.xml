@@ -1,11 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.sourceforge.napkinlaf</groupId>
     <artifactId>overall</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
     <name>Napkin Look and Feel</name>
     <packaging>pom</packaging>
 
@@ -40,15 +38,10 @@
     <inceptionYear>2004</inceptionYear>
 
     <scm>
-        <developerConnection>
-            scm:svn:https://svn.sourceforge.net/svnroot/napkinlaf/trunk/napkinlaf
-        </developerConnection>
-        <connection>
-            scm:svn:https://svn.sourceforge.net/svnroot/napkinlaf/trunk/napkinlaf
-        </connection>
-        <tag/>
-        <url>https://svn.sourceforge.net/svnroot/napkinlaf/trunk/napkinlaf
-        </url>
+        <developerConnection>scm:svn:https://svn.sourceforge.net/svnroot/napkinlaf/tags/overall-1.1</developerConnection>
+        <connection>scm:svn:https://svn.sourceforge.net/svnroot/napkinlaf/tags/overall-1.1</connection>
+        <tag />
+        <url>https://svn.sourceforge.net/svnroot/napkinlaf/tags/overall-1.1</url>
     </scm>
 
     <!-- the main projects underneath -->
