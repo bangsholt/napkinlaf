@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xmlns="http://napkinlaf.sf.net/sketch/"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <title>Computer</title>
+    <description>Saving to (remote) computer</description>
+
+    <clippingBounds>
+        <dimensions>
+            <width>19</width>
+            <height>18</height>
+        </dimensions>
+    </clippingBounds>
+
+    <!--
+    - "Computer" icon is used for remote computers, so this two-arrow for
+    - network traffic seems reasonable.  The arrows purposefully overlap
+    - a bit vertically.
+    -->
+
+    <templateItem>        <!-- left arrow -->
+        <path>
+            <moveTo>
+                <point>
+                    <x>5</x>
+                    <y>4</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>2</x>
+                    <y>7</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>5</x>
+                    <y>10</y>
+                </point>
+            </lineTo>
+            <moveTo>
+                <point>
+                    <x>2</x>
+                    <y>7</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>11</x>
+                    <y>7</y>
+                </point>
+            </lineTo>
+        </path>
+    </templateItem>
+
+    <templateItem>        <!-- right arrow -->
+        <drawStroke>true</drawStroke>
+        <drawFill>false</drawFill>
+        <strokeWeight>1</strokeWeight>
+        <strokeColor>
+            <r>0</r>
+            <g>0</g>
+            <b>0</b>
+        </strokeColor>
+        <path>
+            <moveTo>
+                <point>
+                    <x>14</x>
+                    <y>14</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>17</x>
+                    <y>11</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>14</x>
+                    <y>8</y>
+                </point>
+            </lineTo>
+            <moveTo>
+                <point>
+                    <x>17</x>
+                    <y>11</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>8</x>
+                    <y>11</y>
+                </point>
+            </lineTo>
+        </path>
+    </templateItem>
+
+</template>

@@ -1,0 +1,6 @@
+URI: packed/napkinlaf-swingset2.jar.pack.gz
+Content-Type: x-java-archive
+Content-Encoding: pack200-gzip
+
+URI: unpacked/napkinlaf-swingset2.jar
+Content-Type: x-java-archive

@@ -1,0 +1,17 @@
+body {
+    color: black;
+    font-family: serif;
+    background: url(napkin.jpg) #F6F6F6;
+}
+
+.snap {
+    border: 9pt groove gray;
+}
+
+dt {
+    padding-top: 2ex;
+}
+
+tr, th, td, table {
+    vertical-align: top;
+}
