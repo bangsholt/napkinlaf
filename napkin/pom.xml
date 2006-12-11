@@ -133,6 +133,10 @@
                     </tagBase>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>maven-plugins</groupId>
+                <artifactId>maven-sourceforge-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 </project>
