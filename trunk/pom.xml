@@ -38,10 +38,10 @@
     <inceptionYear>2004</inceptionYear>
 
     <scm>
-        <developerConnection>scm:svn:https://napkinalf.svn.sourceforge.net/svnroot/napkinlaf/tags/overall-1.1</developerConnection>
-        <connection>scm:svn:https://napkinalf.svn.sourceforge.net/svnroot/napkinlaf/tags/overall-1.1</connection>
+        <developerConnection>scm:svn:https://napkinlaf.svn.sourceforge.net/svnroot/napkinlaf/tags/overall-1.1</developerConnection>
+        <connection>scm:svn:https://napkinlaf.svn.sourceforge.net/svnroot/napkinlaf/tags/overall-1.1</connection>
         <tag />
-        <url>https://napkinalf.svn.sourceforge.net/svnroot/napkinlaf/tags/overall-1.1</url>
+        <url>https://napkinlaf.svn.sourceforge.net/svnroot/napkinlaf/tags/overall-1.1</url>
     </scm>
 
     <!-- the main projects underneath -->
@@ -129,7 +129,7 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <configuration>
                     <tagBase>
-                        https://napkinalf.svn.sourceforge.net/svnroot/napkinlaf/tags
+                        https://napkinlaf.svn.sourceforge.net/svnroot/napkinlaf/tags
                     </tagBase>
                 </configuration>
             </plugin>
