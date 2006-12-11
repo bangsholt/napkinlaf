@@ -4,8 +4,8 @@
     <parent>
         <groupId>net.sourceforge.napkinlaf</groupId>
         <artifactId>overall</artifactId>
-        <version>1.1</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>1.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>napkinlaf-swingset</artifactId>
