@@ -41,13 +41,13 @@
 
     <scm>
         <developerConnection>
-            scm:svn:https://svn.sourceforge.net/svnroot/napkinlaf/tags/overall-1.1
+            scm:svn:https://svn.sourceforge.net/svnroot/napkinlaf/trunk/napkinlaf
         </developerConnection>
         <connection>
-            scm:svn:https://svn.sourceforge.net/svnroot/napkinlaf/tags/overall-1.1
+            scm:svn:https://svn.sourceforge.net/svnroot/napkinlaf/trunk/napkinlaf
         </connection>
         <tag/>
-        <url>https://svn.sourceforge.net/svnroot/napkinlaf/tags/overall-1.1
+        <url>https://svn.sourceforge.net/svnroot/napkinlaf/trunk/napkinlaf
         </url>
     </scm>
 
