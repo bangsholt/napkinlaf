@@ -1,43 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<module version="4" relativePaths="false" type="JAVA_MODULE"> 
-  <component name="ModuleRootManager"/>  
-  <component name="NewModuleRootManager" inherit-compiler-output="false"> 
-    <output url="file://$MODULE_DIR$/target/classes"/>  
-    <exclude-output/>  
-    <output-test url="file://$MODULE_DIR$/target/test-classes"/>  
-    <content url="file://$MODULE_DIR$"> 
-      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false"/>
-      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false"/>
-      <excludeFolder url="file://$MODULE_DIR$/target"/>
-    </content>  
-    <orderEntry type="inheritedJdk"/>  
-    <orderEntry type="sourceFolder" forTests="false"/>  
-    <orderEntry type="module" module-name="napkinlaf"/>  
-    <orderEntry type="module" module-name="overall"/>  
-    <orderEntry type="module-library"> 
-      <library> 
-        <JAVADOC/>  
-        <SOURCES/>  
-        <CLASSES>
-          <root url="jar:///Users/arnold/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar!/"/>
-        </CLASSES>
-      </library> 
-    </orderEntry>  
-    <orderEntry type="module-library"> 
-      <library> 
-        <JAVADOC/>  
-        <SOURCES/>  
-        <CLASSES>
-          <root url="jar:///Users/arnold/.m2/repository/jdom/jdom/1.0/jdom-1.0.jar!/"/>
-        </CLASSES>
-      </library> 
-    </orderEntry>  
-    <orderEntryProperties/> 
-  </component>  
-  <component name="org.mevenide.idea.module.ModuleSettings"> 
-    <favoriteGoals> 
-      <list size="0"/> 
-    </favoriteGoals> 
-  </component> 
+<module version="4" relativePaths="false" type="JAVA_MODULE">
+  <component name="ModuleRootManager" />
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <exclude-output />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="napkinlaf" />
+    <orderEntry type="module" module-name="overall" />
+    <orderEntryProperties />
+  </component>
+  <component name="org.mevenide.idea.module.ModuleSettings">
+    <favoriteGoals>
+      <list size="0" />
+    </favoriteGoals>
+  </component>
 </module>
+
