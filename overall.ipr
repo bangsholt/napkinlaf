@@ -484,7 +484,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/example/example.iml" filepath="$PROJECT_DIR$/example/example.iml" />
-      <module fileurl="file://$PROJECT_DIR$/core/napkinlaf.iml" filepath="$PROJECT_DIR$/core/napkinlaf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/napkinlaf/napkinlaf.iml" filepath="$PROJECT_DIR$/napkinlaf/napkinlaf.iml" />
       <module fileurl="file://$PROJECT_DIR$/swingset/napkinlaf-swingset.iml" filepath="$PROJECT_DIR$/swingset/napkinlaf-swingset.iml" />
       <module fileurl="file://$PROJECT_DIR$/overall.iml" filepath="$PROJECT_DIR$/overall.iml" />
     </modules>
