@@ -62,7 +62,7 @@ public class NapkinTreeUI extends BasicTreeUI implements NapkinPainter {
 
     private final LineCache linesFor = new LineCache();
 
-    @SuppressWarnings({"UnusedParameters"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinTreeUI();
     }

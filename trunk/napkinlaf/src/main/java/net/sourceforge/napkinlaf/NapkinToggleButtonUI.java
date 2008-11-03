@@ -11,9 +11,10 @@ import java.awt.*;
 @SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinToggleButtonUI extends BasicToggleButtonUI
         implements NapkinPainter {
-    private static final NapkinToggleButtonUI ui = new NapkinToggleButtonUI();
 
-    @SuppressWarnings({"UnusedParameters"})
+    private static final ComponentUI ui = new NapkinToggleButtonUI();
+
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return ui;
     }

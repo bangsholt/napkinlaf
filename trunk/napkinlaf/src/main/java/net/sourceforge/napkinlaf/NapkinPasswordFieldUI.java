@@ -12,7 +12,7 @@ import java.awt.*;
 public class NapkinPasswordFieldUI extends BasicPasswordFieldUI
         implements NapkinPainter {
 
-    @SuppressWarnings({"UnusedParameters"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinPasswordFieldUI();
     }

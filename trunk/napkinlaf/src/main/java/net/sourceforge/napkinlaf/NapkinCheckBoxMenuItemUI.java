@@ -16,7 +16,7 @@ public class NapkinCheckBoxMenuItemUI extends BasicCheckBoxMenuItemUI
         implements NapkinPainter, NapkinTextPainter {
     private DrawnLineHolder line;
 
-    @SuppressWarnings({"UnusedParameters"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinCheckBoxMenuItemUI();
     }

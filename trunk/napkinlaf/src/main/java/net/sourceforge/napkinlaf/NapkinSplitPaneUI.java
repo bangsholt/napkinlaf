@@ -12,7 +12,7 @@ import java.awt.*;
 public class NapkinSplitPaneUI extends BasicSplitPaneUI
         implements NapkinPainter {
 
-    @SuppressWarnings({"UnusedParameters"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinSplitPaneUI();
     }

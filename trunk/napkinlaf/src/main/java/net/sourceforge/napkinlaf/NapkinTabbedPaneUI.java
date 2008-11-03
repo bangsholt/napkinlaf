@@ -19,7 +19,7 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
     private final DrawnBoxHolder contentBorder = new DrawnBoxHolder();
     private Insets origInsets;
 
-    @SuppressWarnings({"UnusedParameters"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinTabbedPaneUI();
     }

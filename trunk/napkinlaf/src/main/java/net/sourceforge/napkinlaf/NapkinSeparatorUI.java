@@ -18,13 +18,13 @@ public class NapkinSeparatorUI extends BasicSeparatorUI
     public static class Separator {
         private DrawnLineHolder line;
 
-        public void paint(Graphics g, JComponent c) {
-            JSeparator sep = (JSeparator) c;
+        public void paint(Graphics g, JSeparator sep) {
             boolean isVertical =
                     sep.getOrientation() == SwingConstants.VERTICAL;
             doPaint(g, sep, isVertical);
         }
 
+        @SuppressWarnings({"TypeMayBeWeakened"})
         private void doPaint(Graphics g, JSeparator sep, boolean vertical) {
             if (line == null) {
                 line = new DrawnLineHolder(DrawnCubicLineGenerator.INSTANCE,
@@ -44,8 +44,8 @@ public class NapkinSeparatorUI extends BasicSeparatorUI
         }
 
         @SuppressWarnings({"MethodMayBeStatic"})
-        public Dimension getPreferredSize(JComponent c) {
-            if (((JSeparator) c).getOrientation() == SwingConstants.VERTICAL) {
+        public Dimension getPreferredSize(JSeparator c) {
+            if (c.getOrientation() == SwingConstants.VERTICAL) {
                 return new Dimension(5, 0);
             } else {
                 return new Dimension(0, 5);
@@ -53,7 +53,7 @@ public class NapkinSeparatorUI extends BasicSeparatorUI
         }
     }
 
-    @SuppressWarnings({"UnusedParameters"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinSeparatorUI();
     }
@@ -72,12 +72,12 @@ public class NapkinSeparatorUI extends BasicSeparatorUI
 
     @Override
     public void paint(Graphics g, JComponent c) {
-        separator.paint(g, c);
+        separator.paint(g, (JSeparator) c);
     }
 
     @Override
     public Dimension getPreferredSize(JComponent c) {
-        return separator.getPreferredSize(c);
+        return separator.getPreferredSize((JSeparator) c);
     }
 
     @Override

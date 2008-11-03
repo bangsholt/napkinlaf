@@ -21,7 +21,7 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
     private Color selectionForeground;
     private Color selectionBackground;
 
-    @SuppressWarnings({"UnusedParameters"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinProgressBarUI();
     }
@@ -39,12 +39,10 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
     }
 
     @Override
-    protected void paintIndeterminate(Graphics g1, JComponent c) {
+    protected void paintIndeterminate(Graphics g, JComponent c) {
         Insets b = progressBar.getInsets(); // area for border
         int barRectWidth = progressBar.getWidth() - (b.right + b.left);
         int barRectHeight = progressBar.getHeight() - (b.top + b.bottom);
-
-        Graphics2D g = (Graphics2D) g1;
 
         // Paint the bouncing box.
         boxRect = getBox(boxRect);
@@ -90,7 +88,7 @@ public class NapkinProgressBarUI extends BasicProgressBarUI
             NapkinTheme theme = NapkinUtil.currentTheme(c);
             curImage = new BufferedImage(sz.x + sz.width, sz.y + sz.height,
                     BufferedImage.TYPE_INT_ARGB);
-            Graphics2D imgG = (Graphics2D) curImage.getGraphics();
+            Graphics imgG = curImage.getGraphics();
             selectionForeground = theme.getRadioColor();
             selectionBackground = theme.getCheckColor();
             imgG.setColor(theme.getCheckColor());

@@ -11,10 +11,11 @@ import java.awt.*;
 @SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinToolBarSeparatorUI extends BasicToolBarSeparatorUI
         implements NapkinPainter {
+
     private final NapkinSeparatorUI.Separator separator =
             new NapkinSeparatorUI.Separator();
 
-    @SuppressWarnings({"UnusedParameters"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinToolBarSeparatorUI();
     }
@@ -33,12 +34,12 @@ public class NapkinToolBarSeparatorUI extends BasicToolBarSeparatorUI
 
     @Override
     public void paint(Graphics g, JComponent c) {
-        separator.paint(g, c);
+        separator.paint(g, (JSeparator) c);
     }
 
     @Override
     public Dimension getPreferredSize(JComponent c) {
-        return separator.getPreferredSize(c);
+        return separator.getPreferredSize((JSeparator) c);
     }
 
     @Override

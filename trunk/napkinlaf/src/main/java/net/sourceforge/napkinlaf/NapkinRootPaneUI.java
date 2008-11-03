@@ -72,7 +72,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
      * @return The <tt>RootPaneUI</tt> implementation for the passed-in
      *         <tt>JRootPane</tt>.
      */
-    @SuppressWarnings({"UnusedParameters", "UnusedDeclaration"})
+    @SuppressWarnings({"UnusedDeclaration", "TypeMayBeWeakened"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinRootPaneUI();
     }
@@ -103,7 +103,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
     }
 
     /** Removes any border that may have been installed. */
-    private static void uninstallBorder(JRootPane rootPane) {
+    private static void uninstallBorder(JComponent rootPane) {
         LookAndFeel.uninstallBorder(rootPane);
     }
 
@@ -142,7 +142,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
      * Installs the appropriate LayoutManager on the <tt>JRootPane</tt> to
      * render the window decorations.
      */
-    private void installLayout(JRootPane rootPane) {
+    private void installLayout(Container rootPane) {
         if (layoutManager == null) {
             layoutManager = createLayoutManager();
         }
@@ -151,7 +151,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
     }
 
     /** Uninstalls the previously installed <tt>LayoutManager</tt>. */
-    private void uninstallLayout(JRootPane rootPane) {
+    private void uninstallLayout(Container rootPane) {
         if (savedOldLayout != null) {
             rootPane.setLayout(savedOldLayout);
         }
@@ -205,7 +205,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
     }
 
     /** Returns the <tt>JComponent</tt> to render the window decoration style. */
-    private JComponent createTitlePane(JRootPane rootPane) {
+    private static JComponent createTitlePane(JRootPane rootPane) {
         return new NapkinTitlePane(rootPane);
     }
 
@@ -673,7 +673,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
             JRootPane root = getRootPane();
 
             if (root.getWindowDecorationStyle() != JRootPane.NONE) {
-                Window w = (Window) ev.getSource();
+                Container w = (Window) ev.getSource();
 
                 Frame f = null;
                 Dialog d = null;
@@ -719,9 +719,9 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
             }
         }
 
-        @SuppressWarnings({"UnusedCatchParameter"})
+        @SuppressWarnings({"UnusedCatchParameter", "TypeMayBeWeakened"})
         public void mouseDragged(MouseEvent ev) {
-            Window w = (Window) ev.getSource();
+            Component w = (Window) ev.getSource();
             Point pt = ev.getPoint();
 
             if (isMovingWindow) {
@@ -794,7 +794,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
         }
 
         public void mouseClicked(MouseEvent ev) {
-            Window w = (Window) ev.getSource();
+            Component w = (Window) ev.getSource();
             if (w instanceof Frame) {
                 Frame f = (Frame) w;
                 JComponent titlePane = getTitlePane();
@@ -819,7 +819,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
          * Returns the corner that contains the point <tt>x</tt>, <tt>y</tt>, or
          * -1 if the position doesn't match a corner.
          */
-        private int calculateCorner(Window w, int x, int y) {
+        private int calculateCorner(Container w, int x, int y) {
             Insets insets = w.getInsets();
             int xPosition = calculatePosition(x - insets.left,
                     w.getWidth() - insets.left - insets.right);
