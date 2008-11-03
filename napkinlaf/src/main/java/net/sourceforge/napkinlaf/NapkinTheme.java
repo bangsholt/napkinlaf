@@ -1,7 +1,6 @@
 package net.sourceforge.napkinlaf;
 
-import static net.sourceforge.napkinlaf.NapkinKnownTheme.BASIC_THEME;
-import static net.sourceforge.napkinlaf.NapkinKnownTheme.POPUP_THEME;
+import static net.sourceforge.napkinlaf.NapkinKnownTheme.*;
 import static net.sourceforge.napkinlaf.NapkinThemeColor.*;
 import net.sourceforge.napkinlaf.fonts.PatchedFontUIResource;
 import net.sourceforge.napkinlaf.sketch.AbstractSketcher;
@@ -219,6 +218,7 @@ public class NapkinTheme {
      *
      * @return A specified color.
      */
+    @SuppressWarnings({"TypeMayBeWeakened"})
     public Color getColor(NapkinThemeColor which) {
         return colors.get(which);
     }
@@ -268,6 +268,7 @@ public class NapkinTheme {
      *
      * @return The specified theme.
      */
+    @SuppressWarnings({"TypeMayBeWeakened"})
     public NapkinTheme getTheme(NapkinKnownTheme which) {
         return variants.get(which);
     }
@@ -414,6 +415,7 @@ public class NapkinTheme {
          *
          * @see #addTheme(NapkinTheme)
          */
+        @SuppressWarnings({"TypeMayBeWeakened"})
         public static NapkinTheme getTheme(String name) {
             return themes.get(name);
         }

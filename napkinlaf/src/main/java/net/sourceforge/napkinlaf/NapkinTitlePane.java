@@ -260,6 +260,7 @@ public class NapkinTitlePane extends JComponent {
     }
 
     /** Adds the necessary <tt>JMenuItem</tt>s to the passed in menu. */
+    @SuppressWarnings({"TypeMayBeWeakened"})
     private static void addMenuItems(JMenu menu) {
         if (Toolkit.getDefaultToolkit().isFrameStateSupported(
                 Frame.MAXIMIZED_BOTH)) {

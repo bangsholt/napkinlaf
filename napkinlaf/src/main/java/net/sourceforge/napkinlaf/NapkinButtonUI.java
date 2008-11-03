@@ -17,7 +17,7 @@ public class NapkinButtonUI extends BasicButtonUI
 
     private DrawnLineHolder line;
 
-    @SuppressWarnings({"UnusedParameters"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinButtonUI();
     }

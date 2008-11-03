@@ -2,8 +2,7 @@ package net.sourceforge.napkinlaf;
 
 import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnLineHolder;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.EAST;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.WEST;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.*;
 import net.sourceforge.napkinlaf.util.NapkinIconFactory;
 import net.sourceforge.napkinlaf.util.NapkinPainter;
 import net.sourceforge.napkinlaf.util.NapkinTextPainter;
@@ -33,7 +32,7 @@ public class NapkinMenuUI extends BasicMenuUI
                 }
             };
 
-    @SuppressWarnings({"UnusedParameters"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinMenuUI();
     }
@@ -82,7 +81,7 @@ public class NapkinMenuUI extends BasicMenuUI
      *
      * @param c The component to udpate.
      */
-    private void updateDefaultSelectionColor(JComponent c) {
+    private void updateDefaultSelectionColor(Component c) {
         selectionForeground = NapkinUtil.currentTheme(c).getSelectionColor();
     }
 

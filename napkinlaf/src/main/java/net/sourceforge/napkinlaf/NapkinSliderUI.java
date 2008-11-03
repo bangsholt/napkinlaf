@@ -26,6 +26,7 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinPainter {
     private final Rectangle tickBounds;
     private int textHeight;
 
+    @SuppressWarnings({"TypeMayBeWeakened"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinSliderUI((JSlider) c);
     }

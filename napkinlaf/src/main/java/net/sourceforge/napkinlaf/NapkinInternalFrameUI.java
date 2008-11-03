@@ -12,6 +12,7 @@ import java.awt.*;
 public class NapkinInternalFrameUI extends BasicInternalFrameUI
         implements NapkinPainter {
 
+    @SuppressWarnings({"TypeMayBeWeakened"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinInternalFrameUI((JInternalFrame) c);
     }

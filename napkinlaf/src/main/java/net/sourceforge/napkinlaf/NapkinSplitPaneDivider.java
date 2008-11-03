@@ -22,6 +22,7 @@ public class NapkinSplitPaneDivider extends BasicSplitPaneDivider
     private static final Cursor DEFAULT_CURSOR = Cursor.getPredefinedCursor(
             Cursor.DEFAULT_CURSOR);
 
+    @SuppressWarnings({"TypeMayBeWeakened"})
     public NapkinSplitPaneDivider(NapkinSplitPaneUI ui) {
         super(ui);
     }

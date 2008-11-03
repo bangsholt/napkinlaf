@@ -17,7 +17,7 @@ public class NapkinRadioButtonMenuItemUI extends BasicRadioButtonMenuItemUI
 
     private DrawnLineHolder line;
 
-    @SuppressWarnings({"UnusedParameters"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinRadioButtonMenuItemUI();
     }

@@ -29,7 +29,7 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
             return calcSize(c, false, 3);
         }
 
-        private Dimension calcSize(Container c, boolean pref, int min) {
+        private Dimension calcSize(Component c, boolean pref, int min) {
             Dimension closeSize = sizeFor(frame.isClosable(), pref,
                     closeButton);
             Dimension maxSize = sizeFor(frame.isMaximizable(), pref, maxButton);
@@ -37,9 +37,8 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
                     iconButton);
 
             // Calculate width.
-            int width = 0;
 
-            width += closeSize.width;
+            int width = closeSize.width;
             width += maxSize.width;
             width += iconSize.width;
 
@@ -93,7 +92,7 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
         return new NapkinTitlePaneLayout();
     }
 
-    private static Dimension sizeFor(boolean is, boolean pref, JButton button) {
+    private static Dimension sizeFor(boolean is, boolean pref, Component button) {
         return is ?
                 (pref ? button.getPreferredSize() : button.getMinimumSize()) :
                 NO_SIZE;
@@ -113,7 +112,7 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
         maxButton.setIcon(null);
     }
 
-    private void setupButton(JButton button) {
+    private void setupButton(JComponent button) {
         if (!button.equals(maxButton)) {
             button.setBorder(new EmptyBorder(1, 1, 1, 1));
         }

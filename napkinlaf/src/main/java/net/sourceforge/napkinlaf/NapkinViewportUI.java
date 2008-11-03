@@ -11,11 +11,11 @@ import java.awt.*;
 @SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinViewportUI extends BasicViewportUI implements NapkinPainter {
     private int revertScrollMode;
-
-    private static final NapkinViewportUI ui = new NapkinViewportUI();
     private JViewport viewport;
 
-    @SuppressWarnings({"UnusedParameters"})
+    private static final ComponentUI ui = new NapkinViewportUI();
+
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return ui;
     }

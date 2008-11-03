@@ -14,7 +14,7 @@ public class NapkinEditorPaneUI extends BasicEditorPaneUI
         implements NapkinPainter {
     private Object origHonor;
 
-    @SuppressWarnings({"UnusedParameters"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinEditorPaneUI();
     }

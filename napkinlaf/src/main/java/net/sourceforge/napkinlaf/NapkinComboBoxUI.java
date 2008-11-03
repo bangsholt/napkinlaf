@@ -29,7 +29,7 @@ public class NapkinComboBoxUI extends BasicComboBoxUI implements NapkinPainter {
 
     private Border oldBorder;
 
-    @SuppressWarnings({"UnusedParameters"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinComboBoxUI();
     }

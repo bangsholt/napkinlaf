@@ -16,7 +16,7 @@ public class NapkinMenuItemUI extends BasicMenuItemUI
         implements NapkinTextPainter, NapkinPainter {
     private DrawnLineHolder line;
 
-    @SuppressWarnings({"UnusedParameters"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinMenuItemUI();
     }

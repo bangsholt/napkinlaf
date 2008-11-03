@@ -17,7 +17,7 @@ public class NapkinCheckBoxUI extends BasicCheckBoxUI
     private DrawnLineHolder line;
     private boolean defaultsInstalled = false;
 
-    @SuppressWarnings({"UnusedParameters"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinCheckBoxUI();
     }

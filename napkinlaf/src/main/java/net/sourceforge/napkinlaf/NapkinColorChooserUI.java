@@ -12,7 +12,7 @@ import java.awt.*;
 public class NapkinColorChooserUI extends BasicColorChooserUI
         implements NapkinPainter {
 
-    @SuppressWarnings({"UnusedParameters"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinColorChooserUI();
     }

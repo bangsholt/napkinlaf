@@ -19,7 +19,7 @@ import java.util.Map;
 public class NapkinFileChooserUI extends MetalFileChooserUI
         implements NapkinPainter {
 
-    private final NapkinFileView fileView = new NapkinFileView();
+    private final FileView fileView = new NapkinFileView();
 
     private class NapkinFileView extends BasicFileView {
         private final Map<String, Icon> pathIconCache =
@@ -71,6 +71,7 @@ public class NapkinFileChooserUI extends MetalFileChooserUI
         }
     }
 
+    @SuppressWarnings({"TypeMayBeWeakened"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinFileChooserUI((JFileChooser) c);
     }

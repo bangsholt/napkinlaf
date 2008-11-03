@@ -10,9 +10,9 @@ import java.awt.*;
 
 @SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinPanelUI extends BasicPanelUI implements NapkinPainter {
-    private static final NapkinPanelUI ui = new NapkinPanelUI();
+    private static final ComponentUI ui = new NapkinPanelUI();
 
-    @SuppressWarnings({"UnusedParameters"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return ui;
     }

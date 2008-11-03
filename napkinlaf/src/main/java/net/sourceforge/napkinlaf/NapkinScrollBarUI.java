@@ -18,10 +18,12 @@ public class NapkinScrollBarUI extends BasicScrollBarUI
     private final boolean vertical;
     private DrawnBoxHolder thumb;
 
+    @SuppressWarnings({"TypeMayBeWeakened"})
     public NapkinScrollBarUI(JScrollBar bar) {
         vertical = (bar.getOrientation() == VERTICAL);
     }
 
+    @SuppressWarnings({"TypeMayBeWeakened"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinScrollBarUI(((JScrollBar) c));
     }

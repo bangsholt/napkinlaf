@@ -11,7 +11,7 @@ import java.awt.*;
 @SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinListUI extends BasicListUI implements NapkinPainter {
 
-    @SuppressWarnings({"UnusedParameters"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new NapkinListUI();
     }
