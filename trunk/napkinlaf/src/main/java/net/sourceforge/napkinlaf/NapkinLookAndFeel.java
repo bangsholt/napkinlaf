@@ -30,6 +30,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.WeakHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -607,22 +608,15 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         Font sansSerifPlain = theme.getTextFont();
         Font monospacedPlain = theme.getFixedFont();
 
-        Map<String, Font> fromName = new HashMap<String, Font>();
-        fromName.put("dialogBold", dialogBold);
-        fromName.put("dialogPlain", dialogPlain);
-        fromName.put("monospacedPlain", monospacedPlain);
-        fromName.put("sansSerifPlain", sansSerifPlain);
-        fromName.put("serifPlain", serifPlain);
+        Map<String, Font> fromName = new TreeMap<String, Font>(
+                String.CASE_INSENSITIVE_ORDER);
 
         // These are defaults, also in the font file but here for backup
-        fromName.put("Dialog.plain", dialogPlain);
-        fromName.put("Dialog.bold", dialogBold);
-        fromName.put("Serif.plain", serifPlain);
-        fromName.put("SansSerif.plain", sansSerifPlain);
-        fromName.put("MonoSpaced.plain", monospacedPlain);
-        // the problematic ones (Spinner.font, Spinner.font, PasswordField.font)
-        // have the following case instead
-        fromName.put("Monospaced.plain", monospacedPlain);
+        addToFontMap(fromName, "Dialog.plain", dialogPlain);
+        addToFontMap(fromName, "Dialog.bold", dialogBold);
+        addToFontMap(fromName, "Serif.plain", serifPlain);
+        addToFontMap(fromName, "SansSerif.plain", sansSerifPlain);
+        addToFontMap(fromName, "Monospaced.plain", monospacedPlain);
 
         // read in from the property file
         InputStream fonts = NapkinLookAndFeel.class
@@ -651,6 +645,15 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         }
 
         return fromName;
+    }
+
+    private static void addToFontMap(Map<String, Font> map, String name,
+            Font font) {
+
+        map.put(name, font);
+        map.put(name.replace(".", ""), font);
+        if (name.endsWith(".plain"))
+            map.put(name.replace(".plain", ""), font);
     }
 
     private static Object propVal(String key, String prop, Object val,
