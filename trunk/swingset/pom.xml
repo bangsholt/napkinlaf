@@ -4,7 +4,7 @@
     <parent>
         <groupId>net.sourceforge.napkinlaf</groupId>
         <artifactId>overall</artifactId>
-        <version>1.2</version>
+        <version>1.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -55,10 +55,18 @@
                     </archive>
                 </configuration>
             </plugin>
+            <!--
+                As of 10/05/2006, since keytool plugin is still at snapshot stage, the webstart plugin reference to it is wrong.
+                This results in build errors as "[0.3,)" does not match "0.4-SNAPSHOT" which is the latest version of keytool plugin.
+                The workaround involves modifying:
+                    <REPOSITORY_PATH>/org/codehaus/mojo/webstart-maven-plugin/1.0-SNAPSHOT/webstart-maven-plugin-1.0-SNAPSHOT.pom
+                By changing "[0.3,)" to "0.4-SNAPSHOT" for the dependency declaration.
+            -->
             <!-- Build webstart release -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>webstart-maven-plugin</artifactId>
+                <!--<version>1.0-SNAPSHOT</version>-->
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -70,11 +78,9 @@
                                 </includes>
                                 <excludes>
                                     <exclude>jdom:jdom</exclude>
-				    <!--
                                     <exclude>
                                         net.sourceforge.napkinlaf:napkinlaf
                                     </exclude>
-				    -->
                                 </excludes>
                             </dependencies>
 
