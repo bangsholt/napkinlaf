@@ -319,13 +319,14 @@ public class NapkinTheme {
             int scrawlSize = 14;
             NapkinTheme def = new NapkinTheme(DEFAULT_THEME, "Default theme",
                     Color.BLACK, checkGreen, new Color(0xf50000), new Color(
-                    0x00, 0xff, 0xff, 0x80), new Color(0xff, 0xff, 0x00, 0x80),
-                    checkGreen, scrawl.deriveFont(Font.PLAIN, scrawlSize),
-                    scrawlBold.deriveFont(Font.BOLD, scrawlSize),
-                    fixed.deriveFont(Font.PLAIN, scrawlSize), new JotSketcher(),
-                    background("napkin.jpg"), background("erasure.png"),
+                            0x00, 0xff, 0xff, 0x80), new Color(0xff, 0xff, 0x00,
+                            0x80), checkGreen, scrawl.deriveFont(Font.PLAIN,
+                            scrawlSize), scrawlBold.deriveFont(Font.BOLD,
+                            scrawlSize), fixed.deriveFont(Font.PLAIN,
+                            scrawlSize), new JotSketcher(), background(
+                            "napkin.jpg"), background("erasure.png"),
                     background(image, 80, 80, 50, 40), new Color(0xff, 0x00,
-                    0xff, 0x80));
+                            0xff, 0x80));
             addTheme(def);
 
             addTheme(new NapkinTheme(DEBUG_THEME, "Debug theme",
@@ -334,8 +335,9 @@ public class NapkinTheme {
                     def.getPopupTheme().getHighlightColor(), def.getTextFont(),
                     def.getBoldTextFont(), def.getFixedFont(),
                     new JotSketcher(), background("testPaper.jpg", 0, 0, 10,
-                    10), def.getErasureMask(), background("testPostit.jpg", 0,
-                    0, 10, 10), def.getRolloverColor()));
+                            10), def.getErasureMask(), background(
+                            "testPostit.jpg", 0, 0, 10, 10),
+                    def.getRolloverColor()));
 
             Color blueprintInk = new Color(0xe7edf2);
             Color blueprintHighlight = new Color(0x89b5ed);
@@ -347,7 +349,7 @@ public class NapkinTheme {
                     blueprintInk, blueprintInk, blueprintHighlight,
                     blueprintHighlight, blueprintInk, blueFont, blueFont,
                     def.getFixedFont(), new DraftSketcher(), background(
-                    "blueprint-bg.jpg"), def.getErasureMask(),
+                            "blueprint-bg.jpg"), def.getErasureMask(),
                     def.getPopupTheme()));
 
             String themeName;
@@ -475,13 +477,13 @@ public class NapkinTheme {
                 if (fontDef != null) {
                     result = Font.createFont(Font.TRUETYPE_FONT, fontDef);
                 } else {
-                    throw new NullPointerException(
-                            "Could not find font resource \"" + fontName +
-                                    "\"\n\t\tin \"" + fontRes +
-                                    "\"\n\t\tfor \"" + NapkinLookAndFeel.class
-                                    .getName() + "\"\n\t\ttry: " +
-                                    NapkinLookAndFeel.class
-                                            .getResource(fontRes));
+                    String msg = "Could not find font resource \"" + fontName +
+                            "\"\n\t\tin \"" + fontRes + "\"\n\t\tfor \"" +
+                            NapkinLookAndFeel.class.getName() +
+                            "\"\n\t\ttry: " +
+                            NapkinLookAndFeel.class.getResource(fontRes);
+                    System.err.println(msg);
+                    throw new NullPointerException(msg);
                 }
             } catch (FontFormatException e) {
                 LOG.log(Level.WARNING, "getting font " + fontName, e);
