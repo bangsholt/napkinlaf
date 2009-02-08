@@ -1,31 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module relativePaths="false" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" inherit-compiler-output="false">
+<module relativePaths="true" MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
-    <exclude-output />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <exclude-output />
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="napkinlaf-swingset" exported="" />
-    <orderEntry type="module" module-name="napkinlaf" exported="" />
-    <orderEntry type="module-library">
-      <library name="junit">
-        <CLASSES>
-          <root url="jar:///Users/arnold/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntryProperties />
-  </component>
-  <component name="org.mevenide.idea.module.ModuleSettings">
-    <favoriteGoals>
-      <list size="0" />
-    </favoriteGoals>
+    <orderEntry type="library" name="Maven: junit:junit:3.8.1" level="project" />
   </component>
 </module>
 
