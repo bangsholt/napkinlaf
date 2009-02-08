@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project relativePaths="false" version="4">
+<project relativePaths="true" version="4">
   <component name="AntConfiguration">
     <defaultAnt bundledAnt="true" />
   </component>
   <component name="BuildJarProjectSettings">
     <option name="BUILD_JARS_ON_MAKE" value="false" />
-  </component>
-  <component name="CodeStyleManager">
-    <option name="USE_DEFAULT_CODE_STYLE_SCHEME" value="true" />
-    <option name="CODE_STYLE_SCHEME" value="" />
-  </component>
-  <component name="CodeStyleProjectProfileManger">
-    <option name="PROJECT_PROFILE" />
-    <option name="USE_PROJECT_LEVEL_SETTINGS" value="false" />
   </component>
   <component name="CodeStyleSettingsManager">
     <option name="PER_PROJECT_SETTINGS" />
@@ -21,13 +13,61 @@
   <component name="CompilerConfiguration">
     <option name="DEFAULT_COMPILER" value="Javac" />
     <option name="DEPLOY_AFTER_MAKE" value="0" />
-    <resourceExtensions />
+    <resourceExtensions>
+      <entry name=".+\.(properties|xml|html|dtd|tld)" />
+      <entry name=".+\.(gif|png|jpeg|jpg)" />
+    </resourceExtensions>
     <wildcardResourcePatterns>
-      <entry name="!?*.java" />
+      <entry name="?*.properties" />
+      <entry name="?*.xml" />
+      <entry name="?*.gif" />
+      <entry name="?*.png" />
+      <entry name="?*.jpeg" />
+      <entry name="?*.jpg" />
+      <entry name="?*.html" />
+      <entry name="?*.dtd" />
+      <entry name="?*.tld" />
+      <entry name="?*.ftl" />
     </wildcardResourcePatterns>
   </component>
-  <component name="DependenciesAnalyzeManager">
-    <option name="myForwardDirection" value="false" />
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="DebuggerManager">
+    <breakpoint_any>
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </breakpoint_any>
+    <breakpoint_rules />
+    <ui_properties />
   </component>
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
@@ -39,198 +79,7 @@
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
     <option name="MAXIMUM_HEAP_SIZE" value="128" />
   </component>
-  <component name="EclipseEmbeddedCompilerSettings">
-    <option name="DEBUGGING_INFO" value="true" />
-    <option name="GENERATE_NO_WARNINGS" value="true" />
-    <option name="DEPRECATION" value="false" />
-    <option name="ADDITIONAL_OPTIONS_STRING" value="" />
-    <option name="MAXIMUM_HEAP_SIZE" value="128" />
-  </component>
-  <component name="EntryPointsManager">
-    <entry_points version="2.0">
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.Template String produceXMLString()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.Template int getHeight()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.Template int getWidth()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.DrawnIcon String getTemplateTitle()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.SketchifiedImage SketchifiedImage(Image image)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.Template Template(Point origin, Dimension dimensions)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.Template Template()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.SketchShape CubicLine[] transformToCubicList()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.StraightLine Element produceXML()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.SketchShape QuadLine[] transformToQuad()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.SketchShape StraightLine[] transformToLine()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.SketchShape SketchShape magnify(double scaleFactor)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.StraightLine StraightLine(double x1, double y1, double angle, double length)" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.SketchShape" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.StraightLine StraightLine()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.StraightLine StraightLine(Line2D l)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.StraightLine StraightLine(Point2D p1, Point2D p2)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.sketch.geometry.StraightLine StraightLine(Point2D start, double angle, double length)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.NapkinDebug String toString(Color c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.NapkinDebug void dumpTo(String file, JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.AlphaColorUIResource AlphaColorUIResource(ColorSpace space, float[] comp, float alpha)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.NapkinDebug void dumpObject(Object obj, String fileName)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.AlphaColorUIResource AlphaColorUIResource(float r, float g, float b, float a)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.NapkinDebug NapkinDebug()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.AlphaColorUIResource AlphaColorUIResource(int r, int g, int b, int a)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.AlphaColorUIResource AlphaColorUIResource(int rgba)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.NapkinRandom double triangular(double scale)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.ComponentWalker void walk(Component top)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.NapkinRandom NapkinRandom()" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTitlePane.WindowHandler" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTitlePane.PropertyChangeHandler" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinRootPaneUI.MouseInputHandler" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTitlePane.TitlePaneLayout" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTitlePane.SystemMenuBar" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTitlePane.MaximizeAction MaximizeAction()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTitlePane.RestoreAction RestoreAction()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTitlePane.IconifyAction IconifyAction()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTitlePane.CloseAction CloseAction()" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinRootPaneUI.NapkinRootLayout" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTheme NapkinTheme getBasicTheme()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTheme String getDescription()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinLookAndFeel.DumpVisitor DumpVisitor(PrintStream out)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinInternalFrameTitlePane NapkinInternalFrameTitlePane(JInternalFrame f)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinRootPaneUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTitlePane NapkinTitlePane(JRootPane root, NapkinRootPaneUI ui)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinFileChooserUI NapkinFileChooserUI(JFileChooser c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinFileChooserUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTreeUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinSeparatorUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinLookAndFeel NapkinLookAndFeel()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinMenuUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinComboBoxUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTheme NapkinTheme(String name, String description, Color penColor, Color checkColor, Color radioColor, Color highlightColor, Color selectionColor, ...)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinSliderUI NapkinSliderUI(JSlider c)" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTreeUI.DefaultNapkinTreeCellRender" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinSliderUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinProgressBarUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTabbedPaneUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinScrollBarUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTreeUI.LineCache LineCache()" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinMenuUI" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinCheckBoxUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinRadioButtonUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinRootPaneUI" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinRadioButtonMenuItemUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinCheckBoxMenuItemUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinFileChooserUI.NapkinFileView" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinInternalFrameTitlePane.NapkinTitlePaneLayout" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinMenuItemUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinButtonUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinScrollBarUI NapkinScrollBarUI(JScrollBar bar)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinViewportUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinSeparatorUI.Separator" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinPopupMenuSeparatorUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinToolBarSeparatorUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinComboBoxUI" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinToggleButtonUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinEditorPaneUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinInternalFrameUI NapkinInternalFrameUI(JInternalFrame c)" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTreeUI" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinPanelUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinLabelUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTabbedPaneUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinCheckBoxUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinCheckBoxMenuItemUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinButtonUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinRadioButtonMenuItemUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinRadioButtonUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinMenuItemUI" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinFormattedTextFieldUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinPasswordFieldUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinColorChooserUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTableHeaderUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinDesktopPaneUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinDesktopIconUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinOptionPaneUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinScrollPaneUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTextFieldUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinSplitPaneUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinPopupMenuUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTextAreaUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTextPaneUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinProgressBarUI" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinToolTipUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinSpinnerUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinMenuBarUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinToolBarUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinTableUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinListUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinSeparatorUI" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.NapkinInternalFrameUI ComponentUI createUI(JComponent c)" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinEditorPaneUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinToolBarUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTextAreaUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinColorChooserUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTextPaneUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinPasswordFieldUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinLabelUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinFormattedTextFieldUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinOptionPaneUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinListUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinToolTipUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinPopupMenuUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinSplitPaneUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinDesktopPaneUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTextFieldUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinScrollPaneUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinToggleButtonUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinViewportUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinPopupMenuSeparatorUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTableHeaderUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinTableUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinPanelUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinDesktopIconUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinToolBarSeparatorUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinSpinnerUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.NapkinMenuBarUI" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.MergedFontTest" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.AllTests TestSuite suite()" />
-      <entry_point TYPE="class" FQNAME="net.sourceforge.napkinlaf.AllTests" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.fonts.MergedFont Font getBackingFont()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.fonts.MergedFont Font mergeFonts(Font primaryFont, Font... backingFonts)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.fonts.MergedFont MergedFont(Font primaryFont, Font backingFont)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.fonts.PatchedFontUIResource PatchedFontUIResource(String name, int style, int size)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.fonts.PatchedFontUIResource PatchedFontUIResource(Font font)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnBoxGenerator boolean isAsX()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnBoxGenerator DrawnCubicLineGenerator getCubicGenerator()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnBoxGenerator DrawnQuadLineGenerator getQuadGenerator()" />
-      <entry_point TYPE="method" FQNAME="extends AbstractDrawnGenerator&gt; net.sourceforge.napkinlaf.shapes.DrawnBoxGenerator Class&lt;? getGenerator(int side)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnCheckGenerator double getMinHeight()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnCheckGenerator double getMinWidth()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnTriangleGenerator RandomValue getStartAdjust()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnShapeHolder void fill(Graphics g)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnShapeHolder int getCap()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnShapeHolder void setJoin(int join)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnShapeHolder int getJoin()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnShapeHolder float getWidth()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnBoxGenerator DrawnBoxGenerator()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnBoxGenerator DrawnBoxGenerator(DrawnCubicLineGenerator cubic, DrawnQuadLineGenerator quad)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnCheckGenerator DrawnCheckGenerator(double size)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnCheckGenerator DrawnCheckGenerator(RandomValue widthVal, RandomValue heightVal)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnTriangleGenerator DrawnTriangleGenerator(double rotate)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnShapeHolder DrawnShapeHolder(AbstractDrawnGenerator gen)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.shapes.DrawnShapeHolder DrawnShapeHolder(AbstractDrawnGenerator gen, float width)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.util.ComponentWalker ComponentWalker(Visitor visitor)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.ComponentUITest ComponentUITest(String testName)" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.ComponentUITest void testInstallUI()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.ComponentUITest void testCreateUI()" />
-      <entry_point TYPE="method" FQNAME="net.sourceforge.napkinlaf.MergedFontTest void testTwoFonts()" />
-    </entry_points>
-  </component>
-  <component name="ExportToHTMLSettings">
-    <option name="PRINT_LINE_NUMBERS" value="false" />
-    <option name="OPEN_IN_BROWSER" value="false" />
-    <option name="OUTPUT_DIRECTORY" />
-  </component>
-  <component name="IdProvider" IDEtalkID="11FFF42FC3CDA8D9CACDFB798E2C3334" />
-  <component name="ImportConfiguration">
-    <option name="VENDOR" />
-    <option name="RELEASE_TAG" />
-    <option name="LOG_MESSAGE" />
-    <option name="CHECKOUT_AFTER_IMPORT" value="true" />
-  </component>
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
   <component name="InspectionProjectProfileManager">
     <option name="PROJECT_PROFILE" value="Project Default" />
     <option name="USE_PROJECT_LEVEL_SETTINGS" value="false" />
@@ -239,13 +88,9 @@
       <profile version="1.0" is_locked="false">
         <option name="myName" value="Project Default" />
         <option name="myLocal" value="false" />
-        <inspection_tool class="UNUSED_IMPORT" level="WARNING" enabled="false" />
       </profile>
     </profiles>
     <list size="0" />
-  </component>
-  <component name="JUnitProjectSettings">
-    <option name="TEST_RUNNER" value="UI" />
   </component>
   <component name="JavacSettings">
     <option name="DEBUGGING_INFO" value="true" />
@@ -257,19 +102,19 @@
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" />
     <option name="OPTION_SCOPE" value="protected" />
-    <option name="OPTION_HIERARCHY" value="false" />
-    <option name="OPTION_NAVIGATOR" value="false" />
-    <option name="OPTION_INDEX" value="false" />
-    <option name="OPTION_SEPARATE_INDEX" value="false" />
+    <option name="OPTION_HIERARCHY" value="true" />
+    <option name="OPTION_NAVIGATOR" value="true" />
+    <option name="OPTION_INDEX" value="true" />
+    <option name="OPTION_SEPARATE_INDEX" value="true" />
     <option name="OPTION_DOCUMENT_TAG_USE" value="false" />
     <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="false" />
     <option name="OPTION_DOCUMENT_TAG_VERSION" value="false" />
-    <option name="OPTION_DOCUMENT_TAG_DEPRECATED" value="false" />
-    <option name="OPTION_DEPRECATED_LIST" value="false" />
-    <option name="OTHER_OPTIONS" />
+    <option name="OPTION_DOCUMENT_TAG_DEPRECATED" value="true" />
+    <option name="OPTION_DEPRECATED_LIST" value="true" />
+    <option name="OTHER_OPTIONS" value="" />
     <option name="HEAP_SIZE" />
     <option name="LOCALE" />
-    <option name="OPEN_IN_BROWSER" value="false" />
+    <option name="OPEN_IN_BROWSER" value="true" />
   </component>
   <component name="JikesSettings">
     <option name="JIKES_PATH" value="" />
@@ -279,68 +124,16 @@
     <option name="IS_EMACS_ERRORS_MODE" value="true" />
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
   </component>
-  <component name="LogConsolePreferences">
-    <option name="FILTER_ERRORS" value="false" />
-    <option name="FILTER_WARNINGS" value="false" />
-    <option name="FILTER_INFO" value="true" />
-    <option name="CUSTOM_FILTER" />
-  </component>
-  <component name="Maven Reloaded">
-    <option name="config">
-      <value>
-        <option name="pluginEnabled" value="true" />
-        <option name="updateClasspathsEnabled" value="true" />
-        <option name="manageSourceRootsEnabled" value="true" />
-        <option name="manageModuleInterdependenciesEnabled" value="true" />
-        <option name="downloadBinariesEnabled" value="true" />
-        <option name="downloadSourcesEnabled" value="false" />
-        <option name="generateSourcesEnabled" value="false" />
-        <option name="settingsPath" value="/Users/arnold/.m2/settings.xml" />
-        <option name="disabledPoms">
-          <value>
-            <collection type="java.util.HashSet" />
-          </value>
-        </option>
-        <option name="moduleInterDependencies">
-          <value>
-            <map type="java.util.HashMap">
-              <entry>
-                <value>
-                  <collection type="java.util.HashSet" />
-                </value>
-                <key type="java.lang.String" value="example" />
-              </entry>
-              <entry>
-                <value>
-                  <collection type="java.util.HashSet" />
-                </value>
-                <key type="java.lang.String" value="napkinlaf-swingset" />
-              </entry>
-            </map>
-          </value>
-        </option>
-        <option name="logLevel" value="1" />
-      </value>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+      </list>
     </option>
   </component>
-  <component name="MavenBuildProjectComponent">
-    <option name="mavenExecutable" value="" />
-    <option name="mavenOptions" value="" />
-    <option name="mavenCommandLineParams" value="" />
-    <pom-list>
-      <pom>
-        <option name="path" value="$PROJECT_DIR$/example/pom.xml" />
-        <plugin-list />
-      </pom>
-      <pom>
-        <option name="path" value="$PROJECT_DIR$/core/pom.xml" />
-        <plugin-list />
-      </pom>
-      <pom>
-        <option name="path" value="$PROJECT_DIR$/swingset/pom.xml" />
-        <plugin-list />
-      </pom>
-    </pom-list>
+  <component name="ModuleEditorState">
+    <option name="LAST_EDITED_MODULE_NAME" />
+    <option name="LAST_EDITED_TAB_NAME" />
   </component>
   <component name="Palette2">
     <group name="Swing">
@@ -463,7 +256,20 @@
       </item>
     </group>
   </component>
+  <component name="ProjectDetails">
+    <option name="projectName" value="overall" />
+  </component>
   <component name="ProjectFileVersion" converted="true" />
+  <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/example/example.iml" filepath="$PROJECT_DIR$/example/example.iml" />
@@ -472,13 +278,11 @@
       <module fileurl="file://$PROJECT_DIR$/overall.iml" filepath="$PROJECT_DIR$/overall.iml" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="true" project-jdk-name="1.5" />
-  <component name="ResourceManagerContainer">
-    <option name="myResourceBundles">
-      <value>
-        <list size="0" />
-      </value>
-    </option>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.5" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/classes" />
   </component>
   <component name="RmicSettings">
     <option name="IS_EANABLED" value="false" />
@@ -487,19 +291,123 @@
     <option name="GENERATE_IIOP_STUBS" value="false" />
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
   </component>
+  <component name="RunManager">
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false" runner="emma">
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false" runner="emma">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+    </configuration>
+    <list size="0" />
+    <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
+      <Host>localhost</Host>
+      <Port>5050</Port>
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="StarteamConfiguration">
+    <option name="SERVER" value="" />
+    <option name="PORT" value="49201" />
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="PROJECT" value="" />
+    <option name="VIEW" value="" />
+    <option name="ALTERNATIVE_WORKING_PATH" value="" />
+    <option name="LOCK_ON_CHECKOUT" value="false" />
+    <option name="UNLOCK_ON_CHECKIN" value="false" />
+  </component>
   <component name="SvnBranchConfigurationManager">
-    <option name="myVersion" value="123" />
+    <option name="myVersion" value="124" />
+  </component>
+  <component name="SvnConfiguration">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="UPDATE_RUN_STATUS" value="false" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="svn" />
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
-  <component name="com.intellij.jsf.UserDefinedFacesConfigs">
-    <option name="USER_DEFINED_CONFIGS">
-      <value>
-        <list size="0" />
-      </value>
-    </option>
+  <component name="XPathView.XPathProjectComponent">
+    <history />
+    <find-history />
   </component>
+  <component name="libraryTable">
+    <library name="Maven: junit:junit:3.8.1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: jdom:jdom:1.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/jdom/jdom/1.0/jdom-1.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/jdom/jdom/1.0/jdom-1.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/jdom/jdom/1.0/jdom-1.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+  </component>
+  <UsedPathMacros>
+    <macro name="MAVEN_REPOSITORY" />
+  </UsedPathMacros>
 </project>
 
