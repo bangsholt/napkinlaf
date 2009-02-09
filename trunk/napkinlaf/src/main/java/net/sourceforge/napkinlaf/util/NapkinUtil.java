@@ -81,6 +81,7 @@ public class NapkinUtil {
 
     private static final DrawnLineHolder highLightLongLine;
     private static final DrawnLineHolder highLightShortLine;
+    private static final Insets ZERO_INSETS = new Insets(0, 0, 0, 0);
 
     static {
         DrawnCubicLineGenerator lineGen = new DrawnCubicLineGenerator();
@@ -307,13 +308,19 @@ public class NapkinUtil {
 
     @SuppressWarnings({"ObjectEquality"})
     public static boolean isOpaque(Component c) {
-        if (c.isOpaque())
-            return true;
-        if (c instanceof JComponent) {
+        String reason = "default";
+        boolean ret = true;
+        if (c.isOpaque()) {
+            reason = "isOpaque()";
+            ret = true;
+        } else if (c instanceof JComponent) {
+            reason = "OPAQUE_KEY prop";
             JComponent jc = (JComponent) c;
-            return jc.getClientProperty(OPAQUE_KEY) == Boolean.TRUE;
+            ret = jc.getClientProperty(OPAQUE_KEY) == Boolean.TRUE;
         }
-        return false;
+//        System.out.println("opaque " + ret + ": " + NapkinDebug.descFor(c) +
+//                " {" + reason + "}");
+        return ret;
     }
 
     @SuppressWarnings({"ObjectEquality"})
@@ -604,8 +611,8 @@ public class NapkinUtil {
         c.putClientProperty(THEME_KEY, baseTheme.getTheme(theme));
     }
 
-    public static void paintBackground(Graphics g1, Component c) {
-        if (isOpaque(c))
+    public static void paintBackground(Graphics g1, Component c, Rectangle clip) {
+        if (!isOpaque(c))
             return;
 
         if (c instanceof JComponent && isGlassPane((JComponent) c)) {
@@ -617,9 +624,9 @@ public class NapkinUtil {
         NapkinBackground bg = theme.getPaper();
 
         Rectangle pRect = bounds(currentPaper(c));
-        Rectangle cRect = bounds(c);
+        Rectangle cRect = (clip != null ? clip : bounds(c));
 
-        bg.paint(c, g, pRect, cRect, insets(c));
+        bg.paint(c, g, pRect, cRect, (clip != null ? ZERO_INSETS : insets(c)));
 
         if (c.isEnabled() && c instanceof JComponent) {
             paintHighlights(g, theme, (JComponent) c);
@@ -826,7 +833,7 @@ public class NapkinUtil {
             }
         }
         g = defaultGraphics(g, c);
-        paintBackground(g, c);
+        paintBackground(g, c, null);
         MergedFontGraphics2D mfg = MergedFontGraphics2D.wrap((Graphics2D) g);
         painter.superPaint(mfg, c);
         mfg.dispose();

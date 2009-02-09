@@ -23,7 +23,6 @@ public abstract class SmartStickyListener<T> implements PropertyChangeListener {
      * property name to listen changes for.
      */
     public SmartStickyListener(String recordKey, String propKey) {
-
         this.recordKey = recordKey;
         this.propKey = propKey;
     }
