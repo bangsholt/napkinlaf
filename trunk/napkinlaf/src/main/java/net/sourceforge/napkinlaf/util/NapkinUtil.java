@@ -306,6 +306,17 @@ public class NapkinUtil {
                 OPAQUE_KEY) == Boolean.TRUE;
     }
 
+    @SuppressWarnings({"ObjectEquality"})
+    public static boolean isOpaque(Component c) {
+        if (c.isOpaque())
+            return true;
+        if (c instanceof JComponent) {
+            JComponent jc = (JComponent) c;
+            return jc.getClientProperty(OPAQUE_KEY) == Boolean.TRUE;
+        }
+        return false;
+    }
+
     @SuppressWarnings({"ObjectEquality", "BooleanMethodIsAlwaysInverted"})
     private static boolean isGlassPane(JComponent c) {
         JRootPane rootPane = c.getRootPane();
@@ -597,6 +608,9 @@ public class NapkinUtil {
     }
 
     public static void paintBackground(Graphics g1, Component c) {
+        if (isOpaque(c))
+            return;
+
         if (c instanceof JComponent && isGlassPane((JComponent) c)) {
             return;
         }
