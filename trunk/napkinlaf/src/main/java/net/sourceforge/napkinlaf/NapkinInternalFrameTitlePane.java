@@ -30,8 +30,8 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
         }
 
         private Dimension calcSize(Component c, boolean pref, int min) {
-            Dimension closeSize = sizeFor(frame.isClosable(), pref,
-                    closeButton);
+            Dimension closeSize = sizeFor(frame.isClosable(), pref, closeButton)
+                    ;
             Dimension maxSize = sizeFor(frame.isMaximizable(), pref, maxButton);
             Dimension iconSize = sizeFor(frame.isIconifiable(), pref,
                     iconButton);
@@ -92,7 +92,8 @@ public class NapkinInternalFrameTitlePane extends BasicInternalFrameTitlePane
         return new NapkinTitlePaneLayout();
     }
 
-    private static Dimension sizeFor(boolean is, boolean pref, Component button) {
+    private static Dimension sizeFor(boolean is, boolean pref,
+            Component button) {
         return is ?
                 (pref ? button.getPreferredSize() : button.getMinimumSize()) :
                 NO_SIZE;

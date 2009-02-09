@@ -195,65 +195,65 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
 
         overrideComponentDefaults(table);
 
-        Object checkBoxButtonIcon = new UIDefaults.ActiveValue() {
+        Object checkBoxButtonIcon = new ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createCheckBoxIcon();
             }
         };
-        Object checkedMenuItemIcon = new UIDefaults.ActiveValue() {
+        Object checkedMenuItemIcon = new ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createCheckedMenuItemIcon();
             }
         };
-        Object radioButtonIcon = new UIDefaults.ActiveValue() {
+        Object radioButtonIcon = new ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createRadioButtonIcon();
             }
         };
 
-        Object underlineBorder = new UIDefaults.ActiveValue() {
+        Object underlineBorder = new ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return new NapkinLineBorder(false);
             }
         };
-        Object selectBorder = new UIDefaults.ActiveValue() {
+        Object selectBorder = new ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return new NapkinSelectedBorder();
             }
         };
-        Object boxBorder = new UIDefaults.ActiveValue() {
+        Object boxBorder = new ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return new NapkinBoxBorder();
             }
         };
-        Object emptyBorder = new UIDefaults.ActiveValue() {
+        Object emptyBorder = new ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return new NapkinWrappedBorder(new EmptyBorder(3, 3, 3, 3));
             }
         };
 
-        Object downArrowIcon = new UIDefaults.ActiveValue() {
+        Object downArrowIcon = new ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createArrowIcon(SOUTH, 8);
             }
         };
-        Object rightArrowIcon = new UIDefaults.ActiveValue() {
+        Object rightArrowIcon = new ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createArrowIcon(EAST, 8);
             }
         };
 
-        Object closeIcon = new UIDefaults.ActiveValue() {
+        Object closeIcon = new ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createXIcon(15);
             }
         };
-        Object minIcon = new UIDefaults.ActiveValue() {
+        Object minIcon = new ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createArrowIcon(NORTH, 10);
             }
         };
-        Object iconIcon = new UIDefaults.ActiveValue() {
+        Object iconIcon = new ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createArrowIcon(SOUTH, 10);
             }
@@ -383,7 +383,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
     }
 
     private static Object sketchedIcon(final String templateName) {
-        return new UIDefaults.ActiveValue() {
+        return new ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return NapkinIconFactory.createSketchedIcon(templateName);
             }
@@ -392,7 +392,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
 
     private static void setupActions(UIDefaults table) {
         //!! Should get actions from the native L&F for all map defaults
-        Object fieldInputMap = new UIDefaults.LazyInputMap(
+        Object fieldInputMap = new LazyInputMap(
                 new Object[]{"ctrl C", DefaultEditorKit.copyAction, "ctrl V",
                         DefaultEditorKit.pasteAction, "ctrl X",
                         DefaultEditorKit.cutAction, "COPY",
@@ -432,7 +432,7 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
                         "toggle-componentOrientation"
                         /*DefaultEditorKit.toggleComponentOrientation*/});
 
-        Object multilineInputMap = new UIDefaults.LazyInputMap(
+        Object multilineInputMap = new LazyInputMap(
                 new Object[]{"ctrl C", DefaultEditorKit.copyAction, "ctrl V",
                         DefaultEditorKit.pasteAction, "ctrl X",
                         DefaultEditorKit.cutAction, "COPY",
@@ -517,12 +517,12 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
         Font textFont = theme.getTextFont();
         Font boldFont = theme.getBoldTextFont();
 
-        Object drawnBorder = new UIDefaults.ActiveValue() {
+        Object drawnBorder = new ActiveValue() {
             public Object createValue(UIDefaults table) {
                 return new NapkinBoxBorder();
             }
         };
-        Object compoundBorder = new UIDefaults.ActiveValue() {
+        Object compoundBorder = new ActiveValue() {
             public Object createValue(UIDefaults table) {
                 NapkinBoxBorder outside = new NapkinBoxBorder();
                 BasicBorders.MarginBorder inside =

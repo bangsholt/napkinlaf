@@ -16,7 +16,7 @@ import java.beans.PropertyChangeListener;
 
 /** @author Alex Lam Sze Lok */
 @SuppressWarnings(
-        {"WeakerAccess", "JavaDoc", "NonSerializableFieldInSerializableClass"})
+        {"WeakerAccess", "JavaDoc"})
 public class NapkinTitlePane extends JComponent {
 
     private static final Border EMPTY_BORDER = new NapkinWrappedBorder(
@@ -66,7 +66,7 @@ public class NapkinTitlePane extends JComponent {
     private Window window;
 
     /** JRootPane rendering for. */
-    private JRootPane rootPane;
+    private final JRootPane rootPane;
 
     /**
      * Buffered Frame.state property. As state isn't bound, this is kept to
@@ -356,8 +356,8 @@ public class NapkinTitlePane extends JComponent {
             Frame frame = getFrame();
 
             if (frame != null) {
-                if (((state & Frame.MAXIMIZED_BOTH) != 0) && (
-                        rootPane.getBorder() == null ||
+                if (((state & Frame.MAXIMIZED_BOTH) != 0) &&
+                        (rootPane.getBorder() == null ||
                                 (rootPane.getBorder() instanceof UIResource)) &&
                         frame.isShowing()) {
                     rootPane.setBorder(null);

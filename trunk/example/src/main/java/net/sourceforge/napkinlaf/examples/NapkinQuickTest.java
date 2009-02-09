@@ -26,7 +26,7 @@ public class NapkinQuickTest implements SwingConstants {
      * @throws Exception Exception we don't recover from.
      */
     public static void main(final String[] args) throws Exception {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {
                     createAndShowGUI(args);
@@ -38,12 +38,11 @@ public class NapkinQuickTest implements SwingConstants {
     }
 
     private static void createAndShowGUI(String[] args) throws Exception {
-        LookAndFeel laf;
         if (args.length == 1) {
             if (!args[0].equals("none"))
                 UIManager.setLookAndFeel(args[0]);
         } else {
-            laf = new NapkinLookAndFeel();
+            LookAndFeel laf = new NapkinLookAndFeel();
             UIManager.setLookAndFeel(laf);
         }
 

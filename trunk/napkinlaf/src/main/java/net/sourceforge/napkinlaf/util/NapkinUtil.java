@@ -40,7 +40,7 @@ import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@SuppressWarnings({"WeakerAccess", "InterfaceNamingConvention"})
+@SuppressWarnings({"WeakerAccess"})
 public class NapkinUtil {
     private static final Map<Float, Stroke> strokes =
             new WeakHashMap<Float, Stroke>();
@@ -120,7 +120,6 @@ public class NapkinUtil {
         Logger paper = Logger.getLogger("net.sourceforge.napkinlaf.paper");
     }
 
-    @SuppressWarnings({"SameParameterValue"})
     public static Object property(ComponentUI ui, String prop) {
         String name = ui.getClass().getName();
         String base = ".Napkin";
@@ -317,14 +316,14 @@ public class NapkinUtil {
         return false;
     }
 
-    @SuppressWarnings({"ObjectEquality", "BooleanMethodIsAlwaysInverted"})
+    @SuppressWarnings({"ObjectEquality"})
     private static boolean isGlassPane(JComponent c) {
         JRootPane rootPane = c.getRootPane();
         return (rootPane != null && rootPane.getGlassPane() == c);
     }
 
     public static double leftRight(double x, boolean left) {
-        return (left ? x : LENGTH - x);
+        return (left ? x : BASE_LINE_LENGTH - x);
     }
 
     public static Graphics2D copy(Graphics g) {
@@ -498,14 +497,13 @@ public class NapkinUtil {
                 Point start = getStart(jc, null);
                 int w = textureImage.getWidth();
                 int h = textureImage.getHeight();
-                Rectangle anchor = new Rectangle(w - start.x, h - start.y, w,
-                        h);
+                Rectangle anchor = new Rectangle(w - start.x, h - start.y, w, h)
+                        ;
                 tg.setPaint(new TexturePaint(textureImage, anchor));
                 tg.fillRect(0, 0, mark.image.getWidth(),
                         mark.image.getHeight());
 
-                mark.graphics
-                        .drawImage(mark.image, -mark.offX, -mark.offY, jc);
+                mark.graphics.drawImage(mark.image, -mark.offX, -mark.offY, jc);
                 tg.dispose();
             }
         }
@@ -594,7 +592,6 @@ public class NapkinUtil {
         return holder;
     }
 
-    @SuppressWarnings({"SameParameterValue"})
     public static void printPair(Logger logger, Level level, String label,
             double x, double y) {
 
@@ -776,7 +773,6 @@ public class NapkinUtil {
         g.setColor(oldColor);
     }
 
-    @SuppressWarnings({"SameParameterValue"})
     public static Object getProperty(JComponent c, String key,
             PropertyFactory factory) {
         Object value = c.getClientProperty(key);
@@ -811,7 +807,7 @@ public class NapkinUtil {
         mat.translate(x1, y1);
         mat.rotate(baseAngle + angle);
         double len = Math.sqrt(xDelta * xDelta + yDelta * yDelta);
-        mat.scale(len / LENGTH, 1);
+        mat.scale(len / BASE_LINE_LENGTH, 1);
         AbstractDrawnGenerator.addLine(path, mat, lineGen);
     }
 
@@ -864,7 +860,6 @@ public class NapkinUtil {
         }
     }
 
-    @SuppressWarnings({"UnusedReturnValue"})
     public static IOException tryClose(Closeable fonts) {
         IOException result = null;
         try {

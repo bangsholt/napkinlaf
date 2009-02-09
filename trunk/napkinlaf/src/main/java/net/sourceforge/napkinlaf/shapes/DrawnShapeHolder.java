@@ -43,7 +43,6 @@ class DrawnShapeHolder {
         return cap;
     }
 
-    @SuppressWarnings({"SameParameterValue"})
     public void setCap(int cap) {
         this.cap = cap;
     }

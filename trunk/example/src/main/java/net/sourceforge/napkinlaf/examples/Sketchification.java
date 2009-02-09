@@ -33,7 +33,7 @@ public class Sketchification {
         new Sketchification().run();
     }
 
-    public void run() {
+    void run() {
         top = new JFrame("Sketchification");
         top.setLayout(new BorderLayout());
         createControls();

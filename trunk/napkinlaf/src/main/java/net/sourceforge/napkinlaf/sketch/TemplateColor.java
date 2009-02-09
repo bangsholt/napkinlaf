@@ -1,6 +1,7 @@
 package net.sourceforge.napkinlaf.sketch;
 
 import net.sourceforge.napkinlaf.NapkinTheme;
+import net.sourceforge.napkinlaf.NapkinTheme.Manager;
 import net.sourceforge.napkinlaf.NapkinThemeColor;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 
@@ -18,18 +19,22 @@ public class TemplateColor {
             this.themeColor = themeColor;
         }
 
+        @Override
         public float[] fromCIEXYZ(float[] colorvalue) {
             return DUMMY_FLOATS;
         }
 
+        @Override
         public float[] fromRGB(float[] rgbvalue) {
             return DUMMY_FLOATS;
         }
 
+        @Override
         public float[] toCIEXYZ(float[] colorvalue) {
             return DUMMY_FLOATS;
         }
 
+        @Override
         public float[] toRGB(float[] colorvalue) {
             return DUMMY_FLOATS;
         }
@@ -37,13 +42,13 @@ public class TemplateColor {
 
     public static final Color BACKGROUND = specialColor(
             NapkinThemeColor.BACKGROUND_COLOR);
-    public static final Color CHECK = specialColor(
-            NapkinThemeColor.CHECK_COLOR);
+    public static final Color CHECK = specialColor(NapkinThemeColor.CHECK_COLOR)
+            ;
     public static final Color HIGHLIGHT = specialColor(
             NapkinThemeColor.HIGHLIGHT_COLOR);
     public static final Color PEN = specialColor(NapkinThemeColor.PEN_COLOR);
-    public static final Color RADIO = specialColor(
-            NapkinThemeColor.RADIO_COLOR);
+    public static final Color RADIO = specialColor(NapkinThemeColor.RADIO_COLOR)
+            ;
     public static final Color ROLLOVER = specialColor(
             NapkinThemeColor.ROLLOVER_COLOR);
     public static final Color SELECTION = specialColor(
@@ -81,23 +86,7 @@ public class TemplateColor {
     }
 
     public static Color colorFor(NapkinThemeColor color) {
-        switch (color) {
-        case BACKGROUND_COLOR:
-            return BACKGROUND;
-        case CHECK_COLOR:
-            return CHECK;
-        case HIGHLIGHT_COLOR:
-            return HIGHLIGHT;
-        case PEN_COLOR:
-            return PEN;
-        case RADIO_COLOR:
-            return RADIO;
-        case ROLLOVER_COLOR:
-            return ROLLOVER;
-        case SELECTION_COLOR:
-            return SELECTION;
-        default:
-            throw new IllegalArgumentException(color + ": Unknown color type");
-        }
+        NapkinTheme theme = Manager.getCurrentTheme();
+        return theme.colorFor(color);
     }
 }

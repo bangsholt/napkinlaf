@@ -108,8 +108,7 @@ class NapkinSmartListeners {
         @Override
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
-                ((AbstractButton) c)
-                        .setIcon(new SketchifiedIcon(c, newValue));
+                ((AbstractButton) c).setIcon(new SketchifiedIcon(c, newValue));
             }
         }
 
@@ -128,8 +127,8 @@ class NapkinSmartListeners {
         @Override
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
-                ((AbstractButton) c)
-                        .setPressedIcon(new SketchifiedIcon(c, newValue));
+                ((AbstractButton) c).setPressedIcon(new SketchifiedIcon(c,
+                        newValue));
             }
         }
 
@@ -148,8 +147,8 @@ class NapkinSmartListeners {
         @Override
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
-                ((AbstractButton) c)
-                        .setSelectedIcon(new SketchifiedIcon(c, newValue));
+                ((AbstractButton) c).setSelectedIcon(new SketchifiedIcon(c,
+                        newValue));
             }
         }
 
@@ -168,8 +167,8 @@ class NapkinSmartListeners {
         @Override
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
-                ((AbstractButton) c)
-                        .setRolloverIcon(new SketchifiedIcon(c, newValue));
+                ((AbstractButton) c).setRolloverIcon(new SketchifiedIcon(c,
+                        newValue));
             }
         }
 
@@ -210,8 +209,8 @@ class NapkinSmartListeners {
         @Override
         protected void overrideValue(JComponent c, Icon newValue) {
             if (!(newValue == null || newValue instanceof NapkinIcon)) {
-                ((AbstractButton) c)
-                        .setDisabledIcon(new SketchifiedIcon(c, newValue));
+                ((AbstractButton) c).setDisabledIcon(new SketchifiedIcon(c,
+                        newValue));
             }
         }
 

@@ -18,22 +18,13 @@ import java.util.List;
  * @author Alex Lam Sze Lok see SketchifiedIcon
  */
 @SuppressWarnings(
-        {"WeakerAccess", "UnusedReturnValue", "ParameterHidesMemberVariable", "ParameterHidesMemberVariable"})
+        {"WeakerAccess", "UnusedReturnValue", "ParameterHidesMemberVariable",
+                "ParameterHidesMemberVariable"})
 public class SketchifiedImage extends Image {
 
     private BufferedImage sketch = null;
-    private List<ImageObserver> observers = new LinkedList<ImageObserver>();
-
-    private final ImageObserver observer = new ImageObserver() {
-        public boolean imageUpdate(Image img, int infoflags, int x, int y,
-                int width, int height) {
-
-            sketch = sketchify(img);
-            sketch.setAccelerationPriority(getAccelerationPriority());
-            // always return true to stay on for further events
-            return true;
-        }
-    };
+    private final List<ImageObserver> observers =
+            new LinkedList<ImageObserver>();
 
     /** Holds the hints that used when rendering into the sketched image. */
     private static final RenderingHints hints = new RenderingHints(null);
@@ -51,6 +42,17 @@ public class SketchifiedImage extends Image {
             new float[]{0.0625f, 0.1250f, 0.0625f, 0.1250f, 0.2500f, 0.1250f,
                     0.0625f, 0.1250f, 0.0625f,}), ConvolveOp.EDGE_NO_OP, hints);
 
+    private class MyImageObserver implements ImageObserver {
+        public boolean imageUpdate(Image img, int infoflags, int x, int y,
+                int width, int height) {
+
+            sketch = sketchify(img);
+            sketch.setAccelerationPriority(getAccelerationPriority());
+            // always return true to stay on for further events
+            return true;
+        }
+    }
+
     /**
      * Creates a new instance of <tt>SketchifiedImage</tt>.
      *
@@ -59,6 +61,7 @@ public class SketchifiedImage extends Image {
     public SketchifiedImage(Image image) {
         sketch = sketchify(image);
         if (sketch == null) {
+            ImageObserver observer = new MyImageObserver();
             getGraphics().drawImage(image, 0, 0, observer);
         }
     }
@@ -125,15 +128,15 @@ public class SketchifiedImage extends Image {
         // renders the edge image
         WritableRaster imageRtr = image.getRaster();
         WritableRaster alphaRtr = image.getAlphaRaster();
-        WritableRaster bands = Raster.createBandedRaster(DataBuffer.TYPE_BYTE,
-                width, height, 4, null);
+        WritableRaster bands = Raster.createBandedRaster(TYPE_BYTE, width,
+                height, 4, null);
         int[] bandList = new int[1];
         for (int i = 0; i < 4; i++) {
             bandList[0] = i;
-            Raster imageBand = imageRtr
-                    .createWritableChild(0, 0, width, height, 0, 0, bandList);
-            WritableRaster band = bands
-                    .createWritableChild(0, 0, width, height, 0, 0, bandList);
+            Raster imageBand = imageRtr.createWritableChild(0, 0, width, height,
+                    0, 0, bandList);
+            WritableRaster band = bands.createWritableChild(0, 0, width, height,
+                    0, 0, bandList);
             findEdge(alphaRtr, imageBand, band);
         }
         BufferedImage edgeImage = new BufferedImage(width, height,

@@ -2,7 +2,7 @@ package net.sourceforge.napkinlaf.dev;
 
 import net.sourceforge.napkinlaf.shapes.DrawnBoxGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnCheckGenerator;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.LENGTH;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.BASE_LINE_LENGTH;
 import net.sourceforge.napkinlaf.util.RandomValueSource;
 
 import javax.swing.*;
@@ -44,6 +44,7 @@ class CheckBoxTest extends GeneratorTest
             setBorder(new EmptyBorder(space, space, space, space));
         }
 
+        @Override
         protected void paintComponent(Graphics g1) {
             Graphics2D g = (Graphics2D) g1;
             double mid = getHeight() / 2.0 - getWidth() / 2.0;
@@ -67,12 +68,14 @@ class CheckBoxTest extends GeneratorTest
             mark(markG, rightXScaleSpin, rightYScaleSpin, true);
         }
 
+        @Override
         public Dimension getPreferredSize() {
             return getMinimumSize();
         }
 
+        @Override
         public Dimension getMinimumSize() {
-            return new Dimension(LENGTH + 2 * SPACE,
+            return new Dimension(BASE_LINE_LENGTH + 2 * SPACE,
                     MIN_HEIGHT * 2 + 2 * SPACE);
         }
     }
@@ -81,7 +84,7 @@ class CheckBoxTest extends GeneratorTest
         this(DEFAULT_BOX);
     }
 
-    CheckBoxTest(DrawnBoxGenerator boxGen) {
+    private CheckBoxTest(DrawnBoxGenerator boxGen) {
         this.boxGen = boxGen;
         checkGen = new DrawnCheckGenerator();
 

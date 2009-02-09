@@ -13,7 +13,7 @@ import net.sourceforge.napkinlaf.shapes.DrawnTriangleGenerator;
 import net.sourceforge.napkinlaf.sketch.DrawnIcon;
 import net.sourceforge.napkinlaf.sketch.Template;
 import net.sourceforge.napkinlaf.sketch.TemplateReadException;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.LENGTH;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.BASE_LINE_LENGTH;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,7 +73,7 @@ public class NapkinIconFactory {
             FontMetrics fm = placeG.getFontMetrics();
             int ypos = y + fm.getAscent();
             placeG.translate(x, ypos);
-            placeG.scale(size / (double) NapkinConstants.LENGTH, 1);
+            placeG.scale(size / (double) BASE_LINE_LENGTH, 1);
             placeG.draw(place);
 
             if (markG != null) {
@@ -89,7 +89,7 @@ public class NapkinIconFactory {
 
         private static final int DEF_SIZE = 13;
         private static final double DEF_SCALE =
-                DEF_SIZE / (double) NapkinConstants.LENGTH;
+                DEF_SIZE / (double) BASE_LINE_LENGTH;
         private static final AffineTransform DEF_SCALE_MAT =
                 NapkinUtil.scaleMat(DEF_SCALE);
         private static final DrawnCircleGenerator CIRCLE_GEN =
@@ -109,7 +109,7 @@ public class NapkinIconFactory {
         @Override
         protected AbstractDrawnGenerator createMarkGenerator() {
             DrawnCircleGenerator gen = new DrawnCircleGenerator(true);
-            double skew = LENGTH / 3.0;
+            double skew = BASE_LINE_LENGTH / 3.0;
             RandomXY tl = gen.getTL();
             RandomXY br = gen.getBR();
             Point2D tlMid = tl.getMid();
@@ -202,8 +202,8 @@ public class NapkinIconFactory {
         }
 
         public void paintIcon(Component c, Graphics g1, int x, int y) {
-            Graphics2D g = NapkinUtil
-                    .lineGraphics(g1, NapkinConstants.CHECK_WIDTH);
+            Graphics2D g = NapkinUtil.lineGraphics(g1,
+                    NapkinConstants.CHECK_WIDTH);
             mark.shapeUpToDate(new Rectangle(x, y, size, size));
             g.translate(x, y);
             mark.draw(g);
@@ -254,8 +254,8 @@ public class NapkinIconFactory {
         Template template = tmplMap.get(templatePath);
         if (template == null) {
             String subpath = "resources/templates/" + templatePath + ".xml";
-            InputStream in = NapkinLookAndFeel.class
-                    .getResourceAsStream(subpath);
+            InputStream in = NapkinLookAndFeel.class.getResourceAsStream(
+                    subpath);
             if (in == null) {
                 throw new IllegalArgumentException(
                         "unknown template: " + subpath);

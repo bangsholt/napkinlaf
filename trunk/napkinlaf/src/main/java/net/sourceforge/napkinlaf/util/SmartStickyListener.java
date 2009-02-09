@@ -11,7 +11,7 @@ public abstract class SmartStickyListener<T> implements PropertyChangeListener {
 
     private SmartStickyListener<?> nextNode = null;
 
-    private AtomicBoolean overriding = new AtomicBoolean(false);
+    private final AtomicBoolean overriding = new AtomicBoolean(false);
 
     private String recordKey;
     private String propKey;

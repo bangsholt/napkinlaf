@@ -6,9 +6,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-@SuppressWarnings({"WeakerAccess"})
 public interface NapkinConstants extends SwingConstants {
-    int LENGTH = 100;
+    int BASE_LINE_LENGTH = 100;
 
     String INSTALL_KEY = "net.sourceforge.napkinlaf.installed";
     String THEME_KEY = "net.sourceforge.napkinlaf.theme";

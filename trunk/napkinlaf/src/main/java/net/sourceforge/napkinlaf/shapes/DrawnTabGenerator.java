@@ -16,8 +16,8 @@ public class DrawnTabGenerator extends AbstractDrawnGenerator {
     private final RandomValue squeeze;
     private final int side;
 
-    public static final DrawnTabGenerator LEFT_TAB = new DrawnTabGenerator(
-            LEFT);
+    public static final DrawnTabGenerator LEFT_TAB = new DrawnTabGenerator(LEFT)
+            ;
     public static final DrawnTabGenerator RIGHT_TAB = new DrawnTabGenerator(
             RIGHT);
     public static final DrawnTabGenerator TOP_TAB = new DrawnTabGenerator(TOP);
@@ -129,7 +129,7 @@ public class DrawnTabGenerator extends AbstractDrawnGenerator {
         double len = Math.sqrt(dx * dx + dy * dy);
         matrix.translate(x0, y0);
         matrix.rotate(Math.atan2(dy, dx));
-        matrix.scale(len / LENGTH, 1.0);
+        matrix.scale(len / BASE_LINE_LENGTH, 1.0);
         return defaultLineGenerator(len).generate(matrix);
     }
 

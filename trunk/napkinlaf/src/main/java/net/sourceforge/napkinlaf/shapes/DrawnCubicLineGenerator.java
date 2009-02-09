@@ -1,6 +1,6 @@
 package net.sourceforge.napkinlaf.shapes;
 
-import static net.sourceforge.napkinlaf.util.NapkinConstants.LENGTH;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.BASE_LINE_LENGTH;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 import net.sourceforge.napkinlaf.util.RandomXY;
 
@@ -34,7 +34,7 @@ public class DrawnCubicLineGenerator extends AbstractDrawnGenerator {
         double ly = leftAt.getY();
         double rx = NapkinUtil.leftRight(rightAt.getX(), false);
         double ry = rightAt.getY();
-        double[] coords = {0, 0, lx, ly, rx, ry, LENGTH, 0};
+        double[] coords = {0, 0, lx, ly, rx, ry, BASE_LINE_LENGTH, 0};
         if (matrix != null) {
             matrix.transform(coords, 0, coords, 0, 4);
         }

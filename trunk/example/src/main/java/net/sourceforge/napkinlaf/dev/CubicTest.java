@@ -2,7 +2,7 @@ package net.sourceforge.napkinlaf.dev;
 
 import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.LENGTH;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.BASE_LINE_LENGTH;
 import net.sourceforge.napkinlaf.util.RandomValue;
 import net.sourceforge.napkinlaf.util.RandomValueSource;
 
@@ -34,6 +34,7 @@ class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
             setBorder(new EmptyBorder(SPACE, SPACE, SPACE, SPACE));
         }
 
+        @Override
         protected void paintComponent(Graphics g1) {
             Graphics2D g = (Graphics2D) g1;
             //noinspection IntegerDivisionInFloatingPointContext
@@ -48,12 +49,14 @@ class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
             mark(markG, rightXSpin, rightYSpin, false);
         }
 
+        @Override
         public Dimension getPreferredSize() {
             return getMinimumSize();
         }
 
+        @Override
         public Dimension getMinimumSize() {
-            return new Dimension(LENGTH + 2 * SPACE,
+            return new Dimension(BASE_LINE_LENGTH + 2 * SPACE,
                     MIN_HEIGHT * 2 + 2 * SPACE);
         }
     }
@@ -63,13 +66,13 @@ class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
 
         leftXSpin =
                 new RandomValueSpinner("x", gen.getLeft().getX(), 0,
-                        LENGTH / 2.0, 100);
+                        BASE_LINE_LENGTH / 2.0, 100);
         leftYSpin =
                 new RandomValueSpinner("y", gen.getLeft().getY(), -20, +20,
                         100);
         rightXSpin =
                 new RandomValueSpinner("x", gen.getRight().getX(), 0,
-                        LENGTH / 2.0, 100);
+                        BASE_LINE_LENGTH / 2.0, 100);
         rightYSpin =
                 new RandomValueSpinner("y", gen.getRight().getY(), -20, +20,
                         100);
@@ -90,7 +93,7 @@ class CubicTest extends GeneratorTest implements GeneratorTest.Drawer {
         curve = generate(null);
     }
 
-    public Shape generate(AffineTransform matrix) {
+    Shape generate(AffineTransform matrix) {
         return gen.generate(matrix);
     }
 

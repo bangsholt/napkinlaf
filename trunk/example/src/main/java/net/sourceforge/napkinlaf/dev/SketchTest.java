@@ -24,6 +24,7 @@ import java.io.IOException;
  * @author Justin Crafford
  * @author Peter Goodspeed
  */
+@SuppressWarnings({"ObjectEquality", "ObjectEquality", "ObjectEquality"})
 public class SketchTest implements ActionListener {
     // Constants used for setting the current sketching style
     private static final int IDEAL = 0;
@@ -53,7 +54,7 @@ public class SketchTest implements ActionListener {
     private File file;
 
     /** Constructs the main GUI objects that the application uses */
-    public SketchTest() {
+    private SketchTest() {
         // Create the file chooser
         fileChooser = new JFileChooser(currentDir());
         XMLFilter fileFilter = new XMLFilter();
@@ -91,8 +92,9 @@ public class SketchTest implements ActionListener {
      * This class represents a file filter for use by the file chooser. It
      * limits the files displayed only to those with an "xml" file extension.
      */
-    static class XMLFilter extends javax.swing.filechooser.FileFilter {
+    static class XMLFilter extends FileFilter {
         /** {@inheritDoc} */
+        @Override
         public boolean accept(File pathname) {
             if (pathname.isDirectory()) {
                 return true;
@@ -103,6 +105,7 @@ public class SketchTest implements ActionListener {
         }
 
         /** {@inheritDoc} */
+        @Override
         public String getDescription() {
             return "XML Templates";
         }
@@ -124,8 +127,9 @@ public class SketchTest implements ActionListener {
         }
     }
 
-    class DrawnIconFileView extends FileView {
+    private class DrawnIconFileView extends FileView {
         /** {@inheritDoc} */
+        @Override
         public Icon getIcon(File f) {
             Icon icon = null;
 
@@ -140,10 +144,9 @@ public class SketchTest implements ActionListener {
     private void addMenuWidgets() {
         // Create the menu bar
         menuBar = new JMenuBar();
-        JMenu menu;
 
         // Create the File menu and set accessibility features
-        menu = new JMenu("File");
+        JMenu menu = new JMenu("File");
         menu.setMnemonic(KeyEvent.VK_F);
         menu.getAccessibleContext().setAccessibleDescription("The File Menu");
 
@@ -173,11 +176,11 @@ public class SketchTest implements ActionListener {
 
         // Create the radio button group to contain the radio buttom menu items
         ButtonGroup group = new ButtonGroup();
-        JRadioButtonMenuItem rbMenuItem;
 
         // Create the radio button menu item for selecting the Java Look and
         // Feel
-        rbMenuItem = new JRadioButtonMenuItem("Java Look & Feel");
+        JRadioButtonMenuItem rbMenuItem = new JRadioButtonMenuItem(
+                "Java Look & Feel");
         rbMenuItem.setActionCommand("Java Look & Feel");
         rbMenuItem.setMnemonic(KeyEvent.VK_J);
         rbMenuItem.getAccessibleContext().setAccessibleDescription(
@@ -354,7 +357,7 @@ public class SketchTest implements ActionListener {
     createDrawnIcon(String templatePath, int sketchStyle) {
 
         AbstractSketcher sketcher = getSketchStyle(sketchStyle);
-        DrawnIcon ret = null;
+        DrawnIcon ret  ;
 
         try {
             Template template = Template.createFromXML(templatePath);
@@ -420,7 +423,7 @@ public class SketchTest implements ActionListener {
     public static void main(String[] args) {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
             }

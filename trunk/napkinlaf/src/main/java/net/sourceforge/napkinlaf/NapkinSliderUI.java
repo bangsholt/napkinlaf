@@ -33,7 +33,7 @@ public class NapkinSliderUI extends BasicSliderUI implements NapkinPainter {
 
     private NapkinSliderUI(JSlider c) {
         super(c);
-        vertical = (c.getOrientation() == SwingConstants.VERTICAL);
+        vertical = (c.getOrientation() == VERTICAL);
         trackBounds = new Rectangle();
 
         tickBounds = new Rectangle();

@@ -136,8 +136,8 @@ public class TemplateItem implements Cloneable {
             result = f.element("templateItem");
 
             if (strokeColor != null) {
-                result.addContent(XMLUtility
-                        .colorToXML("strokeColor", strokeColor));
+                result.addContent(XMLUtility.colorToXML("strokeColor",
+                        strokeColor));
             }
             if (strokeWeight != 1) {
                 Element t = f.element("strokeWeight");

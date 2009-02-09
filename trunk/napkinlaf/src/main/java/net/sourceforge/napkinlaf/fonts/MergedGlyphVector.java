@@ -212,8 +212,8 @@ class MergedGlyphVector extends GlyphVector {
                 GlyphInfo info = glyphs.get(i);
                 if (!font.equals(info.font)) {
                     if (topStartIndex < i) {
-                        MergedGlyphVector cgv = new MergedGlyphVector(font,
-                                frc);
+                        MergedGlyphVector cgv = new MergedGlyphVector(font, frc)
+                                ;
                         cgv.glyphs.addAll(glyphs.subList(topStartIndex, i));
                         list.add(cgv);
                     }

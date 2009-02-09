@@ -3,7 +3,7 @@ package net.sourceforge.napkinlaf.dev;
 import net.sourceforge.napkinlaf.shapes.DrawnBoxGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnQuadLineGenerator;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.LENGTH;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.BASE_LINE_LENGTH;
 import net.sourceforge.napkinlaf.util.RandomValueSource;
 
 import javax.swing.*;
@@ -54,6 +54,7 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
             setBorder(new EmptyBorder(space, space, space, space));
         }
 
+        @Override
         protected void paintComponent(Graphics g1) {
             Graphics2D g = (Graphics2D) g1;
             double mid = getHeight() / 2.0 - sizeYSpin.get() / 2.0;
@@ -76,12 +77,14 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
                 lineG.draw(shape);
         }
 
+        @Override
         public Dimension getPreferredSize() {
             return getMinimumSize();
         }
 
+        @Override
         public Dimension getMinimumSize() {
-            return new Dimension(LENGTH + 2 * SPACE,
+            return new Dimension(BASE_LINE_LENGTH + 2 * SPACE,
                     MIN_HEIGHT * 2 + 2 * SPACE);
         }
     }
@@ -100,9 +103,9 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
         startAdjustSpin = new RandomValueSpinner("adj", gen.getStartAdjust(), 0,
                 10, 100, false);
         sizeXSpin = new RandomValueSpinner("width", gen.getSize().getX(), 0,
-                LENGTH, 100, false);
+                BASE_LINE_LENGTH, 100, false);
         sizeYSpin = new RandomValueSpinner("height", gen.getSize().getY(), 0,
-                LENGTH, 100, false);
+                BASE_LINE_LENGTH, 100, false);
         spinners = new RandomValueSource[]{begXSpin, endYSpin, widthSpin};
 
         sides = new Side[4];
@@ -114,7 +117,7 @@ class BoxTest extends GeneratorTest implements GeneratorTest.Drawer {
         rebuild();
     }
 
-    public void generate(AffineTransform matrix) {
+    void generate(AffineTransform matrix) {
         gen.generate(matrix);
     }
 

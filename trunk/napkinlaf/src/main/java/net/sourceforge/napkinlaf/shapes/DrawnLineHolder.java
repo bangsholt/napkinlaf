@@ -1,6 +1,6 @@
 package net.sourceforge.napkinlaf.shapes;
 
-import static net.sourceforge.napkinlaf.util.NapkinConstants.LENGTH;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.BASE_LINE_LENGTH;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 
 import java.awt.*;
@@ -82,8 +82,8 @@ public class DrawnLineHolder extends DrawnShapeHolder {
             double yDelta = y2 - y1;
             double len = Math.sqrt(xDelta * xDelta + yDelta * yDelta);
 
-            double angle = Math.atan2(yDelta,
-                    xDelta);  // y before x (it's sin/cos)
+            double angle = Math.atan2(yDelta, xDelta)
+                    ;  // y before x (it's sin/cos)
 
             AffineTransform matrix = new AffineTransform();
             matrix.translate(x1, y1);
@@ -98,7 +98,7 @@ public class DrawnLineHolder extends DrawnShapeHolder {
                 logger.log(Level.FINE, "angle = " + angle);
                 logger.log(Level.FINE, "len = " + len);
             }
-            double xScale = len / LENGTH;
+            double xScale = len / BASE_LINE_LENGTH;
             matrix.scale(xScale, 1);
             shape = gen.generate(matrix);
         }

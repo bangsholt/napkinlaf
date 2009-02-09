@@ -20,17 +20,16 @@ class RandomValueSpinner extends JPanel implements RandomValueSource {
         this(name, value, min, max, steps, true);
     }
 
-    RandomValueSpinner(String name, RandomValue value, double min,
-            double max,
+    RandomValueSpinner(String name, RandomValue value, double min, double max,
             int steps, boolean randomized) {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBorder(new TitledBorder(name));
 
         this.value = value;
 
-        final double range = value.getRange();
-        final double init = value.getMid();
-        final double stepSize = (max - min) / steps;
+        double range = value.getRange();
+        double init = value.getMid();
+        double stepSize = (max - min) / steps;
         midModel = new SpinnerNumberModel(init, min, max, stepSize);
         add(new JLabel(randomized ? "mid" : "val"));
         add(makeSpinner(midModel, "#0.00"));
@@ -53,11 +52,10 @@ class RandomValueSpinner extends JPanel implements RandomValueSource {
     }
 
     private JSpinner makeRandomizer(double range) {
-        rangeModel = new SpinnerNumberModel(range, 0d, 100d, 0.5d);
+        rangeModel = new SpinnerNumberModel(range, 0.0d, 100.0d, 0.5d);
         rangeModel.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                RandomValueSpinner.this.value.setRange(
-                        rangeModel.getNumber().doubleValue());
+                value.setRange(rangeModel.getNumber().doubleValue());
             }
         });
         return makeSpinner(rangeModel, "#0.00");

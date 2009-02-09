@@ -2,7 +2,7 @@ package net.sourceforge.napkinlaf.dev;
 
 import net.sourceforge.napkinlaf.shapes.DrawnCubicLineGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnQuadLineGenerator;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.LENGTH;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.BASE_LINE_LENGTH;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 import net.sourceforge.napkinlaf.util.RandomValue;
 import net.sourceforge.napkinlaf.util.RandomValueSource;
@@ -20,7 +20,7 @@ public class GeneratorTest extends NapkinUtil {
 
     // Subclass of this that implement Generator will have a symbol conflict
     // if we just call this "length"
-    private static final int STD_LENGTH = LENGTH;
+    private static final int STD_LENGTH = BASE_LINE_LENGTH;
     static final int SPACE = STD_LENGTH / 2;
     static final int MIN_HEIGHT = STD_LENGTH * 2;
 
@@ -55,8 +55,7 @@ public class GeneratorTest extends NapkinUtil {
             REPAINT.stateChanged(null);
         }
     };
-    protected final RandomValue width;
-    protected final RandomValueSpinner widthSpin;
+    final RandomValueSpinner widthSpin;
 
     static {
         CubicTest cubic = new CubicTest();
@@ -80,8 +79,8 @@ public class GeneratorTest extends NapkinUtil {
         void rebuild();
     }
 
-    public GeneratorTest() {
-        width = new RandomValue(1);
+    GeneratorTest() {
+        RandomValue width=new RandomValue(1);
         widthSpin = new RandomValueSpinner("w", width, 0, 3, 20);
     }
 
@@ -121,9 +120,8 @@ public class GeneratorTest extends NapkinUtil {
     }
 
     private static JPanel displayControls() {
-        JButton randomize;
         showControlPoints = new JCheckBox("Show control points", false);
-        randomize = new JButton("Randomize");
+        JButton randomize = new JButton("Randomize");
         randomize.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (currentDrawer != null) {

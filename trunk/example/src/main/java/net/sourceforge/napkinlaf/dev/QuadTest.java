@@ -2,7 +2,7 @@ package net.sourceforge.napkinlaf.dev;
 
 import net.sourceforge.napkinlaf.shapes.AbstractDrawnGenerator;
 import net.sourceforge.napkinlaf.shapes.DrawnQuadLineGenerator;
-import static net.sourceforge.napkinlaf.util.NapkinConstants.LENGTH;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.BASE_LINE_LENGTH;
 import net.sourceforge.napkinlaf.util.RandomValue;
 import net.sourceforge.napkinlaf.util.RandomValueSource;
 
@@ -29,6 +29,7 @@ class QuadTest extends GeneratorTest implements GeneratorTest.Drawer {
             setBorder(new EmptyBorder(SPACE, SPACE, SPACE, SPACE));
         }
 
+        @Override
         protected void paintComponent(Graphics g1) {
             Graphics2D g = (Graphics2D) g1;
             //noinspection IntegerDivisionInFloatingPointContext
@@ -42,31 +43,33 @@ class QuadTest extends GeneratorTest implements GeneratorTest.Drawer {
             mark(markG, ctlXSpin, ctlYSpin, true);
         }
 
+        @Override
         public Dimension getPreferredSize() {
             return getMinimumSize();
         }
 
+        @Override
         public Dimension getMinimumSize() {
-            return new Dimension(LENGTH + 2 * SPACE,
+            return new Dimension(BASE_LINE_LENGTH + 2 * SPACE,
                     MIN_HEIGHT * 2 + 2 * SPACE);
         }
     }
 
     QuadTest() {
-        RandomValue w;
         gen = new DrawnQuadLineGenerator();
-        ctlXSpin = new RandomValueSpinner("x", gen.getCtl().getX(), 0, LENGTH,
+        ctlXSpin = new RandomValueSpinner("x", gen.getCtl().getX(), 0,
+                BASE_LINE_LENGTH,
                 100);
         ctlYSpin = new RandomValueSpinner("y", gen.getCtl().getY(), -20, +20,
                 100);
-        w = new RandomValue(1, 0);
+        RandomValue w = new RandomValue(1, 0);
         widthSpin = new RandomValueSpinner("w", w, 0, 3, 20);
         spinners = new RandomValueSpinner[]{ctlXSpin, ctlYSpin, widthSpin};
 
         rebuild();
     }
 
-    public Shape generate(AffineTransform matrix) {
+    Shape generate(AffineTransform matrix) {
         return gen.generate(matrix);
     }
 

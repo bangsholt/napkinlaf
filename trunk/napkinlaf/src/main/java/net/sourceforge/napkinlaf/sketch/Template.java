@@ -27,15 +27,19 @@ import java.util.ListIterator;
  * @author Peter Goodspeed
  */
 @SuppressWarnings(
-        {"CloneDoesntDeclareCloneNotSupportedException", "WeakerAccess", "InstanceMethodNamingConvention"})
+        {"CloneDoesntDeclareCloneNotSupportedException", "WeakerAccess"})
 public class Template implements Cloneable {
     private String title; // The title of the template
     private String description; // A description of the template
-    private Rectangle clippingBounds; // The area that defines which portion of the image to draw
-    private int width; // The width of the image with all the template components combined
-    private int height; // the height of the image with all the template components combined
+    private Rectangle clippingBounds;
+            // The area that defines which portion of the image to draw
+    private int width;
+            // The width of the image with all the template components combined
+    private int height;
+            // the height of the image with all the template components combined
     @SuppressWarnings("CollectionDeclaredAsConcreteClass")
-    private LinkedList<TemplateItem> templateItems; // A list of all template components
+    private LinkedList<TemplateItem> templateItems;
+            // A list of all template components
 
     /**
      * Constructs a new template with the given values.
