@@ -126,5 +126,12 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
     public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
+
+    @Override
+    protected void paintTabBackground(Graphics g, int tabPlacement,
+            int tabIndex, int x, int y, int w, int h, boolean isSelected) {
+
+        NapkinUtil.paintBackground(g, tabPane, new Rectangle(x, y, w, h));
+    }
 }
 
