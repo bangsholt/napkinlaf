@@ -49,12 +49,12 @@ public class XMLTemplateExtractor extends DefaultHandler {
     // Data-related objects
     private Point2D point; // Holds point information
     private final Point2D.Float[] points; // Holds points for a particular line
-    @SuppressWarnings({"InstanceVariableNamingConvention"})
     private int i; // Used to iterate through all the points
     private int[] rgb; // Holds r, g, b color information
     private NapkinThemeColor whichColor;
 
-    private XMLActions currentAction; // Specifies information that needs parsing
+    private XMLActions currentAction;
+            // Specifies information that needs parsing
     private float curX;
 
     private static final String VALIDATE_PROP =
@@ -64,13 +64,12 @@ public class XMLTemplateExtractor extends DefaultHandler {
     static {
         boolean v;
         try {
-            v = AccessController
-                    .doPrivileged(new PrivilegedAction<Boolean>() {
-                        public Boolean run() {
-                            return Boolean.parseBoolean(System.getProperty(
-                                    VALIDATE_PROP));
-                        }
-                    });
+            v = AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
+                public Boolean run() {
+                    return Boolean.parseBoolean(System.getProperty(
+                            VALIDATE_PROP));
+                }
+            });
         } catch (SecurityException e) {
             v = false;
         }
@@ -87,7 +86,7 @@ public class XMLTemplateExtractor extends DefaultHandler {
         points[1] = new Point2D.Float();
         points[2] = new Point2D.Float();
         points[3] = new Point2D.Float();
-        currentAction = XMLActions.NO_ACTION;
+        currentAction = NO_ACTION;
     }
 
     /**
@@ -306,7 +305,8 @@ public class XMLTemplateExtractor extends DefaultHandler {
      * @param e    The exception that caused the error, or <tt>null</tt>.
      */
     @SuppressWarnings(
-            {"WeakerAccess", "UseOfSystemOutOrSystemErr", "HardcodedFileSeparator"})
+            {"WeakerAccess", "UseOfSystemOutOrSystemErr",
+                    "HardcodedFileSeparator"})
     protected static void printError(String type, SAXParseException e) {
         System.err.print("[");
         System.err.print(type);

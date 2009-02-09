@@ -25,10 +25,8 @@ public class NapkinMenuUI extends BasicMenuUI
                 public void propertyChange(PropertyChangeEvent evt) {
                     ComponentOrientation orientation =
                             (ComponentOrientation) evt.getNewValue();
-                    arrowIcon = NapkinIconFactory
-                            .createArrowIcon(
-                                    (orientation.isLeftToRight() ? EAST : WEST),
-                                    8);
+                    arrowIcon = NapkinIconFactory.createArrowIcon(
+                            (orientation.isLeftToRight() ? EAST : WEST), 8);
                 }
             };
 
@@ -42,8 +40,8 @@ public class NapkinMenuUI extends BasicMenuUI
         super.installUI(c);
         oldArrowIcon = arrowIcon;
         boolean isLeftToRight = c.getComponentOrientation().isLeftToRight();
-        arrowIcon = NapkinIconFactory
-                .createArrowIcon((isLeftToRight ? EAST : WEST), 8);
+        arrowIcon = NapkinIconFactory.createArrowIcon(
+                (isLeftToRight ? EAST : WEST), 8);
         c.addPropertyChangeListener("componentOrientation",
                 orientationListener);
         NapkinUtil.installUI(c);
@@ -65,8 +63,8 @@ public class NapkinMenuUI extends BasicMenuUI
         if (line == null) {
             line = new DrawnLineHolder(new DrawnCubicLineGenerator());
         }
-        NapkinUtil
-                .paintButtonText(g, item, textRect, text, 0, line, false, this);
+        NapkinUtil.paintButtonText(g, item, textRect, text, 0, line, false,
+                this);
     }
 
     public void superPaintText(Graphics g, JComponent c, Rectangle textRect,

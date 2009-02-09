@@ -2,7 +2,7 @@ package net.sourceforge.napkinlaf.util;
 
 import java.awt.*;
 
-@SuppressWarnings({"WeakerAccess", "InterfaceNamingConvention"})
+@SuppressWarnings({"WeakerAccess"})
 public class ComponentWalker {
 
     private final Visitor visitor;

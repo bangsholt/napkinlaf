@@ -28,8 +28,8 @@ public class NapkinBoxBorder extends AbstractNapkinBorder {
     protected void doPaintBorder(Component c, Graphics g1, int x, int y,
             int width, int height) {
 
-        DrawnBoxHolder box = (DrawnBoxHolder) NapkinUtil
-                .getProperty((JComponent) c, BOX_BORDER_KEY, BOX_FACTORY);
+        DrawnBoxHolder box = (DrawnBoxHolder) NapkinUtil.getProperty(
+                (JComponent) c, BOX_BORDER_KEY, BOX_FACTORY);
 
         Rectangle passed = new Rectangle(x, y, width, height);
         box.shapeUpToDate(passed);

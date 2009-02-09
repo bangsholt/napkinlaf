@@ -21,7 +21,7 @@ public class MergedFontGraphics2D extends Graphics2D {
     private boolean isMergedFont;
 
     private MergedFontGraphics2D(Graphics2D g2d) {
-        assert!(g2d instanceof MergedFontGraphics2D) : "double delegation";
+        assert !(g2d instanceof MergedFontGraphics2D) : "double delegation";
         this.g2d = g2d;
         // setFont so as to set the intial state of isCompositeFont
         setFont(g2d.getFont());

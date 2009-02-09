@@ -75,8 +75,8 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
 
         corner = new RandomXY(-1, 3, 0, 2.5);
         startAdjust = new RandomValue(5);
-        size = new RandomXY(new SideSize(LENGTH, LEFT, RIGHT), new SideSize(
-                LENGTH * 0.618, TOP, BOTTOM));
+        size = new RandomXY(new SideSize(BASE_LINE_LENGTH, LEFT, RIGHT),
+                new SideSize(BASE_LINE_LENGTH * 0.618, TOP, BOTTOM));
         breakSide = NO_SIDE;
         breakBeg = new Point2D.Double(0, 0);
         breakEnd = new Point2D.Double(0, 0);
@@ -88,8 +88,8 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
         GeneralPath shape = new GeneralPath();
         double xSize = size.getX().generate();
         double ySize = size.getY().generate();
-        double xScale = xSize / LENGTH;
-        double yScale = ySize / LENGTH;
+        double xScale = xSize / BASE_LINE_LENGTH;
+        double yScale = ySize / BASE_LINE_LENGTH;
         double xCorner = adjustStartOffset(corner.getX(), xScale);
         double yCorner = adjustStartOffset(corner.getY(), yScale);
 
@@ -102,7 +102,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
                     gens[0]);
             return shape;
         }
-        double scale = (xSize - xCorner) / LENGTH;
+        double scale = (xSize - xCorner) / BASE_LINE_LENGTH;
         AffineTransform smat = (AffineTransform) matrix.clone();
 
         smat.translate(xCorner, 0);
@@ -120,7 +120,7 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
         smat.rotate(Math.PI / 2);
         smat.scale(scale, 1);
         sides[RIGHT] = addSide(shape, smat, RIGHT, scale);
-        scale = (ySize - yCorner) / LENGTH;
+        scale = (ySize - yCorner) / BASE_LINE_LENGTH;
         smat = (AffineTransform) matrix.clone();
         smat.translate(0, ySize);
         smat.rotate(-Math.PI / 2);
@@ -221,12 +221,11 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
         if (len > 0) {
             AffineTransform mat = (AffineTransform) smat.clone();
             mat.translate(xBeg, yBeg);
-            mat.scale(len / LENGTH, 1);
+            mat.scale(len / BASE_LINE_LENGTH, 1);
             addLine(side, mat, toGenerator(defaultLineType(len)));
         }
     }
 
-    @SuppressWarnings({"UnnecessaryLocalVariable"})
     private double adjustStartOffset(RandomValueSource off, double scale) {
         double result = off.generate();
         if (scale < 1.0) {
@@ -293,7 +292,6 @@ public class DrawnBoxGenerator extends AbstractDrawnGenerator {
                 DrawnCubicLineGenerator.class);
     }
 
-    @SuppressWarnings({"SameParameterValue"})
     public void setAsX(boolean asX) {
         this.asX = asX;
     }

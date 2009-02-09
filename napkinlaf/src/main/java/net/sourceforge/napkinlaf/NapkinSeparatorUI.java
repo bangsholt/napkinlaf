@@ -19,9 +19,7 @@ public class NapkinSeparatorUI extends BasicSeparatorUI
         private DrawnLineHolder line;
 
         public void paint(Graphics g, JSeparator sep) {
-            boolean isVertical =
-                    sep.getOrientation() == SwingConstants.VERTICAL;
-            doPaint(g, sep, isVertical);
+            doPaint(g, sep, sep.getOrientation() == SwingConstants.VERTICAL);
         }
 
         @SuppressWarnings({"TypeMayBeWeakened"})

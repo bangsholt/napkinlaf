@@ -17,7 +17,8 @@ import java.awt.image.*;
 @SuppressWarnings({"WeakerAccess"})
 public class DrawnIcon implements NapkinIcon {
     private final Template template;    // The template object to sketch
-    private AbstractSketcher sketcher;    // The sketcher used to create icon's image
+    private AbstractSketcher sketcher;
+            // The sketcher used to create icon's image
     private BufferedImage bimage; // The stored image of the final sketch
     private boolean isSketched;   // Has this icon's template has been sketched?
 

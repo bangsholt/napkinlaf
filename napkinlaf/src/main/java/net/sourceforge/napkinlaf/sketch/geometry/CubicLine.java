@@ -10,7 +10,6 @@ import java.awt.geom.*;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-@SuppressWarnings({"WeakerAccess"})
 public class CubicLine extends CubicCurve2D.Double implements SketchShape {
     /** Constructs a new <tt>CubicLine</tt> object. */
     public CubicLine() {
@@ -38,8 +37,8 @@ public class CubicLine extends CubicCurve2D.Double implements SketchShape {
      * @param p2   the end point.
      */
     public CubicLine(Point2D p1, Point2D ctl1, Point2D ctl2, Point2D p2) {
-        super(p1.getX(), p1.getY(), ctl1.getX(), ctl1.getY(), ctl2.getX(), ctl2
-                .getY(), p2.getX(), p2.getY());
+        super(p1.getX(), p1.getY(), ctl1.getX(), ctl1.getY(), ctl2.getX(),
+                ctl2.getY(), p2.getX(), p2.getY());
     }
 
     /**

@@ -81,7 +81,6 @@ public class DrawnTriangleGenerator extends AbstractDrawnGenerator {
         return t;
     }
 
-    @SuppressWarnings({"UnnecessaryLocalVariable"})
     private double adjustStartOffset(RandomValueSource off, double scale) {
         double result = off.generate();
         if (scale < 1.0) {

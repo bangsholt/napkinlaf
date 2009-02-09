@@ -1,6 +1,6 @@
 package net.sourceforge.napkinlaf.shapes;
 
-import static net.sourceforge.napkinlaf.util.NapkinConstants.LENGTH;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.BASE_LINE_LENGTH;
 import net.sourceforge.napkinlaf.util.RandomXY;
 
 import java.awt.*;
@@ -24,12 +24,12 @@ public class DrawnCircleGenerator extends AbstractDrawnGenerator {
 
         this.forFill = forFill;
 
-        start = new RandomXY(LENGTH / 2.0, 2, 0, 20);
-        end = new RandomXY(LENGTH / 2.0, 2, 0, 20);
+        start = new RandomXY(BASE_LINE_LENGTH / 2.0, 2, 0, 20);
+        end = new RandomXY(BASE_LINE_LENGTH / 2.0, 2, 0, 20);
         tl = new RandomXY(0, 0);
-        tr = new RandomXY(LENGTH, 0);
-        br = new RandomXY(LENGTH, LENGTH);
-        bl = new RandomXY(0, LENGTH);
+        tr = new RandomXY(BASE_LINE_LENGTH, 0);
+        br = new RandomXY(BASE_LINE_LENGTH, BASE_LINE_LENGTH);
+        bl = new RandomXY(0, BASE_LINE_LENGTH);
     }
 
     @Override
@@ -51,11 +51,12 @@ public class DrawnCircleGenerator extends AbstractDrawnGenerator {
         double bottomX = xBL + (xBR - xBL) / 2;
         double bottomY = yBL + (yBR - yBL) / 2;
 
-        double[] coords = {startAt.getX(), startAt.getY(), trAt.getX(),
-                trAt.getY(), xBR, yBR, bottomX, bottomY,
+        double[] coords =
+                {startAt.getX(), startAt.getY(), trAt.getX(), trAt.getY(), xBR,
+                        yBR, bottomX, bottomY,
 
-                bottomX, bottomY, xBL, yBL, tlAt.getX(), tlAt.getY(),
-                endAt.getX(), endAt.getY(),};
+                        bottomX, bottomY, xBL, yBL, tlAt.getX(), tlAt.getY(),
+                        endAt.getX(), endAt.getY(),};
         if (matrix != null) {
             matrix.transform(coords, 0, coords, 0, coords.length / 2);
         }

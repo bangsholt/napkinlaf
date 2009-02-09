@@ -11,7 +11,8 @@ import javax.swing.plaf.basic.*;
 import java.awt.*;
 
 @SuppressWarnings(
-        {"QuestionableName", "WeakerAccess", "MethodOverridesStaticMethodOfSuperclass"})
+        {"QuestionableName", "WeakerAccess",
+                "MethodOverridesStaticMethodOfSuperclass"})
 public class NapkinScrollBarUI extends BasicScrollBarUI
         implements NapkinPainter {
     private DrawnLineHolder track;

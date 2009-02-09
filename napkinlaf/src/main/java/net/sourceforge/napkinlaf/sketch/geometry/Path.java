@@ -13,7 +13,7 @@ import java.util.LinkedList;
  * @author Peter Goodspeed
  */
 @SuppressWarnings(
-        {"CloneDoesntDeclareCloneNotSupportedException", "WeakerAccess", "ClassNamingConvention"})
+        {"CloneDoesntDeclareCloneNotSupportedException", "WeakerAccess"})
 public class Path implements SketchShape {
     private GeneralPath generalPath;
 
@@ -25,7 +25,6 @@ public class Path implements SketchShape {
         generalPath = new GeneralPath(s);
     }
 
-    @SuppressWarnings({"SameParameterValue"})
     public void append(Shape s, boolean connect) {
         generalPath.append(s, connect);
     }
@@ -129,8 +128,7 @@ public class Path implements SketchShape {
                 control1 = new Point(points[0], points[1]).magnify(scaleFactor);
                 current = new Point(points[2], points[3]).magnify(scaleFactor);
                 ret.quadTo(control1.floatX(), control1.floatY(),
-                        current.floatX(), current
-                        .floatY());
+                        current.floatX(), current.floatY());
                 break;
             case PathIterator.SEG_CUBICTO:
                 control1 = new Point(points[0], points[1]).magnify(scaleFactor);

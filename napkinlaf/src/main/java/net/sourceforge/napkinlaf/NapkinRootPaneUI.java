@@ -52,11 +52,14 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
             Cursor.DEFAULT_CURSOR);
 
     /** Keys to lookup borders in defaults table. */
-    private static final String[] BORDER_KEYS = {null, "RootPane.frameBorder",
-            "RootPane.plainDialogBorder", "RootPane.informationDialogBorder",
-            "RootPane.errorDialogBorder", "RootPane.colorChooserDialogBorder",
-            "RootPane.fileChooserDialogBorder", "RootPane.questionDialogBorder",
-            "RootPane.warningDialogBorder"};
+    private static final String[] BORDER_KEYS =
+            {null, "RootPane.frameBorder", "RootPane.plainDialogBorder",
+                    "RootPane.informationDialogBorder",
+                    "RootPane.errorDialogBorder",
+                    "RootPane.colorChooserDialogBorder",
+                    "RootPane.fileChooserDialogBorder",
+                    "RootPane.questionDialogBorder",
+                    "RootPane.warningDialogBorder"};
 
     /** The amount of space (in pixels) that the cursor is changed on. */
     private static final int CORNER_DRAG_WIDTH = 16;
@@ -531,8 +534,8 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
                 nextY += mbd.height;
             }
             if (root.getContentPane() != null) {
-                root.getContentPane()
-                        .setBounds(0, nextY, w, h < nextY ? 0 : h - nextY);
+                root.getContentPane().setBounds(0, nextY, w,
+                        h < nextY ? 0 : h - nextY);
             }
         }
 
@@ -561,15 +564,15 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
      * Maps from positions to cursor type. Refer to calculateCorner and
      * calculatePosition for details of this.
      */
-    private static final int[] CURSOR_MAP = new int[]{Cursor.NW_RESIZE_CURSOR,
-            Cursor.NW_RESIZE_CURSOR, Cursor.N_RESIZE_CURSOR,
-            Cursor.NE_RESIZE_CURSOR, Cursor.NE_RESIZE_CURSOR,
-            Cursor.NW_RESIZE_CURSOR, 0, 0, 0, Cursor.NE_RESIZE_CURSOR,
-            Cursor.W_RESIZE_CURSOR, 0, 0, 0, Cursor.E_RESIZE_CURSOR,
-            Cursor.SW_RESIZE_CURSOR, 0, 0, 0, Cursor.SE_RESIZE_CURSOR,
-            Cursor.SW_RESIZE_CURSOR, Cursor.SW_RESIZE_CURSOR,
-            Cursor.S_RESIZE_CURSOR, Cursor.SE_RESIZE_CURSOR,
-            Cursor.SE_RESIZE_CURSOR};
+    private static final int[] CURSOR_MAP =
+            {Cursor.NW_RESIZE_CURSOR, Cursor.NW_RESIZE_CURSOR,
+                    Cursor.N_RESIZE_CURSOR, Cursor.NE_RESIZE_CURSOR,
+                    Cursor.NE_RESIZE_CURSOR, Cursor.NW_RESIZE_CURSOR, 0, 0, 0,
+                    Cursor.NE_RESIZE_CURSOR, Cursor.W_RESIZE_CURSOR, 0, 0, 0,
+                    Cursor.E_RESIZE_CURSOR, Cursor.SW_RESIZE_CURSOR, 0, 0, 0,
+                    Cursor.SE_RESIZE_CURSOR, Cursor.SW_RESIZE_CURSOR,
+                    Cursor.SW_RESIZE_CURSOR, Cursor.S_RESIZE_CURSOR,
+                    Cursor.SE_RESIZE_CURSOR, Cursor.SE_RESIZE_CURSOR};
 
     /**
      * This class is responsible for handling resize/moving of the window. It
@@ -645,7 +648,7 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
                         dragOffsetY = dragWindowOffset.y;
                     }
                 } else if (f != null && f.isResizable() &&
-                        (frameState & Frame.MAXIMIZED_BOTH) == 0 ||
+                        (frameState & MAXIMIZED_BOTH) == 0 ||
                         d != null && d.isResizable()) {
 
                     dragOffsetX = dragWindowOffset.x;
@@ -685,12 +688,12 @@ public class NapkinRootPaneUI extends BasicRootPaneUI implements NapkinPainter {
                 }
 
                 // Update the cursor
-                int cursor = getCursor(calculateCorner(w, ev.getX(),
-                        ev.getY()));
+                int cursor = getCursor(calculateCorner(w, ev.getX(), ev.getY()))
+                        ;
 
-                w.setCursor(cursor != 0 && ((f != null && f.isResizable() &&
-                        (f.getExtendedState() & MAXIMIZED_BOTH) == 0) ||
-                        (d != null && d.isResizable())) ?
+                w.setCursor(cursor != 0 && (f != null && f.isResizable() &&
+                        (f.getExtendedState() & MAXIMIZED_BOTH) == 0 ||
+                        d != null && d.isResizable()) ?
                         Cursor.getPredefinedCursor(cursor) :
                         lastCursor);
             }

@@ -72,7 +72,7 @@ public class JotSketcher extends AbstractSketcher {
                 new Point(c.getP1()));
         return new CubicLine(p1, Point.random(c.getCtrlP1(), twopercent * 5),
                 Point.random(c.getCtrlP2(), twopercent * 5), Point.random(
-                c.getP2(), twopercent));
+                        c.getP2(), twopercent));
     }
 
     /**

@@ -19,7 +19,6 @@ public class AlphaColorUIResource extends Color implements UIResource {
                 c.getAlpha() / 255.0f);
     }
 
-    @SuppressWarnings({"SameParameterValue"})
     public AlphaColorUIResource(int r, int g, int b, int a) {
         super(r, g, b, a);
     }

@@ -208,7 +208,6 @@ public class NapkinDebug {
         }
     }
 
-    @SuppressWarnings({"ObjectEquality"})
     private static void dumpValue(Class<?> type, PrintStream out, Object val,
             int depth, Map<Object, Integer> known) {
         if (type.isPrimitive()) {
@@ -225,7 +224,6 @@ public class NapkinDebug {
         }
     }
 
-    @SuppressWarnings({"ObjectEquality"})
     private static Field[] getFields(Object obj) {
         Class<?> type = obj.getClass();
         Field[] fields = fieldsForType.get(type);
@@ -236,8 +234,8 @@ public class NapkinDebug {
                 Field[] declaredFields = type.getDeclaredFields();
                 for (Field field : declaredFields) {
                     int mods = field.getModifiers();
-                    if (!field.getDeclaringClass()
-                            .isAssignableFrom(obj.getClass())) {
+                    if (!field.getDeclaringClass().isAssignableFrom(
+                            obj.getClass())) {
                         fSet.size();
                     }
                     if ((mods & skip) == 0) {

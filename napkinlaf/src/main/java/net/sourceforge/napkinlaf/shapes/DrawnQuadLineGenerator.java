@@ -1,6 +1,6 @@
 package net.sourceforge.napkinlaf.shapes;
 
-import static net.sourceforge.napkinlaf.util.NapkinConstants.LENGTH;
+import static net.sourceforge.napkinlaf.util.NapkinConstants.BASE_LINE_LENGTH;
 import net.sourceforge.napkinlaf.util.NapkinUtil;
 import net.sourceforge.napkinlaf.util.RandomXY;
 
@@ -22,7 +22,7 @@ public class DrawnQuadLineGenerator extends AbstractDrawnGenerator {
         Point2D ctlAt = ctl.generate();
         double lx = NapkinUtil.leftRight(ctlAt.getX(), true);
         double ly = ctlAt.getY();
-        double[] coords = {0, 0, lx, ly, LENGTH, 0};
+        double[] coords = {0, 0, lx, ly, BASE_LINE_LENGTH, 0};
         if (matrix != null) {
             matrix.transform(coords, 0, coords, 0, coords.length / 2);
         }

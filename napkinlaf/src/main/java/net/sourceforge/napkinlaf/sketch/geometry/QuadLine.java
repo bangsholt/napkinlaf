@@ -10,7 +10,6 @@ import java.awt.geom.*;
  * @author Peter Goodspeed
  * @author Justin Crafford
  */
-@SuppressWarnings({"WeakerAccess"})
 public class QuadLine extends QuadCurve2D.Double implements SketchShape {
     /** Constructs a new <tt>QuadLine</tt> object. */
     public QuadLine() {
@@ -22,8 +21,8 @@ public class QuadLine extends QuadCurve2D.Double implements SketchShape {
     }
 
     public QuadLine(Point2D p1, Point2D ctrlpt, Point2D p2) {
-        super(p1.getX(), p1.getY(), ctrlpt.getX(), ctrlpt.getY(), p2.getX(), p2
-                .getY());
+        super(p1.getX(), p1.getY(), ctrlpt.getX(), ctrlpt.getY(), p2.getX(),
+                p2.getY());
     }
 
     /** {@inheritDoc} */

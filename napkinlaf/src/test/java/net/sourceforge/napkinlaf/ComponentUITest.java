@@ -283,8 +283,8 @@ public class ComponentUITest extends TestCase {
 
     @SuppressWarnings({"JUnitTestMethodWithNoAssertions"})
     public void testInstallUI() {
-        Color[] bgColors = new Color[]{Color.WHITE, Color.BLUE, Color.PINK};
-        Border[] borders = new Border[]{new EmptyBorder(1, 1, 1, 1)};
+        Color[] bgColors = {Color.WHITE, Color.BLUE, Color.PINK};
+        Border[] borders = {new EmptyBorder(1, 1, 1, 1)};
         for (TestPair pair : pairs) {
             ComponentUI ui = getInstance(pair);
             checkInstallUI(pair, ui, pair.component.getBackground(),

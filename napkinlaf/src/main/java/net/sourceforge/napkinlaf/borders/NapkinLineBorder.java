@@ -10,7 +10,6 @@ public class NapkinLineBorder extends AbstractNapkinBorder {
     private final boolean vertical;
     private DrawnLineHolder line;
 
-    @SuppressWarnings({"SameParameterValue"})
     public NapkinLineBorder(boolean vertical) {
         this.vertical = vertical;
     }

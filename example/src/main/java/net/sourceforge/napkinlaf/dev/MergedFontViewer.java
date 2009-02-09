@@ -56,7 +56,7 @@ public class MergedFontViewer extends JPanel {
         private final BitSet chars = new BitSet(strings.length);
         private int numStrings;
 
-        private NapkinTheme theme;
+        private final NapkinTheme theme;
         private Font fixedFont;
 
         Display() {
@@ -64,7 +64,7 @@ public class MergedFontViewer extends JPanel {
             Color color = theme.getPenColor();
             setBorder(BorderFactory.createLineBorder(color));
             fixedFont = theme.getFixedFont();
-            float smallSize = fixedFont.getSize2D() * 1.0f;
+            float smallSize = fixedFont.getSize2D();
             fixedFont = fixedFont.deriveFont(Font.ITALIC, smallSize);
         }
 
@@ -97,7 +97,7 @@ public class MergedFontViewer extends JPanel {
                     fixed.getStringBounds(" ", numG).getWidth());
 
             int perColl = (int) Math.round(Math.ceil(numStrings / 8.0));
-            int[] ch = new int[]{chars.nextSetBit(0)};
+            int[] ch = {chars.nextSetBit(0)};
             for (int i = 0; i < strings.length; i++) {
                 String num = strings[i];
                 if (num == null)

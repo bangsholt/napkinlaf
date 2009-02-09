@@ -218,7 +218,6 @@ public class NapkinTheme {
      *
      * @return A specified color.
      */
-    @SuppressWarnings({"TypeMayBeWeakened"})
     public Color getColor(NapkinThemeColor which) {
         return colors.get(which);
     }
@@ -268,7 +267,6 @@ public class NapkinTheme {
      *
      * @return The specified theme.
      */
-    @SuppressWarnings({"TypeMayBeWeakened"})
     public NapkinTheme getTheme(NapkinKnownTheme which) {
         return variants.get(which);
     }
@@ -417,7 +415,6 @@ public class NapkinTheme {
          *
          * @see #addTheme(NapkinTheme)
          */
-        @SuppressWarnings({"TypeMayBeWeakened"})
         public static NapkinTheme getTheme(String name) {
             return themes.get(name);
         }
@@ -491,6 +488,27 @@ public class NapkinTheme {
                 LOG.log(Level.WARNING, "getting font " + fontName, e);
             }
             return result;
+        }
+    }
+
+    public Color colorFor(NapkinThemeColor color) {
+        switch (color) {
+        case BACKGROUND_COLOR:
+            return getBackgroundColor();
+        case CHECK_COLOR:
+            return getCheckColor();
+        case HIGHLIGHT_COLOR:
+            return getHighlightColor();
+        case PEN_COLOR:
+            return getPenColor();
+        case RADIO_COLOR:
+            return getRadioColor();
+        case ROLLOVER_COLOR:
+            return getRolloverColor();
+        case SELECTION_COLOR:
+            return getSelectionColor();
+        default:
+            throw new IllegalArgumentException(color + ": Unknown color type");
         }
     }
 }

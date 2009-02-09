@@ -112,10 +112,8 @@ class SpringUtilities {
         try {
             layout = (SpringLayout) parent.getLayout();
         } catch (ClassCastException exc) {
-            throw (IllegalArgumentException)
-                    new IllegalArgumentException(
-                            "First argument to makeGrid must use SpringLayout")
-                            .initCause(exc);
+            throw new IllegalArgumentException(
+                    "First argument to makeGrid must use SpringLayout", exc);
         }
         return layout;
     }

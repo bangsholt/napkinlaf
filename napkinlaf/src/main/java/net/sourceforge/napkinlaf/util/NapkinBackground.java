@@ -76,7 +76,7 @@ public class NapkinBackground {
     @SuppressWarnings({"WeakerAccess"})
     public NapkinBackground(ImageIcon icon, Insets insets) {
         this.icon = icon;
-        this.name = icon.getDescription();
+        name = icon.getDescription();
         int iconW = icon.getIconWidth();
         int iconH = icon.getIconHeight();
 
