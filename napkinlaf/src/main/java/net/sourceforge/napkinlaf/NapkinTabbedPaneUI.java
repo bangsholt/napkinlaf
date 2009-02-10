@@ -134,4 +134,3 @@ public class NapkinTabbedPaneUI extends BasicTabbedPaneUI
         NapkinUtil.paintBackground(g, tabPane, new Rectangle(x, y, w, h));
     }
 }
-

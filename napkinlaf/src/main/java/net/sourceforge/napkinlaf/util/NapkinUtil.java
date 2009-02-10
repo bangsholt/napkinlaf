@@ -17,7 +17,6 @@ import net.sourceforge.napkinlaf.util.NapkinSmartListeners.BorderListener;
 import net.sourceforge.napkinlaf.util.NapkinSmartListeners.ButtonIconListener;
 import net.sourceforge.napkinlaf.util.NapkinSmartListeners.DisabledIconListener;
 import net.sourceforge.napkinlaf.util.NapkinSmartListeners.DisabledSelectedIconListener;
-import net.sourceforge.napkinlaf.util.NapkinSmartListeners.OpaqueListener;
 import net.sourceforge.napkinlaf.util.NapkinSmartListeners.PressedIconListener;
 import net.sourceforge.napkinlaf.util.NapkinSmartListeners.RolloverIconListener;
 import net.sourceforge.napkinlaf.util.NapkinSmartListeners.RolloverListener;
@@ -147,12 +146,6 @@ public class NapkinUtil {
             // mark component as installed
             c.putClientProperty(INSTALL_KEY, Boolean.TRUE);
             NapkinLookAndFeel.registerComponent(c);
-            // opaqueness override
-            if (c.isOpaque()) {
-                c.putClientProperty(OPAQUE_KEY, Boolean.TRUE);
-                c.setOpaque(false);
-            }
-            SmartStickyListener.hookListener(c, new OpaqueListener());
             // AbstractButton-specific overrides
             if (c instanceof AbstractButton) {
                 AbstractButton button = (AbstractButton) c;
@@ -289,38 +282,11 @@ public class NapkinUtil {
                 button.setRolloverEnabled((Boolean) c.getClientProperty(
                         ROLLOVER_ENABLED));
             }
-            // restore from opaqueness override
-            if (shouldMakeOpaque(c)) {
-                c.setOpaque(true);
-            }
             // remove Napkin-specific client properties (+ install mark)
             for (String clientProp : CLIENT_PROPERTIES) {
                 c.putClientProperty(clientProp, null);
             }
         }
-    }
-
-    @SuppressWarnings({"ObjectEquality"})
-    private static boolean shouldMakeOpaque(JComponent c) {
-        return !isGlassPane(c) && !c.isOpaque() && c.getClientProperty(
-                OPAQUE_KEY) == Boolean.TRUE;
-    }
-
-    @SuppressWarnings({"ObjectEquality"})
-    public static boolean isOpaque(Component c) {
-        String reason = "default";
-        boolean ret = true;
-        if (c.isOpaque()) {
-            reason = "isOpaque()";
-            ret = true;
-        } else if (c instanceof JComponent) {
-            reason = "OPAQUE_KEY prop";
-            JComponent jc = (JComponent) c;
-            ret = jc.getClientProperty(OPAQUE_KEY) == Boolean.TRUE;
-        }
-//        System.out.println("opaque " + ret + ": " + NapkinDebug.descFor(c) +
-//                " {" + reason + "}");
-        return ret;
     }
 
     @SuppressWarnings({"ObjectEquality"})
@@ -612,7 +578,7 @@ public class NapkinUtil {
     }
 
     public static void paintBackground(Graphics g1, Component c, Rectangle clip) {
-        if (!isOpaque(c))
+        if (!c.isOpaque())
             return;
 
         if (c instanceof JComponent && isGlassPane((JComponent) c)) {

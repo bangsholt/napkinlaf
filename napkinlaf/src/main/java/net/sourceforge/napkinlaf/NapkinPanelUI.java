@@ -31,10 +31,6 @@ public class NapkinPanelUI extends BasicPanelUI implements NapkinPainter {
 
     @Override
     public void update(Graphics g, JComponent c) {
-        // Total hack -- works around a problem that hits component-based tabs in 1.6
-        // but really requires a general fix to opacity
-        //!! Remove this when opacity is no longer hijacked for our own purposes
-        if (!c.getClass().getName().endsWith("TabContainer"))
         NapkinUtil.update(g, c, this);
     }
 

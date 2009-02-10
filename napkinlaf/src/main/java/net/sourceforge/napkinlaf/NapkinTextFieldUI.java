@@ -37,5 +37,9 @@ public class NapkinTextFieldUI extends BasicTextFieldUI
     public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
+
+    @Override
+    protected void paintBackground(Graphics g) {
+    }
 }
 

@@ -59,27 +59,6 @@ class NapkinSmartListeners {
         }
     }
 
-    public static class OpaqueListener extends SmartStickyListener<Boolean> {
-
-        public OpaqueListener() {
-            super(OPAQUE_KEY, "opaque");
-        }
-
-        @Override
-        protected void overrideValue(JComponent c, Boolean newValue) {
-            if (Boolean.TRUE.equals(newValue) && NapkinUtil.isTranparent(
-                    c.getBackground())) {
-
-                c.setOpaque(false);
-            }
-        }
-
-        @Override
-        protected boolean shouldRecord(Boolean newValue) {
-            return true;
-        }
-    }
-
     public static class RolloverListener extends SmartStickyListener<Boolean> {
 
         public RolloverListener() {

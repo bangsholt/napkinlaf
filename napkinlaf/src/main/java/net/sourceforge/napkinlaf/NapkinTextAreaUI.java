@@ -36,5 +36,9 @@ public class NapkinTextAreaUI extends BasicTextAreaUI implements NapkinPainter {
     public void superPaint(Graphics g, JComponent c) {
         super.update(g, c);
     }
+
+    @Override
+    protected void paintBackground(Graphics g) {
+    }
 }
 
