@@ -34,6 +34,13 @@ public class NapkinMenuItemUI extends BasicMenuItemUI
     }
 
     @Override
+    protected void paintBackground(Graphics g, JMenuItem menuItem,
+            Color bgColor) {
+
+        NapkinUtil.paintBackground(g, menuItem, null);
+    }
+
+    @Override
     protected void paintText(Graphics g, JMenuItem item, Rectangle textRect,
             String text) {
 
@@ -43,6 +50,8 @@ public class NapkinMenuItemUI extends BasicMenuItemUI
         NapkinUtil.paintButtonText(g, item, textRect, text, 0, line, false,
                 this);
     }
+
+    
 
     public void superPaintText(Graphics g, JComponent c, Rectangle textRect,
             String text) {

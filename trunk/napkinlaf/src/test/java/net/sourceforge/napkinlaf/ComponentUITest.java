@@ -218,34 +218,29 @@ public class ComponentUITest extends TestCase {
 
     @SuppressWarnings({"ErrorNotRethrown"})
     private void checkInstallUI(TestPair pair, ComponentUI ui,
-            Color oldBackground, Border oldBorder, boolean wasOpaque) {
+            Color oldBackground, Border oldBorder) {
 
         pair.component.setBackground(oldBackground);
         pair.component.setBorder(oldBorder);
-        pair.component.setOpaque(wasOpaque);
 
         ui.installUI(pair.component);
         ui.uninstallUI(pair.component);
 
         Color newBackground = pair.component.getBackground();
         Border newBorder = pair.component.getBorder();
-        boolean isOpaque = pair.component.isOpaque();
 
         String uiClass = pair.uiClass.getSimpleName();
-        String argDesc = argDesc(oldBackground, oldBorder, wasOpaque);
+        String argDesc = argDesc(oldBackground, oldBorder);
         String result = "passes";
         try {
-            assertEquals(uiClass +
-                    " does not restore background colour properly" + argDesc,
-                    oldBackground, newBackground);
+            assertEquals(
+                    uiClass + " does not restore background colour properly" +
+                            argDesc, oldBackground, newBackground);
             if (newBorder != null) {
                 assertEquals(
                         uiClass + " does not restore border properly" + argDesc,
                         oldBorder, newBorder);
             }
-            assertEquals(
-                    uiClass + " does not restore opaqueness properly" + argDesc,
-                    wasOpaque, isOpaque);
         } catch (AssertionFailedError e) {
             if (!pair.skip) {
                 throw e;
@@ -274,11 +269,10 @@ public class ComponentUITest extends TestCase {
         }
     }
 
-    private static String argDesc(Color oldBackground, Border oldBorder,
-            boolean wasOpaque) {
+    private static String argDesc(Color oldBackground, Border oldBorder) {
 
         return "(" + NapkinDebug.toString(oldBackground) + ", " +
-                NapkinDebug.toString(oldBorder) + ", " + wasOpaque + ")";
+                NapkinDebug.toString(oldBorder) + ")";
     }
 
     @SuppressWarnings({"JUnitTestMethodWithNoAssertions"})
@@ -288,11 +282,11 @@ public class ComponentUITest extends TestCase {
         for (TestPair pair : pairs) {
             ComponentUI ui = getInstance(pair);
             checkInstallUI(pair, ui, pair.component.getBackground(),
-                    pair.component.getBorder(), pair.component.isOpaque());
+                    pair.component.getBorder());
             for (Color bgColor : bgColors) {
                 for (Border border : borders) {
-                    checkInstallUI(pair, ui, bgColor, border, true);
-                    checkInstallUI(pair, ui, bgColor, border, false);
+                    checkInstallUI(pair, ui, bgColor, border);
+                    checkInstallUI(pair, ui, bgColor, border);
                 }
             }
         }

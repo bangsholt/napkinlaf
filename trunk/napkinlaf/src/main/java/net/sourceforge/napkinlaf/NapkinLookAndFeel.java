@@ -74,8 +74,6 @@ public class NapkinLookAndFeel extends BasicLookAndFeel {
             }
             String desc = NapkinDebug.descFor(c);
             out.print(desc);
-            out.print(": ");
-            out.print(c.isOpaque());
             out.println();
             return true;
         }
