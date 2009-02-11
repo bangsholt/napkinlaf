@@ -283,7 +283,7 @@ public class NapkinTheme {
                 new HashMap<String, NapkinTheme>();
         private static NapkinTheme currentTheme;
 
-        private static final String DEFAULT_THEME = "blueprint";
+        private static final String DEFAULT_THEME = "napkin";
         private static final String RESOURCE_PATH = "resources/";
 
         private static final Class<NapkinLookAndFeel> THIS_CLASS =
