@@ -1052,6 +1052,8 @@ public class SwingSet2 extends JPanel {
             if (frame == null) {
                 SwingUtilities.updateComponentTreeUI(this);
             } else {
+                if (getParent() != frame) // FIX
+                    SwingUtilities.updateComponentTreeUI(this); // FIX
                 SwingUtilities.updateComponentTreeUI(frame);
                 frame.dispose();
                 if (UIManager.getLookAndFeel().getSupportsWindowDecorations()) {
