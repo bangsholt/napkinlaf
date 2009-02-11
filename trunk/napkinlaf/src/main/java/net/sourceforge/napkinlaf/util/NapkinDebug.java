@@ -32,6 +32,10 @@ public class NapkinDebug {
 
     protected static int count;
 
+    public interface Stringifier<T> {
+        String stringFor(T obj);
+    }
+
     private NapkinDebug() {
     }
 
@@ -291,5 +295,20 @@ public class NapkinDebug {
                 return str.substring(dot + 1);
             }
         }
+    }
+
+    public static void parentage(Component c,
+            Stringifier<Component> stringifier) {
+        parentage(c, stringifier, 0);
+    }
+
+    private static void parentage(Component c,
+            Stringifier<Component> stringifier, int depth) {
+        if (c == null)
+            return;
+        for (int i = 0; i < depth; i++)
+            System.out.print("  ");
+        System.out.println(stringifier.stringFor(c));
+        parentage(c.getParent(), stringifier, depth + 1);
     }
 }
