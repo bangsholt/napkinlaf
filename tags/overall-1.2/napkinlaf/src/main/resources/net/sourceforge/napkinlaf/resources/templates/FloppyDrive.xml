@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xmlns="http://napkinlaf.sf.net/sketch/"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <title>FloppyDrive</title>
+    <description>A flopppy drive</description>
+
+    <clippingBounds>
+        <dimensions>
+            <width>19</width>
+            <height>18</height>
+        </dimensions>
+    </clippingBounds>
+
+    <templateItem>        <!-- the outline (including an angled corner) -->
+        <path>
+            <moveTo>
+                <point>
+                    <x>3</x>
+                    <y>3</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>16</x>
+                    <y>3</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>16</x>
+                    <y>16</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>5</x>
+                    <y>16</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>3</x>
+                    <y>14</y>
+                </point>
+            </lineTo>
+            <close/>
+        </path>
+    </templateItem>
+
+    <templateItem>        <!-- The label, with one line of text -->
+        <path>
+            <moveTo>
+                <point>
+                    <x>7</x>
+                    <y>16</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>7</x>
+                    <y>12</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>13</x>
+                    <y>12</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>13</x>
+                    <y>16</y>
+                </point>
+            </lineTo>
+        </path>
+    </templateItem>
+
+    <templateItem>        <!-- The metal slide -->
+        <path>
+            <moveTo>
+                <point>
+                    <x>5</x>
+                    <y>3</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>5</x>
+                    <y>10</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>14</x>
+                    <y>10</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>14</x>
+                    <y>3</y>
+                </point>
+            </lineTo>
+        </path>
+    </templateItem>
+
+    <templateItem>        <!-- The write-tab hole -->
+        <path>
+            <moveTo>
+                <point>
+                    <x>7</x>
+                    <y>6</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>12</x>
+                    <y>6</y>
+                </point>
+            </lineTo>
+        </path>
+    </templateItem>
+
+</template>

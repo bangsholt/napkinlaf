@@ -1,0 +1,20 @@
+#set($codebase = "http://napkinlaf.sourceforge.net/")
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp codebase="$codebase" href="$outputFile">
+
+    <information>
+        <title>Napkin Look and Feel Demo</title>
+        <vendor>Napkin Look and Feel Project</vendor>
+        <description>Napkin Look and Feel Demo</description>
+        <homepage>http://napkinlaf.sourceforge.net/</homepage>
+        <offline-allowed/>
+    </information>
+
+    <resources>
+        <j2se version="1.5+"/>
+        $dependencies
+    </resources>
+#if ($mainClass)
+    <application-desc main-class="$mainClass"/>
+#end
+</jnlp>

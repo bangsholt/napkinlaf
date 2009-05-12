@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xmlns="http://napkinlaf.sf.net/sketch/"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <title>HardDrive</title>
+    <description>A hard drive</description>
+
+    <clippingBounds>
+        <dimensions>
+            <width>19</width>
+            <height>18</height>
+        </dimensions>
+    </clippingBounds>
+
+    <templateItem>        <!-- the drive -->
+        <path>
+            <moveTo>
+                <point>
+                    <x>2</x>
+                    <y>7</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>16</x>
+                    <y>7</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>16</x>
+                    <y>15</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>2</x>
+                    <y>15</y>
+                </point>
+            </lineTo>
+            <close/>
+        </path>
+    </templateItem>
+
+    <templateItem>        <!-- the little light -->
+        <path>
+            <moveTo>
+                <point>
+                    <x>13</x>
+                    <y>9</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>13</x>
+                    <y>10</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>14</x>
+                    <y>10</y>
+                </point>
+            </lineTo>
+        </path>
+    </templateItem>
+
+</template>

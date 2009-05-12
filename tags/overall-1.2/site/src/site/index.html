@@ -1,0 +1,376 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Napkin Look & Feel</title>
+    <link href="napkin.css" rel="stylesheet" type="text/css" title="Style">
+    <!-- fix IE's bogus problem with transparency in PNG files--><!--[if lt IE 7.]>
+    <script defer type="text/javascript" src="pngfix.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<center>
+    <img src="title.png" alt="Napkin Look and Feel" width="491" height="74">
+    <h4><img src="bullet.gif" alt="&loz;">&nbsp;&nbsp;<a
+            href="napkin.jnlp">Demo</a>&nbsp;&nbsp;<img src="bullet.gif"
+            alt="&loz;">&nbsp;&nbsp;<a
+            href="http://sourceforge.net/projects/napkinlaf/">SourceForge
+        page</a>&nbsp;&nbsp;<img
+            src="bullet.gif" alt="&loz;">&nbsp;&nbsp;<a
+            href="http://wiki.java.net/bin/view/Projects/NapkinLAF">Wiki</a>&nbsp;&nbsp;<img
+            src="bullet.gif" alt="&loz;"></h4>
+</center>
+<hr>
+<table style="font-family:cursive">
+    <tr>
+        <td width="100%">
+            <ol>
+                <li><a href="#Latest">Latest</a>
+                <li><a href="#Overview">Overview </a>
+                <li><a href="#Wiki">Wiki</a>
+                <li><a href="#Snapshots">Snapshots</a>
+                <li><a href="#Development"> Development</a>
+                <li><a href="#Sightings">Sightings</a>
+                <li><a href="#Acknowledgments">Acknowledgments</a>
+            </ol>
+        </td>
+        <td align="right" rowspan="2" nowrap="true">
+            <a href="http://sourceforge.net"> <img
+                    src="http://sourceforge.net/sflogo.php?group_id=104116&amp;type=4"
+                    width="125" height="37" border="0"
+                    alt="SourceForge.net Logo"> </a><br> <a
+                href="http://www.java.net"> <img
+                src="http://www.java.net/images/javanet_button_90.gif"
+                width="90" height="25" border="0" alt="java.net Member"> </a>
+        </td>
+    </tr>
+</table>
+<hr>
+<h2><a name="Latest"/>Latest</h2>
+
+<h4>1.1, 18 November, 2006</h4>
+
+<ul>
+
+    <li><b>Sketchified Images:</b> We have added a new mechanism that will take
+        an image and make a "sketched" version of it. This will allow your
+        images to look provisional as well, to fit in with the overall theme.
+        The <tt>SketchifiedImage</tt> and <tt>SketchifiedIcon</tt> classes are
+        what you need to do this. The example <tt>Sketchifier</tt> class shows a
+        simple way to use it.
+
+    <li><b>Merged Fonts:</b> Handwritten fonts often are relatively limited in
+        their space. There certainly is no single Unicode handwritten font we
+        are aware of. So we have created a way to have a pseudo-font that is a
+        composite of other fonts in a search order. We use this to back our
+        handwritten fonts with a full Unicode font so at least no letter will be
+        undisplayed.
+
+    <li><b>Highlighting:</b> We use highlighter pen effects to mark default
+        buttons and selected items.
+
+    <li><b><tt>JFrame</tt> borders:</b> <tt>JFrame</tt>s now have sketched
+        borders.
+
+    <li><b>Abstract Template Colors:</b> You can specify a color for a template
+        that is based on the theme, such as <tt>PEN</tt> or <tt>HIGHLIGHT</tt>.
+
+</ul>
+
+<h2><a name="Overview"/>Overview</h2>
+
+<p>The Napkin Look & Feel is a pluggable Java look and feel that looks like it
+    was scrawled on a napkin. You can use it to make provisional work actually
+    look provisional, or just for fun.
+
+<p>The idea is to try to develop a look and feel that can be used in Java
+    applications that looks informal and provisional, yet be fully functional
+    for development. Often when people see a GUI mock-up, or a complete GUI
+    without full functionality, they assume that the code behind it is working.
+    While this can be used to sleazy advantage, it can also convince people who
+    ought to know better (like your managers) that you are already done when you
+    have just barely begun, or when only parts are complete. No matter how much
+    you speak to their rational side, the emotional response still says "Done!".
+    Which after a while leads to a later question: "That was done months ago!
+    What are they doing? Playing <i>Quake</i>?" A good article on this is <a
+        href="http://www.joelonsoftware.com/">Joel on Software</a>'s &ldquo;<a
+        href="http://www.joelonsoftware.com/articles/fog0000000356.html">The
+    Iceberg Secret, Revealed</a>&rdquo;.
+
+<p>So the idea is to create a complete look and feel that can be used while the
+    thing is not done which will convey an emotional message to match the
+    rational one. As pieces of the work are done, the GUI for those pieces can
+    be switched to use the "formal" (final) look and feel, allowing someone
+    looking at demos over time to see the progress of the entire system
+    reflected in the expression of the GUI.
+
+<p>Over time, several folks have just liked the thing and wanted to use it for
+    non-provisional GUI's. Sometimes this is because the application itself
+    seems to match the theme, such as a brainstorming tool. And sometimes it's
+    just that it looks fun.
+
+<p>This is all done using the Java Swing pluggable Look & Feel framework.
+
+<h2><a name="Wiki"/>Wiki</h2>
+
+<p>Our <a href="http://wiki.java.net/bin/view/Projects/NapkinLAF">Wiki</a> gives
+    you a place to share ideas and advice with other folks. We've started it off
+    with some instructions about how to get Java applications to use Napkin for
+    their Look and Feel.
+
+<h2><a name="Snapshots"/>Snapshots</h2> To give you a feel for what this
+looks like, here are a few screen snapshots (as thumbnails; click for full-sized
+images):
+<p><br>
+<table align="center" style="font-family:cursive">
+    <tr>
+        <td align="center" colspan="4">
+            <a href="SketchedFileChooser.html"> <img class="snap" width="159"
+                    height="33"
+                    src="SketchedIcon.jpg"
+                    alt="File chooser dialog box with sketched icons"><br> A
+                file chooser dialog box<br>with sketched icons </a>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <a href="NapkinButtons.html"> <img class="snap" width="182"
+                    height="173"
+                    src="NapkinButtonsThumb.jpg"
+                    alt="Various buttons"><br> Various buttons </a>
+        </td>
+        <td align="center">
+            <a href="NapkinDisabled.html"> <img class="snap" width="182"
+                    height="173"
+                    src="NapkinDisabledThumb.jpg"
+                    alt="Disabled things"><br> Disabled things </a>
+        </td>
+        <td align="center">
+            <a href="NapkinProgress.html"> <img class="snap" width="182"
+                    height="173"
+                    src="NapkinProgressThumb.jpg"
+                    alt="A progress bar (scribbled in at the bottom)"><br> A
+                progress bar<br>(scribbled in at the bottom) </a>
+        </td>
+        <td align="center">
+            <a href="NapkinCombo.html"> <img class="snap" width="182"
+                    height="173"
+                    src="NapkinComboThumb.jpg"
+                    alt="A combo box"><br> A combo box<br> (PostIt-style popup
+                menu) </a>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <a href="NapkinSliders.html"> <img class="snap" width="182"
+                    height="173"
+                    src="NapkinSlidersThumb.jpg"
+                    alt="Various sliders"><br> Various sliders </a>
+        </td>
+        <td align="center">
+            <a href="NapkinTree.html"> <img class="snap" width="182"
+                    height="173"
+                    src="NapkinTreeThumb.jpg"
+                    alt="A tree"><br> A tree </a>
+        </td>
+        <td align="center">
+            <a href="BlueprintFrames.html"> <img class="snap" width="182"
+                    height="173"
+                    src="BlueprintFramesThumb.jpg"
+                    alt="Internal frames"><br> Internal frames<br> (blueprint
+                theme) </a>
+        </td>
+        <td align="center">
+            <a href="BlueprintFileChooser.html"> <img class="snap" width="182"
+                    height="173"
+                    src="BlueprintFileChooserThumb.jpg"
+                    alt="File chooser (blueprint theme)"><br> File chooser<br>
+                (blueprint theme) </a>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <a href="BlueprintTables.html"> <img class="snap" width="182"
+                    height="173"
+                    src="BlueprintTablesThumb.jpg"
+                    alt="A table (blueprint theme)"><br> A table<br> (blueprint
+                theme) </a>
+        </td>
+        <td align="center">
+            <a href="NetBeans1.jpg"> <img class="snap" src="NetBeans1Thumb.jpg"
+                    width="180" height="171"
+                    alt="NetBeans on a Napkin (#1)"><br> NetBeans on a Napkin
+                (#1) </a>
+        </td>
+        <td align="center">
+            <a href="NetBeans2.jpg"> <img class="snap" src="NetBeans2Thumb.jpg"
+                    width="180" height="171"
+                    alt="NetBeans on a Napkin (#2)"><br> NetBeans on a Napkin
+                (#2) </a>
+        </td>
+        <td align="center">
+            <a href="IntelliJ.jpg"> <img class="snap" src="IntelliJThumb.jpg"
+                    width="180" height="170"
+                    alt="IntelliJ on a Napkin"><br> IntelliJ on a Napkin </a>
+        </td>
+    </tr>
+</table>
+<h2><a name="Development"/>Development</h2>
+<center>
+    <table border=0>
+        <tr style="font-size:12pt;font-family:'Comic Sans MS',cursive">
+            <td align=center>
+                <a href="mailto:kcrca@users.sourceforge.net"> <img src="Ken.png"
+                        width="128" height="128" alt="Ken Arnold"
+                        style="border:none"/><br/> Ken Arnold</a>
+            </td>
+            <td align=left>
+                <div style=width:24em;overflow:hidden>
+                    <em><b>We welcome anyone to contribute &mdash;</b>
+
+                        <blockquote>code, screenshots,
+                            <blockquote>thoughts, dreams,
+                                <blockquote>
+                                    <nobr>Understanding, coffee,
+                                        chocolate<b>...</b>
+                                    </nobr>
+                                </blockquote>
+                            </blockquote>
+                        </blockquote>
+                    </em>
+                </div>
+            </td>
+            <td align=center>
+                <a href="mailto:alexlamsl@users.sourceforge.net"> <img
+                        src="Alex.png" width="128" height="128" alt="Alex Lam"
+                        style="border:none"/><br/> Alex Lam S.L.</a>
+            </td>
+        </tr>
+    </table>
+</center>
+<h2><a name="Sightings"/>Sightings</h2>
+
+<dl>
+    <p>
+        <dt><a href="http://headrush.typepad.com/creating_passionate_users/2006/12/dont_make_the_d.html">Don't make the Demo look Done</a>,
+            from Kathy Sierra's blog <a href="http://headrush.typepad.com/creating_passionate_users/">Creating Passionate Users</a>.
+        </dt>
+
+        <dd>"Finally, it's great to know that there are tools to help make
+            the look match the state, with my favorite being the Napkin
+            Look and Feel, a GUI "skin" for Java that makes the interface
+            look -- quite literally -- like it was scrawled on a napkin."</dd>
+
+    <dt>Matt Stephens'
+        &ldquo;<a href="http://www.softwarereality.com/AgileDevelopment.jsp">Agile
+        Development with ICONIX Process</a>&rdquo;
+    </dt>
+
+    <dd>"... if the working prototype was presented looking like a user
+        interface mockup that had been scrawled on the back of a napkin, then
+        the customer would be more likely to see it for what it actually is: a
+        slightly working but mostly non-functional prototype... Seems like a
+        great idea to us!" (You can <a target="_new" href="AgileNapkin.pdf">read
+        the pages here</a>)
+    </dd>
+
+    <dt><a href="http://www.netbeans.org/competition/look-and-feel.html">NetBeans
+        Look & Feel Competition </a>
+    </dt>
+
+    <dd>Claudio Miranda submitted an <a
+            href="http://www.netbeans.org/images/competition/Claudio_Miranda.png">entry</a>
+        with NapkinLAF on GTK.
+    </dd>
+
+    <dt>
+        <a href="http://weblogs.java.net/blog/kirillcool/archive/2006/02/aligning_menu_i_1.html">
+            Kirill Grouchnikov's blog </a>
+    </dt>
+
+    <dd>Compares various LAFs for their Right-to-Left menu alignment issues.
+        Thanks to Kirill for reporting the issues ;-)
+    </dd>
+
+    <dt>
+        <a href="http://wiki.java.net/bin/view/Javadesktop/BlogEd">BlogEd</a>
+    </dt>
+
+    <dd>"I have added the napkin L&F to BlogEd and made it the default when run
+        from cvs using 'ant run'. We can easily change it back if it gets in the
+        way. The only bug I have noticed currently is that the pulling on the
+        scrollbar seems to move the whole window. Perhaps Ken Arnold will know
+        what the problem is there."
+    </dd>
+
+    <dt><a href="http://weblogs.java.net/pub/wlg/1178">Daniel Steinberg's
+        blog </a> at <a
+            href="http://java.net">java.net</a>, April 5, 2004
+    </dt>
+
+    <dd>A very nice & quick writeup.</dd>
+
+    <dt>Front page note on <a href="http://community.java.net/javadesktop/">
+        javadesktop.org </a>, April 1 2004
+    </dt>
+
+    <dd>Just a brief note pointing to the home page, but we got some good mail
+        from it.
+    </dd>
+</dl>
+
+<h2><a name="Acknowledgments"/>Acknowledgments</h2>
+
+<p><b>Peter Goodspeed</b> and <b>Justin Crafford</b> created the sketching
+    subsystem, as a senior project for their degrees at Worcester Polytechnic
+    Institute. They did a great job, and solved an important problem. And thanks
+    to <b>Scott Anderson</b>, a fellow student and friend of mine who suggested
+    they get in touch with me to look for a thesis project.
+
+<p><b>Scott Violet</b> of Sun has helped me pick apart some of the more abstruse
+    and arcane bits of the PLAF framework, which is full of 'em. Thanks a bunch,
+    Scott, and thanks to <b>Hans Muller</b>, also of Sun, for plugging me
+    together with him.
+
+<p><b>Brandon Franklin</b> has contributed many spare cycles (of which he has
+    none) to planning the upgrade to 1.5, making the whole process <em>much</em>
+    easier.
+
+<p>The font "Felt Tip Roman" was created by <b>Mark Simonson</b>, who spent a
+    lot of time with me on how to license this. He has kindly decided that this
+    particular use does not require individual licensing for each user of the
+    LAF, but can be done by special arrangement. The legalities are below, but
+    beyond those legalities, we'd like to ask you all to be cool &mdash; if you
+    like the font and want to use it, buy it properly. Making fonts is not easy,
+    and font folks get their work ripped off far too often. If you do want to
+    use it, buy it from his site <a href="http://www.ms-studio.com/">
+    http://www.ms-studio.com/</a>, where he gets more from it.
+
+<p>The font "&AElig;nigma Scrawl" was created by <b>Brian Kent</b>, and has
+    worked very well for a handwritten font that scales reasonably to
+    GUI-control sizes (most handwritten-style fonts are display fonts that only
+    work in large sizes). To make things work better, Brian has adapted the font
+    to adjust the spacing around some punctuation as well as some other tweaks.
+    So the version released here is a custom one direct from the artist (which
+    we believe he expects to roll back into the font at future date). We would
+    like to thank Brian a lot for his quick and nimble cooperation, which made
+    this work a lot better and easier on me.
+
+<p><b>Miro Juri&#353;i&#263</b> has been very helpful in thinking through with
+    me (sometimes <em>for</em> me) some of the hairy graphics problems. This
+    definitely pushes into some poorly documented areas of the 2D API, and it
+    has helped a lot to have someone to talk it through with. Thanks, Miro!
+
+<p><b>Brian Hawthorne</b> created a quick and excellent selection of blueprint
+    backgrounds for me to choose from. Thanks!
+
+<p>Several people have helped with testing, reporting bugs, and suggesting
+    things. The most persistent have been: <b>Deryl Steinert</b>, <b>Bob
+    Herrmann</b>, <b>David Matuszek</b>, <b>Graham Perks</b>, <b>Henry Story</b>,
+    and <b>Tom Eugelink</b>. Thanks to all.
+
+<p>We'll be happy to add <b>you</b> to this list, so join in!
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xmlns="http://napkinlaf.sf.net/sketch/"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <title>ListView</title>
+    <description>For a listing of a folder</description>
+
+    <clippingBounds>
+        <dimensions>
+            <width>19</width>
+            <height>18</height>
+        </dimensions>
+    </clippingBounds>
+
+    <!--
+    - Two lines of icon + text.
+    -->
+
+    <templateItem>        <!-- Box representing an icon -->
+        <path>
+            <moveTo>
+                <point>
+                    <x>3</x>
+                    <y>3</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>8</x>
+                    <y>3</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>8</x>
+                    <y>8</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>3</x>
+                    <y>8</y>
+                </point>
+            </lineTo>
+            <close/>
+        </path>
+    </templateItem>
+
+    <templateItem>        <!-- A line representing a name -->
+        <path>
+            <moveTo>
+                <point>
+                    <x>11</x>
+                    <y>7</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>16</x>
+                    <y>7</y>
+                </point>
+            </lineTo>
+        </path>
+    </templateItem>
+
+    <templateItem>        <!-- Box representing an icon -->
+        <path>
+            <moveTo>
+                <point>
+                    <x>3</x>
+                    <y>11</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>8</x>
+                    <y>11</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>8</x>
+                    <y>16</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>3</x>
+                    <y>16</y>
+                </point>
+            </lineTo>
+            <close/>
+        </path>
+    </templateItem>
+
+    <templateItem>        <!-- A line representing a name -->
+        <path>
+            <moveTo>
+                <point>
+                    <x>11</x>
+                    <y>15</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>16</x>
+                    <y>15</y>
+                </point>
+            </lineTo>
+        </path>
+    </templateItem>
+
+</template>

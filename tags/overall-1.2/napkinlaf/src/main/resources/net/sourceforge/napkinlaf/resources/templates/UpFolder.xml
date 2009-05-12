@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xmlns="http://napkinlaf.sf.net/sketch/"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <title>Up Folder</title>
+    <description>Move up a folder in the hierarchy</description>
+
+    <clippingBounds>
+        <dimensions>
+            <width>19</width>
+            <height>18</height>
+        </dimensions>
+    </clippingBounds>
+
+    <templateItem>                <!-- folder tab -->
+        <path>
+            <moveTo>
+                <point>
+                    <x>1</x>
+                    <y>4</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>3</x>
+                    <y>2</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>7</x>
+                    <y>2</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>9</x>
+                    <y>4</y>
+                </point>
+            </lineTo>
+        </path>
+    </templateItem>
+
+    <templateItem>                <!-- folder front -->
+        <path>
+            <moveTo>
+                <point>
+                    <x>14</x>
+                    <y>5</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>1</x>
+                    <y>5</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>1</x>
+                    <y>15</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>15</x>
+                    <y>15</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>15</x>
+                    <y>5</y>
+                </point>
+            </lineTo>
+            <close/>
+        </path>
+    </templateItem>
+
+    <templateItem>                <!-- arrow head -->
+        <path>
+            <moveTo>
+                <point>
+                    <x>4</x>
+                    <y>10</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>6</x>
+                    <y>7</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>8</x>
+                    <y>10</y>
+                </point>
+            </lineTo>
+            <!-- <lineTo> <point> <x>4</x> <y>10</y> </point> </lineTo>
+           <close/> -->
+        </path>
+    </templateItem>
+    <!-- arrow tail -->
+
+    <templateItem>
+        <path>
+            <moveTo>
+                <point>
+                    <x>6</x>
+                    <y>9</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>6</x>
+                    <y>13</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>10</x>
+                    <y>13</y>
+                </point>
+            </lineTo>
+        </path>
+    </templateItem>
+
+</template>

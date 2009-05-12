@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xmlns="http://napkinlaf.sf.net/sketch/"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <title>HomeFolder</title>
+    <description>User's home folder</description>
+
+    <clippingBounds>
+        <dimensions>
+            <width>19</width>
+            <height>18</height>
+        </dimensions>
+    </clippingBounds>
+
+    <templateItem>        <!-- the roof -->
+        <path>
+            <moveTo>
+                <point>
+                    <x>2</x>
+                    <y>8</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>8</x>
+                    <y>3</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>16</x>
+                    <y>8</y>
+                </point>
+            </lineTo>
+        </path>
+    </templateItem>
+
+    <templateItem>        <!-- the bottom -->
+        <path>
+            <moveTo>
+                <point>
+                    <x>11</x>
+                    <y>5</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>11</x>
+                    <y>2</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>13</x>
+                    <y>2</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>13</x>
+                    <y>6</y>
+                </point>
+            </lineTo>
+        </path>
+    </templateItem>
+
+    <templateItem>        <!-- the chimney -->
+        <path>
+            <moveTo>
+                <point>
+                    <x>5</x>
+                    <y>8</y>
+                </point>
+            </moveTo>
+            <lineTo>
+                <point>
+                    <x>5</x>
+                    <y>15</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>14</x>
+                    <y>15</y>
+                </point>
+            </lineTo>
+            <lineTo>
+                <point>
+                    <x>14</x>
+                    <y>8</y>
+                </point>
+            </lineTo>
+        </path>
+    </templateItem>
+
+</template>

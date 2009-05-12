@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://napkinlaf.sf.net/sketch/"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://napkinlaf.sf.net/sketch/"
+           elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xs:element name="template">
+        <xs:annotation>
+            <xs:documentation>Describes a NapkinSketch image
+                template</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="title" type="xs:string"/>
+                <xs:element name="description" type="xs:string"/>
+                <xs:element ref="clippingBounds"/>
+                <xs:element ref="templateItem" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- Definition of complex elements -->
+    <xs:element name="clippingBounds">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="origin" type="point" minOccurs="0"/>
+                <xs:element ref="dimensions"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="dimensions">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="width" type="xs:positiveInteger"/>
+                <xs:element name="height" type="xs:positiveInteger"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="templateItem">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="drawStroke" type="xs:boolean" default="true"
+                            minOccurs="0"/>
+                <xs:element name="drawFill" type="xs:boolean" default="true"
+                            minOccurs="0"/>
+                <xs:element name="strokeWeight" type="positiveFloat"
+                            minOccurs="0"/>
+                <xs:element name="strokeColor" type="color" minOccurs="0"/>
+                <xs:element name="fillColor" type="color" minOccurs="0"/>
+                <xs:group ref="shape"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- Definition of shape group and shape group elements -->
+    <xs:group name="shape">
+        <xs:choice>
+            <xs:element ref="straightLine"/>
+            <xs:element ref="quadLine"/>
+            <xs:element ref="cubicLine"/>
+            <xs:element ref="path"/>
+        </xs:choice>
+    </xs:group>
+    <xs:element name="straightLine">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="start"/>
+                <xs:element ref="end"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="quadLine">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="start"/>
+                <xs:element ref="control"/>
+                <xs:element ref="end"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="cubicLine">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="start"/>
+                <xs:element ref="control"/>
+                <xs:element ref="control"/>
+                <xs:element ref="end"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="path">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:group ref="pathData" maxOccurs="unbounded"/>
+                <xs:element name="close" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- Definition of pathData and lineData groups -->
+    <xs:group name="pathData">
+        <xs:sequence>
+            <xs:element ref="moveTo"/>
+            <xs:group ref="lineData" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:group>
+    <xs:group name="lineData">
+        <xs:choice>
+            <xs:element ref="lineTo"/>
+            <xs:element ref="quadTo"/>
+            <xs:element ref="cubicTo"/>
+        </xs:choice>
+    </xs:group>
+    <!-- Definition of path elements -->
+    <xs:element name="moveTo">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="point"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="lineTo">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="point"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="quadTo">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="control"/>
+                <xs:element ref="point"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="cubicTo">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="control"/>
+                <xs:element ref="control"/>
+                <xs:element ref="point"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- Definition of simple data types -->
+    <xs:simpleType name="positiveFloat">
+        <xs:restriction base="xs:decimal">
+            <xs:minInclusive value="0"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- Definition of complex data types, point and color -->
+    <xs:complexType name="point">
+        <xs:sequence>
+            <xs:element name="x" type="xs:integer"/>
+            <xs:element name="y" type="xs:integer"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="color">
+        <xs:sequence>
+            <xs:element name="r" type="xs:unsignedByte"/>
+            <xs:element name="g" type="xs:unsignedByte"/>
+            <xs:element name="b" type="xs:unsignedByte"/>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- Definition of point type elements -->
+    <xs:element name="point" type="point"/>
+    <xs:element name="start" type="point"/>
+    <xs:element name="control" type="point"/>
+    <xs:element name="end" type="point"/>
+</xs:schema>
