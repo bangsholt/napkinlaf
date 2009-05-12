@@ -3,7 +3,7 @@
 
     <groupId>net.sourceforge.napkinlaf</groupId>
     <artifactId>overall</artifactId>
-    <version>1.2.1-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
     <name>Napkin Look and Feel</name>
     <packaging>pom</packaging>
 
